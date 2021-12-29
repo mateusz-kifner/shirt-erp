@@ -1,0 +1,6 @@
+{
+  "provider": "local",
+  "providerOptions": {
+    "sizeLimit": 4294967296
+  }
+}

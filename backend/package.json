@@ -1,0 +1,39 @@
+{
+  "name": "shirtdiperp_backend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ShirtDipERP system backend",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi",
+    "build-prod": "cross-env NODE_ENV=production yarn build",
+    "prod": "cross-env NODE_ENV=production yarn start"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "knex": "0.21.18",
+    "pg": "8.5.1",
+    "strapi": "3.6.8",
+    "strapi-admin": "3.6.8",
+    "strapi-connector-bookshelf": "3.6.8",
+    "strapi-plugin-content-manager": "3.6.8",
+    "strapi-plugin-content-type-builder": "3.6.8",
+    "strapi-plugin-email": "3.6.8",
+    "strapi-plugin-i18n": "3.6.8",
+    "strapi-plugin-upload": "3.6.8",
+    "strapi-plugin-users-permissions": "3.6.8",
+    "strapi-utils": "3.6.8"
+  },
+  "strapi": {
+    "uuid": "b88b6fa5-e6d7-4362-ad57-624fcf2da74f"
+  },
+  "engines": {
+    "node": ">=10.16.0 <=14.x.x",
+    "npm": "^6.0.0"
+  },
+  "author": "Mateusz Kifner",
+  "license": "UNLICENSED"
+}

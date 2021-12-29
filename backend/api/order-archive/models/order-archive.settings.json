@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_archives",
+  "info": {
+    "name": "orderArchive",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": false,
+      "minLength": 3
+    },
+    "status": {
+      "type": "string",
+      "required": true,
+      "default": "planowane"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2048
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "isPricePaid": {
+      "type": "boolean",
+      "default": false
+    },
+    "advance": {
+      "type": "decimal",
+      "default": 0
+    },
+    "isAdvancePaid": {
+      "type": "boolean"
+    },
+    "dateOfCompletion": {
+      "type": "date"
+    },
+    "secretNotes": {
+      "type": "text"
+    },
+    "files": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "types.address"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "types.product"
+    },
+    "employees": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "orderArchives",
+      "dominant": true
+    },
+    "client": {
+      "model": "client",
+      "via": "orderArchives"
+    }
+  }
+}

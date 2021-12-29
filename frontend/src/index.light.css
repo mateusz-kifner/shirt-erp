@@ -1,0 +1,25 @@
+/* @import "antd/dist/antd.min.css"; */
+/* @import "index.css"; */
+:root {
+  --background0: #fff;
+  --background1: #f0f2f5;
+  --background2: #ccc;
+  --gray: #999;
+  --font: #000;
+  --primary: #177ddc;
+
+}
+
+.ant-layout-sider,.ant-layout-sider-light,.ant-menu{
+  background-color: var(--background1);
+}
+
+.ant-layout-sider-light .ant-layout-sider-trigger {
+  background-color: var(--background2);
+  background: var(--background2);
+}
+
+.ant-layout-content{
+  background-color: var(--background0);
+
+}

@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clients",
+  "info": {
+    "name": "Client",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "username": {
+      "type": "string",
+      "unique": true,
+      "required": true,
+      "minLength": 3
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phoneNumber": {
+      "type": "string"
+    },
+    "companyName": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2048
+    },
+    "secretNotes": {
+      "type": "text",
+      "maxLength": 2048
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "types.address"
+    },
+    "orders": {
+      "via": "client",
+      "collection": "order"
+    },
+    "orderArchives": {
+      "via": "client",
+      "collection": "order-archive"
+    }
+  }
+}

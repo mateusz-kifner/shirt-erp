@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "procedures",
+  "info": {
+    "name": "Procedure",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "workstations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "types.linked-list"
+    },
+    "icon": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    }
+  }
+}

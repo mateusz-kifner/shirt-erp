@@ -1,0 +1,8 @@
+.button:hover,.button:focus,.button::selection{
+  border-color: var(--gray) !important;
+  color:var(--gray) !important;
+}
+
+.table tr,.table td {
+  background: unset !important;
+} 

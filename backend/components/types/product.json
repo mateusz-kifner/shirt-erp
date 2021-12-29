@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_types_products",
+  "info": {
+    "name": "Product",
+    "icon": "apple-alt",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "count": {
+      "type": "integer"
+    },
+    "product": {
+      "model": "product"
+    },
+    "size": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "text",
+      "maxLength": 1024
+    },
+    "ready": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

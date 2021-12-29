@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "expenses",
+  "info": {
+    "name": "Expense"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "user": {
+      "via": "expenses",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "item": {
+      "type": "component",
+      "repeatable": true,
+      "component": "expense-component.item"
+    }
+  }
+}

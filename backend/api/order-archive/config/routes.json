@@ -1,0 +1,60 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/order-archives",
+      "handler": "order-archive.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/order-archives/count",
+      "handler": "order-archive.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/order-archives/:id",
+      "handler": "order-archive.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/order-archives",
+      "handler": "order-archive.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/order-archives/:id",
+      "handler": "order-archive.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/order-archives/:id",
+      "handler": "order-archive.delete",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/order-archives/unarchive/:id",
+      "handler": "order-archive.unarchive",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

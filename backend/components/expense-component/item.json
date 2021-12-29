@@ -1,0 +1,25 @@
+{
+  "collectionName": "expense_items",
+  "info": {
+    "name": "item",
+    "icon": "circle",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": false
+    },
+    "count": {
+      "type": "integer",
+      "default": 1,
+      "required": true
+    },
+    "cost": {
+      "type": "decimal",
+      "default": 0,
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "shirtdiperp",
+  "private": true,
+  "version": "1.1.0",
+  "description": "ShirtDip ERP system",
+  "scripts": {
+    "develop:backend": "yarn --cwd backend develop",
+    "develop:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend develop",
+    "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*",
+    "prod:backend": "yarn --cwd backend prod",
+    "prod:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend prod",
+    "prod": "cross-env FORCE_COLOR=1 npm-run-all -l -p prod:*",
+    "build": "yarn --cwd backend build-prod && yarn --cwd frontend build-prod",
+    "install": "yarn --cwd backend install && yarn --cwd frontend install"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.x",
+    "npm-run-all": "4.1.x",
+    "strapi": "^3.6.x",
+    "wait-on": "5.2.x"
+  },
+  "author": "Mateusz Kifner",
+  "license": "UNLICENSED"
+}

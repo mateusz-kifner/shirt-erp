@@ -1,0 +1,27 @@
+.card {
+  width: 20rem;
+  transition:  transform 100ms;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.preview {
+  min-width: 32px;
+  max-width: 20rem;
+  min-height: 32px;
+  max-height: 152px;
+  object-fit: contain;
+  background-color: #fff;
+}
+
+.icon{
+  max-width: 3.5rem;
+  min-width: 3.5rem;
+  min-height: 3.5rem;
+  max-height: 3.5rem;
+  border-radius: 100%;
+  padding: 0.5rem;
+  border: 1px solid #888
+}
