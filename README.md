@@ -1,4 +1,4 @@
-![ShirtDipERP](/assets/logo.png)
+![ShirtDipERP](/Assets/logo.png)
 # ShirtDipERP 
 ShirtDipERP
 
