@@ -97,26 +97,28 @@ const ProductComponentsTable: FC<ProductComponentsTableProps> = ({
       let products = [
         ...pComponents.filter((val) => !!val.product).map((val) => val.product),
       ]
-      products = uniqByKeepFirst(products, (a) => a.id)
+      products = uniqByKeepFirst(products, (a) => (a ? a.id : -1))
 
       let data: any = []
       for (let product of products) {
-        let new_product: any = {
-          key: "" + product.id,
-          name: { name: product.name, color: product.color?.colorHex },
+        if (product != null) {
+          let new_product: any = {
+            key: "" + product.id,
+            name: { name: product.name, color: product.color?.colorHex },
+          }
+          for (let component of pComponents.filter(
+            (val) => val.product && product && val.product.id == product.id,
+          )) {
+            if (component.size !== null)
+              new_product[component.size] = {
+                ready: component.ready,
+                count: component.count,
+                id: component.id,
+              }
+          }
+          // console.log(new_product)
+          data.push({ ...new_product })
         }
-        for (let component of pComponents.filter(
-          (val) => val.product.id == product.id,
-        )) {
-          if (component.size !== null)
-            new_product[component.size] = {
-              ready: component.ready,
-              count: component.count,
-              id: component.id,
-            }
-        }
-        // console.log(new_product)
-        data.push({ ...new_product })
       }
       // console.log(pComponents)
       return [columns, data]

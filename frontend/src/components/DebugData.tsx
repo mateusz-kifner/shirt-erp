@@ -3,7 +3,6 @@ import { Button } from "antd"
 
 import axios from "axios"
 import { v4 as uuidv4 } from "uuid"
-import faker from "faker"
 
 import DebugComponent from "./DebugComponent"
 
@@ -11,14 +10,12 @@ import { ProductType } from "../types/ProductType"
 import { ClientType } from "../types/ClientType"
 import { OrderType } from "../types/OrderType"
 
-faker.locale = "pl"
-
 const products_data: Partial<ProductType>[] = [
   {
-    name: "Koszulka JHK Biała" + uuidv4(),
+    name: "Koszulka JHK Biała",
     category: "koszulki",
     color: {
-      colorName: "white",
+      colorName: "White",
       colorHex: "#ffffff",
     },
     desc: "brak opisu",
@@ -30,10 +27,10 @@ const products_data: Partial<ProductType>[] = [
     },
   },
   {
-    name: "Koszulka JHK Czarna" + uuidv4(),
+    name: "Koszulka JHK Czarna",
     category: "koszulki",
     color: {
-      colorName: "black",
+      colorName: "Black",
       colorHex: "#111111",
     },
     desc: "brak opisu",
@@ -45,11 +42,11 @@ const products_data: Partial<ProductType>[] = [
     },
   },
   {
-    name: "Koszulka JHK Niebieska" + uuidv4(),
+    name: "Koszulka JHK Turkusowa",
     category: "koszulki",
     color: {
-      colorName: "blue",
-      colorHex: "#0000ff",
+      colorName: "Truquoise",
+      colorHex: "#0ca0aa",
     },
     desc: "brak opisu",
     icon: {
@@ -60,11 +57,11 @@ const products_data: Partial<ProductType>[] = [
     },
   },
   {
-    name: "Koszulka JHK czerwona" + uuidv4(),
+    name: "Koszulka JHK Róźowa",
     category: "koszulki",
     color: {
-      colorName: "red",
-      colorHex: "#ff0000",
+      colorName: "Pink",
+      colorHex: "#f3b1cc",
     },
     desc: "brak opisu",
     icon: {
@@ -76,68 +73,60 @@ const products_data: Partial<ProductType>[] = [
   },
 ]
 
-const clients_data: Partial<ClientType>[] = []
-
-for (let i = 0; i < 20; i++) {
-  clients_data.push({ username: faker.internet.userName() })
-}
-
-for (let i = 0; i < 20; i++) {
-  let firstname = faker.name.firstName()
-  let lastname = faker.name.lastName()
-  let username = firstname.toLowerCase() + "." + lastname.toLowerCase()
-  const fake_client: Partial<ClientType> = {
-    username: username,
-    firstname,
-    lastname,
-    email: faker.internet.email(),
-    phoneNumber: faker.phone.phoneNumber("!##-!##-####"),
-    companyName: faker.company.companyName(),
+const clients_data: Partial<ClientType>[] = [
+  {
+    username: "jan.kowalski.test",
+    firstname: "Jan",
+    lastname: "Kowalski",
+    email: "jan.kowalski@lan.lan",
+    phoneNumber: "+48 123 456 789",
     address: {
-      streetName: faker.address.streetName(),
-      streetNumber: faker.datatype.number(100).toString(),
-      apartmentNumber: faker.datatype.number(100).toString(),
-      city: faker.address.cityName(),
-      postCode: faker.address.zipCode(),
+      streetName: "Aroniowa",
+      streetNumber: "126",
+      apartmentNumber: "12",
+      postCode: "80-012",
+      city: "Gdańsk",
       province: "pomorskie",
     },
-    notes: faker.lorem.lines(faker.datatype.number(2)),
-    secretNotes: faker.lorem.lines(faker.datatype.number(2)),
-  }
-  clients_data.push(fake_client)
-}
+    companyName: "Jan i spółka",
+    notes: "Jan zamawia duźo koszulek",
+    secretNotes: "secret notes test",
+  },
+  { username: "małysz.nowak.test" },
+  { username: "kuba.lewandowski.test" },
+]
 
-const orders_data: Partial<OrderType>[] = []
-
-for (let i = 0; i < 20; i++) {
-  orders_data.push({ name: faker.company.companyName() })
-}
-
-for (let i = 0; i < 20; i++) {
-  const fake_order: Partial<OrderType> = {
-    name: faker.company.companyName(),
-    client: { id: 10 },
-    advance: faker.datatype.number(100),
-    price: faker.datatype.number(100),
-    isAdvancePaid: faker.datatype.boolean(),
-    isPricePaid: faker.datatype.boolean(),
-    dateOfCompletion: faker.date.future(),
-    status: "planowane",
-    files: [],
+const orders_data: Partial<OrderType>[] = [
+  {
+    name: "Zamówienie Testowe koszulki",
+    advance: 100.0,
+    isAdvancePaid: true,
+    price: 123.45,
+    isPricePaid: false,
+    dateOfCompletion: new Date(),
+    notes: "Jan zamawia duźo koszulek",
+    secretNotes: " secretNotes test",
+    status: "zaakceptowane",
     products: [
-      { count: 100, notes: "", size: "152", product: { id: 10 }, ready: false },
+      {
+        count: 1,
+        product: null,
+        size: "XL",
+        ready: false,
+      },
     ],
     address: {
-      streetName: faker.address.streetName(),
-      streetNumber: faker.datatype.number(100).toString(),
-      apartmentNumber: faker.datatype.number(100).toString(),
-      city: faker.address.cityName(),
-      postCode: faker.address.zipCode(),
+      streetName: "Aroniowa",
+      streetNumber: "126",
+      apartmentNumber: "12",
+      postCode: "80-012",
+      city: "Gdańsk",
       province: "pomorskie",
     },
-  }
-  orders_data.push(fake_order)
-}
+  },
+  { name: "Zamówienie Testowe czapki" },
+  { name: "Zamówienie Testowe bluzy" },
+]
 
 const DebugData: FC = () => {
   const [status, setStatus] = useState<Array<any>>([])
