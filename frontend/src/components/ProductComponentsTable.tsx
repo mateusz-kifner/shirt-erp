@@ -60,12 +60,18 @@ const ProductComponentsTable: FC<ProductComponentsTableProps> = ({
               <div
                 style={{
                   display: "inline-block",
-                  height: "1rem",
-                  width: "1rem",
+                  position: "absolute",
+                  // height: "1rem",
+                  minWidth: "2rem",
+                  aspectRatio: "1 / 1",
+
                   backgroundColor: val.color ? val.color : "none",
-                  borderRadius: "0.125rem",
-                  margin: "0 0.5rem",
+                  borderRadius: "100%",
+                  margin: "0.5rem",
                   border: "1px solid #333",
+                  top: 0,
+                  bottom: 0,
+                  right: 0,
                 }}
               ></div>
             </div>
@@ -77,19 +83,17 @@ const ProductComponentsTable: FC<ProductComponentsTableProps> = ({
           key: val,
           render: (value: { ready: boolean; count: number; id: number }) =>
             value !== undefined && (
-              <Button
+              <button
                 className={styles.button}
                 style={{
                   backgroundColor: value.ready ? "#33691e" : "#b71c1c",
-                  height: "100%",
-                  width: "100%",
                 }}
                 onClick={() => {
                   onChange && onChange(value.id)
                 }}
               >
                 {value.count}
-              </Button>
+              </button>
             ),
         })),
       ]
