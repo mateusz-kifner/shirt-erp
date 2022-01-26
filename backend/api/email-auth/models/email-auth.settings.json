@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "email_auths",
+  "info": {
+    "name": "email_auth"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "auth": {
+      "type": "component",
+      "repeatable": true,
+      "component": "email.auth"
+    }
+  }
+}

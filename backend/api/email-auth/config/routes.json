@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/email-auth",
+      "handler": "email-auth.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/email-auth",
+      "handler": "email-auth.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/email-auth",
+      "handler": "email-auth.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
