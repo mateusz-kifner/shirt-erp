@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@craco/craco": "^6.4 .x",
+    "@craco/craco": "^6.4.x",
     "antd": "^4.18.x",
     "axios": "^0.24.0",
     "craco-antd": "^1.19.0",
