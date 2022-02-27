@@ -1,21 +1,21 @@
-import { FC, useState } from "react"
-import { Form, Card, Modal, Button } from "antd"
-import { DeleteFilled, PlusOutlined } from "@ant-design/icons"
+import { FC, useState } from "react";
+import { Form, Card, Modal, Button } from "antd";
+import { DeleteFilled, PlusOutlined } from "@ant-design/icons";
 
-import UsersList from "../../pages/users/UsersList"
-import { user_template } from "../../pages/users/UsersPage"
+import UsersList from "../../pages/users/UsersList";
+import { user_template } from "../../pages/users/UsersPage";
 
-import { UserType } from "../../types/UserType"
-import { UserPicker } from "./InputUser"
+import { UserType } from "../../types/UserType";
+import { UserPicker } from "./InputUser";
 
-const { Meta } = Card
+const { Meta } = Card;
 
 interface InputUsersProps {
-  name: string
-  initialValue?: UserType[]
-  label: string
-  disabled?: boolean
-  required?: boolean
+  name: string;
+  initialValue?: UserType[];
+  label: string;
+  disabled?: boolean;
+  required?: boolean;
 }
 
 const InputUsers: FC<InputUsersProps> = ({
@@ -36,22 +36,23 @@ const InputUsers: FC<InputUsersProps> = ({
       {/* @ts-ignore */}
       <UsersPicker label={label} />
     </Form.Item>
-  )
-}
+  );
+};
 
 interface OnChangeHandler {
-  (e: any): void
+  (e: any): void;
 }
 interface UsersPickerProps {
-  value: Partial<UserType>[]
-  onChange: OnChangeHandler
-  label?: string
+  value: Partial<UserType>[];
+  onChange: OnChangeHandler;
+  label?: string;
 }
 export const UsersPicker: FC<UsersPickerProps> = ({
   value,
   onChange,
   label,
 }) => {
+  console.log("users", value);
   return (
     <Card
       style={{ width: "100%" }}
@@ -71,15 +72,13 @@ export const UsersPicker: FC<UsersPickerProps> = ({
             value={user as Partial<UserType>}
             onChange={(new_user) => {
               onChange(
-                value
-                  .map((val: Partial<UserType>, i: number) => {
-                    if (i == index) {
-                      return { ...new_user }
-                    }
-                    return val
-                  })
-                  .filter((val) => val != null),
-              )
+                value.map((val: Partial<UserType | null>, i: number) => {
+                  if (i == index) {
+                    return new_user == null ? null : { ...new_user };
+                  }
+                  return val;
+                })
+              );
             }}
           />
         ))}
@@ -90,7 +89,7 @@ export const UsersPicker: FC<UsersPickerProps> = ({
         <PlusOutlined />
       </Button>
     </Card>
-  )
-}
+  );
+};
 
-export default InputUsers
+export default InputUsers;
