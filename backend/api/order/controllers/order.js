@@ -76,6 +76,7 @@ module.exports = {
       }
     }
     entity.products = product_list;
+    entity.status = "archiwizowane";
 
     let new_entity = await strapi.services["order-archive"].create(entity);
     if (new_entity === null) return null;
