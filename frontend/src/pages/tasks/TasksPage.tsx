@@ -1,27 +1,27 @@
-import { UpCircleOutlined } from "@ant-design/icons"
-import { Button, Collapse, Tooltip, Typography } from "antd"
-import axios from "axios"
-import { FC } from "react"
-import { useQuery } from "react-query"
-import { useRecoilState } from "recoil"
-import { taskState } from "../../atoms/activeTasks"
-import { OrderType } from "../../types/OrderType"
-import { status_colors, status_icons } from "../orders/OrdersList"
-import TaskDetails from "./TaskDetails"
+import { UpCircleOutlined } from "@ant-design/icons";
+import { Button, Collapse, Tooltip, Typography } from "antd";
+import axios from "axios";
+import { FC } from "react";
+import { useQuery } from "react-query";
+import { useRecoilState } from "recoil";
+import { taskState } from "../../atoms/activeTasks";
+import { OrderType } from "../../types/OrderType";
+import { status_colors, status_icons } from "../orders/OrdersList";
+import TaskDetails from "./TaskDetails";
 
-const { Title } = Typography
+const { Title } = Typography;
 
-const { Panel } = Collapse
+const { Panel } = Collapse;
 
 const fetchTasks = async () => {
-  const res = await axios.get(`/users/me`)
-  return res.data
-}
+  const res = await axios.get(`/users/me`);
+  return res.data;
+};
 
 const TasksPage: FC = () => {
-  const [openTasks, setOpenTasks] = useRecoilState(taskState)
-  const { data, refetch } = useQuery(["user_me"], () => fetchTasks())
-  const orders_incomplete = data?.orders ? data?.orders : []
+  const [openTasks, setOpenTasks] = useRecoilState(taskState);
+  const { data, refetch } = useQuery(["user_me"], () => fetchTasks());
+  const orders_incomplete = data?.orders ? data?.orders : [];
   return (
     <div
       style={{
@@ -66,57 +66,66 @@ const TasksPage: FC = () => {
           <Collapse
             activeKey={openTasks}
             onChange={(key: string[] | string) => {
-              if (typeof key !== "string") setOpenTasks(key as string[])
+              if (typeof key !== "string") setOpenTasks(key as string[]);
             }}
             bordered={false}
           >
             {orders_incomplete &&
               orders_incomplete.length > 0 &&
-              orders_incomplete.map((order: OrderType, index: number) => (
-                <Panel
-                  header={
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "0.5rem",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
+              orders_incomplete
+                .filter(
+                  (order: OrderType) =>
+                    //not odrzucone and archiwizowane
+                    !(
+                      order.status == "odrzucone" ||
+                      order.status == "archiwizowane"
+                    )
+                )
+                .map((order: OrderType, index: number) => (
+                  <Panel
+                    header={
                       <div
                         style={{
-                          width: "1.6rem",
-                          height: "1.6rem",
-                          fontSize: "1rem",
-                          textAlign: "center",
-                          borderRadius: "100%",
-                          color: "#111",
-                          backgroundColor:
-                            status_colors[
-                              order.status.replace(
-                                " ",
-                                "_",
-                              ) as keyof typeof status_icons
-                            ],
+                          display: "flex",
+                          gap: "0.5rem",
+                          justifyContent: "center",
+                          alignItems: "center",
                         }}
                       >
-                        {
-                          status_icons[
-                            order.status.replace(
-                              " ",
-                              "_",
-                            ) as keyof typeof status_icons
-                          ]
-                        }
+                        <div
+                          style={{
+                            width: "1.6rem",
+                            height: "1.6rem",
+                            fontSize: "1rem",
+                            textAlign: "center",
+                            borderRadius: "100%",
+                            color: "#111",
+                            backgroundColor:
+                              status_colors[
+                                order.status.replace(
+                                  " ",
+                                  "_"
+                                ) as keyof typeof status_icons
+                              ],
+                          }}
+                        >
+                          {
+                            status_icons[
+                              order.status.replace(
+                                " ",
+                                "_"
+                              ) as keyof typeof status_icons
+                            ]
+                          }
+                        </div>
+                        {order.name}
                       </div>
-                      {order.name}
-                    </div>
-                  }
-                  key={"tasks" + index}
-                >
-                  <TaskDetails orderId={order.id} onChange={refetch} />
-                </Panel>
-              ))}
+                    }
+                    key={"tasks" + index}
+                  >
+                    <TaskDetails orderId={order.id} onChange={refetch} />
+                  </Panel>
+                ))}
           </Collapse>
           {orders_incomplete && orders_incomplete.length == 0 && (
             <div>Brak zadań</div>
@@ -124,7 +133,7 @@ const TasksPage: FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TasksPage
+export default TasksPage;
