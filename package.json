@@ -1,7 +1,7 @@
 {
   "name": "shirtdiperp",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ShirtDip ERP system",
   "scripts": {
     "develop:backend": "yarn --cwd backend develop",
