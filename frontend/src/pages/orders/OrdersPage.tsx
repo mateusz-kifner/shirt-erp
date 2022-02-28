@@ -1,12 +1,12 @@
-import { FC, useRef, useState } from "react"
-import SplitPane from "react-split-pane"
+import { FC, useRef, useState } from "react";
+import SplitPane from "react-split-pane";
 
-import OrderDetails from "./OrderDetails"
-import OrdersList, { OrdersListHandle } from "./OrdersList"
+import OrderDetails from "./OrderDetails";
+import OrdersList, { OrdersListHandle } from "./OrdersList";
 
-import styles from "../../components/SplitPaneWithSnap.module.css"
+import styles from "../../components/SplitPaneWithSnap.module.css";
 
-const order_template: any = {
+export const order_template: any = {
   id: {
     label: "id",
     type: "id",
@@ -123,11 +123,11 @@ const order_template: any = {
     type: "datetime",
     disabled: true,
   },
-}
+};
 
 const OrdersPage: FC = () => {
-  const [orderId, setOrderId] = useState<number | undefined>()
-  const orderListRef = useRef<OrdersListHandle>(null)
+  const [orderId, setOrderId] = useState<number | undefined>();
+  const orderListRef = useRef<OrdersListHandle>(null);
   return (
     <SplitPane
       split="vertical"
@@ -154,7 +154,7 @@ const OrdersPage: FC = () => {
         </div>
       </div>
     </SplitPane>
-  )
-}
+  );
+};
 
-export default OrdersPage
+export default OrdersPage;

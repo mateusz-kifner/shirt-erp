@@ -1,45 +1,46 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-} from "react-router-dom"
+} from "react-router-dom";
 
-import axios from "axios"
-import { useRecoilState, useRecoilValue } from "recoil"
+import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-import { loginState } from "./atoms/loginState"
-import PageLayout from "./components/PageLayout"
+import { loginState } from "./atoms/loginState";
+import PageLayout from "./components/PageLayout";
 
-import ClientsPage from "./pages/clients/ClientsPage"
-import DashboardPage from "./pages/dashboard/DashboardPage"
-import ErrorPage from "./pages/ErrorPage"
-import ExpensesPage from "./pages/expenses/ExpensesPage"
-import FilesPage from "./pages/files/FilesPage"
-import LoggerPage from "./pages/logger/LoggerPage"
-import LoginPage from "./pages/LoginPage"
-import OrdersPage from "./pages/orders/OrdersPage"
-import ProductionPage from "./pages/production/ProductionPage"
-import ProductsPage from "./pages/products/ProductsPage"
-import SettingsPage from "./pages/settings/SettingsPage"
-import TasksPage from "./pages/tasks/TasksPage"
-import { useQuery } from "react-query"
-import { Modal, Spin, Typography } from "antd"
+import ClientsPage from "./pages/clients/ClientsPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import ErrorPage from "./pages/ErrorPage";
+import ExpensesPage from "./pages/expenses/ExpensesPage";
+import FilesPage from "./pages/files/FilesPage";
+import LoggerPage from "./pages/logger/LoggerPage";
+import LoginPage from "./pages/LoginPage";
+import OrdersPage from "./pages/orders/OrdersPage";
+import ProductionPage from "./pages/production/ProductionPage";
+import ProductsPage from "./pages/products/ProductsPage";
+import SettingsPage from "./pages/settings/SettingsPage";
+import TasksPage from "./pages/tasks/TasksPage";
+import { useQuery } from "react-query";
+import { Modal, Spin, Typography } from "antd";
+import OrdersArchivePage from "./pages/orders_archive/OrdersArchivePage";
 
-const { Title } = Typography
+const { Title } = Typography;
 
 const App: FC = () => {
   // const isAuthenticated = useRecoilValue(isAuthenticatedSelector)
-  const [login, setLogin] = useRecoilState(loginState)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [login, setLogin] = useRecoilState(loginState);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { data, refetch, isLoading, failureCount } = useQuery(
     ["ping"],
     async () => {
-      const res = await axios.get("/")
-      return res.data
-    },
-  )
+      const res = await axios.get("/");
+      return res.data;
+    }
+  );
 
   useEffect(() => {
     if (login.jwt !== undefined && login.jwt.length > 0 && isAuthenticated) {
@@ -47,21 +48,21 @@ const App: FC = () => {
         .get("/users/me")
         .then((res) => {})
         .catch(() => {
-          setIsAuthenticated(false)
-          setLogin((val) => ({ ...val, jwt: "", user: null, debug: false }))
-        })
+          setIsAuthenticated(false);
+          setLogin((val) => ({ ...val, jwt: "", user: null, debug: false }));
+        });
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (login.jwt !== undefined && login.jwt.length > 0) {
-      axios.defaults.headers.common["Authorization"] = "Bearer " + login.jwt
-      setIsAuthenticated(true)
+      axios.defaults.headers.common["Authorization"] = "Bearer " + login.jwt;
+      setIsAuthenticated(true);
     } else {
-      delete axios.defaults.headers.common["Authorization"]
-      setIsAuthenticated(false)
+      delete axios.defaults.headers.common["Authorization"];
+      setIsAuthenticated(false);
     }
-  }, [login])
+  }, [login]);
 
   return (
     <div className="App">
@@ -69,10 +70,10 @@ const App: FC = () => {
         <Modal
           visible={true}
           onOk={() => {
-            refetch()
+            refetch();
           }}
           onCancel={() => {
-            refetch()
+            refetch();
           }}
           okText="Spróbuj ponownie"
           closable={false}
@@ -103,6 +104,7 @@ const App: FC = () => {
                 <Route path="/expenses" element={<ExpensesPage />} />
                 <Route path="/files" element={<FilesPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/orders-archive" element={<OrdersArchivePage />} />
                 {login.debug && (
                   <Route path="/logger" element={<LoggerPage />} />
                 )}
@@ -113,7 +115,7 @@ const App: FC = () => {
         </PageLayout>
       </Router>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

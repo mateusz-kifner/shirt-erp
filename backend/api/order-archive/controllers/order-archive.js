@@ -11,15 +11,15 @@ module.exports = {
     let entities;
     let count;
     if (ctx.query._q) {
-      entities = (await strapi.services.order) - archive.search(ctx.query);
-      count = (await strapi.services.order) - archive.countSearch(ctx.query);
+      entities = await strapi.services["order-archive"].search(ctx.query);
+      count = await strapi.services["order-archive"].countSearch(ctx.query);
     } else {
-      entities = (await strapi.services.order) - archive.find(ctx.query);
-      count = (await strapi.services.order) - archive.count(ctx.query);
+      entities = await strapi.services["order-archive"].find(ctx.query);
+      count = await strapi.services["order-archive"].count(ctx.query);
     }
     return {
       orders: entities.map((entity) =>
-        sanitizeEntity(entity, { model: strapi.models.order - archive })
+        sanitizeEntity(entity, { model: strapi.models["order-archive"] })
       ),
       count: count,
     };
@@ -28,7 +28,7 @@ module.exports = {
   async findOne(ctx) {
     const { id } = ctx.params;
 
-    const entity = await strapi.services.order.findOne({ id });
+    const entity = await strapi.services["order-archive"].findOne({ id });
     if (entity === null) return null;
 
     const product_list = [];
@@ -43,7 +43,7 @@ module.exports = {
       }
     }
     entity.products = product_list;
-    return sanitizeEntity(entity, { model: strapi.models.order });
+    return sanitizeEntity(entity, { model: strapi.models["order-archive"] });
   },
 
   async unarchive(ctx) {

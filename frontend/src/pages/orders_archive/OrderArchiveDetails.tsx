@@ -9,7 +9,7 @@ import EditComponent from "../../components/EditComponent";
 import { OrderType } from "../../types/OrderType";
 import ErrorPage from "../ErrorPage";
 
-interface OrderDetailsProps {
+interface OrderArchiveDetailsProps {
   orderId?: number;
   template: any;
   onUpdate?: () => void;
@@ -17,11 +17,11 @@ interface OrderDetailsProps {
 
 const fetchOrder = async (id: number | undefined) => {
   if (!id) return;
-  const res = await axios.get(`/orders/${id}`);
+  const res = await axios.get(`/order-archives/${id}`);
   return res.data;
 };
 
-const OrderDetails: FC<OrderDetailsProps> = ({
+const OrderArchiveDetails: FC<OrderArchiveDetailsProps> = ({
   orderId,
   template,
   onUpdate,
@@ -29,7 +29,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({
   const [order, setOrder] = useState<OrderType>();
   const [newTemplate, setNewTemplate] = useState<any>();
 
-  const { data, refetch } = useQuery(["order_one", orderId], () =>
+  const { data, refetch } = useQuery(["order_archive_one", orderId], () =>
     fetchOrder(orderId)
   );
 
@@ -51,7 +51,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({
 
   const onSubmit = (sub_data: Partial<OrderType>) => {
     axios
-      .put(`/orders/${sub_data.id}`, sub_data)
+      .put(`/order-archives/${sub_data.id}`, sub_data)
       .then((res) => {
         Logger.info({ ...res, message: "Edycja zamowienia udana" });
         message.success("Edycja zamówienia udana");
@@ -64,17 +64,17 @@ const OrderDetails: FC<OrderDetailsProps> = ({
       });
   };
 
-  const onArchive = (id: number) => {
+  const onUnarchive = (id: number) => {
     axios
-      .get(`/orders/archive/${id}`)
+      .get(`/order-archives/unarchive/${id}`)
       .then((res) => {
-        Logger.info({ ...res, message: "Archiwizacja zamowienia udana" });
-        message.success("Archiwizacja zamówienia udana");
+        Logger.info({ ...res, message: "Odarchiwizacji zamowienia udana" });
+        message.success("Odarchiwizacji zamówienia udana");
         setOrder(undefined);
         onUpdate && onUpdate();
       })
       .catch((e) => {
-        Logger.error({ ...e, message: "Błąd archiwizacji zamówienia" });
+        Logger.error({ ...e, message: "Błąd Odarchiwizacji zamówienia" });
       });
   };
 
@@ -85,8 +85,8 @@ const OrderDetails: FC<OrderDetailsProps> = ({
           data={newTemplate}
           onSubmit={onSubmit}
           title="name"
-          onDelete={onArchive}
-          deleteTitle="Archiwizuj zamówienie"
+          onDelete={onUnarchive}
+          deleteTitle="Odarchiwizuj zamówienie"
         />
       ) : (
         <ErrorPage errorcode={404} />
@@ -95,4 +95,4 @@ const OrderDetails: FC<OrderDetailsProps> = ({
   );
 };
 
-export default OrderDetails;
+export default OrderArchiveDetails;
