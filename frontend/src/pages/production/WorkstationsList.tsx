@@ -1,11 +1,11 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
   CaretDownOutlined,
   CaretUpOutlined,
   PlusOutlined,
   ReloadOutlined,
   SearchOutlined,
-} from "@ant-design/icons"
+} from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -15,74 +15,75 @@ import {
   Space,
   Tooltip,
   Typography,
-} from "antd"
+} from "antd";
 
-import axios from "axios"
-import qs from "qs"
-import { useQuery } from "react-query"
+import axios from "axios";
+import qs from "qs";
+import { useQuery } from "react-query";
 
-import WorkstationAddModal from "./WorkstationAddModal"
+import WorkstationAddModal from "./WorkstationAddModal";
 
-import { WorkstationType } from "../../types/WorkstationType"
+import { WorkstationType } from "../../types/WorkstationType";
 
-import styles from "../../styles/List.module.css"
+import styles from "../../styles/List.module.css";
 
-const { Title } = Typography
-const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:1337"
+const { Title } = Typography;
+const serverURL =
+  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
 
 const fetchWorkstations = async (query: string) => {
-  const res = await axios.get(`/workstations?${query}`)
+  const res = await axios.get(`/workstations?${query}`);
   // console.log("req", query)
-  return res.data
-}
+  return res.data;
+};
 
 export interface WorkstationsListHandle {
-  refetch?: () => void
+  refetch?: () => void;
 }
 
 interface WorkstationsListProps {
-  onItemClickId?: (id: number) => void
-  onItemClick?: (workstation: WorkstationType) => void
-  template: any
-  hideAdd?: boolean
+  onItemClickId?: (id: number) => void;
+  onItemClick?: (workstation: WorkstationType) => void;
+  template: any;
+  hideAdd?: boolean;
 }
 const WorkstationsList = forwardRef<
   WorkstationsListHandle,
   WorkstationsListProps
 >(({ onItemClickId, onItemClick, template, hideAdd }, ref) => {
-  const [workstationId, setWorkstationId] = useState<number>()
-  const [addVisible, setAddVisible] = useState(false)
-  const [page, setPage] = useState<number>(1)
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
+  const [workstationId, setWorkstationId] = useState<number>();
+  const [addVisible, setAddVisible] = useState(false);
+  const [page, setPage] = useState<number>(1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [query, setQuery] = useState<string>(
-    "_limit=10&_start=0&_sort=updated_at%3ADESC",
-  )
-  const [search, setSearch] = useState<string>("")
-  const [sortOrder, setSortOrder] = useState<boolean>(false)
+    "_limit=10&_start=0&_sort=updated_at%3ADESC"
+  );
+  const [search, setSearch] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<boolean>(false);
   const { data, refetch } = useQuery(["workstations", query], () =>
-    fetchWorkstations(query),
-  )
-  const { workstations, count } = data ? data : { workstations: [], count: 0 }
+    fetchWorkstations(query)
+  );
+  const { workstations, count } = data ? data : { workstations: [], count: 0 };
 
   useImperativeHandle(
     ref,
     () => ({
       refetch,
     }),
-    [refetch],
-  )
+    [refetch]
+  );
 
   useEffect(() => {
     let new_query: any = {
       _limit: itemsPerPage,
       _start: (page - 1) * itemsPerPage,
       _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
-    }
+    };
     if (search.length > 0)
-      new_query._or = [{ name_contains: search }, { desc_contains: search }]
-    const new_query_string = qs.stringify(new_query)
-    query !== new_query_string && setQuery(new_query_string)
-  }, [page, itemsPerPage, search, sortOrder])
+      new_query._or = [{ name_contains: search }, { desc_contains: search }];
+    const new_query_string = qs.stringify(new_query);
+    query !== new_query_string && setQuery(new_query_string);
+  }, [page, itemsPerPage, search, sortOrder]);
 
   return (
     <div>
@@ -101,7 +102,7 @@ const WorkstationsList = forwardRef<
               icon={<ReloadOutlined />}
               shape="circle"
               onClick={() => {
-                refetch()
+                refetch();
               }}
             />
           </Tooltip>
@@ -113,7 +114,7 @@ const WorkstationsList = forwardRef<
                 // size="large"
                 shape="circle"
                 onClick={() => {
-                  setAddVisible(true)
+                  setAddVisible(true);
                 }}
               />
             </Tooltip>
@@ -133,14 +134,14 @@ const WorkstationsList = forwardRef<
           suffix={<SearchOutlined />}
           defaultValue=""
           onChange={(e) => {
-            setSearch(e.target.value)
+            setSearch(e.target.value);
           }}
         />
         <Tooltip title={"Zmień sortowanie"}>
           <Button
             onClick={() => {
-              setSortOrder((val) => !val)
-              refetch()
+              setSortOrder((val) => !val);
+              refetch();
             }}
           >
             {sortOrder ? <CaretUpOutlined /> : <CaretDownOutlined />}
@@ -154,9 +155,9 @@ const WorkstationsList = forwardRef<
         renderItem={(workstation: WorkstationType) => (
           <List.Item
             onClick={() => {
-              onItemClickId && onItemClickId(workstation.id)
-              onItemClick && onItemClick({ ...workstation })
-              setWorkstationId(workstation.id)
+              onItemClickId && onItemClickId(workstation.id);
+              onItemClick && onItemClick({ ...workstation });
+              setWorkstationId(workstation.id);
             }}
             className={styles.item}
             style={{
@@ -191,12 +192,12 @@ const WorkstationsList = forwardRef<
         showSizeChanger={false}
         showQuickJumper={false}
         onChange={(page: number, pageSize?: number) => {
-          setPage(page)
-          pageSize && setItemsPerPage(pageSize)
+          setPage(page);
+          pageSize && setItemsPerPage(pageSize);
         }}
       />
     </div>
-  )
-})
+  );
+});
 
-export default WorkstationsList
+export default WorkstationsList;
