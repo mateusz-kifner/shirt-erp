@@ -1,22 +1,23 @@
-import { FC, useState } from "react"
-import { Form, Card, Button, Input, InputNumber, Switch } from "antd"
-import { DeleteOutlined } from "@ant-design/icons"
-import { v4 as uuidv4 } from "uuid"
+import { FC, useState } from "react";
+import { Form, Card, Button, Input, InputNumber, Switch } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import { v4 as uuidv4 } from "uuid";
 
-import { ProductType } from "../../types/ProductType"
-import { ProductComponentType } from "../../types/ProductComponentType"
-import { ProductPicker } from "./InputProduct"
+import { ProductType } from "../../types/ProductType";
+import { ProductComponentType } from "../../types/ProductComponentType";
+import { ProductPicker } from "./InputProduct";
 
-const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:1337"
+const serverURL =
+  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
 
-const { Meta } = Card
+const { Meta } = Card;
 
 interface InputProductComponentProps {
-  name: string
-  initialValue?: ProductComponentType
-  label: string
-  disabled?: boolean
-  required?: boolean
+  name: string;
+  initialValue?: ProductComponentType;
+  label: string;
+  disabled?: boolean;
+  required?: boolean;
 }
 
 const InputProductComponent: FC<InputProductComponentProps> = ({
@@ -37,15 +38,15 @@ const InputProductComponent: FC<InputProductComponentProps> = ({
       {/* @ts-ignore */}
       <ProductComponentPicker />
     </Form.Item>
-  )
-}
+  );
+};
 
 interface OnChangeHandler {
-  (e: Partial<ProductComponentType> | null): void
+  (e: Partial<ProductComponentType> | null): void;
 }
 interface ProductComponentPickerProps {
-  value: Partial<ProductComponentType> | null
-  onChange: OnChangeHandler
+  value: Partial<ProductComponentType> | null;
+  onChange: OnChangeHandler;
 }
 export const ProductComponentPicker: FC<ProductComponentPickerProps> = ({
   value,
@@ -94,11 +95,11 @@ export const ProductComponentPicker: FC<ProductComponentPickerProps> = ({
         unCheckedChildren={"Nie"}
         checked={value?.ready ? value.ready : undefined}
         onChange={(val) => {
-          onChange({ ...value, ready: val })
+          onChange({ ...value, ready: val });
         }}
       />
     </div>
   </Card>
-)
+);
 
-export default InputProductComponent
+export default InputProductComponent;

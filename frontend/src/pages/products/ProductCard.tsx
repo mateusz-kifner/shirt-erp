@@ -1,12 +1,13 @@
-import { FC } from "react"
-import { Card } from "antd"
+import { FC } from "react";
+import { Card } from "antd";
 
-import { ProductType } from "../../types/ProductType"
+import { ProductType } from "../../types/ProductType";
 
-import styles from "./ProductCard.module.css"
+import styles from "./ProductCard.module.css";
 
-const { Meta } = Card
-const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:1337"
+const { Meta } = Card;
+const serverURL =
+  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
 
 const ProductCard: FC<ProductType & { onClick: () => void }> = ({
   id,
@@ -20,7 +21,8 @@ const ProductCard: FC<ProductType & { onClick: () => void }> = ({
 }) => {
   const preview = previewImg?.formats?.thumbnail
     ? serverURL + previewImg?.formats?.thumbnail.url
-    : serverURL + previewImg?.url
+    : // @ts-ignore
+      serverURL + previewImg?.url;
   return (
     <Card
       hoverable
@@ -45,6 +47,7 @@ const ProductCard: FC<ProductType & { onClick: () => void }> = ({
             className={styles.icon}
             style={{ backgroundColor: color.colorHex }}
             alt={icon?.alternativeText}
+            // @ts-ignore
             src={serverURL + icon?.url}
           />
         }
@@ -52,7 +55,7 @@ const ProductCard: FC<ProductType & { onClick: () => void }> = ({
         description={desc}
       />
     </Card>
-  )
-}
+  );
+};
 
-export default ProductCard
+export default ProductCard;

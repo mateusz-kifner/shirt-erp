@@ -42,13 +42,15 @@
     "@types/react-dom": "^17.0.x",
     "@types/recoilize": "^0.8.0",
     "@types/tinycolor2": "^1.4.3",
-    "@types/uuid": "^8.3.x"
+    "@types/uuid": "^8.3.x",
+    "@vitejs/plugin-react": "^1.2.0",
+    "vite": "^2.8.5"
   },
   "scripts": {
-    "develop": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "build-prod": "craco build",
+    "develop": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build-prod": "tsc && vite build",
     "prod": "serve -s -C -p 3000 --no-port-switching build"
   },
   "eslintConfig": {
