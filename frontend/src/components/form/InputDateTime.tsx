@@ -1,7 +1,20 @@
-import { FC } from "react"
-import { DatePicker, Form, TimePicker } from "antd"
+import { FC, forwardRef } from "react"
+import { Form } from "antd"
 
-import moment from "moment"
+import dateFnsGenerateConfig from "rc-picker/lib/generate/dateFns"
+import { PickerTimeProps } from "antd/es/date-picker/generatePicker"
+
+import generatePicker from "antd/es/date-picker/generatePicker"
+import "antd/es/date-picker/style/index"
+const DatePicker = generatePicker<Date>(dateFnsGenerateConfig)
+
+interface TimePickerProps extends Omit<PickerTimeProps<Date>, "picker"> {}
+
+const TimePicker = forwardRef<any, TimePickerProps>((props, ref) => {
+  return <DatePicker {...props} picker="time" mode={undefined} ref={ref} />
+})
+
+TimePicker.displayName = "TimePicker"
 
 interface InputDateTimeProps {
   name: string
@@ -22,7 +35,7 @@ const InputDateTime: FC<InputDateTimeProps> = ({
     <Form.Item
       name={name}
       label={label}
-      initialValue={moment(initialValue)}
+      initialValue={initialValue ? new Date(initialValue) : new Date()}
       rules={[{ required: required }]}
     >
       {/* @ts-ignore */}
@@ -31,10 +44,10 @@ const InputDateTime: FC<InputDateTimeProps> = ({
   )
 }
 interface OnChangeHandler {
-  (e: string): void
+  (e: Date): void
 }
 interface DateTimeProps {
-  value: string
+  value: Date
   onChange: OnChangeHandler
   disabled?: boolean
 }
@@ -43,14 +56,14 @@ const DateTime: FC<DateTimeProps> = ({ value, onChange, disabled }) => {
     <div style={{ display: "flex", gap: "1rem" }}>
       <DatePicker
         disabled={disabled}
-        value={moment(value)}
-        onChange={(val) => val && onChange(val?.toISOString())}
+        value={value}
+        onChange={(val) => val && onChange(val)}
       />
       <TimePicker
         disabled={disabled}
         format={"HH:mm"}
-        value={moment(value)}
-        onChange={(val) => val && onChange(val?.toISOString())}
+        value={value}
+        onChange={(val) => val && onChange(val)}
       />
     </div>
   )

@@ -1,7 +1,10 @@
 import { FC } from "react"
-import { DatePicker, Form } from "antd"
+import { Form } from "antd"
 
-import moment from "moment"
+import dateFnsGenerateConfig from "rc-picker/lib/generate/dateFns"
+import generatePicker from "antd/es/date-picker/generatePicker"
+import "antd/es/date-picker/style/index"
+const DatePicker = generatePicker<Date>(dateFnsGenerateConfig)
 
 interface InputDateProps {
   name: string
@@ -23,10 +26,13 @@ const InputDate: FC<InputDateProps> = ({
     <Form.Item
       name={name}
       label={label}
-      initialValue={moment(initialValue)}
+      initialValue={initialValue ? new Date(initialValue) : new Date()}
       rules={[{ required: required }]}
     >
-      <DatePicker disabled={disabled} />
+      <DatePicker
+        disabled={disabled}
+        onChange={(date, datestring) => console.log(date, datestring)}
+      />
     </Form.Item>
   )
 }
