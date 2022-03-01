@@ -2,7 +2,8 @@ import { CSSProperties, FC } from "react";
 import { Image, Descriptions, Card, Avatar } from "antd";
 
 // import { v4 as uuidv4 } from "uuid"
-import moment from "moment";
+import { format } from "date-fns/esm";
+import { pl } from "date-fns/esm/locale";
 
 import styles from "./DetailsComponent.module.css";
 import { useRecoilValue } from "recoil";
@@ -133,7 +134,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                     label={label}
                     labelStyle={{ textAlign: "right" }}
                   >
-                    {value && moment(value).format("l LT")}
+                    {value && format(new Date(value), "Pp", { locale: pl })}
                   </Descriptions.Item>
                 );
               case "date":
@@ -143,7 +144,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                     label={label}
                     labelStyle={{ textAlign: "right" }}
                   >
-                    {value && moment(value).format("l")}
+                    {value && format(new Date(value), "P", { locale: pl })}
                   </Descriptions.Item>
                 );
               case "color":
