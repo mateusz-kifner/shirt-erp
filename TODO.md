@@ -1,1 +1,2 @@
-fix date display
+- ~~fix date display~~
+- upgrade strapi
