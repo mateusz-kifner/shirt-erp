@@ -11,7 +11,10 @@
     "prod:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend prod",
     "prod": "cross-env FORCE_COLOR=1 npm-run-all -l -p prod:*",
     "build": "yarn --cwd backend build-prod && yarn --cwd frontend build-prod",
-    "install": "yarn --cwd backend install && yarn --cwd frontend install"
+    "install": "yarn --cwd backend install && yarn --cwd frontend install",
+    "enable_hidden_windows":"yarn add node-hide-console-window",
+    "prod_hidden": "node ./hide_cmd.js && yarn prod"
+
   },
   "devDependencies": {
     "cross-env": "7.0.x",
