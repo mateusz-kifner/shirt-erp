@@ -61,6 +61,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                     key={name}
                     label={label}
                     labelStyle={{ textAlign: "right" }}
+                    contentStyle={{ whiteSpace: "pre-wrap" }}
                   >
                     {value && value}
                   </Descriptions.Item>
@@ -251,7 +252,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                                   status_icons[
                                     order.status.replace(
                                       " ",
-                                      "_",
+                                      "_"
                                     ) as keyof typeof status_icons
                                   ]
                                 }
@@ -261,7 +262,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                                     status_colors[
                                       order.status.replace(
                                         " ",
-                                        "_",
+                                        "_"
                                       ) as keyof typeof status_icons
                                     ],
                                 }}
@@ -317,7 +318,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                               description={workstation.desc}
                             />
                           </Card>
-                        ),
+                        )
                       )
                     ) : (
                       <div style={{ padding: "2rem" }}>Brak</div>
@@ -347,7 +348,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       value.map(
                         (
                           productComponent: ProductComponentType,
-                          index: number,
+                          index: number
                         ) => (
                           <Card
                             key={name + index}
@@ -411,7 +412,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                               }
                             />
                           </Card>
-                        ),
+                        )
                       )
                     ) : (
                       <div style={{ padding: "2rem" }}>Brak</div>

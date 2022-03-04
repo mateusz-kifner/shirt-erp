@@ -27,7 +27,7 @@ interface TaskDetailsProps {
 const TaskDetails: FC<TaskDetailsProps> = ({ orderId, onChange }) => {
   const { data, refetch, isLoading, isRefetching } = useQuery(
     ["order_one" + orderId, orderId],
-    () => fetchOrder(orderId),
+    () => fetchOrder(orderId)
   )
   const updatePartialOrder = (id: number, updateData: Partial<OrderType>) => {
     axios
@@ -59,12 +59,11 @@ const TaskDetails: FC<TaskDetailsProps> = ({ orderId, onChange }) => {
     //   ],
     // },
 
-    dateOfCompletion: {
-      label: "Data ukończenia",
-      type: "date",
-      value: data?.dateOfCompletion,
+    notes: {
+      label: "Notatki",
+      type: "string",
+      value: data?.notes,
     },
-
     files: {
       label: "Pliki",
       type: "files",
@@ -75,6 +74,11 @@ const TaskDetails: FC<TaskDetailsProps> = ({ orderId, onChange }) => {
       type: "client",
       value: data?.client,
       // disabled: true
+    },
+    dateOfCompletion: {
+      label: "Data ukończenia",
+      type: "date",
+      value: data?.dateOfCompletion,
     },
   }
 
