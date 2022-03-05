@@ -1,47 +1,49 @@
-import { FC } from "react"
-import { Form, Card, Button } from "antd"
+import { FC } from "react";
+import { Form, Card, Button } from "antd";
 import {
   ArrowRightOutlined,
   DeleteOutlined,
   PlusOutlined,
-} from "@ant-design/icons"
-import { LinkedListComponentType } from "../../types/LinkedListComponentType"
-import { WorkstationIdPicker } from "./InputWorkstationId"
-import { NumericLiteral } from "typescript"
+} from "@ant-design/icons";
+import { LinkedListComponentType } from "../../types/LinkedListComponentType";
+import { WorkstationIdPicker } from "./InputWorkstationId";
+import { NumericLiteral } from "typescript";
 
-const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:1337"
+const serverURL =
+  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
 
 interface InputWorkstationsIdsComponentsProps {
-  name: string
-  initialValue?: LinkedListComponentType[]
-  label: string
-  disabled?: boolean
-  required?: boolean
+  name: string;
+  initialValue?: LinkedListComponentType[];
+  label: string;
+  disabled?: boolean;
+  required?: boolean;
 }
 
-const InputWorkstationsIdsComponents: FC<InputWorkstationsIdsComponentsProps> =
-  ({ name, label, disabled, required, initialValue }) => {
-    return (
-      <Form.Item
-        name={name}
-        // label={label}
-        initialValue={initialValue}
-        rules={[{ required: required }]}
-        wrapperCol={{ span: undefined }}
-      >
-        {/* @ts-ignore */}
-        <WorkstationsIdsComponentsPicker label={label} />
-      </Form.Item>
-    )
-  }
+const InputWorkstationsIdsComponents: FC<
+  InputWorkstationsIdsComponentsProps
+> = ({ name, label, disabled, required, initialValue }) => {
+  return (
+    <Form.Item
+      name={name}
+      // label={label}
+      initialValue={initialValue}
+      rules={[{ required: required }]}
+      wrapperCol={{ span: undefined }}
+    >
+      {/* @ts-ignore */}
+      <WorkstationsIdsComponentsPicker label={label} />
+    </Form.Item>
+  );
+};
 
 interface OnChangeHandler {
-  (e: Partial<LinkedListComponentType | null>[]): void
+  (e: Partial<LinkedListComponentType | null>[]): void;
 }
 interface WorkstationComponentsPickerProps {
-  value: Partial<LinkedListComponentType | null>[]
-  onChange: OnChangeHandler
-  label: string
+  value: Partial<LinkedListComponentType | null>[];
+  onChange: OnChangeHandler;
+  label: string;
 }
 const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
   value,
@@ -64,7 +66,7 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
         value.map(
           (
             workstationIds: Partial<LinkedListComponentType> | null,
-            index: number,
+            index: number
           ) => (
             <>
               <div
@@ -83,17 +85,17 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
                       ...value.map(
                         (
                           val: Partial<LinkedListComponentType | null>,
-                          i: number,
+                          i: number
                         ) => {
                           if (index == i && val) {
-                            let newVal = { ...val }
-                            newVal.prevId = workstationId
-                            return newVal
+                            let newVal = { ...val };
+                            newVal.prevId = workstationId;
+                            return newVal;
                           }
-                          return val
-                        },
+                          return val;
+                        }
                       ),
-                    ])
+                    ]);
                   }}
                 />
                 {workstationIds?.prevId || workstationIds?.nextId ? (
@@ -107,13 +109,13 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
                         ...value.filter(
                           (
                             val: Partial<LinkedListComponentType | null>,
-                            i: number,
+                            i: number
                           ) => {
                             if (index == i) {
-                              return false
+                              return false;
                             }
-                            return true
-                          },
+                            return true;
+                          }
                         ),
                       ])
                     }
@@ -128,23 +130,23 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
                       ...value.map(
                         (
                           val: Partial<LinkedListComponentType | null>,
-                          i: number,
+                          i: number
                         ) => {
                           if (index == i && val) {
-                            let newVal = { ...val }
-                            newVal.nextId = workstationId
-                            return newVal
+                            let newVal = { ...val };
+                            newVal.nextId = workstationId;
+                            return newVal;
                           }
-                          return val
-                        },
+                          return val;
+                        }
                       ),
-                    ])
+                    ]);
                   }}
                 />
               </div>
               <hr />
             </>
-          ),
+          )
         )}
       <Button
         onClick={() =>
@@ -168,7 +170,7 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
         <PlusOutlined />
       </Button>
     </Card>
-  )
-}
+  );
+};
 
-export default InputWorkstationsIdsComponents
+export default InputWorkstationsIdsComponents;

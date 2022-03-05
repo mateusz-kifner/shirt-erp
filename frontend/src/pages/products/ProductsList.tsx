@@ -1,11 +1,11 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
   CaretDownOutlined,
   CaretUpOutlined,
   PlusOutlined,
   ReloadOutlined,
   SearchOutlined,
-} from "@ant-design/icons"
+} from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -15,75 +15,76 @@ import {
   Space,
   Tooltip,
   Typography,
-} from "antd"
+} from "antd";
 
-import { useQuery } from "react-query"
-import axios from "axios"
-import qs from "qs"
+import { useQuery } from "react-query";
+import axios from "axios";
+import qs from "qs";
 
-import { ProductType } from "../../types/ProductType"
-import ProductAddModal from "./ProductAddModal"
+import { ProductType } from "../../types/ProductType";
+import ProductAddModal from "./ProductAddModal";
 
-import styles from "../../styles/List.module.css"
+import styles from "../../styles/List.module.css";
 
-const { Title } = Typography
-const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:1337"
+const { Title } = Typography;
+const serverURL =
+  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
 
 const fetchProducts = async (query: string) => {
-  const res = await axios.get(`/products?${query}`)
+  const res = await axios.get(`/products?${query}`);
   // console.log("req", query)
-  return res.data
-}
+  return res.data;
+};
 
 export interface ProductsListHandle {
-  refetch?: () => void
+  refetch?: () => void;
 }
 
 interface ProductsListProps {
-  onItemClickId?: (id: number) => void
-  onItemClick?: (product: ProductType) => void
-  template: any
+  onItemClickId?: (id: number) => void;
+  onItemClick?: (product: ProductType) => void;
+  template: any;
 }
 const ProductsList = forwardRef<ProductsListHandle, ProductsListProps>(
   ({ onItemClickId, onItemClick, template }, ref) => {
-    const [productId, setProductId] = useState<number>()
-    const [addVisible, setAddVisible] = useState(false)
-    const [page, setPage] = useState<number>(1)
-    const [itemsPerPage, setItemsPerPage] = useState<number>(10)
+    const [productId, setProductId] = useState<number>();
+    const [addVisible, setAddVisible] = useState(false);
+    const [page, setPage] = useState<number>(1);
+    const [itemsPerPage, setItemsPerPage] = useState<number>(10);
     const [query, setQuery] = useState<string>(
-      "_limit=10&_start=0&_sort=updated_at%3ADESC",
-    )
-    const [search, setSearch] = useState<string>("")
-    const [sortOrder, setSortOrder] = useState<boolean>(false)
+      "_limit=10&_start=0&_sort=updated_at%3ADESC"
+    );
+    const [search, setSearch] = useState<string>("");
+    const [sortOrder, setSortOrder] = useState<boolean>(false);
     const { data, refetch } = useQuery(["products", query], () =>
-      fetchProducts(query),
-    )
-    const { products, count } = data ? data : { products: [], count: 0 }
+      fetchProducts(query)
+    );
+    const { products, count } = data ? data : { products: [], count: 0 };
 
     useImperativeHandle(
       ref,
       () => ({
         refetch,
       }),
-      [refetch],
-    )
+      [refetch]
+    );
 
     useEffect(() => {
       let new_query: any = {
         _limit: itemsPerPage,
         _start: (page - 1) * itemsPerPage,
         _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
-      }
+      };
       if (search.length > 0)
         new_query._or = [
           { name_contains: search },
           { codeName_contains: search },
           { desc_contains: search },
           { category_contains: search },
-        ]
-      const new_query_string = qs.stringify(new_query)
-      query !== new_query_string && setQuery(new_query_string)
-    }, [page, itemsPerPage, search, sortOrder])
+        ];
+      const new_query_string = qs.stringify(new_query);
+      query !== new_query_string && setQuery(new_query_string);
+    }, [page, itemsPerPage, search, sortOrder]);
 
     return (
       <div>
@@ -102,7 +103,7 @@ const ProductsList = forwardRef<ProductsListHandle, ProductsListProps>(
                 icon={<ReloadOutlined />}
                 shape="circle"
                 onClick={() => {
-                  refetch()
+                  refetch();
                 }}
               />
             </Tooltip>
@@ -113,7 +114,7 @@ const ProductsList = forwardRef<ProductsListHandle, ProductsListProps>(
                 // size="large"
                 shape="circle"
                 onClick={() => {
-                  setAddVisible(true)
+                  setAddVisible(true);
                 }}
               />
             </Tooltip>
@@ -132,14 +133,14 @@ const ProductsList = forwardRef<ProductsListHandle, ProductsListProps>(
             suffix={<SearchOutlined />}
             defaultValue=""
             onChange={(e) => {
-              setSearch(e.target.value)
+              setSearch(e.target.value);
             }}
           />
           <Tooltip title={"Zmień sortowanie"}>
             <Button
               onClick={() => {
-                setSortOrder((val) => !val)
-                refetch()
+                setSortOrder((val) => !val);
+                refetch();
               }}
             >
               {sortOrder ? <CaretUpOutlined /> : <CaretDownOutlined />}
@@ -153,9 +154,9 @@ const ProductsList = forwardRef<ProductsListHandle, ProductsListProps>(
           renderItem={(product: ProductType) => (
             <List.Item
               onClick={() => {
-                onItemClickId && onItemClickId(product.id)
-                onItemClick && onItemClick({ ...product })
-                setProductId(product.id)
+                onItemClickId && onItemClickId(product.id);
+                onItemClick && onItemClick({ ...product });
+                setProductId(product.id);
               }}
               className={styles.item}
               style={{
@@ -191,13 +192,13 @@ const ProductsList = forwardRef<ProductsListHandle, ProductsListProps>(
           showSizeChanger={false}
           showQuickJumper={false}
           onChange={(page: number, pageSize?: number) => {
-            setPage(page)
-            pageSize && setItemsPerPage(pageSize)
+            setPage(page);
+            pageSize && setItemsPerPage(pageSize);
           }}
         />
       </div>
-    )
-  },
-)
+    );
+  }
+);
 
-export default ProductsList
+export default ProductsList;

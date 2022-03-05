@@ -12,10 +12,14 @@ import Logger from "js-logger"
 import { loginState } from "./atoms/loginState"
 
 import App from "./App"
+import "./index.dark.css"
 
-require("moment/locale/pl")
+// this is fix for antd & date-fns incompatibility(https://github.com/ant-design/ant-design/issues/26699)
+//@ts-ignore
+plPL.DatePicker.lang.locale = "pl"
 
-const serverURL = process.env.REACT_APP_SERVER_URL || "http://localhost:1337"
+const serverURL: string = (import.meta.env.REACT_APP_SERVER_URL ||
+  "http://localhost:1337") as string
 
 axios.defaults.baseURL = serverURL
 
@@ -25,19 +29,19 @@ Logger.setHandler(function (messages, context) {
   const savedValue = localStorage.getItem("login")
   console.log(
     messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
-    messages[0],
+    messages[0]
   )
   if (context.level === Logger.ERROR)
     message.error(
       messages[0]?.message
         ? messages[0]?.message
-        : "Nieznany błąd: sprawdź szczegóły w logu servera",
+        : "Nieznany błąd: sprawdź szczegóły w logu servera"
     )
   if (context.level === Logger.WARN)
     message.warn(
       messages[0]?.message
         ? messages[0]?.message
-        : "Nieznany błąd: sprawdź szczegóły w logu servera",
+        : "Nieznany błąd: sprawdź szczegóły w logu servera"
     )
   if (typeof messages[0] === "string") {
     axios.post("/loggers", {
@@ -56,7 +60,7 @@ Logger.setHandler(function (messages, context) {
 })
 
 Logger.setLevel(
-  process.env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN,
+  process.env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN
 )
 
 const ThemeProvider: FC = ({ children }) => {
@@ -64,13 +68,13 @@ const ThemeProvider: FC = ({ children }) => {
   const dark_theme = login.user !== null ? login.user.darkMode : true
   useEffect(() => {
     if (!dark_theme) {
-      require("./index.light.css")
-      require("antd/dist/antd.css")
+      // require("./index.light.css");
+      // require("antd/dist/antd.css");
     } else {
-      require("./index.dark.css")
-      require("antd/dist/antd.dark.css")
+      // require("./index.dark.css");
+      // require("antd/dist/antd.dark.css");
     }
-    require("./index.css")
+    // require("./index.css");
   }, [dark_theme])
 
   return <>{children}</>
@@ -88,7 +92,7 @@ ReactDOM.render(
     </ThemeProvider>
   </RecoilRoot>,
   // </React.StrictMode>,
-  document.getElementById("root"),
+  document.getElementById("root")
 )
 
 // If you want to start measuring performance in your app, pass a function

@@ -47,6 +47,11 @@ const SettingsPage: FC = () => {
       type: "date",
       initialValue: "2021-11-05T12:24:05.097Z",
     },
+    datetime: {
+      label: "Datetime",
+      type: "datetime",
+      initialValue: "2021-11-05T12:24:05.097Z",
+    },
     product: {
       label: "product",
       type: "product",
