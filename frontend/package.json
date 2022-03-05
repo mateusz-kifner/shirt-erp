@@ -52,7 +52,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build-prod": "tsc && vite build",
-    "prod": "serve -s -C -p 3000 --no-port-switching build"
+    "prod": "serve -s -C -p 3000 --no-port-switching dist"
   },
   "eslintConfig": {
     "extends": [
