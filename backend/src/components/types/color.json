@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_types_colors",
+  "info": {
+    "displayName": "Color",
+    "icon": "adjust"
+  },
+  "options": {},
+  "attributes": {
+    "colorName": {
+      "type": "string"
+    },
+    "colorHex": {
+      "type": "string"
+    }
+  }
+}

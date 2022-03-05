@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workstations",
+  "info": {
+    "singularName": "workstation",
+    "pluralName": "workstations",
+    "displayName": "Workstation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "desc": {
+      "type": "string"
+    },
+    "numberOfJobs": {
+      "type": "integer"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "nextWorkstations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::workstation.workstation"
+    }
+  }
+}

@@ -1,40 +1,30 @@
 {
-  "name": "shirtdiperp_backend",
+  "name": "backend",
   "private": true,
-  "version": "1.0.2",
-  "description": "ShirtDipERP system backend",
+  "version": "0.1.0",
+  "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
-    "strapi": "strapi",
-    "build-prod": "cross-env NODE_ENV=production yarn build",
-    "prod": "cross-env NODE_ENV=production yarn start"
+    "strapi": "strapi"
   },
   "devDependencies": {},
   "dependencies": {
-    "cross-env": "^7.0.3",
-    "emailjs-imap-client": "^3.1.0",
-    "knex": "0.21.18",
-    "pg": "8.5.1",
-    "strapi": "3.6.8",
-    "strapi-admin": "3.6.8",
-    "strapi-connector-bookshelf": "3.6.8",
-    "strapi-plugin-content-manager": "3.6.8",
-    "strapi-plugin-content-type-builder": "3.6.8",
-    "strapi-plugin-email": "3.6.8",
-    "strapi-plugin-i18n": "3.6.8",
-    "strapi-plugin-upload": "3.6.8",
-    "strapi-plugin-users-permissions": "3.6.8",
-    "strapi-utils": "3.6.8"
+    "@strapi/strapi": "4.1.2",
+    "@strapi/plugin-users-permissions": "4.1.2",
+    "@strapi/plugin-i18n": "4.1.2",
+    "pg": "8.6.0"
+  },
+  "author": {
+    "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "b88b6fa5-e6d7-4362-ad57-624fcf2da74f"
+    "uuid": "16dcc0dc-7adb-422d-8ee7-13f1c7b7928e"
   },
   "engines": {
-    "node": ">=10.16.0 <=14.x.x",
-    "npm": "^6.0.0"
+    "node": ">=12.x.x <=16.x.x",
+    "npm": ">=6.0.0"
   },
-  "author": "Mateusz Kifner",
-  "license": "UNLICENSED"
+  "license": "MIT"
 }
