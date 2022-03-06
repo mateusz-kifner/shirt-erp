@@ -1,35 +1,38 @@
-import { FC, useState } from "react";
-import { Button, Form, Modal, Upload, Image } from "antd";
-import { FileType } from "../../types/FileType";
+import { FC, useState } from "react"
+import { Button, Form, Modal, Upload, Image } from "antd"
+import { FileType } from "../../types/FileType"
 import {
   DeleteOutlined,
   DownloadOutlined,
   EyeOutlined,
-} from "@ant-design/icons";
-import { UploadChangeParam } from "antd/lib/upload";
-import { RcFile, UploadFile } from "antd/lib/upload/interface";
-import axios, { AxiosError } from "axios";
+} from "@ant-design/icons"
+import { UploadChangeParam } from "antd/lib/upload"
+import { RcFile, UploadFile } from "antd/lib/upload/interface"
+import axios, { AxiosError } from "axios"
 
-const { Dragger } = Upload;
+const { Dragger } = Upload
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 function getBase64(file: RcFile | undefined) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file as Blob);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+    const reader = new FileReader()
+    reader.readAsDataURL(file as Blob)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
 }
 
 interface InputFilesProps {
-  name: string;
-  label: string;
-  initialValue?: FileType[];
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  label: string
+  initialValue?: FileType[]
+  disabled?: boolean
+  required?: boolean
 }
 
 const InputFiles: FC<InputFilesProps> = ({
@@ -51,18 +54,18 @@ const InputFiles: FC<InputFilesProps> = ({
         <FilesPicker disabled={disabled} />
       </Form.Item>
     </>
-  );
-};
+  )
+}
 
 interface OnChangeHandler {
-  (e: Partial<FileType>[] | null): void;
+  (e: Partial<FileType>[] | null): void
 }
 
 interface FilesPickerProps {
-  name: string;
-  disabled?: boolean;
-  value: Partial<FileType>[] | null;
-  onChange: OnChangeHandler;
+  name: string
+  disabled?: boolean
+  value: Partial<FileType>[] | null
+  onChange: OnChangeHandler
 }
 
 export const FilesPicker: FC<FilesPickerProps> = ({
@@ -71,43 +74,43 @@ export const FilesPicker: FC<FilesPickerProps> = ({
   value,
   name,
 }) => {
-  const [fileList, setFileList] = useState<UploadFile<any>[] | undefined>();
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<any>();
-  const [previewImage, setPreviewImage] = useState<string>();
-  const [previewVisible, setPreviewVisible] = useState<boolean>(false);
-  const [previewTitle, setPreviewTitle] = useState<string>();
-  console.log(value);
+  const [fileList, setFileList] = useState<UploadFile<any>[] | undefined>()
+  const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState<any>()
+  const [previewImage, setPreviewImage] = useState<string>()
+  const [previewVisible, setPreviewVisible] = useState<boolean>(false)
+  const [previewTitle, setPreviewTitle] = useState<string>()
+  console.log(value)
 
   const handleChange = (info: UploadChangeParam<UploadFile<any>>) => {
-    if (info.fileList.length === 0) return;
-    const fileList2 = info.fileList;
-    const formData = new FormData();
-    console.log(info);
+    if (info.fileList.length === 0) return
+    const fileList2 = info.fileList
+    const formData = new FormData()
+    console.log(info)
     for (let file of fileList2) {
       //@ts-ignore
-      formData.append("files", file.originFileObj);
+      formData.append("files", file.originFileObj)
     }
-    setFileList([]);
+    setFileList([])
 
-    setUploading(true);
+    setUploading(true)
     axios
       .post(serverURL + "/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((val) => {
-        setUploading(false);
-        if (value) onChange([...value, ...val.data]);
-        else onChange([...val.data]);
+        setUploading(false)
+        if (value) onChange([...value, ...val.data])
+        else onChange([...val.data])
 
-        console.log(val);
+        console.log(val)
       })
       .catch((err: AxiosError) => {
-        setError(err.response?.statusText);
-        setUploading(false);
-        console.log({ ...err });
-      });
-  };
+        setError(err.response?.statusText)
+        setUploading(false)
+        console.log({ ...err })
+      })
+  }
 
   return (
     <div>
@@ -162,7 +165,7 @@ export const FilesPicker: FC<FilesPickerProps> = ({
                 }}
                 onClick={() => {
                   // if (value.related && value.related?.length > 0)
-                  onChange(value.filter((val) => val.id !== file.id));
+                  onChange(value.filter((val) => val.id !== file.id))
                   // else onRemove()
                   // FIXME: removing file with related data is dengerous
                 }}
@@ -171,7 +174,7 @@ export const FilesPicker: FC<FilesPickerProps> = ({
           ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InputFiles;
+export default InputFiles

@@ -18,8 +18,11 @@ import "./index.dark.css"
 //@ts-ignore
 plPL.DatePicker.lang.locale = "pl"
 
-const serverURL: string = (import.meta.env.REACT_APP_SERVER_URL ||
-  "http://localhost:1337") as string
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 axios.defaults.baseURL = serverURL
 

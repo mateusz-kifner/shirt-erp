@@ -1,21 +1,24 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { Button, Tooltip, Typography, message } from "antd";
-import { CheckOutlined, CloseOutlined, EditFilled } from "@ant-design/icons";
+import { FC, useEffect, useRef, useState } from "react"
+import { Button, Tooltip, Typography, message } from "antd"
+import { CheckOutlined, CloseOutlined, EditFilled } from "@ant-design/icons"
 
-import useForm from "antd/lib/form/hooks/useForm";
-import Logger from "js-logger";
+import useForm from "antd/lib/form/hooks/useForm"
+import Logger from "js-logger"
 
-import Form from "./form/Form";
-import DetailsComponent from "./DetailsComponent";
+import Form from "./form/Form"
+import DetailsComponent from "./DetailsComponent"
 
-import styles from "./EditComponent.module.css";
-import { useDebounce } from "../hooks/useDebounce";
-import DeleteButton from "./DeleteButton";
+import styles from "./EditComponent.module.css"
+import { useDebounce } from "../hooks/useDebounce"
+import DeleteButton from "./DeleteButton"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
-const { Title } = Typography;
+const { Title } = Typography
 
 function data_value_to_initialValue(data: any) {
   return Object.keys(data)
@@ -25,19 +28,19 @@ function data_value_to_initialValue(data: any) {
       key: key,
     }))
     .reduce((prev: any, current: any) => {
-      let new_obj = { ...prev };
-      new_obj[current.key] = { ...current };
-      delete new_obj[current.key].key;
-      return new_obj;
-    }, {});
+      let new_obj = { ...prev }
+      new_obj[current.key] = { ...current }
+      delete new_obj[current.key].key
+      return new_obj
+    }, {})
 }
 
 interface EditComponentProps {
-  data: any;
-  title?: string;
-  deleteTitle?: string;
-  onSubmit: (data: any) => void;
-  onDelete?: (data: any) => void;
+  data: any
+  title?: string
+  deleteTitle?: string
+  onSubmit: (data: any) => void
+  onDelete?: (data: any) => void
 }
 
 const EditComponent: FC<EditComponentProps> = ({
@@ -47,19 +50,19 @@ const EditComponent: FC<EditComponentProps> = ({
   onSubmit,
   onDelete,
 }) => {
-  const [form] = useForm();
-  const [edit, setEdit] = useState(false);
-  const debouncedEdit = useDebounce(edit, 30);
-  const [currentData, setCurrentData] = useState<any>(null);
+  const [form] = useForm()
+  const [edit, setEdit] = useState(false)
+  const debouncedEdit = useDebounce(edit, 30)
+  const [currentData, setCurrentData] = useState<any>(null)
 
   useEffect(() => {
     if (edit) {
-      form.resetFields();
-      setEdit(false);
+      form.resetFields()
+      setEdit(false)
     }
-    setCurrentData(data);
+    setCurrentData(data)
     //eslint-ignore-next-line
-  }, [data]);
+  }, [data])
 
   return (
     <div className={styles.container}>
@@ -77,7 +80,7 @@ const EditComponent: FC<EditComponentProps> = ({
                 icon={<CloseOutlined />}
                 // size="large"
                 onClick={() => {
-                  setEdit(false);
+                  setEdit(false)
                 }}
               />
             </Tooltip>
@@ -93,14 +96,14 @@ const EditComponent: FC<EditComponentProps> = ({
                   form
                     .validateFields()
                     .then((values) => {
-                      onSubmit(values);
-                      form.resetFields();
+                      onSubmit(values)
+                      form.resetFields()
                     })
                     .catch((info) => {
-                      Logger.error({ message: "Walidacja nie udana", ...info });
-                    });
-                !debouncedEdit && form.resetFields();
-                setEdit((val) => !val);
+                      Logger.error({ message: "Walidacja nie udana", ...info })
+                    })
+                !debouncedEdit && form.resetFields()
+                setEdit((val) => !val)
               }}
             />
           </Tooltip>
@@ -117,9 +120,9 @@ const EditComponent: FC<EditComponentProps> = ({
             data={data_value_to_initialValue(currentData)}
             onFinish={onSubmit}
             onFinishFailed={() => {
-              form.resetFields();
-              setEdit(false);
-              message.error("Failed");
+              form.resetFields()
+              setEdit(false)
+              message.error("Failed")
             }}
           />
           <div style={{ minHeight: "10vh" }}></div>
@@ -131,7 +134,7 @@ const EditComponent: FC<EditComponentProps> = ({
                 onDelete &&
                   currentData.id.value !== null &&
                   currentData.id.value !== undefined &&
-                  onDelete(currentData.id.value);
+                  onDelete(currentData.id.value)
               }}
             ></DeleteButton>
           </div>
@@ -141,7 +144,7 @@ const EditComponent: FC<EditComponentProps> = ({
 
       <div style={{ minHeight: "50vh" }}></div>
     </div>
-  );
-};
+  )
+}
 
-export default EditComponent;
+export default EditComponent

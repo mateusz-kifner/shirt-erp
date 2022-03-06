@@ -1,23 +1,26 @@
-import { FC } from "react";
-import { Form, Card, Button } from "antd";
+import { FC } from "react"
+import { Form, Card, Button } from "antd"
 import {
   ArrowRightOutlined,
   DeleteOutlined,
   PlusOutlined,
-} from "@ant-design/icons";
-import { LinkedListComponentType } from "../../types/LinkedListComponentType";
-import { WorkstationIdPicker } from "./InputWorkstationId";
-import { NumericLiteral } from "typescript";
+} from "@ant-design/icons"
+import { LinkedListComponentType } from "../../types/LinkedListComponentType"
+import { WorkstationIdPicker } from "./InputWorkstationId"
+import { NumericLiteral } from "typescript"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 interface InputWorkstationsIdsComponentsProps {
-  name: string;
-  initialValue?: LinkedListComponentType[];
-  label: string;
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  initialValue?: LinkedListComponentType[]
+  label: string
+  disabled?: boolean
+  required?: boolean
 }
 
 const InputWorkstationsIdsComponents: FC<
@@ -34,16 +37,16 @@ const InputWorkstationsIdsComponents: FC<
       {/* @ts-ignore */}
       <WorkstationsIdsComponentsPicker label={label} />
     </Form.Item>
-  );
-};
+  )
+}
 
 interface OnChangeHandler {
-  (e: Partial<LinkedListComponentType | null>[]): void;
+  (e: Partial<LinkedListComponentType | null>[]): void
 }
 interface WorkstationComponentsPickerProps {
-  value: Partial<LinkedListComponentType | null>[];
-  onChange: OnChangeHandler;
-  label: string;
+  value: Partial<LinkedListComponentType | null>[]
+  onChange: OnChangeHandler
+  label: string
 }
 const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
   value,
@@ -88,14 +91,14 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
                           i: number
                         ) => {
                           if (index == i && val) {
-                            let newVal = { ...val };
-                            newVal.prevId = workstationId;
-                            return newVal;
+                            let newVal = { ...val }
+                            newVal.prevId = workstationId
+                            return newVal
                           }
-                          return val;
+                          return val
                         }
                       ),
-                    ]);
+                    ])
                   }}
                 />
                 {workstationIds?.prevId || workstationIds?.nextId ? (
@@ -112,9 +115,9 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
                             i: number
                           ) => {
                             if (index == i) {
-                              return false;
+                              return false
                             }
-                            return true;
+                            return true
                           }
                         ),
                       ])
@@ -133,14 +136,14 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
                           i: number
                         ) => {
                           if (index == i && val) {
-                            let newVal = { ...val };
-                            newVal.nextId = workstationId;
-                            return newVal;
+                            let newVal = { ...val }
+                            newVal.nextId = workstationId
+                            return newVal
                           }
-                          return val;
+                          return val
                         }
                       ),
-                    ]);
+                    ])
                   }}
                 />
               </div>
@@ -170,7 +173,7 @@ const WorkstationsIdsComponentsPicker: FC<WorkstationComponentsPickerProps> = ({
         <PlusOutlined />
       </Button>
     </Card>
-  );
-};
+  )
+}
 
-export default InputWorkstationsIdsComponents;
+export default InputWorkstationsIdsComponents

@@ -1,21 +1,24 @@
-import { FC } from "react";
-import { FileType } from "../../types/FileType";
+import { FC } from "react"
+import { FileType } from "../../types/FileType"
 
-import { v4 as uuidv4 } from "uuid";
-import styles from "../../pages/files/components/FilesList.module.css";
+import { v4 as uuidv4 } from "uuid"
+import styles from "../../pages/files/components/FilesList.module.css"
 import {
   CheckCircleFilled,
   DownloadOutlined,
   FileOutlined,
-} from "@ant-design/icons";
-import download from "../../utils/download";
-import { Button } from "antd";
+} from "@ant-design/icons"
+import download from "../../utils/download"
+import { Button } from "antd"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 interface ColorProps {
-  files?: FileType[];
+  files?: FileType[]
 }
 const Color: FC<ColorProps> = ({ files }) =>
   files && files?.length > 0 ? (
@@ -26,9 +29,9 @@ const Color: FC<ColorProps> = ({ files }) =>
           width: 96,
         }}
         onClick={() => {
-          if (!files) return;
+          if (!files) return
           for (let file of files) {
-            download(file.url, file.name);
+            download(file.url, file.name)
           }
         }}
       >
@@ -43,12 +46,12 @@ const Color: FC<ColorProps> = ({ files }) =>
         files
           // .filter((file) => file.name.startsWith(searchString))
           .map((file) => {
-            let imgPrev = undefined;
+            let imgPrev = undefined
             if (file.mime == "image/svg+xml" && file.url)
-              imgPrev = serverURL + file.url;
+              imgPrev = serverURL + file.url
             if (file.formats?.thumbnail)
-              imgPrev = serverURL + file.formats?.thumbnail.url;
-            const is_selected = false;
+              imgPrev = serverURL + file.formats?.thumbnail.url
+            const is_selected = false
             // selected.findIndex((id) => id === file.id) > -1
             return (
               <div
@@ -119,11 +122,11 @@ const Color: FC<ColorProps> = ({ files }) =>
                   {file.name}
                 </div>
               </div>
-            );
+            )
           })}
     </div>
   ) : (
     <div>Brak</div>
-  );
+  )
 
-export default Color;
+export default Color

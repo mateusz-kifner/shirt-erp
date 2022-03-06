@@ -1,19 +1,22 @@
-import { FC } from "react";
-import { Form, Card, Button } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { FC } from "react"
+import { Form, Card, Button } from "antd"
+import { PlusOutlined } from "@ant-design/icons"
 
-import { ProductComponentType } from "../../types/ProductComponentType";
-import { ProductComponentPicker } from "./InputProductComponent";
+import { ProductComponentType } from "../../types/ProductComponentType"
+import { ProductComponentPicker } from "./InputProductComponent"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 interface InputProductComponentsProps {
-  name: string;
-  initialValue?: ProductComponentType[];
-  label: string;
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  initialValue?: ProductComponentType[]
+  label: string
+  disabled?: boolean
+  required?: boolean
 }
 
 const InputProductComponents: FC<InputProductComponentsProps> = ({
@@ -34,16 +37,16 @@ const InputProductComponents: FC<InputProductComponentsProps> = ({
       {/* @ts-ignore */}
       <ProductComponentsPicker label={label} />
     </Form.Item>
-  );
-};
+  )
+}
 
 interface OnChangeHandler {
-  (e: Partial<ProductComponentType | null>[]): void;
+  (e: Partial<ProductComponentType | null>[]): void
 }
 interface ProductComponentsPickerProps {
-  value: Partial<ProductComponentType | null>[];
-  onChange: OnChangeHandler;
-  label: string;
+  value: Partial<ProductComponentType | null>[]
+  onChange: OnChangeHandler
+  label: string
 }
 const ProductComponentsPicker: FC<ProductComponentsPickerProps> = ({
   value,
@@ -76,7 +79,7 @@ const ProductComponentsPicker: FC<ProductComponentsPickerProps> = ({
                     value
                       .map((val, i) => (i != index ? val : productC))
                       .filter((val) => val !== null)
-                  );
+                  )
                 }}
               />
               <hr />
@@ -111,7 +114,7 @@ const ProductComponentsPicker: FC<ProductComponentsPickerProps> = ({
         <PlusOutlined />
       </Button>
     </Card>
-  );
-};
+  )
+}
 
-export default InputProductComponents;
+export default InputProductComponents

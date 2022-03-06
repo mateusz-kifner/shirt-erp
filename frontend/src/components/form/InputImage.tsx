@@ -1,24 +1,27 @@
-import { FC, useState } from "react";
-import { Button, Form, Upload } from "antd";
+import { FC, useState } from "react"
+import { Button, Form, Upload } from "antd"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 interface InputImageProps {
-  name: string;
-  initialValue?: string;
-  label: string;
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  initialValue?: string
+  label: string
+  disabled?: boolean
+  required?: boolean
 }
 
 const normFile = (e: any) => {
-  console.log("Upload event:", e);
+  console.log("Upload event:", e)
   if (Array.isArray(e)) {
-    return e;
+    return e
   }
-  return e && e.fileList;
-};
+  return e && e.fileList
+}
 
 const InputImage: FC<InputImageProps> = ({
   name,
@@ -27,23 +30,23 @@ const InputImage: FC<InputImageProps> = ({
   initialValue,
   required,
 }) => {
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<any[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const [previewVisible, setPreviewVisible] = useState(false)
+  const [previewImage, setPreviewImage] = useState("")
+  const [previewTitle, setPreviewTitle] = useState("")
+  const [fileList, setFileList] = useState<any[]>([])
+  const [uploading, setUploading] = useState(false)
   // const [files, setFiles] = useRecoilState(filesState)
-  const [error, setError] = useState<any>();
+  const [error, setError] = useState<any>()
 
   const handleUpload = () => {
-    console.log(fileList);
+    console.log(fileList)
 
-    const formData = new FormData();
+    const formData = new FormData()
     fileList.forEach((file) => {
-      formData.append("files", file);
-    });
+      formData.append("files", file)
+    })
 
-    setUploading(true);
+    setUploading(true)
 
     // axios
     //   .post(serverURL + "/upload", formData)
@@ -58,18 +61,18 @@ const InputImage: FC<InputImageProps> = ({
     //     setUploading(false)
     //     console.log({ ...err })
     //   })
-  };
+  }
 
   const onRemove = (file: any) => {
-    console.log(file, fileList);
-    setFileList([]);
-  };
+    console.log(file, fileList)
+    setFileList([])
+  }
 
   const beforeUpload = (file: any) => {
-    console.log(file, fileList);
-    setFileList([file]);
-    return false;
-  };
+    console.log(file, fileList)
+    setFileList([file])
+    return false
+  }
 
   return (
     <Form.Item
@@ -95,7 +98,7 @@ const InputImage: FC<InputImageProps> = ({
         {fileList.length < 1 && <Button> Upload</Button>}
       </Upload>
     </Form.Item>
-  );
-};
+  )
+}
 
-export default InputImage;
+export default InputImage

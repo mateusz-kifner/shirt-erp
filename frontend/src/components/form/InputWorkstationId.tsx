@@ -1,26 +1,29 @@
-import { FC, useEffect, useState } from "react";
-import { Form, Card, Modal, Button, Avatar } from "antd";
-import { DeleteFilled } from "@ant-design/icons";
+import { FC, useEffect, useState } from "react"
+import { Form, Card, Modal, Button, Avatar } from "antd"
+import { DeleteFilled } from "@ant-design/icons"
 
-import WorkstationsList from "../../pages/production/WorkstationsList";
-import { workstation_template } from "../../pages/production/WorkstationsPage";
+import WorkstationsList from "../../pages/production/WorkstationsList"
+import { workstation_template } from "../../pages/production/WorkstationsPage"
 
-import { WorkstationType } from "../../types/WorkstationType";
-import { LinkedListComponentType } from "../../types/LinkedListComponentType";
-import axios from "axios";
-import { useQuery } from "react-query";
-import useEffectOnce from "../../hooks/useEffectOnce";
+import { WorkstationType } from "../../types/WorkstationType"
+import { LinkedListComponentType } from "../../types/LinkedListComponentType"
+import axios from "axios"
+import { useQuery } from "react-query"
+import useEffectOnce from "../../hooks/useEffectOnce"
 
-const { Meta } = Card;
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const { Meta } = Card
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 interface InputWorkstationIdProps {
-  name: string;
-  initialValue?: number;
-  label: string;
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  initialValue?: number
+  label: string
+  disabled?: boolean
+  required?: boolean
 }
 
 const InputWorkstationId: FC<InputWorkstationIdProps> = ({
@@ -40,49 +43,49 @@ const InputWorkstationId: FC<InputWorkstationIdProps> = ({
       {/* @ts-ignore */}
       <WorkstationIdPicker />
     </Form.Item>
-  );
-};
+  )
+}
 
 const fetchWorkstations = async () => {
-  const res = await axios.get(`/workstations`);
+  const res = await axios.get(`/workstations`)
   // console.log("req", query)
-  return res.data;
-};
+  return res.data
+}
 
 interface OnChangeHandler {
-  (e: number | null): void;
+  (e: number | null): void
 }
 interface WorkstationIdPickerProps {
-  value: number | null;
-  onChange: OnChangeHandler;
+  value: number | null
+  onChange: OnChangeHandler
 }
 export const WorkstationIdPicker: FC<WorkstationIdPickerProps> = ({
   value,
   onChange,
 }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false)
   const [currentWorkstation, setCurrentWorkstation] =
-    useState<Partial<WorkstationType>>();
+    useState<Partial<WorkstationType>>()
   const { data, refetch } = useQuery(
     ["workstations"],
     () => fetchWorkstations(),
     {
       enabled: false,
     }
-  );
+  )
 
   useEffectOnce(() => {
-    refetch();
-  });
+    refetch()
+  })
 
   useEffect(() => {
     if (data?.workstations) {
       let current = data?.workstations.filter(
         (w: WorkstationType) => w.id == value
-      );
-      if (current.length > 0) setCurrentWorkstation(current[0]);
+      )
+      if (current.length > 0) setCurrentWorkstation(current[0])
     }
-  }, [data]);
+  }, [data])
 
   // console.log("workstationid input", value)
   return (
@@ -91,8 +94,8 @@ export const WorkstationIdPicker: FC<WorkstationIdPickerProps> = ({
         visible={modalOpen}
         onCancel={() => setModalOpen(false)}
         onOk={() => {
-          currentWorkstation?.id && onChange(currentWorkstation.id);
-          setModalOpen(false);
+          currentWorkstation?.id && onChange(currentWorkstation.id)
+          setModalOpen(false)
         }}
       >
         <WorkstationsList
@@ -131,8 +134,8 @@ export const WorkstationIdPicker: FC<WorkstationIdPickerProps> = ({
         {currentWorkstation && (
           <Button
             onClick={() => {
-              onChange(null);
-              setCurrentWorkstation(undefined);
+              onChange(null)
+              setCurrentWorkstation(undefined)
             }}
             style={{ position: "absolute", right: 0, top: 0, height: "100%" }}
           >
@@ -141,7 +144,7 @@ export const WorkstationIdPicker: FC<WorkstationIdPickerProps> = ({
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default InputWorkstationId;
+export default InputWorkstationId

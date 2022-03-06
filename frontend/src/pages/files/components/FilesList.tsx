@@ -1,28 +1,31 @@
-import { FC, ChangeEvent, useEffect, useState } from "react";
-import { Input } from "antd";
+import { FC, ChangeEvent, useEffect, useState } from "react"
+import { Input } from "antd"
 import {
   CheckCircleFilled,
   DownloadOutlined,
   FileOutlined,
   SearchOutlined,
-} from "@ant-design/icons";
+} from "@ant-design/icons"
 
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid"
 
-import download from "../../../utils/download";
+import download from "../../../utils/download"
 
-import { FileType } from "../../../types/FileType";
+import { FileType } from "../../../types/FileType"
 
-import styles from "./FilesList.module.css";
+import styles from "./FilesList.module.css"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 interface FilesListProps {
-  files: FileType[];
-  selectedFiles?: number[];
-  onSelect?: (ids: number[]) => void;
-  search?: boolean;
+  files: FileType[]
+  selectedFiles?: number[]
+  onSelect?: (ids: number[]) => void
+  search?: boolean
 }
 
 const FilesList: FC<FilesListProps> = ({
@@ -31,32 +34,32 @@ const FilesList: FC<FilesListProps> = ({
   onSelect,
   search,
 }) => {
-  const [selected, setSelected] = useState<number[]>([]);
-  const [searchString, setSearchString] = useState<string>("");
+  const [selected, setSelected] = useState<number[]>([])
+  const [searchString, setSearchString] = useState<string>("")
   useEffect(() => {
-    selectedFiles && setSelected(selectedFiles);
-  }, [selectedFiles]);
+    selectedFiles && setSelected(selectedFiles)
+  }, [selectedFiles])
 
   useEffect(() => {
-    onSelect && onSelect(selected);
-  }, [selected]);
+    onSelect && onSelect(selected)
+  }, [selected])
 
   const onSelectFile = (file: FileType) => {
-    const index = selected.findIndex((elem) => elem == file.id);
+    const index = selected.findIndex((elem) => elem == file.id)
     if (index == -1) {
-      setSelected((ids) => [...ids, file.id]);
-      return;
+      setSelected((ids) => [...ids, file.id])
+      return
     }
     setSelected((ids) => {
-      const new_ids = [...ids];
-      new_ids.splice(index, 1);
-      return new_ids;
-    });
-  };
+      const new_ids = [...ids]
+      new_ids.splice(index, 1)
+      return new_ids
+    })
+  }
 
   const onChange = (val: ChangeEvent<HTMLInputElement>) => {
-    setSearchString(val.target.value);
-  };
+    setSearchString(val.target.value)
+  }
 
   return (
     <div className={styles.container}>
@@ -71,17 +74,17 @@ const FilesList: FC<FilesListProps> = ({
         {files
           .filter((file) => file.name.startsWith(searchString))
           .map((file) => {
-            let imgPrev = undefined;
+            let imgPrev = undefined
             if (file.mime == "image/svg+xml" && file.url)
-              imgPrev = serverURL + file.url;
+              imgPrev = serverURL + file.url
             if (file.formats?.thumbnail)
-              imgPrev = serverURL + file.formats?.thumbnail.url;
-            const is_selected = selected.findIndex((id) => id === file.id) > -1;
+              imgPrev = serverURL + file.formats?.thumbnail.url
+            const is_selected = selected.findIndex((id) => id === file.id) > -1
             return (
               <div
                 className={styles.item}
                 onClick={() => {
-                  onSelectFile(file);
+                  onSelectFile(file)
                 }}
                 key={uuidv4()}
               >
@@ -142,11 +145,11 @@ const FilesList: FC<FilesListProps> = ({
                   <DownloadOutlined />
                 </div>
               </div>
-            );
+            )
           })}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FilesList;
+export default FilesList

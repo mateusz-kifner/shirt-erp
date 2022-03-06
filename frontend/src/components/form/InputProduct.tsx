@@ -1,24 +1,27 @@
-import { FC, useState } from "react";
-import { Form, Card, Modal, Button, Avatar } from "antd";
-import { DeleteFilled } from "@ant-design/icons";
+import { FC, useState } from "react"
+import { Form, Card, Modal, Button, Avatar } from "antd"
+import { DeleteFilled } from "@ant-design/icons"
 
-import ProductsList from "../../pages/products/ProductsList";
-import { product_template } from "../../pages/products/ProductsPage";
+import ProductsList from "../../pages/products/ProductsList"
+import { product_template } from "../../pages/products/ProductsPage"
 
-import { ProductType } from "../../types/ProductType";
-import Color from "../details/Color";
+import { ProductType } from "../../types/ProductType"
+import Color from "../details/Color"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
-const { Meta } = Card;
+const { Meta } = Card
 
 interface InputProductProps {
-  name: string;
-  initialValue?: ProductType;
-  label: string;
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  initialValue?: ProductType
+  label: string
+  disabled?: boolean
+  required?: boolean
 }
 
 const InputProduct: FC<InputProductProps> = ({
@@ -38,20 +41,20 @@ const InputProduct: FC<InputProductProps> = ({
       {/* @ts-ignore */}
       <ProductPicker />
     </Form.Item>
-  );
-};
+  )
+}
 
 interface OnChangeHandler {
-  (e: any): void;
+  (e: any): void
 }
 export interface ProductPickerProps {
-  value: Partial<ProductType>;
-  onChange: OnChangeHandler;
+  value: Partial<ProductType>
+  onChange: OnChangeHandler
 }
 export const ProductPicker: FC<ProductPickerProps> = ({ value, onChange }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false)
   const [currentProduct, setCurrentProduct] =
-    useState<Partial<ProductType>>(value);
+    useState<Partial<ProductType>>(value)
   // console.log("product input", value)
   return (
     <>
@@ -59,8 +62,8 @@ export const ProductPicker: FC<ProductPickerProps> = ({ value, onChange }) => {
         visible={modalOpen}
         onCancel={() => setModalOpen(false)}
         onOk={() => {
-          onChange(currentProduct);
-          setModalOpen(false);
+          onChange(currentProduct)
+          setModalOpen(false)
         }}
       >
         <ProductsList
@@ -114,7 +117,7 @@ export const ProductPicker: FC<ProductPickerProps> = ({ value, onChange }) => {
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default InputProduct;
+export default InputProduct

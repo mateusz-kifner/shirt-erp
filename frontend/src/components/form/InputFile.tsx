@@ -1,36 +1,39 @@
-import { FC, useState } from "react";
-import { Button, Form, Modal, Upload, Image } from "antd";
-import { FileType } from "../../types/FileType";
+import { FC, useState } from "react"
+import { Button, Form, Modal, Upload, Image } from "antd"
+import { FileType } from "../../types/FileType"
 import {
   DeleteOutlined,
   DownloadOutlined,
   EyeOutlined,
-} from "@ant-design/icons";
-import { UploadChangeParam } from "antd/lib/upload";
-import { RcFile, UploadFile } from "antd/lib/upload/interface";
-import axios, { AxiosError } from "axios";
-import useEffectOnce from "../../hooks/useEffectOnce";
+} from "@ant-design/icons"
+import { UploadChangeParam } from "antd/lib/upload"
+import { RcFile, UploadFile } from "antd/lib/upload/interface"
+import axios, { AxiosError } from "axios"
+import useEffectOnce from "../../hooks/useEffectOnce"
 
-const { Dragger } = Upload;
+const { Dragger } = Upload
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 function getBase64(file: RcFile | undefined) {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file as Blob);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
+    const reader = new FileReader()
+    reader.readAsDataURL(file as Blob)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
 }
 
 interface InputFileProps {
-  name: string;
-  label: string;
-  initialValue?: FileType;
-  disabled?: boolean;
-  required?: boolean;
+  name: string
+  label: string
+  initialValue?: FileType
+  disabled?: boolean
+  required?: boolean
 }
 
 const InputFile: FC<InputFileProps> = ({
@@ -52,17 +55,17 @@ const InputFile: FC<InputFileProps> = ({
         <FilePicker disabled={disabled} />
       </Form.Item>
     </>
-  );
-};
+  )
+}
 
 interface OnChangeHandler {
-  (e: Partial<FileType> | null): void;
+  (e: Partial<FileType> | null): void
 }
 
 interface FilePickerProps {
-  disabled?: boolean;
-  value: Partial<FileType> | null;
-  onChange: OnChangeHandler;
+  disabled?: boolean
+  value: Partial<FileType> | null
+  onChange: OnChangeHandler
 }
 
 export const FilePicker: FC<FilePickerProps> = ({
@@ -70,68 +73,68 @@ export const FilePicker: FC<FilePickerProps> = ({
   onChange,
   value,
 }) => {
-  const [wasFileSet, setWasFileSet] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<any>();
-  const [previewImage, setPreviewImage] = useState<string>();
-  const [previewVisible, setPreviewVisible] = useState<boolean>(false);
-  const [previewTitle, setPreviewTitle] = useState<string>();
-  console.log(value);
+  const [wasFileSet, setWasFileSet] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState<any>()
+  const [previewImage, setPreviewImage] = useState<string>()
+  const [previewVisible, setPreviewVisible] = useState<boolean>(false)
+  const [previewTitle, setPreviewTitle] = useState<string>()
+  console.log(value)
 
   useEffectOnce(() => {
-    if (value) setWasFileSet(true);
-  });
+    if (value) setWasFileSet(true)
+  })
 
   const handlePreview = async (file: UploadFile<any>) => {
     if (!file.url && !file.preview) {
-      file.preview = (await getBase64(file.originFileObj)) as string;
+      file.preview = (await getBase64(file.originFileObj)) as string
     }
 
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
+    setPreviewImage(file.url || file.preview)
+    setPreviewVisible(true)
     setPreviewTitle(
       file.name ||
         (file.url && file.url.substring(file.url.lastIndexOf("/") + 1))
-    );
-  };
+    )
+  }
 
   const handleChange = (info: UploadChangeParam<UploadFile<any>>) => {
-    const { file } = info;
-    console.log(info);
-    if (info.fileList.length === 0) return;
+    const { file } = info
+    console.log(info)
+    if (info.fileList.length === 0) return
 
-    const formData = new FormData();
+    const formData = new FormData()
     //@ts-ignore
-    formData.append("files", file);
+    formData.append("files", file)
 
-    setUploading(true);
+    setUploading(true)
     axios
       .post(serverURL + "/upload", formData)
       .then((val) => {
-        setUploading(false);
-        setWasFileSet(false);
-        onChange({ ...val.data[0] });
-        console.log(val);
+        setUploading(false)
+        setWasFileSet(false)
+        onChange({ ...val.data[0] })
+        console.log(val)
       })
       .catch((err: AxiosError) => {
-        setError(err.response?.statusText);
-        setUploading(false);
-        console.log({ ...err });
-      });
-  };
+        setError(err.response?.statusText)
+        setUploading(false)
+        console.log({ ...err })
+      })
+  }
 
   const onRemove = () => {
     axios
       .delete(serverURL + `/upload/files/${value?.id}`)
       .then((value) => {
-        console.log(value);
+        console.log(value)
       })
       .catch((err: AxiosError) => {
-        setError(err.response?.statusText);
-        console.log({ ...err });
-      });
-    onChange(null);
-  };
+        setError(err.response?.statusText)
+        console.log({ ...err })
+      })
+    onChange(null)
+  }
   return (
     <div>
       <Dragger
@@ -187,7 +190,7 @@ export const FilePicker: FC<FilePickerProps> = ({
               }}
               onClick={() => {
                 // if (value.related && value.related?.length > 0)
-                onChange(null);
+                onChange(null)
                 // else onRemove()
                 // FIXME: removing file with related data is dengerous
               }}
@@ -205,7 +208,7 @@ export const FilePicker: FC<FilePickerProps> = ({
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default InputFile;
+export default InputFile

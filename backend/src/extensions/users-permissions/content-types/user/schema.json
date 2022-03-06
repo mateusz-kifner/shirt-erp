@@ -80,6 +80,13 @@
       "relation": "manyToMany",
       "target": "api::order-archive.order-archive",
       "inversedBy": "employees"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "darkMode": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

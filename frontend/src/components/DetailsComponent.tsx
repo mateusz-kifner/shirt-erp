@@ -1,33 +1,36 @@
-import { CSSProperties, FC } from "react";
-import { Image, Descriptions, Card, Avatar } from "antd";
+import { CSSProperties, FC } from "react"
+import { Image, Descriptions, Card, Avatar } from "antd"
 
 // import { v4 as uuidv4 } from "uuid"
-import { format } from "date-fns/esm";
-import { pl } from "date-fns/esm/locale";
+import { format } from "date-fns/esm"
+import { pl } from "date-fns/esm/locale"
 
-import styles from "./DetailsComponent.module.css";
-import { useRecoilValue } from "recoil";
-import { loginState } from "../atoms/loginState";
-import { OrderType } from "../types/OrderType";
-import { status_colors, status_icons } from "../pages/orders/OrdersList";
-import { ProductComponentType } from "../types/ProductComponentType";
-import Color from "./details/Color";
-import Files from "./details/Files";
-import { WorkstationType } from "../types/WorkstationType";
-import WorkstationsIds from "./details/WorkstationsIds";
-import User from "./details/User";
-import Users from "./details/Users";
+import styles from "./DetailsComponent.module.css"
+import { useRecoilValue } from "recoil"
+import { loginState } from "../atoms/loginState"
+import { OrderType } from "../types/OrderType"
+import { status_colors, status_icons } from "../pages/orders/OrdersList"
+import { ProductComponentType } from "../types/ProductComponentType"
+import Color from "./details/Color"
+import Files from "./details/Files"
+import { WorkstationType } from "../types/WorkstationType"
+import WorkstationsIds from "./details/WorkstationsIds"
+import User from "./details/User"
+import Users from "./details/Users"
 
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
-const { Meta } = Card;
+const { Meta } = Card
 
 interface DetailsComponentProps {
-  data: any;
-  labelStyle?: CSSProperties;
-  contentStyle?: CSSProperties;
-  style?: CSSProperties;
+  data: any
+  labelStyle?: CSSProperties
+  contentStyle?: CSSProperties
+  style?: CSSProperties
 }
 
 const DetailsComponent: FC<DetailsComponentProps> = ({
@@ -36,7 +39,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
   contentStyle,
   style,
 }) => {
-  const login = useRecoilValue(loginState);
+  const login = useRecoilValue(loginState)
 
   return (
     <div className={styles.container}>
@@ -49,12 +52,12 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
           bordered
         >
           {Object.keys(data).map((name: any) => {
-            const { label, value, type } = data[name];
-            if (data[name]?.hide) return undefined;
+            const { label, value, type } = data[name]
+            if (data[name]?.hide) return undefined
             switch (type) {
               // @ts-ignore: fallthough
               case "id":
-                if (!login.debug) break;
+                if (!login.debug) break
               case "string":
               case "number":
               case "enum":
@@ -67,7 +70,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     {value && value}
                   </Descriptions.Item>
-                );
+                )
               case "money":
                 return (
                   <Descriptions.Item
@@ -77,7 +80,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     {value && value.toFixed(2)} PLN
                   </Descriptions.Item>
-                );
+                )
 
               case "boolean":
                 return (
@@ -88,9 +91,9 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     {value !== undefined && value ? "Tak" : "Nie"}
                   </Descriptions.Item>
-                );
+                )
               case "image":
-                const isSvg = value?.ext && value?.ext === ".svg";
+                const isSvg = value?.ext && value?.ext === ".svg"
                 return (
                   <Descriptions.Item
                     key={name}
@@ -108,7 +111,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       />
                     </div>
                   </Descriptions.Item>
-                );
+                )
               case "address":
                 return (
                   <Descriptions.Item
@@ -126,7 +129,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                     <div>{`${value?.postCode} ${value?.city}`}</div>
                     <span>woj. {value?.province}</span>
                   </Descriptions.Item>
-                );
+                )
               case "datetime":
                 return (
                   <Descriptions.Item
@@ -136,7 +139,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     {value && format(new Date(value), "Pp", { locale: pl })}
                   </Descriptions.Item>
-                );
+                )
               case "date":
                 return (
                   <Descriptions.Item
@@ -146,7 +149,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     {value && format(new Date(value), "P", { locale: pl })}
                   </Descriptions.Item>
-                );
+                )
               case "color":
                 return (
                   <Descriptions.Item
@@ -156,7 +159,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     <Color color={value && value} />
                   </Descriptions.Item>
-                );
+                )
               case "files":
                 return (
                   <Descriptions.Item
@@ -166,7 +169,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     <Files files={value} />
                   </Descriptions.Item>
-                );
+                )
               case "client":
                 return (
                   <Descriptions.Item
@@ -225,7 +228,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       )}
                     </Card>
                   </Descriptions.Item>
-                );
+                )
               case "orders":
                 return (
                   <Descriptions.Item
@@ -279,7 +282,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       <div style={{ padding: "2rem" }}>Brak</div>
                     )}
                   </Descriptions.Item>
-                );
+                )
               case "workstations":
                 return (
                   <Descriptions.Item
@@ -326,7 +329,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       <div style={{ padding: "2rem" }}>Brak</div>
                     )}
                   </Descriptions.Item>
-                );
+                )
               case "workstationsIds":
                 return (
                   <Descriptions.Item
@@ -337,7 +340,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     <WorkstationsIds workstationsIds={value} />
                   </Descriptions.Item>
-                );
+                )
               case "productcomponents":
                 return (
                   <Descriptions.Item
@@ -420,7 +423,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       <div style={{ padding: "2rem" }}>Brak</div>
                     )}
                   </Descriptions.Item>
-                );
+                )
               case "user":
                 return (
                   <Descriptions.Item
@@ -431,7 +434,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     <User user={value} />
                   </Descriptions.Item>
-                );
+                )
               case "users":
                 return (
                   <Descriptions.Item
@@ -442,7 +445,7 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                   >
                     <Users users={value} />
                   </Descriptions.Item>
-                );
+                )
               default:
                 return login.debug ? (
                   <div key={name}>
@@ -459,13 +462,13 @@ const DetailsComponent: FC<DetailsComponentProps> = ({
                       {JSON.stringify(data[name], null, 2)}
                     </pre>
                   </div>
-                ) : undefined;
+                ) : undefined
             }
           })}
         </Descriptions>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default DetailsComponent;
+export default DetailsComponent

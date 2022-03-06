@@ -1,30 +1,33 @@
-import { FC } from "react";
-import { Avatar, Card } from "antd";
-import { LinkedListComponentType } from "../../types/LinkedListComponentType";
-import axios from "axios";
-import { useQuery } from "react-query";
-import { WorkstationType } from "../../types/WorkstationType";
-import { ArrowRightOutlined } from "@ant-design/icons";
+import { FC } from "react"
+import { Avatar, Card } from "antd"
+import { LinkedListComponentType } from "../../types/LinkedListComponentType"
+import axios from "axios"
+import { useQuery } from "react-query"
+import { WorkstationType } from "../../types/WorkstationType"
+import { ArrowRightOutlined } from "@ant-design/icons"
 
-const { Meta } = Card;
-const serverURL =
-  import.meta.env.REACT_APP_SERVER_URL || "http://localhost:1337";
+const { Meta } = Card
+const serverURL = (import.meta.env.SERVER_URL ||
+  (function () {
+    let origin_split = window.location.origin.split(":")
+    return `${origin_split[0]}:${origin_split[1]}:1337/api`
+  })()) as string
 
 const fetchWorkstations = async () => {
-  const res = await axios.get(`/workstations`);
-  return res.data;
-};
+  const res = await axios.get(`/workstations`)
+  return res.data
+}
 
 interface WorkstationsIdsProps {
-  workstationsIds: LinkedListComponentType[];
+  workstationsIds: LinkedListComponentType[]
 }
 
 const WorkstationsIds: FC<WorkstationsIdsProps> = ({ workstationsIds }) => {
   const { data, refetch } = useQuery(["workstations"], () =>
     fetchWorkstations()
-  );
+  )
 
-  const workstations: WorkstationType[] = data?.workstations;
+  const workstations: WorkstationType[] = data?.workstations
 
   return (
     <div>
@@ -39,12 +42,12 @@ const WorkstationsIds: FC<WorkstationsIdsProps> = ({ workstationsIds }) => {
                 ? workstations.filter(
                     (val) => val.id == workstationsId.prevId
                   )[0]
-                : undefined;
+                : undefined
               const next = workstationsId.nextId
                 ? workstations.filter(
                     (val) => val.id == workstationsId.nextId
                   )[0]
-                : undefined;
+                : undefined
               return (
                 <div
                   style={{
@@ -109,7 +112,7 @@ const WorkstationsIds: FC<WorkstationsIdsProps> = ({ workstationsIds }) => {
                     <div style={{ padding: " 1rem ", width: "100%" }}>Brak</div>
                   )}
                 </div>
-              );
+              )
             }
           }
         )
@@ -117,7 +120,7 @@ const WorkstationsIds: FC<WorkstationsIdsProps> = ({ workstationsIds }) => {
         <div style={{ padding: "2rem" }}>Brak</div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default WorkstationsIds;
+export default WorkstationsIds
