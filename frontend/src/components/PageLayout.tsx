@@ -1,13 +1,5 @@
-import { FC } from "react";
-import {
-  Menu,
-  Layout,
-  Button,
-  Tooltip,
-  AutoComplete,
-  Input,
-  Space,
-} from "antd";
+import { FC } from "react"
+import { Menu, Layout, Button, Tooltip, AutoComplete, Input, Space } from "antd"
 import {
   UserOutlined,
   PieChartOutlined,
@@ -21,17 +13,17 @@ import {
   FileOutlined,
   FileUnknownOutlined,
   CalendarOutlined,
-} from "@ant-design/icons";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+} from "@ant-design/icons"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useRecoilState, useRecoilValue } from "recoil"
 
-import useMobileDetect from "../hooks/useMobileDetect";
+import useMobileDetect from "../hooks/useMobileDetect"
 
-import { loginState } from "../atoms/loginState";
+import { loginState } from "../atoms/loginState"
 
-import styles from "./PageLayout.module.css";
+import styles from "./PageLayout.module.css"
 
-const { Header, Content, Sider } = Layout;
+const { Header, Content, Sider } = Layout
 
 const renderItem = (title: string, count: number) => ({
   value: title,
@@ -48,7 +40,7 @@ const renderItem = (title: string, count: number) => ({
       </span>
     </div>
   ),
-});
+})
 
 const options = [
   {
@@ -69,14 +61,14 @@ const options = [
     label: "Articles",
     options: [renderItem("AntDesign design language", 100000)],
   },
-];
+]
 
 const PageLayout: FC = ({ children }) => {
-  let navigate = useNavigate();
-  const location = useLocation();
-  const detectMobile = useMobileDetect();
-  const [login, setLogin] = useRecoilState(loginState);
-  const dark_theme = login.user !== null ? login.user.darkMode : true;
+  let navigate = useNavigate()
+  const location = useLocation()
+  const detectMobile = useMobileDetect()
+  const [login, setLogin] = useRecoilState(loginState)
+  const dark_theme = login.user !== null ? login.user.darkMode : true
   return (
     <Layout
       style={{ minHeight: "100vh", backgroundColor: "var(--background1)" }}
@@ -225,6 +217,13 @@ const PageLayout: FC = ({ children }) => {
                 >
                   Zamówienia
                 </Menu.Item>
+                <Menu.Item
+                  key="users"
+                  icon={<UserOutlined />}
+                  onClick={() => navigate("/users")}
+                >
+                  Pracownicy
+                </Menu.Item>
               </>
             )}
           </Menu>
@@ -238,7 +237,7 @@ const PageLayout: FC = ({ children }) => {
         </Content>
       </Layout>
     </Layout>
-  );
-};
+  )
+}
 
-export default PageLayout;
+export default PageLayout

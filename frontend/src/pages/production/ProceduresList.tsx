@@ -26,13 +26,10 @@ import ProcedureAddModal from "./ProcedureAddModal"
 import { ProcedureType } from "../../types/ProcedureType"
 
 import styles from "../../styles/List.module.css"
+import { serverURL } from "../.."
+import { StrapiGeneric } from "../../types/StrapiResponse"
 
 const { Title } = Typography
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
 
 const fetchProcedures = async (query: string) => {
   const res = await axios.get(`/procedures?${query}`)
@@ -57,14 +54,22 @@ const ProceduresList = forwardRef<ProceduresListHandle, ProceduresListProps>(
     const [page, setPage] = useState<number>(1)
     const [itemsPerPage, setItemsPerPage] = useState<number>(10)
     const [query, setQuery] = useState<string>(
-      "_limit=10&_start=0&_sort=updated_at%3ADESC"
+      "_limit=10&_start=0&_sort=updatedAt%3ADESC"
     )
     const [search, setSearch] = useState<string>("")
     const [sortOrder, setSortOrder] = useState<boolean>(false)
     const { data, refetch } = useQuery(["procedures", query], () =>
       fetchProcedures(query)
     )
-    const { procedures, count } = data ? data : { procedures: [], count: 0 }
+    const { procedures, count } = data
+      ? {
+          procedures: data.data.map((val: StrapiGeneric) => ({
+            ...val.attributes,
+            id: val.id,
+          })),
+          count: data.meta.pagination.total,
+        }
+      : { procedures: [], count: 0 }
 
     useImperativeHandle(
       ref,
@@ -78,7 +83,7 @@ const ProceduresList = forwardRef<ProceduresListHandle, ProceduresListProps>(
       let new_query: any = {
         _limit: itemsPerPage,
         _start: (page - 1) * itemsPerPage,
-        _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
+        _sort: `updatedAt:${sortOrder ? "ASC" : "DESC"}`,
       }
       if (search.length > 0)
         new_query._or = [{ name_contains: search }, { desc_contains: search }]

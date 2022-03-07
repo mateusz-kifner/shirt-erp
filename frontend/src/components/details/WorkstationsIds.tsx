@@ -5,13 +5,9 @@ import axios from "axios"
 import { useQuery } from "react-query"
 import { WorkstationType } from "../../types/WorkstationType"
 import { ArrowRightOutlined } from "@ant-design/icons"
+import { serverURL } from "../.."
 
 const { Meta } = Card
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
 
 const fetchWorkstations = async () => {
   const res = await axios.get(`/workstations`)

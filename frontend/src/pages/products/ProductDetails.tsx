@@ -33,7 +33,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
     () => fetchProduct(productId),
     {
       enabled: false,
-    },
+    }
   )
 
   useEffect(() => {
@@ -42,7 +42,8 @@ const ProductDetails: FC<ProductDetailsProps> = ({
 
   useEffect(() => {
     if (!data) return
-    setProduct(data)
+
+    setProduct({ ...data.data.attributes, id: data.data.id })
   }, [data])
 
   useEffect(() => {
@@ -58,11 +59,11 @@ const ProductDetails: FC<ProductDetailsProps> = ({
 
   const onSubmit = (sub_data: Partial<ProductType>) => {
     axios
-      .put(`/products/${sub_data.id}`, sub_data)
+      .put(`/products/${sub_data.id}`, { data: sub_data })
       .then((res) => {
         Logger.info({ ...res, message: "Edycja produktu udana" })
         message.success("Edycja produktu udana")
-        setProduct(res.data)
+        setProduct({ ...res.data.data.attributes, id: res.data.data.id })
         onUpdate && onUpdate()
       })
       .catch((e) => {
@@ -76,7 +77,7 @@ const ProductDetails: FC<ProductDetailsProps> = ({
       .then((res) => {
         Logger.info({ ...res, message: "Usuwanie produktu udane" })
         message.success("Usuwanie produktu udane")
-        setProduct(res.data)
+        setProduct(undefined)
         onUpdate && onUpdate()
       })
       .catch((e) => {

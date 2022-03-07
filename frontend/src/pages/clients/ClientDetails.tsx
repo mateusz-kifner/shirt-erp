@@ -31,7 +31,7 @@ const ClientDetails: FC<ClientDetailsProps> = ({
   const [newTemplate, setNewTemplate] = useState<any>()
 
   const { data } = useQuery(["client_one", clientId], () =>
-    fetchClient(clientId),
+    fetchClient(clientId)
   )
 
   useEffect(() => {
@@ -47,18 +47,19 @@ const ClientDetails: FC<ClientDetailsProps> = ({
       })
     setNewTemplate(new_template)
   }, [template, client])
+
   useEffect(() => {
     if (!data) return
-    setClient(data)
+    setClient({ ...data.data.attributes, id: data.data.id })
   }, [data])
 
   const onSubmit = (sub_data: Partial<ClientType>) => {
     axios
-      .put(`/clients/${sub_data.id}`, sub_data)
+      .put(`/clients/${sub_data.id}`, { data: sub_data })
       .then((res) => {
         Logger.info({ ...res, message: "Edycja klienta udana" })
         message.success("Edycja klienta udana")
-        setClient(res.data)
+        setClient({ ...res.data.data.attributes, id: res.data.data.id })
         onUpdate && onUpdate()
       })
       .catch((e) => {
@@ -72,7 +73,7 @@ const ClientDetails: FC<ClientDetailsProps> = ({
       .then((res) => {
         Logger.info({ ...res, message: "Usuwanie klienta udane" })
         message.success("Usuwanie klienta udana")
-        setClient(res.data)
+        setClient(undefined)
         onUpdate && onUpdate()
       })
       .catch((e) => {

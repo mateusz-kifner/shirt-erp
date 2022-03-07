@@ -1,12 +1,6 @@
 import { FC, useState } from "react"
 import { Button, Form, Upload } from "antd"
 
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
-
 interface InputImageProps {
   name: string
   initialValue?: string

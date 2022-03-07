@@ -35,12 +35,12 @@ export const workstation_template: any = {
     label: "Następne stanowisko",
     type: "workstations",
   },
-  created_at: {
+  createdAt: {
     label: "Utworzono",
     type: "datetime",
     disabled: true,
   },
-  updated_at: {
+  updatedAt: {
     label: "Edytowano",
     type: "datetime",
     disabled: true,

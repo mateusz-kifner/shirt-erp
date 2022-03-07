@@ -7,12 +7,6 @@ import { ProductType } from "../../types/ProductType"
 import { ProductComponentType } from "../../types/ProductComponentType"
 import { ProductPicker } from "./InputProduct"
 
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
-
 const { Meta } = Card
 
 interface InputProductComponentProps {

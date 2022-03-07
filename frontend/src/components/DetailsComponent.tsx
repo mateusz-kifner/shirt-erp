@@ -17,12 +17,7 @@ import { WorkstationType } from "../types/WorkstationType"
 import WorkstationsIds from "./details/WorkstationsIds"
 import User from "./details/User"
 import Users from "./details/Users"
-
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
+import { serverURL } from ".."
 
 const { Meta } = Card
 

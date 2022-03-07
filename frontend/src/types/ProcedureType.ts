@@ -11,7 +11,7 @@ export interface ProcedureType {
   name: string
   desc: string | null
   icon: ImageType
-  created_at: Date
-  updated_at: Date
+  createdAt: Date
+  updatedAt: Date
   workstations: ProcedureWorkstationsType[]
 }

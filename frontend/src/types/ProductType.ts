@@ -1,4 +1,4 @@
-import { ImageType } from "./ImageType";
+import { ImageType } from "./ImageType"
 
 export interface ProductType {
   id: number
@@ -9,8 +9,8 @@ export interface ProductType {
     colorName: string
     colorHex: string
   }
-  created_at: Date
-  updated_at: Date
+  createdAt: Date
+  updatedAt: Date
   desc: string
   icon: Partial<ImageType> | null
   previewImg: Partial<ImageType> | null

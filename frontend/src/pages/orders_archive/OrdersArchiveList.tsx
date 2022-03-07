@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
 import {
   ArrowRightOutlined,
   CalendarOutlined,
@@ -12,7 +12,7 @@ import {
   PlusOutlined,
   ReloadOutlined,
   SearchOutlined,
-} from "@ant-design/icons";
+} from "@ant-design/icons"
 import {
   Avatar,
   Button,
@@ -22,18 +22,19 @@ import {
   Space,
   Tooltip,
   Typography,
-} from "antd";
+} from "antd"
 
-import { useQuery } from "react-query";
-import axios from "axios";
-import qs from "qs";
-import { v4 as uuidv4 } from "uuid";
+import { useQuery } from "react-query"
+import axios from "axios"
+import qs from "qs"
+import { v4 as uuidv4 } from "uuid"
 
-import { OrderType } from "../../types/OrderType";
+import { OrderType } from "../../types/OrderType"
 
-import styles from "../../styles/List.module.css";
+import styles from "../../styles/List.module.css"
+import { StrapiGeneric } from "../../types/StrapiResponse"
 
-const { Title } = Typography;
+const { Title } = Typography
 
 export const status_icons = {
   planowane: <CalendarOutlined />,
@@ -43,7 +44,7 @@ export const status_icons = {
   wysłane: <CarOutlined />,
   odrzucone: <CloseOutlined />,
   archiwizowane: <ContainerOutlined />,
-};
+}
 
 export const status_colors = {
   planowane: "#F8E71C",
@@ -53,39 +54,47 @@ export const status_colors = {
   wysłane: "#417505",
   odrzucone: "#D0021B",
   archiwizowane: "#F5A623",
-};
+}
 
 const fetchOrders = async (query: string) => {
-  const res = await axios.get(`/order-archives?${query}`);
+  const res = await axios.get(`/order-archives?${query}`)
   // console.log("req", query)
-  return res.data;
-};
+  return res.data
+}
 
 export interface OrdersArchiveListHandle {
-  refetch?: () => void;
+  refetch?: () => void
 }
 
 interface OrdersArchiveListProps {
-  onItemClickId?: (id: number) => void;
-  onItemClick?: (order: OrderType) => void;
-  template: any;
+  onItemClickId?: (id: number) => void
+  onItemClick?: (order: OrderType) => void
+  template: any
 }
 const OrdersArchiveList = forwardRef<
   OrdersArchiveListHandle,
   OrdersArchiveListProps
 >(({ onItemClickId, onItemClick, template }, ref) => {
-  const [orderId, setOrderId] = useState<number>();
-  const [page, setPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+  const [orderId, setOrderId] = useState<number>()
+  const [page, setPage] = useState<number>(1)
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
   const [query, setQuery] = useState<string>(
-    "_limit=10&_start=0&_sort=updated_at%3ADESC"
-  );
-  const [search, setSearch] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<boolean>(false);
+    "_limit=10&_start=0&_sort=updatedAt%3ADESC"
+  )
+  const [search, setSearch] = useState<string>("")
+  const [sortOrder, setSortOrder] = useState<boolean>(false)
   const { data, refetch } = useQuery(["orders-archives", query], () =>
     fetchOrders(query)
-  );
-  const { orders, count } = data ? data : { orders: [], count: 0 };
+  )
+  const { orders, count } = data
+    ? {
+        orders: data.data.map((val: StrapiGeneric) => ({
+          ...val.attributes,
+          id: val.id,
+        })),
+        count: data.meta.pagination.total,
+      }
+    : { orders: [], count: 0 }
 
   useImperativeHandle(
     ref,
@@ -93,23 +102,23 @@ const OrdersArchiveList = forwardRef<
       refetch,
     }),
     [refetch]
-  );
+  )
 
   useEffect(() => {
     let new_query: any = {
       _limit: itemsPerPage,
       _start: (page - 1) * itemsPerPage,
-      _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
-    };
+      _sort: `updatedAt:${sortOrder ? "ASC" : "DESC"}`,
+    }
     if (search.length > 0)
       new_query._or = [
         { name_contains: search },
         { status_contains: search },
         { notes_contains: search },
-      ];
-    const new_query_string = qs.stringify(new_query);
-    query !== new_query_string && setQuery(new_query_string);
-  }, [page, itemsPerPage, search, sortOrder]);
+      ]
+    const new_query_string = qs.stringify(new_query)
+    query !== new_query_string && setQuery(new_query_string)
+  }, [page, itemsPerPage, search, sortOrder])
 
   return (
     <div>
@@ -139,7 +148,7 @@ const OrdersArchiveList = forwardRef<
               icon={<ReloadOutlined />}
               shape="circle"
               onClick={() => {
-                refetch();
+                refetch()
               }}
             />
           </Tooltip>
@@ -151,14 +160,14 @@ const OrdersArchiveList = forwardRef<
           suffix={<SearchOutlined />}
           defaultValue=""
           onChange={(e) => {
-            setSearch(e.target.value);
+            setSearch(e.target.value)
           }}
         />
         <Tooltip title={"Zmień sortowanie"}>
           <Button
             onClick={() => {
-              setSortOrder((val) => !val);
-              refetch();
+              setSortOrder((val) => !val)
+              refetch()
             }}
           >
             {sortOrder ? <CaretUpOutlined /> : <CaretDownOutlined />}
@@ -172,9 +181,9 @@ const OrdersArchiveList = forwardRef<
         renderItem={(order: OrderType) => (
           <List.Item
             onClick={() => {
-              onItemClickId && onItemClickId(order.id);
-              onItemClick && onItemClick({ ...order });
-              setOrderId(order.id);
+              onItemClickId && onItemClickId(order.id)
+              onItemClick && onItemClick({ ...order })
+              setOrderId(order.id)
             }}
             className={styles.item}
             style={{
@@ -220,12 +229,12 @@ const OrdersArchiveList = forwardRef<
         showSizeChanger={false}
         showQuickJumper={false}
         onChange={(page: number, pageSize?: number) => {
-          setPage(page);
-          pageSize && setItemsPerPage(pageSize);
+          setPage(page)
+          pageSize && setItemsPerPage(pageSize)
         }}
       />
     </div>
-  );
-});
+  )
+})
 
-export default OrdersArchiveList;
+export default OrdersArchiveList

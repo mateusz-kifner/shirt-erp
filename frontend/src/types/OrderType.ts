@@ -22,6 +22,6 @@ export interface OrderType {
   client: Partial<ClientType>
   // expenses: Partial<ExpensesType>[]
   employees: Partial<UserType>[]
-  created_at: Date
-  updated_at: Date
+  createdAt: Date
+  updatedAt: Date
 }

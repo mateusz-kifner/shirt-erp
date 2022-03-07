@@ -26,6 +26,7 @@ import ClientAddModal from "./ClientAddModal"
 import { ClientType } from "../../types/ClientType"
 
 import styles from "../../styles/List.module.css"
+import { StrapiGeneric } from "../../types/StrapiResponse"
 
 const { Title } = Typography
 
@@ -52,28 +53,36 @@ const ClientsList = forwardRef<ClientsListHandle, ClientsListProps>(
     const [page, setPage] = useState<number>(1)
     const [itemsPerPage, setItemsPerPage] = useState<number>(10)
     const [query, setQuery] = useState<string>(
-      "_limit=10&_start=0&_sort=updated_at%3ADESC",
+      "_limit=10&_start=0&_sort=updatedAt%3ADESC"
     )
     const [search, setSearch] = useState<string>("")
     const [sortOrder, setSortOrder] = useState<boolean>(false)
     const { data, refetch } = useQuery(["clients", query], () =>
-      fetchClients(query),
+      fetchClients(query)
     )
-    const { clients, count } = data ? data : { clients: [], count: 0 }
+    const { clients, count } = data
+      ? {
+          clients: data.data.map((val: StrapiGeneric) => ({
+            ...val.attributes,
+            id: val.id,
+          })),
+          count: data.meta.pagination.total,
+        }
+      : { clients: [], count: 0 }
 
     useImperativeHandle(
       ref,
       () => ({
         refetch,
       }),
-      [refetch],
+      [refetch]
     )
 
     useEffect(() => {
       let new_query: any = {
         _limit: itemsPerPage,
         _start: (page - 1) * itemsPerPage,
-        _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
+        _sort: `updatedAt:${sortOrder ? "ASC" : "DESC"}`,
       }
       if (search.length > 0)
         new_query._or = [
@@ -206,7 +215,7 @@ const ClientsList = forwardRef<ClientsListHandle, ClientsListProps>(
         />
       </div>
     )
-  },
+  }
 )
 
 export default ClientsList

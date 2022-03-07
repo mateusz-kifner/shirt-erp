@@ -4,13 +4,9 @@ import { Card } from "antd"
 import { ProductType } from "../../types/ProductType"
 
 import styles from "./ProductCard.module.css"
+import { serverURL } from "../.."
 
 const { Meta } = Card
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
 
 const ProductCard: FC<ProductType & { onClick: () => void }> = ({
   id,

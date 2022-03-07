@@ -9,14 +9,9 @@ import {
 import { UploadChangeParam } from "antd/lib/upload"
 import { RcFile, UploadFile } from "antd/lib/upload/interface"
 import axios, { AxiosError } from "axios"
+import { serverURL } from "../.."
 
 const { Dragger } = Upload
-
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
 
 function getBase64(file: RcFile | undefined) {
   return new Promise((resolve, reject) => {

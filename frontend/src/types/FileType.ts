@@ -1,33 +1,33 @@
 export interface FileType {
-  id: number,
-  name: string,
-  alternativeText: string,
-  caption: string,
-  width: number |null,
-  height: number |null,
+  id: number
+  name: string
+  alternativeText: string
+  caption: string
+  width: number | null
+  height: number | null
   formats: {
-      thumbnail: {
-          ext: string,
-          url: string,
-          hash: string,
-          mime: string,
-          name: string,
-          path: null,
-          size: number,
-          width: number,
-          height: number,
-      }
-  } |null,
-  hash: string,
-  ext: string,
-  mime: string,
-  size: number,
-  url: string,
-  previewUrl: string | null,
-  provider: string,
-  provider_metadata: any,
-  created_at: string,
-  updated_at: string,
+    thumbnail: {
+      ext: string
+      url: string
+      hash: string
+      mime: string
+      name: string
+      path: null
+      size: number
+      width: number
+      height: number
+    }
+  } | null
+  hash: string
+  ext: string
+  mime: string
+  size: number
+  url: string
+  previewUrl: string | null
+  provider: string
+  provider_metadata: any
+  createdAt: string
+  updatedAt: string
   related: any[]
 }
 
@@ -46,6 +46,6 @@ export interface FileType {
 //         "previewUrl": null,
 //         "provider": "local",
 //         "provider_metadata": null,
-//         "created_at": "2021-11-08T12:07:25.153Z",
-//         "updated_at": "2021-11-08T12:07:25.204Z",
+//         "createdAt": "2021-11-08T12:07:25.153Z",
+//         "updatedAt": "2021-11-08T12:07:25.204Z",
 //         "related": []

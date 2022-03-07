@@ -19,7 +19,7 @@ ShirtDipERP
    - In frontend specify server url
 
    ```
-   REACT_APP_SERVER_URL=http://api.shirtdip.ct8.pl:1337
+   SERVER_URL=http://api.shirtdip.ct8.pl:1337
    ```
 
    - In backend specify, JWT Secret for strapi and application

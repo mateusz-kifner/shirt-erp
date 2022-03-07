@@ -27,6 +27,7 @@ import TasksPage from "./pages/tasks/TasksPage"
 import { useQuery } from "react-query"
 import { Modal, Spin, Typography } from "antd"
 import OrdersArchivePage from "./pages/orders_archive/OrdersArchivePage"
+import UsersPage from "./pages/users/UsersPage"
 
 const { Title } = Typography
 
@@ -104,6 +105,7 @@ const App: FC = () => {
                 <Route path="/expenses" element={<ExpensesPage />} />
                 <Route path="/files" element={<FilesPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/users" element={<UsersPage />} />
                 <Route path="/orders-archive" element={<OrdersArchivePage />} />
                 {login.debug && (
                   <Route path="/logger" element={<LoggerPage />} />

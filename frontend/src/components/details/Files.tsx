@@ -10,12 +10,7 @@ import {
 } from "@ant-design/icons"
 import download from "../../utils/download"
 import { Button } from "antd"
-
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
+import { serverURL } from "../.."
 
 interface ColorProps {
   files?: FileType[]

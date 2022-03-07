@@ -53,12 +53,12 @@ export const product_template: any = {
     label: "Zdjęcia",
     type: "image",
   },
-  created_at: {
+  createdAt: {
     label: "Utworzono",
     type: "datetime",
     disabled: true,
   },
-  updated_at: {
+  updatedAt: {
     label: "Edytowano",
     type: "datetime",
     disabled: true,

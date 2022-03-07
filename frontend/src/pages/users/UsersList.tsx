@@ -26,6 +26,7 @@ import UserAddModal from "./UserAddModal"
 import { UserType } from "../../types/UserType"
 
 import styles from "../../styles/List.module.css"
+import { StrapiGeneric } from "../../types/StrapiResponse"
 
 const { Title } = Typography
 
@@ -52,28 +53,33 @@ const UsersList = forwardRef<UsersListHandle, UsersListProps>(
     const [page, setPage] = useState<number>(1)
     const [itemsPerPage, setItemsPerPage] = useState<number>(10)
     const [query, setQuery] = useState<string>(
-      "_limit=10&_start=0&_sort=updated_at%3ADESC",
+      "_limit=10&_start=0&_sort=updatedAt%3ADESC"
     )
     const [search, setSearch] = useState<string>("")
     const [sortOrder, setSortOrder] = useState<boolean>(false)
     const { data, refetch } = useQuery(["users", query], () =>
-      fetchUsers(query),
+      fetchUsers(query)
     )
-    const { users, count } = data ? data : { users: [], count: 0 }
+    const { users, count } = data
+      ? {
+          users: data,
+          count: data.length,
+        }
+      : { users: [], count: 0 }
 
     useImperativeHandle(
       ref,
       () => ({
         refetch,
       }),
-      [refetch],
+      [refetch]
     )
 
     useEffect(() => {
       let new_query: any = {
         _limit: itemsPerPage,
         _start: (page - 1) * itemsPerPage,
-        _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
+        _sort: `updatedAt:${sortOrder ? "ASC" : "DESC"}`,
       }
       if (search.length > 0)
         new_query._or = [
@@ -187,7 +193,7 @@ const UsersList = forwardRef<UsersListHandle, UsersListProps>(
         />
       </div>
     )
-  },
+  }
 )
 
 export default UsersList

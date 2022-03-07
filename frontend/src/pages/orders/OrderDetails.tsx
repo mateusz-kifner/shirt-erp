@@ -1,82 +1,84 @@
-import { FC, useEffect, useState } from "react";
-import { message } from "antd";
+import { FC, useEffect, useState } from "react"
+import { message } from "antd"
 
-import axios from "axios";
-import Logger from "js-logger";
-import { useQuery } from "react-query";
+import axios from "axios"
+import Logger from "js-logger"
+import { useQuery } from "react-query"
 
-import EditComponent from "../../components/EditComponent";
-import { OrderType } from "../../types/OrderType";
-import ErrorPage from "../ErrorPage";
+import EditComponent from "../../components/EditComponent"
+import { OrderType } from "../../types/OrderType"
+import ErrorPage from "../ErrorPage"
+import { StrapiGeneric } from "../../types/StrapiResponse"
 
 interface OrderDetailsProps {
-  orderId?: number;
-  template: any;
-  onUpdate?: () => void;
+  orderId?: number
+  template: any
+  onUpdate?: () => void
 }
 
 const fetchOrder = async (id: number | undefined) => {
-  if (!id) return;
-  const res = await axios.get(`/orders/${id}`);
-  return res.data;
-};
+  if (!id) return
+  const res = await axios.get(`/orders/${id}`)
+  return res.data
+}
 
 const OrderDetails: FC<OrderDetailsProps> = ({
   orderId,
   template,
   onUpdate,
 }) => {
-  const [order, setOrder] = useState<OrderType>();
-  const [newTemplate, setNewTemplate] = useState<any>();
+  const [order, setOrder] = useState<OrderType>()
+  const [newTemplate, setNewTemplate] = useState<any>()
 
   const { data, refetch } = useQuery(["order_one", orderId], () =>
     fetchOrder(orderId)
-  );
+  )
 
   useEffect(() => {
-    if (!data) return;
-    setOrder(data);
-  }, [data]);
+    if (!data) return
+    console.log(data)
+    setOrder({ ...data.data.attributes, id: data.data.id })
+  }, [data])
 
   useEffect(() => {
-    let new_template = { ...template };
+    let new_template = { ...template }
     order &&
       Object.keys(order).forEach((key) => {
         // @ts-ignore
-        if (order[key] != null) new_template[key].value = order[key];
-        else new_template[key].value = new_template[key].initialValue;
-      });
-    setNewTemplate(new_template);
-  }, [template, order]);
+        if (order[key] != null) new_template[key].value = order[key]
+        else new_template[key].value = new_template[key].initialValue
+      })
+    setNewTemplate(new_template)
+  }, [template, order])
 
   const onSubmit = (sub_data: Partial<OrderType>) => {
     axios
-      .put(`/orders/${sub_data.id}`, sub_data)
+      .put(`/orders/${sub_data.id}`, { data: sub_data })
       .then((res) => {
-        Logger.info({ ...res, message: "Edycja zamowienia udana" });
-        message.success("Edycja zamówienia udana");
-        setOrder(res.data);
-        onUpdate && onUpdate();
-        refetch();
+        Logger.info({ ...res, message: "Edycja zamowienia udana" })
+        message.success("Edycja zamówienia udana")
+        setOrder({ ...res.data.data.attributes, id: res.data.data.id })
+        onUpdate && onUpdate()
+        refetch()
       })
       .catch((e) => {
-        Logger.error({ ...e, message: "Błąd edycji zamówienia" });
-      });
-  };
+        Logger.error({ ...e, message: "Błąd edycji zamówienia" })
+      })
+  }
 
   const onArchive = (id: number) => {
     axios
       .get(`/orders/archive/${id}`)
       .then((res) => {
-        Logger.info({ ...res, message: "Archiwizacja zamowienia udana" });
-        message.success("Archiwizacja zamówienia udana");
-        setOrder(undefined);
-        onUpdate && onUpdate();
+        Logger.info({ ...res, message: "Archiwizacja zamowienia udana" })
+        message.success("Archiwizacja zamówienia udana")
+        setOrder(undefined)
+        onUpdate && onUpdate()
       })
       .catch((e) => {
-        Logger.error({ ...e, message: "Błąd archiwizacji zamówienia" });
-      });
-  };
+        Logger.error({ ...e, message: "Błąd archiwizacji zamówienia" })
+      })
+  }
 
   return (
     <div>
@@ -92,7 +94,7 @@ const OrderDetails: FC<OrderDetailsProps> = ({
         <ErrorPage errorcode={404} />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default OrderDetails;
+export default OrderDetails

@@ -96,12 +96,12 @@ export const user_template: any = {
     multiline: true,
     hide: true,
   },
-  created_at: {
+  createdAt: {
     label: "Utworzono",
     type: "datetime",
     disabled: true,
   },
-  updated_at: {
+  updatedAt: {
     label: "Edytowano",
     type: "datetime",
     disabled: true,

@@ -11,8 +11,8 @@ export interface UserType {
     description: string
     type: string
   }
-  created_at: string
-  updated_at: string
+  createdAt: string
+  updatedAt: string
   darkMode: boolean
   expenses: any[]
   orders: any[]

@@ -15,6 +15,7 @@ import DebugComponent from "../../components/DebugComponent"
 
 import styles from "./LoggerPage.module.css"
 import JsonParseModal from "./JsonParseModal"
+import { StrapiGeneric } from "../../types/StrapiResponse"
 
 const { Title } = Typography
 
@@ -34,13 +35,21 @@ const LoggerPage: FC<{}> = () => {
   const [search, setSearch] = useState<string>("")
   const [sortOrder, setSortOrder] = useState<boolean>(false)
   const { data, refetch } = useQuery(["logs", query], () => fetchClients(query))
-  const { logs, count } = data ? data : { logs: [], count: 0 }
+  const { logs, count } = data
+    ? {
+        logs: data.data.map((val: StrapiGeneric) => ({
+          ...val.attributes,
+          id: val.id,
+        })),
+        count: data.meta.pagination.total,
+      }
+    : { logs: [], count: 0 }
 
   useEffect(() => {
     let new_query: any = {
       _limit: itemsPerPage,
       _start: (page - 1) * itemsPerPage,
-      _sort: `updated_at:${sortOrder ? "ASC" : "DESC"}`,
+      _sort: `updatedAt:${sortOrder ? "ASC" : "DESC"}`,
     }
     if (search.length > 0)
       new_query._or = [
@@ -100,7 +109,7 @@ const LoggerPage: FC<{}> = () => {
               data={log?.data}
               user={log?.user}
             />
-          ),
+          )
         )}
 
       <Pagination

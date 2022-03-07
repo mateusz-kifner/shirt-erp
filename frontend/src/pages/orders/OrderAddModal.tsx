@@ -27,7 +27,7 @@ const OrderAddModal: FC<OrderAddModalProps> = ({
     console.log(data)
 
     axios
-      .post("/orders", data)
+      .post("/orders", { data })
       .then(function (response) {
         Logger.info({ ...response, message: "zamówienie dodane" })
         message.success("Zamówienie dodane")

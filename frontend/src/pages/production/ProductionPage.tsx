@@ -35,12 +35,12 @@ export const procedure_template: any = {
     label: "Ikona",
     type: "image",
   },
-  created_at: {
+  createdAt: {
     label: "Utworzono",
     type: "datetime",
     disabled: true,
   },
-  updated_at: {
+  updatedAt: {
     label: "Edytowano",
     type: "datetime",
     disabled: true,

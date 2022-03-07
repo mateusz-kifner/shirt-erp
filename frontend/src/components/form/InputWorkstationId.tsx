@@ -10,13 +10,9 @@ import { LinkedListComponentType } from "../../types/LinkedListComponentType"
 import axios from "axios"
 import { useQuery } from "react-query"
 import useEffectOnce from "../../hooks/useEffectOnce"
+import { serverURL } from "../.."
 
 const { Meta } = Card
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
 
 interface InputWorkstationIdProps {
   name: string

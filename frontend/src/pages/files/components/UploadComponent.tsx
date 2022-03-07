@@ -3,13 +3,9 @@ import { Upload, Button } from "antd"
 import { InboxOutlined } from "@ant-design/icons"
 
 import axios, { AxiosError } from "axios"
+import { serverURL } from "../../.."
 
 const { Dragger } = Upload
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
 
 const UploadComponent: FC = () => {
   const [fileList, setFileList] = useState<any[]>([])

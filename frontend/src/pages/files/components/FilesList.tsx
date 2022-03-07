@@ -14,12 +14,7 @@ import download from "../../../utils/download"
 import { FileType } from "../../../types/FileType"
 
 import styles from "./FilesList.module.css"
-
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
+import { serverURL } from "../../.."
 
 interface FilesListProps {
   files: FileType[]

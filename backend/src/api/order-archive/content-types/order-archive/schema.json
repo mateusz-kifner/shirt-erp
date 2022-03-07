@@ -24,7 +24,7 @@
     },
     "price": {
       "type": "decimal",
-      "max": 0
+      "min": 0
     },
     "isPricePaid": {
       "type": "boolean",
@@ -32,7 +32,7 @@
     },
     "advance": {
       "type": "decimal",
-      "max": 0
+      "min": 0
     },
     "isAdvancePaid": {
       "type": "boolean",

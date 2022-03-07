@@ -27,7 +27,7 @@ const ProductAddModal: FC<ProductAddModalProps> = ({
     console.log(data)
 
     axios
-      .post("/products", data)
+      .post("/products", { data })
       .then(function (response) {
         Logger.info({ ...response, message: "Produkt dodany" })
         message.success("Produkt dodany")

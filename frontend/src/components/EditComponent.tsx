@@ -12,12 +12,6 @@ import styles from "./EditComponent.module.css"
 import { useDebounce } from "../hooks/useDebounce"
 import DeleteButton from "./DeleteButton"
 
-const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
-
 const { Title } = Typography
 
 function data_value_to_initialValue(data: any) {

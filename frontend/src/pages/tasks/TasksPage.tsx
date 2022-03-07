@@ -1,27 +1,33 @@
-import { UpCircleOutlined } from "@ant-design/icons";
-import { Button, Collapse, Tooltip, Typography } from "antd";
-import axios from "axios";
-import { FC } from "react";
-import { useQuery } from "react-query";
-import { useRecoilState } from "recoil";
-import { taskState } from "../../atoms/activeTasks";
-import { OrderType } from "../../types/OrderType";
-import { status_colors, status_icons } from "../orders/OrdersList";
-import TaskDetails from "./TaskDetails";
+import { UpCircleOutlined } from "@ant-design/icons"
+import { Button, Collapse, Tooltip, Typography } from "antd"
+import axios from "axios"
+import { FC } from "react"
+import { useQuery } from "react-query"
+import { useRecoilState } from "recoil"
+import { taskState } from "../../atoms/activeTasks"
+import { OrderType } from "../../types/OrderType"
+import { StrapiGeneric } from "../../types/StrapiResponse"
+import { status_colors, status_icons } from "../orders/OrdersList"
+import TaskDetails from "./TaskDetails"
 
-const { Title } = Typography;
+const { Title } = Typography
 
-const { Panel } = Collapse;
+const { Panel } = Collapse
 
 const fetchTasks = async () => {
-  const res = await axios.get(`/users/me`);
-  return res.data;
-};
+  const res = await axios.get(`/users/me`)
+  return res.data
+}
 
 const TasksPage: FC = () => {
-  const [openTasks, setOpenTasks] = useRecoilState(taskState);
-  const { data, refetch } = useQuery(["user_me"], () => fetchTasks());
-  const orders_incomplete = data?.orders ? data?.orders : [];
+  const [openTasks, setOpenTasks] = useRecoilState(taskState)
+  const { data, refetch } = useQuery(["user_me"], () => fetchTasks())
+  const orders_incomplete = data?.data
+    ? data?.data.map((val: StrapiGeneric) => ({
+        ...val.attributes,
+        id: val.id,
+      }))
+    : []
   return (
     <div
       style={{
@@ -66,7 +72,7 @@ const TasksPage: FC = () => {
           <Collapse
             activeKey={openTasks}
             onChange={(key: string[] | string) => {
-              if (typeof key !== "string") setOpenTasks(key as string[]);
+              if (typeof key !== "string") setOpenTasks(key as string[])
             }}
             bordered={false}
           >
@@ -133,7 +139,7 @@ const TasksPage: FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TasksPage;
+export default TasksPage

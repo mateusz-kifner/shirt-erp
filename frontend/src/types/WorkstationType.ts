@@ -5,8 +5,8 @@ export interface WorkstationType {
   name: string
   desc: string | null
   numberOfJobs: number
-  created_at: Date
-  updated_at: Date
+  createdAt: Date
+  updatedAt: Date
   icon: ImageType | null
   nextWorkstations: WorkstationType[]
 }
