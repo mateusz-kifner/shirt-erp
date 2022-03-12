@@ -5,6 +5,7 @@ import { RecoilRoot, useRecoilValue } from "recoil"
 import reportWebVitals from "./reportWebVitals"
 import plPL from "antd/lib/locale/pl_PL"
 import { QueryClient, QueryClientProvider } from "react-query"
+import { ReactQueryDevtools } from "react-query/devtools"
 
 import axios from "axios"
 import Logger from "js-logger"
@@ -91,6 +92,8 @@ ReactDOM.render(
         <ConfigProvider locale={plPL}>
           <App />
         </ConfigProvider>
+
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ThemeProvider>
   </RecoilRoot>,

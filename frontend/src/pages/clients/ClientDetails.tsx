@@ -1,25 +1,15 @@
 import { FC, useEffect, useState } from "react"
-import { message } from "antd"
-
-import axios from "axios"
-import Logger from "js-logger"
-import { useQuery } from "react-query"
 
 import EditComponent from "../../components/EditComponent"
 import ErrorPage from "../ErrorPage"
 
 import { ClientType } from "../../types/ClientType"
+import useStrapi from "../../hooks/useStrapi"
 
 interface ClientDetailsProps {
   clientId?: number
   template: any
   onUpdate?: () => void
-}
-
-const fetchClient = async (id: number | undefined) => {
-  if (!id) return
-  const res = await axios.get(`/clients/${id}`)
-  return res.data
 }
 
 const ClientDetails: FC<ClientDetailsProps> = ({
@@ -29,9 +19,24 @@ const ClientDetails: FC<ClientDetailsProps> = ({
 }) => {
   const [client, setClient] = useState<ClientType>()
   const [newTemplate, setNewTemplate] = useState<any>()
-
-  const { data } = useQuery(["client_one", clientId], () =>
-    fetchClient(clientId)
+  const { data, status, refetch, update, remove } = useStrapi(
+    "clients",
+    clientId,
+    {
+      updateMutationOptions: {
+        errorMessage: "Błąd edycji klienta",
+        successMessage: "Edycja klienta udana",
+        onSuccess: onUpdate,
+      },
+      removeMutationOptions: {
+        errorMessage: "Błąd usuwania klienta",
+        successMessage: "Usuwanie klienta udane",
+        onSuccess: () => {
+          onUpdate && onUpdate()
+          setClient(undefined)
+        },
+      },
+    }
   )
 
   useEffect(() => {
@@ -53,43 +58,15 @@ const ClientDetails: FC<ClientDetailsProps> = ({
     setClient({ ...data.data.attributes, id: data.data.id })
   }, [data])
 
-  const onSubmit = (sub_data: Partial<ClientType>) => {
-    axios
-      .put(`/clients/${sub_data.id}`, { data: sub_data })
-      .then((res) => {
-        Logger.info({ ...res, message: "Edycja klienta udana" })
-        message.success("Edycja klienta udana")
-        setClient({ ...res.data.data.attributes, id: res.data.data.id })
-        onUpdate && onUpdate()
-      })
-      .catch((e) => {
-        Logger.error({ ...e, message: "Błąd edycji klienta" })
-      })
-  }
-
-  const onDelete = (id: number) => {
-    axios
-      .delete(`/clients/${id}`)
-      .then((res) => {
-        Logger.info({ ...res, message: "Usuwanie klienta udane" })
-        message.success("Usuwanie klienta udana")
-        setClient(undefined)
-        onUpdate && onUpdate()
-      })
-      .catch((e) => {
-        Logger.error({ ...e, message: "Błąd usuwania klienta" })
-      })
-  }
-
   return (
     <div>
       {client ? (
         <EditComponent
           data={newTemplate}
-          onSubmit={onSubmit}
+          onSubmit={update}
           title="username"
           deleteTitle="Usuń Klienta"
-          onDelete={onDelete}
+          onDelete={remove}
         />
       ) : (
         <ErrorPage errorcode={404} />

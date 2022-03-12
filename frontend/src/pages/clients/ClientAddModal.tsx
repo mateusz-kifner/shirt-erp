@@ -1,11 +1,10 @@
 import { FC } from "react"
-import { message, Modal } from "antd"
+import { Modal } from "antd"
 
-import axios from "axios"
-import Logger from "js-logger"
 import useForm from "antd/lib/form/hooks/useForm"
 
 import Form from "../../components/form/Form"
+import useStrapi from "../../hooks/useStrapi"
 
 interface ClientAddModalProps {
   title: string
@@ -23,23 +22,15 @@ const ClientAddModal: FC<ClientAddModalProps> = ({
   onUpdate,
 }) => {
   const [form] = useForm()
-  const onSubmit = (data: any) => {
-    console.log(data)
-
-    axios
-      .post("/clients", data)
-      .then(function (response) {
-        Logger.info({ ...response, message: "klient dodany" })
-        message.success("Klient dodany")
-        onUpdate && onUpdate()
-        setVisible(false)
-      })
-      .catch(function (error) {
-        Logger.info({ ...error, message: "błąd w dodawaniu klienta" })
-        form.resetFields()
-        setVisible(false)
-      })
-  }
+  const { add } = useStrapi("clients", undefined, {
+    addMutationOptions: {
+      errorMessage: "Błąd w dodawaniu klienta",
+      successMessage: "Klient dodany",
+      onSuccess: onUpdate,
+      onError: () => form.resetFields(),
+      onSettled: () => setVisible(false),
+    },
+  })
 
   return (
     <Modal
@@ -53,7 +44,7 @@ const ClientAddModal: FC<ClientAddModalProps> = ({
         form
           .validateFields()
           .then((values) => {
-            onSubmit(values)
+            add(values)
             form.resetFields()
           })
           .catch((info) => {
@@ -66,7 +57,7 @@ const ClientAddModal: FC<ClientAddModalProps> = ({
         wrapperCol={{ span: 16 }}
         labelCol={{ span: 8 }}
         data={data}
-        onFinish={onSubmit}
+        onFinish={add}
         onFinishFailed={() => {
           form.resetFields()
           setVisible(false)
