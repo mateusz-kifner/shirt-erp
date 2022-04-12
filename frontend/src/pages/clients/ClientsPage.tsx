@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const ClientsPage = () => {
+const ClientsPage: FC = () => {
   return <div>ClientsPage</div>
 }
 

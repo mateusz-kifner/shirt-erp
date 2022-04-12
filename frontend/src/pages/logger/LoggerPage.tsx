@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const LoggerPage = () => {
+const LoggerPage: FC = () => {
   return <div>LoggerPage</div>
 }
 

@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const TasksPage = () => {
+const TasksPage: FC = () => {
   return <div>TasksPage</div>
 }
 

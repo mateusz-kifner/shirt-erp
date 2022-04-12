@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const SettingsPage = () => {
+const SettingsPage: FC = () => {
   return <div>SettingsPage</div>
 }
 

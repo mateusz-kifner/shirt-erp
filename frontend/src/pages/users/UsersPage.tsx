@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const UsersPage = () => {
+const UsersPage: FC = () => {
   return <div>UsersPage</div>
 }
 

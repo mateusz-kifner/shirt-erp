@@ -1,4 +1,4 @@
-import React from "react"
+import { FC } from "react"
 import {
   BrowserRouter as Router,
   Routes as Switch,
@@ -20,7 +20,7 @@ import SettingsPage from "./pages/settings/SettingsPage"
 import TasksPage from "./pages/tasks/TasksPage"
 import UsersPage from "./pages/users/UsersPage"
 
-const Routes = () => {
+const Routes: FC = () => {
   const isAuthenticated = true
   const login = { debug: true }
   return (

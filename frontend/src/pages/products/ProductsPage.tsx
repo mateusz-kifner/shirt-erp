@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const ProductsPage = () => {
+const ProductsPage: FC = () => {
   return <div>ProductsPage</div>
 }
 

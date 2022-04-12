@@ -1,6 +1,6 @@
-import React from "react"
+import { FC } from "react"
 
-const FilesPage = () => {
+const FilesPage: FC = () => {
   return <div>FilesPage</div>
 }
 
