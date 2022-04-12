@@ -1,28 +1,22 @@
 import { FC } from "react"
-import { Typography } from "antd"
-import {
-  CloseOutlined,
-  FileUnknownOutlined,
-  LockOutlined,
-} from "@ant-design/icons"
+import { Title } from "@mantine/core"
+import { X, FileUnknown, Lock } from "tabler-icons-react"
 
 interface ErrorPageProps {
   errorcode: number
 }
 
-const { Title } = Typography
-
 const ErrorPage: FC<ErrorPageProps> = ({ errorcode }) => {
   let errormessage = "000 - nieznany błąd"
-  let erroricon = <CloseOutlined />
+  let erroricon = <X />
   switch (errorcode) {
     case 404:
       errormessage = "404 - nie znaleziono"
-      erroricon = <FileUnknownOutlined />
+      erroricon = <FileUnknown />
       break
     case 403:
       errormessage = "403 - dostęp zabroniony"
-      erroricon = <LockOutlined />
+      erroricon = <Lock />
       break
   }
   return (
@@ -46,7 +40,7 @@ const ErrorPage: FC<ErrorPageProps> = ({ errorcode }) => {
         }}
       >
         <div style={{ fontSize: 64 }}>{erroricon}</div>
-        <Title level={4}>{errormessage}</Title>
+        <Title order={4}>{errormessage}</Title>
       </div>
     </div>
   )

@@ -48,11 +48,11 @@
     "vite": "^2.8.5"
   },
   "scripts": {
-    "develop": "vite",
+    "develop": "vite --port 3001",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "build-prod": "tsc && vite build",
-    "prod": "serve -s -C -p 3000 --no-port-switching dist"
+    "prod": "serve -s -C -p 3001 --no-port-switching dist"
   },
   "eslintConfig": {
     "extends": [
