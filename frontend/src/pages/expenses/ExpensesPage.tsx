@@ -1,7 +1,8 @@
 import { FC } from "react"
+import { Text } from "@mantine/core"
 
 const ExpensesPage: FC = () => {
-  return <div>ExpensesPage</div>
+  return <Text>ExpensesPage</Text>
 }
 
 export default ExpensesPage

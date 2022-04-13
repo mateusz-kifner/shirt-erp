@@ -1,7 +1,8 @@
 import { FC } from "react"
+import { Text } from "@mantine/core"
 
 const LoggerPage: FC = () => {
-  return <div>LoggerPage</div>
+  return <Text>LoggerPage</Text>
 }
 
 export default LoggerPage

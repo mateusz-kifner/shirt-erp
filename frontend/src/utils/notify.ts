@@ -1,5 +1,6 @@
-import { message } from "antd"
+// import { message } from "antd"
 import Logger from "js-logger"
+import { showNotification } from "@mantine/notifications"
 
 /**
  * Higher order function that logs status on execution
@@ -12,7 +13,9 @@ const notify = (
 ) => {
   return (...args: any[]) => {
     // Exclue error and warn, because Logger is handling display of errors
-    ;(status == "info" || status == "success") && message[status](msg)
+    // ;(status == "info" || status == "success") && message[status](msg)
+    ;(status == "info" || status == "success") &&
+      showNotification({ title: status, message: msg, color: "green" })
     if (status == "success") status = "info"
     Logger[status]({ ...args, message: msg })
 

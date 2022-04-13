@@ -1,4 +1,5 @@
 import { FC } from "react"
+import { Text } from "@mantine/core"
 import { Title } from "@mantine/core"
 import { X, FileUnknown, Lock } from "tabler-icons-react"
 

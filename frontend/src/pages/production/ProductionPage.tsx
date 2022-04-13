@@ -1,7 +1,8 @@
 import { FC } from "react"
+import { Text } from "@mantine/core"
 
 const ProductionPage: FC = () => {
-  return <div>ProductionPage</div>
+  return <Text>ProductionPage</Text>
 }
 
 export default ProductionPage
