@@ -1,13 +1,23 @@
 import { FC, useState } from "react"
-import { Button, Container, Group, Paper, Text, ThemeIcon } from "@mantine/core"
-import { Bug, Logout } from "tabler-icons-react"
+import {
+  Button,
+  ColorScheme,
+  Container,
+  Group,
+  Paper,
+  Text,
+  ThemeIcon,
+} from "@mantine/core"
+import { Bug, Logout, MoonStars, Sun } from "tabler-icons-react"
 import { loginState } from "../../atoms/loginState"
 import { UserType } from "../../types/UserType"
 import { useRecoilState } from "recoil"
+import { useColorScheme, useLocalStorage } from "@mantine/hooks"
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
   const [testFormVisible, setTestFormVisible] = useState(false)
+
   const data: any = {
     name: {
       label: "Napis",

@@ -269,7 +269,15 @@ function useStrapi<EntryType>(
       },
     })
   }
-  return { data, status, refetch, add, update, remove }
+  return {
+    data: data.data,
+    meta: data.meta,
+    status,
+    refetch,
+    add,
+    update,
+    remove,
+  }
 }
 
 export default useStrapi

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_types_icons",
+  "info": {
+    "displayName": "icon",
+    "icon": "object-group"
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
