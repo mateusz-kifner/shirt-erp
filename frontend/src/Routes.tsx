@@ -27,9 +27,9 @@ import axios from "axios"
 import { useRecoilState } from "recoil"
 
 export const navigationData: {
-  label: String
+  label: string
   icon: ReactElement<any, any>
-  to: String
+  to: string
   color?: DefaultMantineColor
 }[] = [
   { label: "Zadania", icon: <Checklist />, to: "tasks", color: "green" },

@@ -22,7 +22,7 @@ import {
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { ModalsProvider } from "@mantine/modals"
 import { NotificationsProvider } from "@mantine/notifications"
-import { FC, ReactElement, useState } from "react"
+import { FC, ReactElement, SyntheticEvent, useState } from "react"
 import { Link, BrowserRouter as Router } from "react-router-dom"
 import { Bell, Search, Settings } from "tabler-icons-react"
 import Routes, { navigationData } from "./Routes"
@@ -68,6 +68,11 @@ const App: FC = ({ children }) => {
                   : theme.colors.dark[5],
             },
           }),
+          // Group: (theme) => ({
+          //   root: {
+
+          //   },
+          // }),
         }}
       >
         <NotificationsProvider>
@@ -86,7 +91,13 @@ const App: FC = ({ children }) => {
                     p="sm"
                   >
                     {navigationData.map((val) => (
-                      <NavButton {...val} key={"navbar_" + val.label} />
+                      <NavButton
+                        {...val}
+                        key={"navbar_" + val.label}
+                        onClick={(e: any) => {
+                          setOpened(false)
+                        }}
+                      />
                     ))}
                     {/* <ActionIcon
                 variant="outline"
@@ -124,9 +135,9 @@ const App: FC = ({ children }) => {
                             />
                           </MediaQuery>
                           <Image
-                            src="logo.png"
+                            src="logo_small.png"
                             alt="Shirt Dip ERP"
-                            height={40}
+                            height={32}
                             style={{
                               filter: `invert(${
                                 +!(colorScheme === "dark") * 0.8
@@ -194,7 +205,6 @@ const App: FC = ({ children }) => {
                       theme.colorScheme === "dark"
                         ? theme.colors.dark[8]
                         : theme.colors.gray[0],
-                    height: "calc(100vh - var(--mantine-header-height, 0px))",
                   },
                 })}
               >
@@ -209,11 +219,12 @@ const App: FC = ({ children }) => {
 }
 
 const NavButton: FC<{
-  label: String
+  label: string
   icon: ReactElement<any, any>
   to: any
   color?: DefaultMantineColor
-}> = ({ label, icon, to, color = "blue" }) => {
+  onClick: (e: SyntheticEvent) => void
+}> = ({ label, icon, to, color = "blue", onClick = () => {} }) => {
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -233,6 +244,7 @@ const NavButton: FC<{
       })}
       component={Link}
       to={to}
+      onClick={onClick}
     >
       <Group>
         <ThemeIcon color={color} variant="light">
