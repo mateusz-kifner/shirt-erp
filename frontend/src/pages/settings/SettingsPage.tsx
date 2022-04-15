@@ -181,20 +181,18 @@ const SettingsPage: FC = () => {
       <Paper shadow="xs" p="xl" withBorder>
         <Group>
           <Button
-            style={{ width: "100%" }}
+            style={{ width: "100%", color: "#fff" }}
             onClick={() => {
               setLogin({ jwt: "", user: null, debug: false })
             }}
           >
             <Group>
-              <ThemeIcon variant="light">
-                <Logout />
-              </ThemeIcon>
-              <Text>Wyloguj</Text>
+              <Logout />
+              Wyloguj
             </Group>
           </Button>
           <Button
-            style={{ width: "100%" }}
+            style={{ width: "100%", color: "#fff" }}
             onClick={() => {
               setLogin((user) => ({
                 ...user,
@@ -203,10 +201,8 @@ const SettingsPage: FC = () => {
             }}
           >
             <Group>
-              <ThemeIcon variant="light">
-                <Bug />
-              </ThemeIcon>
-              <Text>Debug {login.debug ? "ON" : "OFF"}</Text>
+              <Bug />
+              Debug {login.debug ? "ON" : "OFF"}
             </Group>
           </Button>
         </Group>

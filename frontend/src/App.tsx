@@ -195,15 +195,20 @@ const App: FC = ({ children }) => {
                                 ))}
                             </Group>
                           </UnstyledButton>
-                          <Group position="center">
-                            <ActionIcon
-                              size="xl"
-                              radius="xl"
-                              onClick={() => setNavSmall((val) => !val)}
-                            >
-                              {navSmall ? <ArrowRight /> : <ArrowLeft />}
-                            </ActionIcon>
-                          </Group>
+                          <MediaQuery
+                            smallerThan="sm"
+                            styles={{ display: "none" }}
+                          >
+                            <Group position="center">
+                              <ActionIcon
+                                size="xl"
+                                radius="xl"
+                                onClick={() => setNavSmall((val) => !val)}
+                              >
+                                {navSmall ? <ArrowRight /> : <ArrowLeft />}
+                              </ActionIcon>
+                            </Group>
+                          </MediaQuery>
                         </Box>
                       </Stack>
                     </ScrollArea>
