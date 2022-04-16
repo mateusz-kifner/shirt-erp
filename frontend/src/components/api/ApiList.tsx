@@ -35,89 +35,75 @@ const ApiList: FC<ApiListProps> = ({
   const theme = useMantineTheme()
 
   return (
-    // <ScrollArea style={{ height: "100%", width: "100%" }} py={py}>
-    <Paper
-      shadow="xs"
-      withBorder
-      p="xl"
-      sx={(theme) => ({
-        borderRadius: theme.spacing.xl,
-        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-          borderRadius: 0,
-        },
-      })}
-    >
-      <Stack spacing={spacing}>
-        <Stack>
-          <Group position="apart">
-            <Title order={2}>Products</Title>
-            <Group spacing="xs">
-              <ActionIcon
-                size="lg"
-                radius="xl"
-                variant="default"
-                onClick={() => refetch()}
-              >
-                <Refresh />
-              </ActionIcon>
-              <ActionIcon size="lg" radius="xl" variant="default">
-                <Plus />
-              </ActionIcon>
-            </Group>
-          </Group>
+    <Stack spacing={spacing}>
+      <Stack>
+        <Group position="apart">
+          <Title order={2}>Products</Title>
           <Group spacing="xs">
-            <Autocomplete
-              placeholder="Search"
+            <ActionIcon
+              size="lg"
               radius="xl"
-              size="md"
-              icon={<Search />}
-              data={[]}
-              style={{ flexGrow: 1 }}
-            />
-            <Group>
-              <ActionIcon size="lg" radius="xl" variant="default">
-                <SortAscending />
-              </ActionIcon>
-            </Group>
+              variant="default"
+              onClick={() => refetch()}
+            >
+              <Refresh />
+            </ActionIcon>
+            <ActionIcon size="lg" radius="xl" variant="default">
+              <Plus />
+            </ActionIcon>
           </Group>
-        </Stack>
-        <Stack spacing={listSpacing}>
-          {data &&
-            data.map((val: any, index: number) => (
-              <Box
-                sx={{
-                  paddingTop:
-                    index != 0 && typeof listSpacing == "string"
-                      ? theme.spacing[listSpacing]
-                      : listSpacing,
-                  borderTop:
-                    index != 0
-                      ? `1px solid ${
-                          theme.colorScheme === "dark"
-                            ? theme.colors.dark[4]
-                            : theme.colors.gray[2]
-                        }`
-                      : undefined,
-                }}
-              >
-                <ListItem
-                  {...val.attributes}
-                  key={`list_${entryName}_${index}`}
-                />
-              </Box>
-            ))}
-        </Stack>
-        <Pagination
-          total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
-          initialPage={meta?.pagination?.page ? meta.pagination.page : 1}
-          size="lg"
-          radius="xl"
-          position="center"
-          onChange={setPage}
-        />
+        </Group>
+        <Group spacing="xs">
+          <Autocomplete
+            placeholder="Search"
+            radius="xl"
+            size="md"
+            icon={<Search />}
+            data={[]}
+            style={{ flexGrow: 1 }}
+          />
+          <Group>
+            <ActionIcon size="lg" radius="xl" variant="default">
+              <SortAscending />
+            </ActionIcon>
+          </Group>
+        </Group>
       </Stack>
-    </Paper>
-    // </ScrollArea>
+      <Stack spacing={listSpacing}>
+        {data &&
+          data.map((val: any, index: number) => (
+            <Box
+              sx={{
+                paddingTop:
+                  index != 0 && typeof listSpacing == "string"
+                    ? theme.spacing[listSpacing]
+                    : listSpacing,
+                borderTop:
+                  index != 0
+                    ? `1px solid ${
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[4]
+                          : theme.colors.gray[2]
+                      }`
+                    : undefined,
+              }}
+            >
+              <ListItem
+                {...val.attributes}
+                key={`list_${entryName}_${index}`}
+              />
+            </Box>
+          ))}
+      </Stack>
+      <Pagination
+        total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
+        initialPage={meta?.pagination?.page ? meta.pagination.page : 1}
+        size="lg"
+        radius="xl"
+        position="center"
+        onChange={setPage}
+      />
+    </Stack>
   )
 }
 

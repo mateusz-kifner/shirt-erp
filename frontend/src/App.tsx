@@ -32,6 +32,8 @@ import {
   ArrowLeftTail,
   ArrowRight,
   Bell,
+  ChevronLeft,
+  ChevronRight,
   MoonStars,
   Search,
   Settings,
@@ -205,7 +207,7 @@ const App: FC = ({ children }) => {
                                 radius="xl"
                                 onClick={() => setNavSmall((val) => !val)}
                               >
-                                {navSmall ? <ArrowRight /> : <ArrowLeft />}
+                                {navSmall ? <ChevronRight /> : <ChevronLeft />}
                               </ActionIcon>
                             </Group>
                           </MediaQuery>

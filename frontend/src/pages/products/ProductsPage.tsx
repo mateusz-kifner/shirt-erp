@@ -3,37 +3,70 @@ import {
   Box,
   Container,
   Group,
+  Paper,
   Stack,
   Text,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core"
 import { FC } from "react"
-import { ChevronLeft, ChevronRight } from "tabler-icons-react"
 import { ProductType } from "../../types/ProductType"
 
 import ApiList from "../../components/api/ApiList"
+import ApiEntryDetails from "../../components/api/ApiEntryDetails"
+import ApiEntryAdd from "../../components/api/ApiEntryAdd"
+import product_schema from "../../schemas/product.schema.json"
 
 const ProductsPage: FC = () => {
+  console.log(product_schema)
   return (
     <Group
       sx={(theme) => ({
+        flexWrap: "nowrap",
         padding: theme.spacing.xl,
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
           padding: 0,
         },
       })}
     >
-      <ApiList
-        ListItem={ProductListItem}
-        entryName="products"
-        spacing="xl"
-        listSpacing="sm"
-      />
+      <Paper
+        shadow="xs"
+        withBorder
+        p="xl"
+        sx={(theme) => ({
+          borderRadius: theme.spacing.xl,
+          minWidth: 420,
+          [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+            borderRadius: 0,
+          },
+        })}
+      >
+        <ApiList
+          ListItem={ProductListItem}
+          entryName="products"
+          spacing="xl"
+          listSpacing="sm"
+        />
+      </Paper>
 
-      <Container>
-        <Text>TEST</Text>
-      </Container>
+      <Paper
+        shadow="xs"
+        withBorder
+        p="xl"
+        sx={(theme) => ({
+          borderRadius: theme.spacing.xl,
+          height: "100%",
+
+          flexGrow: 1,
+          alignSelf: "stretch",
+          justifySelf: "stretch",
+          [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+            borderRadius: 0,
+          },
+        })}
+      >
+        <ApiEntryAdd />
+      </Paper>
     </Group>
   )
 }
