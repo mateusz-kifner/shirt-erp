@@ -1,5 +1,4 @@
 export interface FileType {
-  id: number
   name: string
   alternativeText: string
   caption: string

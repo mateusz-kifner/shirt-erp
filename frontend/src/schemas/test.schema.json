@@ -1,68 +1,74 @@
 {
   "name": {
     "label": "Napis",
-    "dataType": "string",
-    "initialData": "test"
+    "type": "string",
+    "initialValue": "test"
   },
 
   "bool": {
     "label": "checkbox",
-    "dataType": "boolean",
-    "initialData": false,
+    "type": "boolean",
+    "initialValue": false,
     "checkbox": true
   },
   "switch": {
     "label": "switch",
-    "dataType": "boolean",
-    "initialData": false
+    "type": "boolean",
+    "initialValue": false
   },
   "category": {
     "label": "Enum",
-    "dataType": "enum",
-    "initialData": "option 1",
+    "type": "enum",
+    "initialValue": "option 1",
     "enum_data": ["option 1", "option 2", "option 3"]
   },
   "color": {
     "label": "Kolor",
-    "dataType": "color",
-    "initialData": { "colorName": "Red", "colorHex": "#ff0000" },
+    "type": "color",
+    "initialValue": { "colorName": "Red", "colorHex": "#ff0000" },
     "showText": true
   },
   "date": {
     "label": "Date",
-    "dataType": "date",
-    "initialData": "2021-11-05T12:24:05.097Z"
+    "type": "date",
+    "initialValue": "2021-11-05T12:24:05.097Z"
   },
   "datetime": {
     "label": "Datetime",
-    "dataType": "datetime",
-    "initialData": "2021-11-05T12:24:05.097Z"
+    "type": "datetime",
+    "initialValue": "2021-11-05T12:24:05.097Z"
   },
   "product": {
     "label": "product",
-    "dataType": "product"
+    "type": "apiEntry",
+    "entryName": "products"
+  },
+  "client": {
+    "label": "client",
+    "type": "apiEntry",
+    "entryName": "clients"
   },
   "productcomponent": {
     "label": "productcomponent",
-    "dataType": "productcomponent",
-    "initialData": []
+    "type": "productcomponent",
+    "initialValue": []
   },
   "productcomponents": {
     "label": "productcomponents",
-    "dataType": "productcomponents",
-    "initialData": []
+    "type": "productcomponents",
+    "initialValue": []
   },
 
   "image": {
     "label": "Image",
-    "dataType": "image",
-    "initialData": null
+    "type": "image",
+    "initialValue": null
   },
   "file": {
     "label": "File",
-    "dataType": "file",
+    "type": "file",
 
-    "initialData": {
+    "initialValue": {
       "id": 40,
       "name": "test7.png",
       "alternativeText": null,
@@ -130,23 +136,23 @@
   },
   "files": {
     "label": "Files",
-    "dataType": "files"
+    "type": "files"
   },
   "workstations": {
     "label": "Workstation",
-    "dataType": "workstationId",
-    "initialData": 6
+    "type": "workstationId",
+    "initialValue": 6
   },
   "employee": {
     "label": "User",
-    "dataType": "user"
+    "type": "apiEntryUser"
   },
   "employees": {
     "label": "Users",
-    "dataType": "users"
+    "type": "users"
   },
   "submit": {
     "label": "Submit",
-    "dataType": "submit"
+    "type": "submit"
   }
 }

@@ -26,6 +26,11 @@ const SettingsPage: FC = () => {
     modals.openModal({
       title: "Test Form",
       children: <ApiEntryAdd schema={test_schema} />,
+      styles: (theme) => ({
+        modal: {
+          width: 760,
+        },
+      }),
     })
   return (
     <Container size="xs" px="xs" my="xl">

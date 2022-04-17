@@ -16,9 +16,10 @@ import ApiList from "../../components/api/ApiList"
 import ApiEntryDetails from "../../components/api/ApiEntryDetails"
 import ApiEntryAdd from "../../components/api/ApiEntryAdd"
 import product_schema from "../../schemas/product.schema.json"
+import { StrapiEntryType } from "../../types/StrapiEntryType"
 
 const ProductsPage: FC = () => {
-  console.log(product_schema)
+  // console.log(product_schema)
   return (
     <Group
       sx={(theme) => ({
@@ -45,8 +46,12 @@ const ProductsPage: FC = () => {
         <ApiList
           ListItem={ProductListItem}
           entryName="products"
+          label="Products"
           spacing="xl"
           listSpacing="sm"
+          onChange={(val: StrapiEntryType<any>) => {
+            console.log(val)
+          }}
         />
       </Paper>
 
@@ -72,7 +77,10 @@ const ProductsPage: FC = () => {
   )
 }
 
-const ProductListItem: FC<ProductType> = ({ name, codeName, color }) => {
+const ProductListItem: FC<{
+  onChange?: (product: StrapiEntryType<Partial<ProductType>>) => void
+  value: StrapiEntryType<Partial<ProductType>>
+}> = ({ value, onChange }) => {
   const theme = useMantineTheme()
 
   return (
@@ -92,6 +100,7 @@ const ProductListItem: FC<ProductType> = ({ name, codeName, color }) => {
               : theme.colors.gray[0],
         },
       }}
+      onClick={() => onChange && onChange(value)}
     >
       <Group>
         <Avatar
@@ -100,10 +109,10 @@ const ProductListItem: FC<ProductType> = ({ name, codeName, color }) => {
         />
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
-            {name}
+            {value.attributes.name}
           </Text>
           <Text color="dimmed" size="xs">
-            {codeName}
+            {value.attributes.codeName}
           </Text>
         </Box>
 

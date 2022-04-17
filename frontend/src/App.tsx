@@ -40,6 +40,7 @@ import {
   Sun,
 } from "tabler-icons-react"
 import Routes, { navigationData } from "./Routes"
+import "dayjs/locale/pl"
 
 const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   root: {
@@ -80,6 +81,8 @@ const App: FC = ({ children }) => {
       <MantineProvider
         theme={{
           colorScheme: colorScheme,
+          datesLocale: "pl",
+          dateFormat: "DD.MM.YYYY",
         }}
         styles={{
           Title: (theme) => ({
@@ -404,7 +407,7 @@ const NavButton: FC<{
   onClick = () => {},
   small = false,
 }) => {
-  console.log(small)
+  // console.log(small)
   return (
     <UnstyledButton
       sx={(theme) => ({

@@ -14,21 +14,26 @@ import {
 import { FC, useState } from "react"
 import { Plus, Refresh, Search, SortAscending } from "tabler-icons-react"
 import useStrapiList from "../../hooks/useStrapiList"
+import { StrapiEntryType } from "../../types/StrapiEntryType"
 
 interface ApiListProps {
   entryName: string
   ListItem: React.ElementType
+  label?: string
   listSpacing?: MantineNumberSize
   spacing?: MantineNumberSize
   withSeparators?: boolean
+  onChange?: (val: StrapiEntryType<any>) => void
 }
 
 const ApiList: FC<ApiListProps> = ({
   entryName,
   ListItem,
+  label = "",
   listSpacing = "md",
   spacing = "md",
   withSeparators = false,
+  onChange = (val: StrapiEntryType<any>) => {},
 }) => {
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch } = useStrapiList(entryName, page)
@@ -38,7 +43,7 @@ const ApiList: FC<ApiListProps> = ({
     <Stack spacing={spacing}>
       <Stack>
         <Group position="apart">
-          <Title order={2}>Products</Title>
+          <Title order={2}>{label}</Title>
           <Group spacing="xs">
             <ActionIcon
               size="lg"
@@ -71,7 +76,7 @@ const ApiList: FC<ApiListProps> = ({
       </Stack>
       <Stack spacing={listSpacing}>
         {data &&
-          data.map((val: any, index: number) => (
+          data.map((val: StrapiEntryType<any>, index: number) => (
             <Box
               key={`list_${entryName}_${index}`}
               sx={{
@@ -89,7 +94,7 @@ const ApiList: FC<ApiListProps> = ({
                     : undefined,
               }}
             >
-              <ListItem {...val.attributes} />
+              <ListItem value={val} onChange={onChange} />
             </Box>
           ))}
       </Stack>

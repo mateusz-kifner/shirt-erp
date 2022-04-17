@@ -1,23 +1,23 @@
 {
   "id": {
     "label": "id",
-    "dataType": "id"
+    "type": "id"
   },
   "name": {
     "label": "Nazwa",
-    "dataType": "string",
-    "initialData": "",
+    "type": "string",
+    "initialValue": "",
     "required": true
   },
   "codeName": {
     "label": "Kod produktu",
-    "dataType": "string",
-    "initialData": ""
+    "type": "string",
+    "initialValue": ""
   },
   "category": {
     "label": "Kategoria",
-    "dataType": "enum",
-    "initialData": "koszulka",
+    "type": "enum",
+    "initialValue": "koszulka",
     "enum_data": [
       "koszulka",
       "bluza",
@@ -30,29 +30,30 @@
   },
   "desc": {
     "label": "Opis",
-    "dataType": "string",
-    "initialData": ""
+    "type": "string",
+    "initialValue": ""
   },
   "color": {
     "label": "Kolor",
-    "dataType": "color"
+    "type": "color",
+    "placeholder": "Nazwa koloru"
   },
   "icon": {
     "label": "Ikona",
-    "dataType": "image"
+    "type": "image"
   },
   "previewImg": {
     "label": "Zdjęcia",
-    "dataType": "image"
+    "type": "image"
   },
   "createdAt": {
     "label": "Utworzono",
-    "dataType": "datetime",
+    "type": "datetime",
     "disabled": true
   },
   "updatedAt": {
     "label": "Edytowano",
-    "dataType": "datetime",
+    "type": "datetime",
     "disabled": true
   }
 }

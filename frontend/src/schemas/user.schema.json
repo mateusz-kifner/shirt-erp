@@ -1,52 +1,52 @@
 {
   "id": {
     "label": "id",
-    "dataType": "id"
+    "type": "id"
   },
   "username": {
     "label": "Nazwa użytkownika",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": "",
+    "initialValue": "",
     "required": true
   },
   "firstname": {
     "label": "Imie",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": ""
+    "initialValue": ""
   },
   "lastname": {
     "label": "Nazwisko",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": ""
+    "initialValue": ""
   },
   "notes": {
     "label": "Notatki",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": "",
+    "initialValue": "",
     "multiline": true
   },
   "email": {
     "label": "Email",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": ""
+    "initialValue": ""
   },
   "phoneNumber": {
     "label": "Telefon",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": ""
+    "initialValue": ""
   },
 
   "companyName": {
     "label": "Nazwa firmy",
-    "dataType": "string",
+    "type": "string",
 
-    "initialData": ""
+    "initialValue": ""
   },
   "address": {
     "label": {
@@ -58,8 +58,8 @@
       "postCode": "Kod pocztowy",
       "name": "Address"
     },
-    "dataType": "address",
-    "initialData": {
+    "type": "address",
+    "initialValue": {
       "streetName": "",
       "streetNumber": "",
       "apartmentNumber": "",
@@ -70,24 +70,24 @@
   },
   "orders": {
     "label": "Zamówienia",
-    "dataType": "orders"
+    "type": "orders"
   },
   "secretNotes": {
     "label": "Sekretne Notatki",
-    "dataType": "secretString",
+    "type": "secretString",
 
-    "initialData": "",
+    "initialValue": "",
     "multiline": true,
     "hidden": true
   },
   "createdAt": {
     "label": "Utworzono",
-    "dataType": "datetime",
+    "type": "datetime",
     "disabled": true
   },
   "updatedAt": {
     "label": "Edytowano",
-    "dataType": "datetime",
+    "type": "datetime",
     "disabled": true
   }
 }

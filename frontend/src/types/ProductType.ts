@@ -5,10 +5,7 @@ export interface ProductType {
   name: string
   category: string
   codeName: string
-  color: {
-    colorName: string
-    colorHex: string
-  }
+  color: ColorType
   createdAt: Date
   updatedAt: Date
   desc: string

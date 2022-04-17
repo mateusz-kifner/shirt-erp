@@ -1,5 +1,4 @@
 export interface ImageType {
-  id: number
   name: string
   alternativeText: string
   caption: string

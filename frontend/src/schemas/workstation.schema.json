@@ -1,40 +1,40 @@
 {
   "id": {
     "label": "id",
-    "dataType": "id"
+    "type": "id"
   },
   "name": {
     "label": "Nazwa",
-    "dataType": "string",
-    "initialData": "",
+    "type": "string",
+    "initialValue": "",
     "required": true
   },
   "desc": {
     "label": "Opis",
-    "dataType": "string",
-    "initialData": ""
+    "type": "string",
+    "initialValue": ""
   },
   "numberOfJobs": {
     "label": "Ilość stanowisk",
-    "dataType": "number",
-    "initialData": 0
+    "type": "number",
+    "initialValue": 0
   },
   "icon": {
     "label": "Ikona",
-    "dataType": "image"
+    "type": "image"
   },
   "nextWorkstations": {
     "label": "Następne stanowisko",
-    "dataType": "workstations"
+    "type": "workstations"
   },
   "createdAt": {
     "label": "Utworzono",
-    "dataType": "datetime",
+    "type": "datetime",
     "disabled": true
   },
   "updatedAt": {
     "label": "Edytowano",
-    "dataType": "datetime",
+    "type": "datetime",
     "disabled": true
   }
 }

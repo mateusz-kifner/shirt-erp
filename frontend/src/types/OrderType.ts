@@ -6,7 +6,6 @@ import { ProductComponentType } from "./ProductComponentType"
 import { UserType } from "./UserType"
 
 export interface OrderType {
-  id: number
   name: string
   status: string
   notes: string | null
