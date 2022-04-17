@@ -1,18 +1,18 @@
 {
   "id": {
     "label": "id",
-    "type": "id"
+    "dataType": "id"
   },
   "name": {
     "label": "Nazwa",
-    "type": "string",
-    "initialValue": "",
+    "dataType": "string",
+    "initialData": "",
     "required": true
   },
   "status": {
     "label": "Status",
-    "type": "enum",
-    "initialValue": "planowane",
+    "dataType": "enum",
+    "initialData": "planowane",
     "enum_data": [
       "planowane",
       "zaakceptowane",
@@ -25,48 +25,48 @@
   },
   "notes": {
     "label": "Notatki",
-    "type": "string",
-    "initialValue": "",
+    "dataType": "string",
+    "initialData": "",
     "multiline": true
   },
   "price": {
     "label": "Cena",
-    "type": "money",
+    "dataType": "money",
 
-    "initialValue": 0
+    "initialData": 0
   },
   "isPricePaid": {
     "label": "Cena zapłacona",
-    "type": "boolean",
-    "initialValue": false,
+    "dataType": "boolean",
+    "initialData": false,
     "children": { "checked": "Tak", "unchecked": "Nie" }
   },
   "advance": {
     "label": "Zaliczka",
-    "type": "money",
+    "dataType": "money",
 
-    "initialValue": 0
+    "initialData": 0
   },
   "isAdvancePaid": {
     "label": "Zaliczka zapłacona",
-    "type": "boolean",
-    "initialValue": false,
+    "dataType": "boolean",
+    "initialData": false,
     "children": { "checked": "Tak", "unchecked": "Nie" }
   },
   "dateOfCompletion": {
     "label": "Data ukończenia",
-    "type": "date"
+    "dataType": "date"
   },
   "secretNotes": {
     "label": "Sekretne notatki",
-    "type": "string",
-    "initialValue": "",
-    "hide": true
+    "dataType": "string",
+    "initialData": "",
+    "hidden": true
   },
   "files": {
     "label": "Pliki",
-    "type": "files",
-    "initialValue": []
+    "dataType": "files",
+    "initialData": []
   },
   "address": {
     "label": {
@@ -78,8 +78,8 @@
       "postCode": "Kod pocztowy",
       "name": "Address"
     },
-    "type": "address",
-    "initialValue": {
+    "dataType": "address",
+    "initialData": {
       "streetName": "",
       "streetNumber": "",
       "apartmentNumber": "",
@@ -90,26 +90,26 @@
   },
   "products": {
     "label": "Produkty",
-    "type": "productcomponents"
+    "dataType": "productcomponents"
   },
   "client": {
     "label": "Klient",
-    "type": "client",
-    "initialValue": null
+    "dataType": "client",
+    "initialData": null
   },
   "employees": {
     "label": "Pracownicy",
-    "type": "users",
-    "initialValue": null
+    "dataType": "users",
+    "initialData": null
   },
   "createdAt": {
     "label": "Utworzono",
-    "type": "datetime",
+    "dataType": "datetime",
     "disabled": true
   },
   "updatedAt": {
     "label": "Edytowano",
-    "type": "datetime",
+    "dataType": "datetime",
     "disabled": true
   }
 }

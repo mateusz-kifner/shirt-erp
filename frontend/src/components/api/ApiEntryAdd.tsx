@@ -44,9 +44,8 @@ const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema }) => {
   const uuid = useId()
   let initialValues: any = {}
   for (const key in schema) {
-    initialValues[key] = schema[key]?.initialValue
+    initialValues[key] = schema[key]?.initialData
   }
-  console.log(initialValues)
   const form = useForm({
     initialValues: initialValues,
   })
@@ -59,14 +58,12 @@ const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema }) => {
       <form onSubmit={form.onSubmit((values) => console.log(values))}>
         <Stack>
           {Object.keys(schema).map((key: string, index: number) => {
-            if (!schema[key]?.hide && mapping[schema[key]?.type]) {
+            if (!schema[key]?.hidden && mapping[schema[key]?.dataType]) {
               const new_schema = { ...schema[key] }
-              delete new_schema.type
-              delete new_schema.initialValue
               return (
                 <div key={`${uuid}_${key}`}>
                   {React.cloneElement(
-                    mapping[schema[key].type] as ReactElement<any, any>,
+                    mapping[schema[key].dataType] as ReactElement<any, any>,
                     {
                       ...new_schema,
                       ...form.getInputProps(key),

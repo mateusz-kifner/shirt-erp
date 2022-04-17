@@ -1,0 +1,152 @@
+{
+  "name": {
+    "label": "Napis",
+    "dataType": "string",
+    "initialData": "test"
+  },
+
+  "bool": {
+    "label": "checkbox",
+    "dataType": "boolean",
+    "initialData": false,
+    "checkbox": true
+  },
+  "switch": {
+    "label": "switch",
+    "dataType": "boolean",
+    "initialData": false
+  },
+  "category": {
+    "label": "Enum",
+    "dataType": "enum",
+    "initialData": "option 1",
+    "enum_data": ["option 1", "option 2", "option 3"]
+  },
+  "color": {
+    "label": "Kolor",
+    "dataType": "color",
+    "initialData": { "colorName": "Red", "colorHex": "#ff0000" },
+    "showText": true
+  },
+  "date": {
+    "label": "Date",
+    "dataType": "date",
+    "initialData": "2021-11-05T12:24:05.097Z"
+  },
+  "datetime": {
+    "label": "Datetime",
+    "dataType": "datetime",
+    "initialData": "2021-11-05T12:24:05.097Z"
+  },
+  "product": {
+    "label": "product",
+    "dataType": "product"
+  },
+  "productcomponent": {
+    "label": "productcomponent",
+    "dataType": "productcomponent",
+    "initialData": []
+  },
+  "productcomponents": {
+    "label": "productcomponents",
+    "dataType": "productcomponents",
+    "initialData": []
+  },
+
+  "image": {
+    "label": "Image",
+    "dataType": "image",
+    "initialData": null
+  },
+  "file": {
+    "label": "File",
+    "dataType": "file",
+
+    "initialData": {
+      "id": 40,
+      "name": "test7.png",
+      "alternativeText": null,
+      "caption": null,
+      "width": 1920,
+      "height": 1080,
+      "formats": {
+        "large": {
+          "ext": ".png",
+          "url": "/uploads/large_test7_d10bd369ae.png",
+          "hash": "large_test7_d10bd369ae",
+          "mime": "image/png",
+          "name": "large_test7.png",
+          "path": null,
+          "size": 198.86,
+          "width": 1000,
+          "height": 563
+        },
+        "small": {
+          "ext": ".png",
+          "url": "/uploads/small_test7_d10bd369ae.png",
+          "hash": "small_test7_d10bd369ae",
+          "mime": "image/png",
+          "name": "small_test7.png",
+          "path": null,
+          "size": 68.33,
+          "width": 500,
+          "height": 281
+        },
+        "medium": {
+          "ext": ".png",
+          "url": "/uploads/medium_test7_d10bd369ae.png",
+          "hash": "medium_test7_d10bd369ae",
+          "mime": "image/png",
+          "name": "medium_test7.png",
+          "path": null,
+          "size": 126.47,
+          "width": 750,
+          "height": 422
+        },
+        "thumbnail": {
+          "ext": ".png",
+          "url": "/uploads/thumbnail_test7_d10bd369ae.png",
+          "hash": "thumbnail_test7_d10bd369ae",
+          "mime": "image/png",
+          "name": "thumbnail_test7.png",
+          "path": null,
+          "size": 24.04,
+          "width": 245,
+          "height": 138
+        }
+      },
+      "hash": "test7_d10bd369ae",
+      "ext": ".png",
+      "mime": "image/png",
+      "size": 355.94,
+      "url": "/uploads/test7_d10bd369ae.png",
+      "previewUrl": null,
+      "provider": "local",
+      "provider_metadata": null,
+      "createdAt": "2021-12-02T21:46:47.894Z",
+      "updatedAt": "2021-12-02T21:46:47.894Z",
+      "related": [{}]
+    }
+  },
+  "files": {
+    "label": "Files",
+    "dataType": "files"
+  },
+  "workstations": {
+    "label": "Workstation",
+    "dataType": "workstationId",
+    "initialData": 6
+  },
+  "employee": {
+    "label": "User",
+    "dataType": "user"
+  },
+  "employees": {
+    "label": "Users",
+    "dataType": "users"
+  },
+  "submit": {
+    "label": "Submit",
+    "dataType": "submit"
+  }
+}

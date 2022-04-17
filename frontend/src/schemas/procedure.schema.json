@@ -1,38 +1,38 @@
 {
   "id": {
     "label": "id",
-    "type": "id"
+    "dataType": "id"
   },
   "name": {
     "label": "Nazwa",
-    "type": "string",
+    "dataType": "string",
 
-    "initialValue": "",
+    "initialData": "",
     "required": true
   },
   "desc": {
     "label": "Opis",
-    "type": "string",
-    "initialValue": "",
+    "dataType": "string",
+    "initialData": "",
     "multiline": true
   },
   "workstations": {
     "label": "Kroki",
-    "type": "workstationsIds",
-    "initialValue": []
+    "dataType": "workstationsIds",
+    "initialData": []
   },
   "icon": {
     "label": "Ikona",
-    "type": "image"
+    "dataType": "image"
   },
   "createdAt": {
     "label": "Utworzono",
-    "type": "datetime",
+    "dataType": "datetime",
     "disabled": true
   },
   "updatedAt": {
     "label": "Edytowano",
-    "type": "datetime",
+    "dataType": "datetime",
     "disabled": true
   }
 }
