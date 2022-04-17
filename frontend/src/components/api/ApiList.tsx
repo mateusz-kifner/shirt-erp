@@ -73,6 +73,7 @@ const ApiList: FC<ApiListProps> = ({
         {data &&
           data.map((val: any, index: number) => (
             <Box
+              key={`list_${entryName}_${index}`}
               sx={{
                 paddingTop:
                   index != 0 && typeof listSpacing == "string"
@@ -88,10 +89,7 @@ const ApiList: FC<ApiListProps> = ({
                     : undefined,
               }}
             >
-              <ListItem
-                {...val.attributes}
-                key={`list_${entryName}_${index}`}
-              />
+              <ListItem {...val.attributes} />
             </Box>
           ))}
       </Stack>

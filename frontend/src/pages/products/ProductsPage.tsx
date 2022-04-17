@@ -23,6 +23,7 @@ const ProductsPage: FC = () => {
     <Group
       sx={(theme) => ({
         flexWrap: "nowrap",
+        alignItems: "flex-start",
         padding: theme.spacing.xl,
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
           padding: 0,
@@ -65,7 +66,7 @@ const ProductsPage: FC = () => {
           },
         })}
       >
-        <ApiEntryAdd />
+        <ApiEntryAdd schema={product_schema} />
       </Paper>
     </Group>
   )
