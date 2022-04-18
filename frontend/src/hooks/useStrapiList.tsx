@@ -18,6 +18,7 @@ const fetchData = async (
         page,
         pageSize,
       },
+      populate: "*",
     },
     {
       encodeValuesOnly: true,

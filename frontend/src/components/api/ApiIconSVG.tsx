@@ -5,6 +5,7 @@ import { iconState } from "../../atoms/iconState"
 import SVG from "react-inlinesvg"
 import { serverURL } from "../../env"
 import { useMantineTheme } from "@mantine/core"
+import { loginState } from "../../atoms/loginState"
 
 interface ApiIconSVGProps {
   color?: string
@@ -21,6 +22,7 @@ const ApiIconSVG: FC<ApiIconSVGProps> = ({
   id,
   noError,
 }) => {
+  const login = useRecoilValue(loginState)
   const iconsData = useRecoilValue(iconState)
   const theme = useMantineTheme()
   const new_size = size ? size : 24
@@ -44,6 +46,9 @@ const ApiIconSVG: FC<ApiIconSVGProps> = ({
           fill={new_color}
           width={new_size}
           height={new_size}
+          onError={(error) => console.log(error.message)}
+          loader={<X color={new_color} size={new_size} />}
+          fetchOptions={{ headers: { Authorization: "Bearer " + login.jwt } }}
         />
       ) : (
         !noError && <X color={new_color} size={new_size} />

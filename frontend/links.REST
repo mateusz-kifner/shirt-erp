@@ -1,3 +1,23 @@
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjUwMzAwMTgxLCJleHAiOjE2NTI4OTIxODF9.9kB3ESkAWCW03xVevzk5ym62_ES9ufrNubt6Avdoy94
+@host=http://localhost:1337
+###
+
+POST {{host}}/api/auth/local
+content-type: application/json
+
+{"identifier": "testuser2","password":"testuser2"}
 
 
-http://localhost:1337/api/icon
+###
+
+GET {{host}}/api/icon
+
+###
+
+GET {{host}}/uploads/Arrow_east_d39befddfe.svg
+
+###
+
+GET {{host}}/api/upload/files
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

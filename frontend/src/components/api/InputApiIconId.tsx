@@ -5,8 +5,8 @@ import {
   Modal,
   SimpleGrid,
   Stack,
-  UnstyledButton,
 } from "@mantine/core"
+import { useUuid } from "@mantine/hooks"
 import { FC, useState } from "react"
 import { useRecoilValue } from "recoil"
 import { iconState } from "../../atoms/iconState"
@@ -34,6 +34,7 @@ const InputApiIconId: FC<InputApiIconIdProps> = ({
   const [opened, setOpened] = useState(false)
   const [iconId, setIconId] = useState<number>()
   const iconsData = useRecoilValue(iconState)
+  const uuid = useUuid()
 
   if (!entryName) return null
 
@@ -61,6 +62,7 @@ const InputApiIconId: FC<InputApiIconIdProps> = ({
                   setIconId(val.id)
                   setOpened(false)
                 }}
+                key={uuid + val.id}
               >
                 <ApiIconSVG entryName={entryName} id={val.id} size={96} />
               </Button>

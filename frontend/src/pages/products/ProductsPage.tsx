@@ -124,6 +124,7 @@ const ProductListItem: FC<{
                 ? "#fff"
                 : "#000"
             }
+            noError
           />
         </Avatar>
         <Box sx={{ flex: 1 }}>

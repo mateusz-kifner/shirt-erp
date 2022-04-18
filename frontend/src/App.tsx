@@ -18,7 +18,6 @@ import {
   Stack,
   Text,
   ThemeIcon,
-  Title,
   UnstyledButton,
   useMantineTheme,
 } from "@mantine/core"
@@ -27,9 +26,6 @@ import { NotificationsProvider } from "@mantine/notifications"
 import { FC, ReactElement, SyntheticEvent, useEffect, useState } from "react"
 import { Link, BrowserRouter as Router } from "react-router-dom"
 import {
-  ArrowLeft,
-  ArrowLeftTail,
-  ArrowRight,
   Bell,
   ChevronLeft,
   ChevronRight,
@@ -40,9 +36,10 @@ import {
 } from "tabler-icons-react"
 import Routes, { navigationData } from "./Routes"
 import "dayjs/locale/pl"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { iconState } from "./atoms/iconState"
 import axios from "axios"
+import { loginState } from "./atoms/loginState"
 
 const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   root: {
@@ -63,6 +60,7 @@ const App: FC = ({ children }) => {
     key: "nav-small",
     defaultValue: false,
   })
+  const login = useRecoilValue(loginState)
 
   const theme = useMantineTheme()
   const preferredColorScheme = useColorScheme()
@@ -81,6 +79,7 @@ const App: FC = ({ children }) => {
     axios.get("/icon").then((res: any) => {
       // axios > res_data > strapi_data
       setIconsData(res.data.data)
+      console.log(res.data.data)
     })
   }, [])
   return (
