@@ -12,13 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "products": {
-      "allowedTypes": [
-        "images"
-      ],
-      "type": "media",
-      "multiple": true,
-      "required": true
+    "productCategories": {
+      "type": "component",
+      "repeatable": true,
+      "component": "types.icon"
     }
   }
 }

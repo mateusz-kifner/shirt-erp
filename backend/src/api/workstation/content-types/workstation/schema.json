@@ -23,18 +23,13 @@
     "numberOfJobs": {
       "type": "integer"
     },
-    "icon": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "nextWorkstations": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::workstation.workstation"
+    },
+    "iconId": {
+      "type": "integer"
     }
   }
 }

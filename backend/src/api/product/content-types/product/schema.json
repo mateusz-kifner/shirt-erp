@@ -26,14 +26,6 @@
     "desc": {
       "type": "string"
     },
-    "icon": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "previewImg": {
       "type": "media",
       "multiple": false,
@@ -47,6 +39,9 @@
       "type": "component",
       "repeatable": false,
       "component": "types.color"
+    },
+    "iconId": {
+      "type": "integer"
     }
   }
 }

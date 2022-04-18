@@ -9,6 +9,6 @@ export interface ProductType {
   createdAt: Date
   updatedAt: Date
   desc: string
-  icon: Partial<ImageType> | null
+  iconId: number | null
   previewImg: Partial<ImageType> | null
 }

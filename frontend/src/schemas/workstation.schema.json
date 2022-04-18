@@ -1,8 +1,4 @@
 {
-  "id": {
-    "label": "id",
-    "type": "id"
-  },
   "name": {
     "label": "Nazwa",
     "type": "string",

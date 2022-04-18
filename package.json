@@ -21,5 +21,6 @@
     "wait-on": "6.0.x"
   },
   "author": "Mateusz Kifner",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {}
 }

@@ -8,14 +8,9 @@ import axios from "axios"
 import { ReactQueryDevtools } from "react-query/devtools"
 import { showNotification } from "@mantine/notifications"
 import { RecoilRoot, useRecoilValue } from "recoil"
+import { serverURL } from "./env"
 
-export const serverURL = (import.meta.env.SERVER_URL ||
-  (function () {
-    let origin_split = window.location.origin.split(":")
-    return `${origin_split[0]}:${origin_split[1]}:1337/api`
-  })()) as string
-
-axios.defaults.baseURL = serverURL
+axios.defaults.baseURL = serverURL + "/api"
 
 const queryClient = new QueryClient()
 
@@ -64,10 +59,12 @@ Logger.setLevel(
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </React.Suspense>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")

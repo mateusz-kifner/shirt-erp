@@ -1,8 +1,9 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import {
   Box,
   Button,
   Group,
+  Modal,
   PasswordInput,
   Text,
   TextInput,
@@ -11,51 +12,33 @@ import { loginState } from "../atoms/loginState"
 import { useRecoilState } from "recoil"
 import axios from "axios"
 import { z } from "zod"
-import { useModals } from "@mantine/modals"
 import { useForm, zodResolver } from "@mantine/form"
 
-const Loginschema = z.object({
+const loginSchema = z.object({
   identifier: z.string().min(3, { message: "Musi mieć co najmniej 3 znaki" }),
   password: z.string().min(3, { message: "Musi mieć co najmniej 3 znaki" }),
 })
 
 const LoginPage: FC = () => {
-  const modals = useModals()
-  const openLoginModal = () =>
-    modals.openConfirmModal({
-      id: "Login_Modal",
-      title: "Login",
-      centered: true,
-      children: <LoginModal />,
-      groupProps: { style: { display: "none" } },
-      labels: { confirm: "", cancel: "" },
-      closeOnEscape: false,
-      closeOnClickOutside: false,
-      withCloseButton: false,
-      closeOnConfirm: false,
-      closeOnCancel: false,
-    })
-  useEffect(() => {
-    openLoginModal()
-    return () => {
-      modals.closeModal("Login_Modal")
-    }
-  }, [])
-  return <></>
+  return (
+    <Modal opened={true} onClose={() => {}}>
+      <LoginModal />
+    </Modal>
+  )
 }
 
 const LoginModal = () => {
   const [login, setLogin] = useRecoilState(loginState)
   const [errorMessage, setErrorMessage] = useState(false)
   const form = useForm({
-    schema: zodResolver(Loginschema),
+    schema: zodResolver(loginSchema),
     initialValues: { identifier: "", password: "" },
   })
 
-  const onSubmit = (logindata: { identifier: string; password: string }) => {
-    console.log("data", logindata)
+  const onSubmit = (loginData: { identifier: string; password: string }) => {
+    console.log("data", loginData)
     axios
-      .post("/auth/local", logindata)
+      .post("/auth/local", loginData)
       .then(function (response) {
         setLogin(response.data)
         console.log(response)

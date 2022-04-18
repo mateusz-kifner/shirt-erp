@@ -17,6 +17,8 @@ import ApiEntryDetails from "../../components/api/ApiEntryDetails"
 import ApiEntryAdd from "../../components/api/ApiEntryAdd"
 import product_schema from "../../schemas/product.schema.json"
 import { StrapiEntryType } from "../../types/StrapiEntryType"
+import ApiIconSVG from "../../components/api/ApiIconSVG"
+import convert from "color-convert"
 
 const ProductsPage: FC = () => {
   // console.log(product_schema)
@@ -104,9 +106,26 @@ const ProductListItem: FC<{
     >
       <Group>
         <Avatar
-          src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
+          // style={{ backgroundColor: value.attributes.color?.colorHex }}
+          styles={{
+            placeholder: { backgroundColor: value.attributes?.color?.colorHex },
+          }}
           radius="xl"
-        />
+        >
+          <ApiIconSVG
+            entryName="productCategories"
+            id={value.attributes.iconId}
+            color={
+              value.attributes?.color?.colorHex
+                ? convert.hex.hsl(value.attributes.color.colorHex)[2] < 0.5
+                  ? "#fff"
+                  : "#000"
+                : theme.colorScheme === "dark"
+                ? "#fff"
+                : "#000"
+            }
+          />
+        </Avatar>
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
             {value.attributes.name}

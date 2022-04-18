@@ -48,14 +48,14 @@
     "type": "apiEntry",
     "entryName": "clients"
   },
-  "productcomponent": {
-    "label": "productcomponent",
-    "type": "productcomponent",
+  "productComponent": {
+    "label": "productComponent",
+    "type": "productComponent",
     "initialValue": []
   },
-  "productcomponents": {
-    "label": "productcomponents",
-    "type": "productcomponents",
+  "productComponents": {
+    "label": "productComponents",
+    "type": "productComponents",
     "initialValue": []
   },
 

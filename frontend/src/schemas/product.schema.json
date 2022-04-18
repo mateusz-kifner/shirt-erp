@@ -1,8 +1,4 @@
 {
-  "id": {
-    "label": "id",
-    "type": "id"
-  },
   "name": {
     "label": "Nazwa",
     "type": "string",
@@ -38,9 +34,10 @@
     "type": "color",
     "placeholder": "Nazwa koloru"
   },
-  "icon": {
+  "iconId": {
     "label": "Ikona",
-    "type": "image"
+    "type": "iconId",
+    "entryName": "productCategories"
   },
   "previewImg": {
     "label": "Zdjęcia",
