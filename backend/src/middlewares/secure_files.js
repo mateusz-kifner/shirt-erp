@@ -16,17 +16,32 @@ module.exports = (config, { strapi }) => {
         split_url[2] === "upload")
     ) {
       // console.log("In secure_files middleware.", { ...ctx });
+
+      const public_files = await strapi
+        .service("api::public.public")
+        .find({ populate: "*" });
+      const is_public =
+        split_url.length > 2 &&
+        split_url[1] === "uploads" &&
+        public_files &&
+        public_files.files &&
+        public_files.files.length > 0 &&
+        public_files.files
+          .map((val) => val.hash + val.ext)
+          .filter((val) => val === split_url[2]).length > 0;
+      console.log(is_public);
+      if (is_public) {
+        return await next();
+      }
       if (ctx?.request?.header?.authorization) {
         try {
           const jwt_data = await strapi.plugins[
             "users-permissions"
           ].services.jwt.getToken(ctx);
-          console.log(jwt_data);
           const user = await strapi.plugins[
             "users-permissions"
           ].services.user.fetch({ id: jwt_data.id }, ["role"]);
 
-          console.log(user.role.name);
           if (user.role.name === "Employee") {
             return await next();
           }

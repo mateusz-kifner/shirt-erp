@@ -5,6 +5,7 @@ import { loginState } from "../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import ApiEntryAdd from "../../components/api/ApiEntryAdd"
 import testSchema from "../../schemas/test.schema.json"
+import FilesButton from "../../components/FilesButton"
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -60,6 +61,7 @@ const SettingsPage: FC = () => {
                   Open Test Form
                 </Group>
               </Button>
+              <FilesButton />
             </>
           )}
         </Group>

@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "publics",
+  "info": {
+    "singularName": "public",
+    "pluralName": "publics",
+    "displayName": "Public"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "files": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}
