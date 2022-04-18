@@ -1,22 +1,14 @@
 "use strict";
 
-/**
- * `secure_files` middleware.
- */
-
 module.exports = (config, { strapi }) => {
-  // Add your own logic here.
   return async (ctx, next) => {
     const split_url = ctx.request.url.split("/");
-    // console.log(ctx.request.url, split_url.length);
     if (
       (split_url.length > 1 && split_url[1] === "uploads") ||
       (split_url.length > 2 &&
         split_url[1] === "api" &&
         split_url[2] === "upload")
     ) {
-      // console.log("In secure_files middleware.", { ...ctx });
-
       const public_files = await strapi
         .service("api::public.public")
         .find({ populate: "*" });
@@ -29,7 +21,6 @@ module.exports = (config, { strapi }) => {
         public_files.files
           .map((val) => val.hash + val.ext)
           .filter((val) => val === split_url[2]).length > 0;
-      console.log(is_public);
       if (is_public) {
         return await next();
       }
