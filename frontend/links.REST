@@ -1,4 +1,5 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjUwMzAwMTgxLCJleHAiOjE2NTI4OTIxODF9.9kB3ESkAWCW03xVevzk5ym62_ES9ufrNubt6Avdoy94
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUwMzgxMTI3LCJleHAiOjE2NTI5NzMxMjd9.-QAkkvIMZbmQKwvtMFNgSaomJFrTHn0CYqZJyFzhDwM
+
 @host=http://localhost:1337
 ###
 
@@ -24,6 +25,8 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/files
+POST {{host}}/api/clients
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+{"data":{"username":"testdatysu"}}
