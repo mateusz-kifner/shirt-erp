@@ -70,7 +70,7 @@ interface FileButtonProps {
 
 const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
   const [fileData, setFileData] = useState<StrapiEntryType<FileType> | null>(
-    null
+    value ? value : null
   )
 
   const [preview, setPreview] = useState<string>("")
@@ -96,6 +96,11 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
           id: val.data[0]?.id,
           attributes: _.omit(val.data[0], "id") as FileType,
         })
+        onChange &&
+          onChange({
+            id: val.data[0]?.id,
+            attributes: _.omit(val.data[0], "id") as FileType,
+          })
         if (isFileImage(file))
           getBase64(file).then((val: any) => setPreview(val))
         else

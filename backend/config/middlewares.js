@@ -15,7 +15,8 @@ module.exports = [
     },
   },
   "strapi::session",
+  "global::secure-files",
+  "global::flatten-response",
   "strapi::favicon",
   "strapi::public",
-  // "global::secure_files",
 ];

@@ -52,7 +52,7 @@ const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema }) => {
   const form = useForm({
     initialValues: initialValues,
   })
-
+  console.log(initialValues)
   return (
     <Box
       // sx={{ maxWidth: 300 }}

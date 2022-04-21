@@ -32,7 +32,7 @@ const InputApiIconId: FC<InputApiIconIdProps> = ({
   entryName,
 }) => {
   const [opened, setOpened] = useState(false)
-  const [iconId, setIconId] = useState<number>()
+  const [iconId, setIconId] = useState<number | null>(value ? value : null)
   const iconsData = useRecoilValue(iconState)
   const uuid = useUuid()
 
@@ -59,6 +59,7 @@ const InputApiIconId: FC<InputApiIconIdProps> = ({
                 }}
                 px="xs"
                 onClick={() => {
+                  onChange && onChange(val.id)
                   setIconId(val.id)
                   setOpened(false)
                 }}
