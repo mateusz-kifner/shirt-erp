@@ -61,7 +61,7 @@ const SettingsPage: FC = () => {
                   Open Test Form
                 </Group>
               </Button>
-              <FileButton />
+              <FileButton disabled />
             </>
           )}
         </Group>

@@ -1,4 +1,4 @@
-import { InputWrapper } from "@mantine/core"
+import { Group, InputWrapper } from "@mantine/core"
 import { FC } from "react"
 import { FileType } from "../../types/FileType"
 import { StrapiEntryType } from "../../types/StrapiEntryType"
@@ -21,7 +21,9 @@ const InputFile: FC<InputFileProps> = ({
 }) => {
   return (
     <InputWrapper label={label} required={required}>
-      <FileButton onChange={onChange} value={value} disabled={disabled} />
+      <Group>
+        <FileButton onChange={onChange} value={value} disabled={disabled} />
+      </Group>
     </InputWrapper>
   )
 }

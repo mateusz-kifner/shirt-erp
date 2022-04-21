@@ -68,7 +68,7 @@ interface FileButtonProps {
   disabled?: boolean
 }
 
-const FileButton: FC<FileButtonProps> = ({ onChange, value }) => {
+const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
   const [fileData, setFileData] = useState<StrapiEntryType<FileType> | null>(
     null
   )
@@ -100,7 +100,7 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value }) => {
           getBase64(file).then((val: any) => setPreview(val))
         else
           setPreview(
-            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-file-unknown' width='48' height='48' viewBox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round'%3E%3Cstyle%3Epath {stroke: %23333;stroke-width:2;fill:none;}%3C/style%3E%3Cpath d='M0 0h24v24H0z' style='stroke:none;fill:%23eee'%3E%3C/path%3E%3Cpath d='M14 3v4a1 1 0 0 0 1 1h4'%3E%3C/path%3E%3Cpath d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z'%3E%3C/path%3E%3Cpath d='M12 17v.01'%3E%3C/path%3E%3Cpath d='M12 14a1.5 1.5 0 1 0 -1.14 -2.474'%3E%3C/path%3E%3C/svg%3E"
+            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-file-unknown' width='48' height='48' viewBox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round'%3E%3Cstyle%3Epath {stroke: %23333;stroke-width:2;fill:none;}%3C/style%3E%3Cpath d='M14 3v4a1 1 0 0 0 1 1h4'%3E%3C/path%3E%3Cpath d='M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z'%3E%3C/path%3E%3Cpath d='M12 17v.01'%3E%3C/path%3E%3Cpath d='M12 14a1.5 1.5 0 1 0 -1.14 -2.474'%3E%3C/path%3E%3C/svg%3E"
           )
 
         console.log(val)
@@ -168,6 +168,9 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value }) => {
               height={100}
               radius="md"
               fit="cover"
+              styles={(theme) => ({
+                image: { backgroundColor: "#eee" },
+              })}
             />
             <Text pr="xl">{fileData?.attributes?.name}</Text>
           </Group>
@@ -176,20 +179,27 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value }) => {
               setPreview("")
               onRemove()
             }}
-            sx={(theme) => ({
+            style={{
               position: "absolute",
               top: 0,
               left: 0,
               width: "100%",
               height: "100%",
+            }}
+            sx={(theme) => ({
               backgroundColor: "transparent",
               color: "transparent",
               "&:hover": {
                 backgroundColor: "rgba(0.1,0.1,0.1,0.5)",
                 color: theme.colors.red[8],
               },
+              "&:disabled": {
+                backgroundColor: "rgba(0.1,0.1,0.1,0.5) !important",
+                color: "transparent !important",
+              },
             })}
             radius="md"
+            disabled={disabled}
           >
             <TrashX size={32} />
           </Button>
@@ -205,6 +215,7 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value }) => {
           }}
           onClick={() => !uploading && setOpened(true)}
           radius="md"
+          disabled={disabled}
         >
           {uploading ? (
             <LoadingOverlay visible={uploading} />

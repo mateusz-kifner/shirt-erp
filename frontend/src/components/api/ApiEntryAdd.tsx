@@ -5,7 +5,6 @@ import {
   TextInput,
   Stack,
   NumberInput,
-  Switch,
 } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
 import { useForm, useId } from "@mantine/hooks"
@@ -15,6 +14,7 @@ import InputBoolean from "../form/InputBoolean"
 import InputColor from "../form/InputColor"
 import InputDateTime from "../form/InputDateTime"
 import InputEnum from "../form/InputEnum"
+import InputFile from "../form/InputFile"
 import InputNotImplemented from "../form/InputNotImplemented"
 import InputApiEntry from "./InputApiEntry"
 import InputApiIconId from "./InputApiIconId"
@@ -30,8 +30,8 @@ const mapping: { [key: string]: React.ReactNode } = {
   apiEntry: <InputApiEntry />,
   productComponent: <InputNotImplemented />,
   productComponents: <InputNotImplemented />,
-  image: <InputNotImplemented />,
-  file: <InputNotImplemented />,
+  image: <InputFile />,
+  file: <InputFile />,
   files: <InputNotImplemented />,
   workstations: <InputNotImplemented />,
   employees: <InputNotImplemented />,
