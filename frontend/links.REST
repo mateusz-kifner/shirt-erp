@@ -17,6 +17,13 @@ GET {{host}}/api/icon
 
 GET {{host}}/uploads/Arrow_east_d39befddfe.svg
 
+
+###
+
+GET {{host}}/api/upload/files
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
 ###
 
 GET {{host}}/uploads/scarf_1e3f8fec92.svg
@@ -30,3 +37,9 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {"data":{"username":"testdatysu"}}
+
+###
+
+GET {{host}}/api/products?populate=*
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

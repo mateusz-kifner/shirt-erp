@@ -95,20 +95,20 @@ const App: FC = ({ children }) => {
         }}
         styles={{
           Title: (theme) => ({
-            root: {
-              color:
-                theme.colorScheme === "dark"
-                  ? theme.colors.gray[3]
-                  : theme.colors.dark[5],
-            },
+            // root: {
+            //   color:
+            //     theme.colorScheme === "dark"
+            //       ? theme.colors.gray[3]
+            //       : theme.colors.dark[5],
+            // },
           }),
           Text: (theme) => ({
-            root: {
-              color:
-                theme.colorScheme === "dark"
-                  ? theme.colors.gray[3]
-                  : theme.colors.dark[5],
-            },
+            // root: {
+            //   color:
+            //     theme.colorScheme === "dark"
+            //       ? theme.colors.gray[3]
+            //       : theme.colors.dark[5],
+            // },
           }),
           // Group: (theme) => ({
           //   root: {
