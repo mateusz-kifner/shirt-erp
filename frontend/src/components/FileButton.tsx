@@ -108,6 +108,7 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
         setUploading(false)
       })
   }
+
   const onRemove = () => {
     axios
       .delete(serverURL + `/api/upload/files/${fileData?.id}`)

@@ -1,11 +1,12 @@
 import { FC, useState } from "react"
-import { Button, Container, Group, Modal, Paper } from "@mantine/core"
+import { Button, Container, Group, Modal, Paper, Stack } from "@mantine/core"
 import { Bug, Logout } from "tabler-icons-react"
 import { loginState } from "../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import ApiEntryAdd from "../../components/api/ApiEntryAdd"
 import testSchema from "../../schemas/test.schema.json"
 import FileButton from "../../components/FileButton"
+import FileList from "../../components/FileList"
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -48,7 +49,7 @@ const SettingsPage: FC = () => {
             </Group>
           </Button>
           {login.debug && (
-            <>
+            <Stack style={{ width: "100%" }}>
               <Button
                 style={{ width: "100%", color: "#fff" }}
                 onClick={() => {
@@ -62,7 +63,8 @@ const SettingsPage: FC = () => {
                 </Group>
               </Button>
               <FileButton disabled />
-            </>
+              <FileList maxFileCount={1000} />
+            </Stack>
           )}
         </Group>
       </Paper>
