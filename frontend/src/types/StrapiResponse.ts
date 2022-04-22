@@ -1,5 +1,5 @@
 export interface StrapiResponse {
-  data: StrapiGeneric[]
+  data: any[] | object | any | null
   meta: {
     pagination?: {
       page?: number
@@ -8,9 +8,4 @@ export interface StrapiResponse {
       total?: number
     }
   }
-}
-
-export interface StrapiGeneric {
-  id: number
-  attributes: object
 }

@@ -14,7 +14,6 @@ import {
 import { FC, useState } from "react"
 import { Plus, Refresh, Search, SortAscending } from "tabler-icons-react"
 import useStrapiList from "../../hooks/useStrapiList"
-import { StrapiEntryType } from "../../types/StrapiEntryType"
 
 interface ApiListProps {
   entryName: string
@@ -23,7 +22,7 @@ interface ApiListProps {
   listSpacing?: MantineNumberSize
   spacing?: MantineNumberSize
   withSeparators?: boolean
-  onChange?: (val: StrapiEntryType<any>) => void
+  onChange?: (val: any) => void
 }
 
 const ApiList: FC<ApiListProps> = ({
@@ -33,7 +32,7 @@ const ApiList: FC<ApiListProps> = ({
   listSpacing = "md",
   spacing = "md",
   withSeparators = false,
-  onChange = (val: StrapiEntryType<any>) => {},
+  onChange = (val: any) => {},
 }) => {
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch } = useStrapiList(entryName, page)
@@ -76,7 +75,7 @@ const ApiList: FC<ApiListProps> = ({
       </Stack>
       <Stack spacing={listSpacing}>
         {data &&
-          data.map((val: StrapiEntryType<any>, index: number) => (
+          data.map((val: any, index: number) => (
             <Box
               key={`list_${entryName}_${index}`}
               sx={{

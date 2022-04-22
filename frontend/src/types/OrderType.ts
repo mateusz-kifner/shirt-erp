@@ -1,6 +1,5 @@
 import { AddressType } from "./AddressType"
 import { ClientType } from "./ClientType"
-import { ExpensesType } from "./ExpensesType"
 import { FileType } from "./FileType"
 import { ProductComponentType } from "./ProductComponentType"
 import { UserType } from "./UserType"

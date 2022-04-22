@@ -4,12 +4,13 @@ import {
   Modal,
   useMantineTheme,
   Text,
+  Stack,
+  Image,
 } from "@mantine/core"
 import { Dropzone, DropzoneStatus } from "@mantine/dropzone"
 import { FC, useState } from "react"
 import { Photo, Upload, X, Icon as TablerIcon } from "tabler-icons-react"
 import { FileType } from "../types/FileType"
-import { StrapiEntryType } from "../types/StrapiEntryType"
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -50,20 +51,17 @@ function getBase64(file: File | undefined) {
 }
 
 interface FileListProps {
-  onChange?: (files: StrapiEntryType<FileType>[] | null) => void
-  value?: StrapiEntryType<FileType>[] | null
+  onChange?: (files: FileType[] | null) => void
+  value?: FileType[] | null
   disabled?: boolean
 }
 
 const FileList: FC<FileListProps> = ({ onChange, value, disabled }) => {
   const theme = useMantineTheme()
-  const [fileData, setFileData] = useState<StrapiEntryType<FileType> | null>(
-    null
-  )
-
-  const [preview, setPreview] = useState<string>("")
-  const [error, setError] = useState<string | undefined>()
-  const [uploading, setUploading] = useState<boolean>(false)
+  const [fileData, setFileData] = useState<FileType[]>([])
+  const [preview, setPreview] = useState<string[]>([])
+  const [error, setError] = useState<(string | null)[]>([])
+  const [uploading, setUploading] = useState<boolean[]>([])
 
   const [opened, setOpened] = useState<boolean>(false)
   return (
@@ -74,10 +72,10 @@ const FileList: FC<FileListProps> = ({ onChange, value, disabled }) => {
             // onUpload(val[0])
             setOpened(false)
           }}
-          onReject={(file_error) => setError(file_error[0].errors[0].message)}
+          // onReject={(file_error) => setError(file_error[0].errors[0].message)}
           style={{ minWidth: "100%" }}
           multiple={false}
-          loading={uploading}
+          // loading={uploading}
         >
           {(status) => (
             <Group
@@ -101,6 +99,24 @@ const FileList: FC<FileListProps> = ({ onChange, value, disabled }) => {
           )}
         </Dropzone>
       </Modal>
+      <Stack>
+        {fileData.map((val: FileType, index: number) => (
+          <Group>
+            <Image
+              src={preview[index]}
+              alt=""
+              width={100}
+              height={100}
+              radius="md"
+              fit="cover"
+              styles={(theme) => ({
+                image: { backgroundColor: "#eee" },
+              })}
+            />
+            <Text pr="xl">{val?.name}</Text>
+          </Group>
+        ))}
+      </Stack>
     </>
   )
 }

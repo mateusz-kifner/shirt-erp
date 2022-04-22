@@ -21,7 +21,6 @@ import {
 } from "tabler-icons-react"
 import axios, { AxiosError } from "axios"
 import { serverURL } from "../env"
-import { StrapiEntryType } from "../types/StrapiEntryType"
 import _ from "lodash"
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
@@ -63,13 +62,13 @@ function getBase64(file: File | undefined) {
 }
 
 interface FileButtonProps {
-  onChange?: (files: StrapiEntryType<FileType> | null) => void
-  value?: StrapiEntryType<FileType> | null
+  onChange?: (files: FileType | null) => void
+  value?: FileType | null
   disabled?: boolean
 }
 
 const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
-  const [fileData, setFileData] = useState<StrapiEntryType<FileType> | null>(
+  const [fileData, setFileData] = useState<FileType | null>(
     value ? value : null
   )
 
@@ -92,15 +91,9 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
       .post(serverURL + "/api/upload", formData)
       .then((val: any) => {
         setUploading(false)
-        setFileData({
-          id: val.data[0]?.id,
-          attributes: _.omit(val.data[0], "id") as FileType,
-        })
-        onChange &&
-          onChange({
-            id: val.data[0]?.id,
-            attributes: _.omit(val.data[0], "id") as FileType,
-          })
+        setFileData({ ...val.data[0] })
+        onChange && onChange({ ...val.data[0] })
+
         if (isFileImage(file))
           getBase64(file).then((val: any) => setPreview(val))
         else
@@ -177,7 +170,7 @@ const FileButton: FC<FileButtonProps> = ({ onChange, value, disabled }) => {
                 image: { backgroundColor: "#eee" },
               })}
             />
-            <Text pr="xl">{fileData?.attributes?.name}</Text>
+            <Text pr="xl">{fileData?.name}</Text>
           </Group>
           <Button
             onClick={() => {

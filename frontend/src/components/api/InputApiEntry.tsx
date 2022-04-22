@@ -18,13 +18,12 @@ import React, {
   useState,
 } from "react"
 import { ProductType } from "../../types/ProductType"
-import { StrapiEntryType } from "../../types/StrapiEntryType"
 import ApiIconSVG from "./ApiIconSVG"
 import ApiList from "./ApiList"
 
 const ProductListItem: FC<{
-  onChange?: (product?: StrapiEntryType<Partial<ProductType>>) => void
-  value?: StrapiEntryType<Partial<ProductType>>
+  onChange?: (product?: Partial<ProductType>) => void
+  value?: Partial<ProductType>
 }> = ({ value, onChange }) => {
   const theme = useMantineTheme()
   if (!value)
@@ -71,17 +70,14 @@ const ProductListItem: FC<{
     >
       <Group>
         <Avatar color="blue" radius="sm">
-          <ApiIconSVG
-            entryName="productCategories"
-            id={value.attributes.iconId}
-          />
+          <ApiIconSVG entryName="productCategories" id={value?.iconId} />
         </Avatar>
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
-            {value.attributes.name}
+            {value?.name}
           </Text>
           <Text color="dimmed" size="xs">
-            {value.attributes.codeName}
+            {value?.codeName}
           </Text>
         </Box>
       </Group>
@@ -97,17 +93,15 @@ const mapping: { [key: string]: React.ReactNode } = {
 interface InputApiEntryProps {
   label?: string
   placeholder?: string
-  value?: StrapiEntryType<any>
+  value?: any
   entryName?: string
-  onChange?: (val: StrapiEntryType<any>) => void
+  onChange?: (val: any) => void
   disabled?: boolean
   required?: boolean
 }
 
 const InputApiEntry: FC<InputApiEntryProps> = (props) => {
-  const [entry, setEntry] = useState<StrapiEntryType<any> | undefined>(
-    props?.value
-  )
+  const [entry, setEntry] = useState<any | undefined>(props?.value)
   const [opened, setOpened] = useState<boolean>(false)
   const uuid = useUuid()
 

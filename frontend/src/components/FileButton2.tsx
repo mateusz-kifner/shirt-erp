@@ -21,7 +21,6 @@ import {
 } from "tabler-icons-react"
 import axios, { AxiosError } from "axios"
 import { serverURL } from "../env"
-import { StrapiEntryType } from "../types/StrapiEntryType"
 import _ from "lodash"
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
@@ -68,9 +67,7 @@ interface FileButton2Props {
 }
 
 const FileButton2: FC<FileButton2Props> = ({ onChange, value }) => {
-  const [fileData, setFileData] = useState<StrapiEntryType<FileType> | null>(
-    null
-  )
+  const [fileData, setFileData] = useState<FileType | null>(null)
   const [preview, setPreview] = useState<string>("")
   const [error, setError] = useState<string | undefined>()
   const [uploading, setUploading] = useState<boolean>(false)
@@ -89,10 +86,7 @@ const FileButton2: FC<FileButton2Props> = ({ onChange, value }) => {
       .post(serverURL + "/api/upload", formData)
       .then((val: any) => {
         setUploading(false)
-        setFileData({
-          id: val.data[0]?.id,
-          attributes: _.omit(val.data[0], "id") as FileType,
-        })
+        setFileData({ ...val.data[0] })
         if (isFileImage(file))
           getBase64(file).then((val: any) => setPreview(val))
         else

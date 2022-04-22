@@ -16,7 +16,6 @@ import ApiList from "../../components/api/ApiList"
 import ApiEntryDetails from "../../components/api/ApiEntryDetails"
 import ApiEntryAdd from "../../components/api/ApiEntryAdd"
 import product_schema from "../../schemas/product.schema.json"
-import { StrapiEntryType } from "../../types/StrapiEntryType"
 import ApiIconSVG from "../../components/api/ApiIconSVG"
 import convert from "color-convert"
 
@@ -51,7 +50,7 @@ const ProductsPage: FC = () => {
           label="Products"
           spacing="xl"
           listSpacing="sm"
-          onChange={(val: StrapiEntryType<any>) => {
+          onChange={(val: any) => {
             console.log(val)
           }}
         />
@@ -80,8 +79,8 @@ const ProductsPage: FC = () => {
 }
 
 const ProductListItem: FC<{
-  onChange?: (product: StrapiEntryType<Partial<ProductType>>) => void
-  value: StrapiEntryType<Partial<ProductType>>
+  onChange?: (product: Partial<ProductType>) => void
+  value: Partial<ProductType>
 }> = ({ value, onChange }) => {
   const theme = useMantineTheme()
 
@@ -108,16 +107,16 @@ const ProductListItem: FC<{
         <Avatar
           // style={{ backgroundColor: value.attributes.color?.colorHex }}
           styles={{
-            placeholder: { backgroundColor: value.attributes?.color?.colorHex },
+            placeholder: { backgroundColor: value?.color?.colorHex },
           }}
           radius="xl"
         >
           <ApiIconSVG
             entryName="productCategories"
-            id={value.attributes.iconId}
+            id={value.iconId}
             color={
-              value.attributes?.color?.colorHex
-                ? convert.hex.hsl(value.attributes.color.colorHex)[2] < 0.5
+              value?.color?.colorHex
+                ? convert.hex.hsl(value.color.colorHex)[2] < 0.5
                   ? "#fff"
                   : "#000"
                 : theme.colorScheme === "dark"
@@ -129,10 +128,10 @@ const ProductListItem: FC<{
         </Avatar>
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
-            {value.attributes.name}
+            {value.name}
           </Text>
           <Text color="dimmed" size="xs">
-            {value.attributes.codeName}
+            {value.codeName}
           </Text>
         </Box>
 

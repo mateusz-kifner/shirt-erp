@@ -1,14 +1,13 @@
 import { Group, InputWrapper } from "@mantine/core"
 import { FC } from "react"
 import { FileType } from "../../types/FileType"
-import { StrapiEntryType } from "../../types/StrapiEntryType"
 import FileButton from "../FileButton"
 
 interface InputFileProps {
   label?: string
   placeholder?: string
-  value?: StrapiEntryType<FileType> | null
-  onChange?: (value: StrapiEntryType<FileType> | null) => void
+  value?: FileType | null
+  onChange?: (value: FileType | null) => void
   disabled?: boolean
   required?: boolean
 }
