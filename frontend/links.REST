@@ -82,3 +82,23 @@ Authorization: Bearer {{authToken}}
     }
 
 }}
+
+###
+
+POST {{host}}/api/products
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "data": {
+        "name": "fdkddasfjksadkajkf",
+        "codeName": "",
+        "category": "koszulka",
+        "desc": "",
+        "color": {
+            "colorName": "Biały",
+            "colorHex": "#ffffff"
+        },
+        "iconId": null
+    }
+}
