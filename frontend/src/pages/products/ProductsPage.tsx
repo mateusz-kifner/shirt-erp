@@ -72,7 +72,7 @@ const ProductsPage: FC = () => {
           },
         })}
       >
-        <ApiEntryAdd schema={product_schema} />
+        <ApiEntryAdd schema={product_schema} entryName="products" />
       </Paper>
     </Group>
   )

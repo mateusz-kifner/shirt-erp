@@ -10,6 +10,7 @@ import { DatePicker } from "@mantine/dates"
 import { useForm, useId } from "@mantine/hooks"
 import React, { ReactElement } from "react"
 import { FC } from "react"
+import useStrapi from "../../hooks/useStrapi"
 import InputBoolean from "../form/InputBoolean"
 import InputColor from "../form/InputColor"
 import InputDateTime from "../form/InputDateTime"
@@ -41,24 +42,25 @@ const mapping: { [key: string]: React.ReactNode } = {
 
 interface ApiEntryAddProps {
   schema: any
+  entryName: string
 }
 
-const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema }) => {
+const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema, entryName }) => {
   const uuid = useId()
-  let initialValues: any = {}
-  for (const key in schema) {
-    initialValues[key] = schema[key]?.initialValue
-  }
+  const { add } = useStrapi(entryName)
   const form = useForm({
-    initialValues: initialValues,
+    initialValues: (function () {
+      let initialValues: any = {}
+      for (const key in schema) {
+        initialValues[key] = schema[key]?.initialValue
+      }
+      return initialValues
+    })(),
   })
-  console.log(initialValues)
+
   return (
-    <Box
-      // sx={{ maxWidth: 300 }}
-      mx="auto"
-    >
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <Box mx="auto">
+      <form onSubmit={form.onSubmit((values) => add(values))}>
         <Stack>
           {Object.keys(schema).map((key: string, index: number) => {
             if (!schema[key]?.hidden && mapping[schema[key]?.type]) {

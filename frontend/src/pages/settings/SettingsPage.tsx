@@ -19,7 +19,7 @@ const SettingsPage: FC = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <ApiEntryAdd schema={testSchema} />
+        <ApiEntryAdd schema={testSchema} entryName="products" />
       </Modal>
       <Paper shadow="xs" p="xl" withBorder>
         <Group>
