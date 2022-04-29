@@ -14,7 +14,7 @@ import {
 import { Dropzone, DropzoneStatus } from "@mantine/dropzone"
 import { useUuid } from "@mantine/hooks"
 import axios, { AxiosError } from "axios"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import {
   Photo,
   Upload,
@@ -82,7 +82,7 @@ const FileList: FC<FileListProps> = ({
   onChange,
   value,
   disabled,
-  maxFileCount = 1,
+  maxFileCount = 1024,
 }) => {
   const theme = useMantineTheme()
   const uuid = useUuid()
@@ -147,8 +147,12 @@ const FileList: FC<FileListProps> = ({
         console.log({ ...err })
       })
     setFilesData((filesData) => filesData.filter((_, i) => i !== index))
-    // onChange && onChange(null)
   }
+
+  useEffect(() => {
+    if (!filesData || filesData.length < 1) return
+    onChange && onChange(filesData.map((val: FilesDataType) => val.file))
+  }, [filesData])
 
   return (
     <>

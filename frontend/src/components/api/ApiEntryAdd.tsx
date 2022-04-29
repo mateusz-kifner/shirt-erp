@@ -8,7 +8,7 @@ import {
 } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
 import { useForm, useId } from "@mantine/hooks"
-import React, { ReactElement } from "react"
+import React, { memo, ReactElement, useCallback, useMemo } from "react"
 import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import InputBoolean from "../form/InputBoolean"
@@ -16,6 +16,7 @@ import InputColor from "../form/InputColor"
 import InputDateTime from "../form/InputDateTime"
 import InputEnum from "../form/InputEnum"
 import InputFile from "../form/InputFile"
+import InputFiles from "../form/InputFiles"
 import InputNotImplemented from "../form/InputNotImplemented"
 import InputApiEntry from "./InputApiEntry"
 import InputApiIconId from "./InputApiIconId"
@@ -33,7 +34,7 @@ const mapping: { [key: string]: React.ReactNode } = {
   productComponents: <InputNotImplemented />,
   image: <InputFile />,
   file: <InputFile />,
-  files: <InputNotImplemented />,
+  files: <InputFiles />,
   workstations: <InputNotImplemented />,
   employees: <InputNotImplemented />,
   submit: <InputNotImplemented />,
@@ -48,14 +49,16 @@ interface ApiEntryAddProps {
 const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema, entryName }) => {
   const uuid = useId()
   const { add } = useStrapi(entryName)
+  const generateInitialValues = useCallback(() => {
+    let initialValues: any = {}
+    for (const key in schema) {
+      initialValues[key] = schema[key]?.initialValue
+    }
+    return initialValues
+  }, [schema])
+
   const form = useForm({
-    initialValues: (function () {
-      let initialValues: any = {}
-      for (const key in schema) {
-        initialValues[key] = schema[key]?.initialValue
-      }
-      return initialValues
-    })(),
+    initialValues: generateInitialValues(),
   })
 
   return (

@@ -1,11 +1,10 @@
 import { Group, InputWrapper } from "@mantine/core"
 import { FC } from "react"
 import { FileType } from "../../types/FileType"
-import FileButton from "../FileButton"
+import FileList from "../FileList"
 
 interface InputFileProps {
   label?: string
-  placeholder?: string
   value?: FileType | null
   onChange?: (value: FileType | null) => void
   disabled?: boolean
@@ -21,7 +20,15 @@ const InputFile: FC<InputFileProps> = ({
   return (
     <InputWrapper label={label} required={required}>
       <Group>
-        <FileButton onChange={onChange} value={value} disabled={disabled} />
+        <FileList
+          onChange={(files) => {
+            console.log(files)
+            files && onChange && onChange(files[0])
+          }}
+          value={value ? [value] : null}
+          disabled={disabled}
+          maxFileCount={1}
+        />
       </Group>
     </InputWrapper>
   )

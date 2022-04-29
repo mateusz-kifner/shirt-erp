@@ -7,20 +7,14 @@ const queryClient = new QueryClient()
 
 // TODO: Add proper optimisticUpdate
 
-const fetchData = async (
-  entryName: string | undefined,
-  id: number | undefined
-) => {
+const fetchData = async (entryName?: string | null, id?: number | null) => {
   if (!id) return
   if (!entryName) return
   const res = await axios.get(`/${entryName}/${id}`)
   return res.data
 }
 
-const addEntry = async (
-  entryName: string | undefined,
-  data: any | undefined
-) => {
+const addEntry = async (entryName?: string | null, data?: any | null) => {
   if (!data) return
   if (!entryName) return
   const res = await axios.post(`/${entryName}`, data)
@@ -28,10 +22,7 @@ const addEntry = async (
   return res.data
 }
 
-const removeEntry = async (
-  entryName: string | undefined,
-  id: number | undefined
-) => {
+const removeEntry = async (entryName?: string | null, id?: number | null) => {
   if (!id) return
   if (!entryName) return
   const res = await axios.delete(`/${entryName}/${id}`)
@@ -39,9 +30,9 @@ const removeEntry = async (
 }
 
 const updateEntry = async (
-  entryName: string | undefined,
-  id: number | undefined,
-  data: any | undefined
+  entryName?: string | null,
+  id?: number | null,
+  data?: any | null
 ) => {
   if (!data) return
   if (!entryName) return
@@ -177,7 +168,7 @@ interface OptionsProps<EntryType> {
 
 function useStrapi<EntryType>(
   entryName: string,
-  id?: number,
+  id?: number | null,
   options?: OptionsProps<EntryType>
 ) {
   const { data, status, refetch } = useQuery(
