@@ -40,7 +40,7 @@ const LoginModal = () => {
     axios
       .post("/auth/local", loginData)
       .then(function (response) {
-        setLogin(response.data)
+        setLogin(response.data.data)
         console.log(response)
       })
       .catch(function (error) {
