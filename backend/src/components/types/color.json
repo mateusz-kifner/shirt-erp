@@ -1,0 +1,16 @@
+{
+  "collectionName": "type_colors",
+  "info": {
+    "displayName": "Color",
+    "icon": "adjust"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "hex": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "icons",
+  "info": {
+    "singularName": "icon",
+    "pluralName": "icons",
+    "displayName": "Icon"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "productIcons": {
+      "type": "component",
+      "repeatable": true,
+      "component": "types.icon"
+    }
+  }
+}

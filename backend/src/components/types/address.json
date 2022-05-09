@@ -1,0 +1,31 @@
+{
+  "collectionName": "type_addresses",
+  "info": {
+    "displayName": "Address",
+    "icon": "building"
+  },
+  "options": {},
+  "attributes": {
+    "streetName": {
+      "type": "string"
+    },
+    "streetNumber": {
+      "type": "string"
+    },
+    "apartmentNumber": {
+      "type": "string"
+    },
+    "secondLine": {
+      "type": "string"
+    },
+    "postCode": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "province": {
+      "type": "string"
+    }
+  }
+}

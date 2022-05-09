@@ -1,0 +1,21 @@
+{
+  "collectionName": "addition_product_data",
+  "info": {
+    "displayName": "ProductData",
+    "icon": "arrows-alt-v",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "size": {
+      "type": "string"
+    },
+    "cost": {
+      "type": "float",
+      "default": 0
+    },
+    "codeName": {
+      "type": "string"
+    }
+  }
+}
