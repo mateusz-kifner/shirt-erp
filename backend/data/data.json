@@ -1,0 +1,40 @@
+{
+  "client": [
+    {
+      "username": "jan.kowalski",
+      "firstname": "Jan",
+      "lastname": "Kowalski"
+    },
+    {
+      "username": "test.test",
+      "firstname": "Test",
+      "lastname": "Test"
+    }
+  ],
+  "icon": [
+    {
+      "productIcons": [
+        {
+          "name": "Shirt",
+          "icon": null
+        },
+        {
+          "name": "Shirt",
+          "icon": null
+        },
+        {
+          "name": "Shirt",
+          "icon": null
+        },
+        {
+          "name": "Shirt",
+          "icon": null
+        },
+        {
+          "name": "Shirt",
+          "icon": null
+        }
+      ]
+    }
+  ]
+}
