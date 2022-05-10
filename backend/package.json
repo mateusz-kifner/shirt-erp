@@ -11,9 +11,11 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@strapi/strapi": "4.1.9",
-    "@strapi/plugin-users-permissions": "4.1.9",
     "@strapi/plugin-i18n": "4.1.9",
+    "@strapi/plugin-users-permissions": "4.1.9",
+    "@strapi/strapi": "4.1.9",
+    "lodash": "^4.17.21",
+    "mime-types": "^2.1.35",
     "pg": "8.6.0"
   },
   "author": {

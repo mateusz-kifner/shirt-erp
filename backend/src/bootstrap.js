@@ -1,5 +1,10 @@
+const fs = require("fs");
+const path = require("path");
+const mime = require("mime-types");
+const _ = require("lodash");
 const data = require("../data/data.json");
 const data_files = require("../data/data-files.json");
+const set = _.set;
 
 /**
  * !!! use singular names in data.json and data_files.json !!!
@@ -14,6 +19,12 @@ async function isFirstRun() {
   const initHasRun = await pluginStore.get({ key: "initHasRun" });
   await pluginStore.set({ key: "initHasRun", value: true });
   return !initHasRun;
+}
+
+function getFileSizeInBytes(filePath) {
+  const stats = fs.statSync(filePath);
+  const fileSizeInBytes = stats["size"];
+  return fileSizeInBytes;
 }
 
 function getFileData(fileName) {
@@ -60,9 +71,7 @@ async function createEntry({ model, entry, files }) {
     }
 
     // Actually create the entry in Strapi
-    console.log(`api::${model}.${model}`, {
-      data: entry,
-    });
+    console.log(`api::${model}.${model}`, entry);
     const createdEntry = await strapi.entityService.create(
       `api::${model}.${model}`,
       {
@@ -80,18 +89,21 @@ async function populateDatabase(data, data_files) {
     let index = 0;
     for (let entryIndex in data[model]) {
       let files = null;
-      console.log(data_files[model]);
-      // if (data_files[model] && data_files[model][index]) {
-      //   files = data_files[model][index];
-      // }
+      if (data_files[model] && data_files[model][index]) {
+        files = { ...data_files[model][index] };
+        Object.keys(files).map((key) => {
+          files[key] = getFileData(files[key]);
+        });
+      }
+      // console.log(files);
 
-      console.log({ model: model, entry: data[model][entryIndex], files });
+      // console.log({ model: model, entry: data[model][entryIndex], files });
       let new_entry = await createEntry({
         model: model,
         entry: data[model][entryIndex],
         files,
       });
-      console.log(new_entry);
+      // console.log(new_entry);
       index++;
     }
   }

@@ -13,9 +13,6 @@
     "cost": {
       "type": "float",
       "default": 0
-    },
-    "codeName": {
-      "type": "string"
     }
   }
 }
