@@ -39,11 +39,6 @@ async function respond(ctx, next) {
   if (!ctx.url.startsWith("/api")) {
     return;
   }
-  // console.log(
-  //   `API request (${ctx.url}) detected, transforming response json...`
-  // );
-  // console.log({ ...ctx.response.body });
-
   ctx.response.body = {
     data: ctx.response.body?.data
       ? flatten(ctx.response.body.data)

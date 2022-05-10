@@ -1,3 +1,29 @@
+
+ - arrow-right.svg
+ - bg-colors.svg
+ - calendar.svg
+ - car.svg
+ - check.svg
+ - clear.svg
+ - close.svg
+ - container.svg
+ - control.svg
+ - credit-card.svg
+ - crown.svg
+ - experiment.svg
+ - file-image.svg
+ - format-painter.svg
+ - gift.svg
+ - highlight.svg
+ - inbox.svg
+ - printer.svg
+ - robot.svg
+ - shopping-cart.svg
+ - shopping.svg
+ - skin.svg
+
+Files listed above are licensed as follows:
+
 MIT LICENSE
 
 Copyright (c) 2018-present Ant UED, https://xtech.antfin.com/
