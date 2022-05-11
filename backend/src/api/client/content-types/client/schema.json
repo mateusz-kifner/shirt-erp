@@ -42,6 +42,12 @@
       "type": "component",
       "repeatable": false,
       "component": "types.address"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "client"
     }
   }
 }

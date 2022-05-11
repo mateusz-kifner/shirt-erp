@@ -1,0 +1,17 @@
+{
+  "collectionName": "addition_expense_items",
+  "info": {
+    "displayName": "ExpenseItem",
+    "icon": "apple-alt",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer"
+    }
+  }
+}

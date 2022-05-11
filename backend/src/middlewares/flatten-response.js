@@ -43,7 +43,7 @@ async function respond(ctx, next) {
     data: ctx.response.body?.data
       ? flatten(ctx.response.body.data)
       : ctx.response.body,
-    meta: ctx.response.body.meta,
+    meta: ctx.response.body?.meta,
   };
 }
 

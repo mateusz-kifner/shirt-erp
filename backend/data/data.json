@@ -105,5 +105,25 @@
         { "size": "5XL", "cost": 20.2 }
       ]
     }
+  ],
+  "log": [
+    {
+      "message": "testLog",
+      "type": "???",
+      "data": { "message": "test" },
+      "userId": "1"
+    }
+  ],
+  "expense": [
+    {
+      "name": "Farby",
+      "price": 1234.12,
+      "items": [
+        { "name": "pink 100ml", "count": 3 },
+        { "name": "black  500ml", "count": 2 },
+        { "name": "white 10L", "count": 1 }
+      ],
+      "user": 1
+    }
   ]
 }

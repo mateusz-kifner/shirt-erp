@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "expenses",
+  "info": {
+    "singularName": "expense",
+    "pluralName": "expenses",
+    "displayName": "Expense",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "expenses"
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "additions.expense-item"
+    }
+  }
+}
