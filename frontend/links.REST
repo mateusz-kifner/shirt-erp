@@ -1,0 +1,104 @@
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUwMzgxMTI3LCJleHAiOjE2NTI5NzMxMjd9.-QAkkvIMZbmQKwvtMFNgSaomJFrTHn0CYqZJyFzhDwM
+
+@host=http://localhost:1337
+###
+
+POST {{host}}/api/auth/local
+content-type: application/json
+
+{"identifier": "testuser2","password":"testuser2"}
+
+
+###
+
+GET {{host}}/api/icon
+
+###
+
+GET {{host}}/uploads/Arrow_east_d39befddfe.svg
+
+
+###
+
+GET {{host}}/api/upload/files
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+GET {{host}}/uploads/scarf_1e3f8fec92.svg
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+POST {{host}}/api/clients
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{"data":{"username":"tedasdadastdatysu"}}
+
+###
+
+GET {{host}}/api/products?populate=*
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+POST {{host}}/api/products?populate=*
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{"data":{
+    "name": "vzjvczsdaddadadaasdadax",
+    "codeName": "danmn,m",
+    "category": "koszulka",
+    "desc": "dsnm,da",
+    "color": {
+        "colorName": "Biały",
+        "colorHex": "#ffffff"
+    },
+    "iconId": 3,
+    "previewImg": {
+        "id": 96,
+        "name": "error.svg",
+        "alternativeText": null,
+        "caption": null,
+        "width": null,
+        "height": null,
+        "formats": null,
+        "hash": "error_9b9e5c9235",
+        "ext": ".svg",
+        "mime": "image/svg+xml",
+        "size": 0.62,
+        "url": "/uploads/error_9b9e5c9235.svg",
+        "previewUrl": null,
+        "provider": "local",
+        "provider_metadata": null,
+        "createdAt": "2022-04-21T13:22:39.848Z",
+        "updatedAt": "2022-04-21T13:22:39.848Z"
+        
+    }
+
+}}
+
+###
+
+POST {{host}}/api/products
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "data": {
+        "name": "fdkddasfjksadkajkf",
+        "codeName": "",
+        "category": "koszulka",
+        "desc": "",
+        "color": {
+            "colorName": "Biały",
+            "colorHex": "#ffffff"
+        },
+        "iconId": null
+    }
+}
