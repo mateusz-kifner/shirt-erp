@@ -1,0 +1,49 @@
+name: DeployBackend
+
+on: [workflow_dispatch]
+
+jobs:
+  deploy_backend:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./backend
+
+    env:
+      CI: false
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Add app.js
+        run: |
+          echo "const strapi = require('strapi');strapi().start();" > app.js
+          cat app.js
+      - name: Copy to server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "backend"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET_BACKEND }}
+      - name: Setup server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ${{ secrets.REMOTE_TARGET_BACKEND }}
+            mv public_nodejs/public/uploads/ uploads
+            rm -dr public_nodejs
+            mv backend public_nodejs
+            cp database.js public_nodejs/config/database.js 
+            cd public_nodejs
+            ls
+            yarn
+            yarn build-prod
+            rm -dr public/uploads/
+            mv ../uploads/ public/
+            devil www restart mateuszkifner.ct8.pl
