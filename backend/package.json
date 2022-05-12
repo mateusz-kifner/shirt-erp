@@ -11,12 +11,12 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "@strapi/plugin-i18n": "4.1.9",
-    "@strapi/plugin-users-permissions": "4.1.9",
-    "@strapi/strapi": "4.1.9",
+    "@strapi/plugin-i18n": "4.1.10",
+    "@strapi/plugin-users-permissions": "4.1.10",
+    "@strapi/strapi": "4.1.10",
     "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
-    "pg": "8.6.0"
+    "pg": "8.7.3"
   },
   "author": {
     "name": "Mateusz Kifner"

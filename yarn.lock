@@ -1156,7 +1156,7 @@ vitepress-dark-theme@^0.1.7:
   resolved "https://registry.yarnpkg.com/vitepress-dark-theme/-/vitepress-dark-theme-0.1.7.tgz#a4ca8a9d72a27a09b4f59aa7bc0afd04497a1efa"
   integrity sha512-TDA0dmTKTE2vMRrLFz8+KIVXnkpWh3vH+6lOeQGSnQVtrt/8dNP0JdyBUhVNQNxPjbjNFD9dgWZW+yPvPD0qdw==
 
-vitepress@^0.22.3:
+vitepress@^0.22.4:
   version "0.22.4"
   resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.22.4.tgz#d4d778fb06decfc2c31c105f6a7a136843cdfb08"
   integrity sha512-oZUnLO/SpYdThaBKefDeOiVlr0Rie4Ppx3FzMnMyLtJnI5GlBMNjqYqMy/4+umm/iC+ZDJfI+IlDKxv5fZnYzA==
