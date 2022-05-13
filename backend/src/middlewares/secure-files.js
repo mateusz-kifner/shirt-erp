@@ -9,22 +9,23 @@ module.exports = (config, { strapi }) => {
         split_url[1] === "api" &&
         split_url[2] === "upload")
     ) {
-      const public_files = await strapi
-        .service("api::public.public")
-        .find({ populate: "*" });
-      console.log(public_files);
-      // const is_public =
-      //   split_url.length > 2 &&
-      //   split_url[1] === "uploads" &&
-      //   public_files &&
-      //   public_files.files &&
-      //   public_files.files.length > 0 &&
-      //   public_files.files
-      //     .map((val) => val.hash + val.ext)
-      //     .filter((val) => val === split_url[2]).length > 0;
-      // if (is_public) {
-      //   return await next();
-      // }
+      const file_name_from_url = split_url[2].split("?")[0];
+      const public_files = await strapi.service("api::public.public").find({
+        populate: "*",
+      });
+      console.log(public_files, file_name_from_url);
+      const is_public =
+        split_url.length > 2 &&
+        split_url[1] === "uploads" &&
+        public_files &&
+        public_files.files &&
+        public_files.files.length > 0 &&
+        public_files.files
+          .map((val) => val.hash + val.ext)
+          .filter((val) => val === file_name_from_url).length > 0;
+      if (is_public) {
+        return await next();
+      }
       if (ctx?.request?.header?.authorization) {
         try {
           const jwt_data = await strapi.plugins[

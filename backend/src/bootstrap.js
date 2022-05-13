@@ -98,7 +98,7 @@ function getFileData(fileName) {
 }
 
 // Create an entry and attach files if there are any
-async function createEntry({ model, entry, files }) {
+async function createEntry({ model, entry, files, public }) {
   try {
     if (files) {
       for (const [key, file] of Object.entries(files)) {
@@ -121,6 +121,23 @@ async function createEntry({ model, entry, files }) {
 
         // Attach each file to its entry
         set(entry, key, uploadedFile[0].id);
+
+        if (public) {
+          // console.log("public");
+          const public_files = await strapi.service("api::public.public").find({
+            populate: "*",
+          });
+          // console.log( uploadedFile[0]);
+          if (public_files != null) {
+            await strapi.service("api::public.public").createOrUpdate({
+              data: { files: [...public_files.files, uploadedFile[0]] },
+            });
+          } else {
+            await strapi.service("api::public.public").createOrUpdate({
+              data: { files: uploadedFile },
+            });
+          }
+        }
       }
     }
 
@@ -139,7 +156,7 @@ async function createEntry({ model, entry, files }) {
   }
 }
 
-async function populateDatabase(data, data_files) {
+async function populateDatabase(data, data_files, public = false) {
   if (!(data && Object.keys(data).length > 0)) return;
   for (let model in data) {
     let index = 0;
@@ -151,15 +168,16 @@ async function populateDatabase(data, data_files) {
           files[key] = getFileData(files[key]);
         });
       }
-      // console.log(files);
+      console.log(files);
 
       // console.log({ model: model, entry: data[model][entryIndex], files });
       let new_entry = await createEntry({
         model: model,
         entry: data[model][entryIndex],
         files,
+        public,
       });
-      // console.log(new_entry);
+
       index++;
     }
   }
@@ -214,6 +232,19 @@ module.exports = async () => {
       strapi.log.info(
         "SETUP: First run detected setting up database, don't restart"
       );
+      strapi.log.info("Set upload settings");
+      const uploadSettings = await strapi.store({
+        type: "plugin",
+        name: "upload",
+        key: "settings",
+      });
+      await uploadSettings.set({
+        value: {
+          sizeOptimization: false,
+          responsiveDimensions: false,
+          autoOrientation: false,
+        },
+      });
       strapi.log.info("Setting up Public role");
       await setApiPermissions({
         global: ["find"],
@@ -223,7 +254,7 @@ module.exports = async () => {
       strapi.log.info("Setting up Employee role");
       await setupEmployeeRole();
       strapi.log.info("Setting up the test data ");
-      await populateDatabase(data, data_files);
+      await populateDatabase(data, data_files, true);
       strapi.log.info(" --- SETUP END ---");
     } catch (error) {
       strapi.log.error("Could not import data");
