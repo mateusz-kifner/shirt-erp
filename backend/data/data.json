@@ -122,8 +122,7 @@
         { "name": "pink 100ml", "count": 3 },
         { "name": "black  500ml", "count": 2 },
         { "name": "white 10L", "count": 1 }
-      ],
-      "user": 1
+      ]
     }
   ]
 }

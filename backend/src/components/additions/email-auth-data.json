@@ -1,7 +1,7 @@
 {
-  "collectionName": "type_email_auths",
+  "collectionName": "type_email_auth_data",
   "info": {
-    "displayName": "EmailAuth",
+    "displayName": "EmailAuthData",
     "icon": "at",
     "description": ""
   },

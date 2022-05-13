@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_archives",
+  "info": {
+    "singularName": "order-archive",
+    "pluralName": "order-archives",
+    "displayName": "OrderArchive"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

@@ -21,11 +21,6 @@
       "multiple": false,
       "required": false,
       "allowedTypes": ["images"]
-    },
-    "emailAuths": {
-      "type": "component",
-      "repeatable": true,
-      "component": "types.email-auth"
     }
   }
 }

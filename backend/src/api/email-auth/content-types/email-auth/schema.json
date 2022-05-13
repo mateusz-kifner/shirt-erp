@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "email_auths",
+  "info": {
+    "singularName": "email-auth",
+    "pluralName": "email-auths",
+    "displayName": "EmailAuth"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "auth": {
+      "type": "component",
+      "repeatable": true,
+      "component": "additions.email-auth-data"
+    }
+  }
+}

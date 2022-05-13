@@ -10,6 +10,60 @@ const set = _.set;
  * !!! use singular names in data.json and data_files.json !!!
  */
 
+async function setApiPermissions(newPermissions, role = "Public") {
+  // Find the ID of the public role
+  const strapiRole = await strapi
+    .query("plugin::users-permissions.role")
+    .findOne({
+      where: {
+        name: role,
+      },
+    });
+
+  // Create the new permissions and link them to the public role
+  const allPermissionsToCreate = [];
+  Object.keys(newPermissions).map((controller) => {
+    const actions = newPermissions[controller];
+    const permissionsToCreate = actions.map((action) => {
+      return strapi.query("plugin::users-permissions.permission").create({
+        data: {
+          action: `api::${controller}.${controller}.${action}`,
+          role: strapiRole.id,
+        },
+      });
+    });
+    allPermissionsToCreate.push(...permissionsToCreate);
+  });
+  await Promise.all(allPermissionsToCreate);
+}
+
+async function setPluginPermissions(
+  plugin,
+  controller,
+  actions,
+  role = "Public"
+) {
+  // Find the ID of the public role
+  const strapiRole = await strapi
+    .query("plugin::users-permissions.role")
+    .findOne({
+      where: {
+        name: role,
+      },
+    });
+
+  // Create the new permissions and link them to the public role
+  const permissionsToCreate = actions.map((action) => {
+    return strapi.query("plugin::users-permissions.permission").create({
+      data: {
+        action: `plugin::${plugin}.${controller}.${action}`,
+        role: strapiRole.id,
+      },
+    });
+  });
+  await Promise.all(permissionsToCreate);
+}
+
 async function isFirstRun() {
   const pluginStore = strapi.store({
     environment: strapi.config.environment,
@@ -71,7 +125,9 @@ async function createEntry({ model, entry, files }) {
     }
 
     // Actually create the entry in Strapi
-    console.log(`api::${model}.${model}`, entry);
+    strapi.log.info(`api::${model}.${model}`);
+    strapi.log.debug(JSON.stringify(entry, undefined, 2));
+
     const createdEntry = await strapi.entityService.create(
       `api::${model}.${model}`,
       {
@@ -109,15 +165,69 @@ async function populateDatabase(data, data_files) {
   }
 }
 
+async function setupEmployeeRole() {
+  await strapi
+    .query("plugin::users-permissions.role")
+    .create({ data: { name: "Employee", description: "Employee" } });
+  await setApiPermissions(
+    {
+      global: ["find"],
+      icon: ["find", "update", "delete"],
+      client: ["create", "delete", "find", "findOne", "update"],
+      expense: ["create", "delete", "find", "findOne", "update"],
+      log: ["create", "find", "findOne"],
+      order: ["create", "delete", "find", "findOne", "update"],
+      "order-archive": ["create", "delete", "find", "findOne", "update"],
+      product: ["create", "delete", "find", "findOne", "update"],
+    },
+    "Employee"
+  );
+  await setPluginPermissions(
+    "upload",
+    "content-api",
+    ["count", "destroy", "find", "findOne", "upload"],
+    "Employee"
+  );
+  // await setPluginPermissions(
+  //   "users-permissions",
+  //   "auth",
+  //   ["resetPassword"],
+  //   "Employee"
+  // );
+  await setPluginPermissions(
+    "users-permissions",
+    "role",
+    ["find", "findOne"],
+    "Employee"
+  );
+  await setPluginPermissions(
+    "users-permissions",
+    "user",
+    ["find", "findOne", "count", "me"],
+    "Employee"
+  );
+}
+
 module.exports = async () => {
-  // if (await isFirstRun()) {
-  try {
-    console.log("Setting up the template...");
-    await populateDatabase(data, data_files);
-    console.log("Ready to go");
-  } catch (error) {
-    console.log("Could not import data");
-    console.error(error);
+  if ((await isFirstRun()) || process.env.RERUN_SETUP) {
+    try {
+      strapi.log.info(
+        "SETUP: First run detected setting up database, don't restart"
+      );
+      strapi.log.info("Setting up Public role");
+      await setApiPermissions({
+        global: ["find"],
+        icon: ["find"],
+        product: ["find", "findOne"],
+      });
+      strapi.log.info("Setting up Employee role");
+      await setupEmployeeRole();
+      strapi.log.info("Setting up the test data ");
+      await populateDatabase(data, data_files);
+      strapi.log.info(" --- SETUP END ---");
+    } catch (error) {
+      strapi.log.error("Could not import data");
+      strapi.log.error(error);
+    }
   }
-  // }
 };
