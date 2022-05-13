@@ -1,16 +1,16 @@
 {
   "icon": [
     {
-      "productIcons[0].icon": "bag.svg",
-      "productIcons[1].icon": "bag2.svg",
-      "productIcons[2].icon": "boot.svg",
-      "productIcons[3].icon": "cap.svg",
-      "productIcons[4].icon": "fabric_material.svg",
-      "productIcons[5].icon": "mitten.svg",
-      "productIcons[6].icon": "mug.svg",
-      "productIcons[7].icon": "scarf.svg",
-      "productIcons[8].icon": "sweatshirt.svg",
-      "productIcons[9].icon": "tshirt.svg"
+      "productCategories[0].icon": "bag.svg",
+      "productCategories[1].icon": "bag2.svg",
+      "productCategories[2].icon": "boot.svg",
+      "productCategories[3].icon": "cap.svg",
+      "productCategories[4].icon": "fabric_material.svg",
+      "productCategories[5].icon": "mitten.svg",
+      "productCategories[6].icon": "mug.svg",
+      "productCategories[7].icon": "scarf.svg",
+      "productCategories[8].icon": "sweatshirt.svg",
+      "productCategories[9].icon": "tshirt.svg"
     }
   ],
   "product": [

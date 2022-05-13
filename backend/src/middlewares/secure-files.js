@@ -13,7 +13,7 @@ module.exports = (config, { strapi }) => {
       const public_files = await strapi.service("api::public.public").find({
         populate: "*",
       });
-      console.log(public_files, file_name_from_url);
+      // console.log(public_files, file_name_from_url);
       const is_public =
         split_url.length > 2 &&
         split_url[1] === "uploads" &&
