@@ -17,5 +17,6 @@ module.exports = [
   "global::secure-files",
   "global::flatten-response",
   "strapi::favicon",
+  "global::public",
   "strapi::public",
 ];
