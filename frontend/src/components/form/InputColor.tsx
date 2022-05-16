@@ -1,5 +1,6 @@
 import { ColorInput, Group, InputWrapper, TextInput } from "@mantine/core"
 import React, { FC, useEffect, useState } from "react"
+import { ColorType } from "../../types/ColorType"
 
 interface InputColorProps {
   label?: string

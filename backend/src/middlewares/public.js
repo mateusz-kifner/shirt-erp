@@ -23,6 +23,11 @@ module.exports = (config, { strapi }) => {
         "api-tokens",
         "roles",
         "users",
+        "manifest.json",
+        "shirterp-192x192.png",
+        "shirterp-384x384.png",
+        "shirterp-512x512.png",
+        "robots.txt",
       ].includes(ctx.url.split("/")[1])
     ) {
       const index = fs.readFileSync(

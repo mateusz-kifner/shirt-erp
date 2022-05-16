@@ -1,6 +1,6 @@
 {
-  "short_name": "ShirtDip",
-  "name": "ShirtDipERP",
+  "short_name": "ShirtERP",
+  "name": "ShirtERP",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,18 +8,18 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/shirtdip-192x192.png",
+      "src": "/shirterp-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/shirtdip-384x384.png",
+      "src": "/shirterp-384x384.png",
       "sizes": "384x384",
       "type": "image/png"
     },
     {
-      "src": "/shirtdip-512x512.png",
+      "src": "/shirterp-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

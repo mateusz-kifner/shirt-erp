@@ -1,4 +1,4 @@
-interface ColorType {
+export interface ColorType {
   colorName: string
   colorHex: string
 }
