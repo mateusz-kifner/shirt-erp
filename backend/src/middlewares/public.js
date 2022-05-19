@@ -28,6 +28,7 @@ module.exports = (config, { strapi }) => {
         "shirterp-384x384.png",
         "shirterp-512x512.png",
         "robots.txt",
+        "connect",
       ].includes(ctx.url.split("/")[1])
     ) {
       const index = fs.readFileSync(

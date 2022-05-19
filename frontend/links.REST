@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUyOTc1NDczLCJleHAiOjE2NTU1Njc0NzN9.VgjOKtoOs3iDekHgkp7LkUi3H-bqQu3xdKa-QxnYNa0
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjUyOTgyODkwLCJleHAiOjE2NTU1NzQ4OTB9.Q99yrjtZ0qTPYdHJ4Df_aFVul36csD2DdpO2LobGAXI
 
 @host=http://localhost:1337
 ###
@@ -6,7 +6,7 @@
 POST {{host}}/api/auth/local
 content-type: application/json
 
-{"identifier": "testuser","password":"testuser"}
+{"identifier": "testuser2","password":"testuser2"}
 
 
 ###
@@ -22,7 +22,7 @@ GET {{host}}/uploads/Arrow_east_d39befddfe.svg
 
 GET {{host}}/api/upload/files
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+# Authorization: Bearer {{authToken}}
 
 ###
 
@@ -34,15 +34,15 @@ Authorization: Bearer {{authToken}}
 
 POST {{host}}/api/clients
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+# Authorization: Bearer {{authToken}}
 
 {"data":{"username":"tedasdadastdatysu"}}
 
 ###
 
-GET {{host}}/api/products?populate=*
+GET {{host}}/api/clients?populate=*
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+# Authorization: Bearer {{authToken}}
 
 ###
 
