@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUwMzgxMTI3LCJleHAiOjE2NTI5NzMxMjd9.-QAkkvIMZbmQKwvtMFNgSaomJFrTHn0CYqZJyFzhDwM
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUyOTc1NDczLCJleHAiOjE2NTU1Njc0NzN9.VgjOKtoOs3iDekHgkp7LkUi3H-bqQu3xdKa-QxnYNa0
 
 @host=http://localhost:1337
 ###
@@ -6,7 +6,7 @@
 POST {{host}}/api/auth/local
 content-type: application/json
 
-{"identifier": "testuser2","password":"testuser2"}
+{"identifier": "testuser","password":"testuser"}
 
 
 ###
@@ -26,7 +26,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/uploads/scarf_1e3f8fec92.svg
+GET {{host}}/uploads/4071834_e3fceedd87.jpg
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

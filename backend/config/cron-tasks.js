@@ -9,7 +9,7 @@ module.exports = {
     // console.log(mail_lock);
     if (mail_lock) return;
     mail_lock++;
-    let { auth } = await strapi
+    let auth = await strapi
       .service("api::email-auth.email-auth")
       .find({ populate: "*" });
 
@@ -134,9 +134,10 @@ module.exports = {
       // log out and close connection
       await client.logout();
     };
-    for (let emailAuth of auth) {
-      // console.log(emailAuth);
-      getMails({ ...emailAuth }).catch((err) => console.error(err));
-    }
+    if (auth?.auth)
+      for (let emailAuth of auth.auth) {
+        // console.log(emailAuth);
+        getMails({ ...emailAuth }).catch((err) => console.error(err));
+      }
   },
 };
