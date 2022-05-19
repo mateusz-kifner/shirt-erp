@@ -4,7 +4,8 @@
   "info": {
     "singularName": "email-auth",
     "pluralName": "email-auths",
-    "displayName": "EmailAuth"
+    "displayName": "EmailAuth",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -15,6 +16,10 @@
       "type": "component",
       "repeatable": true,
       "component": "additions.email-auth-data"
+    },
+    "autoReferenceEmailForMinutes": {
+      "type": "integer",
+      "default": 4320
     }
   }
 }

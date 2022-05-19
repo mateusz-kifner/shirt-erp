@@ -49,6 +49,15 @@
         "videos",
         "audios"
       ]
+    },
+    "nextMessageId": {
+      "type": "integer"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order.order",
+      "mappedBy": "emailMessages"
     }
   }
 }

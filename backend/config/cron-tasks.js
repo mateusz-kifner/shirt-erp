@@ -4,16 +4,37 @@ const { Readable } = require("stream");
 
 let mail_lock = 0;
 
+const logDebug = (obj) => {
+  return;
+  strapi.log.debug(JSON.stringify(obj, undefined, 2));
+};
+
+const logInfo = (obj) => {
+  strapi.log.info(JSON.stringify(obj, undefined, 2));
+};
+
+const logWarn = (obj) => {
+  strapi.log.warn(JSON.stringify(obj, undefined, 2));
+};
+
+const logError = (obj) => {
+  strapi.log.error(JSON.stringify(obj, undefined, 2));
+};
+// 0 0/5 * * ? * *
 module.exports = {
-  "0 0/5 * ? * *": async ({ strapi }) => {
-    // console.log(mail_lock);
+  "0 0/2 * ? * *": async ({ strapi }) => {
+    logInfo("Mail locked: " + (mail_lock ? "yes" : "no"));
     if (mail_lock) return;
-    mail_lock++;
+
     let auth = await strapi
       .service("api::email-auth.email-auth")
       .find({ populate: "*" });
 
+    const autoReferenceEmailForMinutes = auth.autoReferenceEmailForMinutes;
+
     const getMails = async ({ host, port, secure, user, password }) => {
+      mail_lock++;
+
       const client = await new ImapFlow({
         host: host,
         port: port,
@@ -23,19 +44,10 @@ module.exports = {
           pass: password,
         },
         logger: {
-          debug: (obj) => {
-            return;
-            strapi.log.debug(JSON.stringify(obj, undefined, 2));
-          },
-          info: (obj) => {
-            strapi.log.info(JSON.stringify(obj, undefined, 2));
-          },
-          warn: (obj) => {
-            strapi.log.warn(JSON.stringify(obj, undefined, 2));
-          },
-          error: (obj) => {
-            strapi.log.error(JSON.stringify(obj, undefined, 2));
-          },
+          debug: logDebug,
+          info: logInfo,
+          warn: logWarn,
+          error: logError,
         },
       });
 
@@ -93,6 +105,52 @@ module.exports = {
             strapi.log.debug(JSON.stringify(upload, undefined, 2));
             new_attachments.push(upload);
           }
+          const headerLines = parsed.headerLines.reduce(
+            (obj, data) => ({
+              ...obj,
+              [data.key]: data.line.substring(data.key.length + 1).trimStart(),
+            }),
+            {}
+          );
+
+          const references =
+            headerLines.references && headerLines.references.length > 0
+              ? headerLines.references
+                  .replace("\n", " ")
+                  .split(" ")
+                  .filter((val) => val.length > 0)
+                  .map((val) => val.trim())
+                  .reverse()
+              : [];
+
+          let mails = [];
+          for (let ref of references) {
+            let mess = await strapi.services[
+              "api::email-message.email-message"
+            ].find({
+              filters: { messageId: { $eq: ref } },
+              populate: "*",
+            });
+            if (mess.results.length > 0) {
+              mails.push(mess.results[0]);
+            }
+          }
+
+          const current_mail_date = new Date(parsed.date).getTime();
+          let id = null;
+          let time = Number.MAX_SAFE_INTEGER;
+          let orderIds = [];
+          for (let mail of mails) {
+            const autoReferenceTime = parseInt(
+              (current_mail_date - new Date(mail.date).getTime()) / 60000
+            );
+            if (time > autoReferenceTime) {
+              time = autoReferenceTime;
+              id = mail.id;
+              orderIds = mail.orders.map((val) => val.id);
+            }
+          }
+
           const createdMail = await strapi.entityService.create(
             `api::email-message.email-message`,
             {
@@ -105,19 +163,22 @@ module.exports = {
                 text: parsed.text,
                 textAsHtml: parsed.textAsHtml,
                 html: parsed.html,
-                headerLines: parsed.headerLines.reduce(
-                  (obj, data) => ({
-                    ...obj,
-                    [data.key]: data.line
-                      .substring(data.key.length + 1)
-                      .trimStart(),
-                  }),
-                  {}
-                ),
+                headerLines: headerLines,
                 attachments: new_attachments,
+                orders: orderIds,
               },
             }
           );
+
+          if (id !== null && time < autoReferenceEmailForMinutes) {
+            await strapi.services["api::email-message.email-message"].update(
+              id,
+              {
+                data: { nextMessageId: createdMail.id },
+              }
+            );
+          }
+
           strapi.log.debug(
             JSON.stringify(
               { subject: createdMail.subject, text: createdMail.text },
@@ -130,9 +191,9 @@ module.exports = {
         // Make sure lock is released, otherwise next `getMailboxLock()` never returns
         lock.release();
       }
-      mail_lock--;
       // log out and close connection
       await client.logout();
+      mail_lock--;
     };
     if (auth?.auth)
       for (let emailAuth of auth.auth) {

@@ -76,6 +76,15 @@
     },
     "designs": {
       "type": "json"
+    },
+    "emailMessages": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::email-message.email-message",
+      "inversedBy": "orders"
+    },
+    "emailMessagesText": {
+      "type": "json"
     }
   }
 }

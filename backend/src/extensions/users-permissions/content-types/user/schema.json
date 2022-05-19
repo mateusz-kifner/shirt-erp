@@ -73,7 +73,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::order.order",
-      "inversedBy": "employees"
+      "mappedBy": "employees"
     }
   }
 }
