@@ -112,3 +112,14 @@ exports
 *.cache
 build
 .strapi-updater.json
+
+############################
+# Frontend Build
+############################
+public/index.html
+public/manifest.json
+public/shirterp-192x192.png
+public/shirterp-384x384.png
+public/shirterp-512x512.png
+public/favicon.ico
+public/assets

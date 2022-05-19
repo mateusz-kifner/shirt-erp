@@ -123,20 +123,20 @@ async function createEntry({ model, entry, files, public }) {
         set(entry, key, uploadedFile[0].id);
 
         if (public) {
-          // console.log("public");
-          const public_files = await strapi.service("api::public.public").find({
-            populate: "*",
-          });
-          // console.log( uploadedFile[0]);
-          if (public_files != null) {
-            await strapi.service("api::public.public").createOrUpdate({
-              data: { files: [...public_files.files, uploadedFile[0]] },
-            });
-          } else {
-            await strapi.service("api::public.public").createOrUpdate({
-              data: { files: uploadedFile },
-            });
-          }
+          // // console.log("public");
+          // const public_files = await strapi.service("api::public.public").find({
+          //   populate: "*",
+          // });
+          // // console.log( uploadedFile[0]);
+          // if (public_files != null) {
+          //   await strapi.service("api::public.public").createOrUpdate({
+          //     data: { files: [...public_files.files, uploadedFile[0]] },
+          //   });
+          // } else {
+          //   await strapi.service("api::public.public").createOrUpdate({
+          //     data: { files: uploadedFile },
+          //   });
+          // }
         }
       }
     }
@@ -203,7 +203,7 @@ async function setupEmployeeRole() {
   await setPluginPermissions(
     "upload",
     "content-api",
-    ["count", "destroy", "find", "findOne", "upload"],
+    ["count", "destroy", "find", "findOne", "upload", "public"],
     "Employee"
   );
   // await setPluginPermissions(
