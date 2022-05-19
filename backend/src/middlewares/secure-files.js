@@ -6,10 +6,12 @@ module.exports = (config, { strapi }) => {
     const is_file_path = split_url.length > 1 && split_url[1] === "uploads";
     if (!is_file_path) return await next();
     // check if it is public
+    let hash = split_url[2].split("?")[0].split(".")[0];
+    if (hash.startsWith("thumbnail_")) hash = hash.substring(10);
     const file = await strapi.plugins["upload"].services.upload.findMany({
-      filters: { hash: split_url[2].split("?")[0].split(".")[0] },
+      filters: { hash },
     });
-    if (file?.public) return next();
+    if (file[0]?.public) return next();
 
     // auth if user is Employee
     if (ctx?.request?.header?.authorization) {
@@ -17,6 +19,7 @@ module.exports = (config, { strapi }) => {
         const jwt_data = await strapi.plugins[
           "users-permissions"
         ].services.jwt.getToken(ctx);
+        console.log(jwt_data);
         const user = await strapi.plugins[
           "users-permissions"
         ].services.user.fetch(jwt_data.id, { populate: ["role"] });
