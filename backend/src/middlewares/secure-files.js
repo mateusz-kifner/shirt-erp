@@ -19,7 +19,6 @@ module.exports = (config, { strapi }) => {
         const jwt_data = await strapi.plugins[
           "users-permissions"
         ].services.jwt.getToken(ctx);
-        console.log(jwt_data);
         const user = await strapi.plugins[
           "users-permissions"
         ].services.user.fetch(jwt_data.id, { populate: ["role"] });
