@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjUyOTgyODkwLCJleHAiOjE2NTU1NzQ4OTB9.Q99yrjtZ0qTPYdHJ4Df_aFVul36csD2DdpO2LobGAXI
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUyOTg0MTUyLCJleHAiOjE2NTU1NzYxNTJ9.XJbzJyKs2yoSaxWsDicJ-2lVWyGGslXiEg_JdDjRXpk
 
 @host=http://localhost:1337
 ###
@@ -6,7 +6,7 @@
 POST {{host}}/api/auth/local
 content-type: application/json
 
-{"identifier": "testuser2","password":"testuser2"}
+{"identifier": "testuser","password":"testuser"}
 
 
 ###
@@ -20,9 +20,9 @@ GET {{host}}/uploads/Arrow_east_d39befddfe.svg
 
 ###
 
-GET {{host}}/api/upload/files
+GET {{host}}/api/upload/files/12
 Content-Type: application/json
-# Authorization: Bearer {{authToken}}
+Authorization: Bearer {{authToken}}
 
 ###
 
@@ -102,3 +102,13 @@ Authorization: Bearer {{authToken}}
         "iconId": null
     }
 }
+
+
+
+###
+
+PUT {{host}}/api/upload/files/12
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{"public":true}
