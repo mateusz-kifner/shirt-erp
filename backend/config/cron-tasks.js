@@ -3,6 +3,7 @@ const simpleParser = require("mailparser").simpleParser;
 const { Readable } = require("stream");
 
 let mail_lock = 0;
+const FLAG = "ShirtERP3";
 
 const logDebug = (obj) => {
   return;
@@ -25,6 +26,51 @@ module.exports = {
   "0 0/2 * ? * *": async ({ strapi }) => {
     logInfo("Mail locked: " + (mail_lock ? "yes" : "no"));
     if (mail_lock) return;
+
+    const setFlagShirtERP = async ({
+      id,
+      host,
+      port,
+      secure,
+      user,
+      password,
+    }) => {
+      mail_lock++;
+
+      const client = await new ImapFlow({
+        host: host,
+        port: port,
+        secure: secure,
+        auth: {
+          user: user,
+          pass: password,
+        },
+        logger: {
+          debug: logDebug,
+          info: logInfo,
+          warn: logWarn,
+          error: logError,
+        },
+      });
+      await client.connect();
+      let lock = await client.getMailboxLock("INBOX");
+
+      try {
+        let list = await client.search({
+          unKeyword: FLAG,
+        });
+        list.length > 0 &&
+          strapi.log.debug("new mails found: [ " + list.join(",") + " ]");
+
+        await client.messageFlagsAdd(list, [FLAG]);
+      } finally {
+        // Make sure lock is released, otherwise next `getMailboxLock()` never returns
+        lock.release();
+      }
+      // log out and close connection
+      await client.logout();
+      mail_lock--;
+    };
 
     let auth = await strapi
       .service("api::email-auth.email-auth")
@@ -66,12 +112,12 @@ module.exports = {
         // list subjects for all messages
         // uid value is always included in FETCH response, envelope strings are in unicode.
         let list = await client.search({
-          unKeyword: "$ShirtDipERP",
+          unKeyword: FLAG,
         });
         list.length > 0 &&
           strapi.log.debug("new mails found: [ " + list.join(",") + " ]");
 
-        await client.messageFlagsAdd(list, ["$ShirtDipERP"]);
+        await client.messageFlagsAdd(list, [FLAG]);
 
         // console.log(list.join(","));
         for (let mail_index of list) {
@@ -150,7 +196,7 @@ module.exports = {
               orderIds = mail.orders.map((val) => val.id);
             }
           }
-
+          if (time > autoReferenceEmailForMinutes) orderIds = [];
           const createdMail = await strapi.entityService.create(
             `api::email-message.email-message`,
             {
@@ -170,7 +216,7 @@ module.exports = {
             }
           );
 
-          if (id !== null && time < autoReferenceEmailForMinutes) {
+          if (id !== null) {
             await strapi.services["api::email-message.email-message"].update(
               id,
               {
@@ -195,10 +241,20 @@ module.exports = {
       await client.logout();
       mail_lock--;
     };
-    if (auth?.auth)
+
+    if (auth?.auth) {
+      if (auth?.initialized !== true) {
+        for (let emailAuth of auth.auth) {
+          await setFlagShirtERP({ ...emailAuth });
+        }
+        await strapi.service("api::email-auth.email-auth").createOrUpdate({
+          data: { initialized: true },
+        });
+      }
       for (let emailAuth of auth.auth) {
         // console.log(emailAuth);
-        getMails({ ...emailAuth }).catch((err) => console.error(err));
+        await getMails({ ...emailAuth }).catch((err) => console.error(err));
       }
+    }
   },
 };

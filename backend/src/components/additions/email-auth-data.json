@@ -24,10 +24,6 @@
     "secure": {
       "type": "boolean",
       "default": false
-    },
-    "initialized": {
-      "type": "boolean",
-      "default": false
     }
   }
 }

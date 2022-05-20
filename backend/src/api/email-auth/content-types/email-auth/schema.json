@@ -20,6 +20,10 @@
     "autoReferenceEmailForMinutes": {
       "type": "integer",
       "default": 4320
+    },
+    "initialized": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
