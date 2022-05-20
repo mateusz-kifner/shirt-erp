@@ -2,7 +2,7 @@ import { DefaultMantineColor } from "@mantine/core"
 import { FC, ReactElement, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Routes as Switch,
   Route,
   Navigate,
@@ -25,6 +25,7 @@ import TasksPage from "./pages/tasks/TasksPage"
 import UsersPage from "./pages/users/UsersPage"
 import axios from "axios"
 import { useRecoilState } from "recoil"
+import { useNetwork } from "@mantine/hooks"
 
 export const navigationData: {
   label: string
@@ -47,13 +48,15 @@ export const navigationData: {
 const Routes: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const { data, refetch, isLoading, failureCount } = useQuery(
-    ["ping"],
-    async () => {
-      const res = await axios.get("/ping")
-      return res.data
-    }
-  )
+  const networkStatus = useNetwork()
+
+  // const { data, refetch, isLoading, failureCount } = useQuery(
+  //   ["ping"],
+  //   async () => {
+  //     const res = await axios.get("/ping")
+  //     return res.data
+  //   }
+  // )
 
   useEffect(() => {
     if (login.jwt !== undefined && login.jwt.length > 0 && isAuthenticated) {
@@ -61,8 +64,10 @@ const Routes: FC = () => {
         .get("/users/me")
         .then((res) => {})
         .catch(() => {
-          setIsAuthenticated(false)
-          setLogin((val) => ({ ...val, jwt: "", user: null, debug: false }))
+          if (networkStatus.online) {
+            setIsAuthenticated(false)
+            setLogin((val) => ({ ...val, jwt: "", user: null, debug: false }))
+          }
         })
     }
   }, [isAuthenticated])
@@ -79,7 +84,6 @@ const Routes: FC = () => {
   return (
     <>
       {!isAuthenticated && <LoginPage />}
-      {/* <Router> */}
       <Switch>
         {!isAuthenticated && (
           <Route path="*" element={<ErrorPage errorcode={403} />} />
@@ -87,23 +91,44 @@ const Routes: FC = () => {
         {isAuthenticated && (
           <>
             <Route path="/" element={<Navigate to="/orders" replace />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/clients" element={<ClientsPage />} />
-            <Route path="/production" element={<ProductionPage />} />
-            <Route path="/expenses" element={<ExpensesPage />} />
-            <Route path="/files" element={<FilesPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/users" element={<UsersPage />} />
-            <Route path="/orders-archive" element={<OrdersArchivePage />} />
+            <Route path="/dashboard/" element={<DashboardPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/tasks/" element={<TasksPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/orders/" element={<OrdersPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/products/" element={<ProductsPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/clients/" element={<ClientsPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/production/" element={<ProductionPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/expenses/" element={<ExpensesPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/files/" element={<FilesPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/settings/" element={<SettingsPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/users/" element={<UsersPage />}>
+              <Route path=":id" />
+            </Route>
+            <Route path="/orders-archive/" element={<OrdersArchivePage />}>
+              <Route path=":id" />
+            </Route>
             {login.debug && <Route path="/logger" element={<LoggerPage />} />}
             <Route path="*" element={<ErrorPage errorcode={404} />} />
           </>
         )}
       </Switch>
-      {/* </Router> */}
     </>
   )
 }

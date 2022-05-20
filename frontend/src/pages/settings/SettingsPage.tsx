@@ -8,6 +8,7 @@ import testSchema from "../../schemas/test.schema.json"
 import FileButton from "../../components/FileButton"
 import FileList from "../../components/FileList"
 import TestTable from "../../components/TestTable"
+import ApiEntryDetails from "../../components/api/ApiEntryDetails"
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -65,7 +66,8 @@ const SettingsPage: FC = () => {
               </Button>
               <FileButton disabled />
               <FileList maxFileCount={1000} />
-              <TestTable />
+              {/* <TestTable /> */}
+              {/* <ApiEntryDetails /> */}
             </Stack>
           )}
         </Group>

@@ -24,6 +24,7 @@ const logError = (obj) => {
 // 0 0/5 * * ? * *
 module.exports = {
   "0 0/2 * ? * *": async ({ strapi }) => {
+    // EMAIL FETCH
     logInfo("Mail locked: " + (mail_lock ? "yes" : "no"));
     if (mail_lock) return;
 

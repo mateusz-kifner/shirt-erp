@@ -17,7 +17,7 @@ import InputDateTime from "../form/InputDateTime"
 import InputEnum from "../form/InputEnum"
 import InputFile from "../form/InputFile"
 import InputFiles from "../form/InputFiles"
-import InputNotImplemented from "../form/InputNotImplemented"
+import NotImplemented from "../NotImplemented"
 import InputApiEntry from "./InputApiEntry"
 import InputApiIconId from "./InputApiIconId"
 
@@ -30,14 +30,14 @@ const mapping: { [key: string]: React.ReactNode } = {
   date: <DatePicker />,
   datetime: <InputDateTime />,
   apiEntry: <InputApiEntry />,
-  productComponent: <InputNotImplemented />,
-  productComponents: <InputNotImplemented />,
+  productComponent: <NotImplemented />,
+  productComponents: <NotImplemented />,
   image: <InputFile />,
   file: <InputFile />,
   files: <InputFiles />,
-  workstations: <InputNotImplemented />,
-  employees: <InputNotImplemented />,
-  submit: <InputNotImplemented />,
+  workstations: <NotImplemented />,
+  employees: <NotImplemented />,
+  submit: <NotImplemented />,
   iconId: <InputApiIconId />,
 }
 
@@ -84,7 +84,7 @@ const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema, entryName }) => {
               // return <TextInput {...schema[key]} {...form.getInputProps(key)} />
             } else {
               return (
-                <InputNotImplemented
+                <NotImplemented
                   ERROR="NOT IN MAPPING"
                   {...schema[key]}
                   key={`${uuid}_${key}`}

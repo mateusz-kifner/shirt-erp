@@ -260,7 +260,7 @@ const App: FC = ({ children }) => {
                           />
                         </MediaQuery>
                         <Image
-                          src="assets/logo_small.png"
+                          src="/assets/logo_small.png"
                           alt="Shirt Dip ERP"
                           height={32}
                           // style={{

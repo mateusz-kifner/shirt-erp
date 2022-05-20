@@ -172,7 +172,7 @@ const FileList: FC<FileListProps> = ({
           }}
           onReject={(file_error) => setError(file_error[0].errors[0].message)}
           style={{ minWidth: "100%" }}
-          multiple={maxFileCount === 1}
+          multiple={maxFileCount !== 1}
         >
           {(status) => (
             <Group
