@@ -7,8 +7,8 @@ import {
   Text,
 } from "@mantine/core"
 import { FC } from "react"
-import { ClientType } from "../../types/ClientType"
-import { truncString } from "../../utils/truncString"
+import { ClientType } from "../../../types/ClientType"
+import { truncString } from "../../../utils/truncString"
 
 const ClientListItem: FC<{
   onChange?: (product: Partial<ClientType>) => void

@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { Text } from "@mantine/core"
 import { Box } from "tabler-icons-react"
-import ApiIconSVG from "../../components/api/ApiIconSVG"
+import ApiIconSVG from "../../../components/api/ApiIconSVG"
 
 const OrdersPage: FC = () => {
   return (

@@ -61,7 +61,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
 
   useEffect(() => {
     return () => {
-      deactivate()
+      window.removeEventListener("beforeunload", alertUser)
     }
   }, [])
 

@@ -47,7 +47,7 @@ const DetailsText: FC<DetailsTextProps> = ({
 
   useEffect(() => {
     return () => {
-      deactivate()
+      window.removeEventListener("beforeunload", alertUser)
     }
   }, [])
 

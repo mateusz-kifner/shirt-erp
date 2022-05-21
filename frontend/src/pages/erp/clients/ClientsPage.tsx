@@ -1,11 +1,11 @@
 import { Group } from "@mantine/core"
 import { FC, useEffect, useState } from "react"
 
-import ApiList from "../../components/api/ApiList"
-import client_schema from "../../schemas/client.schema.json"
+import ApiList from "../../../components/api/ApiList"
+import client_schema from "../../../schemas/client.schema.json"
 import ClientListItem from "./ClientListItem"
-import ResponsivePaper from "../../components/ResponsivePaper"
-import ApiEntryDetails from "../../components/api/ApiEntryDetails"
+import ResponsivePaper from "../../../components/ResponsivePaper"
+import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
 import { useNavigate, useParams } from "react-router-dom"
 import { useDocumentTitle } from "@mantine/hooks"
 
@@ -41,7 +41,7 @@ const ClientsPage: FC = () => {
           onChange={(val: any) => {
             console.log(val)
             setId(val.id)
-            navigate("/" + ENTRY_NAME + "/" + val.id)
+            navigate("/erp/" + ENTRY_NAME + "/" + val.id)
           }}
         />
       </ResponsivePaper>

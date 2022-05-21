@@ -10,13 +10,13 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 import { FC } from "react"
-import { ProductType } from "../../types/ProductType"
+import { ProductType } from "../../../types/ProductType"
 
-import ApiList from "../../components/api/ApiList"
-import ApiEntryDetails from "../../components/api/ApiEntryDetails"
-import ApiEntryAdd from "../../components/api/ApiEntryAdd"
-import product_schema from "../../schemas/product.schema.json"
-import ApiIconSVG from "../../components/api/ApiIconSVG"
+import ApiList from "../../../components/api/ApiList"
+import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
+import ApiEntryAdd from "../../../components/api/ApiEntryAdd"
+import product_schema from "../../../schemas/product.schema.json"
+import ApiIconSVG from "../../../components/api/ApiIconSVG"
 import convert from "color-convert"
 
 const ProductsPage: FC = () => {
