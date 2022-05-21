@@ -33,16 +33,16 @@ export const navigationData: {
   to: string
   color?: DefaultMantineColor
 }[] = [
-  { label: "Zadania", icon: <Checklist />, to: "tasks", color: "green" },
-  { label: "Zamówienia", icon: <Crown />, to: "orders", color: "blue" },
-  { label: "Produkty", icon: <Shirt />, to: "products", color: "orange" },
-  { label: "Klienci", icon: <User />, to: "clients", color: "lime" },
-  { label: "production", icon: <Bell />, to: "production" },
-  { label: "expenses", icon: <Bell />, to: "expenses" },
-  { label: "files", icon: <Bell />, to: "files" },
-  { label: "logger", icon: <Bell />, to: "logger" },
-  { label: "orders-archive", icon: <Bell />, to: "orders-archive" },
-  { label: "users", icon: <Bell />, to: "users" },
+  { label: "Zadania", icon: <Checklist />, to: "/erp/tasks", color: "green" },
+  { label: "Zamówienia", icon: <Crown />, to: "/erp/orders", color: "blue" },
+  { label: "Produkty", icon: <Shirt />, to: "/erp/products", color: "orange" },
+  { label: "Klienci", icon: <User />, to: "/erp/clients", color: "lime" },
+  { label: "production", icon: <Bell />, to: "/erp/production" },
+  { label: "expenses", icon: <Bell />, to: "/erp/expenses" },
+  { label: "files", icon: <Bell />, to: "/erp/files" },
+  { label: "logger", icon: <Bell />, to: "/erp/logger" },
+  { label: "orders-archive", icon: <Bell />, to: "/erp/orders-archive" },
+  { label: "users", icon: <Bell />, to: "/erp/users" },
 ]
 
 const Routes: FC = () => {
@@ -90,52 +90,54 @@ const Routes: FC = () => {
         )}
         {isAuthenticated && (
           <>
-            <Route path="/" element={<Navigate to="/orders" replace />} />
-            <Route path="/dashboard">
+            <Route path="/" element={<Navigate to="/erp/orders" replace />} />
+            <Route path="/erp/dashboard">
               <Route path=":id" element={<DashboardPage />} />
               <Route path="" element={<DashboardPage />} />
             </Route>
-            <Route path="/tasks">
+            <Route path="/erp/tasks">
               <Route path=":id" element={<TasksPage />} />
               <Route path="" element={<TasksPage />} />
             </Route>
-            <Route path="/orders">
+            <Route path="/erp/orders">
               <Route path=":id" element={<OrdersPage />} />
               <Route path="" element={<OrdersPage />} />
             </Route>
-            <Route path="/products">
+            <Route path="/erp/products">
               <Route path=":id" element={<ProductsPage />} />
               <Route path="" element={<ProductsPage />} />
             </Route>
-            <Route path="/clients">
+            <Route path="/erp/clients">
               <Route path=":id" element={<ClientsPage />} />
               <Route path="" element={<ClientsPage />} />
             </Route>
-            <Route path="/production">
+            <Route path="/erp/production">
               <Route path=":id" element={<ProductionPage />} />
               <Route path="" element={<ProductionPage />} />
             </Route>
-            <Route path="/expenses">
+            <Route path="/erp/expenses">
               <Route path=":id" element={<ExpensesPage />} />
               <Route path="" element={<ExpensesPage />} />
             </Route>
-            <Route path="/files">
+            <Route path="/erp/files">
               <Route path=":id" element={<FilesPage />} />
               <Route path="" element={<FilesPage />} />
             </Route>
-            <Route path="/settings">
+            <Route path="/erp/settings">
               <Route path=":id" element={<SettingsPage />} />
               <Route path="" element={<SettingsPage />} />
             </Route>
-            <Route path="/users">
+            <Route path="/erp/users">
               <Route path=":id" element={<UsersPage />} />
               <Route path="" element={<UsersPage />} />
             </Route>
-            <Route path="/orders-archive">
+            <Route path="/erp/orders-archive">
               <Route path=":id" element={<OrdersArchivePage />} />
               <Route path="" element={<OrdersArchivePage />} />
             </Route>
-            {login.debug && <Route path="/logger" element={<LoggerPage />} />}
+            {login.debug && (
+              <Route path="/erp/logger" element={<LoggerPage />} />
+            )}
             <Route path="*" element={<ErrorPage errorcode={404} />} />
           </>
         )}

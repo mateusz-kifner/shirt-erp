@@ -391,7 +391,7 @@ const App: FC = ({ children }) => {
                           size="lg"
                           radius="xl"
                           component={Link}
-                          to="settings"
+                          to="/erp/settings"
                           color={colorScheme === "dark" ? "gray" : "dark"}
                           variant={
                             colorScheme === "dark" ? "default" : "filled"
