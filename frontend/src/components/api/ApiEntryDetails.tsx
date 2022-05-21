@@ -1,10 +1,7 @@
-import { Group, Stack, Text, Table, LoadingOverlay } from "@mantine/core"
-import { useDocumentTitle, useId } from "@mantine/hooks"
-import React, { FC, useEffect, useState } from "react"
-import { useRecoilValue } from "recoil"
-import { loginState } from "../../atoms/loginState"
+import { Stack, LoadingOverlay } from "@mantine/core"
+import { useDocumentTitle } from "@mantine/hooks"
+import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
-
 import { useLocation, useParams } from "react-router-dom"
 import names from "../../schemas/names.json"
 import Details from "../details/Details"
