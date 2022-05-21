@@ -11,9 +11,13 @@ code {
     monospace;
 }
 
+html, body, #root, #root>div {
+  min-height: 100%
+}
+
 html,
-body {
-  height: 100%;
+body,#root {
+  /* height: 100%; */
   width: 100%;
   padding: 0;
   margin: 0;
@@ -21,8 +25,4 @@ body {
 
 * {
   box-sizing: border-box;
-}
-
-#root {
-  height: 100%;
 }
