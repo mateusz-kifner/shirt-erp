@@ -11,12 +11,12 @@ code {
     monospace;
 }
 
-html, body, #root, #root>div {
+html, body, #root {
   min-height: 100%
 }
 
 html,
-body,#root {
+body {
   /* height: 100%; */
   width: 100%;
   padding: 0;

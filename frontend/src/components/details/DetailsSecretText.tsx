@@ -3,7 +3,7 @@ import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import RichTextEditor from "@mantine/rte"
 import { FC, useEffect, useState, lazy } from "react"
-import { Copy, Edit } from "tabler-icons-react"
+import { Copy, Edit, Notes } from "tabler-icons-react"
 
 // FIXME: make onChange?(or maybe onSubmit) only fire on save
 
@@ -59,36 +59,23 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   }, [])
 
   return (
-    <InputWrapper
-      label={
-        <>
-          {label}
-          <ActionIcon
-            size="xs"
-            style={{
-              display: "inline-block",
-              transform: "translate(4px, 4px)",
-            }}
-            onClick={() => {
-              clipboard.copy(val)
-              showNotification({
-                title: "Skopiowano do schowka",
-                message: val,
-              })
-            }}
-          >
-            <Copy size={16} />
-          </ActionIcon>
-        </>
-      }
-      labelElement="div"
-      required={required}
-    >
-      <div ref={ref} style={{ position: "relative" }}>
+    <div>
+      <div
+        ref={ref}
+        style={{
+          position: "absolute",
+          display: active ? "block" : "none",
+          right: 4,
+          bottom: 4,
+          height: 400,
+          width: "100%",
+          zIndex: 10,
+          overflowY: "auto",
+        }}
+      >
         <RichTextEditor
           value={val}
           onChange={setValue}
-          readOnly={!active}
           controls={[
             ["bold", "italic", "underline", "strike", "clean"],
             ["h1", "h2", "h3", "h4"],
@@ -104,20 +91,20 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
             }
           }}
           sticky={true}
-          stickyOffset={60}
+          style={{ minHeight: 400 }}
         />
-        {!active && (
-          <ActionIcon
-            radius="xl"
-            style={{ position: "absolute", right: 4, top: 4 }}
-            onClick={activate}
-            disabled={disabled}
-          >
-            <Edit />
-          </ActionIcon>
-        )}
       </div>
-    </InputWrapper>
+      {!active && (
+        <ActionIcon
+          radius="xl"
+          style={{ position: "absolute", right: 0, bottom: 0, zIndex: 10 }}
+          onClick={activate}
+          disabled={disabled}
+        >
+          <Notes />
+        </ActionIcon>
+      )}
+    </div>
   )
 }
 

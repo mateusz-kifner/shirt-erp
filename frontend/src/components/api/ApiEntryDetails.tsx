@@ -4,11 +4,10 @@ import React, { FC, useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 import { loginState } from "../../atoms/loginState"
 import useStrapi from "../../hooks/useStrapi"
-import DetailsText from "../details/DetailsText"
-import NotImplemented from "../NotImplemented"
+
 import { useLocation, useParams } from "react-router-dom"
 import names from "../../schemas/names.json"
-import DetailsRichText from "../details/DetailsRichText"
+import Details from "../details/Details"
 
 interface ApiEntryDetailsProps {
   schema: any
@@ -22,8 +21,7 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
   id,
 }) => {
   const { data, status } = useStrapi(entryName, id)
-  const user = useRecoilValue(loginState)
-  const uuid = useId()
+
   const location = useLocation()
   const params = useParams()
 
@@ -44,62 +42,7 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      {data && Object.keys(data).length > 0 ? (
-        Object.keys(data).map((key) => {
-          if (key === "id" && user.debug === true)
-            return <Text key={uuid + key}>ID: {data[key]}</Text>
-
-          if (!(key in schema))
-            return user?.debug === true ? (
-              <NotImplemented
-                message={"Key doesn't have Schema"}
-                object_key={key}
-                value={data[key]}
-                key={uuid + key}
-              />
-            ) : null
-          switch (schema[key].type) {
-            case "text":
-              return (
-                <DetailsText
-                  value={data[key]}
-                  {...schema[key]}
-                  key={uuid + key}
-                />
-              )
-            case "richtext":
-              return (
-                <DetailsRichText
-                  value={data[key]}
-                  {...schema[key]}
-                  key={uuid + key}
-                />
-              )
-
-            default:
-              return user?.debug === true ? (
-                <NotImplemented
-                  message={"Key has unknown type"}
-                  object_key={key}
-                  value={data[key]}
-                  schema={schema[key]}
-                  key={uuid + key}
-                />
-              ) : null
-          }
-        })
-      ) : (
-        <Text
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,-50%)",
-          }}
-        >
-          Brak danych
-        </Text>
-      )}
+      <Details schema={schema} data={data} />
       <LoadingOverlay visible={status === "loading"} radius="xl" />
     </Stack>
   )
