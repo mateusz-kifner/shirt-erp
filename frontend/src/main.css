@@ -26,3 +26,20 @@ body {
 * {
   box-sizing: border-box;
 }
+
+
+/* Line numbers for Quill, works only on normal text */
+/* .ql-editor {
+  counter-reset: line;
+  padding-left: 0;
+}
+
+.ql-editor p:before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  border-right: 1px solid #ddd;
+  padding: 0 .5em;
+  margin-right: .5em;
+  color: #888
+} */

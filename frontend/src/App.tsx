@@ -4,6 +4,7 @@ import {
   Autocomplete,
   Box,
   Burger,
+  Button,
   ColorScheme,
   ColorSchemeProvider,
   DefaultMantineColor,
@@ -23,7 +24,15 @@ import {
 } from "@mantine/core"
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { NotificationsProvider } from "@mantine/notifications"
-import { FC, ReactElement, SyntheticEvent, useEffect, useState } from "react"
+import {
+  FC,
+  ReactElement,
+  Ref,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { Link, BrowserRouter as Router } from "react-router-dom"
 import {
   Bell,
@@ -56,6 +65,7 @@ const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
 
 const App: FC = ({ children }) => {
   const [opened, setOpened] = useState(false)
+  const [showTabNav, setShowTabNav] = useState(false)
   const [navSmall, setNavSmall] = useLocalStorage<boolean>({
     key: "nav-small",
     defaultValue: false,
@@ -82,6 +92,7 @@ const App: FC = ({ children }) => {
       console.log(res.data.data)
     })
   }, [])
+  const navbarRef = useRef<HTMLAnchorElement>(null)
   return (
     <ColorSchemeProvider
       colorScheme={colorScheme}
@@ -119,6 +130,22 @@ const App: FC = ({ children }) => {
       >
         <NotificationsProvider>
           <Router>
+            <Button
+              style={{
+                position: "absolute",
+                top: 12,
+                left: 12,
+                zIndex: showTabNav ? 1000 : 0,
+              }}
+              tabIndex={0}
+              onFocus={() => setShowTabNav(true)}
+              onBlur={() => setShowTabNav(false)}
+              onClick={() => {
+                navbarRef.current && navbarRef.current.focus()
+              }}
+            >
+              Idź do nawigacji
+            </Button>
             <AppShell
               style={{ height: "100%" }}
               padding={0}
@@ -149,7 +176,7 @@ const App: FC = ({ children }) => {
                       }}
                     >
                       <Stack>
-                        {navigationData.map((val) => (
+                        {navigationData.map((val, index) => (
                           <NavButton
                             {...val}
                             key={"navbar_" + val.label}
@@ -157,6 +184,7 @@ const App: FC = ({ children }) => {
                               setOpened(false)
                             }}
                             small={navSmall}
+                            buttonRef={index == 0 ? navbarRef : undefined}
                           />
                         ))}
                       </Stack>
@@ -402,6 +430,7 @@ const NavButton: FC<{
   color?: DefaultMantineColor
   onClick: (e: SyntheticEvent) => void
   small?: boolean
+  buttonRef?: Ref<HTMLAnchorElement>
 }> = ({
   label,
   icon,
@@ -409,10 +438,12 @@ const NavButton: FC<{
   color = "blue",
   onClick = () => {},
   small = false,
+  buttonRef,
 }) => {
   // console.log(small)
   return (
     <UnstyledButton
+      ref={buttonRef}
       sx={(theme) => ({
         display: "block",
         width: "100%",

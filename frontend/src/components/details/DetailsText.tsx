@@ -1,15 +1,7 @@
-import {
-  ActionIcon,
-  Button,
-  InputWrapper,
-  Text,
-  Textarea,
-  TextInput,
-  UnstyledButton,
-} from "@mantine/core"
+import { ActionIcon, InputWrapper, Text, Textarea } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import React, { FC, useEffect, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { Copy, Edit } from "tabler-icons-react"
 
 const alertUser = (e: BeforeUnloadEvent) => {
@@ -19,22 +11,26 @@ const alertUser = (e: BeforeUnloadEvent) => {
 
 interface DetailsTextProps {
   label?: string
-  placeholder?: string
   value?: string
+  initialValue?: string
   onChange?: (value: string | null) => void
+  onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
 }
 
 const DetailsText: FC<DetailsTextProps> = ({
   label,
-  placeholder,
   value,
+  initialValue,
   onChange,
+  onSubmit,
   disabled,
   required,
 }) => {
-  const [val, setVal] = useState<string>(value ? value : "")
+  const [val, setVal] = useState<string>(
+    value ? value : initialValue ? initialValue : ""
+  )
   const [active, setActive] = useState<boolean>(false)
   const activate = () => {
     setActive(true)
@@ -43,20 +39,38 @@ const DetailsText: FC<DetailsTextProps> = ({
 
   const deactivate = () => {
     setActive(false)
+    val !== value && onSubmit && onSubmit(val)
     window.removeEventListener("beforeunload", alertUser)
   }
-  const ref = useClickOutside(deactivate)
+  // const ref = useClickOutside(deactivate)
   const clipboard = useClipboard()
-
-  useEffect(() => {
-    onChange && onChange(val)
-  }, [val])
 
   useEffect(() => {
     return () => {
       deactivate()
     }
   }, [])
+
+  useEffect(() => {
+    value && setVal(value)
+  }, [value])
+
+  const onChangeTextarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setVal(e.target.value)
+    onChange && onChange(e.target.value)
+  }
+
+  const onKeyDownTextarea = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.code == "Enter" && !e.shiftKey) {
+      deactivate()
+    }
+  }
+
+  const onFocusTextarea = (
+    e: React.FocusEvent<HTMLTextAreaElement, Element>
+  ) => {
+    e.target.selectionStart = e.target.value.length
+  }
 
   return (
     <InputWrapper
@@ -77,6 +91,7 @@ const DetailsText: FC<DetailsTextProps> = ({
                 message: val,
               })
             }}
+            tabIndex={-1}
           >
             <Copy size={16} />
           </ActionIcon>
@@ -88,17 +103,15 @@ const DetailsText: FC<DetailsTextProps> = ({
     >
       {active ? (
         <Textarea
-          // styles={{ input: { lineHeight: "34px" } }}
-          ref={ref}
+          // ref={ref}
           autosize
+          autoFocus
           minRows={1}
           value={val}
-          onChange={(e) => setVal(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.code == "Enter" && !e.shiftKey) {
-              deactivate()
-            }
-          }}
+          onChange={onChangeTextarea}
+          onKeyDown={onKeyDownTextarea}
+          onFocus={onFocusTextarea}
+          onBlur={deactivate}
         />
       ) : (
         <div style={{ position: "relative" }}>

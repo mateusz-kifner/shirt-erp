@@ -1,8 +1,8 @@
 import { ActionIcon, InputWrapper } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import RichTextEditor from "@mantine/rte"
-import { FC, useEffect, useState, lazy } from "react"
+import RichTextEditor, { Editor } from "@mantine/rte"
+import { FC, useEffect, useState, useRef } from "react"
 import { Copy, Edit } from "tabler-icons-react"
 
 // FIXME: make onChange?(or maybe onSubmit) only fire on save
@@ -14,33 +14,40 @@ const alertUser = (e: BeforeUnloadEvent) => {
 
 interface DetailsRichTextProps {
   label?: string
-  placeholder?: string
   value?: string
+  initialValue?: string
   onChange?: (value: string | null) => void
+  onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
 }
 
 const DetailsRichText: FC<DetailsRichTextProps> = ({
   label,
-  placeholder,
   value,
+  initialValue,
   onChange,
+  onSubmit,
   disabled,
   required,
 }) => {
-  const [val, setVal] = useState<string>(value ? value : "")
+  const [val, setVal] = useState<string>(
+    value ? value : initialValue ? initialValue : ""
+  )
   const [active, setActive] = useState<boolean>(false)
   const activate = () => {
     setActive(true)
+    onFocusTextarea()
     window.addEventListener("beforeunload", alertUser)
   }
 
   const deactivate = () => {
     setActive(false)
+    val !== value && onSubmit && onSubmit(val)
     window.removeEventListener("beforeunload", alertUser)
   }
   const ref = useClickOutside(() => deactivate())
+  const richTextEditorRef = useRef<Editor>(null)
   const clipboard = useClipboard()
 
   useEffect(() => {
@@ -57,6 +64,12 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
       deactivate()
     }
   }, [])
+
+  const onFocusTextarea = () => {
+    setTimeout(() => {
+      richTextEditorRef.current?.focus()
+    })
+  }
 
   return (
     <InputWrapper
@@ -76,6 +89,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
                 message: val,
               })
             }}
+            tabIndex={-1}
           >
             <Copy size={16} />
           </ActionIcon>
@@ -86,6 +100,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
     >
       <div ref={ref} style={{ position: "relative" }}>
         <RichTextEditor
+          ref={richTextEditorRef}
           value={val}
           onChange={setValue}
           readOnly={!active}
@@ -98,9 +113,8 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
             ["link", "blockquote", "codeBlock"],
           ]}
           onKeyDown={(e) => {
-            if (e.code == "Enter" && !e.shiftKey) {
-              e.preventDefault()
-              e.stopPropagation()
+            if (e.code == "Enter" && e.ctrlKey) {
+              deactivate()
             }
           }}
           sticky={true}

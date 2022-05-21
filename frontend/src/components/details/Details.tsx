@@ -11,9 +11,11 @@ import { useId } from "@mantine/hooks"
 interface DetailsProps {
   schema: any
   data: any
+  onSubmit?: (key: string, value: any) => void
+  onChange?: (key: string, value: any) => void
 }
 
-const Details: FC<DetailsProps> = ({ schema, data }) => {
+const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
   const user = useRecoilValue(loginState)
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
@@ -36,6 +38,8 @@ const Details: FC<DetailsProps> = ({ schema, data }) => {
         if (key === "id" && user.debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
+        const onChangeEntry = (value: any) => onChange && onChange(key, value)
+        const onSubmitEntry = (value: any) => onSubmit && onSubmit(key, value)
         if (!(key in schema))
           return user?.debug === true ? (
             <NotImplemented
@@ -52,6 +56,8 @@ const Details: FC<DetailsProps> = ({ schema, data }) => {
                 value={data[key]}
                 {...schema[key]}
                 key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
               />
             )
           case "richtext":
@@ -60,6 +66,8 @@ const Details: FC<DetailsProps> = ({ schema, data }) => {
                 value={data[key]}
                 {...schema[key]}
                 key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
               />
             )
 
@@ -69,6 +77,8 @@ const Details: FC<DetailsProps> = ({ schema, data }) => {
                 value={data[key]}
                 {...schema[key]}
                 key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
               />
             )
 

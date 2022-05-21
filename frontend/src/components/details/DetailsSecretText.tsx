@@ -1,9 +1,8 @@
-import { ActionIcon, InputWrapper } from "@mantine/core"
-import { useClickOutside, useClipboard } from "@mantine/hooks"
-import { showNotification } from "@mantine/notifications"
+import { ActionIcon } from "@mantine/core"
+import { useClickOutside } from "@mantine/hooks"
 import RichTextEditor from "@mantine/rte"
-import { FC, useEffect, useState, lazy } from "react"
-import { Copy, Edit, Notes } from "tabler-icons-react"
+import { FC, useEffect, useState } from "react"
+import { Notes } from "tabler-icons-react"
 
 // FIXME: make onChange?(or maybe onSubmit) only fire on save
 
@@ -13,21 +12,15 @@ const alertUser = (e: BeforeUnloadEvent) => {
 }
 
 interface DetailsRichTextProps {
-  label?: string
-  placeholder?: string
   value?: string
   onChange?: (value: string | null) => void
   disabled?: boolean
-  required?: boolean
 }
 
 const DetailsRichText: FC<DetailsRichTextProps> = ({
-  label,
-  placeholder,
   value,
   onChange,
   disabled,
-  required,
 }) => {
   const [val, setVal] = useState<string>(value ? value : "")
   const [active, setActive] = useState<boolean>(false)
@@ -41,7 +34,6 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
     window.removeEventListener("beforeunload", alertUser)
   }
   const ref = useClickOutside(() => deactivate())
-  const clipboard = useClipboard()
 
   useEffect(() => {
     value && setVal(value)

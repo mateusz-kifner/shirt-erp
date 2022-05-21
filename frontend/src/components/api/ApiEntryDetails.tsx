@@ -17,7 +17,7 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
   entryName,
   id,
 }) => {
-  const { data, status } = useStrapi(entryName, id)
+  const { data, status, update } = useStrapi(entryName, id)
 
   const location = useLocation()
   const params = useParams()
@@ -37,9 +37,13 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
       : "ShirtERP - " + entryNameData.plural
   )
 
+  const apiUpdate = (key: string, val: any) => {
+    update({ [key]: val })
+  }
+
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <Details schema={schema} data={data} />
+      <Details schema={schema} data={data} onSubmit={apiUpdate} />
       <LoadingOverlay visible={status === "loading"} radius="xl" />
     </Stack>
   )
