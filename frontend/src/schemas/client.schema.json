@@ -1,46 +1,43 @@
 {
   "username": {
     "label": "Nazwa użytkownika",
-    "type": "string",
+    "type": "text",
 
     "initialValue": "",
     "required": true
   },
   "firstname": {
     "label": "Imię",
-    "type": "string",
+    "type": "text",
 
     "initialValue": ""
   },
   "lastname": {
     "label": "Nazwisko",
-    "type": "string",
-
+    "type": "text",
     "initialValue": ""
   },
   "notes": {
     "label": "Notatki",
-    "type": "string",
-
-    "initialValue": "",
-    "multiline": true
+    "type": "richtext",
+    "initialValue": ""
   },
   "email": {
     "label": "Email",
-    "type": "string",
+    "type": "text",
 
     "initialValue": ""
   },
   "phoneNumber": {
     "label": "Telefon",
-    "type": "string",
+    "type": "text",
 
     "initialValue": ""
   },
 
   "companyName": {
     "label": "Nazwa firmy",
-    "type": "string",
+    "type": "text",
 
     "initialValue": ""
   },
@@ -75,7 +72,7 @@
   },
   "secretNotes": {
     "label": "Sekretne Notatki",
-    "type": "secretString",
+    "type": "secrettext",
 
     "initialValue": "",
     "multiline": true,

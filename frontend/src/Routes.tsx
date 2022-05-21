@@ -91,38 +91,49 @@ const Routes: FC = () => {
         {isAuthenticated && (
           <>
             <Route path="/" element={<Navigate to="/orders" replace />} />
-            <Route path="/dashboard/" element={<DashboardPage />}>
-              <Route path=":id" />
+            <Route path="/dashboard">
+              <Route path=":id" element={<DashboardPage />} />
+              <Route path="" element={<DashboardPage />} />
             </Route>
-            <Route path="/tasks/" element={<TasksPage />}>
-              <Route path=":id" />
+            <Route path="/tasks">
+              <Route path=":id" element={<TasksPage />} />
+              <Route path="" element={<TasksPage />} />
             </Route>
-            <Route path="/orders/" element={<OrdersPage />}>
-              <Route path=":id" />
+            <Route path="/orders">
+              <Route path=":id" element={<OrdersPage />} />
+              <Route path="" element={<OrdersPage />} />
             </Route>
-            <Route path="/products/" element={<ProductsPage />}>
-              <Route path=":id" />
+            <Route path="/products">
+              <Route path=":id" element={<ProductsPage />} />
+              <Route path="" element={<ProductsPage />} />
             </Route>
-            <Route path="/clients/" element={<ClientsPage />}>
-              <Route path=":id" />
+            <Route path="/clients">
+              <Route path=":id" element={<ClientsPage />} />
+              <Route path="" element={<ClientsPage />} />
             </Route>
-            <Route path="/production/" element={<ProductionPage />}>
-              <Route path=":id" />
+            <Route path="/production">
+              <Route path=":id" element={<ProductionPage />} />
+              <Route path="" element={<ProductionPage />} />
             </Route>
-            <Route path="/expenses/" element={<ExpensesPage />}>
-              <Route path=":id" />
+            <Route path="/expenses">
+              <Route path=":id" element={<ExpensesPage />} />
+              <Route path="" element={<ExpensesPage />} />
             </Route>
-            <Route path="/files/" element={<FilesPage />}>
-              <Route path=":id" />
+            <Route path="/files">
+              <Route path=":id" element={<FilesPage />} />
+              <Route path="" element={<FilesPage />} />
             </Route>
-            <Route path="/settings/" element={<SettingsPage />}>
-              <Route path=":id" />
+            <Route path="/settings">
+              <Route path=":id" element={<SettingsPage />} />
+              <Route path="" element={<SettingsPage />} />
             </Route>
-            <Route path="/users/" element={<UsersPage />}>
-              <Route path=":id" />
+            <Route path="/users">
+              <Route path=":id" element={<UsersPage />} />
+              <Route path="" element={<UsersPage />} />
             </Route>
-            <Route path="/orders-archive/" element={<OrdersArchivePage />}>
-              <Route path=":id" />
+            <Route path="/orders-archive">
+              <Route path=":id" element={<OrdersArchivePage />} />
+              <Route path="" element={<OrdersArchivePage />} />
             </Route>
             {login.debug && <Route path="/logger" element={<LoggerPage />} />}
             <Route path="*" element={<ErrorPage errorcode={404} />} />

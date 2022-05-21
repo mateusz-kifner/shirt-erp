@@ -1,23 +1,18 @@
-import {
-  ActionIcon,
-  Button,
-  InputWrapper,
-  Text,
-  Textarea,
-  TextInput,
-  UnstyledButton,
-} from "@mantine/core"
+import { ActionIcon, InputWrapper } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import React, { FC, useEffect, useState } from "react"
+import RichTextEditor from "@mantine/rte"
+import { FC, useEffect, useState, lazy } from "react"
 import { Copy, Edit } from "tabler-icons-react"
+
+// FIXME: make onChange?(or maybe onSubmit) only fire on save
 
 const alertUser = (e: BeforeUnloadEvent) => {
   e.preventDefault()
   e.returnValue = true
 }
 
-interface DetailsTextProps {
+interface DetailsRichTextProps {
   label?: string
   placeholder?: string
   value?: string
@@ -26,7 +21,7 @@ interface DetailsTextProps {
   required?: boolean
 }
 
-const DetailsText: FC<DetailsTextProps> = ({
+const DetailsRichText: FC<DetailsRichTextProps> = ({
   label,
   placeholder,
   value,
@@ -45,12 +40,17 @@ const DetailsText: FC<DetailsTextProps> = ({
     setActive(false)
     window.removeEventListener("beforeunload", alertUser)
   }
-  const ref = useClickOutside(deactivate)
+  const ref = useClickOutside(() => deactivate())
   const clipboard = useClipboard()
 
   useEffect(() => {
-    onChange && onChange(val)
-  }, [val])
+    value && setVal(value)
+  }, [value])
+
+  const setValue = (newValue: string) => {
+    onChange && onChange(newValue)
+    setVal(newValue)
+  }
 
   useEffect(() => {
     return () => {
@@ -68,7 +68,6 @@ const DetailsText: FC<DetailsTextProps> = ({
             style={{
               display: "inline-block",
               transform: "translate(4px, 4px)",
-              marginRight: 4,
             }}
             onClick={() => {
               clipboard.copy(val)
@@ -84,43 +83,33 @@ const DetailsText: FC<DetailsTextProps> = ({
       }
       labelElement="div"
       required={required}
-      // style={{ position: "relative" }}
     >
-      {active ? (
-        <Textarea
-          // styles={{ input: { lineHeight: "34px" } }}
-          ref={ref}
-          autosize
-          minRows={1}
+      <div
+        //  ref={ref}
+        style={{ position: "relative" }}
+      >
+        <RichTextEditor
           value={val}
-          onChange={(e) => setVal(e.target.value)}
+          onChange={setValue}
+          readOnly={!active}
+          controls={[
+            ["bold", "italic", "underline", "strike", "clean"],
+            ["h1", "h2", "h3", "h4"],
+            ["unorderedList", "orderedList"],
+            ["sup", "sub"],
+            ["alignLeft", "alignCenter", "alignRight"],
+            ["link", "blockquote", "codeBlock"],
+          ]}
           onKeyDown={(e) => {
             if (e.code == "Enter" && !e.shiftKey) {
-              deactivate()
+              e.preventDefault()
+              e.stopPropagation()
             }
           }}
+          sticky={true}
+          stickyOffset={60}
         />
-      ) : (
-        <div style={{ position: "relative" }}>
-          <Text
-            sx={(theme) => ({
-              width: "100%",
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
-              borderRadius: theme.radius.sm,
-              padding: "1px 12px",
-              fontSize: theme.fontSizes.sm,
-              minHeight: 36,
-              lineHeight: "34px",
-              paddingRight: 28,
-              wordBreak: "break-word",
-              whiteSpace: "pre-line",
-            })}
-          >
-            {val ? val : "⸺"}
-          </Text>
+        {!active && (
           <ActionIcon
             radius="xl"
             style={{ position: "absolute", right: 4, top: 4 }}
@@ -129,10 +118,10 @@ const DetailsText: FC<DetailsTextProps> = ({
           >
             <Edit />
           </ActionIcon>
-        </div>
-      )}
+        )}
+      </div>
     </InputWrapper>
   )
 }
 
-export default DetailsText
+export default DetailsRichText

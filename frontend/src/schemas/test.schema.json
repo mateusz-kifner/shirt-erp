@@ -1,7 +1,7 @@
 {
   "name": {
     "label": "Napis",
-    "type": "string",
+    "type": "text",
     "initialValue": "test"
   },
 

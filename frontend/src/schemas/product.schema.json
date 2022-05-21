@@ -1,13 +1,13 @@
 {
   "name": {
     "label": "Nazwa",
-    "type": "string",
+    "type": "text",
     "initialValue": "",
     "required": true
   },
   "codeName": {
     "label": "Kod produktu",
-    "type": "string",
+    "type": "text",
     "initialValue": ""
   },
   "category": {
@@ -26,7 +26,7 @@
   },
   "desc": {
     "label": "Opis",
-    "type": "string",
+    "type": "text",
     "initialValue": ""
   },
   "color": {

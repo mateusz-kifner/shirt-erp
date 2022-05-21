@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useMemo, useState } from "react"
 import { Button, Container, Group, Modal, Paper, Stack } from "@mantine/core"
 import { Bug, Logout } from "tabler-icons-react"
 import { loginState } from "../../atoms/loginState"
@@ -9,10 +9,12 @@ import FileButton from "../../components/FileButton"
 import FileList from "../../components/FileList"
 import TestTable from "../../components/TestTable"
 import ApiEntryDetails from "../../components/api/ApiEntryDetails"
+import RichTextEditor from "@mantine/rte"
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
   const [testFormVisible, setTestFormVisible] = useState(false)
+  const [val, setVal] = useState("")
 
   return (
     <Container size="xs" px="xs" my="xl">
@@ -68,6 +70,8 @@ const SettingsPage: FC = () => {
               <FileList maxFileCount={1000} />
               {/* <TestTable /> */}
               {/* <ApiEntryDetails /> */}
+              <RichTextEditor value={val} onChange={setVal} />
+              <div style={{ minHeight: 1000 }}></div>
             </Stack>
           )}
         </Group>

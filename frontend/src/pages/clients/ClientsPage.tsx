@@ -1,5 +1,5 @@
 import { Group } from "@mantine/core"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 
 import ApiList from "../../components/api/ApiList"
 import client_schema from "../../schemas/client.schema.json"
@@ -15,6 +15,10 @@ const ClientsPage: FC = () => {
   const [id, setId] = useState<number | null>(null)
 
   const navigate = useNavigate()
+  const params = useParams()
+  useEffect(() => {
+    if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
+  })
 
   return (
     <Group
@@ -37,7 +41,7 @@ const ClientsPage: FC = () => {
           onChange={(val: any) => {
             console.log(val)
             setId(val.id)
-            navigate("./" + val.id)
+            navigate("/" + ENTRY_NAME + "/" + val.id)
           }}
         />
       </ResponsivePaper>

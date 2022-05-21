@@ -8,6 +8,7 @@ import DetailsText from "../details/DetailsText"
 import NotImplemented from "../NotImplemented"
 import { useLocation, useParams } from "react-router-dom"
 import names from "../../schemas/names.json"
+import DetailsRichText from "../details/DetailsRichText"
 
 interface ApiEntryDetailsProps {
   schema: any
@@ -24,7 +25,7 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
   const user = useRecoilValue(loginState)
   const uuid = useId()
   const location = useLocation()
-  let params = useParams()
+  const params = useParams()
 
   const entryNameData: any =
     //@ts-ignore
@@ -44,43 +45,49 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
       {data && Object.keys(data).length > 0 ? (
-        <>
-          {Object.keys(data).map((key) => {
-            if (key === "id" && user.debug === true)
-              return <Text key={uuid + key}>ID: {data[key]}</Text>
+        Object.keys(data).map((key) => {
+          if (key === "id" && user.debug === true)
+            return <Text key={uuid + key}>ID: {data[key]}</Text>
 
-            if (!(key in schema))
+          if (!(key in schema))
+            return user?.debug === true ? (
+              <NotImplemented
+                message={"Key doesn't have Schema"}
+                object_key={key}
+                value={data[key]}
+                key={uuid + key}
+              />
+            ) : null
+          switch (schema[key].type) {
+            case "text":
+              return (
+                <DetailsText
+                  value={data[key]}
+                  {...schema[key]}
+                  key={uuid + key}
+                />
+              )
+            case "richtext":
+              return (
+                <DetailsRichText
+                  value={data[key]}
+                  {...schema[key]}
+                  key={uuid + key}
+                />
+              )
+
+            default:
               return user?.debug === true ? (
                 <NotImplemented
-                  message={"Key doesn't have Schema"}
+                  message={"Key has unknown type"}
                   object_key={key}
                   value={data[key]}
+                  schema={schema[key]}
                   key={uuid + key}
                 />
               ) : null
-            switch (schema[key].type) {
-              case "string":
-                return (
-                  <DetailsText
-                    value={data[key]}
-                    {...schema[key]}
-                    key={uuid + key}
-                  />
-                )
-
-              default:
-                return user?.debug === true ? (
-                  <NotImplemented
-                    message={"Key has unknown type"}
-                    object_key={key}
-                    value={data[key]}
-                    schema={schema[key]}
-                    key={uuid + key}
-                  />
-                ) : null
-            }
-          })}
-        </>
+          }
+        })
       ) : (
         <Text
           style={{

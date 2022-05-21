@@ -1,6 +1,4 @@
 import {
-  Paper,
-  ScrollArea,
   Stack,
   Title,
   Group,

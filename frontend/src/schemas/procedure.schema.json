@@ -1,14 +1,14 @@
 {
   "name": {
     "label": "Nazwa",
-    "type": "string",
+    "type": "text",
 
     "initialValue": "",
     "required": true
   },
   "desc": {
     "label": "Opis",
-    "type": "string",
+    "type": "text",
     "initialValue": "",
     "multiline": true
   },

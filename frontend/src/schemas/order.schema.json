@@ -1,7 +1,7 @@
 {
   "name": {
     "label": "Nazwa",
-    "type": "string",
+    "type": "text",
     "initialValue": "",
     "required": true
   },
@@ -21,7 +21,7 @@
   },
   "notes": {
     "label": "Notatki",
-    "type": "string",
+    "type": "text",
     "initialValue": "",
     "multiline": true
   },
@@ -55,7 +55,7 @@
   },
   "secretNotes": {
     "label": "Sekretne notatki",
-    "type": "string",
+    "type": "text",
     "initialValue": "",
     "hidden": true
   },
