@@ -3,9 +3,7 @@ import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import RichTextEditor, { Editor } from "@mantine/rte"
 import { FC, useEffect, useState, useRef } from "react"
-
-import Copy from "tabler-icons-react/dist/icons/copy.js"
-import Edit from "tabler-icons-react/dist/icons/edit.js"
+import { Copy, Edit } from "../../utils/TablerIcons"
 
 // FIXME: make onChange?(or maybe onSubmit) only fire on save
 

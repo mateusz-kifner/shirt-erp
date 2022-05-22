@@ -2,9 +2,7 @@ import { ActionIcon, InputWrapper, Text, Textarea } from "@mantine/core"
 import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useRef, useState } from "react"
-import Copy from "tabler-icons-react/dist/icons/copy.js"
-import Edit from "tabler-icons-react/dist/icons/edit.js"
-import X from "tabler-icons-react/dist/icons/x.js"
+import { Copy, Edit, X } from "../../utils/TablerIcons"
 
 const alertUser = (e: BeforeUnloadEvent) => {
   e.preventDefault()

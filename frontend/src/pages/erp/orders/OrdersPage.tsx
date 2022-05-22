@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { Text } from "@mantine/core"
-import Box from "tabler-icons-react/dist/icons/box.js"
+import { Box } from "../../../utils/TablerIcons"
 import ApiIconSVG from "../../../components/api/ApiIconSVG"
 
 const OrdersPage: FC = () => {

@@ -15,14 +15,15 @@ import { Dropzone, DropzoneStatus } from "@mantine/dropzone"
 import { useUuid } from "@mantine/hooks"
 import axios, { AxiosError } from "axios"
 import { FC, useEffect, useState } from "react"
-import Photo from "tabler-icons-react/dist/icons/photo.js"
-import Upload from "tabler-icons-react/dist/icons/upload.js"
-import X from "tabler-icons-react/dist/icons/x.js"
-import Plus from "tabler-icons-react/dist/icons/plus.js"
-import TrashX from "tabler-icons-react/dist/icons/trash-x.js"
-import Eye from "tabler-icons-react/dist/icons/eye.js"
-import FileUnknown from "tabler-icons-react/dist/icons/file-unknown.js"
-
+import {
+  Photo,
+  Upload,
+  X,
+  Plus,
+  FileUnknown,
+  TrashX,
+  Eye,
+} from "../utils/TablerIcons"
 import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"

@@ -1,7 +1,6 @@
 import { FC, useEffect, useMemo, useState } from "react"
 import { Button, Container, Group, Modal, Paper, Stack } from "@mantine/core"
-import Bug from "tabler-icons-react/dist/icons/bug.js"
-import Logout from "tabler-icons-react/dist/icons/logout.js"
+import { Bug, Logout } from "../../../utils/TablerIcons"
 import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import ApiEntryAdd from "../../../components/api/ApiEntryAdd"

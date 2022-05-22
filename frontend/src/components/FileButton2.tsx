@@ -11,11 +11,7 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core"
-import Photo from "tabler-icons-react/dist/icons/photo.js"
-import Upload from "tabler-icons-react/dist/icons/upload.js"
-import X from "tabler-icons-react/dist/icons/x.js"
-import Plus from "tabler-icons-react/dist/icons/plus.js"
-import TrashX from "tabler-icons-react/dist/icons/trash-x.js"
+import { Photo, Upload, X, Plus, TrashX } from "../utils/TablerIcons"
 import axios, { AxiosError } from "axios"
 import { serverURL } from "../env"
 import _ from "lodash"
