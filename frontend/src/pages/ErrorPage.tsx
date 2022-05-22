@@ -1,7 +1,9 @@
 import { FC } from "react"
 import { Text } from "@mantine/core"
 import { Title } from "@mantine/core"
-import { X, FileUnknown, Lock } from "tabler-icons-react"
+import X from "tabler-icons-react/dist/icons/x.js"
+import FileUnknown from "tabler-icons-react/dist/icons/file-unknown.js"
+import Lock from "tabler-icons-react/dist/icons/lock.js"
 
 interface ErrorPageProps {
   errorcode: number

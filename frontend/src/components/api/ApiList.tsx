@@ -10,7 +10,12 @@ import {
   MantineNumberSize,
 } from "@mantine/core"
 import { FC, useState } from "react"
-import { Plus, Refresh, Search, SortAscending } from "tabler-icons-react"
+
+import Plus from "tabler-icons-react/dist/icons/plus.js"
+import Refresh from "tabler-icons-react/dist/icons/refresh.js"
+import Search from "tabler-icons-react/dist/icons/search.js"
+import SortAscending from "tabler-icons-react/dist/icons/sort-ascending.js"
+
 import useStrapiList from "../../hooks/useStrapiList"
 
 interface ApiListProps {

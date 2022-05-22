@@ -7,7 +7,11 @@ import {
   Route,
   Navigate,
 } from "react-router-dom"
-import { Bell, Checklist, Crown, Shirt, User } from "tabler-icons-react"
+import Bell from "tabler-icons-react/dist/icons/bell.js"
+import Checklist from "tabler-icons-react/dist/icons/checklist.js"
+import Crown from "tabler-icons-react/dist/icons/crown.js"
+import Shirt from "tabler-icons-react/dist/icons/shirt.js"
+import User from "tabler-icons-react/dist/icons/user.js"
 import { loginState } from "./atoms/loginState"
 import ClientsPage from "./pages/erp/clients/ClientsPage"
 import DashboardPage from "./pages/erp/dashboard/DashboardPage"

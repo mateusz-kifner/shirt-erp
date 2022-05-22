@@ -15,18 +15,17 @@ import { Dropzone, DropzoneStatus } from "@mantine/dropzone"
 import { useUuid } from "@mantine/hooks"
 import axios, { AxiosError } from "axios"
 import { FC, useEffect, useState } from "react"
-import {
-  Photo,
-  Upload,
-  X,
-  Icon as TablerIcon,
-  Plus,
-  FileUnknown,
-  TrashX,
-  Eye,
-} from "tabler-icons-react"
+import Photo from "tabler-icons-react/dist/icons/photo.js"
+import Upload from "tabler-icons-react/dist/icons/upload.js"
+import X from "tabler-icons-react/dist/icons/x.js"
+import Plus from "tabler-icons-react/dist/icons/plus.js"
+import TrashX from "tabler-icons-react/dist/icons/trash-x.js"
+import Eye from "tabler-icons-react/dist/icons/eye.js"
+import FileUnknown from "tabler-icons-react/dist/icons/file-unknown.js"
+
 import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
+import TablerIconType from "../types/TablerIconType"
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -45,7 +44,7 @@ function isFileImage(file: File) {
 function ImageUploadIcon({
   status,
   ...props
-}: React.ComponentProps<TablerIcon> & { status: DropzoneStatus }) {
+}: React.ComponentProps<TablerIconType> & { status: DropzoneStatus }) {
   if (status.accepted) {
     return <Upload {...props} />
   }

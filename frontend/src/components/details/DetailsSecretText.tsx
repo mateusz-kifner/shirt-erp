@@ -2,7 +2,7 @@ import { ActionIcon } from "@mantine/core"
 import { useClickOutside } from "@mantine/hooks"
 import RichTextEditor from "@mantine/rte"
 import { FC, useEffect, useState } from "react"
-import { Notes } from "tabler-icons-react"
+import Notes from "tabler-icons-react/dist/icons/notes.js"
 
 // FIXME: make onChange?(or maybe onSubmit) only fire on save
 
