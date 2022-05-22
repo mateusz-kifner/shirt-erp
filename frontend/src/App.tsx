@@ -34,13 +34,15 @@ import {
   useState,
 } from "react"
 import { Link, BrowserRouter as Router } from "react-router-dom"
-import Bell from 'tabler-icons-react/dist/icons/bell.js'
-import ChevronLeft from 'tabler-icons-react/dist/icons/chevron-left.js'
-import ChevronRight from 'tabler-icons-react/dist/icons/chevron-right.js'
-import MoonStars from 'tabler-icons-react/dist/icons/moon-stars.js'
-import Search from 'tabler-icons-react/dist/icons/search.js'
-import Settings from 'tabler-icons-react/dist/icons/settings.js'
-import Sun from 'tabler-icons-react/dist/icons/sun.js'
+import {
+  Bell,
+  ChevronLeft,
+  ChevronRight,
+  MoonStars,
+  Search,
+  Settings,
+  Sun,
+} from "./utils/TablerIcons"
 import Routes, { navigationData } from "./Routes"
 import "dayjs/locale/pl"
 import { useRecoilState, useRecoilValue } from "recoil"
