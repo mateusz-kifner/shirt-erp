@@ -1,13 +1,11 @@
-import { ActionIcon, InputWrapper, Text } from "@mantine/core"
-import { useClickOutside, useClipboard, useLogger } from "@mantine/hooks"
+import { ActionIcon, Box, InputWrapper } from "@mantine/core"
+import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import RichTextEditor, { Editor } from "@mantine/rte"
 import { FC, useEffect, useState, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "../../utils/TablerIcons"
 import DOMPurify from "dompurify"
-
-// fix race condition with cancel deactivate
 
 interface DetailsRichTextProps {
   label?: string
@@ -28,7 +26,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   disabled,
   required,
 }) => {
-  const [text, setTextA] = useState(
+  const [text, setText] = useState(
     value
       ? DOMPurify.sanitize(value)
       : initialValue
@@ -41,19 +39,9 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
 
-  const setText = (name_of_node: string) => {
-    return (value: any) => {
-      console.log("Updated BY", name_of_node, value)
-      setTextA(value)
-    }
-  }
-
   useEffect(() => {
-    console.log("effect", text, prevText)
     if (active) {
-      console.log("activate")
       window.addEventListener("beforeunload", preventLeave)
-
       setTimeout(() => {
         richTextEditorRef.current?.editor?.focus()
         richTextEditorRef.current?.editor?.setSelection(
@@ -62,7 +50,6 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
         )
       })
     } else {
-      console.log("deactivate")
       if (text !== value) {
         onSubmit && onSubmit(text)
         setPrevText(text)
@@ -80,31 +67,25 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   useEffect(() => {
     if (value) {
       const cleanValue = DOMPurify.sanitize(value)
-      setText("UseEffect[value]")(cleanValue ? cleanValue : "")
+      setText(cleanValue ? cleanValue : "")
       setPrevText(cleanValue ? cleanValue : "")
     }
   }, [value])
 
   const onChangeTextarea = (value: string) => {
-    setText("onChangeTextarea")(value)
+    setText(value)
     onChange && onChange(value)
   }
 
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
-    console.log("onKEY DDWON")
     if (active) {
       if (e.code == "Enter" && e.ctrlKey) {
         setActive(false)
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        console.log(prevText, text)
-
-        setText("onKeyDownTextarea[cancel]")(prevText)
-        setTimeout(() => {
-          setActive(false)
-        }, 1000)
-
+        setText(prevText)
+        setActive(false)
         e.preventDefault()
       }
     } else {
@@ -171,34 +152,33 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
             })}
           />
         ) : (
-          <Text
-            sx={(theme) => ({
-              width: "100%",
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
-              borderRadius: theme.radius.sm,
-              padding: "1px 12px",
-              fontSize: theme.fontSizes.sm,
-              minHeight: 36,
-              lineHeight: "34px",
-              paddingRight: 28,
-              wordBreak: "break-word",
-              whiteSpace: "pre-line",
-            })}
-            dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
-          ></Text>
-        )}
-        {!active && (
-          <ActionIcon
-            radius="xl"
-            style={{ position: "absolute", right: 4, top: 4 }}
-            onClick={() => setActive(true)}
-            disabled={disabled}
-          >
-            <Edit />
-          </ActionIcon>
+          <>
+            <Box
+              sx={(theme) => ({
+                width: "100%",
+                border:
+                  theme.colorScheme === "dark"
+                    ? "1px solid #2C2E33"
+                    : "1px solid #ced4da",
+                borderRadius: theme.radius.sm,
+                fontSize: theme.fontSizes.sm,
+                minHeight: 36,
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                padding: "1px 16px",
+                paddingRight: 32,
+              })}
+              dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
+            ></Box>
+            <ActionIcon
+              radius="xl"
+              style={{ position: "absolute", right: 8, top: 8 }}
+              onClick={() => setActive(true)}
+              disabled={disabled}
+            >
+              <Edit />
+            </ActionIcon>
+          </>
         )}
       </div>
     </InputWrapper>
