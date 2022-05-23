@@ -73,10 +73,7 @@
   "secretNotes": {
     "label": "Sekretne Notatki",
     "type": "secrettext",
-
-    "initialValue": "",
-    "multiline": true,
-    "hidden": true
+    "initialValue": ""
   },
   "createdAt": {
     "label": "Utworzono",

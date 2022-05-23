@@ -1,4 +1,4 @@
-import { ActionIcon } from "@mantine/core"
+import { ActionIcon, Box } from "@mantine/core"
 import { useClickOutside } from "@mantine/hooks"
 import RichTextEditor, { Editor } from "@mantine/rte"
 import DOMPurify from "dompurify"
@@ -103,8 +103,8 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
         <div
           style={{
             position: "absolute",
-            right: 4,
-            bottom: 4,
+            right: 0,
+            bottom: 0,
             height: 400,
             width: "100%",
             zIndex: 10,
@@ -112,23 +112,50 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
           }}
           ref={ref}
         >
-          <RichTextEditor
-            ref={richTextEditorRef}
-            value={text}
-            onChange={onChangeTextarea}
-            readOnly={!active}
-            controls={[
-              ["bold", "italic", "underline", "strike", "clean"],
-              ["h1", "h2", "h3", "h4"],
-              ["unorderedList", "orderedList"],
-              ["sup", "sub"],
-              ["alignLeft", "alignCenter", "alignRight"],
-              ["link", "blockquote", "codeBlock"],
-            ]}
-            onKeyDown={onKeyDownTextarea}
-            sticky={true}
-            style={{ minHeight: 400 }}
-          />
+          {disabled ? (
+            <Box
+              sx={(theme) => ({
+                width: "100%",
+                border:
+                  theme.colorScheme === "dark"
+                    ? "1px solid #2C2E33"
+                    : "1px solid #ced4da",
+                borderRadius: theme.radius.sm,
+                fontSize: theme.fontSizes.sm,
+                minHeight: 36,
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                padding: "1px 16px",
+                paddingRight: 32,
+                backgroundColor: active
+                  ? theme.colorScheme === "dark"
+                    ? theme.colors.dark[6]
+                    : theme.colors.gray[0]
+                  : "transparent",
+                height: 400,
+                overflowY: "auto",
+              })}
+              dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
+            ></Box>
+          ) : (
+            <RichTextEditor
+              ref={richTextEditorRef}
+              value={text}
+              onChange={onChangeTextarea}
+              readOnly={!active}
+              controls={[
+                ["bold", "italic", "underline", "strike", "clean"],
+                ["h1", "h2", "h3", "h4"],
+                ["unorderedList", "orderedList"],
+                ["sup", "sub"],
+                ["alignLeft", "alignCenter", "alignRight"],
+                ["link", "blockquote", "codeBlock"],
+              ]}
+              onKeyDown={onKeyDownTextarea}
+              sticky={true}
+              style={{ minHeight: 400 }}
+            />
+          )}
         </div>
       )}
       {!active && (
@@ -136,7 +163,6 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
           radius="xl"
           style={{ position: "absolute", right: 0, bottom: -10, zIndex: 10 }}
           onClick={() => setActive(true)}
-          disabled={disabled}
         >
           <Notes />
         </ActionIcon>

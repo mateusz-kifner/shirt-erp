@@ -78,7 +78,7 @@ const DetailsText: FC<DetailsTextProps> = ({
       }
     } else {
       if (e.code == "Enter") {
-        setActive(true)
+        !disabled && setActive(true)
         e.preventDefault()
       }
     }
