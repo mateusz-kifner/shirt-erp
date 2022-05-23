@@ -1,13 +1,9 @@
 import { ActionIcon, InputWrapper, Text, Textarea } from "@mantine/core"
-import { useClipboard } from "@mantine/hooks"
+import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useRef, useState } from "react"
+import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "../../utils/TablerIcons"
-
-const alertUser = (e: BeforeUnloadEvent) => {
-  e.preventDefault()
-  e.returnValue = true
-}
 
 interface DetailsTextProps {
   label?: string
@@ -35,34 +31,27 @@ const DetailsText: FC<DetailsTextProps> = ({
   )
   const [prevText, setPrevText] = useState(text)
   const [active, setActive] = useState<boolean>(false)
-  const textRef = useRef<HTMLTextAreaElement>(null)
   const clipboard = useClipboard()
+  const textRef = useClickOutside(() => setActive(false))
 
-  const activate = () => {
-    setActive(true)
-    window.addEventListener("beforeunload", alertUser)
-    textRef.current &&
-      (textRef.current.selectionStart = textRef.current.value.length)
-    textRef.current && textRef.current.focus()
-  }
-
-  const deactivate = () => {
-    setActive(false)
-    if (text !== value) {
-      onSubmit && onSubmit(text)
-      setPrevText(text)
+  useEffect(() => {
+    if (active) {
+      window.addEventListener("beforeunload", preventLeave)
+      textRef.current &&
+        (textRef.current.selectionStart = textRef.current.value.length)
+      textRef.current && textRef.current.focus()
+    } else {
+      if (text !== prevText) {
+        onSubmit && onSubmit(text)
+        setPrevText(text)
+      }
+      window.removeEventListener("beforeunload", preventLeave)
     }
-    window.removeEventListener("beforeunload", alertUser)
-  }
-  const cancel = () => {
-    setActive(false)
-    setText(prevText)
-    window.removeEventListener("beforeunload", alertUser)
-  }
+  }, [active])
 
   useEffect(() => {
     return () => {
-      window.removeEventListener("beforeunload", alertUser)
+      window.removeEventListener("beforeunload", preventLeave)
     }
   }, [])
 
@@ -79,16 +68,17 @@ const DetailsText: FC<DetailsTextProps> = ({
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
     if (active) {
       if (e.code == "Enter" && !e.shiftKey) {
-        deactivate()
+        setActive(false)
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        cancel()
+        setText(prevText)
+        setActive(false)
         e.preventDefault()
       }
     } else {
       if (e.code == "Enter") {
-        activate()
+        setActive(true)
         e.preventDefault()
       }
     }
@@ -133,7 +123,6 @@ const DetailsText: FC<DetailsTextProps> = ({
           value={text}
           onChange={onChangeTextarea}
           onKeyDown={onKeyDownTextarea}
-          onBlur={deactivate}
           readOnly={!active}
           maxLength={maxLength ? maxLength : 255}
           styles={(theme) => ({
@@ -149,13 +138,6 @@ const DetailsText: FC<DetailsTextProps> = ({
                 theme.colorScheme === "dark"
                   ? "1px solid #2C2E33"
                   : "1px solid #ced4da",
-              "&:focus": {
-                border:
-                  theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da",
-                outline: "none",
-              },
             },
           })}
         />
@@ -168,7 +150,7 @@ const DetailsText: FC<DetailsTextProps> = ({
               right: 8,
               top: 8,
             }}
-            onClick={activate}
+            onClick={() => setActive(true)}
             disabled={disabled}
             tabIndex={-1}
           >
@@ -182,7 +164,7 @@ const DetailsText: FC<DetailsTextProps> = ({
               right: 8,
               top: 8,
             }}
-            onClick={cancel}
+            onClick={() => () => setActive(false)}
             disabled={disabled}
             tabIndex={-1}
           >

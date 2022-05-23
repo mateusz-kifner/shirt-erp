@@ -9,6 +9,8 @@ import { ReactQueryDevtools } from "react-query/devtools"
 import { showNotification } from "@mantine/notifications"
 import { RecoilRoot, useRecoilValue } from "recoil"
 import { serverURL } from "./env"
+//@ts-ignore
+import { registerSW } from "virtual:pwa-register"
 
 axios.defaults.baseURL = serverURL + "/api"
 
@@ -69,3 +71,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 )
+
+registerSW({ immediate: true })

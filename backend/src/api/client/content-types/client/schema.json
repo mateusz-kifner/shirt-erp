@@ -33,10 +33,10 @@
       "type": "string"
     },
     "notes": {
-      "type": "string"
+      "type": "text"
     },
     "secretNotes": {
-      "type": "string"
+      "type": "text"
     },
     "address": {
       "type": "component",

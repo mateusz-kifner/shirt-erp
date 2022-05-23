@@ -123,3 +123,7 @@ public/shirterp-384x384.png
 public/shirterp-512x512.png
 public/favicon.ico
 public/assets
+public/manifest.webmanifest
+public/sw.js
+public/workbox-*
+

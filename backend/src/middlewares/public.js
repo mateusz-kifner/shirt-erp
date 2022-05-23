@@ -8,28 +8,34 @@ const _ = require("lodash");
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
     if (
-      ![
-        "admin",
-        "api",
-        "upload",
-        "uploads",
-        "assets",
-        "i18n",
-        "content-manager",
-        "users-permissions",
-        "email",
-        "webhooks",
-        "content-type-builder",
-        "api-tokens",
-        "roles",
-        "users",
-        "manifest.json",
-        "shirterp-192x192.png",
-        "shirterp-384x384.png",
-        "shirterp-512x512.png",
-        "robots.txt",
-        "connect",
-      ].includes(ctx.url.split("/")[1])
+      !(
+        [
+          "admin",
+          "api",
+          "upload",
+          "uploads",
+          "assets",
+          "i18n",
+          "content-manager",
+          "users-permissions",
+          "email",
+          "webhooks",
+          "content-type-builder",
+          "api-tokens",
+          "roles",
+          "users",
+          "manifest.json",
+          "shirterp-192x192.png",
+          "shirterp-384x384.png",
+          "shirterp-512x512.png",
+          "robots.txt",
+          "connect",
+          "manifest.webmanifest",
+          "registerSW.js",
+          "sw.js",
+        ].includes(ctx.url.split("/")[1]) ||
+        ctx.url.split("/")[1].startsWith("workbox")
+      )
     ) {
       const index = fs.readFileSync(
         path.join(__dirname, "../../public/index.html"),
