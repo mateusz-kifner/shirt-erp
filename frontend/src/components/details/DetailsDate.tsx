@@ -26,7 +26,6 @@ interface DetailsDateProps {
   onSubmit?: (value: Date | null) => void
   disabled?: boolean
   required?: boolean
-  maxLength?: number
 }
 
 const DetailsDate: FC<DetailsDateProps> = ({
@@ -37,7 +36,6 @@ const DetailsDate: FC<DetailsDateProps> = ({
   onSubmit,
   disabled,
   required,
-  maxLength,
 }) => {
   const [date, setDate] = useState<Date | null>(
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
@@ -138,136 +136,137 @@ const DetailsDate: FC<DetailsDateProps> = ({
       }
       labelElement="div"
       required={required}
+      style={{ position: "relative" }}
+      ref={ref}
     >
-      <div style={{ position: "relative" }} ref={ref}>
-        {active ? (
-          <DatePicker
-            ref={dateRef}
-            onChange={onChangeDate}
-            value={date}
-            variant={active ? "filled" : "default"}
-            icon={<Calendar size={18} />}
-            clearable={false}
-            styles={(theme) => ({
-              input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
-              defaultVariant: {
-                backgroundColor: active ? "initial" : "transparent",
-              },
-            })}
-            dayStyle={(date, modifiers) => ({
-              backgroundColor:
-                dayjs(date).isToday() && !modifiers.selected
-                  ? theme.colors[theme.primaryColor][6] + "33"
-                  : undefined,
-            })}
-            allowFreeInput={!isMobile}
-            onDropdownOpen={activate}
-            onDropdownClose={() => {
-              setLock(false)
+      {/* <div > */}
+      {active ? (
+        <DatePicker
+          ref={dateRef}
+          onChange={onChangeDate}
+          value={date}
+          variant={active ? "filled" : "default"}
+          icon={<Calendar size={18} />}
+          clearable={false}
+          styles={(theme) => ({
+            input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
+            defaultVariant: {
+              backgroundColor: active ? "initial" : "transparent",
+            },
+          })}
+          dayStyle={(date, modifiers) => ({
+            backgroundColor:
+              dayjs(date).isToday() && !modifiers.selected
+                ? theme.colors[theme.primaryColor][6] + "33"
+                : undefined,
+          })}
+          allowFreeInput={!isMobile}
+          onDropdownOpen={activate}
+          onDropdownClose={() => {
+            setLock(false)
+          }}
+          dateParser={(value) => {
+            return dayjs(value, "L").toDate()
+          }}
+          dropdownType={isMobile ? "modal" : "popover"}
+          withinPortal={false}
+          autoFocus
+          onKeyDown={onKeyDownDate}
+        />
+      ) : (
+        <Text
+          sx={(theme) => ({
+            width: "100%",
+            border:
+              theme.colorScheme === "dark"
+                ? "1px solid #2C2E33"
+                : "1px solid #ced4da",
+            borderRadius: theme.radius.sm,
+            fontSize: theme.fontSizes.sm,
+            minHeight: 36,
+            wordBreak: "break-word",
+            whiteSpace: "pre-line",
+            padding: "10px 16px",
+            paddingRight: 32,
+            lineHeight: 1.55,
+            paddingLeft: 36,
+          })}
+        >
+          <Calendar
+            color="#adb5bd"
+            size={18}
+            style={{
+              bottom: 13,
+              left: 9,
+              position: "absolute",
             }}
-            dateParser={(value) => {
-              return dayjs(value, "L").toDate()
-            }}
-            dropdownType={isMobile ? "modal" : "popover"}
-            withinPortal={false}
-            autoFocus
-            onKeyDown={onKeyDownDate}
           />
-        ) : (
-          <Text
-            sx={(theme) => ({
-              width: "100%",
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
-              borderRadius: theme.radius.sm,
-              fontSize: theme.fontSizes.sm,
-              minHeight: 36,
-              wordBreak: "break-word",
-              whiteSpace: "pre-line",
-              padding: "10px 16px",
-              paddingRight: 32,
-              lineHeight: 1.55,
-              paddingLeft: 36,
-            })}
-          >
-            <Calendar
-              color="#adb5bd"
-              size={18}
-              style={{
-                top: "50%",
-                left: 9,
-                position: "absolute",
-                transform: "translate(0,-50%)",
-              }}
-            />
-            {date ? dayjs(date).format("L").toString() : "⸺"}
-          </Text>
-        )}
+          {date ? dayjs(date).format("L").toString() : "⸺"}
+        </Text>
+      )}
 
-        {!active ? (
+      {!active ? (
+        <ActionIcon
+          radius="xl"
+          style={{
+            position: "absolute",
+            right: 8,
+            bottom: 8,
+          }}
+          onClick={activate}
+          disabled={disabled}
+        >
+          <Edit size={18} />
+        </ActionIcon>
+      ) : (
+        <Group
+          spacing={0}
+          style={{
+            position: "absolute",
+            right: 8,
+            bottom: 8,
+          }}
+        >
           <ActionIcon
             radius="xl"
             style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
+              width: "auto",
+              paddingLeft: 8,
+              paddingRight: 8,
             }}
-            onClick={activate}
+            onClick={() => {
+              console.log("dzis")
+              setDate(new Date())
+              deactivate()
+            }}
             disabled={disabled}
           >
-            <Edit size={18} />
+            Dziś
           </ActionIcon>
-        ) : (
-          <Group
-            spacing={0}
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
+          <ActionIcon
+            radius="xl"
+            onClick={() => {
+              setDate(null)
+              deactivate()
             }}
+            disabled={disabled}
           >
-            <ActionIcon
-              radius="xl"
-              style={{
-                width: "auto",
-                paddingLeft: 8,
-                paddingRight: 8,
-              }}
-              onClick={() => {
-                console.log("dzis")
-                setDate(new Date())
-                deactivate()
-              }}
-              disabled={disabled}
-            >
-              Dziś
-            </ActionIcon>
-            <ActionIcon
-              radius="xl"
-              onClick={() => {
-                setDate(null)
-                deactivate()
-              }}
-              disabled={disabled}
-            >
-              <TrashX size={18} />
-            </ActionIcon>
-            <ActionIcon
-              radius="xl"
-              onClick={() => {
-                setDate(prevDate)
-                deactivate()
-              }}
-              disabled={disabled}
-              tabIndex={-1}
-            >
-              <X size={18} />
-            </ActionIcon>
-          </Group>
-        )}
-      </div>
+            <TrashX size={18} />
+          </ActionIcon>
+          <ActionIcon
+            radius="xl"
+            onClick={() => {
+              setDate(prevDate)
+              deactivate()
+            }}
+            disabled={disabled}
+            tabIndex={-1}
+          >
+            <X size={18} />
+          </ActionIcon>
+        </Group>
+      )}
+      {/* </div> */}
     </InputWrapper>
   )
 }
