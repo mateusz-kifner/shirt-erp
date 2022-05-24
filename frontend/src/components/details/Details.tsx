@@ -7,6 +7,8 @@ import DetailsSecretText from "../details/DetailsSecretText"
 import { useRecoilValue } from "recoil"
 import { loginState } from "../../atoms/loginState"
 import { useId } from "@mantine/hooks"
+import DetailsDateTime from "./DetailsDateTime"
+import DetailsDate from "./DetailsDate"
 
 interface DetailsProps {
   schema: any
@@ -81,7 +83,26 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
                 onSubmit={onSubmitEntry}
               />
             )
-
+          case "datetime":
+            return (
+              <DetailsDateTime
+                value={data[key]}
+                {...schema[key]}
+                key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "date":
+            return (
+              <DetailsDate
+                value={data[key]}
+                {...schema[key]}
+                key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
+              />
+            )
           default:
             return user?.debug === true ? (
               <NotImplemented

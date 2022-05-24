@@ -10,6 +10,28 @@ import FileList from "../../../components/FileList"
 import TestTable from "../../../components/TestTable"
 import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
 import RichTextEditor from "@mantine/rte"
+import Details from "../../../components/details/Details"
+
+const testData = {
+  name: "string",
+  bool: true,
+  switch: false,
+  category: "option 1",
+  color: { colorName: "Red", colorHex: "#ff0000" },
+  date: "2021-11-05T12:24:05.097Z",
+  datetime: "2021-11-05T12:24:05.097Z",
+  product: null,
+  client: null,
+  productComponent: null,
+  productComponents: [],
+  image: null,
+  file: null,
+  files: null,
+  workstations: null,
+  employee: null,
+  employees: null,
+  submit: null,
+}
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -70,8 +92,9 @@ const SettingsPage: FC = () => {
               <FileList maxFileCount={1000} />
               {/* <TestTable /> */}
               {/* <ApiEntryDetails /> */}
-              <RichTextEditor value={val} onChange={setVal} />
-              <div style={{ minHeight: 1000 }}></div>
+              {/* <RichTextEditor value={val} onChange={setVal} />
+              <div style={{ minHeight: 1000 }}></div> */}
+              <Details schema={testSchema} data={testData} />
             </Stack>
           )}
         </Group>
