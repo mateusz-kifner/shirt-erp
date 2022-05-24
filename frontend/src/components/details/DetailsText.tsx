@@ -155,7 +155,7 @@ const DetailsText: FC<DetailsTextProps> = ({
             disabled={disabled}
             tabIndex={-1}
           >
-            <Edit />
+            <Edit size={18} />
           </ActionIcon>
         ) : (
           <ActionIcon
@@ -169,7 +169,7 @@ const DetailsText: FC<DetailsTextProps> = ({
             disabled={disabled}
             tabIndex={-1}
           >
-            <X />
+            <X size={18} />
           </ActionIcon>
         )}
       </div>

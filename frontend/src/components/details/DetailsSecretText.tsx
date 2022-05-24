@@ -164,7 +164,7 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
           style={{ position: "absolute", right: 0, bottom: -10, zIndex: 10 }}
           onClick={() => setActive(true)}
         >
-          <Notes />
+          <Notes size={18} />
         </ActionIcon>
       )}
     </div>

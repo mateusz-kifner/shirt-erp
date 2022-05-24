@@ -11,6 +11,7 @@ import TestTable from "../../../components/TestTable"
 import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
 import RichTextEditor from "@mantine/rte"
 import Details from "../../../components/details/Details"
+import { showNotification } from "@mantine/notifications"
 
 const testData = {
   name: "string",
@@ -94,7 +95,16 @@ const SettingsPage: FC = () => {
               {/* <ApiEntryDetails /> */}
               {/* <RichTextEditor value={val} onChange={setVal} />
               <div style={{ minHeight: 1000 }}></div> */}
-              <Details schema={testSchema} data={testData} />
+              <Details
+                schema={testSchema}
+                data={testData}
+                onSubmit={(key, val) => {
+                  console.log("Sublmit", key, " ", val)
+                  showNotification({
+                    message: key + ": " + JSON.stringify(val),
+                  })
+                }}
+              />
             </Stack>
           )}
         </Group>

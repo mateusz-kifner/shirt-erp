@@ -1,17 +1,22 @@
 import {
   ActionIcon,
+  Avatar,
+  Box,
+  Button,
+  Group,
   InputWrapper,
   Text,
   Textarea,
   useMantineTheme,
 } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
-import { useClickOutside, useClipboard } from "@mantine/hooks"
+import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Calendar, TrashX } from "../../utils/TablerIcons"
+import { Copy, Calendar, TrashX, Edit, X } from "../../utils/TablerIcons"
 import dayjs from "dayjs"
+import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
 
 interface DetailsDateProps {
   label?: string
@@ -38,17 +43,28 @@ const DetailsDate: FC<DetailsDateProps> = ({
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )
   const [prevDate, setPrevDate] = useState<Date | null>(date)
+  const [lock, setLock] = useState<boolean>(false)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
-  const dateRef = useClickOutside(() => setActive(false))
+  const dateRef = useRef<HTMLButtonElement>(null)
   const theme = useMantineTheme()
+  const isMobile = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)"
+  )
+  const activate = () => {
+    setActive(true)
+  }
+  const deactivate = () => {
+    !lock && setActive(false)
+  }
+
+  const ref = useClickOutside(deactivate)
 
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave)
-      dateRef.current &&
-        (dateRef.current.selectionStart = dateRef.current.value.length)
-      dateRef.current && dateRef.current.focus()
+      // dateRef.current &&(dateRef.current.selectionStart = dateRef.current.value.length)
+      // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prevDate) {
         onSubmit && onSubmit(date)
@@ -71,28 +87,26 @@ const DetailsDate: FC<DetailsDateProps> = ({
   }, [value])
 
   const onChangeDate = (date: Date | null) => {
+    // helper for clear date string
+    // const new_date = new Date(dayjs(date).format("YYYY-MM-DD").toString())
+    // console.log(new_date)
     setDate(date)
     onChange && onChange(date)
   }
 
-  // const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
-  //   if (active) {
-  //     if (e.code == "Enter" && !e.shiftKey) {
-  //       setActive(false)
-  //       e.preventDefault()
-  //     }
-  //     if (e.code == "Escape") {
-  //       setDate(prevDate)
-  //       setActive(false)
-  //       e.preventDefault()
-  //     }
-  //   } else {
-  //     if (e.code == "Enter") {
-  //       !disabled && setActive(true)
-  //       e.preventDefault()
-  //     }
-  //   }
-  // }
+  const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
+    if (active) {
+      if (e.code == "Enter") {
+        deactivate()
+        e.preventDefault()
+      }
+      if (e.code == "Escape") {
+        setDate(prevDate)
+        deactivate()
+        e.preventDefault()
+      }
+    }
+  }
 
   return (
     <InputWrapper
@@ -125,41 +139,134 @@ const DetailsDate: FC<DetailsDateProps> = ({
       labelElement="div"
       required={required}
     >
-      <div style={{ position: "relative" }}>
-        <DatePicker
-          ref={dateRef}
-          onChange={onChangeDate}
-          value={date}
-          variant={active ? "filled" : "default"}
-          onDropdownOpen={() => setActive(true)}
-          onDropdownClose={() => setActive(false)}
-          icon={<Calendar size={18} />}
-          clearable={false}
-          styles={(theme) => ({
-            input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
-            defaultVariant: {
-              backgroundColor: active ? "initial" : "transparent",
-            },
-          })}
-          dayStyle={(date) => ({
-            backgroundColor: dayjs(date).isToday()
-              ? theme.colors[theme.primaryColor][6] + "33"
-              : undefined,
-          })}
-        />
-        <ActionIcon
-          radius="xl"
-          style={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-          }}
-          onClick={() => setDate(null)}
-          disabled={disabled}
-          tabIndex={-1}
-        >
-          <TrashX size={18} />
-        </ActionIcon>
+      <div style={{ position: "relative" }} ref={ref}>
+        {active ? (
+          <DatePicker
+            ref={dateRef}
+            onChange={onChangeDate}
+            value={date}
+            variant={active ? "filled" : "default"}
+            icon={<Calendar size={18} />}
+            clearable={false}
+            styles={(theme) => ({
+              input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
+              defaultVariant: {
+                backgroundColor: active ? "initial" : "transparent",
+              },
+            })}
+            dayStyle={(date, modifiers) => ({
+              backgroundColor:
+                dayjs(date).isToday() && !modifiers.selected
+                  ? theme.colors[theme.primaryColor][6] + "33"
+                  : undefined,
+            })}
+            allowFreeInput={!isMobile}
+            onDropdownOpen={activate}
+            onDropdownClose={() => {
+              setLock(false)
+            }}
+            dateParser={(value) => {
+              return dayjs(value, "L").toDate()
+            }}
+            dropdownType={isMobile ? "modal" : "popover"}
+            withinPortal={false}
+            autoFocus
+            onKeyDown={onKeyDownDate}
+          />
+        ) : (
+          <Text
+            sx={(theme) => ({
+              width: "100%",
+              border:
+                theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da",
+              borderRadius: theme.radius.sm,
+              fontSize: theme.fontSizes.sm,
+              minHeight: 36,
+              wordBreak: "break-word",
+              whiteSpace: "pre-line",
+              padding: "10px 16px",
+              paddingRight: 32,
+              lineHeight: 1.55,
+              paddingLeft: 36,
+            })}
+          >
+            <Calendar
+              color="#adb5bd"
+              size={18}
+              style={{
+                top: "50%",
+                left: 9,
+                position: "absolute",
+                transform: "translate(0,-50%)",
+              }}
+            />
+            {date ? dayjs(date).format("L").toString() : "⸺"}
+          </Text>
+        )}
+
+        {!active ? (
+          <ActionIcon
+            radius="xl"
+            style={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+            onClick={activate}
+            disabled={disabled}
+          >
+            <Edit size={18} />
+          </ActionIcon>
+        ) : (
+          <Group
+            spacing={0}
+            style={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+          >
+            <ActionIcon
+              radius="xl"
+              style={{
+                width: "auto",
+                paddingLeft: 8,
+                paddingRight: 8,
+              }}
+              onClick={() => {
+                console.log("dzis")
+                setDate(new Date())
+                deactivate()
+              }}
+              disabled={disabled}
+            >
+              Dziś
+            </ActionIcon>
+            <ActionIcon
+              radius="xl"
+              onClick={() => {
+                setDate(null)
+                deactivate()
+              }}
+              disabled={disabled}
+            >
+              <TrashX size={18} />
+            </ActionIcon>
+            <ActionIcon
+              radius="xl"
+              onClick={() => {
+                setDate(prevDate)
+                deactivate()
+              }}
+              disabled={disabled}
+              tabIndex={-1}
+            >
+              <X size={18} />
+            </ActionIcon>
+          </Group>
+        )}
       </div>
     </InputWrapper>
   )

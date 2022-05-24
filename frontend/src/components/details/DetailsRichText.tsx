@@ -176,7 +176,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
               onClick={() => setActive(true)}
               disabled={disabled}
             >
-              <Edit />
+              <Edit size={18} />
             </ActionIcon>
           </>
         )}
