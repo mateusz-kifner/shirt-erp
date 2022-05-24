@@ -69,8 +69,8 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
   useEffect(() => {
     if (value) {
       const cleanValue = DOMPurify.sanitize(value)
-      setText(cleanValue ? cleanValue : "")
-      setPrevText(cleanValue ? cleanValue : "")
+      setText(cleanValue)
+      setPrevText(cleanValue)
     }
   }, [value])
 

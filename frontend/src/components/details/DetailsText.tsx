@@ -56,8 +56,9 @@ const DetailsText: FC<DetailsTextProps> = ({
   }, [])
 
   useEffect(() => {
-    setText(value ? value : "")
-    setPrevText(value ? value : "")
+    const new_value = value ? value : ""
+    setText(new_value)
+    setPrevText(new_value)
   }, [value])
 
   const onChangeTextarea = (e: React.ChangeEvent<any>) => {

@@ -49,6 +49,13 @@ import { useRecoilState, useRecoilValue } from "recoil"
 import { iconState } from "./atoms/iconState"
 import axios from "axios"
 import { loginState } from "./atoms/loginState"
+import dayjs from "dayjs"
+import localizedFormat from "dayjs/plugin/localizedFormat"
+import isToday from "dayjs/plugin/isToday"
+
+dayjs.locale("pl")
+dayjs.extend(localizedFormat)
+dayjs.extend(isToday)
 
 const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   root: {

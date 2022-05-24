@@ -1,16 +1,24 @@
-import { ActionIcon, InputWrapper, Text, Textarea } from "@mantine/core"
+import {
+  ActionIcon,
+  InputWrapper,
+  Text,
+  Textarea,
+  useMantineTheme,
+} from "@mantine/core"
+import { DatePicker } from "@mantine/dates"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Edit, X } from "../../utils/TablerIcons"
+import { Copy, Calendar, TrashX } from "../../utils/TablerIcons"
+import dayjs from "dayjs"
 
 interface DetailsDateProps {
   label?: string
   value?: string
-  initialValue?: string
-  onChange?: (value: string | null) => void
-  onSubmit?: (value: string | null) => void
+  initialValue?: Date
+  onChange?: (value: Date | null) => void
+  onSubmit?: (value: Date | null) => void
   disabled?: boolean
   required?: boolean
   maxLength?: number
@@ -26,24 +34,25 @@ const DetailsDate: FC<DetailsDateProps> = ({
   required,
   maxLength,
 }) => {
-  const [text, setText] = useState(
-    value ? value : initialValue ? initialValue : ""
+  const [date, setDate] = useState<Date | null>(
+    value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )
-  const [prevText, setPrevText] = useState(text)
+  const [prevDate, setPrevDate] = useState<Date | null>(date)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
-  const textRef = useClickOutside(() => setActive(false))
+  const dateRef = useClickOutside(() => setActive(false))
+  const theme = useMantineTheme()
 
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave)
-      textRef.current &&
-        (textRef.current.selectionStart = textRef.current.value.length)
-      textRef.current && textRef.current.focus()
+      dateRef.current &&
+        (dateRef.current.selectionStart = dateRef.current.value.length)
+      dateRef.current && dateRef.current.focus()
     } else {
-      if (text !== prevText) {
-        onSubmit && onSubmit(text)
-        setPrevText(text)
+      if (date !== prevDate) {
+        onSubmit && onSubmit(date)
+        setPrevDate(date)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -56,40 +65,41 @@ const DetailsDate: FC<DetailsDateProps> = ({
   }, [])
 
   useEffect(() => {
-    setText(value ? value : "")
-    setPrevText(value ? value : "")
+    const new_value = value ? new Date(value) : new Date()
+    setDate(new_value)
+    setPrevDate(new_value)
   }, [value])
 
-  const onChangeTextarea = (e: React.ChangeEvent<any>) => {
-    setText(e.target.value)
-    onChange && onChange(e.target.value)
+  const onChangeDate = (date: Date | null) => {
+    setDate(date)
+    onChange && onChange(date)
   }
 
-  const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
-    if (active) {
-      if (e.code == "Enter" && !e.shiftKey) {
-        setActive(false)
-        e.preventDefault()
-      }
-      if (e.code == "Escape") {
-        setText(prevText)
-        setActive(false)
-        e.preventDefault()
-      }
-    } else {
-      if (e.code == "Enter") {
-        !disabled && setActive(true)
-        e.preventDefault()
-      }
-    }
-  }
+  // const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
+  //   if (active) {
+  //     if (e.code == "Enter" && !e.shiftKey) {
+  //       setActive(false)
+  //       e.preventDefault()
+  //     }
+  //     if (e.code == "Escape") {
+  //       setDate(prevDate)
+  //       setActive(false)
+  //       e.preventDefault()
+  //     }
+  //   } else {
+  //     if (e.code == "Enter") {
+  //       !disabled && setActive(true)
+  //       e.preventDefault()
+  //     }
+  //   }
+  // }
 
   return (
     <InputWrapper
       label={
         <>
           {label}
-          {text.length > 0 && (
+          {date && (
             <ActionIcon
               size="xs"
               style={{
@@ -98,10 +108,11 @@ const DetailsDate: FC<DetailsDateProps> = ({
                 marginRight: 4,
               }}
               onClick={() => {
-                clipboard.copy(text)
+                const dateString = dayjs(date).format("L").toString()
+                clipboard.copy(dateString)
                 showNotification({
                   title: "Skopiowano do schowka",
-                  message: text,
+                  message: dateString,
                 })
               }}
               tabIndex={-1}
@@ -115,62 +126,40 @@ const DetailsDate: FC<DetailsDateProps> = ({
       required={required}
     >
       <div style={{ position: "relative" }}>
-        <Textarea
-          ref={textRef}
-          autosize
-          autoFocus
-          minRows={1}
-          value={text}
-          onChange={onChangeTextarea}
-          onKeyDown={onKeyDownTextarea}
-          readOnly={!active}
-          maxLength={maxLength ? maxLength : 255}
+        <DatePicker
+          ref={dateRef}
+          onChange={onChangeDate}
+          value={date}
+          variant={active ? "filled" : "default"}
+          onDropdownOpen={() => setActive(true)}
+          onDropdownClose={() => setActive(false)}
+          icon={<Calendar size={18} />}
+          clearable={false}
           styles={(theme) => ({
-            input: {
-              paddingRight: 40,
-              backgroundColor: active
-                ? theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0]
-                : "transparent",
-
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
+            input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
+            defaultVariant: {
+              backgroundColor: active ? "initial" : "transparent",
             },
           })}
+          dayStyle={(date) => ({
+            backgroundColor: dayjs(date).isToday()
+              ? theme.colors[theme.primaryColor][6] + "33"
+              : undefined,
+          })}
         />
-
-        {!active ? (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            onClick={() => setActive(true)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <Edit />
-          </ActionIcon>
-        ) : (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            onClick={() => () => setActive(false)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <X />
-          </ActionIcon>
-        )}
+        <ActionIcon
+          radius="xl"
+          style={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+          }}
+          onClick={() => setDate(null)}
+          disabled={disabled}
+          tabIndex={-1}
+        >
+          <TrashX size={18} />
+        </ActionIcon>
       </div>
     </InputWrapper>
   )

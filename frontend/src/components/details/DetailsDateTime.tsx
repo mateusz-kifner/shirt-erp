@@ -24,7 +24,7 @@ const DetailsDateTime: FC<DetailsDateTime> = (props) => {
     <InputWrapper label={props.label}>
       <Group grow>
         <DatePicker
-          {...new_props}
+          // {...new_props}
           placeholder={props.placeholder ? props.placeholder : "---"}
           onChange={(val) => {
             val && setDate(val)
@@ -32,7 +32,7 @@ const DetailsDateTime: FC<DetailsDateTime> = (props) => {
           value={date}
         />
         <TimeInput
-          {...new_props}
+          // {...new_props}
           onChange={(val) => {
             val && setDate(val)
           }}

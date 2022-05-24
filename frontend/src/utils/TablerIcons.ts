@@ -26,3 +26,4 @@ export { default as ChevronRight } from "tabler-icons-react/dist/icons/chevron-r
 export { default as MoonStars } from "tabler-icons-react/dist/icons/moon-stars.js"
 export { default as Settings } from "tabler-icons-react/dist/icons/settings.js"
 export { default as Sun } from "tabler-icons-react/dist/icons/sun.js"
+export { default as Calendar } from "tabler-icons-react/dist/icons/calendar.js"
