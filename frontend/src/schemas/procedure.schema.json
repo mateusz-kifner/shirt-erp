@@ -1,0 +1,34 @@
+{
+  "name": {
+    "label": "Nazwa",
+    "type": "text",
+
+    "initialValue": "",
+    "required": true
+  },
+  "desc": {
+    "label": "Opis",
+    "type": "text",
+    "initialValue": "",
+    "multiline": true
+  },
+  "workstations": {
+    "label": "Kroki",
+    "type": "workstationsIds",
+    "initialValue": []
+  },
+  "icon": {
+    "label": "Ikona",
+    "type": "image"
+  },
+  "createdAt": {
+    "label": "Utworzono",
+    "type": "datetime",
+    "disabled": true
+  },
+  "updatedAt": {
+    "label": "Edytowano",
+    "type": "datetime",
+    "disabled": true
+  }
+}

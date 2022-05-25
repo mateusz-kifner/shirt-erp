@@ -1,0 +1,26 @@
+{
+  "clients": {
+    "singular": "klient",
+    "plural": "klienci"
+  },
+  "products": {
+    "singular": "product",
+    "plural": "produkty"
+  },
+  "orders": {
+    "singular": "zamówienie",
+    "plural": "zamówienia"
+  },
+  "email-messages": {
+    "singular": "Email",
+    "plural": "Emalie"
+  },
+  "tasks": { "singular": "Email", "plural": "Emaile" },
+  "expenses": { "singular": "Email", "plural": "Emaile" },
+  "logs": { "singular": "Email", "plural": "Emaile" },
+  "order-archives": { "singular": "Email", "plural": "Emaile" },
+  "productions": { "singular": "Email", "plural": "Emaile" },
+  "files": { "singular": "Email", "plural": "Emaile" },
+  "settings": { "singular": "Email", "plural": "Emaile" },
+  "users": { "singular": "Email", "plural": "Emaile" }
+}

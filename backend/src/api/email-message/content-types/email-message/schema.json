@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email_messages",
+  "info": {
+    "singularName": "email-message",
+    "pluralName": "email-messages",
+    "displayName": "EmailMessage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "subject": {
+      "type": "string"
+    },
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "html": {
+      "type": "text"
+    },
+    "text": {
+      "type": "text"
+    },
+    "messageId": {
+      "type": "string"
+    },
+    "headerLines": {
+      "type": "json"
+    },
+    "textAsHtml": {
+      "type": "text"
+    },
+    "attachments": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "nextMessageId": {
+      "type": "integer"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order.order",
+      "mappedBy": "emailMessages"
+    }
+  }
+}

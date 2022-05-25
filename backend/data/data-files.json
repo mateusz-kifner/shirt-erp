@@ -1,0 +1,21 @@
+{
+  "icon": [
+    {
+      "productCategories[0].icon": "bag.svg",
+      "productCategories[1].icon": "bag2.svg",
+      "productCategories[2].icon": "boot.svg",
+      "productCategories[3].icon": "cap.svg",
+      "productCategories[4].icon": "fabric_material.svg",
+      "productCategories[5].icon": "mitten.svg",
+      "productCategories[6].icon": "mug.svg",
+      "productCategories[7].icon": "scarf.svg",
+      "productCategories[8].icon": "sweatshirt.svg",
+      "productCategories[9].icon": "tshirt.svg"
+    }
+  ],
+  "product": [
+    {
+      "previewImages": "tshirt_black.png"
+    }
+  ]
+}

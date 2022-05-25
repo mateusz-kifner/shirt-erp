@@ -1,0 +1,16 @@
+{
+  "collectionName": "type_linked_lists",
+  "info": {
+    "displayName": "LinkedList",
+    "icon": "list-ul"
+  },
+  "options": {},
+  "attributes": {
+    "prevId": {
+      "type": "integer"
+    },
+    "nextId": {
+      "type": "integer"
+    }
+  }
+}

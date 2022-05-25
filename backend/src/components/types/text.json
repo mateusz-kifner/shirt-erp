@@ -1,0 +1,13 @@
+{
+  "collectionName": "type_texts",
+  "info": {
+    "displayName": "text",
+    "icon": "align-left"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string"
+    }
+  }
+}
