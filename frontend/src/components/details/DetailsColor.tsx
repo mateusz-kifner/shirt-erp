@@ -27,7 +27,7 @@ interface DetailsColorProps {
 const DetailsColor: FC<DetailsColorProps> = (props) => {
   const { label, value, initialValue, onChange, onSubmit, disabled, required } =
     props
-  const [color, setColor] = useState(
+  const [color, setColor] = useState<ColorType>(
     value
       ? value
       : initialValue
@@ -37,18 +37,18 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
           hex: "#ffffff",
         }
   )
-  const [prevColor, setPrevColor] = useState(color)
+  // const [prevColor, setPrevColor] = useState(color)
   const [active, setActive] = useState<boolean>(false)
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
-
+  console.log(color)
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave)
     } else {
       if (color !== value) {
         onSubmit && onSubmit(color)
-        setPrevColor(color)
+        // setPrevColor(color)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -63,7 +63,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
   useEffect(() => {
     if (value) {
       setColor(value)
-      setPrevColor(value)
+      // setPrevColor(value)
     }
   }, [value])
 
@@ -79,7 +79,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        setColor(prevColor)
+        // setColor(prevColor)
         setActive(false)
         e.preventDefault()
       }
@@ -96,7 +96,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
       label={
         <>
           {label}
-          {color?.name?.length > 0 && (
+          {color.hex.length > 0 && (
             <ActionIcon
               size="xs"
               style={{
@@ -104,10 +104,10 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
                 transform: "translate(4px, 4px)",
               }}
               onClick={() => {
-                clipboard.copy(color)
+                clipboard.copy(color.hex)
                 showNotification({
                   title: "Skopiowano do schowka",
-                  message: color,
+                  message: color.hex,
                 })
               }}
               tabIndex={-1}
@@ -151,17 +151,19 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
               }}
               disabled={disabled}
               required={required}
+              styles={{ input: { minHeight: 44 } }}
             />
             <TextInput
               value={color?.name}
-              onChange={(event) => {
+              onChange={(e) => {
                 setColor((old_color) => ({
-                  name: event.currentTarget.value,
+                  name: e.currentTarget.value,
                   hex: old_color.hex,
                 }))
               }}
               disabled={disabled}
               required={required}
+              styles={{ input: { minHeight: 44 } }}
             />
           </Group>
         ) : (
@@ -175,13 +177,27 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
                     : "1px solid #ced4da",
                 borderRadius: theme.radius.sm,
                 fontSize: theme.fontSizes.sm,
-                minHeight: 36,
                 wordBreak: "break-word",
                 whiteSpace: "pre-line",
                 padding: "10px 16px",
                 paddingRight: 32,
+                minHeight: 36,
                 lineHeight: 1.55,
                 paddingLeft: 36,
+                "&:before": {
+                  content: "''",
+                  position: "absolute",
+                  height: 24,
+                  width: 24,
+                  top: 9,
+                  left: 6,
+                  backgroundColor: color.hex ? color.hex : undefined,
+                  borderRadius: "100%",
+                  border:
+                    theme.colorScheme === "dark"
+                      ? "1px solid #2C2E33"
+                      : "1px solid #ced4da",
+                },
               })}
             >
               <ColorSwatch

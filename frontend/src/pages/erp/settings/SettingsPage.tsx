@@ -17,7 +17,7 @@ const testData = {
   bool: true,
   switch: false,
   category: "option 1",
-  color: { colorName: "Red", colorHex: "#ff0000" },
+  color: { name: "Red", hex: "#ff0000" },
   date: "2021-11-05T12:24:05.097Z",
   datetime: "2021-11-05T12:24:05.097Z",
   product: null,
