@@ -9,7 +9,6 @@ import FileButton from "../../../components/FileButton"
 import FileList from "../../../components/FileList"
 import TestTable from "../../../components/TestTable"
 import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
-import RichTextEditor from "@mantine/rte"
 import Details from "../../../components/details/Details"
 import { showNotification } from "@mantine/notifications"
 

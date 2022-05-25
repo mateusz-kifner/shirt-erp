@@ -14,6 +14,8 @@ import { Clock } from "tabler-icons-react"
 import preventLeave from "../../utils/preventLeave"
 import { Calendar, Copy } from "../../utils/TablerIcons"
 
+// TODO: make it editable
+
 interface DetailsDateTime {
   label?: string
   value?: string
