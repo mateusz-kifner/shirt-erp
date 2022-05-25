@@ -77,7 +77,9 @@ module.exports = {
       .service("api::email-auth.email-auth")
       .find({ populate: "*" });
 
-    const autoReferenceEmailForMinutes = auth.autoReferenceEmailForMinutes;
+    const autoReferenceEmailForMinutes = auth?.autoReferenceEmailForMinutes
+      ? auth.autoReferenceEmailForMinutes
+      : 4320;
 
     const getMails = async ({ host, port, secure, user, password }) => {
       mail_lock++;
