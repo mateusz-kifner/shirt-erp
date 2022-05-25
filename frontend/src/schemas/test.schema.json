@@ -25,7 +25,7 @@
   "color": {
     "label": "Kolor",
     "type": "color",
-    "initialValue": { "colorName": "Red", "colorHex": "#ff0000" },
+    "initialValue": { "name": "Red", "hex": "#ff0000" },
     "showText": true
   },
   "date": {

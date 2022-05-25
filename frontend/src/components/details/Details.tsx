@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Text } from "@mantine/core"
+import { Select, Text } from "@mantine/core"
 import DetailsText from "../details/DetailsText"
 import NotImplemented from "../NotImplemented"
 import DetailsRichText from "../details/DetailsRichText"
@@ -10,6 +10,8 @@ import { useId } from "@mantine/hooks"
 import DetailsDateTime from "./DetailsDateTime"
 import DetailsDate from "./DetailsDate"
 import DetailsBool from "./DetailsBool"
+import DetailsColor from "./DetailsColor"
+import DetailsEnum from "./DetailsEnum"
 
 interface DetailsProps {
   schema: any
@@ -107,6 +109,26 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
           case "boolean":
             return (
               <DetailsBool
+                value={data[key]}
+                {...schema[key]}
+                key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "color":
+            return (
+              <DetailsColor
+                value={data[key]}
+                {...schema[key]}
+                key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "enum":
+            return (
+              <DetailsEnum
                 value={data[key]}
                 {...schema[key]}
                 key={uuid + key}

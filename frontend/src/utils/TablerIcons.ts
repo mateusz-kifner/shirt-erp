@@ -27,3 +27,4 @@ export { default as MoonStars } from "tabler-icons-react/dist/icons/moon-stars.j
 export { default as Settings } from "tabler-icons-react/dist/icons/settings.js"
 export { default as Sun } from "tabler-icons-react/dist/icons/sun.js"
 export { default as Calendar } from "tabler-icons-react/dist/icons/calendar.js"
+export { default as ColorSwatch } from "tabler-icons-react/dist/icons/color-swatch.js"

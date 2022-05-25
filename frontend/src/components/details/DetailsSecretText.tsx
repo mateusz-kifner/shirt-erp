@@ -161,7 +161,20 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
       {!active && (
         <ActionIcon
           radius="xl"
-          style={{ position: "absolute", right: 0, bottom: -10, zIndex: 10 }}
+          sx={(theme) => ({
+            position: "absolute",
+            right: -12,
+            bottom: -12,
+            zIndex: 10,
+            border:
+              theme.colorScheme === "dark"
+                ? "1px solid #2C2E33"
+                : "1px solid #ced4da",
+            backgroundColor:
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[7]
+                : theme.colors.gray[0],
+          })}
           onClick={() => setActive(true)}
         >
           <Notes size={18} />
