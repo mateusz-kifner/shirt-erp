@@ -18,25 +18,31 @@
       "unique": true
     },
     "firstname": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "lastname": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "email": {
       "type": "email"
     },
     "phoneNumber": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "companyName": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "notes": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "secretNotes": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "address": {
       "type": "component",

@@ -13,10 +13,12 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "price": {
-      "type": "decimal"
+      "type": "decimal",
+      "default": 0
     },
     "user": {
       "type": "relation",

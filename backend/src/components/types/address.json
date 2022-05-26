@@ -7,25 +7,32 @@
   "options": {},
   "attributes": {
     "streetName": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "streetNumber": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "apartmentNumber": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "secondLine": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "postCode": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "city": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "province": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     }
   }
 }

@@ -13,16 +13,20 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "status": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "notes": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "secretNotes": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "price": {
       "type": "decimal",
@@ -47,12 +51,7 @@
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "address": {
       "type": "component",

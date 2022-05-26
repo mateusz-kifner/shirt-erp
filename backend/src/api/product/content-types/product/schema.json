@@ -16,19 +16,18 @@
       "type": "string"
     },
     "category": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "description": {
       "type": "text",
-      "default": " "
+      "default": ""
     },
     "previewImages": {
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images"
-      ]
+      "allowedTypes": ["images"]
     },
     "colors": {
       "type": "component",
@@ -41,7 +40,8 @@
       "component": "additions.product-data"
     },
     "codeName": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "iconId": {
       "type": "integer",

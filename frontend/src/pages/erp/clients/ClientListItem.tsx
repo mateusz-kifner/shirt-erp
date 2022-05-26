@@ -39,7 +39,10 @@ const ClientListItem: FC<{
         <Avatar radius="xl"></Avatar>
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
-            {truncString(value.firstname + " " + value.lastname, 40)}
+            {(value.firstname && value.firstname?.length > 0) ||
+            (value.lastname && value.lastname?.length > 0)
+              ? truncString(value.firstname + " " + value.lastname, 40)
+              : truncString(value.username ? value.username : "", 40)}
           </Text>
           <Text color="dimmed" size="xs">
             {value.email && truncString(value.email, 20)}

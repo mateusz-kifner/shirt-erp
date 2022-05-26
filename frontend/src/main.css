@@ -43,3 +43,24 @@ body {
   margin-right: .5em;
   color: #888
 } */
+
+.plain-html .ql-align-center {text-align: center;}
+.plain-html .ql-align-right {text-align: end;}
+.plain-html .ql-align-left {text-align: start;}
+.plain-html blockquote {    color: #909296;
+  border-left: 4px solid #373A40;
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: 12px;
+  padding-left: 16px;} 
+
+  .plain-html a, .plain-html a:visited, .plain-html a:link {
+  text-decoration: none;
+  color: #4dabf7;
+
+}
+
+.plain-html a:hover {
+  text-decoration: underline;
+
+}

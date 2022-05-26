@@ -7,7 +7,8 @@
   "options": {},
   "attributes": {
     "count": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     },
     "product": {
       "type": "relation",
@@ -15,13 +16,16 @@
       "target": "api::product.product"
     },
     "size": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "notes": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "ready": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     }
   }
 }

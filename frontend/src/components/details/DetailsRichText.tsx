@@ -1,4 +1,9 @@
-import { ActionIcon, Box, InputWrapper } from "@mantine/core"
+import {
+  ActionIcon,
+  Box,
+  InputWrapper,
+  TypographyStylesProvider,
+} from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import RichTextEditor, { Editor } from "@mantine/rte"
@@ -6,6 +11,7 @@ import { FC, useEffect, useState, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "../../utils/TablerIcons"
 import DOMPurify from "dompurify"
+import _ from "lodash"
 
 interface DetailsRichTextProps {
   label?: string
@@ -109,10 +115,20 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
                 transform: "translate(4px, 4px)",
               }}
               onClick={() => {
-                clipboard.copy(text)
+                const plainText = _.unescape(
+                  text
+                    .replace(/<li>/g, "•")
+                    .replace(
+                      /<\/(s|em|strong|a|b|i|mark|del|small|ins|sub|sup|ul|ol)>/g,
+                      ""
+                    )
+                    .replace(/<\/[^>]*>/g, "\n")
+                    .replace(/<[^>]*>/g, "")
+                )
+                clipboard.copy(plainText)
                 showNotification({
                   title: "Skopiowano do schowka",
-                  message: text,
+                  message: plainText,
                 })
               }}
               tabIndex={-1}
@@ -153,6 +169,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
           />
         ) : (
           <>
+            {/* <TypographyStylesProvider> */}
             <Box
               sx={(theme) => ({
                 width: "100%",
@@ -165,11 +182,14 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
                 minHeight: 36,
                 wordBreak: "break-word",
                 whiteSpace: "pre-line",
-                padding: "1px 16px",
+                padding: "10px 16px",
                 paddingRight: 32,
+                lineHeight: text.trimStart().startsWith("<") ? undefined : 1.55,
               })}
+              className="plain-html"
               dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
             ></Box>
+            {/* </TypographyStylesProvider> */}
             <ActionIcon
               radius="xl"
               style={{ position: "absolute", right: 8, top: 8 }}

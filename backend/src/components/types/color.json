@@ -7,10 +7,12 @@
   "options": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "hex": {
-      "type": "string"
+      "type": "string",
+      "default": "#000000"
     }
   }
 }

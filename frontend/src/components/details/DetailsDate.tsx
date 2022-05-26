@@ -44,7 +44,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
   const [lock, setLock] = useState<boolean>(false)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
-  const dateRef = useRef<HTMLButtonElement>(null)
+  const dateRef = useRef<HTMLInputElement>(null)
   const theme = useMantineTheme()
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)"
@@ -235,7 +235,6 @@ const DetailsDate: FC<DetailsDateProps> = ({
               paddingRight: 8,
             }}
             onClick={() => {
-              console.log("dzis")
               setDate(new Date())
               deactivate()
             }}
