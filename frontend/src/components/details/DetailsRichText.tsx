@@ -12,6 +12,9 @@ import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "../../utils/TablerIcons"
 import DOMPurify from "dompurify"
 import _ from "lodash"
+import TurndownService from "turndown"
+
+const turndownService = new TurndownService()
 
 interface DetailsRichTextProps {
   label?: string
@@ -116,14 +119,14 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
               }}
               onClick={() => {
                 const plainText = _.unescape(
-                  text
-                    .replace(/<li>/g, "•")
-                    .replace(
-                      /<\/(s|em|strong|a|b|i|mark|del|small|ins|sub|sup|ul|ol)>/g,
-                      ""
-                    )
-                    .replace(/<\/[^>]*>/g, "\n")
-                    .replace(/<[^>]*>/g, "")
+                  turndownService.turndown(
+                    text
+                      .replace(/h[0-9]>/g, "div>")
+                      .replace(
+                        /<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g,
+                        ""
+                      )
+                  )
                 )
                 clipboard.copy(plainText)
                 showNotification({
