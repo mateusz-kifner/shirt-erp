@@ -5,11 +5,12 @@ import { useNavigate, useParams } from "react-router-dom"
 import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryDetails from "./api/ApiEntryDetails"
+import DefaultListItem from "./DefaultListItem"
 
 interface DefaultPageProps {
   entryName: string
   schema: object
-  ListElement: React.ElementType
+  ListElement?: React.ElementType
 }
 
 const DefaultPage: FC<DefaultPageProps> = ({
@@ -18,7 +19,7 @@ const DefaultPage: FC<DefaultPageProps> = ({
   ListElement,
 }) => {
   const [id, setId] = useState<number | null>(null)
-
+  const ListElem = ListElement ? ListElement : DefaultListItem
   const navigate = useNavigate()
   const params = useParams()
   useEffect(() => {
@@ -38,7 +39,7 @@ const DefaultPage: FC<DefaultPageProps> = ({
     >
       <ResponsivePaper>
         <ApiList
-          ListItem={ListElement}
+          ListItem={ListElem}
           entryName={entryName}
           label="Klienci"
           spacing="xl"

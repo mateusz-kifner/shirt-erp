@@ -40,7 +40,7 @@ export const navigationData: {
   { label: "production", icon: <Bell />, to: "/erp/production" },
   { label: "expenses", icon: <Bell />, to: "/erp/expenses" },
   { label: "files", icon: <Bell />, to: "/erp/files" },
-  { label: "logger", icon: <Bell />, to: "/erp/logger" },
+  { label: "logger", icon: <Bell />, to: "/erp/logs" },
   { label: "orders-archive", icon: <Bell />, to: "/erp/orders-archive" },
   { label: "users", icon: <Bell />, to: "/erp/users" },
 ]
@@ -136,7 +136,10 @@ const Routes: FC = () => {
               <Route path="" element={<OrdersArchivePage />} />
             </Route>
             {login.debug && (
-              <Route path="/erp/logger" element={<LoggerPage />} />
+              <Route path="/erp/logs">
+                <Route path=":id" element={<LoggerPage />} />
+                <Route path="" element={<LoggerPage />} />
+              </Route>
             )}
             <Route path="*" element={<ErrorPage errorcode={404} />} />
           </>
