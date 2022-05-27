@@ -12,19 +12,43 @@
     "plural": "zamówienia"
   },
   "email-messages": {
-    "singular": "Email",
-    "plural": "Emalie"
+    "singular": "email",
+    "plural": "emalie"
   },
-  "tasks": { "singular": "Email", "plural": "Emaile" },
-  "expenses": { "singular": "Wydatek", "plural": "Wydatki" },
-  "logs": { "singular": "Log", "plural": "Logi" },
-  "order-archives": { "singular": "Email", "plural": "Emaile" },
+  "tasks": {
+    "singular": "zadanie",
+    "plural": "zadania"
+  },
+  "expenses": {
+    "singular": "wydatek",
+    "plural": "wydatki"
+  },
+  "logs": {
+    "singular": "log",
+    "plural": "logi"
+  },
+  "order-archives": {
+    "singular": "zamówienie archiwalne",
+    "plural": "zamówienia archiwalne"
+  },
   "workstations": {
-    "singular": "Stanowisko pracy",
-    "plural": "Stanowiska pracy"
+    "singular": "stanowisko pracy",
+    "plural": "stanowiska pracy"
   },
-  "procedures": { "singular": "Procedura", "plural": "Procedury" },
-  "files": { "singular": "Email", "plural": "Emaile" },
-  "settings": { "singular": "Email", "plural": "Emaile" },
-  "users": { "singular": "Email", "plural": "Emaile" }
+  "procedures": {
+    "singular": "procedura",
+    "plural": "procedury"
+  },
+  "files": {
+    "singular": "plik",
+    "plural": "pliki"
+  },
+  "settings": {
+    "singular": "ustawienie",
+    "plural": "ustawienia"
+  },
+  "users": {
+    "singular": "pracownik",
+    "plural": "pracownicy"
+  }
 }

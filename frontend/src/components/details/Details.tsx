@@ -13,6 +13,7 @@ import DetailsBool from "./DetailsBool"
 import DetailsColor from "./DetailsColor"
 import DetailsEnum from "./DetailsEnum"
 import DetailsJSON from "./DetailsJSON"
+import DetailsApiIconId from "./DetailsApiIconId"
 
 interface DetailsProps {
   schema: any
@@ -140,6 +141,16 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
           case "json":
             return (
               <DetailsJSON
+                value={data[key]}
+                {...schema[key]}
+                key={uuid + key}
+                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "iconId":
+            return (
+              <DetailsApiIconId
                 value={data[key]}
                 {...schema[key]}
                 key={uuid + key}

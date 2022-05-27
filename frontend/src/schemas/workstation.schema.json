@@ -5,7 +5,7 @@
     "initialValue": "",
     "required": true
   },
-  "desc": {
+  "description": {
     "label": "Opis",
     "type": "text",
     "initialValue": ""
@@ -15,9 +15,10 @@
     "type": "number",
     "initialValue": 0
   },
-  "icon": {
+  "iconId": {
     "label": "Ikona",
-    "type": "image"
+    "type": "iconId",
+    "entryName": "workstations"
   },
   "nextWorkstations": {
     "label": "Następne stanowisko",

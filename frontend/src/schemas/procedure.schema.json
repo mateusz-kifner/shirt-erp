@@ -6,7 +6,7 @@
     "initialValue": "",
     "required": true
   },
-  "desc": {
+  "description": {
     "label": "Opis",
     "type": "text",
     "initialValue": "",

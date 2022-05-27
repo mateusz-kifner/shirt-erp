@@ -1,12 +1,8 @@
 import {
   ActionIcon,
-  Avatar,
-  Box,
-  Button,
   Group,
   InputWrapper,
   Text,
-  Textarea,
   useMantineTheme,
 } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
@@ -16,14 +12,13 @@ import { FC, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, X } from "../../utils/TablerIcons"
 import dayjs from "dayjs"
-import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
 
 interface DetailsDateProps {
   label?: string
   value?: string
-  initialValue?: Date
-  onChange?: (value: Date | null) => void
-  onSubmit?: (value: Date | null) => void
+  initialValue?: string
+  onChange?: (value: string | null) => void
+  onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
 }
@@ -65,7 +60,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
       // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prevDate) {
-        onSubmit && onSubmit(date)
+        date && onSubmit && onSubmit(date.toISOString())
         setPrevDate(date)
       }
       window.removeEventListener("beforeunload", preventLeave)
@@ -89,7 +84,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
     // const new_date = new Date(dayjs(date).format("YYYY-MM-DD").toString())
     // console.log(new_date)
     setDate(date)
-    onChange && onChange(date)
+    date && onChange && onChange(date.toISOString())
   }
 
   const onKeyDownDate = (e: React.KeyboardEvent<any>) => {

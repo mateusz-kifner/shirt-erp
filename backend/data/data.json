@@ -73,6 +73,72 @@
           "name": "Shirt",
           "icon": null
         }
+      ],
+      "workstations": [
+        {
+          "name": "Skin",
+          "icon": null
+        },
+        {
+          "name": "Shopping",
+          "icon": null
+        },
+        {
+          "name": "Shopping cart",
+          "icon": null
+        },
+        {
+          "name": "Robot",
+          "icon": null
+        },
+        {
+          "name": "Printer",
+          "icon": null
+        },
+        {
+          "name": "Highlight",
+          "icon": null
+        },
+        {
+          "name": "Format printer",
+          "icon": null
+        },
+        {
+          "name": "File image",
+          "icon": null
+        },
+        {
+          "name": "Experiment",
+          "icon": null
+        },
+        {
+          "name": "Credit card",
+          "icon": null
+        },
+        {
+          "name": "Control",
+          "icon": null
+        },
+        {
+          "name": "Clear",
+          "icon": null
+        },
+        {
+          "name": "Car",
+          "icon": null
+        },
+        {
+          "name": "Calendar",
+          "icon": null
+        },
+        {
+          "name": "BG colors",
+          "icon": null
+        },
+        {
+          "name": "Arrow Right",
+          "icon": null
+        }
       ]
     }
   ],

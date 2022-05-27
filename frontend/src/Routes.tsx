@@ -39,11 +39,11 @@ export const navigationData: {
   { label: "Produkty", icon: <Shirt />, to: "/erp/products", color: "orange" },
   { label: "Klienci", icon: <User />, to: "/erp/clients", color: "lime" },
   // { label: "production", icon: <Bell />, to: "/erp/workstations" },
-  { label: "expenses", icon: <Bell />, to: "/erp/expenses" },
-  { label: "files", icon: <Bell />, to: "/erp/files" },
-  { label: "logger", icon: <Bell />, to: "/erp/logs" },
-  { label: "orders-archive", icon: <Bell />, to: "/erp/orders-archive" },
-  { label: "users", icon: <Bell />, to: "/erp/users" },
+  { label: "Wydatki", icon: <Bell />, to: "/erp/expenses" },
+  { label: "Pliki", icon: <Bell />, to: "/erp/files" },
+  { label: "Logi", icon: <Bell />, to: "/erp/logs" },
+  { label: "Zamówienia archiwalne", icon: <Bell />, to: "/erp/orders-archive" },
+  { label: "Pracownicy", icon: <Bell />, to: "/erp/users" },
 ]
 
 const Routes: FC = () => {

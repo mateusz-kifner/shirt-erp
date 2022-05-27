@@ -7,6 +7,7 @@ import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryDetails from "./api/ApiEntryDetails"
 import DefaultListItem from "./DefaultListItem"
 import names from "../schemas/names.json"
+import _ from "lodash"
 
 interface DefaultPageProps {
   entryName: string
@@ -43,7 +44,7 @@ const DefaultPage: FC<DefaultPageProps> = ({
           ListItem={ListElem}
           entryName={entryName}
           // @ts-ignore
-          label={names[entryName].plural}
+          label={_.capitalize(names[entryName].plural)}
           spacing="xl"
           listSpacing="sm"
           onChange={(val: any) => {

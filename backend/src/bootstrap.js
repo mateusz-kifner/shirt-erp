@@ -189,6 +189,8 @@ async function setupEmployeeRole() {
       order: ["create", "delete", "find", "findOne", "update"],
       "order-archive": ["create", "delete", "find", "findOne", "update"],
       product: ["create", "delete", "find", "findOne", "update"],
+      workstation: ["create", "delete", "find", "findOne", "update"],
+      procedure: ["create", "delete", "find", "findOne", "update"],
     },
     "Employee"
   );

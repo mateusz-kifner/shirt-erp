@@ -16,6 +16,11 @@
       "type": "component",
       "repeatable": true,
       "component": "types.icon"
+    },
+    "workstations": {
+      "type": "component",
+      "repeatable": true,
+      "component": "types.icon"
     }
   }
 }
