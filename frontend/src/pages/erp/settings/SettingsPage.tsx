@@ -1,16 +1,15 @@
 import { FC, useEffect, useMemo, useState } from "react"
 import { Button, Container, Group, Modal, Paper, Stack } from "@mantine/core"
-import { Bug, Logout } from "../../../utils/TablerIcons"
+import { Affiliate, Bug, Logout } from "../../../utils/TablerIcons"
 import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import ApiEntryAdd from "../../../components/api/ApiEntryAdd"
 import testSchema from "../../../schemas/test.schema.json"
 import FileButton from "../../../components/FileButton"
 import FileList from "../../../components/FileList"
-import TestTable from "../../../components/TestTable"
-import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
 import Details from "../../../components/details/Details"
 import { showNotification } from "@mantine/notifications"
+import { Link } from "react-router-dom"
 
 const testData = {
   name: "string",
@@ -58,6 +57,16 @@ const SettingsPage: FC = () => {
             <Group>
               <Logout />
               Wyloguj
+            </Group>
+          </Button>
+          <Button
+            style={{ width: "100%", color: "#fff" }}
+            component={Link}
+            to={"/erp/workstations"}
+          >
+            <Group>
+              <Affiliate />
+              Ustawienia Produkcji
             </Group>
           </Button>
           <Button

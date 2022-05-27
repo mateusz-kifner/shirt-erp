@@ -6,6 +6,7 @@ import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryDetails from "./api/ApiEntryDetails"
 import DefaultListItem from "./DefaultListItem"
+import names from "../schemas/names.json"
 
 interface DefaultPageProps {
   entryName: string
@@ -41,7 +42,8 @@ const DefaultPage: FC<DefaultPageProps> = ({
         <ApiList
           ListItem={ListElem}
           entryName={entryName}
-          label="Klienci"
+          // @ts-ignore
+          label={names[entryName].plural}
           spacing="xl"
           listSpacing="sm"
           onChange={(val: any) => {

@@ -18,7 +18,6 @@ import LoggerPage from "./pages/erp/logger/LoggerPage"
 import LoginPage from "./pages/LoginPage"
 import OrdersPage from "./pages/erp/orders/OrdersPage"
 import OrdersArchivePage from "./pages/erp/orders_archive/OrdersArchivePage"
-import ProductionPage from "./pages/erp/production/ProductionPage"
 import ProductsPage from "./pages/erp/products/ProductsPage"
 import SettingsPage from "./pages/erp/settings/SettingsPage"
 import TasksPage from "./pages/erp/tasks/TasksPage"
@@ -26,6 +25,8 @@ import UsersPage from "./pages/erp/users/UsersPage"
 import axios from "axios"
 import { useRecoilState } from "recoil"
 import { useNetwork } from "@mantine/hooks"
+import ProceduresPage from "./pages/erp/production/ProceduresPage"
+import WorkstationsPage from "./pages/erp/production/WorkstationsPage"
 
 export const navigationData: {
   label: string
@@ -37,7 +38,7 @@ export const navigationData: {
   { label: "Zamówienia", icon: <Crown />, to: "/erp/orders", color: "blue" },
   { label: "Produkty", icon: <Shirt />, to: "/erp/products", color: "orange" },
   { label: "Klienci", icon: <User />, to: "/erp/clients", color: "lime" },
-  { label: "production", icon: <Bell />, to: "/erp/production" },
+  // { label: "production", icon: <Bell />, to: "/erp/workstations" },
   { label: "expenses", icon: <Bell />, to: "/erp/expenses" },
   { label: "files", icon: <Bell />, to: "/erp/files" },
   { label: "logger", icon: <Bell />, to: "/erp/logs" },
@@ -111,10 +112,15 @@ const Routes: FC = () => {
               <Route path=":id" element={<ClientsPage />} />
               <Route path="" element={<ClientsPage />} />
             </Route>
-            <Route path="/erp/production">
-              <Route path=":id" element={<ProductionPage />} />
-              <Route path="" element={<ProductionPage />} />
+            <Route path="/erp/procedures">
+              <Route path=":id" element={<ProceduresPage />} />
+              <Route path="" element={<ProceduresPage />} />
             </Route>
+            <Route path="/erp/workstations">
+              <Route path=":id" element={<WorkstationsPage />} />
+              <Route path="" element={<WorkstationsPage />} />
+            </Route>
+
             <Route path="/erp/expenses">
               <Route path=":id" element={<ExpensesPage />} />
               <Route path="" element={<ExpensesPage />} />

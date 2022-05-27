@@ -16,10 +16,14 @@
     "plural": "Emalie"
   },
   "tasks": { "singular": "Email", "plural": "Emaile" },
-  "expenses": { "singular": "Email", "plural": "Emaile" },
-  "logs": { "singular": "Email", "plural": "Emaile" },
+  "expenses": { "singular": "Wydatek", "plural": "Wydatki" },
+  "logs": { "singular": "Log", "plural": "Logi" },
   "order-archives": { "singular": "Email", "plural": "Emaile" },
-  "productions": { "singular": "Email", "plural": "Emaile" },
+  "workstations": {
+    "singular": "Stanowisko pracy",
+    "plural": "Stanowiska pracy"
+  },
+  "procedures": { "singular": "Procedura", "plural": "Procedury" },
   "files": { "singular": "Email", "plural": "Emaile" },
   "settings": { "singular": "Email", "plural": "Emaile" },
   "users": { "singular": "Email", "plural": "Emaile" }

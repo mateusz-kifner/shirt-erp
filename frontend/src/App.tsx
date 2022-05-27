@@ -70,7 +70,11 @@ const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   },
 })
 
-const App: FC = ({ children }) => {
+interface AppProps {
+  children: React.ReactNode
+}
+
+const App = () => {
   const [opened, setOpened] = useState(false)
   const [showTabNav, setShowTabNav] = useState(false)
   const [navSmall, setNavSmall] = useLocalStorage<boolean>({
