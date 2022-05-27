@@ -1,8 +1,13 @@
 import { FC } from "react"
-import { Text } from "@mantine/core"
+
+import schema from "../../../schemas/user.schema.json"
+import UserListItem from "./UserListItem"
+import DefaultPage from "../../../components/DefaultPage"
 
 const UsersPage: FC = () => {
-  return <Text>UsersPage</Text>
+  return (
+    <DefaultPage schema={schema} ListElement={UserListItem} entryName="users" />
+  )
 }
 
 export default UsersPage

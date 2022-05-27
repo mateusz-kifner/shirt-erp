@@ -4,6 +4,14 @@
     "type": "text",
     "initialValue": "test"
   },
+  "number": {
+    "label": "number",
+    "type": "number"
+  },
+  "money": {
+    "label": "money",
+    "type": "money"
+  },
 
   "bool": {
     "label": "checkbox",

@@ -3,6 +3,8 @@ import { useHover } from "@mantine/hooks"
 
 import { FC, useEffect, useState, useRef } from "react"
 
+// FIXME: respect disabled state
+
 interface DetailsBoolProps {
   label?: string
   value?: boolean

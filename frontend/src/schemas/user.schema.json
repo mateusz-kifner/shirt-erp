@@ -2,79 +2,28 @@
   "username": {
     "label": "Nazwa użytkownika",
     "type": "text",
-
-    "initialValue": "",
-    "required": true
-  },
-  "firstname": {
-    "label": "Imie",
-    "type": "text",
-
-    "initialValue": ""
-  },
-  "lastname": {
-    "label": "Nazwisko",
-    "type": "text",
-
-    "initialValue": ""
-  },
-  "notes": {
-    "label": "Notatki",
-    "type": "text",
-
-    "initialValue": "",
-    "multiline": true
+    "disabled": true
   },
   "email": {
     "label": "Email",
     "type": "text",
-
-    "initialValue": ""
+    "disabled": true
   },
-  "phoneNumber": {
-    "label": "Telefon",
+  "provider": {
+    "label": "Auth",
     "type": "text",
-
-    "initialValue": ""
+    "disabled": true
   },
 
-  "companyName": {
-    "label": "Nazwa firmy",
+  "blocked": {
+    "label": "Zablokowany",
+    "type": "boolean",
+    "disabled": true
+  },
+  "displayName": {
+    "label": "Nazwa wyświetlana",
     "type": "text",
-
-    "initialValue": ""
-  },
-  "address": {
-    "label": {
-      "streetName": "Ulica",
-      "streetNumber": "Nr. bloku",
-      "apartmentNumber": "Nr. mieszkania",
-      "city": "Miasto",
-      "province": "Województwo",
-      "postCode": "Kod pocztowy",
-      "name": "Address"
-    },
-    "type": "address",
-    "initialValue": {
-      "streetName": "",
-      "streetNumber": "",
-      "apartmentNumber": "",
-      "city": "",
-      "province": "pomorskie",
-      "postCode": ""
-    }
-  },
-  "orders": {
-    "label": "Zamówienia",
-    "type": "orders"
-  },
-  "secretNotes": {
-    "label": "Sekretne Notatki",
-    "type": "secrettext",
-
-    "initialValue": "",
-    "multiline": true,
-    "hidden": true
+    "disabled": true
   },
   "createdAt": {
     "label": "Utworzono",

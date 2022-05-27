@@ -1,8 +1,17 @@
 import { FC } from "react"
-import { Text } from "@mantine/core"
+
+import expense_schema from "../../../schemas/expense.schema.json"
+import ExpenseListItem from "./ExpenseListItem"
+import DefaultPage from "../../../components/DefaultPage"
 
 const ExpensesPage: FC = () => {
-  return <Text>ExpensesPage</Text>
+  return (
+    <DefaultPage
+      schema={expense_schema}
+      ListElement={ExpenseListItem}
+      entryName="expenses"
+    />
+  )
 }
 
 export default ExpensesPage

@@ -20,6 +20,9 @@
       "configurable": false,
       "required": true
     },
+    "displayName": {
+      "type": "string"
+    },
     "email": {
       "type": "email",
       "minLength": 6,
