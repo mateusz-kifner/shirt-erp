@@ -24,7 +24,7 @@
       "inne"
     ]
   },
-  "desc": {
+  "description": {
     "label": "Opis",
     "type": "text",
     "initialValue": ""
