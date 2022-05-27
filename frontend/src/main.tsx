@@ -1,5 +1,5 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import "./main.css"
 import App from "./App"
 import { QueryClient, QueryClientProvider } from "react-query"
@@ -58,7 +58,8 @@ Logger.setLevel(
   process.env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN
 )
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root")!)
+root.render(
   <React.StrictMode>
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
@@ -68,8 +69,7 @@ ReactDOM.render(
         </QueryClientProvider>
       </React.Suspense>
     </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 )
 
 registerSW({ immediate: true })
