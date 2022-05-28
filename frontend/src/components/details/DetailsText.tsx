@@ -165,7 +165,7 @@ const DetailsText: FC<DetailsTextProps> = ({
               right: 8,
               top: 8,
             }}
-            onClick={() => () => setActive(false)}
+            onClick={() => setActive(false)}
             disabled={disabled}
             tabIndex={-1}
           >

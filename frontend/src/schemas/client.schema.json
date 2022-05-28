@@ -46,16 +46,18 @@
       "streetName": "Ulica",
       "streetNumber": "Nr. bloku",
       "apartmentNumber": "Nr. mieszkania",
+      "secondLine": "Druga linia",
       "city": "Miasto",
       "province": "Województwo",
       "postCode": "Kod pocztowy",
-      "name": "Address"
+      "name": "Adres"
     },
     "type": "address",
     "initialValue": {
       "streetName": "",
       "streetNumber": "",
       "apartmentNumber": "",
+      "secondLine": "",
       "city": "",
       "province": "pomorskie",
       "postCode": ""

@@ -17,7 +17,9 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
   entryName,
   id,
 }) => {
-  const { data, status, update } = useStrapi(entryName, id)
+  const { data, status, update } = useStrapi(entryName, id, {
+    query: "populate=*",
+  })
 
   const location = useLocation()
   const params = useParams()

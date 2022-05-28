@@ -19,7 +19,8 @@
     },
     "firstname": {
       "type": "string",
-      "default": ""
+      "default": "",
+      "test": "dadad"
     },
     "lastname": {
       "type": "string",

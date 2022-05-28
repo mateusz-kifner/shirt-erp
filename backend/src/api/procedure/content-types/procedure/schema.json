@@ -4,7 +4,8 @@
   "info": {
     "singularName": "procedure",
     "pluralName": "procedures",
-    "displayName": "procedure"
+    "displayName": "Procedure",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false

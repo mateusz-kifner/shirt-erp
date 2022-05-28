@@ -2,37 +2,32 @@
   "collectionName": "type_addresses",
   "info": {
     "displayName": "Address",
-    "icon": "building"
+    "icon": "building",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "streetName": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "streetNumber": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "apartmentNumber": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "secondLine": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "postCode": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "city": {
       "type": "string",
-      "default": ""
+      "default": "Gdańsk"
     },
     "province": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     }
   }
 }
