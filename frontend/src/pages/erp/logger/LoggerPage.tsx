@@ -1,6 +1,6 @@
 import { FC } from "react"
 
-import template from "../../../model-templates/log.template.json"
+import template from "../../../data/models/log.template.json"
 import DefaultPage from "../../../components/DefaultPage"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
 

@@ -1,6 +1,6 @@
 import { FC } from "react"
 
-import template from "../../../model-templates/expense.template.json"
+import template from "../../../data/models/expense.template.json"
 import ExpenseListItem from "./ExpenseListItem"
 import DefaultPage from "../../../components/DefaultPage"
 
