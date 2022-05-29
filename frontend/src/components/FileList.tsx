@@ -29,6 +29,8 @@ import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
 import isArrayEqual from "../utils/isArrayEqual"
 
+// FIXME: ENFORCE FILE LIMIT
+
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6]

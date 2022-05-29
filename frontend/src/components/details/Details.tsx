@@ -22,6 +22,7 @@ import UserListItem from "../../pages/erp/users/UserListItem"
 import { truncString } from "../../utils/truncString"
 import ClientListItem from "../../pages/erp/clients/ClientListItem"
 import ProductListItem from "../../pages/erp/products/ProductListItem"
+import DetailsApiEntryId from "../api/DetailsApiEntryId"
 
 interface DetailsProps {
   template: { [key: string]: any }
@@ -287,7 +288,87 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                       />
                     ) : null
                 }
+              case "apiEntryId":
+                switch (template[key].entryName) {
+                  case "users":
+                    return (
+                      <DetailsArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={DetailsApiEntryId}
+                        elementProps={{
+                          entryName: template[key].entryName,
 
+                          Element: UserListItem,
+                          copyProvider: (value: any) =>
+                            value?.username
+                              ? truncString(value.username, 40)
+                              : undefined,
+                          withErase: false,
+                        }}
+                      />
+                    )
+                  case "products":
+                    return (
+                      <DetailsArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={DetailsApiEntryId}
+                        elementProps={{
+                          entryName: template[key].entryName,
+
+                          Element: ProductListItem,
+                          copyProvider: (value: any) =>
+                            value?.name
+                              ? truncString(value.name, 40)
+                              : undefined,
+
+                          withErase: false,
+                        }}
+                      />
+                    )
+                  case "clients":
+                    return (
+                      <DetailsArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={DetailsApiEntryId}
+                        elementProps={{
+                          entryName: template[key].entryName,
+                          Element: ClientListItem,
+                          copyProvider: (value: any) =>
+                            (value?.firstname && value.firstname?.length > 0) ||
+                            (value?.lastname && value.lastname?.length > 0)
+                              ? truncString(
+                                  value.firstname + " " + value.lastname,
+                                  40
+                                )
+                              : truncString(
+                                  value?.username ? value.username : "",
+                                  40
+                                ),
+
+                          withErase: false,
+                        }}
+                      />
+                    )
+                  default:
+                    return user?.debug === true ? (
+                      <NotImplemented
+                        message={"Key has unknown entryName"}
+                        object_key={key}
+                        value={data[key]}
+                        template={template[key]}
+                        key={uuid + key}
+                      />
+                    ) : null
+                }
               default:
                 return user?.debug === true ? (
                   <NotImplemented
@@ -333,6 +414,66 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
               case "clients":
                 return (
                   <DetailsApiEntry
+                    value={data[key]}
+                    key={uuid + key}
+                    {...template[key]}
+                    onSubmit={onSubmitEntry}
+                    Element={ClientListItem}
+                    copyProvider={(value: any) =>
+                      (value?.firstname && value.firstname?.length > 0) ||
+                      (value?.lastname && value.lastname?.length > 0)
+                        ? truncString(
+                            value.firstname + " " + value.lastname,
+                            40
+                          )
+                        : truncString(value?.username ? value.username : "", 40)
+                    }
+                  />
+                )
+              default:
+                return user?.debug === true ? (
+                  <NotImplemented
+                    message={"Key has unknown entryName"}
+                    object_key={key}
+                    value={data[key]}
+                    template={template[key]}
+                    key={uuid + key}
+                  />
+                ) : null
+            }
+          case "apiEntryId":
+            switch (template[key].entryName) {
+              case "users":
+                return (
+                  <DetailsApiEntryId
+                    value={data[key]}
+                    key={uuid + key}
+                    {...template[key]}
+                    onSubmit={onSubmitEntry}
+                    Element={UserListItem}
+                    copyProvider={(value: any) =>
+                      value?.username
+                        ? truncString(value.username, 40)
+                        : undefined
+                    }
+                  />
+                )
+              case "products":
+                return (
+                  <DetailsApiEntryId
+                    value={data[key]}
+                    key={uuid + key}
+                    {...template[key]}
+                    onSubmit={onSubmitEntry}
+                    Element={ProductListItem}
+                    copyProvider={(value: any) =>
+                      value?.name ? truncString(value.name, 40) : undefined
+                    }
+                  />
+                )
+              case "clients":
+                return (
+                  <DetailsApiEntryId
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}

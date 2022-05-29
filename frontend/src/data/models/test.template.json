@@ -148,10 +148,11 @@
     "label": "Files",
     "type": "files"
   },
-  "workstations": {
-    "label": "Workstation",
-    "type": "workstationId",
-    "initialValue": 6
+  "clientIds": {
+    "label": "clientIds",
+    "type": "array",
+    "arrayType": "apiEntryId",
+    "entryName": "clients"
   },
   "employee": {
     "label": "User",
