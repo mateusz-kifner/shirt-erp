@@ -17,7 +17,6 @@ interface DetailsApiIconIdProps {
   label?: string
   value?: number
   initialValue?: number
-  onChange?: (value: number | null) => void
   onSubmit?: (value: number | null) => void
   disabled?: boolean
   required?: boolean
@@ -28,7 +27,7 @@ const DetailsApiIconId: FC<DetailsApiIconIdProps> = ({
   label,
   value,
   initialValue,
-  onChange,
+
   onSubmit,
   disabled,
   required,
@@ -48,7 +47,10 @@ const DetailsApiIconId: FC<DetailsApiIconIdProps> = ({
   if (!entryName) return null
 
   return (
-    <InputWrapper label={label} required={required}>
+    <InputWrapper
+      label={label && label.length > 0 ? label : undefined}
+      required={required}
+    >
       <Modal
         opened={opened}
         onClose={() => setOpened(false)}
@@ -68,7 +70,6 @@ const DetailsApiIconId: FC<DetailsApiIconIdProps> = ({
                 }}
                 px="xs"
                 onClick={() => {
-                  onChange && onChange(val.id)
                   onSubmit && onSubmit(val.id)
                   setIconId(val.id)
                   setOpened(false)
@@ -88,7 +89,6 @@ const DetailsApiIconId: FC<DetailsApiIconIdProps> = ({
             }}
             px="xs"
             onClick={() => {
-              onChange && onChange(null)
               onSubmit && onSubmit(null)
               setIconId(null)
               setOpened(false)

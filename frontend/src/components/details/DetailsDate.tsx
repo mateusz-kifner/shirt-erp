@@ -17,7 +17,6 @@ interface DetailsDateProps {
   label?: string
   value?: string
   initialValue?: string
-  onChange?: (value: string | null) => void
   onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
@@ -27,7 +26,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
   label,
   value,
   initialValue,
-  onChange,
+
   onSubmit,
   disabled,
   required,
@@ -79,14 +78,6 @@ const DetailsDate: FC<DetailsDateProps> = ({
     setPrevDate(new_value)
   }, [value])
 
-  const onChangeDate = (date: Date | null) => {
-    // helper for clear date string
-    // const new_date = new Date(dayjs(date).format("YYYY-MM-DD").toString())
-    // console.log(new_date)
-    setDate(date)
-    date && onChange && onChange(date.toISOString())
-  }
-
   const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
     if (active) {
       if (e.code == "Enter") {
@@ -104,30 +95,32 @@ const DetailsDate: FC<DetailsDateProps> = ({
   return (
     <InputWrapper
       label={
-        <>
-          {label}
-          {date && (
-            <ActionIcon
-              size="xs"
-              style={{
-                display: "inline-block",
-                transform: "translate(4px, 4px)",
-                marginRight: 4,
-              }}
-              onClick={() => {
-                const dateString = dayjs(date).format("L").toString()
-                clipboard.copy(dateString)
-                showNotification({
-                  title: "Skopiowano do schowka",
-                  message: dateString,
-                })
-              }}
-              tabIndex={-1}
-            >
-              <Copy size={16} />
-            </ActionIcon>
-          )}
-        </>
+        label && label.length > 0 ? (
+          <>
+            {label}
+            {date && (
+              <ActionIcon
+                size="xs"
+                style={{
+                  display: "inline-block",
+                  transform: "translate(4px, 4px)",
+                  marginRight: 4,
+                }}
+                onClick={() => {
+                  const dateString = dayjs(date).format("L").toString()
+                  clipboard.copy(dateString)
+                  showNotification({
+                    title: "Skopiowano do schowka",
+                    message: dateString,
+                  })
+                }}
+                tabIndex={-1}
+              >
+                <Copy size={16} />
+              </ActionIcon>
+            )}
+          </>
+        ) : undefined
       }
       labelElement="div"
       required={required}
@@ -138,7 +131,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
       {active ? (
         <DatePicker
           ref={dateRef}
-          onChange={onChangeDate}
+          onChange={setDate}
           value={date}
           variant={active ? "filled" : "default"}
           icon={<Calendar size={18} />}

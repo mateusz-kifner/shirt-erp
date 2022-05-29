@@ -9,7 +9,6 @@ interface DetailsTextProps {
   label?: string
   value?: string
   initialValue?: string
-  onChange?: (value: string | null) => void
   onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
@@ -25,7 +24,7 @@ const DetailsText: FC<DetailsTextProps> = (props) => {
     label,
     value,
     initialValue,
-    onChange,
+
     onSubmit,
     disabled,
     required,
@@ -70,7 +69,6 @@ const DetailsText: FC<DetailsTextProps> = (props) => {
 
   const onChangeTextarea = (e: React.ChangeEvent<any>) => {
     setText(e.target.value)
-    onChange && onChange(e.target.value)
   }
 
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
@@ -95,29 +93,31 @@ const DetailsText: FC<DetailsTextProps> = (props) => {
   return (
     <InputWrapper
       label={
-        <>
-          {label}
-          {text.length > 0 && (
-            <ActionIcon
-              size="xs"
-              style={{
-                display: "inline-block",
-                transform: "translate(4px, 4px)",
-                marginRight: 4,
-              }}
-              onClick={() => {
-                clipboard.copy(text)
-                showNotification({
-                  title: "Skopiowano do schowka",
-                  message: text,
-                })
-              }}
-              tabIndex={-1}
-            >
-              <Copy size={16} />
-            </ActionIcon>
-          )}
-        </>
+        label && label.length > 0 ? (
+          <>
+            {label}
+            {text.length > 0 && (
+              <ActionIcon
+                size="xs"
+                style={{
+                  display: "inline-block",
+                  transform: "translate(4px, 4px)",
+                  marginRight: 4,
+                }}
+                onClick={() => {
+                  clipboard.copy(text)
+                  showNotification({
+                    title: "Skopiowano do schowka",
+                    message: text,
+                  })
+                }}
+                tabIndex={-1}
+              >
+                <Copy size={16} />
+              </ActionIcon>
+            )}
+          </>
+        ) : undefined
       }
       labelElement="div"
       required={required}

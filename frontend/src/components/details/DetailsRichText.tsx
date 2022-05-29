@@ -20,7 +20,6 @@ interface DetailsRichTextProps {
   label?: string
   value?: string
   initialValue?: string
-  onChange?: (value: string | null) => void
   onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
@@ -30,7 +29,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   label,
   value,
   initialValue,
-  onChange,
+
   onSubmit,
   disabled,
   required,
@@ -81,11 +80,6 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
     }
   }, [value])
 
-  const onChangeTextarea = (value: string) => {
-    setText(value)
-    onChange && onChange(value)
-  }
-
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
     if (active) {
       if (e.code == "Enter" && e.ctrlKey) {
@@ -108,38 +102,40 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   return (
     <InputWrapper
       label={
-        <>
-          {label}
-          {text.length > 0 && text !== "<p><br></p>" && (
-            <ActionIcon
-              size="xs"
-              style={{
-                display: "inline-block",
-                transform: "translate(4px, 4px)",
-              }}
-              onClick={() => {
-                const plainText = _.unescape(
-                  turndownService.turndown(
-                    text
-                      .replace(/h[0-9]>/g, "div>")
-                      .replace(
-                        /<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g,
-                        ""
-                      )
+        label && label.length > 0 ? (
+          <>
+            {label}
+            {text.length > 0 && text !== "<p><br></p>" && (
+              <ActionIcon
+                size="xs"
+                style={{
+                  display: "inline-block",
+                  transform: "translate(4px, 4px)",
+                }}
+                onClick={() => {
+                  const plainText = _.unescape(
+                    turndownService.turndown(
+                      text
+                        .replace(/h[0-9]>/g, "div>")
+                        .replace(
+                          /<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g,
+                          ""
+                        )
+                    )
                   )
-                )
-                clipboard.copy(plainText)
-                showNotification({
-                  title: "Skopiowano do schowka",
-                  message: plainText,
-                })
-              }}
-              tabIndex={-1}
-            >
-              <Copy size={16} />
-            </ActionIcon>
-          )}
-        </>
+                  clipboard.copy(plainText)
+                  showNotification({
+                    title: "Skopiowano do schowka",
+                    message: plainText,
+                  })
+                }}
+                tabIndex={-1}
+              >
+                <Copy size={16} />
+              </ActionIcon>
+            )}
+          </>
+        ) : undefined
       }
       labelElement="div"
       required={required}
@@ -149,7 +145,7 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
           <RichTextEditor
             ref={richTextEditorRef}
             value={text}
-            onChange={onChangeTextarea}
+            onChange={setText}
             readOnly={false}
             controls={[
               ["bold", "italic", "underline", "strike", "clean"],

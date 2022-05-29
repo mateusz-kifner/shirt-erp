@@ -15,15 +15,16 @@ import DetailsEnum from "./DetailsEnum"
 import DetailsJSON from "./DetailsJSON"
 import DetailsApiIconId from "./DetailsApiIconId"
 import DetailsAddress from "./DetailsAddress"
+import DetailsFiles from "./DetailsFiles"
+import DetailsArrayText from "./DetailsArrayText"
 
 interface DetailsProps {
-  template: any
-  data: any
+  template: { [key: string]: any }
+  data: { [key: string]: any }
   onSubmit?: (key: string, value: any) => void
-  onChange?: (key: string, value: any) => void
 }
 
-const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
+const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
   const user = useRecoilValue(loginState)
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
@@ -39,14 +40,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
         Brak danych
       </Text>
     )
-
   return (
     <>
-      {Object.keys(data).map((key) => {
+      {Object.keys(template).map((key) => {
         if (key === "id" && user.debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
-        const onChangeEntry = (value: any) => onChange && onChange(key, value)
         const onSubmitEntry = (value: any) => onSubmit && onSubmit(key, value)
         if (!(key in template))
           return user?.debug === true ? (
@@ -64,7 +63,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -74,7 +72,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -85,7 +82,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -95,7 +91,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -105,7 +100,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -115,7 +109,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -125,7 +118,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -135,7 +127,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -145,7 +136,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -155,7 +145,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
               />
             )
@@ -165,7 +154,36 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
-                onChange={onChangeEntry}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "file":
+          case "image":
+            return (
+              <DetailsFiles
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
+                onSubmit={onSubmitEntry}
+                maxFileCount={1}
+              />
+            )
+          case "files":
+          case "image":
+            return (
+              <DetailsFiles
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "arrayText":
+            return (
+              <DetailsArrayText
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
                 onSubmit={onSubmitEntry}
               />
             )

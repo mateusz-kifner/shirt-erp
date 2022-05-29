@@ -38,7 +38,6 @@ interface DetailsAddressProps {
   label?: AddressType & { name: string }
   value?: AddressType
   initialValue?: AddressType
-  onChange?: (value: AddressType | null) => void
   onSubmit?: (value: AddressType | null) => void
   disabled?: boolean
   required?: boolean
@@ -49,7 +48,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
   label,
   value,
   initialValue,
-  onChange,
+
   onSubmit,
   disabled,
   required,
@@ -86,8 +85,9 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
   }, [active])
 
   useEffect(() => {
-    onChange && onChange(address)
-    onSubmit && onSubmit(address)
+    if (address !== prevAddress) {
+      onSubmit && onSubmit(address)
+    }
   }, [address])
 
   const toString = () => {

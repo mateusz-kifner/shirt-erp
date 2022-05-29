@@ -1,4 +1,6 @@
 {
+  "id": { "type": "id" },
+
   "name": {
     "label": "Napis",
     "type": "text",
@@ -162,5 +164,9 @@
   "submit": {
     "label": "Submit",
     "type": "submit"
+  },
+  "arrayText": {
+    "label": "Array Text",
+    "type": "arrayText"
   }
 }

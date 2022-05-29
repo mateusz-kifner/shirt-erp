@@ -6,7 +6,7 @@ import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryDetails from "./api/ApiEntryDetails"
 import DefaultListItem from "./DefaultListItem"
-import names from "../model-templates/names.json"
+import names from "../data/configs/names.json"
 import _ from "lodash"
 
 interface DefaultPageProps {

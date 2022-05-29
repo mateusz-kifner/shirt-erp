@@ -6,7 +6,6 @@ interface DetailsJSONProps {
   label?: string
   value?: string
   initialValue?: Date
-  onChange?: (value: Date | null) => void
   onSubmit?: (value: Date | null) => void
   disabled?: boolean
   required?: boolean
@@ -14,7 +13,10 @@ interface DetailsJSONProps {
 
 const DetailsJSON: FC<DetailsJSONProps> = ({ value, label }) => {
   return (
-    <InputWrapper label={label} labelElement="div">
+    <InputWrapper
+      label={label && label.length > 0 ? label : undefined}
+      labelElement="div"
+    >
       <Prism language="json">{JSON.stringify(value, null, 2)}</Prism>
     </InputWrapper>
   )

@@ -1,4 +1,6 @@
 {
+  "id": { "type": "id" },
+
   "message": {
     "label": "message",
     "type": "text",

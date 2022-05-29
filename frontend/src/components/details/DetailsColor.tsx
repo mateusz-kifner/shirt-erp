@@ -18,26 +18,24 @@ interface DetailsColorProps {
   label?: string
   value?: ColorType
   initialValue?: ColorType
-  onChange?: (value: ColorType | null) => void
   onSubmit?: (value: ColorType | null) => void
   disabled?: boolean
   required?: boolean
 }
 
 const DetailsColor: FC<DetailsColorProps> = (props) => {
-  const { label, value, initialValue, onChange, onSubmit, disabled, required } =
-    props
+  const { label, value, initialValue, onSubmit, disabled, required } = props
   const [color, setColor] = useState<ColorType>(
     value
       ? value
       : initialValue
       ? initialValue
       : {
-          name: "Biały",
+          name: "",
           hex: "#ffffff",
         }
   )
-  // const [prevColor, setPrevColor] = useState(color)
+  const [prevColor, setPrevColor] = useState(color)
   const [active, setActive] = useState<boolean>(false)
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
@@ -48,7 +46,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
     } else {
       if (color !== value) {
         onSubmit && onSubmit(color)
-        // setPrevColor(color)
+        setPrevColor(color)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -63,7 +61,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
   useEffect(() => {
     if (value) {
       setColor(value)
-      // setPrevColor(value)
+      setPrevColor(value)
     }
   }, [value])
 
@@ -72,20 +70,15 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
   //   onChange && onChange(value)
   // }
 
-  const onKeyDownColorarea = (e: React.KeyboardEvent<any>) => {
+  const onKeyDown = (e: React.KeyboardEvent<any>) => {
     if (active) {
-      if (e.code == "Enter" && e.ctrlKey) {
+      if (e.code == "Enter") {
         setActive(false)
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        // setColor(prevColor)
+        setColor(prevColor)
         setActive(false)
-        e.preventDefault()
-      }
-    } else {
-      if (e.code == "Enter") {
-        setActive(true)
         e.preventDefault()
       }
     }
@@ -94,28 +87,30 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
   return (
     <InputWrapper
       label={
-        <>
-          {label}
-          {color.hex.length > 0 && (
-            <ActionIcon
-              size="xs"
-              style={{
-                display: "inline-block",
-                transform: "translate(4px, 4px)",
-              }}
-              onClick={() => {
-                clipboard.copy(color.hex)
-                showNotification({
-                  title: "Skopiowano do schowka",
-                  message: color.hex,
-                })
-              }}
-              tabIndex={-1}
-            >
-              <Copy size={16} />
-            </ActionIcon>
-          )}
-        </>
+        label && label.length > 0 ? (
+          <>
+            {label}
+            {color.hex && color.hex.length > 0 && (
+              <ActionIcon
+                size="xs"
+                style={{
+                  display: "inline-block",
+                  transform: "translate(4px, 4px)",
+                }}
+                onClick={() => {
+                  clipboard.copy(color.hex)
+                  showNotification({
+                    title: "Skopiowano do schowka",
+                    message: color.hex,
+                  })
+                }}
+                tabIndex={-1}
+              >
+                <Copy size={16} />
+              </ActionIcon>
+            )}
+          </>
+        ) : undefined
       }
       labelElement="div"
       required={required}
@@ -152,18 +147,21 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
               disabled={disabled}
               required={required}
               styles={{ input: { minHeight: 44 } }}
+              withinPortal={false}
+              onKeyDown={onKeyDown}
             />
             <TextInput
               value={color?.name}
               onChange={(e) => {
                 setColor((old_color) => ({
-                  name: e.currentTarget.value,
+                  name: e.target.value,
                   hex: old_color.hex,
                 }))
               }}
               disabled={disabled}
               required={required}
               styles={{ input: { minHeight: 44 } }}
+              onKeyDown={onKeyDown}
             />
           </Group>
         ) : (

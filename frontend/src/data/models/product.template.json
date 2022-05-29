@@ -1,4 +1,6 @@
 {
+  "id": { "type": "id" },
+
   "name": {
     "label": "Nazwa",
     "type": "text",
@@ -39,9 +41,10 @@
     "type": "iconId",
     "entryName": "productCategories"
   },
-  "previewImg": {
+  "previewImages": {
     "label": "Zdjęcia",
-    "type": "image"
+    "type": "files",
+    "maxFileCount": 10
   },
   "createdAt": {
     "label": "Utworzono",

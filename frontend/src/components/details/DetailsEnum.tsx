@@ -8,7 +8,6 @@ interface DetailsEnumProps {
   label?: string
   value?: string
   initialValue?: string
-  onChange?: (value: string | null) => void
   onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
@@ -19,7 +18,7 @@ const DetailsEnum: FC<DetailsEnumProps> = ({
   label,
   value,
   initialValue,
-  onChange,
+
   onSubmit,
   disabled,
   required,
@@ -39,33 +38,34 @@ const DetailsEnum: FC<DetailsEnumProps> = ({
 
   const onChangeData = (value: string) => {
     setData(value)
-    onChange && onChange(value)
     onSubmit && onSubmit(value)
   }
 
   return (
     <InputWrapper
       label={
-        <>
-          {label}
-          <ActionIcon
-            size="xs"
-            style={{
-              display: "inline-block",
-              transform: "translate(4px, 4px)",
-            }}
-            onClick={() => {
-              clipboard.copy(value)
-              showNotification({
-                title: "Skopiowano do schowka",
-                message: value,
-              })
-            }}
-            tabIndex={-1}
-          >
-            <Copy size={16} />
-          </ActionIcon>
-        </>
+        label && label.length > 0 ? (
+          <>
+            {label}
+            <ActionIcon
+              size="xs"
+              style={{
+                display: "inline-block",
+                transform: "translate(4px, 4px)",
+              }}
+              onClick={() => {
+                clipboard.copy(value)
+                showNotification({
+                  title: "Skopiowano do schowka",
+                  message: value,
+                })
+              }}
+              tabIndex={-1}
+            >
+              <Copy size={16} />
+            </ActionIcon>
+          </>
+        ) : undefined
       }
       labelElement="div"
       required={required}

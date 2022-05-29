@@ -9,7 +9,6 @@ import { Notes } from "../../utils/TablerIcons"
 interface DetailsSecretTextProps {
   value?: string
   initialValue?: string
-  onChange?: (value: string | null) => void
   onSubmit?: (value: string | null) => void
   disabled?: boolean
   maxLength?: number
@@ -18,7 +17,7 @@ interface DetailsSecretTextProps {
 const DetailsSecretText: FC<DetailsSecretTextProps> = ({
   value,
   initialValue,
-  onChange,
+
   onSubmit,
   disabled,
   maxLength,
@@ -73,11 +72,6 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
       setPrevText(cleanValue)
     }
   }, [value])
-
-  const onChangeTextarea = (value: string) => {
-    setText(value)
-    onChange && onChange(value)
-  }
 
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
     if (active) {
@@ -141,7 +135,7 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
             <RichTextEditor
               ref={richTextEditorRef}
               value={text}
-              onChange={onChangeTextarea}
+              onChange={setText}
               readOnly={!active}
               controls={[
                 ["bold", "italic", "underline", "strike", "clean"],

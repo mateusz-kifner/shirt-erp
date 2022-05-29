@@ -9,7 +9,6 @@ interface DetailsBoolProps {
   label?: string
   value?: boolean
   initialValue?: boolean
-  onChange?: (value: boolean) => void
   onSubmit?: (value: boolean) => void
   disabled?: boolean
   required?: boolean
@@ -23,7 +22,6 @@ const DetailsBool: FC<DetailsBoolProps> = (props) => {
     label,
     value,
     initialValue,
-    onChange,
     onSubmit,
     disabled,
     required,
@@ -43,7 +41,6 @@ const DetailsBool: FC<DetailsBoolProps> = (props) => {
 
   useEffect(() => {
     if (dirty) {
-      onChange && onChange(bool)
       onSubmit && onSubmit(bool)
     }
   }, [bool])

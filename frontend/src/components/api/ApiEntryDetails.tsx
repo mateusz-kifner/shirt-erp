@@ -3,7 +3,7 @@ import { useDocumentTitle } from "@mantine/hooks"
 import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import { useLocation, useParams } from "react-router-dom"
-import names from "../../model-templates/names.json"
+import names from "../../data/configs/names.json"
 import Details from "../details/Details"
 
 interface ApiEntryDetailsProps {

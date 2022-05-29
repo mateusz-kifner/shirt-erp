@@ -1,4 +1,6 @@
 {
+  "id": { "type": "id" },
+
   "name": {
     "label": "Nazwa",
     "type": "text",

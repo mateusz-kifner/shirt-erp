@@ -1,4 +1,5 @@
 {
+  "id": { "type": "id" },
   "username": {
     "label": "Nazwa użytkownika",
     "type": "text",
@@ -70,11 +71,7 @@
     "label": "Zamówienia archiwizowane",
     "type": "orders"
   },
-  "secretNotes": {
-    "label": "Sekretne Notatki",
-    "type": "secrettext",
-    "initialValue": ""
-  },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
@@ -84,5 +81,10 @@
     "label": "Edytowano",
     "type": "datetime",
     "disabled": true
+  },
+  "secretNotes": {
+    "label": "Sekretne Notatki",
+    "type": "secrettext",
+    "initialValue": ""
   }
 }
