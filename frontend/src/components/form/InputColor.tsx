@@ -17,8 +17,8 @@ const InputColor: FC<InputColorProps> = (props) => {
     value
       ? value
       : {
-          colorName: "Biały",
-          colorHex: "#ffffff",
+          name: "Biały",
+          hex: "#ffffff",
         }
   )
   useEffect(() => {
@@ -46,11 +46,11 @@ const InputColor: FC<InputColorProps> = (props) => {
             "#fab005",
             "#fd7e14",
           ]}
-          value={color?.colorHex}
+          value={color?.hex}
           onChange={(new_hex) => {
             setColor((old_color) => ({
-              colorName: old_color.colorName,
-              colorHex: new_hex,
+              ...old_color,
+              hex: new_hex,
             }))
           }}
           disabled={disabled}
@@ -58,11 +58,11 @@ const InputColor: FC<InputColorProps> = (props) => {
         />
         <TextInput
           placeholder={placeholder}
-          value={color?.colorName}
+          value={color?.name}
           onChange={(event) => {
             setColor((old_color) => ({
-              colorName: event.currentTarget.value,
-              colorHex: old_color.colorHex,
+              ...old_color,
+              name: event.currentTarget.value,
             }))
           }}
           disabled={disabled}

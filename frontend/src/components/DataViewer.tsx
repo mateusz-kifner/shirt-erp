@@ -30,7 +30,7 @@ const DataViewer = <Cell extends CellBase<Value>, Value>({
       {convertBooleanToText(value)}
     </span>
   ) : (
-    <span className="Spreadsheet__data-viewer">{value}</span>
+    <span className="Spreadsheet__data-viewer"></span>
   )
 }
 

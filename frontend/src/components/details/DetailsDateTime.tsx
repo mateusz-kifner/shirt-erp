@@ -10,9 +10,8 @@ import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
 import { FC, useEffect, useRef, useState } from "react"
-import { Clock } from "tabler-icons-react"
 import preventLeave from "../../utils/preventLeave"
-import { Calendar, Copy } from "../../utils/TablerIcons"
+import { Calendar, Clock, Copy } from "../../utils/TablerIcons"
 
 // TODO: make it editable
 

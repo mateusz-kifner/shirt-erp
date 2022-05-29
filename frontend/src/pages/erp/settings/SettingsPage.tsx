@@ -97,8 +97,8 @@ const SettingsPage: FC = () => {
                   Open Test Form
                 </Group>
               </Button>
-              <FileButton disabled />
-              <FileList maxFileCount={1000} />
+              {/* <FileButton disabled /> */}
+              {/* <FileList maxFileCount={1000} /> */}
               {/* <TestTable /> */}
               {/* <ApiEntryDetails /> */}
               {/* <RichTextEditor value={val} onChange={setVal} />

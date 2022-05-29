@@ -31,3 +31,4 @@ export { default as ColorSwatch } from "tabler-icons-react/dist/icons/color-swat
 export { default as Affiliate } from "tabler-icons-react/dist/icons/affiliate.js"
 export { default as Robot } from "tabler-icons-react/dist/icons/robot.js"
 export { default as BuildingCommunity } from "tabler-icons-react/dist/icons/building-community.js"
+export { default as Clock } from "tabler-icons-react/dist/icons/clock.js"

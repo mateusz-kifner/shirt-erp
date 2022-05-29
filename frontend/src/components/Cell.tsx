@@ -1,5 +1,10 @@
 import * as React from "react"
-import { CellComponentProps, Dimensions, Point } from "react-spreadsheet"
+import {
+  CellBase,
+  CellComponentProps,
+  Dimensions,
+  Point,
+} from "react-spreadsheet"
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -89,6 +94,9 @@ export const Cell: React.FC<CellComponentProps> = ({
         column={column}
         cell={data}
         formulaParser={formulaParser}
+        setCellData={function (cell: CellBase<any>): void {
+          throw new Error("Function not implemented.")
+        }}
       />
     </td>
   )
