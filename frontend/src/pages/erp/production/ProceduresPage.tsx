@@ -1,5 +1,5 @@
 import { FC } from "react"
-import schema from "../../../schemas/procedure.schema.json"
+import template from "../../../model-templates/procedure.template.json"
 import DefaultPage from "../../../components/DefaultPage"
 import ProductionNavigation from "./ProductionNavigation"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
@@ -9,7 +9,7 @@ const ProductsPage: FC = () => {
     <>
       <ProductionNavigation initialTab={1} />
       <DefaultPage
-        schema={schema}
+        template={template}
         entryName="procedures"
         ListElement={makeDefaultListItem("name")}
       />

@@ -17,13 +17,13 @@ import DetailsApiIconId from "./DetailsApiIconId"
 import DetailsAddress from "./DetailsAddress"
 
 interface DetailsProps {
-  schema: any
+  template: any
   data: any
   onSubmit?: (key: string, value: any) => void
   onChange?: (key: string, value: any) => void
 }
 
-const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
+const Details: FC<DetailsProps> = ({ template, data, onSubmit, onChange }) => {
   const user = useRecoilValue(loginState)
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
@@ -48,21 +48,21 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
 
         const onChangeEntry = (value: any) => onChange && onChange(key, value)
         const onSubmitEntry = (value: any) => onSubmit && onSubmit(key, value)
-        if (!(key in schema))
+        if (!(key in template))
           return user?.debug === true ? (
             <NotImplemented
-              message={"Key doesn't have Schema"}
+              message={"Key doesn't have template"}
               object_key={key}
               value={data[key]}
               key={uuid + key}
             />
           ) : null
-        switch (schema[key].type) {
+        switch (template[key].type) {
           case "text":
             return (
               <DetailsText
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -72,7 +72,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsRichText
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -83,7 +83,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsSecretText
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -93,7 +93,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsDateTime
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -103,7 +103,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsDate
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -113,7 +113,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsBool
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -123,7 +123,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsColor
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -133,7 +133,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsEnum
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -143,7 +143,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsJSON
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -153,7 +153,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsApiIconId
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -163,7 +163,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
             return (
               <DetailsAddress
                 value={data[key]}
-                {...schema[key]}
+                {...template[key]}
                 key={uuid + key}
                 onChange={onChangeEntry}
                 onSubmit={onSubmitEntry}
@@ -175,7 +175,7 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
                 message={"Key has unknown type"}
                 object_key={key}
                 value={data[key]}
-                schema={schema[key]}
+                template={template[key]}
                 key={uuid + key}
               />
             ) : null

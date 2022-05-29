@@ -1,7 +1,7 @@
-import { ActionIcon, InputWrapper, Text, Textarea } from "@mantine/core"
+import { ActionIcon, CSSObject, InputWrapper, Textarea } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, useEffect, useRef, useState, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "../../utils/TablerIcons"
 
@@ -14,18 +14,25 @@ interface DetailsTextProps {
   disabled?: boolean
   required?: boolean
   maxLength?: number
+  style?: CSSProperties
+  styles?: Partial<
+    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
+  >
 }
 
-const DetailsText: FC<DetailsTextProps> = ({
-  label,
-  value,
-  initialValue,
-  onChange,
-  onSubmit,
-  disabled,
-  required,
-  maxLength,
-}) => {
+const DetailsText: FC<DetailsTextProps> = (props) => {
+  const {
+    label,
+    value,
+    initialValue,
+    onChange,
+    onSubmit,
+    disabled,
+    required,
+    maxLength,
+    style,
+    styles,
+  } = props
   const [text, setText] = useState(
     value ? value : initialValue ? initialValue : ""
   )
@@ -114,6 +121,8 @@ const DetailsText: FC<DetailsTextProps> = ({
       }
       labelElement="div"
       required={required}
+      style={style}
+      styles={styles}
     >
       <div style={{ position: "relative" }}>
         <Textarea

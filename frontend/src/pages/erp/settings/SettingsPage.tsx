@@ -4,7 +4,7 @@ import { Affiliate, Bug, Logout } from "../../../utils/TablerIcons"
 import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import ApiEntryAdd from "../../../components/api/ApiEntryAdd"
-import testSchema from "../../../schemas/test.schema.json"
+import template from "../../../model-templates/test.template.json"
 import FileButton from "../../../components/FileButton"
 import FileList from "../../../components/FileList"
 import Details from "../../../components/details/Details"
@@ -44,7 +44,7 @@ const SettingsPage: FC = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <ApiEntryAdd schema={testSchema} entryName="products" />
+        <ApiEntryAdd template={template} entryName="products" />
       </Modal>
       <Paper shadow="xs" p="xl" withBorder>
         <Group>
@@ -104,7 +104,7 @@ const SettingsPage: FC = () => {
               {/* <RichTextEditor value={val} onChange={setVal} />
               <div style={{ minHeight: 1000 }}></div> */}
               <Details
-                schema={testSchema}
+                template={template}
                 data={testData}
                 onSubmit={(key, val) => {
                   console.log("Sublmit", key, " ", val)

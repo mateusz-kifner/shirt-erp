@@ -42,20 +42,20 @@ const mapping: { [key: string]: React.ReactNode } = {
 }
 
 interface ApiEntryAddProps {
-  schema: any
+  template: any
   entryName: string
 }
 
-const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema, entryName }) => {
+const ApiEntryAdd: FC<ApiEntryAddProps> = ({ template, entryName }) => {
   const uuid = useId()
   const { add } = useStrapi(entryName)
   const generateInitialValues = useCallback(() => {
     let initialValues: any = {}
-    for (const key in schema) {
-      initialValues[key] = schema[key]?.initialValue
+    for (const key in template) {
+      initialValues[key] = template[key]?.initialValue
     }
     return initialValues
-  }, [schema])
+  }, [template])
 
   const form = useForm({
     initialValues: generateInitialValues(),
@@ -65,28 +65,28 @@ const ApiEntryAdd: FC<ApiEntryAddProps> = ({ schema, entryName }) => {
     <Box mx="auto">
       <form onSubmit={form.onSubmit((values) => add(values))}>
         <Stack>
-          {Object.keys(schema).map((key: string, index: number) => {
-            if (!schema[key]?.hidden && mapping[schema[key]?.type]) {
-              const new_schema = { ...schema[key] }
-              delete new_schema.type
-              delete new_schema.initialValue
+          {Object.keys(template).map((key: string, index: number) => {
+            if (!template[key]?.hidden && mapping[template[key]?.type]) {
+              const new_template = { ...template[key] }
+              delete new_template.type
+              delete new_template.initialValue
               return (
                 <div key={`${uuid}_${key}`}>
                   {React.cloneElement(
-                    mapping[schema[key].type] as ReactElement<any, any>,
+                    mapping[template[key].type] as ReactElement<any, any>,
                     {
-                      ...new_schema,
+                      ...new_template,
                       ...form.getInputProps(key),
                     }
                   )}
                 </div>
               )
-              // return <TextInput {...schema[key]} {...form.getInputProps(key)} />
+              // return <TextInput {...template[key]} {...form.getInputProps(key)} />
             } else {
               return (
                 <NotImplemented
                   ERROR="NOT IN MAPPING"
-                  {...schema[key]}
+                  {...template[key]}
                   key={`${uuid}_${key}`}
                 />
               )

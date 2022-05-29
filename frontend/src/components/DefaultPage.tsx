@@ -6,18 +6,18 @@ import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryDetails from "./api/ApiEntryDetails"
 import DefaultListItem from "./DefaultListItem"
-import names from "../schemas/names.json"
+import names from "../model-templates/names.json"
 import _ from "lodash"
 
 interface DefaultPageProps {
   entryName: string
-  schema: object
+  template: object
   ListElement?: React.ElementType
 }
 
 const DefaultPage: FC<DefaultPageProps> = ({
   entryName,
-  schema,
+  template,
   ListElement,
 }) => {
   const [id, setId] = useState<number | null>(null)
@@ -55,7 +55,7 @@ const DefaultPage: FC<DefaultPageProps> = ({
         />
       </ResponsivePaper>
       <ResponsivePaper style={{ flexGrow: 1 }}>
-        <ApiEntryDetails schema={schema} entryName={entryName} id={id} />
+        <ApiEntryDetails template={template} entryName={entryName} id={id} />
       </ResponsivePaper>
     </Group>
   )

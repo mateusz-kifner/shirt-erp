@@ -1,12 +1,16 @@
 import { FC } from "react"
 
-import schema from "../../../schemas/user.schema.json"
+import template from "../../../model-templates/user.template.json"
 import UserListItem from "./UserListItem"
 import DefaultPage from "../../../components/DefaultPage"
 
 const UsersPage: FC = () => {
   return (
-    <DefaultPage schema={schema} ListElement={UserListItem} entryName="users" />
+    <DefaultPage
+      template={template}
+      ListElement={UserListItem}
+      entryName="users"
+    />
   )
 }
 

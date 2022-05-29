@@ -3,17 +3,17 @@ import { useDocumentTitle } from "@mantine/hooks"
 import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import { useLocation, useParams } from "react-router-dom"
-import names from "../../schemas/names.json"
+import names from "../../model-templates/names.json"
 import Details from "../details/Details"
 
 interface ApiEntryDetailsProps {
-  schema: any
+  template: any
   entryName: string
   id: number | null
 }
 
 const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
-  schema,
+  template,
   entryName,
   id,
 }) => {
@@ -45,7 +45,7 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <Details schema={schema} data={data} onSubmit={apiUpdate} />
+      <Details template={template} data={data} onSubmit={apiUpdate} />
       <LoadingOverlay visible={status === "loading"} radius="xl" />
     </Stack>
   )

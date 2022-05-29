@@ -66,13 +66,14 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
           apartmentNumber: "",
           secondLine: "",
           city: "",
-          province: "pomorskie",
+          province: "",
           postCode: "",
         }
   )
   const [prevAddress, setPrevAddress] = useState(address)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
+  const ref = useClickOutside(() => setActive(false))
 
   const setAddressField = (key: string, val: string) => {
     setAddress((old_value) => ({ ...old_value, [key]: val }))
@@ -91,26 +92,25 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
 
   const toString = () => {
     return (
-      "ul. " +
-      (address?.streetName || "") +
+      (address?.streetName ? "ul. " + address?.streetName : "") +
       " " +
       (address.streetNumber || "") +
       (address.apartmentNumber ? " / " + address.apartmentNumber : "") +
       "\n" +
       (address.secondLine ? address.secondLine + "\n" : "") +
-      (address.postCode || "") +
-      " " +
+      (address.postCode ? address.postCode + " " : "") +
       (address.city || "") +
-      "\n" +
+      (address.postCode || address.city ? "\n" : "") +
       (address.province || address.province)
     )
   }
 
   return (
     <InputWrapper
+      ref={ref}
       label={
         <>
-          {label?.name}{" "}
+          {label?.name}
           {
             <ActionIcon
               size="xs"
@@ -161,6 +161,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
               onSubmit={(value) =>
                 value && setAddressField("streetNumber", value)
               }
+              style={{ flexGrow: 1 }}
             />
             <DetailsText
               label={label?.apartmentNumber ? label.apartmentNumber : undefined}
@@ -168,6 +169,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
               onSubmit={(value) =>
                 value && setAddressField("apartmentNumber", value)
               }
+              style={{ flexGrow: 1 }}
             />
           </Group>
           <DetailsText
@@ -191,7 +193,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
             onSubmit={(value) => value && setAddressField("province", value)}
             enum_data={provinces}
           />
-          <ActionIcon
+          {/* <ActionIcon
             radius="xl"
             style={{
               position: "absolute",
@@ -203,7 +205,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
             tabIndex={-1}
           >
             <X size={18} />
-          </ActionIcon>
+          </ActionIcon> */}
         </Stack>
       ) : (
         <div style={{ position: "relative" }}>

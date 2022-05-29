@@ -1,6 +1,6 @@
 import { FC } from "react"
 
-import schema from "../../../schemas/workstation.schema.json"
+import template from "../../../model-templates/workstation.template.json"
 import DefaultPage from "../../../components/DefaultPage"
 import ProductionNavigation from "./ProductionNavigation"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
@@ -10,7 +10,7 @@ const workstationsPage: FC = () => {
     <>
       <ProductionNavigation />
       <DefaultPage
-        schema={schema}
+        template={template}
         ListElement={makeDefaultListItem("name")}
         entryName="workstations"
       />

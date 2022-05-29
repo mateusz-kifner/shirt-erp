@@ -1,13 +1,13 @@
 import { FC } from "react"
 
-import schema from "../../../schemas/product.schema.json"
+import template from "../../../model-templates/product.template.json"
 import ProductListItem from "./ProductListItem"
 import DefaultPage from "../../../components/DefaultPage"
 
 const ProductsPage: FC = () => {
   return (
     <DefaultPage
-      schema={schema}
+      template={template}
       ListElement={ProductListItem}
       entryName="products"
     />
