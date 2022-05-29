@@ -36,15 +36,25 @@ const ExpenseListItem: FC<{
       onClick={() => onChange && onChange(value)}
     >
       <Group>
-        <Avatar radius="xl">{value.name?.substring(0, 2).toUpperCase()}</Avatar>
-        <Box sx={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {value.name && truncString(value.name, 40)}
+        {value ? (
+          <>
+            <Avatar radius="xl">
+              {value.name?.substring(0, 2).toUpperCase()}
+            </Avatar>
+            <Box sx={{ flex: 1 }}>
+              <Text size="sm" weight={500}>
+                {value.name && truncString(value.name, 40)}
+              </Text>
+              <Text color="dimmed" size="xs">
+                {value.price && value.price} zł
+              </Text>
+            </Box>
+          </>
+        ) : (
+          <Text size="sm" weight={500} style={{ flexGrow: 1 }}>
+            Brak
           </Text>
-          <Text color="dimmed" size="xs">
-            {value.price && value.price} zł
-          </Text>
-        </Box>
+        )}
       </Group>
     </UnstyledButton>
   )

@@ -37,42 +37,46 @@ const ProductListItem: FC<{
       onClick={() => onChange && onChange(value)}
     >
       <Group>
-        <Avatar
-          // style={{ backgroundColor: value.attributes.color?.hex }}
-          styles={{
-            placeholder: { backgroundColor: value?.color?.hex },
-          }}
-          radius="xl"
-        >
-          <ApiIconSVG
-            entryName="productCategories"
-            id={value.iconId}
-            color={
-              value?.color?.hex
-                ? convert.hex.hsl(value.color.hex)[2] < 0.5
-                  ? "#fff"
-                  : "#000"
-                : theme.colorScheme === "dark"
-                ? "#fff"
-                : "#000"
-            }
-            noError
-          />
-        </Avatar>
-        <Box sx={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {value.name}
-          </Text>
-          <Text color="dimmed" size="xs">
-            {value.codeName}
-          </Text>
-        </Box>
-
-        {/* {theme.dir === "ltr" ? (
-          <ChevronRight size={18} />
+        {value ? (
+          <>
+            <Avatar
+              // style={{ backgroundColor: value.attributes.color?.hex }}
+              styles={{
+                placeholder: { backgroundColor: value?.color?.hex },
+              }}
+              radius="xl"
+            >
+              {value?.iconId && (
+                <ApiIconSVG
+                  entryName="productCategories"
+                  id={value?.iconId}
+                  color={
+                    value?.color?.hex
+                      ? convert.hex.hsl(value.color.hex)[2] < 0.5
+                        ? "#fff"
+                        : "#000"
+                      : theme.colorScheme === "dark"
+                      ? "#fff"
+                      : "#000"
+                  }
+                  noError
+                />
+              )}
+            </Avatar>
+            <Box sx={{ flex: 1 }}>
+              <Text size="sm" weight={500}>
+                {value?.name && value.name}
+              </Text>
+              <Text color="dimmed" size="xs">
+                {value?.codeName && value.codeName}
+              </Text>
+            </Box>
+          </>
         ) : (
-          <ChevronLeft size={18} />
-        )} */}
+          <Text size="sm" weight={500} style={{ flexGrow: 1 }}>
+            Brak
+          </Text>
+        )}
       </Group>
     </UnstyledButton>
   )

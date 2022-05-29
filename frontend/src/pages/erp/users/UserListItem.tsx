@@ -36,15 +36,23 @@ const UserListItem: FC<{
       onClick={() => onChange && onChange(value)}
     >
       <Group>
-        <Avatar radius="xl"></Avatar>
-        <Box sx={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {value.username && truncString(value.username, 40)}
+        {value ? (
+          <>
+            <Avatar radius="xl"></Avatar>
+            <Box sx={{ flex: 1 }}>
+              <Text size="sm" weight={500}>
+                {value?.username && truncString(value.username, 40)}
+              </Text>
+              <Text color="dimmed" size="xs">
+                {value?.email && truncString(value.email, 20)}
+              </Text>
+            </Box>
+          </>
+        ) : (
+          <Text size="sm" weight={500} style={{ flexGrow: 1 }}>
+            Brak
           </Text>
-          <Text color="dimmed" size="xs">
-            {value.email && truncString(value.email, 20)}
-          </Text>
-        </Box>
+        )}
       </Group>
     </UnstyledButton>
   )

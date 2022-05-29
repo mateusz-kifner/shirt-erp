@@ -27,6 +27,7 @@ import {
 import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
+import isArrayEqual from "../utils/isArrayEqual"
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -87,6 +88,7 @@ const FileList: FC<FileListProps> = ({
   const theme = useMantineTheme()
   const uuid = useUuid()
   const [filesData, setFilesData] = useState<FilesDataType[]>([])
+  const [prev, setPrev] = useState<FileType[]>(filesData.map((val) => val.file))
   const [error, setError] = useState<string | undefined>()
   const [uploading, setUploading] = useState<number>(0)
   const [dropOpened, setDropOpened] = useState<boolean>(false)
@@ -150,9 +152,16 @@ const FileList: FC<FileListProps> = ({
   }
 
   useEffect(() => {
-    if (!filesData || filesData.length < 1) return
-    onChange && onChange(filesData.map((val: FilesDataType) => val.file))
+    if (!filesData || filesData.length === 0) return
+    const files = filesData.map((val: FilesDataType) => val.file)
+    if (isArrayEqual(files, prev)) return
+    onChange && onChange(files)
   }, [filesData])
+
+  useEffect(() => {
+    if (value === undefined || value === null) return
+    setFilesData(value.map((val) => ({ file: val, preview: null })))
+  }, [value])
 
   return (
     <>

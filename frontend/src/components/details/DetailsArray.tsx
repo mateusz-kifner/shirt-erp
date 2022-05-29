@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Box,
   Button,
   Group,
   InputWrapper,
@@ -9,11 +10,8 @@ import {
 import { useUuid } from "@mantine/hooks"
 import _ from "lodash"
 import { FC, useEffect, useState } from "react"
+import isArrayEqual from "../../utils/isArrayEqual"
 import { Plus, TrashX } from "../../utils/TablerIcons"
-
-var isArrayEqual = function (x: any, y: any) {
-  return _(x).xorWith(y, _.isEqual).isEmpty()
-}
 
 interface DetailsArrayProps {
   label?: string
@@ -46,17 +44,15 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
   const uuid = useUuid()
 
   useEffect(() => {
-    if (!isArrayEqual(items, prev)) {
-      onSubmit && onSubmit(items)
-      console.log(items, prev)
-    }
+    if (isArrayEqual(items, prev)) return
+    onSubmit && onSubmit(items)
+    console.log(items, prev)
   }, [items])
 
   useEffect(() => {
-    if (value) {
-      setItems(value)
-      setPrev(value)
-    }
+    if (value === undefined || value === null) return
+    setItems(value)
+    setPrev(value)
   }, [value])
 
   return (
@@ -74,19 +70,21 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
         {items.map((val, index) => {
           return (
             <Group spacing="xs" key={uuid + index}>
-              <Element
-                value={val}
-                style={{ flexGrow: 1 }}
-                onSubmit={(itemValue: any) =>
-                  itemValue &&
-                  setItems((stringArrayOld) =>
-                    stringArrayOld.map((val, i) =>
-                      i === index ? itemValue : val
-                    )
-                  )
-                }
-                {...elementProps}
-              />
+              <div style={{ flexGrow: 1 }}>
+                <Element
+                  value={val}
+                  onSubmit={(itemValue: any) => {
+                    console.log("array", itemValue)
+                    itemValue &&
+                      setItems((stringArrayOld) =>
+                        stringArrayOld.map((val, i) =>
+                          i === index ? itemValue : val
+                        )
+                      )
+                  }}
+                  {...elementProps}
+                />
+              </div>
               <Menu tabIndex={-1} withArrow>
                 <Menu.Item
                   icon={<TrashX size={14} />}
@@ -104,7 +102,7 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
         })}
         <Button
           variant="light"
-          onClick={() => setItems((val) => [...val, ""])}
+          onClick={() => setItems((val) => [...val, null])}
           disabled={
             disabled || (maxCount ? maxCount <= items.length : undefined)
           }

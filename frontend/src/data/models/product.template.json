@@ -33,7 +33,8 @@
   },
   "colors": {
     "label": "Kolory",
-    "type": "arrayColor",
+    "type": "array",
+    "arrayType": "color",
     "initialValue": []
   },
   "iconId": {

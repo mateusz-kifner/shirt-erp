@@ -14,16 +14,8 @@ interface DetailsFilesProps {
 }
 
 const DetailsFiles: FC<DetailsFilesProps> = (props) => {
-  const {
-    label,
-    value,
-    initialValue,
-
-    onSubmit,
-    disabled,
-    required,
-    maxCount,
-  } = props
+  const { label, value, initialValue, onSubmit, disabled, required, maxCount } =
+    props
   return (
     <InputWrapper
       label={label && label.length > 0 ? label : undefined}

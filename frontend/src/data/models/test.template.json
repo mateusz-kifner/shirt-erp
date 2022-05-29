@@ -155,11 +155,14 @@
   },
   "employee": {
     "label": "User",
-    "type": "apiEntryUser"
+    "type": "apiEntry",
+    "entryName": "users"
   },
   "employees": {
     "label": "Users",
-    "type": "users"
+    "type": "array",
+    "arrayType": "apiEntry",
+    "entryName": "users"
   },
   "submit": {
     "label": "Submit",
@@ -167,7 +170,8 @@
   },
   "arrayText": {
     "label": "Array Text",
-    "type": "arrayText",
+    "type": "array",
+    "arrayType": "text",
     "maxCount": 10
   }
 }

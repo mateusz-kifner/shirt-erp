@@ -34,7 +34,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
   const [date, setDate] = useState<Date | null>(
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )
-  const [prevDate, setPrevDate] = useState<Date | null>(date)
+  const [prev, setPrev] = useState<Date | null>(date)
   const [lock, setLock] = useState<boolean>(false)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
@@ -58,9 +58,9 @@ const DetailsDate: FC<DetailsDateProps> = ({
       // dateRef.current &&(dateRef.current.selectionStart = dateRef.current.value.length)
       // dateRef.current && dateRef.current.focus()
     } else {
-      if (date !== prevDate) {
+      if (date !== prev) {
         date && onSubmit && onSubmit(date.toISOString())
-        setPrevDate(date)
+        setPrev(date)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -75,7 +75,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
   useEffect(() => {
     const new_value = value ? new Date(value) : new Date()
     setDate(new_value)
-    setPrevDate(new_value)
+    setPrev(new_value)
   }, [value])
 
   const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
@@ -85,7 +85,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        setDate(prevDate)
+        setDate(prev)
         deactivate()
         e.preventDefault()
       }
@@ -243,7 +243,7 @@ const DetailsDate: FC<DetailsDateProps> = ({
           <ActionIcon
             radius="xl"
             onClick={() => {
-              setDate(prevDate)
+              setDate(prev)
               deactivate()
             }}
             disabled={disabled}
