@@ -7,9 +7,13 @@ import {
   Stack,
 } from "@mantine/core"
 import { useUuid } from "@mantine/hooks"
+import _ from "lodash"
 import { FC, useEffect, useState } from "react"
 import { Plus, TrashX } from "../../utils/TablerIcons"
-import DetailsText from "./DetailsText"
+
+var isArrayEqual = function (x: any, y: any) {
+  return _(x).xorWith(y, _.isEqual).isEmpty()
+}
 
 interface DetailsArrayProps {
   label?: string
@@ -19,7 +23,7 @@ interface DetailsArrayProps {
   disabled?: boolean
   required?: boolean
   maxCount?: number
-  Element: React.ReactNode
+  Element: React.ComponentType
   elementProps: any
 }
 
@@ -38,15 +42,20 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
   const [items, setItems] = useState<any[]>(
     value ? value : initialValue ? initialValue : []
   )
+  const [prev, setPrev] = useState<any[]>(items)
   const uuid = useUuid()
 
   useEffect(() => {
-    onSubmit && onSubmit(items)
+    if (!isArrayEqual(items, prev)) {
+      onSubmit && onSubmit(items)
+      console.log(items, prev)
+    }
   }, [items])
 
   useEffect(() => {
     if (value) {
       setItems(value)
+      setPrev(value)
     }
   }, [value])
 
@@ -65,14 +74,14 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
         {items.map((val, index) => {
           return (
             <Group spacing="xs" key={uuid + index}>
-              <DetailsText
+              <Element
                 value={val}
                 style={{ flexGrow: 1 }}
-                onSubmit={(stringValue) =>
-                  stringValue &&
+                onSubmit={(itemValue: any) =>
+                  itemValue &&
                   setItems((stringArrayOld) =>
                     stringArrayOld.map((val, i) =>
-                      i === index ? stringValue : val
+                      i === index ? itemValue : val
                     )
                   )
                 }

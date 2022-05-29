@@ -187,6 +187,16 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                 Element={DetailsText}
               />
             )
+          case "arrayColor":
+            return (
+              <DetailsArray
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
+                onSubmit={onSubmitEntry}
+                Element={DetailsColor}
+              />
+            )
           default:
             return user?.debug === true ? (
               <NotImplemented

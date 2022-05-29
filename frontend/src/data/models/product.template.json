@@ -31,10 +31,10 @@
     "type": "text",
     "initialValue": ""
   },
-  "color": {
-    "label": "Kolor",
-    "type": "color",
-    "placeholder": "Nazwa koloru"
+  "colors": {
+    "label": "Kolory",
+    "type": "arrayColor",
+    "initialValue": []
   },
   "iconId": {
     "label": "Ikona",

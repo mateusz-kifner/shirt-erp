@@ -6,10 +6,11 @@ import {
   InputWrapper,
   TextInput,
   Text,
+  CSSObject,
 } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState, useRef } from "react"
+import { FC, useEffect, useState, useRef, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ColorSwatch, Copy, Edit } from "../../utils/TablerIcons"
 import { ColorType } from "../../types/ColorType"
@@ -21,10 +22,23 @@ interface DetailsColorProps {
   onSubmit?: (value: ColorType | null) => void
   disabled?: boolean
   required?: boolean
+  style?: CSSProperties
+  styles?: Partial<
+    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
+  >
 }
 
 const DetailsColor: FC<DetailsColorProps> = (props) => {
-  const { label, value, initialValue, onSubmit, disabled, required } = props
+  const {
+    label,
+    value,
+    initialValue,
+    onSubmit,
+    disabled,
+    required,
+    style,
+    styles,
+  } = props
   const [color, setColor] = useState<ColorType>(
     value
       ? value
@@ -39,7 +53,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
   const [active, setActive] = useState<boolean>(false)
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
-  console.log(color)
+  // console.log(color)
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave)
@@ -114,6 +128,8 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
       }
       labelElement="div"
       required={required}
+      style={style}
+      styles={styles}
     >
       <div ref={ref} style={{ position: "relative" }}>
         {active ? (
@@ -140,7 +156,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
               value={color?.hex}
               onChange={(new_hex) => {
                 setColor((old_color) => ({
-                  name: old_color.name,
+                  ...old_color,
                   hex: new_hex,
                 }))
               }}
@@ -154,8 +170,8 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
               value={color?.name}
               onChange={(e) => {
                 setColor((old_color) => ({
+                  ...old_color,
                   name: e.target.value,
-                  hex: old_color.hex,
                 }))
               }}
               disabled={disabled}
@@ -198,7 +214,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
                 },
               })}
             >
-              <ColorSwatch
+              {/* <ColorSwatch
                 color="#adb5bd"
                 size={18}
                 style={{
@@ -206,7 +222,7 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
                   left: 9,
                   position: "absolute",
                 }}
-              />
+              /> */}
               {color.name ? color.name : "⸺"}
             </Text>
 
