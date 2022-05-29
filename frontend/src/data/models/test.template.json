@@ -167,6 +167,7 @@
   },
   "arrayText": {
     "label": "Array Text",
-    "type": "arrayText"
+    "type": "arrayText",
+    "maxCount": 10
   }
 }

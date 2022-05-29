@@ -16,7 +16,7 @@ import DetailsJSON from "./DetailsJSON"
 import DetailsApiIconId from "./DetailsApiIconId"
 import DetailsAddress from "./DetailsAddress"
 import DetailsFiles from "./DetailsFiles"
-import DetailsArrayText from "./DetailsArrayText"
+import DetailsArray from "./DetailsArray"
 
 interface DetailsProps {
   template: { [key: string]: any }
@@ -169,7 +169,6 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
               />
             )
           case "files":
-          case "image":
             return (
               <DetailsFiles
                 value={data[key]}
@@ -180,11 +179,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "arrayText":
             return (
-              <DetailsArrayText
+              <DetailsArray
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
                 onSubmit={onSubmitEntry}
+                Element={DetailsText}
               />
             )
           default:

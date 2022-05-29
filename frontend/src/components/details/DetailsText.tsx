@@ -133,6 +133,7 @@ const DetailsText: FC<DetailsTextProps> = (props) => {
           value={text}
           onChange={onChangeTextarea}
           onKeyDown={onKeyDownTextarea}
+          onBlur={() => setActive(false)}
           readOnly={!active}
           maxLength={maxLength ? maxLength : 255}
           styles={(theme) => ({

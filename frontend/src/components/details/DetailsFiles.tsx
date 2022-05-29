@@ -10,7 +10,7 @@ interface DetailsFilesProps {
   onSubmit?: (value: FileType[] | null) => void
   disabled?: boolean
   required?: boolean
-  maxFileCount?: number
+  maxCount?: number
 }
 
 const DetailsFiles: FC<DetailsFilesProps> = (props) => {
@@ -22,7 +22,7 @@ const DetailsFiles: FC<DetailsFilesProps> = (props) => {
     onSubmit,
     disabled,
     required,
-    maxFileCount,
+    maxCount,
   } = props
   return (
     <InputWrapper
@@ -35,7 +35,7 @@ const DetailsFiles: FC<DetailsFilesProps> = (props) => {
         onChange={(files) => {
           onSubmit && onSubmit(files)
         }}
-        maxFileCount={maxFileCount}
+        maxFileCount={maxCount}
         disabled={disabled}
       />
     </InputWrapper>
