@@ -13,6 +13,7 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
 import preventLeave from "../../utils/preventLeave"
 import { BuildingCommunity, Copy, Edit, X } from "../../utils/TablerIcons"
+import DisplayCell from "./DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
 
@@ -204,35 +205,7 @@ const EditableAddress: FC<EditableAddressProps> = ({
         </Stack>
       ) : (
         <div style={{ position: "relative" }}>
-          <Text
-            sx={[
-              (theme) => ({
-                width: "100%",
-
-                fontSize: theme.fontSizes.sm,
-                minHeight: 36,
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-                padding: "10px 16px",
-                paddingRight: 32,
-                lineHeight: 1.55,
-                paddingLeft: 36,
-              }),
-              SxBorder,
-              SxRadius,
-            ]}
-          >
-            <BuildingCommunity
-              color="#adb5bd"
-              size={18}
-              style={{
-                top: 13,
-                left: 9,
-                position: "absolute",
-              }}
-            />
-            {toString()}
-          </Text>
+          <DisplayCell Icon={BuildingCommunity}> {toString()}</DisplayCell>
           <ActionIcon
             radius="xl"
             style={{

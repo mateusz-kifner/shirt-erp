@@ -13,6 +13,7 @@ import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, X } from "../../utils/TablerIcons"
 import dayjs from "dayjs"
 import { SxBorder, SxRadius } from "../../styles/basic"
+import DisplayCell from "./DisplayCell"
 
 interface EditableDateProps {
   label?: string
@@ -163,34 +164,9 @@ const EditableDate: FC<EditableDateProps> = ({
           onKeyDown={onKeyDownDate}
         />
       ) : (
-        <Text
-          sx={[
-            (theme) => ({
-              width: "100%",
-              fontSize: theme.fontSizes.sm,
-              minHeight: 36,
-              wordBreak: "break-word",
-              whiteSpace: "pre-line",
-              padding: "10px 16px",
-              paddingRight: 32,
-              lineHeight: 1.55,
-              paddingLeft: 36,
-            }),
-            SxBorder,
-            SxRadius,
-          ]}
-        >
-          <Calendar
-            color="#adb5bd"
-            size={18}
-            style={{
-              bottom: 13,
-              left: 9,
-              position: "absolute",
-            }}
-          />
+        <DisplayCell Icon={Calendar}>
           {date ? dayjs(date).format("L").toString() : "⸺"}
-        </Text>
+        </DisplayCell>
       )}
 
       {!active ? (
