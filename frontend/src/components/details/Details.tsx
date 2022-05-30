@@ -17,12 +17,12 @@ import DetailsApiIconId from "./DetailsApiIconId"
 import DetailsAddress from "./DetailsAddress"
 import DetailsFiles from "./DetailsFiles"
 import DetailsArray from "./DetailsArray"
-import DetailsApiEntry from "../api/DetailsApiEntry"
+import DetailsApiEntry from "./DetailsApiEntry"
 import UserListItem from "../../pages/erp/users/UserListItem"
-import { truncString } from "../../utils/truncString"
 import ClientListItem from "../../pages/erp/clients/ClientListItem"
 import ProductListItem from "../../pages/erp/products/ProductListItem"
-import DetailsApiEntryId from "../api/DetailsApiEntryId"
+import DetailsApiEntryId from "./DetailsApiEntryId"
+import { truncString } from "../../utils/truncString"
 
 interface DetailsProps {
   template: { [key: string]: any }

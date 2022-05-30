@@ -1,6 +1,20 @@
 module.exports = [
   "strapi::errors",
-  "strapi::security",
+  {
+    name: "strapi::security",
+    config: {
+      contentSecurityPolicy: {
+        // useDefaults: true
+        directives: {
+          "connect-src": ["'self'", "https:"],
+          "img-src": ["'self'", "data:", "blob:", "https://dl.airtable.com"],
+          "media-src": ["'self'", "data:", "blob:"],
+          "worker-src": ["'self'", "data:", "blob:"],
+          upgradeInsecureRequests: null,
+        },
+      },
+    },
+  },
   "strapi::cors",
   "strapi::poweredBy",
   "strapi::logger",

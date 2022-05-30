@@ -18,8 +18,8 @@ import InputEnum from "../form/InputEnum"
 import InputFile from "../form/InputFile"
 import InputFiles from "../form/InputFiles"
 import NotImplemented from "../NotImplemented"
-import InputApiEntry from "./InputApiEntry"
-import InputApiIconId from "./InputApiIconId"
+import InputApiEntry from "../form/InputApiEntry"
+import InputApiIconId from "../form/InputApiIconId"
 
 const mapping: { [key: string]: React.ReactNode } = {
   string: <TextInput />,
