@@ -42,14 +42,14 @@ Logger.setHandler(function (messages, context) {
     axios.post("/loggers", {
       message: messages[0],
       type: context.level.name,
-      user: savedValue && savedValue?.length > 0 ? savedValue : null,
+      userId: savedValue && savedValue?.length > 0 ? savedValue : null,
     })
   } else {
     axios.post("/logs", {
       message: messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
       data: messages[0],
       type: context.level.name,
-      user: savedValue && savedValue?.length > 0 ? savedValue : null,
+      userId: savedValue && savedValue?.length > 0 ? savedValue : null,
     })
   }
 })

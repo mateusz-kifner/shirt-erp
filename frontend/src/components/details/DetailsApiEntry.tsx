@@ -12,7 +12,7 @@ import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
 import { CSSProperties, FC, useEffect, useMemo, useState } from "react"
 import { Copy, TrashX, X } from "../../utils/TablerIcons"
-import ApiList from "./ApiList"
+import ApiList from "../api/ApiList"
 
 interface DetailsApiEntryProps {
   label?: string

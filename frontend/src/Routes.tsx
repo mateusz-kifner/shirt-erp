@@ -38,7 +38,6 @@ export const navigationData: {
   { label: "Zamówienia", icon: <Crown />, to: "/erp/orders", color: "blue" },
   { label: "Produkty", icon: <Shirt />, to: "/erp/products", color: "orange" },
   { label: "Klienci", icon: <User />, to: "/erp/clients", color: "lime" },
-  // { label: "production", icon: <Bell />, to: "/erp/workstations" },
   { label: "Wydatki", icon: <Bell />, to: "/erp/expenses" },
   { label: "Pliki", icon: <Bell />, to: "/erp/files" },
   { label: "Logi", icon: <Bell />, to: "/erp/logs" },
@@ -50,14 +49,6 @@ const Routes: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const networkStatus = useNetwork()
-
-  // const { data, refetch, isLoading, failureCount } = useQuery(
-  //   ["ping"],
-  //   async () => {
-  //     const res = await axios.get("/ping")
-  //     return res.data
-  //   }
-  // )
 
   useEffect(() => {
     if (login.jwt !== undefined && login.jwt.length > 0 && isAuthenticated) {
@@ -86,6 +77,10 @@ const Routes: FC = () => {
     <>
       {!isAuthenticated && <LoginPage />}
       <Switch>
+        <Route path="/admin">
+          <Route path="*" element={<EmptyPage />} />
+          <Route path="" element={<EmptyPage />} />
+        </Route>
         {!isAuthenticated && (
           <Route path="*" element={<ErrorPage errorcode={403} />} />
         )}
@@ -120,7 +115,6 @@ const Routes: FC = () => {
               <Route path=":id" element={<WorkstationsPage />} />
               <Route path="" element={<WorkstationsPage />} />
             </Route>
-
             <Route path="/erp/expenses">
               <Route path=":id" element={<ExpensesPage />} />
               <Route path="" element={<ExpensesPage />} />
@@ -153,6 +147,10 @@ const Routes: FC = () => {
       </Switch>
     </>
   )
+}
+
+const EmptyPage: FC = () => {
+  return null
 }
 
 export default Routes

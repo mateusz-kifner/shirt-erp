@@ -10,7 +10,7 @@ import { useUuid } from "@mantine/hooks"
 import { FC, useState } from "react"
 import { useRecoilValue } from "recoil"
 import { iconState } from "../../atoms/iconState"
-import ApiIconSVG from "./ApiIconSVG"
+import ApiIconSVG from "../api/ApiIconSVG"
 
 interface InputApiIconIdProps {
   label?: string
