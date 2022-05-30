@@ -3,7 +3,7 @@ import { useDocumentTitle } from "@mantine/hooks"
 import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import { useLocation, useParams } from "react-router-dom"
-import names from "../../data/configs/names.json"
+import names from "../../templates/names.json"
 import Editable from "../editable/Editable"
 
 interface ApiEntryEditableProps {

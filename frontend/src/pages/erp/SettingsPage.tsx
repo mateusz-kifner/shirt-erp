@@ -13,7 +13,7 @@ import {
 import { Affiliate, Bug, Logout, MoonStars, Sun } from "../../utils/TablerIcons"
 import { loginState } from "../../atoms/loginState"
 import { useRecoilState } from "recoil"
-import template from "../../data/models/test.template.json"
+import template from "../../templates/test.template.json"
 import FileList from "../../components/FileList"
 import Editable from "../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"

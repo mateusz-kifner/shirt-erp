@@ -1,5 +1,5 @@
 import { FC } from "react"
-import template from "../../../data/models/procedure.template.json"
+import template from "../../../templates/procedure.template.json"
 import DefaultPage from "../../../components/DefaultPage"
 import ProductionNavigation from "./ProductionNavigation"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"

@@ -1,6 +1,6 @@
 import { FC } from "react"
 
-import template from "../../data/models/user.template.json"
+import template from "../../templates/user.template.json"
 import UserListItem from "../../components/list_items/UserListItem"
 import DefaultPage from "../../components/DefaultPage"
 

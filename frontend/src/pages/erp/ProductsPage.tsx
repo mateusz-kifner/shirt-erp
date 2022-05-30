@@ -2,7 +2,7 @@ import { FC } from "react"
 import DefaultPage from "../../components/DefaultPage"
 import ProductListItem from "../../components/list_items/ProductListItem"
 
-import template from "../../data/models/product.template.json"
+import template from "../../templates/product.template.json"
 
 const ProductsPage: FC = () => {
   return (
