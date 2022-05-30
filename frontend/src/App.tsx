@@ -1,22 +1,14 @@
 import {
-  ActionIcon,
   AppShell,
-  Autocomplete,
-  Burger,
   ColorScheme,
   ColorSchemeProvider,
-  Group,
-  Image,
   MantineProvider,
   MantineTheme,
-  MediaQuery,
-  useMantineTheme,
 } from "@mantine/core"
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { NotificationsProvider } from "@mantine/notifications"
 import { useEffect, useState } from "react"
-import { Link, BrowserRouter as Router } from "react-router-dom"
-import { Bell, Search, Settings } from "./utils/TablerIcons"
+import { BrowserRouter as Router } from "react-router-dom"
 import Routes from "./Routes"
 import "dayjs/locale/pl"
 import { useRecoilState } from "recoil"
@@ -91,22 +83,6 @@ const App = () => {
       >
         <NotificationsProvider>
           <Router>
-            {/* <Button
-              style={{
-                position: "absolute",
-                top: 12,
-                left: 12,
-                zIndex: showTabNav ? 1000 : 0,
-              }}
-              tabIndex={0}
-              onFocus={() => setShowTabNav(true)}
-              onBlur={() => setShowTabNav(false)}
-              onClick={() => {
-                navbarRef.current && navbarRef.current.focus()
-              }}
-            >
-              Idź do nawigacji
-            </Button> */}
             <AppShell
               style={{ height: "100%" }}
               padding={0}

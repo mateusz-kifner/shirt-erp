@@ -4,26 +4,17 @@ import {
   ThemeIcon,
   UnstyledButton,
   Text,
-  MediaQuery,
   Box,
   Navbar,
   ScrollArea,
   Stack,
-  ColorScheme,
   ActionIcon,
 } from "@mantine/core"
-import { useColorScheme, useLocalStorage } from "@mantine/hooks"
+import { useLocalStorage, useMediaQuery } from "@mantine/hooks"
 import { FC, ReactElement, Ref, SyntheticEvent, useState } from "react"
 import { Link } from "react-router-dom"
-import { useRecoilValue } from "recoil"
-import { loginState } from "../../atoms/loginState"
 import { navigationData } from "../../Routes"
-import {
-  ChevronRight,
-  ChevronLeft,
-  Sun,
-  MoonStars,
-} from "../../utils/TablerIcons"
+import { ChevronRight, ChevronLeft } from "../../utils/TablerIcons"
 
 interface NavigationProps {
   opened?: boolean
@@ -31,19 +22,11 @@ interface NavigationProps {
 }
 
 const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
+  const biggerThanSM = useMediaQuery("(min-width: 800px)")
   const [navSmall, setNavSmall] = useLocalStorage<boolean>({
     key: "nav-small",
     defaultValue: false,
   })
-  const login = useRecoilValue(loginState)
-  const preferredColorScheme = useColorScheme()
-
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: preferredColorScheme,
-  })
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
 
   return (
     <Navbar
@@ -69,58 +52,21 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
                 onClick={(e: any) => {
                   setOpened && setOpened(false)
                 }}
-                small={navSmall}
+                small={navSmall && biggerThanSM}
               />
             ))}
           </Stack>
-          <Box
-            sx={(theme) => ({
-              paddingTop: theme.spacing.md,
-              borderTop: `1px solid ${
-                theme.colorScheme === "dark"
-                  ? theme.colors.dark[4]
-                  : theme.colors.gray[2]
-              }`,
-            })}
-          >
-            <UnstyledButton
+          {biggerThanSM && (
+            <Box
               sx={(theme) => ({
-                display: "block",
-                width: "100%",
-                padding: theme.spacing.xs,
-                borderRadius: theme.radius.sm,
-                color:
+                paddingTop: theme.spacing.md,
+                borderTop: `1px solid ${
                   theme.colorScheme === "dark"
-                    ? theme.colors.dark[0]
-                    : theme.black,
-
-                "&:hover": {
-                  backgroundColor:
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[6]
-                      : theme.colors.gray[0],
-                },
+                    ? theme.colors.dark[4]
+                    : theme.colors.gray[2]
+                }`,
               })}
-              onClick={() => toggleColorScheme()}
-              title="Toggle color scheme"
             >
-              <Group>
-                <ThemeIcon variant="light">
-                  {colorScheme === "dark" ? (
-                    <Sun size={18} />
-                  ) : (
-                    <MoonStars size={18} />
-                  )}
-                </ThemeIcon>
-                {!navSmall &&
-                  (colorScheme === "dark" ? (
-                    <Text size="sm">Jasna skórka</Text>
-                  ) : (
-                    <Text size="sm">Ciemna skórka</Text>
-                  ))}
-              </Group>
-            </UnstyledButton>
-            <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
               <Group position="center">
                 <ActionIcon
                   size="xl"
@@ -130,12 +76,11 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
                   {navSmall ? <ChevronRight /> : <ChevronLeft />}
                 </ActionIcon>
               </Group>
-            </MediaQuery>
-          </Box>
+            </Box>
+          )}
         </Stack>
       </ScrollArea>
     </Navbar>
-    // </MediaQuery>
   )
 }
 
