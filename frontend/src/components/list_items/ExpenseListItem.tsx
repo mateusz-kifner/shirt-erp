@@ -7,8 +7,8 @@ import {
   Text,
 } from "@mantine/core"
 import { FC } from "react"
-import { ExpenseType } from "../../../types/ExpenseType"
-import { truncString } from "../../../utils/truncString"
+import { ExpenseType } from "../../types/ExpenseType"
+import { truncString } from "../../utils/truncString"
 
 const ExpenseListItem: FC<{
   onChange?: (expense: Partial<ExpenseType>) => void

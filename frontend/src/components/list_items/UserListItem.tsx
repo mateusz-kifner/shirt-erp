@@ -7,8 +7,8 @@ import {
   Text,
 } from "@mantine/core"
 import { FC } from "react"
-import { UserType } from "../../../types/UserType"
-import { truncString } from "../../../utils/truncString"
+import { UserType } from "../../types/UserType"
+import { truncString } from "../../utils/truncString"
 
 const UserListItem: FC<{
   onChange?: (user: Partial<UserType>) => void

@@ -7,8 +7,8 @@ import {
   Text,
 } from "@mantine/core"
 import { FC } from "react"
-import { ClientType } from "../../../types/ClientType"
-import { truncString } from "../../../utils/truncString"
+import { ClientType } from "../../types/ClientType"
+import { truncString } from "../../utils/truncString"
 
 const ClientListItem: FC<{
   onChange?: (item: Partial<ClientType>) => void
@@ -25,7 +25,6 @@ const ClientListItem: FC<{
         borderRadius: theme.radius.sm,
         color:
           theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-
         "&:hover": {
           backgroundColor:
             theme.colorScheme === "dark"

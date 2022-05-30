@@ -1,8 +1,8 @@
 import { FC } from "react"
 
-import template from "../../../data/models/log.template.json"
-import DefaultPage from "../../../components/DefaultPage"
-import { makeDefaultListItem } from "../../../components/DefaultListItem"
+import template from "../../data/models/log.template.json"
+import { makeDefaultListItem } from "../../components/DefaultListItem"
+import DefaultPage from "../../components/DefaultPage"
 
 const LoggerPage: FC = () => {
   return (

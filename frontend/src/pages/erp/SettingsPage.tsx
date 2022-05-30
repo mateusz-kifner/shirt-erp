@@ -10,18 +10,12 @@ import {
   ThemeIcon,
   Text,
 } from "@mantine/core"
-import {
-  Affiliate,
-  Bug,
-  Logout,
-  MoonStars,
-  Sun,
-} from "../../../utils/TablerIcons"
-import { loginState } from "../../../atoms/loginState"
+import { Affiliate, Bug, Logout, MoonStars, Sun } from "../../utils/TablerIcons"
+import { loginState } from "../../atoms/loginState"
 import { useRecoilState } from "recoil"
-import template from "../../../data/models/test.template.json"
-import FileList from "../../../components/FileList"
-import Editable from "../../../components/editable/Editable"
+import template from "../../data/models/test.template.json"
+import FileList from "../../components/FileList"
+import Editable from "../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
 import { Link } from "react-router-dom"
 import { useLocalStorage, useColorScheme } from "@mantine/hooks"

@@ -1,8 +1,8 @@
 import { FC } from "react"
 
-import template from "../../../data/models/user.template.json"
-import UserListItem from "./UserListItem"
-import DefaultPage from "../../../components/DefaultPage"
+import template from "../../data/models/user.template.json"
+import UserListItem from "../../components/list_items/UserListItem"
+import DefaultPage from "../../components/DefaultPage"
 
 const UsersPage: FC = () => {
   return (

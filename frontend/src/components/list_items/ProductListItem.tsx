@@ -7,8 +7,8 @@ import {
   Text,
 } from "@mantine/core"
 import { FC } from "react"
-import ApiIconSVG from "../../../components/api/ApiIconSVG"
-import { ProductType } from "../../../types/ProductType"
+import ApiIconSVG from "../../components/api/ApiIconSVG"
+import { ProductType } from "../../types/ProductType"
 import convert from "color-convert"
 
 const ProductListItem: FC<{
