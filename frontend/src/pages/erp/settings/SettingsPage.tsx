@@ -21,7 +21,7 @@ import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import template from "../../../data/models/test.template.json"
 import FileList from "../../../components/FileList"
-import Details from "../../../components/details/Details"
+import Editable from "../../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
 import { Link } from "react-router-dom"
 import { useLocalStorage, useColorScheme } from "@mantine/hooks"
@@ -66,7 +66,7 @@ const SettingsPage: FC = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <Details
+        <Editable
           template={template}
           data={testData}
           onSubmit={(key, val) => {

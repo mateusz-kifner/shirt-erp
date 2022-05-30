@@ -4,15 +4,15 @@ import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import { useLocation, useParams } from "react-router-dom"
 import names from "../../data/configs/names.json"
-import Details from "../details/Details"
+import Editable from "../editable/Editable"
 
-interface ApiEntryDetailsProps {
+interface ApiEntryEditableProps {
   template: any
   entryName: string
   id: number | null
 }
 
-const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
+const ApiEntryEditable: FC<ApiEntryEditableProps> = ({
   template,
   entryName,
   id,
@@ -45,10 +45,10 @@ const ApiEntryDetails: FC<ApiEntryDetailsProps> = ({
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <Details template={template} data={data} onSubmit={apiUpdate} />
+      <Editable template={template} data={data} onSubmit={apiUpdate} />
       <LoadingOverlay visible={status === "loading"} radius="xl" />
     </Stack>
   )
 }
 
-export default ApiEntryDetails
+export default ApiEntryEditable

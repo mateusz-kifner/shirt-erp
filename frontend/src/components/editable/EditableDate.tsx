@@ -14,7 +14,7 @@ import { Copy, Calendar, TrashX, Edit, X } from "../../utils/TablerIcons"
 import dayjs from "dayjs"
 import { SxBorder, SxRadius } from "../../styles/basic"
 
-interface DetailsDateProps {
+interface EditableDateProps {
   label?: string
   value?: string
   initialValue?: string
@@ -23,7 +23,7 @@ interface DetailsDateProps {
   required?: boolean
 }
 
-const DetailsDate: FC<DetailsDateProps> = ({
+const EditableDate: FC<EditableDateProps> = ({
   label,
   value,
   initialValue,
@@ -258,4 +258,4 @@ const DetailsDate: FC<DetailsDateProps> = ({
   )
 }
 
-export default DetailsDate
+export default EditableDate

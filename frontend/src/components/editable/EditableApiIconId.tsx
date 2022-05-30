@@ -13,7 +13,7 @@ import { iconState } from "../../atoms/iconState"
 import { X } from "../../utils/TablerIcons"
 import ApiIconSVG from "../api/ApiIconSVG"
 
-interface DetailsApiIconIdProps {
+interface EditableApiIconIdProps {
   label?: string
   value?: number
   initialValue?: number
@@ -23,7 +23,7 @@ interface DetailsApiIconIdProps {
   entryName?: string
 }
 
-const DetailsApiIconId: FC<DetailsApiIconIdProps> = ({
+const EditableApiIconId: FC<EditableApiIconIdProps> = ({
   label,
   value,
   initialValue,
@@ -116,4 +116,4 @@ const DetailsApiIconId: FC<DetailsApiIconIdProps> = ({
   )
 }
 
-export default DetailsApiIconId
+export default EditableApiIconId

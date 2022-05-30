@@ -3,7 +3,7 @@ import React, { FC } from "react"
 import { FileType } from "../../types/FileType"
 import FileList from "../FileList"
 
-interface DetailsFilesProps {
+interface EditableFilesProps {
   label?: string
   value?: FileType[] | null
   initialValue?: FileType[] | null
@@ -13,7 +13,7 @@ interface DetailsFilesProps {
   maxCount?: number
 }
 
-const DetailsFiles: FC<DetailsFilesProps> = (props) => {
+const EditableFiles: FC<EditableFilesProps> = (props) => {
   const { label, value, initialValue, onSubmit, disabled, required, maxCount } =
     props
   return (
@@ -34,4 +34,4 @@ const DetailsFiles: FC<DetailsFilesProps> = (props) => {
   )
 }
 
-export default DetailsFiles
+export default EditableFiles

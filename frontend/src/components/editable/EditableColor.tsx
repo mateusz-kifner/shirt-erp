@@ -16,7 +16,7 @@ import { ColorSwatch, Copy, Edit } from "../../utils/TablerIcons"
 import { ColorType } from "../../types/ColorType"
 import { SxBorder, SxRadius } from "../../styles/basic"
 
-interface DetailsColorProps {
+interface EditableColorProps {
   label?: string
   value?: ColorType
   initialValue?: ColorType
@@ -29,7 +29,7 @@ interface DetailsColorProps {
   >
 }
 
-const DetailsColor: FC<DetailsColorProps> = (props) => {
+const EditableColor: FC<EditableColorProps> = (props) => {
   const {
     label,
     value,
@@ -242,4 +242,4 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
   )
 }
 
-export default DetailsColor
+export default EditableColor

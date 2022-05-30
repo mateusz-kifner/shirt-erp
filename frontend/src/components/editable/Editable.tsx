@@ -1,37 +1,37 @@
 import { FC } from "react"
 import { Text } from "@mantine/core"
-import DetailsText from "../details/DetailsText"
+import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
-import DetailsRichText from "../details/DetailsRichText"
-import DetailsSecretText from "../details/DetailsSecretText"
-import { useRecoilValue } from "recoil"
-import { loginState } from "../../atoms/loginState"
-import { useId } from "@mantine/hooks"
-import DetailsDateTime from "./DetailsDateTime"
-import DetailsDate from "./DetailsDate"
-import DetailsBool from "./DetailsBool"
-import DetailsColor from "./DetailsColor"
-import DetailsEnum from "./DetailsEnum"
-import DetailsJSON from "./DetailsJSON"
-import DetailsApiIconId from "./DetailsApiIconId"
-import DetailsAddress from "./DetailsAddress"
-import DetailsFiles from "./DetailsFiles"
-import DetailsArray from "./DetailsArray"
-import DetailsApiEntry from "./DetailsApiEntry"
+import EditableRichText from "./EditableRichText"
+import EditableSecretText from "./EditableSecretText"
+import EditableDateTime from "./EditableDateTime"
+import EditableDate from "./EditableDate"
+import EditableBool from "./EditableBool"
+import EditableColor from "./EditableColor"
+import EditableEnum from "./EditableEnum"
+import EditableJSON from "./EditableJSON"
+import EditableApiIconId from "./EditableApiIconId"
+import EditableAddress from "./EditableAddress"
+import EditableFiles from "./EditableFiles"
+import EditableArray from "./EditableArray"
+import EditableApiEntry from "./EditableApiEntry"
+import EditableApiEntryId from "./EditableApiEntryId"
 import UserListItem from "../../pages/erp/users/UserListItem"
 import ClientListItem from "../../pages/erp/clients/ClientListItem"
 import ProductListItem from "../../pages/erp/products/ProductListItem"
-import DetailsApiEntryId from "./DetailsApiEntryId"
+import { useRecoilValue } from "recoil"
+import { loginState } from "../../atoms/loginState"
+import { useId } from "@mantine/hooks"
 import { truncString } from "../../utils/truncString"
 import { makeDefaultListItem } from "../DefaultListItem"
 
-interface DetailsProps {
+interface EditableProps {
   template: { [key: string]: any }
   data: { [key: string]: any }
   onSubmit?: (key: string, value: any) => void
 }
 
-const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
+const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
   const user = useRecoilValue(loginState)
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
@@ -68,7 +68,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
         switch (template[key].type) {
           case "text":
             return (
-              <DetailsText
+              <EditableText
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -77,7 +77,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "richtext":
             return (
-              <DetailsRichText
+              <EditableRichText
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -87,7 +87,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
 
           case "secrettext":
             return (
-              <DetailsSecretText
+              <EditableSecretText
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -96,7 +96,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "datetime":
             return (
-              <DetailsDateTime
+              <EditableDateTime
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -105,7 +105,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "date":
             return (
-              <DetailsDate
+              <EditableDate
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -114,7 +114,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "boolean":
             return (
-              <DetailsBool
+              <EditableBool
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -123,7 +123,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "color":
             return (
-              <DetailsColor
+              <EditableColor
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -132,7 +132,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "enum":
             return (
-              <DetailsEnum
+              <EditableEnum
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -141,7 +141,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "json":
             return (
-              <DetailsJSON
+              <EditableJSON
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -150,7 +150,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "iconId":
             return (
-              <DetailsApiIconId
+              <EditableApiIconId
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -159,7 +159,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "address":
             return (
-              <DetailsAddress
+              <EditableAddress
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -169,7 +169,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
           case "file":
           case "image":
             return (
-              <DetailsFiles
+              <EditableFiles
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -179,7 +179,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             )
           case "files":
             return (
-              <DetailsFiles
+              <EditableFiles
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -190,34 +190,34 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             switch (template[key].arrayType) {
               case "text":
                 return (
-                  <DetailsArray
+                  <EditableArray
                     value={data[key]}
                     {...template[key]}
                     key={uuid + key}
                     onSubmit={onSubmitEntry}
-                    Element={DetailsText}
+                    Element={EditableText}
                   />
                 )
               case "color":
                 return (
-                  <DetailsArray
+                  <EditableArray
                     value={data[key]}
                     {...template[key]}
                     key={uuid + key}
                     onSubmit={onSubmitEntry}
-                    Element={DetailsColor}
+                    Element={EditableColor}
                   />
                 )
               case "apiEntry":
                 switch (template[key].entryName) {
                   case "users":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntry}
+                        Element={EditableApiEntry}
                         elementProps={{
                           entryName: template[key].entryName,
 
@@ -232,12 +232,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                     )
                   case "products":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntry}
+                        Element={EditableApiEntry}
                         elementProps={{
                           entryName: template[key].entryName,
 
@@ -253,12 +253,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                     )
                   case "clients":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntry}
+                        Element={EditableApiEntry}
                         elementProps={{
                           entryName: template[key].entryName,
                           Element: ClientListItem,
@@ -280,12 +280,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                     )
                   case "workstations":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntry}
+                        Element={EditableApiEntry}
                         elementProps={{
                           entryName: template[key].entryName,
                           Element: makeDefaultListItem("name"),
@@ -313,12 +313,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                 switch (template[key].entryName) {
                   case "users":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntryId}
+                        Element={EditableApiEntryId}
                         elementProps={{
                           entryName: template[key].entryName,
 
@@ -333,12 +333,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                     )
                   case "products":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntryId}
+                        Element={EditableApiEntryId}
                         elementProps={{
                           entryName: template[key].entryName,
 
@@ -354,12 +354,12 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                     )
                   case "clients":
                     return (
-                      <DetailsArray
+                      <EditableArray
                         value={data[key]}
                         {...template[key]}
                         key={uuid + key}
                         onSubmit={onSubmitEntry}
-                        Element={DetailsApiEntryId}
+                        Element={EditableApiEntryId}
                         elementProps={{
                           entryName: template[key].entryName,
                           Element: ClientListItem,
@@ -406,7 +406,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             switch (template[key].entryName) {
               case "users":
                 return (
-                  <DetailsApiEntry
+                  <EditableApiEntry
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}
@@ -421,7 +421,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                 )
               case "products":
                 return (
-                  <DetailsApiEntry
+                  <EditableApiEntry
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}
@@ -434,7 +434,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                 )
               case "clients":
                 return (
-                  <DetailsApiEntry
+                  <EditableApiEntry
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}
@@ -466,7 +466,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
             switch (template[key].entryName) {
               case "users":
                 return (
-                  <DetailsApiEntryId
+                  <EditableApiEntryId
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}
@@ -481,7 +481,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                 )
               case "products":
                 return (
-                  <DetailsApiEntryId
+                  <EditableApiEntryId
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}
@@ -494,7 +494,7 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                 )
               case "clients":
                 return (
-                  <DetailsApiEntryId
+                  <EditableApiEntryId
                     value={data[key]}
                     key={uuid + key}
                     {...template[key]}
@@ -538,4 +538,4 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
   )
 }
 
-export default Details
+export default Editable

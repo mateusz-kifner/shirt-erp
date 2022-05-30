@@ -5,7 +5,7 @@ import { FC, useEffect, useRef, useState, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "../../utils/TablerIcons"
 
-interface DetailsTextProps {
+interface EditableTextProps {
   label?: string
   value?: string
   initialValue?: string
@@ -19,7 +19,7 @@ interface DetailsTextProps {
   >
 }
 
-const DetailsText: FC<DetailsTextProps> = (props) => {
+const EditableText: FC<EditableTextProps> = (props) => {
   const {
     label,
     value,
@@ -187,4 +187,4 @@ const DetailsText: FC<DetailsTextProps> = (props) => {
   )
 }
 
-export default DetailsText
+export default EditableText

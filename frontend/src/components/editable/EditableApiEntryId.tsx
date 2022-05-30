@@ -1,9 +1,9 @@
 import { CSSObject } from "@mantine/core"
 import { CSSProperties, FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
-import DetailsApiEntry from "./DetailsApiEntry"
+import EditableApiEntry from "./EditableApiEntry"
 
-interface DetailsApiEntryIdProps {
+interface EditableApiEntryIdProps {
   label?: string
   value?: any
   initialValue?: any
@@ -20,7 +20,7 @@ interface DetailsApiEntryIdProps {
   withErase?: boolean
 }
 
-const DetailsApiEntryId: FC<DetailsApiEntryIdProps> = (props) => {
+const EditableApiEntryId: FC<EditableApiEntryIdProps> = (props) => {
   const {
     label,
     value,
@@ -39,7 +39,7 @@ const DetailsApiEntryId: FC<DetailsApiEntryIdProps> = (props) => {
   const { data } = useStrapi(entryName, value?.id ? value.id : null)
   // const data = null
   return (
-    <DetailsApiEntry
+    <EditableApiEntry
       {...props}
       onSubmit={(value) => onSubmit && onSubmit(value.id)}
       value={value?.id ? data : null}
@@ -47,4 +47,4 @@ const DetailsApiEntryId: FC<DetailsApiEntryIdProps> = (props) => {
   )
 }
 
-export default DetailsApiEntryId
+export default EditableApiEntryId

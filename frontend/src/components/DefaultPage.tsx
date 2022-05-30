@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom"
 
 import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
-import ApiEntryDetails from "./api/ApiEntryDetails"
+import ApiEntryEditable from "./api/ApiEntryEditable"
 import DefaultListItem from "./DefaultListItem"
 import names from "../data/configs/names.json"
 import _ from "lodash"
@@ -55,7 +55,7 @@ const DefaultPage: FC<DefaultPageProps> = ({
         />
       </ResponsivePaper>
       <ResponsivePaper style={{ flexGrow: 1 }}>
-        <ApiEntryDetails template={template} entryName={entryName} id={id} />
+        <ApiEntryEditable template={template} entryName={entryName} id={id} />
       </ResponsivePaper>
     </Group>
   )

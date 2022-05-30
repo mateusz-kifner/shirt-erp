@@ -17,7 +17,7 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 
 const turndownService = new TurndownService()
 
-interface DetailsRichTextProps {
+interface EditableRichTextProps {
   label?: string
   value?: string
   initialValue?: string
@@ -26,7 +26,7 @@ interface DetailsRichTextProps {
   required?: boolean
 }
 
-const DetailsRichText: FC<DetailsRichTextProps> = ({
+const EditableRichText: FC<EditableRichTextProps> = ({
   label,
   value,
   initialValue,
@@ -207,4 +207,4 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
   )
 }
 
-export default DetailsRichText
+export default EditableRichText

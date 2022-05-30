@@ -15,7 +15,7 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 import { Copy, TrashX, X } from "../../utils/TablerIcons"
 import ApiList from "../api/ApiList"
 
-interface DetailsApiEntryProps {
+interface EditableApiEntryProps {
   label?: string
   value?: any
   initialValue?: any
@@ -32,7 +32,7 @@ interface DetailsApiEntryProps {
   withErase?: boolean
 }
 
-const DetailsApiEntry: FC<DetailsApiEntryProps> = (props) => {
+const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
   const {
     label,
     value,
@@ -179,4 +179,4 @@ const DetailsApiEntry: FC<DetailsApiEntryProps> = (props) => {
   )
 }
 
-export default DetailsApiEntry
+export default EditableApiEntry

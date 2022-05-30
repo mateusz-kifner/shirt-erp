@@ -16,7 +16,7 @@ import { Calendar, Clock, Copy } from "../../utils/TablerIcons"
 
 // TODO: make it editable
 
-interface DetailsDateTimeProps {
+interface EditableDateTimeProps {
   label?: string
   value?: string
   initialValue?: Date
@@ -25,7 +25,7 @@ interface DetailsDateTimeProps {
   required?: boolean
 }
 
-const DetailsDateTime: FC<DetailsDateTimeProps> = (props) => {
+const EditableDateTime: FC<EditableDateTimeProps> = (props) => {
   const { label, value, initialValue, onSubmit, disabled, required } = props
   // let new_props = { ...props }
   // delete new_label
@@ -180,4 +180,4 @@ const DetailsDateTime: FC<DetailsDateTimeProps> = (props) => {
   )
 }
 
-export default DetailsDateTime
+export default EditableDateTime

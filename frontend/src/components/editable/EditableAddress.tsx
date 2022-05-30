@@ -13,8 +13,8 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
 import preventLeave from "../../utils/preventLeave"
 import { BuildingCommunity, Copy, Edit, X } from "../../utils/TablerIcons"
-import DetailsEnum from "./DetailsEnum"
-import DetailsText from "./DetailsText"
+import EditableEnum from "./EditableEnum"
+import EditableText from "./EditableText"
 
 const provinces = [
   "dolnośląskie",
@@ -35,7 +35,7 @@ const provinces = [
   "zachodniopomorskie",
 ]
 
-interface DetailsAddressProps {
+interface EditableAddressProps {
   label?: AddressType & { name: string }
   value?: AddressType
   initialValue?: AddressType
@@ -45,7 +45,7 @@ interface DetailsAddressProps {
   maxLength?: number
 }
 
-const DetailsAddress: FC<DetailsAddressProps> = ({
+const EditableAddress: FC<EditableAddressProps> = ({
   label,
   value,
   initialValue,
@@ -144,13 +144,13 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
           sx={[SxBorder, SxRadius]}
           p="md"
         >
-          <DetailsText
+          <EditableText
             label={label?.streetName ? label.streetName : undefined}
             value={value?.streetName ? value.streetName : ""}
             onSubmit={(value) => value && setAddressField("streetName", value)}
           />
           <Group grow={true}>
-            <DetailsText
+            <EditableText
               label={label?.streetNumber ? label.streetNumber : undefined}
               value={value?.streetNumber ? value.streetNumber : ""}
               onSubmit={(value) =>
@@ -158,7 +158,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
               }
               style={{ flexGrow: 1 }}
             />
-            <DetailsText
+            <EditableText
               label={label?.apartmentNumber ? label.apartmentNumber : undefined}
               value={value?.apartmentNumber ? value.apartmentNumber : ""}
               onSubmit={(value) =>
@@ -167,22 +167,22 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
               style={{ flexGrow: 1 }}
             />
           </Group>
-          <DetailsText
+          <EditableText
             label={label?.secondLine ? label.secondLine : undefined}
             value={value?.secondLine ? value.secondLine : ""}
             onSubmit={(value) => value && setAddressField("secondLine", value)}
           />
-          <DetailsText
+          <EditableText
             label={label?.postCode ? label.postCode : undefined}
             value={value?.postCode ? value.postCode : ""}
             onSubmit={(value) => value && setAddressField("postCode", value)}
           />
-          <DetailsText
+          <EditableText
             label={label?.city ? label.city : undefined}
             value={value?.city ? value.city : ""}
             onSubmit={(value) => value && setAddressField("city", value)}
           />
-          <DetailsEnum
+          <EditableEnum
             label={label?.province ? label.province : undefined}
             value={value?.province ? value.province : ""}
             onSubmit={(value) => value && setAddressField("province", value)}
@@ -252,4 +252,4 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
   )
 }
 
-export default DetailsAddress
+export default EditableAddress

@@ -7,7 +7,7 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
 import { Notes } from "../../utils/TablerIcons"
 
-interface DetailsSecretTextProps {
+interface EditableSecretTextProps {
   value?: string
   initialValue?: string
   onSubmit?: (value: string | null) => void
@@ -15,7 +15,7 @@ interface DetailsSecretTextProps {
   maxLength?: number
 }
 
-const DetailsSecretText: FC<DetailsSecretTextProps> = ({
+const EditableSecretText: FC<EditableSecretTextProps> = ({
   value,
   initialValue,
 
@@ -179,4 +179,4 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
   )
 }
 
-export default DetailsSecretText
+export default EditableSecretText

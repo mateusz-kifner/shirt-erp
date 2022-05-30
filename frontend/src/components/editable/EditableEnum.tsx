@@ -4,7 +4,7 @@ import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState } from "react"
 import { Copy } from "../../utils/TablerIcons"
 
-interface DetailsEnumProps {
+interface EditableEnumProps {
   label?: string
   value?: string
   initialValue?: string
@@ -14,7 +14,7 @@ interface DetailsEnumProps {
   enum_data: string[]
 }
 
-const DetailsEnum: FC<DetailsEnumProps> = ({
+const EditableEnum: FC<EditableEnumProps> = ({
   label,
   value,
   initialValue,
@@ -82,4 +82,4 @@ const DetailsEnum: FC<DetailsEnumProps> = ({
   )
 }
 
-export default DetailsEnum
+export default EditableEnum

@@ -2,7 +2,7 @@ import { InputWrapper } from "@mantine/core"
 import { Prism } from "@mantine/prism"
 import { FC } from "react"
 
-interface DetailsJSONProps {
+interface EditableJSONProps {
   label?: string
   value?: string
   initialValue?: Date
@@ -11,7 +11,7 @@ interface DetailsJSONProps {
   required?: boolean
 }
 
-const DetailsJSON: FC<DetailsJSONProps> = ({ value, label }) => {
+const EditableJSON: FC<EditableJSONProps> = ({ value, label }) => {
   return (
     <InputWrapper
       label={label && label.length > 0 ? label : undefined}
@@ -22,4 +22,4 @@ const DetailsJSON: FC<DetailsJSONProps> = ({ value, label }) => {
   )
 }
 
-export default DetailsJSON
+export default EditableJSON

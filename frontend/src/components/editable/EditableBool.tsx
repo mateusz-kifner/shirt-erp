@@ -5,7 +5,7 @@ import { FC, useEffect, useState, useRef } from "react"
 
 // FIXME: respect disabled state
 
-interface DetailsBoolProps {
+interface EditableBoolProps {
   label?: string
   value?: boolean
   initialValue?: boolean
@@ -17,7 +17,7 @@ interface DetailsBoolProps {
   stateLabels: { checked: string; unchecked: string }
 }
 
-const DetailsBool: FC<DetailsBoolProps> = (props) => {
+const EditableBool: FC<EditableBoolProps> = (props) => {
   const {
     label,
     value,
@@ -98,4 +98,4 @@ const DetailsBool: FC<DetailsBoolProps> = (props) => {
   )
 }
 
-export default DetailsBool
+export default EditableBool

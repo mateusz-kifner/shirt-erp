@@ -14,7 +14,7 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import { Plus, TrashX } from "../../utils/TablerIcons"
 
-interface DetailsArrayProps {
+interface EditableArrayProps {
   label?: string
   value?: any[] | null
   initialValue?: any[] | null
@@ -26,7 +26,7 @@ interface DetailsArrayProps {
   elementProps: any
 }
 
-const DetailsArray: FC<DetailsArrayProps> = (props) => {
+const EditableArray: FC<EditableArrayProps> = (props) => {
   const {
     label,
     value,
@@ -114,4 +114,4 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
   )
 }
 
-export default DetailsArray
+export default EditableArray
