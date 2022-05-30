@@ -272,9 +272,11 @@ const FileList: FC<FileListProps> = ({
                     ></div>
                   </>
                 )}
-                <ActionIcon color="red" onClick={() => onRemove(index)}>
-                  <TrashX />
-                </ActionIcon>
+                {!disabled && (
+                  <ActionIcon color="red" onClick={() => onRemove(index)}>
+                    <TrashX />
+                  </ActionIcon>
+                )}
               </Group>
             </div>
             <Text pr="xl">{val?.file?.name}</Text>

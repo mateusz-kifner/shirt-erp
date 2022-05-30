@@ -42,7 +42,7 @@ Content-Type: application/json
 
 GET {{host}}/api/clients?populate=*
 Content-Type: application/json
-# Authorization: Bearer {{authToken}}
+Authorization: Bearer {{authToken}}
 
 ###
 
@@ -115,13 +115,13 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/files/68
+GET {{host}}/api/upload/files/1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/token/68
+GET {{host}}/api/upload/download/1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

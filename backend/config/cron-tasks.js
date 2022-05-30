@@ -3,7 +3,7 @@ const simpleParser = require("mailparser").simpleParser;
 const { Readable } = require("stream");
 
 let mail_lock = 0;
-const FLAG = "ShirtERP3";
+const FLAG = "ShirtERP";
 
 const logDebug = (obj) => {
   return;

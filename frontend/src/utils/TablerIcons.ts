@@ -32,3 +32,6 @@ export { default as Affiliate } from "tabler-icons-react/dist/icons/affiliate.js
 export { default as Robot } from "tabler-icons-react/dist/icons/robot.js"
 export { default as BuildingCommunity } from "tabler-icons-react/dist/icons/building-community.js"
 export { default as Clock } from "tabler-icons-react/dist/icons/clock.js"
+export { default as Mail } from "tabler-icons-react/dist/icons/mail.js"
+export { default as Radioactive } from "tabler-icons-react/dist/icons/radioactive.js"
+export { default as RadioactiveOff } from "tabler-icons-react/dist/icons/radioactive-off.js"

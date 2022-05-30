@@ -1,7 +1,7 @@
 import { DefaultMantineColor } from "@mantine/core"
 import { FC, ReactElement, useEffect, useState } from "react"
 import { Routes as Switch, Route, Navigate } from "react-router-dom"
-import { Bell, Checklist, Crown, Shirt, User } from "./utils/TablerIcons"
+import { Bell, Checklist, Crown, Mail, Shirt, User } from "./utils/TablerIcons"
 import { loginState } from "./atoms/loginState"
 import ClientsPage from "./pages/erp/ClientsPage"
 import DashboardPage from "./pages/erp/DashboardPage"
@@ -21,6 +21,7 @@ import { useRecoilState } from "recoil"
 import { useNetwork } from "@mantine/hooks"
 import ProceduresPage from "./pages/erp/production/ProceduresPage"
 import WorkstationsPage from "./pages/erp/production/WorkstationsPage"
+import EmailMessagesPage from "./pages/erp/EmailMessagesPage"
 
 export const navigationData: {
   label: string
@@ -33,7 +34,7 @@ export const navigationData: {
   { label: "Produkty", icon: <Shirt />, to: "/erp/products", color: "orange" },
   { label: "Klienci", icon: <User />, to: "/erp/clients", color: "lime" },
   { label: "Wydatki", icon: <Bell />, to: "/erp/expenses" },
-  { label: "Pliki", icon: <Bell />, to: "/erp/files" },
+  { label: "Maile", icon: <Mail />, to: "/erp/email-messages" },
   { label: "Logi", icon: <Bell />, to: "/erp/logs" },
   { label: "Zamówienia archiwalne", icon: <Bell />, to: "/erp/orders-archive" },
   { label: "Pracownicy", icon: <Bell />, to: "/erp/users" },
@@ -128,6 +129,10 @@ const Routes: FC = () => {
             <Route path="/erp/orders-archive">
               <Route path=":id" element={<OrdersArchivePage />} />
               <Route path="" element={<OrdersArchivePage />} />
+            </Route>
+            <Route path="/erp/email-messages">
+              <Route path=":id" element={<EmailMessagesPage />} />
+              <Route path="" element={<EmailMessagesPage />} />
             </Route>
             {login.debug && (
               <Route path="/erp/logs">

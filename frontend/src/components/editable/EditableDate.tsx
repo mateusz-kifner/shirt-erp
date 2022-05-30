@@ -13,7 +13,7 @@ import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, X } from "../../utils/TablerIcons"
 import dayjs from "dayjs"
 import { SxBorder, SxRadius } from "../../styles/basic"
-import DisplayCell from "./DisplayCell"
+import DisplayCell from "../details/DisplayCell"
 
 interface EditableDateProps {
   label?: string
