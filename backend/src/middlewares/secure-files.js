@@ -12,6 +12,13 @@ module.exports = (config, { strapi }) => {
       filters: { hash },
     });
     if (file[0]?.public) return next();
+    if (file[0]?.token) {
+      const token = ctx.request.query.token;
+      console.log(file[0]?.token, token);
+      if (token && token === file[0].token) {
+        return next();
+      }
+    }
 
     // auth if user is Employee
     if (ctx?.request?.header?.authorization) {

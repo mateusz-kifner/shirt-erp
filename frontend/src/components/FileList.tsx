@@ -29,6 +29,7 @@ import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
 import isArrayEqual from "../utils/isArrayEqual"
 import { SxBorder, SxRadius } from "../styles/basic"
+import getBase64FromImage from "../utils/getBase64"
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -59,15 +60,6 @@ function ImageUploadIcon({
   }
 
   return <Photo {...props} />
-}
-
-function getBase64(file: File | undefined): Promise<string | null> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file as Blob)
-    reader.onload = () => resolve(reader.result as string | null)
-    reader.onerror = (error) => reject(error)
-  })
 }
 
 interface FilesDataType {
@@ -124,7 +116,7 @@ const FileList: FC<FileListProps> = ({
 
         try {
           isFileImage(file) &&
-            getBase64(file).then((preview) => {
+            getBase64FromImage(file).then((preview) => {
               setFilesData((filesDataValue) => [
                 ...filesDataValue.map((fileDataValue) =>
                   fileDataValue.file.id === fileData.id

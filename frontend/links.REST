@@ -112,3 +112,16 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {"public":true}
+
+###
+
+GET {{host}}/api/upload/files/68
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+GET {{host}}/api/upload/token/68
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
