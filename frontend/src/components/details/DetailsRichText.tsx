@@ -13,6 +13,7 @@ import { Copy, Edit } from "../../utils/TablerIcons"
 import DOMPurify from "dompurify"
 import _ from "lodash"
 import TurndownService from "turndown"
+import { SxBorder, SxRadius } from "../../styles/basic"
 
 const turndownService = new TurndownService()
 
@@ -170,21 +171,23 @@ const DetailsRichText: FC<DetailsRichTextProps> = ({
           <>
             {/* <TypographyStylesProvider> */}
             <Box
-              sx={(theme) => ({
-                width: "100%",
-                border:
-                  theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da",
-                borderRadius: theme.radius.sm,
-                fontSize: theme.fontSizes.sm,
-                minHeight: 36,
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-                padding: "10px 16px",
-                paddingRight: 32,
-                lineHeight: text.trimStart().startsWith("<") ? undefined : 1.55,
-              })}
+              sx={[
+                (theme) => ({
+                  width: "100%",
+
+                  fontSize: theme.fontSizes.sm,
+                  minHeight: 36,
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-line",
+                  padding: "10px 16px",
+                  paddingRight: 32,
+                  lineHeight: text.trimStart().startsWith("<")
+                    ? undefined
+                    : 1.55,
+                }),
+                SxBorder,
+                SxRadius,
+              ]}
               className="plain-html"
               dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
             ></Box>

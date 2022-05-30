@@ -5,11 +5,9 @@ import {
   UnstyledButton,
   useMantineTheme,
   Text,
-  ActionIcon,
 } from "@mantine/core"
 import { FC } from "react"
 import { ClientType } from "../../../types/ClientType"
-import { TrashX } from "../../../utils/TablerIcons"
 import { truncString } from "../../../utils/truncString"
 
 const ClientListItem: FC<{

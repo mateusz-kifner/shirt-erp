@@ -11,6 +11,7 @@ import { useClipboard, useUuid } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
 import { CSSProperties, FC, useEffect, useMemo, useState } from "react"
+import { SxBorder, SxRadius } from "../../styles/basic"
 import { Copy, TrashX, X } from "../../utils/TablerIcons"
 import ApiList from "../api/ApiList"
 
@@ -122,14 +123,13 @@ const DetailsApiEntry: FC<DetailsApiEntryProps> = (props) => {
       {entryName ? (
         <Box
           key={uuid}
-          sx={(theme) => ({
-            border:
-              theme.colorScheme === "dark"
-                ? "1px solid #2C2E33"
-                : "1px solid #ced4da",
-            borderRadius: theme.radius.sm,
-            position: "relative",
-          })}
+          sx={[
+            (theme) => ({
+              position: "relative",
+            }),
+            SxBorder,
+            SxRadius,
+          ]}
         >
           <Element
             onChange={() => {

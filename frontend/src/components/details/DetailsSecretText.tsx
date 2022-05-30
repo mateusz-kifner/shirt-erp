@@ -3,6 +3,7 @@ import { useClickOutside } from "@mantine/hooks"
 import RichTextEditor, { Editor } from "@mantine/rte"
 import DOMPurify from "dompurify"
 import { FC, useEffect, useRef, useState } from "react"
+import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
 import { Notes } from "../../utils/TablerIcons"
 
@@ -108,27 +109,27 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
         >
           {disabled ? (
             <Box
-              sx={(theme) => ({
-                width: "100%",
-                border:
-                  theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da",
-                borderRadius: theme.radius.sm,
-                fontSize: theme.fontSizes.sm,
-                minHeight: 36,
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-                padding: "1px 16px",
-                paddingRight: 32,
-                backgroundColor: active
-                  ? theme.colorScheme === "dark"
-                    ? theme.colors.dark[6]
-                    : theme.colors.gray[0]
-                  : "transparent",
-                height: 400,
-                overflowY: "auto",
-              })}
+              sx={[
+                (theme) => ({
+                  width: "100%",
+
+                  fontSize: theme.fontSizes.sm,
+                  minHeight: 36,
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-line",
+                  padding: "1px 16px",
+                  paddingRight: 32,
+                  backgroundColor: active
+                    ? theme.colorScheme === "dark"
+                      ? theme.colors.dark[6]
+                      : theme.colors.gray[0]
+                    : "transparent",
+                  height: 400,
+                  overflowY: "auto",
+                }),
+                SxBorder,
+                SxRadius,
+              ]}
               dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
             ></Box>
           ) : (
@@ -155,20 +156,20 @@ const DetailsSecretText: FC<DetailsSecretTextProps> = ({
       {!active && (
         <ActionIcon
           radius="xl"
-          sx={(theme) => ({
-            position: "absolute",
-            right: -12,
-            bottom: -12,
-            zIndex: 10,
-            border:
-              theme.colorScheme === "dark"
-                ? "1px solid #2C2E33"
-                : "1px solid #ced4da",
-            backgroundColor:
-              theme.colorScheme === "dark"
-                ? theme.colors.dark[7]
-                : theme.colors.gray[0],
-          })}
+          sx={[
+            (theme) => ({
+              position: "absolute",
+              right: -12,
+              bottom: -12,
+              zIndex: 10,
+
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[7]
+                  : theme.colors.gray[0],
+            }),
+            SxBorder,
+          ]}
           onClick={() => setActive(true)}
         >
           <Notes size={18} />

@@ -10,6 +10,7 @@ import {
 import { useUuid } from "@mantine/hooks"
 import _ from "lodash"
 import { FC, useEffect, useState } from "react"
+import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import { Plus, TrashX } from "../../utils/TablerIcons"
 
@@ -58,14 +59,13 @@ const DetailsArray: FC<DetailsArrayProps> = (props) => {
   return (
     <InputWrapper label={label} required={required}>
       <Stack
-        sx={(theme) => ({
-          border:
-            theme.colorScheme === "dark"
-              ? "1px solid #2C2E33"
-              : "1px solid #ced4da",
-          borderRadius: theme.radius.sm,
-          padding: theme.spacing.sm,
-        })}
+        sx={[
+          (theme) => ({
+            padding: theme.spacing.sm,
+          }),
+          SxBorder,
+          SxRadius,
+        ]}
       >
         {items.map((val, index) => {
           return (

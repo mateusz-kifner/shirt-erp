@@ -28,6 +28,7 @@ import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
 import isArrayEqual from "../utils/isArrayEqual"
+import { SxBorder, SxRadius } from "../styles/basic"
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -209,15 +210,15 @@ const FileList: FC<FileListProps> = ({
       </Modal>
       <Stack
         p="md"
-        sx={(theme) => ({
-          width: "100%",
-          border:
-            theme.colorScheme === "dark"
-              ? "1px solid #2C2E33"
-              : "1px solid #ced4da",
-          borderRadius: theme.radius.md,
-          backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
-        })}
+        sx={[
+          (theme) => ({
+            width: "100%",
+
+            backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
+          }),
+          SxBorder,
+          SxRadius,
+        ]}
       >
         {filesData.map((val: FilesDataType, index: number) => (
           <Group key={uuid + "_" + val.file.id + "_" + val.file.name}>

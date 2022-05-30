@@ -12,6 +12,7 @@ import { FC, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, X } from "../../utils/TablerIcons"
 import dayjs from "dayjs"
+import { SxBorder, SxRadius } from "../../styles/basic"
 
 interface DetailsDateProps {
   label?: string
@@ -163,22 +164,21 @@ const DetailsDate: FC<DetailsDateProps> = ({
         />
       ) : (
         <Text
-          sx={(theme) => ({
-            width: "100%",
-            border:
-              theme.colorScheme === "dark"
-                ? "1px solid #2C2E33"
-                : "1px solid #ced4da",
-            borderRadius: theme.radius.sm,
-            fontSize: theme.fontSizes.sm,
-            minHeight: 36,
-            wordBreak: "break-word",
-            whiteSpace: "pre-line",
-            padding: "10px 16px",
-            paddingRight: 32,
-            lineHeight: 1.55,
-            paddingLeft: 36,
-          })}
+          sx={[
+            (theme) => ({
+              width: "100%",
+              fontSize: theme.fontSizes.sm,
+              minHeight: 36,
+              wordBreak: "break-word",
+              whiteSpace: "pre-line",
+              padding: "10px 16px",
+              paddingRight: 32,
+              lineHeight: 1.55,
+              paddingLeft: 36,
+            }),
+            SxBorder,
+            SxRadius,
+          ]}
         >
           <Calendar
             color="#adb5bd"

@@ -10,6 +10,7 @@ import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
 import { FC, useEffect, useRef, useState } from "react"
+import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
 import { Calendar, Clock, Copy } from "../../utils/TablerIcons"
 
@@ -152,22 +153,22 @@ const DetailsDateTime: FC<DetailsDateTimeProps> = (props) => {
       ) : (
         <Group
           spacing="xs"
-          sx={(theme) => ({
-            width: "100%",
-            border:
-              theme.colorScheme === "dark"
-                ? "1px solid #2C2E33"
-                : "1px solid #ced4da",
-            borderRadius: theme.radius.sm,
-            fontSize: theme.fontSizes.sm,
-            minHeight: 36,
-            wordBreak: "break-word",
-            whiteSpace: "pre-line",
-            padding: "10px 10px",
-            paddingRight: 32,
-            lineHeight: 1.55,
-            // paddingLeft: 36,
-          })}
+          sx={[
+            (theme) => ({
+              width: "100%",
+
+              fontSize: theme.fontSizes.sm,
+              minHeight: 36,
+              wordBreak: "break-word",
+              whiteSpace: "pre-line",
+              padding: "10px 10px",
+              paddingRight: 32,
+              lineHeight: 1.55,
+              // paddingLeft: 36,
+            }),
+            SxBorder,
+            SxRadius,
+          ]}
         >
           <Calendar color="#adb5bd" size={18} />
           {date ? dayjs(date).format("L").toString() : "⸺"}

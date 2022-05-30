@@ -9,6 +9,7 @@ import {
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState } from "react"
+import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
 import preventLeave from "../../utils/preventLeave"
 import { BuildingCommunity, Copy, Edit, X } from "../../utils/TablerIcons"
@@ -140,13 +141,7 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
       {active ? (
         <Stack
           style={{ position: "relative" }}
-          sx={(theme) => ({
-            border:
-              theme.colorScheme === "dark"
-                ? "1px solid #2C2E33"
-                : "1px solid #ced4da",
-            borderRadius: theme.radius.sm,
-          })}
+          sx={[SxBorder, SxRadius]}
           p="md"
         >
           <DetailsText
@@ -210,22 +205,22 @@ const DetailsAddress: FC<DetailsAddressProps> = ({
       ) : (
         <div style={{ position: "relative" }}>
           <Text
-            sx={(theme) => ({
-              width: "100%",
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
-              borderRadius: theme.radius.sm,
-              fontSize: theme.fontSizes.sm,
-              minHeight: 36,
-              wordBreak: "break-word",
-              whiteSpace: "pre-line",
-              padding: "10px 16px",
-              paddingRight: 32,
-              lineHeight: 1.55,
-              paddingLeft: 36,
-            })}
+            sx={[
+              (theme) => ({
+                width: "100%",
+
+                fontSize: theme.fontSizes.sm,
+                minHeight: 36,
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                padding: "10px 16px",
+                paddingRight: 32,
+                lineHeight: 1.55,
+                paddingLeft: 36,
+              }),
+              SxBorder,
+              SxRadius,
+            ]}
           >
             <BuildingCommunity
               color="#adb5bd"

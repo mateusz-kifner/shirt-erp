@@ -14,6 +14,7 @@ import { FC, useEffect, useState, useRef, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ColorSwatch, Copy, Edit } from "../../utils/TablerIcons"
 import { ColorType } from "../../types/ColorType"
+import { SxBorder, SxRadius } from "../../styles/basic"
 
 interface DetailsColorProps {
   label?: string
@@ -183,36 +184,36 @@ const DetailsColor: FC<DetailsColorProps> = (props) => {
         ) : (
           <>
             <Text
-              sx={(theme) => ({
-                width: "100%",
-                border:
-                  theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da",
-                borderRadius: theme.radius.sm,
-                fontSize: theme.fontSizes.sm,
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-                padding: "10px 16px",
-                paddingRight: 32,
-                minHeight: 36,
-                lineHeight: 1.55,
-                paddingLeft: 36,
-                "&:before": {
-                  content: "''",
-                  position: "absolute",
-                  height: 24,
-                  width: 24,
-                  top: 9,
-                  left: 6,
-                  backgroundColor: color.hex ? color.hex : undefined,
-                  borderRadius: "100%",
-                  border:
-                    theme.colorScheme === "dark"
-                      ? "1px solid #2C2E33"
-                      : "1px solid #ced4da",
-                },
-              })}
+              sx={[
+                (theme) => ({
+                  width: "100%",
+
+                  fontSize: theme.fontSizes.sm,
+                  wordBreak: "break-word",
+                  whiteSpace: "pre-line",
+                  padding: "10px 16px",
+                  paddingRight: 32,
+                  minHeight: 36,
+                  lineHeight: 1.55,
+                  paddingLeft: 36,
+                  "&:before": {
+                    content: "''",
+                    position: "absolute",
+                    height: 24,
+                    width: 24,
+                    top: 9,
+                    left: 6,
+                    backgroundColor: color.hex ? color.hex : undefined,
+                    borderRadius: "100%",
+                    border:
+                      theme.colorScheme === "dark"
+                        ? "1px solid #2C2E33"
+                        : "1px solid #ced4da",
+                  },
+                }),
+                SxBorder,
+                SxRadius,
+              ]}
             >
               {/* <ColorSwatch
                 color="#adb5bd"
