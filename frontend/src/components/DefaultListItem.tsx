@@ -27,7 +27,11 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
   entryKey,
 }) => {
   const theme = useMantineTheme()
-  const firstElement = entryKey ? value[entryKey] : value[Object.keys(value)[0]]
+  const firstElement = value
+    ? entryKey
+      ? value[entryKey]
+      : value[Object.keys(value)[0]]
+    : null
   return (
     <UnstyledButton
       sx={{
@@ -48,12 +52,20 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
       onClick={() => onChange && onChange(value)}
     >
       <Group>
-        <Avatar radius="xl"></Avatar>
-        <Box sx={{ flex: 1 }}>
+        {value ? (
+          <>
+            <Avatar radius="xl"></Avatar>
+            <Box sx={{ flex: 1 }}>
+              <Text size="sm" weight={500}>
+                {firstElement && truncString(firstElement, 40)}
+              </Text>
+            </Box>
+          </>
+        ) : (
           <Text size="sm" weight={500}>
-            {firstElement && truncString(firstElement, 40)}
+            Brak
           </Text>
-        </Box>
+        )}
       </Group>
     </UnstyledButton>
   )

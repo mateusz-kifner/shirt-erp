@@ -23,8 +23,10 @@
     "entryName": "workstations"
   },
   "nextWorkstations": {
-    "label": "Następne stanowisko",
-    "type": "workstations"
+    "label": "Następne stanowiska",
+    "type": "array",
+    "arrayType": "apiEntry",
+    "entryName": "workstations"
   },
   "createdAt": {
     "label": "Utworzono",

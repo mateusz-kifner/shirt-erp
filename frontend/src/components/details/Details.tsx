@@ -23,6 +23,7 @@ import ClientListItem from "../../pages/erp/clients/ClientListItem"
 import ProductListItem from "../../pages/erp/products/ProductListItem"
 import DetailsApiEntryId from "./DetailsApiEntryId"
 import { truncString } from "../../utils/truncString"
+import { makeDefaultListItem } from "../DefaultListItem"
 
 interface DetailsProps {
   template: { [key: string]: any }
@@ -272,6 +273,26 @@ const Details: FC<DetailsProps> = ({ template, data, onSubmit }) => {
                                   value?.username ? value.username : "",
                                   40
                                 ),
+
+                          withErase: false,
+                        }}
+                      />
+                    )
+                  case "workstations":
+                    return (
+                      <DetailsArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={DetailsApiEntry}
+                        elementProps={{
+                          entryName: template[key].entryName,
+                          Element: makeDefaultListItem("name"),
+                          copyProvider: (value: any) =>
+                            value?.name && value.name?.length > 0
+                              ? truncString(value.name, 40)
+                              : "",
 
                           withErase: false,
                         }}

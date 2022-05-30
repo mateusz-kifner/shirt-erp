@@ -1,12 +1,6 @@
 import { DefaultMantineColor } from "@mantine/core"
 import { FC, ReactElement, useEffect, useState } from "react"
-import { useQuery } from "react-query"
-import {
-  // BrowserRouter as Router,
-  Routes as Switch,
-  Route,
-  Navigate,
-} from "react-router-dom"
+import { Routes as Switch, Route, Navigate } from "react-router-dom"
 import { Bell, Checklist, Crown, Shirt, User } from "./utils/TablerIcons"
 import { loginState } from "./atoms/loginState"
 import ClientsPage from "./pages/erp/clients/ClientsPage"

@@ -23,6 +23,12 @@ export default defineConfig({
             type: "image/png",
           },
           {
+            src: "/shirterp-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+          {
             src: "/shirterp-384x384.png",
             sizes: "384x384",
             type: "image/png",
