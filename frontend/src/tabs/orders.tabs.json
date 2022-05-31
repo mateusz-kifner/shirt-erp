@@ -1,0 +1,18 @@
+{
+  "entry": {
+    "label": "Dane",
+    "type": "entry"
+  },
+  "tabels": {
+    "label": "Tabele",
+    "type": "calc"
+  },
+  "preview": {
+    "label": "Płótno",
+    "type": "canvas"
+  },
+  "email": {
+    "label": "Maile",
+    "type": "mail"
+  }
+}

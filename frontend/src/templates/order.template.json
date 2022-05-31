@@ -23,9 +23,8 @@
   },
   "notes": {
     "label": "Notatki",
-    "type": "text",
-    "initialValue": "",
-    "multiline": true
+    "type": "richtext",
+    "initialValue": ""
   },
   "price": {
     "label": "Cena",
@@ -57,9 +56,8 @@
   },
   "secretNotes": {
     "label": "Sekretne notatki",
-    "type": "text",
-    "initialValue": "",
-    "hidden": true
+    "type": "secrettext",
+    "initialValue": ""
   },
   "files": {
     "label": "Pliki",

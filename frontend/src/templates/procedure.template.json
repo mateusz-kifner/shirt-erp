@@ -11,8 +11,7 @@
   "description": {
     "label": "Opis",
     "type": "text",
-    "initialValue": "",
-    "multiline": true
+    "initialValue": ""
   },
   "workstations": {
     "label": "Kroki",
