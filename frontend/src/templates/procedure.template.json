@@ -14,14 +14,17 @@
     "initialValue": ""
   },
   "workstations": {
-    "label": "Kroki",
-    "type": "workstationsIds",
-    "initialValue": []
+    "label": "Stanowiska",
+    "type": "array",
+    "arrayType": "apiEntryId",
+    "entryName": "workstations"
   },
-  "icon": {
-    "label": "Ikona",
-    "type": "image"
+  "graph": {
+    "label": "Graph",
+    "type": "graph",
+    "reference": "workstations"
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",

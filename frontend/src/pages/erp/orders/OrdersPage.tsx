@@ -1,16 +1,30 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
 
 import template from "../../../templates/order.template.json"
 import OrderListItem from "../../../components/list_items/OrderListItem"
 import DefaultPage from "../../../components/DefaultPage"
+import CalcTable from "../../../components/CalcTable"
+import * as XLSX from "xlsx"
 
 const OrdersPage: FC = () => {
+  // const presidents = [
+  //   { name: "George Washington", birthday: "1732-02-22" },
+  //   { name: "John Adams", birthday: "1735-10-19" },
+  //   // ... one row per President
+  // ]
+  // useEffect(() => {
+  //   const worksheet = XLSX.utils.json_to_sheet(presidents)
+  //   const workbook = XLSX.utils.book_new()
+  //   XLSX.utils.book_append_sheet(workbook, worksheet, "Dates")
+  //   // XLSX.writeFile(workbook, "Presidents.xlsx")
+  // })
   return (
-    <DefaultPage
-      template={template}
-      ListElement={OrderListItem}
-      entryName="orders"
-    />
+    <CalcTable />
+    // <DefaultPage
+    //   template={template}
+    //   ListElement={OrderListItem}
+    //   entryName="orders"
+    // />
   )
 }
 

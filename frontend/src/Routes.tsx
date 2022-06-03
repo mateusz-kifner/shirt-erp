@@ -60,7 +60,7 @@ const Routes: FC = () => {
   }, [isAuthenticated])
 
   useEffect(() => {
-    if (login.jwt !== undefined && login.jwt.length > 0) {
+    if (login?.jwt !== undefined && login?.jwt.length > 0) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + login.jwt
       setIsAuthenticated(true)
     } else {

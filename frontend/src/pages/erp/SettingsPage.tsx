@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react"
+import { FC, useState } from "react"
 import {
   Button,
   ColorScheme,
@@ -7,14 +7,11 @@ import {
   Modal,
   Paper,
   Stack,
-  ThemeIcon,
-  Text,
 } from "@mantine/core"
 import { Affiliate, Bug, Logout, MoonStars, Sun } from "../../utils/TablerIcons"
 import { loginState } from "../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import template from "../../templates/test.template.json"
-import FileList from "../../components/FileList"
 import Editable from "../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
 import { Link } from "react-router-dom"

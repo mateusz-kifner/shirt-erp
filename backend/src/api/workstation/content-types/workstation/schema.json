@@ -22,12 +22,10 @@
     "iconId": {
       "type": "integer"
     },
-    "workstations": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::workstation.workstation"
-    },
     "pluginConfig": {
+      "type": "json"
+    },
+    "workstations": {
       "type": "json"
     }
   }

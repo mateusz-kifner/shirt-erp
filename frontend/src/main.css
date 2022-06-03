@@ -64,3 +64,22 @@ body {
   text-decoration: underline;
 
 }
+
+
+.test{
+  background-color: aqua;
+  outline: 6px solid #000;
+  position: relative;
+}
+
+.test::after {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background-color: #373A40;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translate(0,-50%);
+  border-radius: 100%;
+}

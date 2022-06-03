@@ -12,11 +12,6 @@
     "type": "text",
     "initialValue": ""
   },
-  "numberOfJobs": {
-    "label": "Ilość stanowisk",
-    "type": "number",
-    "initialValue": 0
-  },
   "iconId": {
     "label": "Ikona",
     "type": "iconId",
@@ -27,6 +22,11 @@
     "type": "array",
     "arrayType": "apiEntry",
     "entryName": "workstations"
+  },
+  "pluginConfig": {
+    "label": "Wtyczki",
+    "type": "array",
+    "arrayType": "text"
   },
   "createdAt": {
     "label": "Utworzono",

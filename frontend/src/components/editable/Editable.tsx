@@ -24,6 +24,7 @@ import { loginState } from "../../atoms/loginState"
 import { useId } from "@mantine/hooks"
 import { truncString } from "../../utils/truncString"
 import { makeDefaultListItem } from "../DefaultListItem"
+import EditableGraph from "./EditableGraph"
 
 interface EditableProps {
   template: { [key: string]: any }
@@ -180,6 +181,15 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
           case "files":
             return (
               <EditableFiles
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
+                onSubmit={onSubmitEntry}
+              />
+            )
+          case "graph":
+            return (
+              <EditableGraph
                 value={data[key]}
                 {...template[key]}
                 key={uuid + key}
@@ -374,6 +384,26 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                                   value?.username ? value.username : "",
                                   40
                                 ),
+
+                          withErase: false,
+                        }}
+                      />
+                    )
+                  case "workstations":
+                    return (
+                      <EditableArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={EditableApiEntryId}
+                        elementProps={{
+                          entryName: template[key].entryName,
+                          Element: makeDefaultListItem("name"),
+                          copyProvider: (value: any) =>
+                            value?.name && value.name?.length > 0
+                              ? truncString(value.name, 40)
+                              : "",
 
                           withErase: false,
                         }}

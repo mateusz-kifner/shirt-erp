@@ -17,6 +17,9 @@
     },
     "description": {
       "type": "text"
+    },
+    "graph": {
+      "type": "json"
     }
   }
 }
