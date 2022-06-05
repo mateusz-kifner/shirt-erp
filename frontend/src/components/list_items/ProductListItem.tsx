@@ -10,11 +10,13 @@ import { FC } from "react"
 import ApiIconSVG from "../../components/api/ApiIconSVG"
 import { ProductType } from "../../types/ProductType"
 import convert from "color-convert"
+import { Link } from "react-router-dom"
 
 const ProductListItem: FC<{
   onChange?: (product: Partial<ProductType>) => void
   value: Partial<ProductType>
-}> = ({ value, onChange }) => {
+  linkTo?: (val: any) => string
+}> = ({ value, onChange, linkTo }) => {
   const theme = useMantineTheme()
 
   return (
@@ -35,6 +37,9 @@ const ProductListItem: FC<{
         },
       }}
       onClick={() => onChange && onChange(value)}
+      // @ts-ignore
+      component={linkTo ? Link : undefined}
+      to={linkTo ? linkTo(value) : ""}
     >
       <Group>
         {value ? (

@@ -21,6 +21,7 @@ interface ApiListProps {
   spacing?: MantineNumberSize
   withSeparators?: boolean
   onChange?: (val: any) => void
+  listItemProps?: any
 }
 
 const ApiList: FC<ApiListProps> = ({
@@ -31,6 +32,7 @@ const ApiList: FC<ApiListProps> = ({
   spacing = "md",
   withSeparators = false,
   onChange = (val: any) => {},
+  listItemProps = {},
 }) => {
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch } = useStrapiList(entryName, page)
@@ -91,7 +93,7 @@ const ApiList: FC<ApiListProps> = ({
                     : undefined,
               }}
             >
-              <ListItem value={val} onChange={onChange} />
+              <ListItem value={val} onChange={onChange} {...listItemProps} />
             </Box>
           ))}
       </Stack>

@@ -1,6 +1,6 @@
-import { DefaultMantineColor } from "@mantine/core"
+import { DefaultMantineColor, Group } from "@mantine/core"
 import { FC, ReactElement, useEffect, useState } from "react"
-import { Routes as Switch, Route, Navigate } from "react-router-dom"
+import { Routes as Switch, Route, Navigate, Outlet } from "react-router-dom"
 import { Bell, Checklist, Crown, Mail, Shirt, User } from "./utils/TablerIcons"
 import { loginState } from "./atoms/loginState"
 import ClientsPage from "./pages/erp/ClientsPage"
@@ -12,7 +12,7 @@ import LoggerPage from "./pages/erp/LoggerPage"
 import LoginPage from "./pages/LoginPage"
 import OrdersPage from "./pages/erp/orders/OrdersPage"
 import OrdersArchivePage from "./pages/erp/OrdersArchivePage"
-import ProductsPage from "./pages/erp/ProductsPage"
+import ProductsPage from "./pages/erp/products/ProductsPage"
 import SettingsPage from "./pages/erp/SettingsPage"
 import TasksPage from "./pages/erp/TasksPage"
 import UsersPage from "./pages/erp/UsersPage"
@@ -22,6 +22,9 @@ import { useNetwork } from "@mantine/hooks"
 import ProceduresPage from "./pages/erp/production/ProceduresPage"
 import WorkstationsPage from "./pages/erp/production/WorkstationsPage"
 import EmailMessagesPage from "./pages/erp/EmailMessagesPage"
+import ProductEditable from "./pages/erp/products/ProductEditable"
+import ProductsList from "./pages/erp/products/ProductsList"
+import ResponsivePaper from "./components/ResponsivePaper"
 
 export const navigationData: {
   label: string
@@ -94,9 +97,35 @@ const Routes: FC = () => {
               <Route path=":id" element={<OrdersPage />} />
               <Route path="" element={<OrdersPage />} />
             </Route>
-            <Route path="/erp/products">
-              <Route path=":id" element={<ProductsPage />} />
-              <Route path="" element={<ProductsPage />} />
+            <Route
+              path="/erp/products"
+              element={
+                <Group
+                  sx={(theme) => ({
+                    flexWrap: "nowrap",
+                    alignItems: "flex-start",
+                    padding: theme.spacing.xl,
+                    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+                      padding: 0,
+                    },
+                  })}
+                >
+                  <ResponsivePaper>
+                    <ProductsList />
+                  </ResponsivePaper>
+                  <Outlet />
+                </Group>
+              }
+            >
+              <Route
+                path=":id"
+                element={
+                  <ResponsivePaper style={{ flexGrow: 1 }}>
+                    <ProductEditable />
+                  </ResponsivePaper>
+                }
+              />
+              {/* <Route path="" /> */}
             </Route>
             <Route path="/erp/clients">
               <Route path=":id" element={<ClientsPage />} />

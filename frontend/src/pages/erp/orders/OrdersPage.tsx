@@ -5,8 +5,15 @@ import OrderListItem from "../../../components/list_items/OrderListItem"
 import DefaultPage from "../../../components/DefaultPage"
 import CalcTable from "../../../components/CalcTable"
 import * as XLSX from "xlsx"
+import EditableTable from "../../../components/editable/EditableTable"
+import { atom, useRecoilState } from "recoil"
 
+const sheetState = atom<any>({
+  key: "sheet",
+  default: [[{ value: null }]],
+})
 const OrdersPage: FC = () => {
+  const [sheet, setSheet] = useRecoilState(sheetState)
   // const presidents = [
   //   { name: "George Washington", birthday: "1732-02-22" },
   //   { name: "John Adams", birthday: "1735-10-19" },
@@ -18,8 +25,17 @@ const OrdersPage: FC = () => {
   //   XLSX.utils.book_append_sheet(workbook, worksheet, "Dates")
   //   // XLSX.writeFile(workbook, "Presidents.xlsx")
   // })
+  console.log(sheet)
+
   return (
-    <CalcTable />
+    // <CalcTable />
+    <EditableTable
+      value={sheet}
+      onSubmit={(data) => {
+        setSheet(data)
+        console.log(data)
+      }}
+    />
     // <DefaultPage
     //   template={template}
     //   ListElement={OrderListItem}
