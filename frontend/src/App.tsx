@@ -88,7 +88,7 @@ const App = () => {
               padding={0}
               navbarOffsetBreakpoint="sm"
               fixed
-              navbar={<Navigation opened={opened} setOpened={setOpened} />}
+              // navbar={<Navigation opened={opened} setOpened={setOpened} />}
               header={<Header navOpened={opened} setNavOpened={setOpened} />}
               styles={(theme: MantineTheme) => ({
                 main: {

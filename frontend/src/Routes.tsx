@@ -1,5 +1,5 @@
 import { DefaultMantineColor, Group } from "@mantine/core"
-import { FC, ReactElement, useEffect, useState } from "react"
+import { ComponentType, FC, ReactElement, useEffect, useState } from "react"
 import { Routes as Switch, Route, Navigate, Outlet } from "react-router-dom"
 import { Bell, Checklist, Crown, Mail, Shirt, User } from "./utils/TablerIcons"
 import { loginState } from "./atoms/loginState"
@@ -28,19 +28,19 @@ import ResponsivePaper from "./components/ResponsivePaper"
 
 export const navigationData: {
   label: string
-  icon: ReactElement<any, any>
+  Icon: ComponentType
   to: string
   color?: DefaultMantineColor
 }[] = [
-  { label: "Zadania", icon: <Checklist />, to: "/erp/tasks", color: "green" },
-  { label: "Zamówienia", icon: <Crown />, to: "/erp/orders", color: "blue" },
-  { label: "Produkty", icon: <Shirt />, to: "/erp/products", color: "orange" },
-  { label: "Klienci", icon: <User />, to: "/erp/clients", color: "lime" },
-  { label: "Wydatki", icon: <Bell />, to: "/erp/expenses" },
-  { label: "Maile", icon: <Mail />, to: "/erp/email-messages" },
-  { label: "Logi", icon: <Bell />, to: "/erp/logs" },
-  { label: "Zamówienia archiwalne", icon: <Bell />, to: "/erp/orders-archive" },
-  { label: "Pracownicy", icon: <Bell />, to: "/erp/users" },
+  { label: "Zadania", Icon: Checklist, to: "/erp/tasks", color: "green" },
+  { label: "Zamówienia", Icon: Crown, to: "/erp/orders", color: "blue" },
+  { label: "Produkty", Icon: Shirt, to: "/erp/products", color: "orange" },
+  { label: "Klienci", Icon: User, to: "/erp/clients", color: "lime" },
+  { label: "Wydatki", Icon: Bell, to: "/erp/expenses" },
+  { label: "Maile", Icon: Mail, to: "/erp/email-messages" },
+  { label: "Logi", Icon: Bell, to: "/erp/logs" },
+  { label: "Zamówienia archiwalne", Icon: Bell, to: "/erp/orders-archive" },
+  { label: "Pracownicy", Icon: Bell, to: "/erp/users" },
 ]
 
 const Routes: FC = () => {

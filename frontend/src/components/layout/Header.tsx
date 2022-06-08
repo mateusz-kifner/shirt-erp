@@ -69,7 +69,7 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
               // }}
             />
           </Group>
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Autocomplete
               placeholder="Search"
               radius="xl"
@@ -121,20 +121,20 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
                 },
               })}
             />
-          </MediaQuery>
+          </MediaQuery> */}
           <Group>
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <ActionIcon
-                size="lg"
-                radius="xl"
-                disabled
-                color={theme.colorScheme === "dark" ? "gray" : "dark"}
-                variant={theme.colorScheme === "dark" ? "default" : "filled"}
-                styles={ActionButtonHeaderStyle}
-              >
-                <Search />
-              </ActionIcon>
-            </MediaQuery>
+            {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}> */}
+            <ActionIcon
+              size="lg"
+              radius="xl"
+              disabled
+              color={theme.colorScheme === "dark" ? "gray" : "dark"}
+              variant={theme.colorScheme === "dark" ? "default" : "filled"}
+              styles={ActionButtonHeaderStyle}
+            >
+              <Search />
+            </ActionIcon>
+            {/* </MediaQuery> */}
             <ActionIcon
               size="lg"
               radius="xl"
