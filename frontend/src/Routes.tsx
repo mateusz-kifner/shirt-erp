@@ -25,6 +25,9 @@ import EmailMessagesPage from "./pages/erp/EmailMessagesPage"
 import ProductEditable from "./pages/erp/products/ProductEditable"
 import ProductsList from "./pages/erp/products/ProductsList"
 import ResponsivePaper from "./components/ResponsivePaper"
+import AdvancedWorkspace from "./components/AdvancedWorkspace"
+import ExpensesList from "./pages/erp/expenses/ExpensesList"
+import ExpenseEditable from "./pages/erp/expenses/ExpenseEditable"
 
 export const navigationData: {
   label: string
@@ -139,9 +142,15 @@ const Routes: FC = () => {
               <Route path=":id" element={<WorkstationsPage />} />
               <Route path="" element={<WorkstationsPage />} />
             </Route>
-            <Route path="/erp/expenses">
-              <Route path=":id" element={<ExpensesPage />} />
-              <Route path="" element={<ExpensesPage />} />
+            <Route
+              path="/erp/expenses"
+              element={
+                <AdvancedWorkspace navigation={<ExpensesList />}>
+                  <Outlet />
+                </AdvancedWorkspace>
+              }
+            >
+              <Route path=":id" element={<ExpenseEditable />} />
             </Route>
             <Route path="/erp/files">
               <Route path=":id" element={<FilesPage />} />
