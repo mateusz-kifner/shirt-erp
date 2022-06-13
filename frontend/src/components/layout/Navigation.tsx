@@ -13,7 +13,7 @@ import {
 import { useLocalStorage, useMediaQuery } from "@mantine/hooks"
 import { FC, ReactElement, Ref, SyntheticEvent, useState } from "react"
 import { Link } from "react-router-dom"
-import { navigationData } from "../../Routes"
+// import { navigationData } from "../../Routes"
 import { ChevronRight, ChevronLeft } from "../../utils/TablerIcons"
 
 interface NavigationProps {
@@ -28,60 +28,59 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
     defaultValue: false,
   })
 
-  return (
-    <Navbar
-      hiddenBreakpoint="sm"
-      hidden={!opened}
-      width={{ base: "100%", sm: navSmall ? 75 : 300 }}
-      px="sm"
-    >
-      <ScrollArea>
-        <Stack
-          m={0}
-          py="md"
-          justify="space-between"
-          style={{
-            minHeight: "calc(100vh - var(--mantine-header-height))",
-          }}
-        >
-          <Stack>
-            {navigationData.map((val, index) => (
-              <NavButton
-                {...val}
-                key={"navbar_" + val.label}
-                onClick={(e: any) => {
-                  setOpened && setOpened(false)
-                }}
-                small={navSmall && biggerThanSM}
-              />
-            ))}
-          </Stack>
-          {biggerThanSM && (
-            <Box
-              sx={(theme) => ({
-                paddingTop: theme.spacing.md,
-                borderTop: `1px solid ${
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[4]
-                    : theme.colors.gray[2]
-                }`,
-              })}
-            >
-              <Group position="center">
-                <ActionIcon
-                  size="xl"
-                  radius="xl"
-                  onClick={() => setNavSmall((val) => !val)}
-                >
-                  {navSmall ? <ChevronRight /> : <ChevronLeft />}
-                </ActionIcon>
-              </Group>
-            </Box>
-          )}
-        </Stack>
-      </ScrollArea>
-    </Navbar>
-  )
+  return null
+  // <Navbar
+  //   hiddenBreakpoint="sm"
+  //   hidden={!opened}
+  //   width={{ base: "100%", sm: navSmall ? 75 : 300 }}
+  //   px="sm"
+  // >
+  //   <ScrollArea>
+  //     <Stack
+  //       m={0}
+  //       py="md"
+  //       justify="space-between"
+  //       style={{
+  //         minHeight: "calc(100vh - var(--mantine-header-height))",
+  //       }}
+  //     >
+  //       <Stack>
+  //         {navigationData.map((val, index) => (
+  //           <NavButton
+  //             {...val}
+  //             key={"navbar_" + val.label}
+  //             onClick={(e: any) => {
+  //               setOpened && setOpened(false)
+  //             }}
+  //             small={navSmall && biggerThanSM}
+  //           />
+  //         ))}
+  //       </Stack>
+  //       {biggerThanSM && (
+  //         <Box
+  //           sx={(theme) => ({
+  //             paddingTop: theme.spacing.md,
+  //             borderTop: `1px solid ${
+  //               theme.colorScheme === "dark"
+  //                 ? theme.colors.dark[4]
+  //                 : theme.colors.gray[2]
+  //             }`,
+  //           })}
+  //         >
+  //           <Group position="center">
+  //             <ActionIcon
+  //               size="xl"
+  //               radius="xl"
+  //               onClick={() => setNavSmall((val) => !val)}
+  //             >
+  //               {navSmall ? <ChevronRight /> : <ChevronLeft />}
+  //             </ActionIcon>
+  //           </Group>
+  //         </Box>
+  //       )}
+  //     </Stack>
+  //   </ScrollArea>
+  // </Navbar>
 }
 
 export const NavButton: FC<{

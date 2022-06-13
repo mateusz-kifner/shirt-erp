@@ -1,13 +1,54 @@
-import { ActionIcon, Box, Group, Paper, Stack, Title } from "@mantine/core"
-import React, { FC, ReactNode, useEffect, useRef, useState } from "react"
+import {
+  ActionIcon,
+  Box,
+  DefaultMantineColor,
+  Group,
+  Paper,
+  Stack,
+  Title,
+} from "@mantine/core"
+import React, {
+  ComponentType,
+  FC,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { useSearchParams } from "react-router-dom"
 import { ArrowLeft } from "tabler-icons-react"
 import { getTransitionStyles } from "../mantine/get-transition-styles"
 import { useTransition } from "../mantine/useTransition"
-import { navigationData } from "../Routes"
+import ProductsList from "../pages/erp/products/ProductsList"
 import { Compass } from "../utils/TablerIcons"
+import { Bell, Checklist, Crown, Mail, Shirt, User } from "../utils/TablerIcons"
+
 import NavBar from "./layout/NavBar"
 import { NavButton } from "./layout/NavButton"
+
+export const navigationData: {
+  label: string
+  Icon: ComponentType
+  to: string
+  color?: DefaultMantineColor
+  SecondNavigation?: ComponentType
+}[] = [
+  {
+    label: "Zadania",
+    Icon: Checklist,
+    to: "/erp/tasks",
+    color: "green",
+    SecondNavigation: ProductsList,
+  },
+  { label: "Zamówienia", Icon: Crown, to: "/erp/orders", color: "blue" },
+  { label: "Produkty", Icon: Shirt, to: "/erp/products", color: "orange" },
+  { label: "Klienci", Icon: User, to: "/erp/clients", color: "lime" },
+  { label: "Wydatki", Icon: Bell, to: "/erp/expenses" },
+  { label: "Maile", Icon: Mail, to: "/erp/email-messages" },
+  { label: "Logi", Icon: Bell, to: "/erp/logs" },
+  { label: "Zamówienia archiwalne", Icon: Bell, to: "/erp/orders-archive" },
+  { label: "Pracownicy", Icon: Bell, to: "/erp/users" },
+]
 
 const slideRightInverse = {
   in: { transform: "translateX(-100%)" },
@@ -17,10 +58,10 @@ const slideRightInverse = {
 }
 
 interface AdvancedNavigationProps {
-  navigation: ReactNode
+  // navigation: ReactNode
 }
 
-const AdvancedNavigation: FC<AdvancedNavigationProps> = ({ navigation }) => {
+const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
   const [showSecondNav, setShowSecondNav] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const [navBarIndependent, setNavIndependent] = useState<boolean>(false)
@@ -89,12 +130,11 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({ navigation }) => {
                   {...val}
                   key={"navbar_" + val.label}
                   to={val.to + "?second_nav=1"}
-                  // onClick={(e: any) => {
-
-                  //   // e.preventDefault()
-                  //   // !navBarIndependent && setShowSecondNav(true)
-                  //   // setOpened && setOpened(false)
-                  // }}
+                  onClick={(e: any) => {
+                    e.preventDefault()
+                    // !navBarIndependent && setShowSecondNav(true)
+                    // setOpened && setOpened(false)
+                  }}
                 />
               ))}
             </Stack>
@@ -125,7 +165,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({ navigation }) => {
               >
                 <ArrowLeft size={32} />
               </ActionIcon>
-              {navigation}
+              {}
             </Stack>
           </Paper>
         </Box>
@@ -150,7 +190,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({ navigation }) => {
             <ActionIcon variant="hover" onClick={() => setShowSecondNav(false)}>
               <ArrowLeft size={32} />
             </ActionIcon>
-            {navigation}
+            {}
           </Stack>
         </NavBar>
       )}

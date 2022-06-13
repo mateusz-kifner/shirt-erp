@@ -8,11 +8,17 @@ import {
   Paper,
   Stack,
 } from "@mantine/core"
-import { Affiliate, Bug, Logout, MoonStars, Sun } from "../../utils/TablerIcons"
-import { loginState } from "../../atoms/loginState"
+import {
+  Affiliate,
+  Bug,
+  Logout,
+  MoonStars,
+  Sun,
+} from "../../../utils/TablerIcons"
+import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
-import template from "../../models/test.model.json"
-import Editable from "../../components/editable/Editable"
+import template from "../../../models/test.model.json"
+import Editable from "../../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
 import { Link } from "react-router-dom"
 import { useLocalStorage, useColorScheme } from "@mantine/hooks"

@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from "react-router-dom"
 
 import ResponsivePaper from "./ResponsivePaper"
 import NavBar from "./layout/NavBar"
-import { navigationData } from "../Routes"
+// import { navigationData } from "../Routes"
 import { NavButton } from "./layout/NavButton"
 import { Compass } from "../utils/TablerIcons"
 import { ArrowLeft } from "tabler-icons-react"
@@ -79,7 +79,7 @@ const AdvancedWorkspace: FC<AdvancedWorkspaceProps> = (props) => {
 
   return (
     <div style={{ display: "flex", minWidth: "100%" }}>
-      <Group spacing={0}>
+      {/* <Group spacing={0}>
         <NavBar
           onPin={setNavBarPin1}
           setIndependent={(state) => {
@@ -191,7 +191,7 @@ const AdvancedWorkspace: FC<AdvancedWorkspaceProps> = (props) => {
           </NavBar>
         )}
         <div style={{ width: navWidth }}></div>
-      </Group>
+      </Group> */}
       {children &&
         Children.map(
           children,

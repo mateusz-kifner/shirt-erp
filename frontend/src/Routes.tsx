@@ -1,50 +1,30 @@
-import { DefaultMantineColor, Group } from "@mantine/core"
-import { ComponentType, FC, ReactElement, useEffect, useState } from "react"
+import { Group } from "@mantine/core"
+import { FC, useEffect, useState } from "react"
 import { Routes as Switch, Route, Navigate, Outlet } from "react-router-dom"
-import { Bell, Checklist, Crown, Mail, Shirt, User } from "./utils/TablerIcons"
 import { loginState } from "./atoms/loginState"
-import ClientsPage from "./pages/erp/ClientsPage"
-import DashboardPage from "./pages/erp/DashboardPage"
+import ClientsPage from "./pages/erp/clients/ClientsPage"
+import DashboardPage from "./pages/erp/dashboard/DashboardPage"
 import ErrorPage from "./pages/ErrorPage"
-import ExpensesPage from "./pages/erp/ExpensesPage"
-import FilesPage from "./pages/erp/FilesPage"
-import LoggerPage from "./pages/erp/LoggerPage"
+import FilesPage from "./pages/erp/files/FilesPage"
+import LoggerPage from "./pages/erp/logs/LoggerPage"
 import LoginPage from "./pages/LoginPage"
 import OrdersPage from "./pages/erp/orders/OrdersPage"
-import OrdersArchivePage from "./pages/erp/OrdersArchivePage"
-import ProductsPage from "./pages/erp/products/ProductsPage"
-import SettingsPage from "./pages/erp/SettingsPage"
-import TasksPage from "./pages/erp/TasksPage"
-import UsersPage from "./pages/erp/UsersPage"
+import OrdersArchivePage from "./pages/erp/orders-archive/OrdersArchivePage"
+import SettingsPage from "./pages/erp/settings/SettingsPage"
+import TasksPage from "./pages/erp/tasks/TasksPage"
+import UsersPage from "./pages/erp/users/UsersPage"
 import axios from "axios"
 import { useRecoilState } from "recoil"
 import { useNetwork } from "@mantine/hooks"
 import ProceduresPage from "./pages/erp/production/ProceduresPage"
 import WorkstationsPage from "./pages/erp/production/WorkstationsPage"
-import EmailMessagesPage from "./pages/erp/EmailMessagesPage"
+import EmailMessagesPage from "./pages/erp/email-messages/EmailMessagesPage"
 import ProductEditable from "./pages/erp/products/ProductEditable"
 import ProductsList from "./pages/erp/products/ProductsList"
 import ResponsivePaper from "./components/ResponsivePaper"
 import AdvancedWorkspace from "./components/AdvancedWorkspace"
 import ExpensesList from "./pages/erp/expenses/ExpensesList"
 import ExpenseEditable from "./pages/erp/expenses/ExpenseEditable"
-
-export const navigationData: {
-  label: string
-  Icon: ComponentType
-  to: string
-  color?: DefaultMantineColor
-}[] = [
-  { label: "Zadania", Icon: Checklist, to: "/erp/tasks", color: "green" },
-  { label: "Zamówienia", Icon: Crown, to: "/erp/orders", color: "blue" },
-  { label: "Produkty", Icon: Shirt, to: "/erp/products", color: "orange" },
-  { label: "Klienci", Icon: User, to: "/erp/clients", color: "lime" },
-  { label: "Wydatki", Icon: Bell, to: "/erp/expenses" },
-  { label: "Maile", Icon: Mail, to: "/erp/email-messages" },
-  { label: "Logi", Icon: Bell, to: "/erp/logs" },
-  { label: "Zamówienia archiwalne", Icon: Bell, to: "/erp/orders-archive" },
-  { label: "Pracownicy", Icon: Bell, to: "/erp/users" },
-]
 
 const Routes: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)

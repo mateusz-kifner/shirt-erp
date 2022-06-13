@@ -1,14 +1,14 @@
-import template from "../../models/client.model.json"
-import ClientListItem from "../../components/list_items/ClientListItem"
+import template from "../../../models/client.model.json"
+import ClientListItem from "../../../components/list_items/ClientListItem"
 
 import { FC, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
-import names from "../../models/names.json"
+import names from "../../../models/names.json"
 import _ from "lodash"
-import ApiList from "../../components/api/ApiList"
-import ApiEntryEditable from "../../components/api/ApiEntryEditable"
-import AdvancedWorkspace from "../../components/AdvancedWorkspace"
+import ApiList from "../../../components/api/ApiList"
+import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
+import AdvancedWorkspace from "../../../components/AdvancedWorkspace"
 
 const entryName = "clients"
 
