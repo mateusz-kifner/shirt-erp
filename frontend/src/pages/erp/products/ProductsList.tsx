@@ -12,7 +12,7 @@ interface ProductsListProps {
   // children?: ReactNode
 }
 
-const ProductsList: FC<ProductsListProps> = ({}) => {
+const ProductsList: FC = () => {
   const [id, setId] = useState<number | null>(null)
   const navigate = useNavigate()
   const params = useParams()
@@ -20,24 +20,22 @@ const ProductsList: FC<ProductsListProps> = ({}) => {
     if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
   })
   return (
-    <>
-      <ApiList
-        ListItem={ProductListItem}
-        entryName={entryName}
-        // @ts-ignore
-        label={_.capitalize(names[entryName].plural)}
-        spacing="xl"
-        listSpacing="sm"
-        onChange={(val: any) => {
-          console.log(val)
-          setId(val.id)
-          navigate("/erp/" + entryName + "/" + val.id)
-        }}
-        listItemProps={{
-          linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
-        }}
-      />
-    </>
+    <ApiList
+      ListItem={ProductListItem}
+      entryName={entryName}
+      // @ts-ignore
+      label={_.capitalize(names[entryName].plural)}
+      spacing="xl"
+      listSpacing="sm"
+      onChange={(val: any) => {
+        console.log(val)
+        setId(val.id)
+        navigate("/erp/" + entryName + "/" + val.id)
+      }}
+      listItemProps={{
+        linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
+      }}
+    />
   )
 }
 

@@ -15,21 +15,27 @@ import React, {
   useRef,
   useState,
 } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowLeft } from "tabler-icons-react"
 import { getTransitionStyles } from "../mantine/get-transition-styles"
 import { useTransition } from "../mantine/useTransition"
 import ProductsList from "../pages/erp/products/ProductsList"
 import { Compass } from "../utils/TablerIcons"
 import { Bell, Checklist, Crown, Mail, Shirt, User } from "../utils/TablerIcons"
+import ApiList from "./api/ApiList"
+import { makeDefaultListItem } from "./DefaultListItem"
 
 import NavBar from "./layout/NavBar"
 import { NavButton } from "./layout/NavButton"
+import _ from "lodash"
+import names from "../models/names.json"
+import ClientsList from "../pages/erp/clients/ClientList"
 
-export const navigationData: {
+const navigationData: {
   label: string
   Icon: ComponentType
   to: string
+  entryName?: string
   color?: DefaultMantineColor
   SecondNavigation?: ComponentType
 }[] = [
@@ -37,17 +43,53 @@ export const navigationData: {
     label: "Zadania",
     Icon: Checklist,
     to: "/erp/tasks",
+    entryName: "tasks",
     color: "green",
     SecondNavigation: ProductsList,
   },
-  { label: "Zamówienia", Icon: Crown, to: "/erp/orders", color: "blue" },
-  { label: "Produkty", Icon: Shirt, to: "/erp/products", color: "orange" },
-  { label: "Klienci", Icon: User, to: "/erp/clients", color: "lime" },
-  { label: "Wydatki", Icon: Bell, to: "/erp/expenses" },
-  { label: "Maile", Icon: Mail, to: "/erp/email-messages" },
-  { label: "Logi", Icon: Bell, to: "/erp/logs" },
-  { label: "Zamówienia archiwalne", Icon: Bell, to: "/erp/orders-archive" },
-  { label: "Pracownicy", Icon: Bell, to: "/erp/users" },
+  {
+    label: "Zamówienia",
+    Icon: Crown,
+    to: "/erp/orders",
+    entryName: "orders",
+    color: "blue",
+  },
+  {
+    label: "Produkty",
+    Icon: Shirt,
+    to: "/erp/products",
+    entryName: "products",
+    color: "orange",
+    SecondNavigation: ProductsList,
+  },
+  {
+    label: "Klienci",
+    Icon: User,
+    to: "/erp/clients",
+    entryName: "clients",
+    color: "lime",
+    SecondNavigation: ClientsList,
+  },
+  {
+    label: "Wydatki",
+    Icon: Bell,
+    to: "/erp/expenses",
+    entryName: "expenses",
+  },
+  {
+    label: "Maile",
+    Icon: Mail,
+    to: "/erp/email-messages",
+    entryName: "email",
+  },
+  { label: "Logi", Icon: Bell, to: "/erp/logs", entryName: "logs" },
+  {
+    label: "Zamówienia archiwalne",
+    Icon: Bell,
+    to: "/erp/orders-archive",
+    entryName: "orders-archive",
+  },
+  { label: "Pracownicy", Icon: Bell, to: "/erp/users", entryName: "users" },
 ]
 
 const slideRightInverse = {
@@ -62,12 +104,14 @@ interface AdvancedNavigationProps {
 }
 
 const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
+  const [secondNavId, setSecoundNav] = useState<number | null>(null)
   const [showSecondNav, setShowSecondNav] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useSearchParams()
   const [navBarIndependent, setNavIndependent] = useState<boolean>(false)
   const [navBarPin1, setNavBarPin1] = useState<boolean>(false)
   const [navBarPin2, setNavBarPin2] = useState<boolean>(false)
   const mounted = useRef(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     mounted.current = true
@@ -85,6 +129,12 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
     (navBarIndependent ? 160 : 80) +
     (navBarPin1 ? 260 : 0) +
     (navBarPin2 ? 260 : 0)
+
+  const SecondNav = secondNavId
+    ? navigationData[secondNavId]?.SecondNavigation
+      ? navigationData[secondNavId].SecondNavigation
+      : null
+    : null
 
   return (
     <Group spacing={0}>
@@ -132,7 +182,29 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                   to={val.to + "?second_nav=1"}
                   onClick={(e: any) => {
                     e.preventDefault()
-                    // !navBarIndependent && setShowSecondNav(true)
+                    val.SecondNavigation && setSecoundNav(index)
+                    // : val.entryName &&
+                    //   setSecoundNav(() => (
+                    //     <ApiList
+                    //       // @ts-ignore
+                    //       ListItem={makeDefaultListItem(val.entryName)}
+                    //       // @ts-ignore
+                    //       entryName={val.entryName}
+                    //       // @ts-ignore
+                    //       label={_.capitalize(names[val.entryName].plural)}
+                    //       spacing="xl"
+                    //       listSpacing="sm"
+                    //       onChange={(val: any) => {
+                    //         console.log(val)
+                    //         navigate("/erp/" + val.entryName + "/" + val.id)
+                    //       }}
+                    //       listItemProps={{
+                    //         linkTo: (val: any) =>
+                    //           "/erp/" + val.entryName + "/" + val.id,
+                    //       }}
+                    //     />
+                    //   ))
+                    !navBarIndependent && setShowSecondNav(true)
                     // setOpened && setOpened(false)
                   }}
                 />
@@ -165,7 +237,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
               >
                 <ArrowLeft size={32} />
               </ActionIcon>
-              {}
+              {SecondNav && <SecondNav />}
             </Stack>
           </Paper>
         </Box>
@@ -190,7 +262,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
             <ActionIcon variant="hover" onClick={() => setShowSecondNav(false)}>
               <ArrowLeft size={32} />
             </ActionIcon>
-            {}
+            {SecondNav && <SecondNav />}
           </Stack>
         </NavBar>
       )}

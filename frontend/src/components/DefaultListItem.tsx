@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Box,
-  Group,
-  UnstyledButton,
-  Text,
-  useMantineTheme,
-} from "@mantine/core"
+import { Avatar, Box, Group, UnstyledButton, Text } from "@mantine/core"
 import { FC } from "react"
 import { truncString } from "../utils/truncString"
 
@@ -13,11 +6,12 @@ interface DefaultListItemProps {
   onChange?: (item: any) => void
   value: any
   entryKey?: string
+  highlight?: boolean
 }
 
 export const makeDefaultListItem = (entryKey: string) => {
-  return ({ value, onChange }: DefaultListItemProps) => (
-    <DefaultListItem value={value} onChange={onChange} entryKey={entryKey} />
+  return (props: Omit<DefaultListItemProps, "entryKey">) => (
+    <DefaultListItem {...props} entryKey={entryKey} />
   )
 }
 
@@ -25,8 +19,8 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
   value,
   onChange,
   entryKey,
+  highlight,
 }) => {
-  const theme = useMantineTheme()
   const firstElement = value
     ? entryKey
       ? value[entryKey]
@@ -34,21 +28,25 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
     : null
   return (
     <UnstyledButton
-      sx={{
+      sx={(theme) => ({
         display: "block",
         width: "100%",
         padding: theme.spacing.xs,
         borderRadius: theme.radius.sm,
         color:
           theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-
+        backgroundColor: highlight
+          ? theme.colorScheme === "dark"
+            ? theme.colors.dark[6]
+            : theme.colors.gray[0]
+          : undefined,
         "&:hover": {
           backgroundColor:
             theme.colorScheme === "dark"
               ? theme.colors.dark[6]
               : theme.colors.gray[0],
         },
-      }}
+      })}
       onClick={() => onChange && onChange(value)}
     >
       <Group>

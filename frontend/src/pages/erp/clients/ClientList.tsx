@@ -7,9 +7,7 @@ import names from "../../../models/names.json"
 
 const entryName = "clients"
 
-interface ClientsListProps {}
-
-const ClientsList: FC<ClientsListProps> = ({}) => {
+const ClientsList: FC = () => {
   const [id, setId] = useState<number | null>(null)
   const navigate = useNavigate()
   const params = useParams()

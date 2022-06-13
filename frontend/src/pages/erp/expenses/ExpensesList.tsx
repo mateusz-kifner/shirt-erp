@@ -19,24 +19,22 @@ const ExpensesList: FC<ExpensesListProps> = ({}) => {
     if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
   })
   return (
-    <>
-      <ApiList
-        ListItem={ExpenseListItem}
-        entryName={entryName}
-        // @ts-ignore
-        label={_.capitalize(names[entryName].plural)}
-        spacing="xl"
-        listSpacing="sm"
-        onChange={(val: any) => {
-          console.log(val)
-          setId(val.id)
-          navigate("/erp/" + entryName + "/" + val.id)
-        }}
-        listItemProps={{
-          linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
-        }}
-      />
-    </>
+    <ApiList
+      ListItem={ExpenseListItem}
+      entryName={entryName}
+      // @ts-ignore
+      label={_.capitalize(names[entryName].plural)}
+      spacing="xl"
+      listSpacing="sm"
+      onChange={(val: any) => {
+        console.log(val)
+        setId(val.id)
+        navigate("/erp/" + entryName + "/" + val.id)
+      }}
+      listItemProps={{
+        linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
+      }}
+    />
   )
 }
 
