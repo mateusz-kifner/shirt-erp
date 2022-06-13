@@ -7,12 +7,12 @@ import {
   Text,
 } from "@mantine/core"
 import { FC } from "react"
-import { ExpenseType } from "../../types/ExpenseType"
-import { truncString } from "../../utils/truncString"
+import { OrderType } from "../../../types/OrderType"
+import { truncString } from "../../../utils/truncString"
 
-const ExpenseListItem: FC<{
-  onChange?: (expense: Partial<ExpenseType>) => void
-  value: Partial<ExpenseType>
+const OrderListItem: FC<{
+  onChange?: (item: Partial<OrderType>) => void
+  value: Partial<OrderType>
 }> = ({ value, onChange }) => {
   const theme = useMantineTheme()
 
@@ -25,7 +25,6 @@ const ExpenseListItem: FC<{
         borderRadius: theme.radius.sm,
         color:
           theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-
         "&:hover": {
           backgroundColor:
             theme.colorScheme === "dark"
@@ -36,20 +35,20 @@ const ExpenseListItem: FC<{
       onClick={() => onChange && onChange(value)}
     >
       <Group>
+        {value && (
+          <Avatar radius="xl">
+            {value?.name && value.name.substring(0, 2)}
+          </Avatar>
+        )}
         {value ? (
-          <>
-            <Avatar radius="xl">
-              {value.name?.substring(0, 2).toUpperCase()}
-            </Avatar>
-            <Box sx={{ flex: 1 }}>
-              <Text size="sm" weight={500}>
-                {value.name && truncString(value.name, 40)}
-              </Text>
-              <Text color="dimmed" size="xs">
-                {value.price && value.price} zł
-              </Text>
-            </Box>
-          </>
+          <Box sx={{ flex: 1 }}>
+            <Text size="sm" weight={500}>
+              {value?.name && truncString(value.name, 20)}
+            </Text>
+            <Text color="dimmed" size="xs">
+              {value?.status && truncString(value.status, 20)}
+            </Text>
+          </Box>
         ) : (
           <Text size="sm" weight={500} style={{ flexGrow: 1 }}>
             Brak
@@ -60,4 +59,4 @@ const ExpenseListItem: FC<{
   )
 }
 
-export default ExpenseListItem
+export default OrderListItem

@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react"
 
 import template from "../../../models/order.model.json"
-import OrderListItem from "../../../components/list_items/OrderListItem"
+import OrderListItem from "./OrderListItem"
 import DefaultPage from "../../../components/DefaultPage"
 import CalcTable from "../../../components/CalcTable"
 import * as XLSX from "xlsx"

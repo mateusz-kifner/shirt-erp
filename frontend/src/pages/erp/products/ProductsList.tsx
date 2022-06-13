@@ -2,7 +2,7 @@ import React, { FC, ReactNode, useEffect, useState } from "react"
 import { Outlet, useNavigate, useParams } from "react-router-dom"
 import ApiList from "../../../components/api/ApiList"
 import DefaultListItem from "../../../components/DefaultListItem"
-import ProductListItem from "../../../components/list_items/ProductListItem"
+import ProductListItem from "./ProductListItem"
 import _ from "lodash"
 import names from "../../../models/names.json"
 

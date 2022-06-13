@@ -22,6 +22,7 @@ interface ApiListProps {
   withSeparators?: boolean
   onChange?: (val: any) => void
   listItemProps?: any
+  entryId?: number | null
 }
 
 const ApiList: FC<ApiListProps> = ({
@@ -33,6 +34,7 @@ const ApiList: FC<ApiListProps> = ({
   withSeparators = false,
   onChange = (val: any) => {},
   listItemProps = {},
+  entryId,
 }) => {
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch } = useStrapiList(entryName, page)
@@ -93,7 +95,12 @@ const ApiList: FC<ApiListProps> = ({
                     : undefined,
               }}
             >
-              <ListItem value={val} onChange={onChange} {...listItemProps} />
+              <ListItem
+                value={val}
+                onChange={onChange}
+                {...listItemProps}
+                highlight={val.id === entryId}
+              />
             </Box>
           ))}
       </Stack>

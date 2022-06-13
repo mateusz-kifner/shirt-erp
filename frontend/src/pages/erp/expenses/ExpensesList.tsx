@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import ApiList from "../../../components/api/ApiList"
-import ExpenseListItem from "../../../components/list_items/ExpenseListItem"
+import ExpenseListItem from "./ExpenseListItem"
 import _ from "lodash"
 import names from "../../../models/names.json"
 

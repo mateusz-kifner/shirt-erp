@@ -27,7 +27,7 @@ const slideRightInverse = {
 
 interface AdvancedWorkspaceProps {
   children: ReactNode
-  navigation: ReactNode
+  navigation?: ReactNode
 }
 
 const AdvancedWorkspace: FC<AdvancedWorkspaceProps> = (props) => {

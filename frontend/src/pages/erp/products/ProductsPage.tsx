@@ -1,6 +1,6 @@
 import { FC } from "react"
 import DefaultPage from "../../../components/DefaultPage"
-import ProductListItem from "../../../components/list_items/ProductListItem"
+import ProductListItem from "./ProductListItem"
 
 import template from "../../../models/product.model.json"
 

@@ -16,15 +16,15 @@ import EditableFiles from "./EditableFiles"
 import EditableArray from "./EditableArray"
 import EditableApiEntry from "./EditableApiEntry"
 import EditableApiEntryId from "./EditableApiEntryId"
-import UserListItem from "../list_items/UserListItem"
-import ClientListItem from "../list_items/ClientListItem"
-import ProductListItem from "../list_items/ProductListItem"
+import ClientListItem from "../../pages/erp/clients/ClientListItem"
 import { useRecoilValue } from "recoil"
 import { loginState } from "../../atoms/loginState"
 import { useId } from "@mantine/hooks"
 import { truncString } from "../../utils/truncString"
 import { makeDefaultListItem } from "../DefaultListItem"
 import EditableGraph from "./EditableGraph"
+import ProductListItem from "../../pages/erp/products/ProductListItem"
+import UserListItem from "../../pages/erp/users/UserListItem"
 
 interface EditableProps {
   template: { [key: string]: any }
