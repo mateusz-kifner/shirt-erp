@@ -19,6 +19,8 @@ import localizedFormat from "dayjs/plugin/localizedFormat"
 import isToday from "dayjs/plugin/isToday"
 import Navigation from "./components/layout/Navigation"
 import Header from "./components/layout/Header"
+import AdvancedNavigation from "./components/AdvancedNavigation"
+import ProductsList from "./pages/erp/products/ProductsList"
 
 dayjs.locale("pl")
 dayjs.extend(localizedFormat)
@@ -88,6 +90,7 @@ const App = () => {
               padding={0}
               navbarOffsetBreakpoint="sm"
               fixed
+              navbar={<AdvancedNavigation navigation={<ProductsList />} />}
               // navbar={<Navigation opened={opened} setOpened={setOpened} />}
               header={<Header navOpened={opened} setNavOpened={setOpened} />}
               styles={(theme: MantineTheme) => ({
