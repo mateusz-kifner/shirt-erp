@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react"
 
-import template from "../../../templates/order.template.json"
+import template from "../../../models/order.model.json"
 import OrderListItem from "../../../components/list_items/OrderListItem"
 import DefaultPage from "../../../components/DefaultPage"
 import CalcTable from "../../../components/CalcTable"
@@ -52,10 +52,10 @@ export default OrdersPage
 // import ApiList from "../../../components/api/ApiList"
 // import { useNavigate } from "react-router-dom"
 // import OrderListItem from "../../../components/list_items/OrderListItem"
-// import names from "../../../templates/names.json"
+// import names from "../../../models/names.json"
 // import _ from "lodash"
 // import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
-// import template from "../../../templates/order.template.json"
+// import template from "../../../models/order.model.json"
 
 // const entryName = "orders"
 

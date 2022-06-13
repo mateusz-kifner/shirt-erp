@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
-import template from "../../../templates/expense.template.json"
+import template from "../../../models/expense.model.json"
 
 const entryName = "expenses"
 

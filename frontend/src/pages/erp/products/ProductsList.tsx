@@ -4,7 +4,7 @@ import ApiList from "../../../components/api/ApiList"
 import DefaultListItem from "../../../components/DefaultListItem"
 import ProductListItem from "../../../components/list_items/ProductListItem"
 import _ from "lodash"
-import names from "../../../templates/names.json"
+import names from "../../../models/names.json"
 
 const entryName = "products"
 

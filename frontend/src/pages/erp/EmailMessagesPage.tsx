@@ -7,7 +7,7 @@ import ResponsivePaper from "../../components/ResponsivePaper"
 import DefaultListItem, {
   makeDefaultListItem,
 } from "../../components/DefaultListItem"
-import names from "../../templates/names.json"
+import names from "../../models/names.json"
 import _ from "lodash"
 import useStrapi from "../../hooks/useStrapi"
 import DOMPurify from "dompurify"
