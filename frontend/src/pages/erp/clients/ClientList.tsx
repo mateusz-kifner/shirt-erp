@@ -18,8 +18,11 @@ const ClientsList: FC = () => {
     <ApiList
       ListItem={ClientListItem}
       entryName={entryName}
-      // @ts-ignore
-      label={_.capitalize(names[entryName].plural)}
+      label={
+        entryName && entryName in names
+          ? _.capitalize(names[entryName as keyof typeof names].plural)
+          : undefined
+      }
       spacing="xl"
       listSpacing="sm"
       entryId={id}

@@ -47,8 +47,11 @@ const EmailMessagesPage: FC = () => {
         <ApiList
           ListItem={ListElem}
           entryName={entryName}
-          // @ts-ignore
-          label={_.capitalize(names[entryName].plural)}
+          label={
+            entryName && entryName in names
+              ? _.capitalize(names[entryName as keyof typeof names].plural)
+              : undefined
+          }
           spacing="xl"
           listSpacing="sm"
           onChange={(val: any) => {

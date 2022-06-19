@@ -50,7 +50,7 @@ const NavBar: FC<NavBarProps> = ({
               position: "absolute",
               top: 0,
               right: 0,
-              width: pin ? 0 : theme.spacing.xs,
+              width: pin || width === widthFolded ? 0 : theme.spacing.xs,
               height: "100%",
 
               backgroundColor:
@@ -78,6 +78,7 @@ const NavBar: FC<NavBarProps> = ({
             {children}
 
             <ActionIcon
+              tabIndex={-1}
               style={{ position: "absolute", right: 8, top: 8, zIndex: 9999 }}
               radius="xl"
               onClick={() => {

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom"
 
 interface NavButtonProps {
   label: string
-  Icon?: ComponentType
+  Icon?: ComponentType<any>
   to: any
   color?: DefaultMantineColor
   gradient?: MantineGradient
@@ -65,8 +65,6 @@ export const NavButton: FC<NavButtonProps> = ({
               size="xl"
               radius="xl"
             >
-              {/*
-          // @ts-ignore */}
               <Icon size={32} />
             </ThemeIcon>
           ) : (

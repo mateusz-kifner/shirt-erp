@@ -1,4 +1,4 @@
-export const handleBlurForInnerElements = (callback: () => void) => {
+export const handleFocusForInnerElements = (callback: () => void) => {
   return (e: React.FocusEvent<any, Element>) => {
     const currentTarget = e.currentTarget
 
@@ -6,7 +6,7 @@ export const handleBlurForInnerElements = (callback: () => void) => {
     setTimeout(() => {
       // console.log(document.activeElement)
       // Check if the new activeElement is a child of the original container
-      if (!currentTarget.contains(document.activeElement)) {
+      if (currentTarget.contains(document.activeElement)) {
         // You can invoke a callback or add custom logic here
         callback()
       }

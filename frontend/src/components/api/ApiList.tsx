@@ -43,9 +43,9 @@ const ApiList: FC<ApiListProps> = ({
   return (
     <Stack spacing={spacing}>
       <Stack>
-        <Group position="apart">
+        {/* <Group position="apart">
           <Title order={2}>{label}</Title>
-          {/* <Group spacing="xs">
+          <Group spacing="xs">
             <ActionIcon
               size="lg"
               radius="xl"
@@ -57,22 +57,22 @@ const ApiList: FC<ApiListProps> = ({
             <ActionIcon size="lg" radius="xl" variant="default">
               <Plus />
             </ActionIcon>
-          </Group> */}
-        </Group>
-        <Group spacing="xs">
-          <Autocomplete
-            placeholder="Search"
-            radius="xl"
-            size="md"
-            icon={<Search />}
-            data={[]}
-            style={{ flexGrow: 1 }}
-          />
+          </Group> 
+        </Group>*/}
+        <Group spacing="md" px="sm">
           <Group>
             <ActionIcon size="lg" radius="xl" variant="default">
               <SortAscending />
             </ActionIcon>
           </Group>
+          <Autocomplete
+            placeholder="Search"
+            radius="xl"
+            // size="md"
+            icon={<Search />}
+            data={[]}
+            style={{ flexGrow: 1 }}
+          />
         </Group>
       </Stack>
       <Stack spacing={listSpacing}>
