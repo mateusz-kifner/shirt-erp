@@ -1,4 +1,4 @@
-import { ComponentType, FC, Ref, SyntheticEvent } from "react"
+import { cloneElement, FC, ReactNode, Ref, SyntheticEvent } from "react"
 
 import {
   DefaultMantineColor,
@@ -14,12 +14,11 @@ import { Link } from "react-router-dom"
 
 interface NavButtonProps {
   label: string
-  Icon?: ComponentType<any>
+  Icon?: ReactNode
   to: any
   color?: DefaultMantineColor
   gradient?: MantineGradient
   onClick?: (e: SyntheticEvent) => void
-  buttonRef?: Ref<any>
 }
 
 export const NavButton: FC<NavButtonProps> = ({
@@ -29,12 +28,9 @@ export const NavButton: FC<NavButtonProps> = ({
   color,
   gradient,
   onClick = () => {},
-  buttonRef,
 }) => {
-  // console.log(small)
   return (
     <UnstyledButton
-      ref={buttonRef}
       sx={(theme) => ({
         display: "block",
         width: "100%",
@@ -65,7 +61,7 @@ export const NavButton: FC<NavButtonProps> = ({
               size="xl"
               radius="xl"
             >
-              <Icon size={32} />
+              {Icon}
             </ThemeIcon>
           ) : (
             <Avatar radius="xl">{label?.substring(0, 2).toUpperCase()}</Avatar>

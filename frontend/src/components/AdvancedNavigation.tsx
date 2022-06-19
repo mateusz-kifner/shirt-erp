@@ -8,7 +8,7 @@ import {
   Title,
   Transition,
 } from "@mantine/core"
-import { ComponentType, FC, useEffect, useRef, useState } from "react"
+import { FC, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowLeft } from "tabler-icons-react"
 import ProductsList from "../pages/erp/products/ProductsList"
@@ -24,63 +24,73 @@ import { TransitionNoUnmount } from "../mantine/TransitionNoUnmount"
 
 const navigationData: {
   label: string
-  Icon: ComponentType
+  Icon: ReactNode
   to: string
   entryName: string
   color?: DefaultMantineColor
-  SecondNavigation?: ComponentType
+  SecondNavigation?: ReactNode
 }[] = [
   {
     label: "Zadania",
-    Icon: Checklist,
+    Icon: <Checklist size={32} />,
     to: "/erp/tasks",
     entryName: "tasks",
     color: "green",
-    SecondNavigation: ProductsList,
+    SecondNavigation: <ProductsList />,
   },
   {
     label: "Zamówienia",
-    Icon: Crown,
+    Icon: <Crown size={32} />,
     to: "/erp/orders",
     entryName: "orders",
     color: "blue",
   },
   {
     label: "Produkty",
-    Icon: Shirt,
+    Icon: <Shirt size={32} />,
     to: "/erp/products",
     entryName: "products",
     color: "orange",
-    SecondNavigation: ProductsList,
+    SecondNavigation: <ProductsList />,
   },
   {
     label: "Klienci",
-    Icon: User,
+    Icon: <User size={32} />,
     to: "/erp/clients",
     entryName: "clients",
     color: "lime",
-    SecondNavigation: ClientsList,
+    SecondNavigation: <ClientsList />,
   },
   {
     label: "Wydatki",
-    Icon: Bell,
+    Icon: <Bell size={32} />,
     to: "/erp/expenses",
     entryName: "expenses",
   },
   {
     label: "Maile",
-    Icon: Mail,
+    Icon: <Mail size={32} />,
     to: "/erp/email-messages",
     entryName: "email",
   },
-  { label: "Logi", Icon: Bell, to: "/erp/logs", entryName: "logs" },
+  {
+    label: "Logi",
+    Icon: <Bell size={32} />,
+    to: "/erp/logs",
+    entryName: "logs",
+  },
   {
     label: "Zamówienia archiwalne",
-    Icon: Bell,
+    Icon: <Bell size={32} />,
     to: "/erp/orders-archive",
     entryName: "orders-archive",
   },
-  { label: "Pracownicy", Icon: Bell, to: "/erp/users", entryName: "users" },
+  {
+    label: "Pracownicy",
+    Icon: <Bell size={32} />,
+    to: "/erp/users",
+    entryName: "users",
+  },
 ]
 
 const slideLeft = {
@@ -226,7 +236,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                       </Title>
                     )}
                   </Group>
-                  {SecondNav && <SecondNav />}
+                  {SecondNav && SecondNav}
                 </Stack>
               </Paper>
             )}
@@ -270,7 +280,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                 </Title>
               )}
             </Group>
-            {SecondNav && <SecondNav />}
+            {SecondNav && SecondNav}
           </Stack>
         </NavBar>
       )}

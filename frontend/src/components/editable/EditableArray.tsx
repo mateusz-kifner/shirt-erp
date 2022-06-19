@@ -9,7 +9,7 @@ import {
 } from "@mantine/core"
 import { useUuid } from "@mantine/hooks"
 import _ from "lodash"
-import { FC, useEffect, useState } from "react"
+import { ComponentType, FC, useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import { Edit, Plus, TrashX, X } from "../../utils/TablerIcons"
@@ -24,7 +24,7 @@ interface EditableArrayProps {
   disabled?: boolean
   required?: boolean
   maxCount?: number
-  Element: React.ComponentType
+  Element: ComponentType
   elementProps: any
 }
 
