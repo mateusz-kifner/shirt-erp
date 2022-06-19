@@ -33,6 +33,7 @@ export interface TransitionProps {
 
   /** Calls when enter transition ends */
   onEntered?: () => void
+  displayNone?: boolean
 }
 
 export function TransitionNoUnmount({
@@ -46,6 +47,7 @@ export function TransitionNoUnmount({
   onEntered,
   onEnter,
   onExited,
+  displayNone = true,
 }: TransitionProps) {
   const { transitionDuration, transitionStatus, transitionTimingFunction } =
     useTransition({
@@ -64,18 +66,16 @@ export function TransitionNoUnmount({
     return children({})
   }
 
-  return (
-    <>
-      {children(
-        getTransitionStyles({
-          transition,
-          duration: transitionDuration,
-          state: transitionStatus,
-          timingFunction: transitionTimingFunction,
-        })
-      )}
-    </>
-  )
-}
+  let styles = getTransitionStyles({
+    transition,
+    duration: transitionDuration,
+    state: transitionStatus,
+    timingFunction: transitionTimingFunction,
+  })
 
-// Transition.displayName = "@mantine/core/Transition"
+  if (transitionStatus === "exited" && displayNone) {
+    styles["display"] = "none"
+  }
+
+  return <>{children(styles)}</>
+}

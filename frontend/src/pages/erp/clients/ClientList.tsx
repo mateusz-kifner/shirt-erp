@@ -10,10 +10,7 @@ const entryName = "clients"
 const ClientsList: FC = () => {
   const [id, setId] = useState<number | null>(null)
   const navigate = useNavigate()
-  const params = useParams()
-  useEffect(() => {
-    if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
-  })
+
   return (
     <ApiList
       ListItem={ClientListItem}

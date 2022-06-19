@@ -8,14 +8,7 @@ import {
   Title,
   Transition,
 } from "@mantine/core"
-import React, {
-  ComponentType,
-  FC,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react"
+import { ComponentType, FC, useEffect, useRef, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { ArrowLeft } from "tabler-icons-react"
 import ProductsList from "../pages/erp/products/ProductsList"
@@ -27,7 +20,7 @@ import { NavButton } from "./layout/NavButton"
 import _ from "lodash"
 import names from "../models/names.json"
 import ClientsList from "../pages/erp/clients/ClientList"
-import { useFocusWithin } from "@mantine/hooks"
+import { TransitionNoUnmount } from "../mantine/TransitionNoUnmount"
 
 const navigationData: {
   label: string
@@ -156,7 +149,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
             },
           }}
         >
-          <Transition
+          <TransitionNoUnmount
             mounted={!showSecondNav}
             duration={250}
             transition={slideRight}
@@ -195,8 +188,8 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                 </Stack>
               </div>
             )}
-          </Transition>
-          <Transition
+          </TransitionNoUnmount>
+          <TransitionNoUnmount
             mounted={showSecondNav}
             duration={250}
             transition={slideLeft}
@@ -237,7 +230,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                 </Stack>
               </Paper>
             )}
-          </Transition>
+          </TransitionNoUnmount>
         </Box>
       </NavBar>
       {navBarIndependent && (

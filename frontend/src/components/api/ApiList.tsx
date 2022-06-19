@@ -9,9 +9,15 @@ import {
   useMantineTheme,
   MantineNumberSize,
 } from "@mantine/core"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { Plus, Refresh, Search, SortAscending } from "../../utils/TablerIcons"
 import useStrapiList from "../../hooks/useStrapiList"
+import {
+  matchRoutes,
+  useInRouterContext,
+  useLocation,
+  useParams,
+} from "react-router-dom"
 
 interface ApiListProps {
   entryName: string
@@ -39,6 +45,15 @@ const ApiList: FC<ApiListProps> = ({
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch } = useStrapiList(entryName, page)
   const theme = useMantineTheme()
+  // const cont = useInRouterContext()
+  // const params = useParams()
+  // const location = useLocation()
+  // console.log(params, location, cont)
+
+  // useEffect(() => {
+  //   console.log(id, location, cont)
+  //   // if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
+  // }, [id, location])
 
   return (
     <Stack spacing={spacing}>
