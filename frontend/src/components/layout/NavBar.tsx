@@ -1,5 +1,6 @@
 import { ActionIcon, Box, Paper, ScrollArea, Stack, Sx } from "@mantine/core"
-import { FC, ReactNode, SyntheticEvent, useState } from "react"
+import { useFocusWithin } from "@mantine/hooks"
+import { FC, forwardRef, ReactNode, SyntheticEvent, useState } from "react"
 import { PinnedOff, Pinned } from "../../utils/TablerIcons"
 
 interface NavBarProps {
@@ -10,7 +11,6 @@ interface NavBarProps {
   width?: number
   independent?: boolean
   setIndependent?: (independent: boolean) => void
-  ref?: React.MutableRefObject<any>
 }
 
 const NavBar: FC<NavBarProps> = ({
@@ -23,13 +23,14 @@ const NavBar: FC<NavBarProps> = ({
   setIndependent,
 }) => {
   const [pin, setPin] = useState<boolean>(false)
+  const { ref: refFocus, focused: focused } = useFocusWithin()
 
   return (
-    <Box style={{ position: "relative" }}>
+    <Box style={{ position: "relative" }} ref={refFocus}>
       <Paper
         sx={[
           (theme) => ({
-            width: pin ? width : widthFolded,
+            width: pin || focused ? width : widthFolded,
             minHeight: "calc(100vh - var(--mantine-header-height))",
             maxHeight: "calc(100vh - var(--mantine-header-height))",
             borderTopStyle: "none",
@@ -50,7 +51,8 @@ const NavBar: FC<NavBarProps> = ({
               position: "absolute",
               top: 0,
               right: 0,
-              width: pin || width === widthFolded ? 0 : theme.spacing.xs,
+              width:
+                pin || width === widthFolded || focused ? 0 : theme.spacing.xs,
               height: "100%",
 
               backgroundColor:

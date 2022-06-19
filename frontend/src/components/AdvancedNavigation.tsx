@@ -117,9 +117,6 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
   const [navBarPin2, setNavBarPin2] = useState<boolean>(false)
   const mounted = useRef(false)
   const navigate = useNavigate()
-  const { ref: refFocus1, focused: focused1 } = useFocusWithin()
-  const { ref: refFocus2, focused: focused2 } = useFocusWithin()
-
   useEffect(() => {
     mounted.current = true
   }, [])
@@ -139,7 +136,6 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
   return (
     <Group spacing={0}>
       <NavBar
-        ref={refFocus1}
         onPin={setNavBarPin1}
         setIndependent={(state) => {
           setNavIndependent(state)
@@ -148,7 +144,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
           }
         }}
         independent={navBarIndependent}
-        widthFolded={focused1 ? 340 : 80}
+        widthFolded={80}
       >
         <Box
           sx={{
@@ -246,7 +242,6 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
       </NavBar>
       {navBarIndependent && (
         <NavBar
-          ref={refFocus2}
           onPin={setNavBarPin2}
           setIndependent={(state) => {
             setNavIndependent(state)
@@ -260,7 +255,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
             left: navBarPin1 ? 340 : 80,
             zIndex: 1000,
           }}
-          widthFolded={focused2 ? 340 : 80}
+          widthFolded={80}
         >
           <Stack
             p="xs"
