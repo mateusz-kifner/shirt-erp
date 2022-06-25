@@ -29,22 +29,21 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}/repo
-      # - name: Setup server
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.REMOTE_HOST }}
-      #     username: ${{ secrets.REMOTE_USER }}
-      #     key: ${{ secrets.SERVER_SSH_KEY }}
-      #     script: |
-      #       cd ${{ secrets.REMOTE_TARGET }}
-      #       mv public_nodejs/public/uploads/ uploads
-      #       rm -dr public_nodejs
-      #       mv repo public_nodejs
-      #       cp .env public_nodejs/.env
-      #       cd public_nodejs
-      #       ls
-      #       yarn
-      #       yarn build-prod
-      #       rm -dr public/uploads/
-      #       mv ../uploads/ public/
-      #       devil www restart mateuszkifner.ct8.pl
+      - name: Setup server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ${{ secrets.REMOTE_TARGET }}/repo
+            yarn
+            yarn build-prod
+            cd ..
+            rm -dr public_nodejs
+            mv repo/backend public_nodejs
+            cp .env public_nodejs/.env
+            cp database.js public_nodejs/config/database.js 
+            cd public_nodejs
+            ls
+            devil www restart mateuszkifner.ct8.pl
