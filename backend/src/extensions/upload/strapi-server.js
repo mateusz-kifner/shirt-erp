@@ -1,6 +1,14 @@
 "use strict";
 
 const { sanitize } = require("@strapi/utils");
+const Crypto = require("crypto");
+const fs = require("fs");
+
+function randomString(size = 48) {
+  return Crypto.randomBytes(size).toString("base64").slice(0, size);
+}
+
+const UPLOADS_FOLDER_NAME = "uploads";
 
 module.exports = (plugin) => {
   plugin.controllers["content-api"].public = async (ctx, next) => {
@@ -26,10 +34,67 @@ module.exports = (plugin) => {
     }
   };
 
+  plugin.controllers["content-api"].token = async (ctx, next) => {
+    try {
+      const { id } = ctx.params;
+      const file = await strapi.plugins.upload.services.upload.findOne(id);
+
+      if (!file) return ctx.badRequest("File not found");
+      let token = file.token;
+      if (token === null) {
+        token = randomString().replace(/\//, "_").replace(/\+/, "-");
+        const file2 = await strapi.plugins.upload.services.upload.update(id, {
+          token: token,
+        });
+      }
+
+      ctx.body = { token: token };
+    } catch (err) {
+      console.log(err);
+      ctx.body = err;
+    }
+  };
+
+  plugin.controllers["content-api"].download = async (ctx, next) => {
+    try {
+      const { id } = ctx.params;
+      const file = await strapi.plugins.upload.services.upload.findOne(id);
+      if (!file) return ctx.badRequest("File not found");
+
+      // fixme: authorize downloads
+      const path = strapi.dirs.public + file.url;
+
+      ctx.type = file.mime;
+      ctx.set(
+        "Content-disposition",
+        "attachment; filename=" + file.name + file.ext
+      );
+      console.log({ ...ctx });
+      ctx.body = await fs.createReadStream(path);
+      await ctx.response.send(ctx.body);
+      return ctx.body;
+    } catch (err) {
+      console.log(err);
+      ctx.body = err;
+    }
+  };
+
   plugin.routes["content-api"].routes.push({
     method: "PUT",
     path: "/public/:id",
     handler: "content-api.public",
+  });
+
+  plugin.routes["content-api"].routes.push({
+    method: "GET",
+    path: "/token/:id",
+    handler: "content-api.token",
+  });
+
+  plugin.routes["content-api"].routes.push({
+    method: "GET",
+    path: "/download/:id",
+    handler: "content-api.download",
   });
 
   return plugin;

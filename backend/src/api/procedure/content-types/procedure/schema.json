@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "procedures",
+  "info": {
+    "singularName": "procedure",
+    "pluralName": "procedures",
+    "displayName": "Procedure",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "graph": {
+      "type": "json"
+    }
+  }
+}

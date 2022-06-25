@@ -13,22 +13,27 @@
   "pluginOptions": {},
   "attributes": {
     "subject": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "from": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "to": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "date": {
       "type": "datetime"
     },
     "html": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "text": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "messageId": {
       "type": "string"
@@ -37,18 +42,14 @@
       "type": "json"
     },
     "textAsHtml": {
-      "type": "text"
+      "type": "text",
+      "default": ""
     },
     "attachments": {
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "nextMessageId": {
       "type": "integer"

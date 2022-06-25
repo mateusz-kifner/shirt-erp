@@ -9,9 +9,15 @@ import {
   useMantineTheme,
   MantineNumberSize,
 } from "@mantine/core"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { Plus, Refresh, Search, SortAscending } from "../../utils/TablerIcons"
 import useStrapiList from "../../hooks/useStrapiList"
+import {
+  matchRoutes,
+  useInRouterContext,
+  useLocation,
+  useParams,
+} from "react-router-dom"
 
 interface ApiListProps {
   entryName: string
@@ -21,6 +27,8 @@ interface ApiListProps {
   spacing?: MantineNumberSize
   withSeparators?: boolean
   onChange?: (val: any) => void
+  listItemProps?: any
+  entryId?: number | null
 }
 
 const ApiList: FC<ApiListProps> = ({
@@ -31,15 +39,26 @@ const ApiList: FC<ApiListProps> = ({
   spacing = "md",
   withSeparators = false,
   onChange = (val: any) => {},
+  listItemProps = {},
+  entryId,
 }) => {
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch } = useStrapiList(entryName, page)
   const theme = useMantineTheme()
+  // const cont = useInRouterContext()
+  // const params = useParams()
+  // const location = useLocation()
+  // console.log(params, location, cont)
+
+  // useEffect(() => {
+  //   console.log(id, location, cont)
+  //   // if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
+  // }, [id, location])
 
   return (
     <Stack spacing={spacing}>
       <Stack>
-        <Group position="apart">
+        {/* <Group position="apart">
           <Title order={2}>{label}</Title>
           <Group spacing="xs">
             <ActionIcon
@@ -53,22 +72,22 @@ const ApiList: FC<ApiListProps> = ({
             <ActionIcon size="lg" radius="xl" variant="default">
               <Plus />
             </ActionIcon>
-          </Group>
-        </Group>
-        <Group spacing="xs">
-          <Autocomplete
-            placeholder="Search"
-            radius="xl"
-            size="md"
-            icon={<Search />}
-            data={[]}
-            style={{ flexGrow: 1 }}
-          />
+          </Group> 
+        </Group>*/}
+        <Group spacing="md" px="sm">
           <Group>
             <ActionIcon size="lg" radius="xl" variant="default">
               <SortAscending />
             </ActionIcon>
           </Group>
+          <Autocomplete
+            placeholder="Search"
+            radius="xl"
+            // size="md"
+            icon={<Search />}
+            data={[]}
+            style={{ flexGrow: 1 }}
+          />
         </Group>
       </Stack>
       <Stack spacing={listSpacing}>
@@ -91,7 +110,12 @@ const ApiList: FC<ApiListProps> = ({
                     : undefined,
               }}
             >
-              <ListItem value={val} onChange={onChange} />
+              <ListItem
+                value={val}
+                onChange={onChange}
+                {...listItemProps}
+                highlight={val.id === entryId}
+              />
             </Box>
           ))}
       </Stack>

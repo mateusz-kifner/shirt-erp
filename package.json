@@ -21,9 +21,9 @@
   "devDependencies": {
     "cross-env": "7.0.x",
     "npm-run-all": "4.1.x",
-    "wait-on": "6.0.x",
     "vitepress": "^0.22.4",
-    "vitepress-dark-theme": "^0.1.7"
+    "vitepress-dark-theme": "^0.1.9",
+    "wait-on": "6.0.x"
   },
   "author": "Mateusz Kifner",
   "license": "UNLICENSED",

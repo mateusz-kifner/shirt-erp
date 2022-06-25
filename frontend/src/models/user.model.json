@@ -1,0 +1,46 @@
+{
+  "id": { "type": "id" },
+
+  "username": {
+    "label": "Nazwa użytkownika",
+    "type": "text",
+    "disabled": true
+  },
+  "email": {
+    "label": "Email",
+    "type": "text",
+    "disabled": true
+  },
+  "provider": {
+    "label": "Auth",
+    "type": "text",
+    "disabled": true
+  },
+
+  "blocked": {
+    "label": "Zablokowany",
+    "type": "boolean",
+    "disabled": true
+  },
+
+  "confirmed": {
+    "label": "Potwierdzony",
+    "type": "boolean",
+    "disabled": true
+  },
+  "displayName": {
+    "label": "Nazwa wyświetlana",
+    "type": "text",
+    "disabled": true
+  },
+  "createdAt": {
+    "label": "Utworzono",
+    "type": "datetime",
+    "disabled": true
+  },
+  "updatedAt": {
+    "label": "Edytowano",
+    "type": "datetime",
+    "disabled": true
+  }
+}

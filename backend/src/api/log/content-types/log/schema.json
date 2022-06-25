@@ -12,16 +12,19 @@
   "pluginOptions": {},
   "attributes": {
     "message": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "type": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "data": {
       "type": "json"
     },
     "userId": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     }
   }
 }

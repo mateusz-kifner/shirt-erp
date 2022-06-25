@@ -3,47 +3,47 @@ name: Deploy
 on: [workflow_dispatch]
 
 jobs:
-  deploy_frontend:
+  deploy:
     runs-on: ubuntu-latest
 
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: ./
+
     env:
       CI: false
-      SERVER_URL: http://mateuszkifner.ct8.pl
 
     steps:
       - uses: actions/checkout@v1
-      - name: Install Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: "14.x"
-      - name: Install npm dependencies
-        run: npm install
-      - name: Run build task
-        run: npm run build --if-present
-      - name: Add .htaccess
+      - name: Add app.js
         run: |
-          cat > build/.htaccess <<- EOM
-          <IfModule mod_rewrite.c>
-            RewriteEngine On
-            RewriteBase /subdirectory
-            RewriteRule ^index\.html$ - [L]
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteCond %{REQUEST_FILENAME} !-l
-            RewriteRule . /index.html [L]
-          </IfModule>
-          EOM
-          cat build/.htaccess
-        shell: bash
-      - name: Deploy to Server
+          cd backend
+          echo "const strapi = require('strapi');strapi().start();" > app.js
+          cat app.js
+      - name: Copy to server
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "frontend/build/"
+          # SOURCE: "."
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}/repo
+      - name: Setup server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ${{ secrets.REMOTE_TARGET }}/repo
+            yarn
+            yarn build-prod
+            cd ..
+            rm -dr public_nodejs
+            mv repo/backend public_nodejs
+            cp .env public_nodejs/.env
+            cp database.js public_nodejs/config/database.js 
+            cd public_nodejs
+            ls
+            devil www restart mateuszkifner.ct8.pl

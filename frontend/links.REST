@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUyOTg5OTI1LCJleHAiOjE2NTU1ODE5MjV9.ebmH5Cd8nbjjz9J2iH-JA8ILNRKVn8TBGu3LiZ06h_I
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUzNjg5MTM0LCJleHAiOjE2NTYyODExMzR9.W3-4LtWWaqIB2Fcj_a-PoPj8Lx8un0oUv17YI_hLEw8
 
 @host=http://localhost:1337
 ###
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 GET {{host}}/api/clients?populate=*
 Content-Type: application/json
-# Authorization: Bearer {{authToken}}
+Authorization: Bearer {{authToken}}
 
 ###
 
@@ -112,3 +112,16 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {"public":true}
+
+###
+
+GET {{host}}/api/upload/files/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+GET {{host}}/api/upload/download/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+

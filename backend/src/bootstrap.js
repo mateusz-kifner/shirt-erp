@@ -189,13 +189,16 @@ async function setupEmployeeRole() {
       order: ["create", "delete", "find", "findOne", "update"],
       "order-archive": ["create", "delete", "find", "findOne", "update"],
       product: ["create", "delete", "find", "findOne", "update"],
+      workstation: ["create", "delete", "find", "findOne", "update"],
+      procedure: ["create", "delete", "find", "findOne", "update"],
+      "email-message": ["find", "findOne", "delete"],
     },
     "Employee"
   );
   await setPluginPermissions(
     "upload",
     "content-api",
-    ["count", "destroy", "find", "findOne", "upload", "public"],
+    ["count", "destroy", "find", "findOne", "upload", "public", "download"],
     "Employee"
   );
   // await setPluginPermissions(

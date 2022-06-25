@@ -43,3 +43,48 @@ body {
   margin-right: .5em;
   color: #888
 } */
+
+.plain-html .ql-align-center {text-align: center;}
+.plain-html .ql-align-right {text-align: end;}
+.plain-html .ql-align-left {text-align: start;}
+.plain-html blockquote {    color: #909296;
+  border-left: 4px solid #373A40;
+  margin-top: 0;
+  margin-left: 0;
+  margin-bottom: 12px;
+  padding-left: 16px;} 
+
+  .plain-html a, .plain-html a:visited, .plain-html a:link {
+  text-decoration: none;
+  color: #4dabf7;
+
+}
+
+.plain-html a:hover {
+  text-decoration: underline;
+
+}
+
+
+.test{
+  background-color: aqua;
+  outline: 6px solid #000;
+  position: relative;
+}
+
+.test::after {
+  content: "";
+  height: 10px;
+  width: 10px;
+  background-color: #373A40;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translate(0,-50%);
+  border-radius: 100%;
+}
+
+.Spreadsheet__cell_selected{
+  /* outline: 1px solid var(--outline-color,#4285f4) !important; */
+  background-color: var(--outline-background-color,rgba(160, 195, 255, 0.2)) !important;
+}

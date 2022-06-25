@@ -1,0 +1,54 @@
+{
+  "clients": {
+    "singular": "klient",
+    "plural": "klienci"
+  },
+  "products": {
+    "singular": "product",
+    "plural": "produkty"
+  },
+  "orders": {
+    "singular": "zamówienie",
+    "plural": "zamówienia"
+  },
+  "email-messages": {
+    "singular": "email",
+    "plural": "emalie"
+  },
+  "tasks": {
+    "singular": "zadanie",
+    "plural": "zadania"
+  },
+  "expenses": {
+    "singular": "wydatek",
+    "plural": "wydatki"
+  },
+  "logs": {
+    "singular": "log",
+    "plural": "logi"
+  },
+  "order-archives": {
+    "singular": "zamówienie archiwalne",
+    "plural": "zamówienia archiwalne"
+  },
+  "workstations": {
+    "singular": "stanowisko pracy",
+    "plural": "stanowiska pracy"
+  },
+  "procedures": {
+    "singular": "procedura",
+    "plural": "procedury"
+  },
+  "files": {
+    "singular": "plik",
+    "plural": "pliki"
+  },
+  "settings": {
+    "singular": "ustawienie",
+    "plural": "ustawienia"
+  },
+  "users": {
+    "singular": "pracownik",
+    "plural": "pracownicy"
+  }
+}

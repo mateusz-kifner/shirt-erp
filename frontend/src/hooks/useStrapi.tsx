@@ -7,10 +7,16 @@ const queryClient = new QueryClient()
 
 // TODO: Add proper optimisticUpdate
 
-const fetchData = async (entryName?: string | null, id?: number | null) => {
+const fetchData = async (
+  entryName?: string | null,
+  id?: number | null,
+  query?: string
+) => {
   if (!id) return
   if (!entryName) return
-  const res = await axios.get(`/${entryName}/${id}`)
+  const res = await axios.get(
+    `/${entryName}/${id}${query && query.length > 0 ? "?" + query : ""}`
+  )
   return res.data
 }
 
@@ -42,6 +48,7 @@ const updateEntry = async (
 }
 
 interface OptionsProps<EntryType> {
+  query: string
   queryOptions?: {
     cacheTime?: number
     enabled?: boolean
@@ -172,8 +179,8 @@ function useStrapi<EntryType>(
   options?: OptionsProps<EntryType>
 ) {
   const { data, status, refetch } = useQuery(
-    [entryName + "_one", id],
-    () => fetchData(entryName, id),
+    [entryName + "_one", id, options?.query],
+    () => fetchData(entryName, id, options?.query),
     { enabled: false, ...options?.queryOptions }
   )
 

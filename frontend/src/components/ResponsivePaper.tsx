@@ -4,7 +4,6 @@ import { FC } from "react"
 const ResponsivePaper: FC<PaperProps<any>> = (props) => {
   return (
     <Paper
-      {...props}
       shadow="xs"
       withBorder
       p="xl"
@@ -15,6 +14,7 @@ const ResponsivePaper: FC<PaperProps<any>> = (props) => {
           borderRadius: 0,
         },
       })}
+      {...props}
     >
       {props.children}
     </Paper>

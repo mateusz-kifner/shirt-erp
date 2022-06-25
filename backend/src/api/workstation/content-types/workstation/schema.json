@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workstations",
+  "info": {
+    "singularName": "workstation",
+    "pluralName": "workstations",
+    "displayName": "Workstation",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "iconId": {
+      "type": "integer"
+    },
+    "pluginConfig": {
+      "type": "json"
+    },
+    "workstations": {
+      "type": "json"
+    }
+  }
+}

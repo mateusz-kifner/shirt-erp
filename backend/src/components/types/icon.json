@@ -13,7 +13,8 @@
     },
     "name": {
       "type": "string",
-      "maxLength": 32
+      "maxLength": 32,
+      "default": ""
     }
   }
 }

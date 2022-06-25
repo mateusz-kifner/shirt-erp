@@ -8,10 +8,12 @@
   "options": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "default": ""
     },
     "count": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     }
   }
 }

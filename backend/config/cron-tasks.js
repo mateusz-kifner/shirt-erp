@@ -3,7 +3,7 @@ const simpleParser = require("mailparser").simpleParser;
 const { Readable } = require("stream");
 
 let mail_lock = 0;
-const FLAG = "ShirtERP3";
+const FLAG = "ShirtERP";
 
 const logDebug = (obj) => {
   return;
@@ -23,7 +23,7 @@ const logError = (obj) => {
 };
 // 0 0/5 * * ? * *
 module.exports = {
-  "0 0/2 * ? * *": async ({ strapi }) => {
+  "0 0/5 * ? * *": async ({ strapi }) => {
     // EMAIL FETCH
     logInfo("Mail locked: " + (mail_lock ? "yes" : "no"));
     if (mail_lock) return;
@@ -77,7 +77,9 @@ module.exports = {
       .service("api::email-auth.email-auth")
       .find({ populate: "*" });
 
-    const autoReferenceEmailForMinutes = auth.autoReferenceEmailForMinutes;
+    const autoReferenceEmailForMinutes = auth?.autoReferenceEmailForMinutes
+      ? auth.autoReferenceEmailForMinutes
+      : 4320;
 
     const getMails = async ({ host, port, secure, user, password }) => {
       mail_lock++;

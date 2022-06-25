@@ -1,16 +1,27 @@
-import { FC, useEffect, useMemo, useState } from "react"
-import { Button, Container, Group, Modal, Paper, Stack } from "@mantine/core"
-import { Bug, Logout } from "../../../utils/TablerIcons"
+import { FC, useState } from "react"
+import {
+  Button,
+  ColorScheme,
+  Container,
+  Group,
+  Modal,
+  Paper,
+  Stack,
+} from "@mantine/core"
+import {
+  Affiliate,
+  Bug,
+  Logout,
+  MoonStars,
+  Sun,
+} from "../../../utils/TablerIcons"
 import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
-import ApiEntryAdd from "../../../components/api/ApiEntryAdd"
-import testSchema from "../../../schemas/test.schema.json"
-import FileButton from "../../../components/FileButton"
-import FileList from "../../../components/FileList"
-import TestTable from "../../../components/TestTable"
-import ApiEntryDetails from "../../../components/api/ApiEntryDetails"
-import Details from "../../../components/details/Details"
+import template from "../../../models/test.model.json"
+import Editable from "../../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
+import { Link } from "react-router-dom"
+import { useLocalStorage, useColorScheme } from "@mantine/hooks"
 
 const testData = {
   name: "string",
@@ -36,7 +47,14 @@ const testData = {
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
   const [testFormVisible, setTestFormVisible] = useState(false)
-  const [val, setVal] = useState("")
+  const preferredColorScheme = useColorScheme()
+
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: preferredColorScheme,
+  })
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
 
   return (
     <Container size="xs" px="xs" my="xl">
@@ -45,7 +63,16 @@ const SettingsPage: FC = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <ApiEntryAdd schema={testSchema} entryName="products" />
+        <Editable
+          template={template}
+          data={testData}
+          onSubmit={(key, val) => {
+            console.log("Sublmit", key, " ", val)
+            showNotification({
+              message: key + ": " + JSON.stringify(val),
+            })
+          }}
+        />
       </Modal>
       <Paper shadow="xs" p="xl" withBorder>
         <Group>
@@ -58,6 +85,35 @@ const SettingsPage: FC = () => {
             <Group>
               <Logout />
               Wyloguj
+            </Group>
+          </Button>
+          <Button
+            style={{ width: "100%", color: "#fff" }}
+            onClick={() => toggleColorScheme()}
+            title="Toggle color scheme"
+          >
+            <Group>
+              {colorScheme === "dark" ? (
+                <>
+                  <Sun size={18} />
+                  Jasna skórka
+                </>
+              ) : (
+                <>
+                  <MoonStars size={18} />
+                  Ciemna skórka
+                </>
+              )}
+            </Group>
+          </Button>
+          <Button
+            style={{ width: "100%", color: "#fff" }}
+            component={Link}
+            to={"/erp/workstations"}
+          >
+            <Group>
+              <Affiliate />
+              Ustawienia Produkcji
             </Group>
           </Button>
           <Button
@@ -85,25 +141,9 @@ const SettingsPage: FC = () => {
               >
                 <Group>
                   <Logout />
-                  Open Test Form
+                  Open Test
                 </Group>
               </Button>
-              <FileButton disabled />
-              <FileList maxFileCount={1000} />
-              {/* <TestTable /> */}
-              {/* <ApiEntryDetails /> */}
-              {/* <RichTextEditor value={val} onChange={setVal} />
-              <div style={{ minHeight: 1000 }}></div> */}
-              <Details
-                schema={testSchema}
-                data={testData}
-                onSubmit={(key, val) => {
-                  console.log("Sublmit", key, " ", val)
-                  showNotification({
-                    message: key + ": " + JSON.stringify(val),
-                  })
-                }}
-              />
             </Stack>
           )}
         </Group>

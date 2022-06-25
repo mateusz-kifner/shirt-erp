@@ -1,5 +1,5 @@
 import React from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 import "./main.css"
 import App from "./App"
 import { QueryClient, QueryClientProvider } from "react-query"
@@ -9,7 +9,7 @@ import { ReactQueryDevtools } from "react-query/devtools"
 import { showNotification } from "@mantine/notifications"
 import { RecoilRoot, useRecoilValue } from "recoil"
 import { serverURL } from "./env"
-//@ts-ignore
+// @ts-ignore
 import { registerSW } from "virtual:pwa-register"
 
 axios.defaults.baseURL = serverURL + "/api"
@@ -42,14 +42,14 @@ Logger.setHandler(function (messages, context) {
     axios.post("/loggers", {
       message: messages[0],
       type: context.level.name,
-      user: savedValue && savedValue?.length > 0 ? savedValue : null,
+      userId: savedValue && savedValue?.length > 0 ? savedValue : null,
     })
   } else {
     axios.post("/logs", {
       message: messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
       data: messages[0],
       type: context.level.name,
-      user: savedValue && savedValue?.length > 0 ? savedValue : null,
+      userId: savedValue && savedValue?.length > 0 ? savedValue : null,
     })
   }
 })
@@ -58,7 +58,8 @@ Logger.setLevel(
   process.env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN
 )
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root")!)
+root.render(
   <React.StrictMode>
     <RecoilRoot>
       <React.Suspense fallback={<div>Loading...</div>}>
@@ -68,8 +69,7 @@ ReactDOM.render(
         </QueryClientProvider>
       </React.Suspense>
     </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 )
 
 registerSW({ immediate: true })

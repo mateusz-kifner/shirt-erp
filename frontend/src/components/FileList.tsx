@@ -27,6 +27,11 @@ import {
 import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
+import isArrayEqual from "../utils/isArrayEqual"
+import { SxBorder, SxRadius } from "../styles/basic"
+import getBase64FromImage from "../utils/getBase64"
+
+// FIXME: ENFORCE FILE LIMIT
 
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
@@ -57,15 +62,6 @@ function ImageUploadIcon({
   return <Photo {...props} />
 }
 
-function getBase64(file: File | undefined): Promise<string | null> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file as Blob)
-    reader.onload = () => resolve(reader.result as string | null)
-    reader.onerror = (error) => reject(error)
-  })
-}
-
 interface FilesDataType {
   file: FileType
   preview: string | Promise<string | null> | null
@@ -87,6 +83,7 @@ const FileList: FC<FileListProps> = ({
   const theme = useMantineTheme()
   const uuid = useUuid()
   const [filesData, setFilesData] = useState<FilesDataType[]>([])
+  const [prev, setPrev] = useState<FileType[]>(filesData.map((val) => val.file))
   const [error, setError] = useState<string | undefined>()
   const [uploading, setUploading] = useState<number>(0)
   const [dropOpened, setDropOpened] = useState<boolean>(false)
@@ -119,7 +116,7 @@ const FileList: FC<FileListProps> = ({
 
         try {
           isFileImage(file) &&
-            getBase64(file).then((preview) => {
+            getBase64FromImage(file).then((preview) => {
               setFilesData((filesDataValue) => [
                 ...filesDataValue.map((fileDataValue) =>
                   fileDataValue.file.id === fileData.id
@@ -150,9 +147,16 @@ const FileList: FC<FileListProps> = ({
   }
 
   useEffect(() => {
-    if (!filesData || filesData.length < 1) return
-    onChange && onChange(filesData.map((val: FilesDataType) => val.file))
+    if (!filesData || filesData.length === 0) return
+    const files = filesData.map((val: FilesDataType) => val.file)
+    if (isArrayEqual(files, prev)) return
+    onChange && onChange(files)
   }, [filesData])
+
+  useEffect(() => {
+    if (value === undefined || value === null) return
+    setFilesData(value.map((val) => ({ file: val, preview: null })))
+  }, [value])
 
   return (
     <>
@@ -198,15 +202,15 @@ const FileList: FC<FileListProps> = ({
       </Modal>
       <Stack
         p="md"
-        sx={(theme) => ({
-          width: "100%",
-          border:
-            theme.colorScheme === "dark"
-              ? "1px solid #2C2E33"
-              : "1px solid #ced4da",
-          borderRadius: theme.radius.md,
-          backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
-        })}
+        sx={[
+          (theme) => ({
+            width: "100%",
+
+            backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
+          }),
+          SxBorder,
+          SxRadius,
+        ]}
       >
         {filesData.map((val: FilesDataType, index: number) => (
           <Group key={uuid + "_" + val.file.id + "_" + val.file.name}>
@@ -268,9 +272,11 @@ const FileList: FC<FileListProps> = ({
                     ></div>
                   </>
                 )}
-                <ActionIcon color="red" onClick={() => onRemove(index)}>
-                  <TrashX />
-                </ActionIcon>
+                {!disabled && (
+                  <ActionIcon color="red" onClick={() => onRemove(index)}>
+                    <TrashX />
+                  </ActionIcon>
+                )}
               </Group>
             </div>
             <Text pr="xl">{val?.file?.name}</Text>

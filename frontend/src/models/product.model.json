@@ -1,0 +1,60 @@
+{
+  "id": { "type": "id" },
+
+  "name": {
+    "label": "Nazwa",
+    "type": "text",
+    "initialValue": "",
+    "required": true
+  },
+  "codeName": {
+    "label": "Kod produktu",
+    "type": "text",
+    "initialValue": ""
+  },
+  "category": {
+    "label": "Kategoria",
+    "type": "enum",
+    "initialValue": "koszulka",
+    "enum_data": [
+      "koszulka",
+      "bluza",
+      "czapka",
+      "torba / worek",
+      "kamizelka",
+      "kubek",
+      "inne"
+    ]
+  },
+  "description": {
+    "label": "Opis",
+    "type": "text",
+    "initialValue": ""
+  },
+  "colors": {
+    "label": "Kolory",
+    "type": "array",
+    "arrayType": "color",
+    "initialValue": []
+  },
+  "iconId": {
+    "label": "Ikona",
+    "type": "iconId",
+    "entryName": "productCategories"
+  },
+  "previewImages": {
+    "label": "Zdjęcia",
+    "type": "files",
+    "maxFileCount": 10
+  },
+  "createdAt": {
+    "label": "Utworzono",
+    "type": "datetime",
+    "disabled": true
+  },
+  "updatedAt": {
+    "label": "Edytowano",
+    "type": "datetime",
+    "disabled": true
+  }
+}

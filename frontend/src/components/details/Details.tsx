@@ -1,26 +1,17 @@
+import { useId } from "@mantine/hooks"
+import { Text } from "@mantine/core"
 import { FC } from "react"
-import { Select, Text } from "@mantine/core"
-import DetailsText from "../details/DetailsText"
-import NotImplemented from "../NotImplemented"
-import DetailsRichText from "../details/DetailsRichText"
-import DetailsSecretText from "../details/DetailsSecretText"
 import { useRecoilValue } from "recoil"
 import { loginState } from "../../atoms/loginState"
-import { useId } from "@mantine/hooks"
-import DetailsDateTime from "./DetailsDateTime"
-import DetailsDate from "./DetailsDate"
-import DetailsBool from "./DetailsBool"
-import DetailsColor from "./DetailsColor"
-import DetailsEnum from "./DetailsEnum"
+import NotImplemented from "../NotImplemented"
+import DisplayCell from "./DisplayCell"
 
 interface DetailsProps {
-  schema: any
-  data: any
-  onSubmit?: (key: string, value: any) => void
-  onChange?: (key: string, value: any) => void
+  template: { [key: string]: any }
+  data: { [key: string]: any }
 }
 
-const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
+const Details: FC<DetailsProps> = ({ template, data }) => {
   const user = useRecoilValue(loginState)
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
@@ -39,113 +30,26 @@ const Details: FC<DetailsProps> = ({ schema, data, onSubmit, onChange }) => {
 
   return (
     <>
-      {Object.keys(data).map((key) => {
+      {Object.keys(template).map((key) => {
         if (key === "id" && user.debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
-        const onChangeEntry = (value: any) => onChange && onChange(key, value)
-        const onSubmitEntry = (value: any) => onSubmit && onSubmit(key, value)
-        if (!(key in schema))
+        if (!(key in template))
           return user?.debug === true ? (
             <NotImplemented
-              message={"Key doesn't have Schema"}
+              message={"Key doesn't have template"}
               object_key={key}
               value={data[key]}
               key={uuid + key}
             />
           ) : null
-        switch (schema[key].type) {
+        switch (template[key].type) {
           case "text":
             return (
-              <DetailsText
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
+              <DisplayCell {...template[key]} key={uuid + key}>
+                {data[key]}
+              </DisplayCell>
             )
-          case "richtext":
-            return (
-              <DetailsRichText
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-
-          case "secrettext":
-            return (
-              <DetailsSecretText
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "datetime":
-            return (
-              <DetailsDateTime
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "date":
-            return (
-              <DetailsDate
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "boolean":
-            return (
-              <DetailsBool
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "color":
-            return (
-              <DetailsColor
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "enum":
-            return (
-              <DetailsEnum
-                value={data[key]}
-                {...schema[key]}
-                key={uuid + key}
-                onChange={onChangeEntry}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          default:
-            return user?.debug === true ? (
-              <NotImplemented
-                message={"Key has unknown type"}
-                object_key={key}
-                value={data[key]}
-                schema={schema[key]}
-                key={uuid + key}
-              />
-            ) : null
         }
       })}
     </>

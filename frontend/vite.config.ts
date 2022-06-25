@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      workbox: { ignoreURLParametersMatching: [/.*admin.*/] },
       manifest: {
         short_name: "ShirtERP",
         name: "ShirtERP",
@@ -15,6 +16,11 @@ export default defineConfig({
             src: "favicon.ico",
             sizes: "16x16",
             type: "image/x-icon",
+          },
+          {
+            src: "/shirterp-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
           },
           {
             src: "/shirterp-192x192.png",

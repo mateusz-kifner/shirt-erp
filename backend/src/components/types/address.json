@@ -2,7 +2,8 @@
   "collectionName": "type_addresses",
   "info": {
     "displayName": "Address",
-    "icon": "building"
+    "icon": "building",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -22,7 +23,8 @@
       "type": "string"
     },
     "city": {
-      "type": "string"
+      "type": "string",
+      "default": "Gdańsk"
     },
     "province": {
       "type": "string"

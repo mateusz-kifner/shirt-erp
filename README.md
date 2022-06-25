@@ -1,10 +1,12 @@
-![ShirtERP](/Assets/logo.png)
+![ShirtERP](/.github/logo.png)
 
 # ShirtERP
 
 ShirtERP
 
 ### License Proprietary
+
+All licenses for ShirtDipERP carries out to ShirtERP, with the same terms.
 
 ### For commercial deals please contact me via mail: kifner.mateusz(αt)gmail.com
 

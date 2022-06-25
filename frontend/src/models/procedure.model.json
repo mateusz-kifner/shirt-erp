@@ -1,0 +1,38 @@
+{
+  "id": { "type": "id" },
+
+  "name": {
+    "label": "Nazwa",
+    "type": "text",
+
+    "initialValue": "",
+    "required": true
+  },
+  "description": {
+    "label": "Opis",
+    "type": "text",
+    "initialValue": ""
+  },
+  "workstations": {
+    "label": "Stanowiska",
+    "type": "array",
+    "arrayType": "apiEntryId",
+    "entryName": "workstations"
+  },
+  "graph": {
+    "label": "Graph",
+    "type": "graph",
+    "reference": "workstations"
+  },
+
+  "createdAt": {
+    "label": "Utworzono",
+    "type": "datetime",
+    "disabled": true
+  },
+  "updatedAt": {
+    "label": "Edytowano",
+    "type": "datetime",
+    "disabled": true
+  }
+}

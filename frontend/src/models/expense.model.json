@@ -1,0 +1,29 @@
+{
+  "id": { "type": "id" },
+
+  "name": {
+    "label": "Nazwa",
+    "type": "text",
+    "initialValue": "",
+    "required": true
+  },
+  "price": {
+    "label": "Cena",
+    "type": "money"
+  },
+
+  "items": {
+    "label": "Produkty",
+    "type": "test"
+  },
+  "createdAt": {
+    "label": "Utworzono",
+    "type": "datetime",
+    "disabled": true
+  },
+  "updatedAt": {
+    "label": "Edytowano",
+    "type": "datetime",
+    "disabled": true
+  }
+}
