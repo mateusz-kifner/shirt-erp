@@ -3,7 +3,7 @@ name: Deploy
 on: [workflow_dispatch]
 
 jobs:
-  deploy_backend:
+  deploy:
     runs-on: ubuntu-latest
 
     defaults:
