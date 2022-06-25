@@ -112,3 +112,10 @@ exports
 *.cache
 build
 .strapi-updater.json
+public/assets
+public/index.html
+public/manifest.webmanifest
+public/sw.js
+public/workbox-*
+public/shirterp-*
+public/favicon.ico

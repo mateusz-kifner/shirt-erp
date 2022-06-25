@@ -11,7 +11,8 @@
     "prod:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend prod",
     "prod": "cross-env FORCE_COLOR=1 npm-run-all -l -p prod:*",
     "build": "yarn --cwd backend build-prod && yarn --cwd frontend build-prod",
-    "install": "yarn --cwd backend install && yarn --cwd frontend install"
+    "install": "yarn --cwd backend install && yarn --cwd frontend install",
+    "clean": "rm -dr node_modules && rm -dr frontend/node_modules && rm -dr backend/node_modules"
   },
   "devDependencies": {
     "cross-env": "7.0.x",
