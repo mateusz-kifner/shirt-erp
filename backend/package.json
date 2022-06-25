@@ -1,7 +1,7 @@
 {
   "name": "shirtdiperp_backend",
   "private": true,
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "ShirtDipERP system backend",
   "scripts": {
     "develop": "strapi develop",
@@ -17,16 +17,16 @@
     "emailjs-imap-client": "^3.1.0",
     "knex": "0.21.18",
     "pg": "8.5.1",
-    "strapi": "3.6.8",
-    "strapi-admin": "3.6.8",
-    "strapi-connector-bookshelf": "3.6.8",
-    "strapi-plugin-content-manager": "3.6.8",
-    "strapi-plugin-content-type-builder": "3.6.8",
-    "strapi-plugin-email": "3.6.8",
-    "strapi-plugin-i18n": "3.6.8",
-    "strapi-plugin-upload": "3.6.8",
-    "strapi-plugin-users-permissions": "3.6.8",
-    "strapi-utils": "3.6.8"
+    "strapi": "3.6.10",
+    "strapi-admin": "3.6.10",
+    "strapi-connector-bookshelf": "3.6.10",
+    "strapi-plugin-content-manager": "3.6.10",
+    "strapi-plugin-content-type-builder": "3.6.10",
+    "strapi-plugin-email": "3.6.10",
+    "strapi-plugin-i18n": "3.6.10",
+    "strapi-plugin-upload": "3.6.10",
+    "strapi-plugin-users-permissions": "3.6.10",
+    "strapi-utils": "3.6.10"
   },
   "strapi": {
     "uuid": "b88b6fa5-e6d7-4362-ad57-624fcf2da74f"
