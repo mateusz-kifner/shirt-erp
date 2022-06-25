@@ -7,6 +7,7 @@
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
+    "build-prod": "cross-env NODE_ENV=production yarn build",
     "strapi": "strapi"
   },
   "devDependencies": {},
