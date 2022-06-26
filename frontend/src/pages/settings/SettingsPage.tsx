@@ -1,4 +1,5 @@
 import { Button, message, Modal, Space, Form as FormAntd } from "antd"
+import axios from "axios"
 import { FC, useState } from "react"
 import { useRecoilState } from "recoil"
 import { loginState } from "../../atoms/loginState"
@@ -7,6 +8,45 @@ import DebugData from "../../components/DebugData"
 import FilesButton from "../../components/FilesButton"
 import Form from "../../components/form/Form"
 import InputFile, { FilePicker } from "../../components/form/InputFile"
+
+const fetch = async (model: string, query: string) => {
+  const res = await axios.get(`/${model}?${query}`)
+  console.log("req", model, query)
+  return res.data
+}
+
+function download(filename: string, text: string) {
+  var element = document.createElement("a")
+  element.setAttribute(
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
+  )
+  element.setAttribute("download", filename)
+
+  element.style.display = "none"
+  document.body.appendChild(element)
+
+  element.click()
+
+  document.body.removeChild(element)
+}
+
+function downloadJson(filename: string, obj: Object) {
+  var element = document.createElement("a")
+  element.setAttribute(
+    "href",
+    "data:application/json;charset=utf-8," +
+      encodeURIComponent(JSON.stringify(obj))
+  )
+  element.setAttribute("download", filename)
+
+  element.style.display = "none"
+  document.body.appendChild(element)
+
+  element.click()
+
+  document.body.removeChild(element)
+}
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -164,6 +204,19 @@ const SettingsPage: FC = () => {
       // centered: true, // not inmplemented
     },
   }
+
+  const export_data = async () => {
+    const clients = await axios.get(`/clients`)
+    const orders = await axios.get(`/orders`)
+    const ordersArchive = await axios.get(`/order-archives`)
+    const products = await axios.get(`/products`)
+    downloadJson("export.json", {
+      ...clients.data,
+      ...products.data,
+      ...orders.data,
+      "order-archives": ordersArchive.data.orders,
+    })
+  }
   return (
     <Space direction="vertical">
       <Button
@@ -238,6 +291,7 @@ const SettingsPage: FC = () => {
           >
             Test MSG
           </Button>
+          <Button onClick={export_data}>Export Data</Button>
         </>
       )}
     </Space>
