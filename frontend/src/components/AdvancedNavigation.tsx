@@ -138,11 +138,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
     (navBarPin2 ? 260 : 0)
 
   const navData = secondNavId ? navigationData[secondNavId] : null
-  const SecondNav = navData
-    ? navData?.SecondNavigation
-      ? navData.SecondNavigation
-      : null
-    : null
+  const SecondNav = navData?.SecondNavigation ? navData.SecondNavigation : null
 
   return (
     <Group spacing={0}>
