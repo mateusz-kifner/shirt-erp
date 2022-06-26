@@ -3,6 +3,7 @@ import {
   Box,
   DefaultMantineColor,
   Group,
+  MantineGradient,
   Paper,
   Stack,
   Title,
@@ -28,6 +29,7 @@ const navigationData: {
   to: string
   entryName: string
   color?: DefaultMantineColor
+  gradient?: MantineGradient
   SecondNavigation?: ReactNode
 }[] = [
   {
@@ -35,7 +37,8 @@ const navigationData: {
     Icon: <Checklist size={32} />,
     to: "/erp/tasks",
     entryName: "tasks",
-    color: "green",
+    // color: "green",
+    gradient: { from: "teal", to: "lime", deg: 105 },
     SecondNavigation: <ProductsList />,
   },
   {
@@ -43,14 +46,17 @@ const navigationData: {
     Icon: <Crown size={32} />,
     to: "/erp/orders",
     entryName: "orders",
-    color: "blue",
+    // color: "blue",
+    gradient: { from: "indigo", to: "cyan", deg: 105 },
   },
   {
     label: "Produkty",
     Icon: <Shirt size={32} />,
     to: "/erp/products",
     entryName: "products",
-    color: "orange",
+    // color: "orange",
+    gradient: { from: "grape", to: "red", deg: 105 },
+
     SecondNavigation: <ProductsList />,
   },
   {
@@ -58,7 +64,9 @@ const navigationData: {
     Icon: <User size={32} />,
     to: "/erp/clients",
     entryName: "clients",
-    color: "lime",
+    // color: "lime",
+    gradient: { from: "orange", to: "gold", deg: 105 },
+
     SecondNavigation: <ClientsList />,
   },
   {

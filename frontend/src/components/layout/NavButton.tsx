@@ -8,6 +8,7 @@ import {
   Text,
   MantineGradient,
   Avatar,
+  MantineNumberSize,
 } from "@mantine/core"
 import { ChevronRight } from "../../utils/TablerIcons"
 import { Link } from "react-router-dom"
@@ -19,6 +20,7 @@ interface NavButtonProps {
   color?: DefaultMantineColor
   gradient?: MantineGradient
   onClick?: (e: SyntheticEvent) => void
+  size?: MantineNumberSize
 }
 
 export const NavButton: FC<NavButtonProps> = ({
@@ -28,6 +30,7 @@ export const NavButton: FC<NavButtonProps> = ({
   color,
   gradient,
   onClick = () => {},
+  size = "xl",
 }) => {
   return (
     <UnstyledButton
@@ -58,7 +61,7 @@ export const NavButton: FC<NavButtonProps> = ({
               variant={gradient ? "gradient" : "filled"}
               gradient={gradient ? gradient : undefined}
               color={gradient ? undefined : color ? color : "blue"}
-              size="xl"
+              size={size}
               radius="xl"
             >
               {Icon}
