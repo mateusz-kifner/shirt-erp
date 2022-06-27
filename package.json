@@ -15,15 +15,11 @@
     "install": "yarn --cwd backend install && yarn --cwd frontend install",
     "enable_hidden_windows": "yarn add node-hide-console-window",
     "prod_hidden": "node ./hide_cmd.js && yarn prod",
-    "build-docs": "vitepress build docs",
-    "prod-docs": "vitepress serve docs --port 3333",
     "clean": "rm -dr node_modules && rm -dr frontend/node_modules && rm -dr backend/node_modules"
   },
   "devDependencies": {
     "cross-env": "7.0.x",
     "npm-run-all": "4.1.x",
-    "vitepress": "^0.x.x",
-    "vitepress-dark-theme": "^0.x.x",
     "wait-on": "6.0.x"
   },
   "author": "Mateusz Kifner",
