@@ -1,8 +1,7 @@
 {
-  "name": "backend",
-  "private": true,
+  "name": "shirterp_backend",
   "version": "1.1.0",
-  "description": "A Strapi application",
+  "description": "ShirtERP system backend",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
@@ -10,7 +9,6 @@
     "build-prod": "cross-env NODE_ENV=production yarn build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "@strapi/plugin-i18n": "4.2.0",
     "@strapi/plugin-users-permissions": "4.2.0",
@@ -22,9 +20,7 @@
     "pg": "8.7.3",
     "strapi-plugin-transformer": "^2.0.2"
   },
-  "author": {
-    "name": "Mateusz Kifner"
-  },
+  "devDependencies": {},
   "strapi": {
     "uuid": "7b9d34c7-5dae-46d1-a296-6f96f8a6af81"
   },
@@ -32,5 +28,7 @@
     "node": ">=14.x.x <=16.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "UNLICENSED"
+  "author": "Mateusz Kifner",
+  "license": "UNLICENSED",
+  "private": true
 }

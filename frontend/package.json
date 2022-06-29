@@ -1,10 +1,7 @@
 {
-  "name": "shirtdiperp_frontend",
-  "private": true,
+  "name": "shirterp_frontend",
   "version": "1.1.0",
-  "description": "ShirtDipERP system frontend",
-  "author": "Mateusz Kifner",
-  "license": "UNLICENSED",
+  "description": "ShirtERP system frontend",
   "scripts": {
     "develop": "vite --host",
     "build": "tsc && vite build",
@@ -88,5 +85,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "author": "Mateusz Kifner",
+  "license": "UNLICENSED",
+  "private": true
 }
