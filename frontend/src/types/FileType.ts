@@ -29,6 +29,8 @@ export interface FileType {
   createdAt: string
   updatedAt: string
   related: any[]
+  token: string
+  public: boolean
 }
 
 // "id": 29,

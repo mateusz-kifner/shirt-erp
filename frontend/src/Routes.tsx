@@ -78,7 +78,7 @@ const Routes: FC = () => {
             </Route>
             <Route path="/erp/orders">
               <Route path=":id" element={<OrdersPage />} />
-              <Route path="" element={<OrdersPage />} />
+              <Route path="" element={<>Nie znaleziono</>} />
             </Route>
             <Route
               path="/erp/products"
@@ -125,7 +125,7 @@ const Routes: FC = () => {
             <Route
               path="/erp/expenses"
               element={
-                <AdvancedWorkspace navigation={<ExpensesList />}>
+                <AdvancedWorkspace>
                   <Outlet />
                 </AdvancedWorkspace>
               }

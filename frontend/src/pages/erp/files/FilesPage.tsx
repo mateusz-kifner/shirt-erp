@@ -1,8 +1,136 @@
-import { FC } from "react"
-import { Text } from "@mantine/core"
+import { FC, useEffect } from "react"
+import { Box, Group, Text, Image, ActionIcon } from "@mantine/core"
+import useStrapiList from "../../../hooks/useStrapiList"
+import { FileType } from "../../../types/FileType"
+import axios from "axios"
+import { useQuery } from "react-query"
+import { Eye, FileUnknown, TrashX } from "../../../utils/TablerIcons"
+import { serverURL } from "../../../env"
 
 const FilesPage: FC = () => {
-  return <Text>FilesPage</Text>
+  const fetchFiles = async () => {
+    const res = await axios.get("upload/files")
+    return res.data
+  }
+
+  const { isLoading, isError, error, data, isFetching, isPreviousData } =
+    useQuery<any>(["files"], () => fetchFiles(), { keepPreviousData: true })
+
+  useEffect(() => {
+    ;(async () => {
+      for (let file of data) {
+        if (typeof file.token !== "string") {
+          let res = await axios.get("upload/token/" + file.id)
+        }
+      }
+    })()
+  }, [data])
+
+  // console.log(data)
+  return (
+    <Box>
+      {data &&
+        data.map((fileData: FileType) => {
+          return <FileDisplay fileData={fileData}></FileDisplay>
+        })}
+    </Box>
+  )
+}
+
+interface FileDisplayProps {
+  fileData: FileType
+  previewOverride?: string
+  disabled?: boolean
+}
+
+const FileDisplay: FC<FileDisplayProps> = (props) => {
+  const { fileData, previewOverride, disabled } = props
+  console.log(fileData.id, fileData.token)
+  return (
+    <Group>
+      <div style={{ position: "relative" }}>
+        <Image
+          src={
+            typeof fileData.formats?.thumbnail?.url === "string"
+              ? serverURL +
+                fileData.formats?.thumbnail?.url +
+                "?token=" +
+                fileData.token
+              : undefined
+          }
+          alt=""
+          width={100}
+          height={100}
+          radius="md"
+          fit="cover"
+          styles={(theme) => ({
+            image: {
+              visibility:
+                typeof fileData.formats?.thumbnail?.url === "string"
+                  ? undefined
+                  : "hidden",
+              backgroundColor: "#eee",
+              border:
+                theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da",
+            },
+            placeholder: {
+              backgroundColor:
+                theme.colorScheme === "dark" ? "#2C2E33" : "#eee",
+            },
+          })}
+          withPlaceholder
+          placeholder={<FileUnknown size={88} />}
+        />
+        <Group
+          position="center"
+          align="center"
+          noWrap
+          sx={(theme) => ({
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            width: "100%",
+            gap: theme.spacing.xs / 2,
+            transform: "translate(0,-50%)",
+          })}
+        >
+          {typeof fileData.formats?.thumbnail?.url === "string" && (
+            <>
+              <ActionIcon
+                onClick={() => {
+                  // setPreview(val.preview as string)
+                  // setPreviewOpened(true)
+                }}
+              >
+                <Eye />
+              </ActionIcon>
+
+              <div
+                style={{
+                  borderLeft: "1px solid rgba(0.3,0.3,0.3,0.5)",
+                  height: 20,
+                }}
+              ></div>
+            </>
+          )}
+          {!disabled && (
+            <ActionIcon
+              color="red"
+              onClick={
+                () => {}
+                // onRemove(index)
+              }
+            >
+              <TrashX />
+            </ActionIcon>
+          )}
+        </Group>
+      </div>
+      <Text pr="xl">{fileData.name}</Text>
+    </Group>
+  )
 }
 
 export default FilesPage

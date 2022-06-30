@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { FC, useEffect, useState } from "react"
 
 import template from "../../../models/order.model.json"
 import OrderListItem from "./OrderListItem"
@@ -7,12 +7,20 @@ import CalcTable from "../../../components/CalcTable"
 import * as XLSX from "xlsx"
 import EditableTable from "../../../components/editable/EditableTable"
 import { atom, useRecoilState } from "recoil"
+import TableType from "../../../types/TableType"
+import AdvancedWorkspace from "../../../components/AdvancedWorkspace"
+import Editable from "../../../components/editable/Editable"
+import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 
 const sheetState = atom<any>({
   key: "sheet",
   default: [[{ value: null }]],
 })
 const OrdersPage: FC = () => {
+  // const [sheet, setSheet] = useState<TableType>({
+  //   name: "test",
+  //   data: [[{ value: "" }]],
+  // })
   const [sheet, setSheet] = useRecoilState(sheetState)
   // const presidents = [
   //   { name: "George Washington", birthday: "1732-02-22" },
@@ -25,17 +33,27 @@ const OrdersPage: FC = () => {
   //   XLSX.utils.book_append_sheet(workbook, worksheet, "Dates")
   //   // XLSX.writeFile(workbook, "Presidents.xlsx")
   // })
-  console.log(sheet)
+  // console.log(sheet)
 
   return (
+    <AdvancedWorkspace>
+      <EditableTable
+        value={sheet}
+        onSubmit={(data) => {
+          setSheet(data)
+          console.log(data)
+        }}
+      />
+      <ApiEntryEditable template={template} entryName={"orders"} id={1} />
+    </AdvancedWorkspace>
     // <CalcTable />
-    <EditableTable
-      value={sheet}
-      onSubmit={(data) => {
-        setSheet(data)
-        console.log(data)
-      }}
-    />
+    // <EditableTable
+    //   value={sheet}
+    //   onSubmit={(data) => {
+    //     setSheet(data)
+    //     console.log(data)
+    //   }}
+    // />
     // <DefaultPage
     //   template={template}
     //   ListElement={OrderListItem}

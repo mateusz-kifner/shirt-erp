@@ -92,8 +92,7 @@
     },
     "token": {
       "type": "string",
-      "maxLength": 48,
-      "private": true
+      "maxLength": 48
     }
   }
 }
