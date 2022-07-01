@@ -1,41 +1,28 @@
 import React from "react"
 import { ComponentStory, ComponentMeta } from "@storybook/react"
-
-import { Button } from "./Button"
+import { NavButton } from "../components/layout/NavButton"
+import { Sun } from "../utils/TablerIcons"
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: "Example/Button",
-  component: Button,
+  title: "ShirtERP/Navigation",
+  component: NavButton,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    backgroundColor: { control: "color" },
+    label: { control: "text" },
+    size: { control: "text" },
+    Icon: { control: null },
   },
-} as ComponentMeta<typeof Button>
+} as ComponentMeta<typeof NavButton>
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+const Template: ComponentStory<typeof NavButton> = (args) => (
+  <NavButton {...args} />
+)
 
 export const Primary = Template.bind({})
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-  primary: true,
   label: "Button",
-}
-
-export const Secondary = Template.bind({})
-Secondary.args = {
-  label: "Button",
-}
-
-export const Large = Template.bind({})
-Large.args = {
-  size: "large",
-  label: "Button",
-}
-
-export const Small = Template.bind({})
-Small.args = {
-  size: "small",
-  label: "Button",
+  Icon: <Sun />,
 }

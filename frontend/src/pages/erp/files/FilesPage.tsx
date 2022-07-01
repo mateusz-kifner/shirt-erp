@@ -1,11 +1,14 @@
 import { FC, useEffect } from "react"
-import { Box, Group, Text, Image, ActionIcon } from "@mantine/core"
-import useStrapiList from "../../../hooks/useStrapiList"
+import { Group, Text, Image, ActionIcon, Grid, Input } from "@mantine/core"
 import { FileType } from "../../../types/FileType"
 import axios from "axios"
 import { useQuery } from "react-query"
-import { Eye, FileUnknown, TrashX } from "../../../utils/TablerIcons"
+import { Eye, FileUnknown, Search, TrashX } from "../../../utils/TablerIcons"
 import { serverURL } from "../../../env"
+import ResponsivePaper from "../../../components/ResponsivePaper"
+import FileList from "../../../components/FileList"
+
+const previewFileType = [""]
 
 const FilesPage: FC = () => {
   const fetchFiles = async () => {
@@ -13,8 +16,9 @@ const FilesPage: FC = () => {
     return res.data
   }
 
-  const { isLoading, isError, error, data, isFetching, isPreviousData } =
-    useQuery<any>(["files"], () => fetchFiles(), { keepPreviousData: true })
+  const { data } = useQuery<any>(["files"], () => fetchFiles(), {
+    keepPreviousData: true,
+  })
 
   useEffect(() => {
     ;(async () => {
@@ -26,36 +30,42 @@ const FilesPage: FC = () => {
     })()
   }, [data])
 
-  // console.log(data)
   return (
-    <Box>
-      {data &&
-        data.map((fileData: FileType) => {
-          return <FileDisplay fileData={fileData}></FileDisplay>
-        })}
-    </Box>
+    <ResponsivePaper m="xl">
+      {/* <FileList value={data}></FileList> */}
+      <Input placeholder="Szukaj" rightSection={<Search />} radius="xl" />
+      <Grid>
+        {data &&
+          data.map((fileData: FileType) => {
+            console.log(fileData.mime)
+            return <FileDisplay fileData={fileData}></FileDisplay>
+          })}
+      </Grid>
+    </ResponsivePaper>
   )
 }
 
 interface FileDisplayProps {
   fileData: FileType
-  previewOverride?: string
   disabled?: boolean
+  onPreview?: (url: string) => void
 }
 
 const FileDisplay: FC<FileDisplayProps> = (props) => {
-  const { fileData, previewOverride, disabled } = props
+  const { fileData, disabled, onPreview } = props
   console.log(fileData.id, fileData.token)
   return (
     <Group>
       <div style={{ position: "relative" }}>
         <Image
           src={
-            typeof fileData.formats?.thumbnail?.url === "string"
+            typeof fileData?.formats?.thumbnail?.url === "string"
               ? serverURL +
-                fileData.formats?.thumbnail?.url +
+                fileData.formats.thumbnail?.url +
                 "?token=" +
                 fileData.token
+              : typeof fileData?.url === "string"
+              ? serverURL + fileData.url + "?token=" + fileData.token
               : undefined
           }
           alt=""
@@ -69,7 +79,9 @@ const FileDisplay: FC<FileDisplayProps> = (props) => {
                 typeof fileData.formats?.thumbnail?.url === "string"
                   ? undefined
                   : "hidden",
-              backgroundColor: "#eee",
+              backgroundColor:
+                theme.colorScheme === "dark" ? "#2C2E33" : "#eee",
+
               border:
                 theme.colorScheme === "dark"
                   ? "1px solid #2C2E33"
@@ -100,8 +112,7 @@ const FileDisplay: FC<FileDisplayProps> = (props) => {
             <>
               <ActionIcon
                 onClick={() => {
-                  // setPreview(val.preview as string)
-                  // setPreviewOpened(true)
+                  fileData?.url && onPreview && onPreview(fileData.url)
                 }}
               >
                 <Eye />
