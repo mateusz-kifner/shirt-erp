@@ -25,6 +25,12 @@ import ResponsivePaper from "./components/ResponsivePaper"
 import AdvancedWorkspace from "./components/AdvancedWorkspace"
 import ExpensesList from "./pages/erp/expenses/ExpensesList"
 import ExpenseEditable from "./pages/erp/expenses/ExpenseEditable"
+import OrdersList from "./pages/erp/orders/OrdersList"
+import ClientsList from "./pages/erp/clients/ClientList"
+import UsersList from "./pages/erp/users/UsersList"
+import OrdersArchiveList from "./pages/erp/orders-archive/OrdersArchiveList"
+import EmailMessagesList from "./pages/erp/email-messages/EmailMessagesList"
+import TasksList from "./pages/erp/tasks/TasksList"
 
 const Routes: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -58,104 +64,119 @@ const Routes: FC = () => {
     <>
       {!isAuthenticated && <LoginPage />}
       <Switch>
-        <Route path="/admin">
-          <Route path="*" element={<EmptyPage />} />
-          <Route path="" element={<EmptyPage />} />
-        </Route>
         {!isAuthenticated && (
           <Route path="*" element={<ErrorPage errorcode={403} />} />
         )}
         {isAuthenticated && (
           <>
             <Route path="/" element={<Navigate to="/erp/orders" replace />} />
-            <Route path="/erp/dashboard">
-              <Route path=":id" element={<DashboardPage />} />
+            <Route path="dashboard">
               <Route path="" element={<DashboardPage />} />
             </Route>
-            <Route path="/erp/tasks">
+            <Route
+              path="tasks"
+              element={
+                <ResponsivePaper>
+                  <TasksList />
+                </ResponsivePaper>
+              }
+            >
               <Route path=":id" element={<TasksPage />} />
-              <Route path="" element={<TasksPage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/orders">
+            <Route
+              path="orders"
+              element={
+                <ResponsivePaper>
+                  <OrdersList />
+                </ResponsivePaper>
+              }
+            >
               <Route path=":id" element={<OrdersPage />} />
-              <Route path="" element={<>Nie znaleziono</>} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
               path="/erp/products"
               element={
-                <Group
-                  sx={(theme) => ({
-                    flexWrap: "nowrap",
-                    alignItems: "flex-start",
-                    padding: theme.spacing.xl,
-                    [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-                      padding: 0,
-                    },
-                  })}
-                >
-                  <ResponsivePaper>
-                    <ProductsList />
-                  </ResponsivePaper>
-                  <Outlet />
-                </Group>
+                <ResponsivePaper>
+                  <ProductsList />
+                </ResponsivePaper>
               }
             >
-              <Route
-                path=":id"
-                element={
-                  <ResponsivePaper style={{ flexGrow: 1 }}>
-                    <ProductEditable />
-                  </ResponsivePaper>
-                }
-              />
-              {/* <Route path="" /> */}
+              <Route path=":id" element={<ProductEditable />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/clients">
+            <Route
+              path="clients"
+              element={
+                <ResponsivePaper>
+                  <ClientsList />
+                </ResponsivePaper>
+              }
+            >
               <Route path=":id" element={<ClientsPage />} />
-              <Route path="" element={<ClientsPage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/procedures">
+            <Route path="procedures">
               <Route path=":id" element={<ProceduresPage />} />
-              <Route path="" element={<ProceduresPage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/workstations">
+            <Route path="workstations">
               <Route path=":id" element={<WorkstationsPage />} />
-              <Route path="" element={<WorkstationsPage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
               path="/erp/expenses"
               element={
-                <AdvancedWorkspace>
-                  <Outlet />
-                </AdvancedWorkspace>
+                <ResponsivePaper>
+                  <ExpensesList />
+                </ResponsivePaper>
               }
             >
               <Route path=":id" element={<ExpenseEditable />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/files">
-              <Route path=":id" element={<FilesPage />} />
-              <Route path="" element={<FilesPage />} />
-            </Route>
-            <Route path="/erp/settings">
-              <Route path=":id" element={<SettingsPage />} />
+            <Route path="/erp/files" element={<FilesPage />} />
+            <Route path="settings">
               <Route path="" element={<SettingsPage />} />
             </Route>
-            <Route path="/erp/users">
+            <Route
+              path="users"
+              element={
+                <ResponsivePaper>
+                  <UsersList />
+                </ResponsivePaper>
+              }
+            >
               <Route path=":id" element={<UsersPage />} />
-              <Route path="" element={<UsersPage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/orders-archive">
+            <Route
+              path="orders-archive"
+              element={
+                <ResponsivePaper>
+                  <OrdersArchiveList />
+                </ResponsivePaper>
+              }
+            >
               <Route path=":id" element={<OrdersArchivePage />} />
-              <Route path="" element={<OrdersArchivePage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="/erp/email-messages">
+            <Route
+              path="email-messages"
+              element={
+                <ResponsivePaper>
+                  <EmailMessagesList />
+                </ResponsivePaper>
+              }
+            >
               <Route path=":id" element={<EmailMessagesPage />} />
-              <Route path="" element={<EmailMessagesPage />} />
+              <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             {login.debug && (
-              <Route path="/erp/logs">
+              <Route path="logs">
                 <Route path=":id" element={<LoggerPage />} />
-                <Route path="" element={<LoggerPage />} />
+                <Route path="" element={<ErrorPage errorcode={404} />} />
               </Route>
             )}
             <Route path="*" element={<ErrorPage errorcode={404} />} />

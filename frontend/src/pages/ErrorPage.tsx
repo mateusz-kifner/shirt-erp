@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { Text } from "@mantine/core"
+import { Text, TypographyStylesProvider } from "@mantine/core"
 import { Title } from "@mantine/core"
 import { X, FileUnknown, Lock } from "../utils/TablerIcons"
 
@@ -21,29 +21,31 @@ const ErrorPage: FC<ErrorPageProps> = ({ errorcode }) => {
       break
   }
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        paddingTop: "3rem",
-        borderRadius: "0.5rem",
-        backgroundColor: "var(--background0)",
-        height: "100%",
-      }}
-    >
+    <TypographyStylesProvider>
       <div
         style={{
           display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
           justifyContent: "center",
-          alignItems: "center",
+          paddingTop: "3rem",
+          borderRadius: "0.5rem",
+          backgroundColor: "var(--background0)",
+          height: "100%",
         }}
       >
-        <div style={{ fontSize: 64 }}>{erroricon}</div>
-        <Title order={4}>{errormessage}</Title>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ fontSize: 128 }}>{erroricon}</div>
+          <Title order={4}>{errormessage}</Title>
+        </div>
       </div>
-    </div>
+    </TypographyStylesProvider>
   )
 }
 

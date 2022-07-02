@@ -58,7 +58,7 @@ const ApiList: FC<ApiListProps> = ({
   return (
     <Stack spacing={spacing}>
       <Stack>
-        {/* <Group position="apart">
+        <Group position="apart">
           <Title order={2}>{label}</Title>
           <Group spacing="xs">
             <ActionIcon
@@ -72,8 +72,8 @@ const ApiList: FC<ApiListProps> = ({
             <ActionIcon size="lg" radius="xl" variant="default">
               <Plus />
             </ActionIcon>
-          </Group> 
-        </Group>*/}
+          </Group>
+        </Group>
         <Group spacing="md" px="sm">
           <Group>
             <ActionIcon size="lg" radius="xl" variant="default">

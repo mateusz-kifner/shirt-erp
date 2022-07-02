@@ -21,8 +21,6 @@ const entryName = "email-messages"
 
 const EmailMessagesPage: FC = () => {
   const [id, setId] = useState<number | null>(null)
-  const ListElem = makeDefaultListItem("subject")
-  const navigate = useNavigate()
   const params = useParams()
   useEffect(() => {
     if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
@@ -43,24 +41,6 @@ const EmailMessagesPage: FC = () => {
         },
       })}
     >
-      <ResponsivePaper>
-        <ApiList
-          ListItem={ListElem}
-          entryName={entryName}
-          label={
-            entryName && entryName in names
-              ? _.capitalize(names[entryName as keyof typeof names].plural)
-              : undefined
-          }
-          spacing="xl"
-          listSpacing="sm"
-          onChange={(val: any) => {
-            console.log(val)
-            setId(val.id)
-            navigate("/erp/" + entryName + "/" + val.id)
-          }}
-        />
-      </ResponsivePaper>
       <ResponsivePaper style={{ flexGrow: 1 }}>
         {data && (
           <Stack>
