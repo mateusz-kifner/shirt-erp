@@ -22,84 +22,7 @@ import _ from "lodash"
 import names from "../models/names.json"
 import ClientsList from "../pages/erp/clients/ClientList"
 import { TransitionNoUnmount } from "../mantine/TransitionNoUnmount"
-
-const navigationData: {
-  label: string
-  Icon: ReactNode
-  to: string
-  entryName: string
-  color?: DefaultMantineColor
-  gradient?: MantineGradient
-  SecondNavigation?: ReactNode
-}[] = [
-  {
-    label: "Zadania",
-    Icon: <Checklist size={32} />,
-    to: "/erp/tasks",
-    entryName: "tasks",
-    // color: "green",
-    gradient: { from: "teal", to: "lime", deg: 105 },
-    SecondNavigation: <ProductsList />,
-  },
-  {
-    label: "Zamówienia",
-    Icon: <Crown size={32} />,
-    to: "/erp/orders",
-    entryName: "orders",
-    // color: "blue",
-    gradient: { from: "indigo", to: "cyan", deg: 105 },
-  },
-  {
-    label: "Produkty",
-    Icon: <Shirt size={32} />,
-    to: "/erp/products",
-    entryName: "products",
-    // color: "orange",
-    gradient: { from: "grape", to: "red", deg: 105 },
-
-    SecondNavigation: <ProductsList />,
-  },
-  {
-    label: "Klienci",
-    Icon: <User size={32} />,
-    to: "/erp/clients",
-    entryName: "clients",
-    // color: "lime",
-    gradient: { from: "orange", to: "gold", deg: 105 },
-
-    SecondNavigation: <ClientsList />,
-  },
-  {
-    label: "Wydatki",
-    Icon: <Bell size={32} />,
-    to: "/erp/expenses",
-    entryName: "expenses",
-  },
-  {
-    label: "Maile",
-    Icon: <Mail size={32} />,
-    to: "/erp/email-messages",
-    entryName: "email",
-  },
-  {
-    label: "Logi",
-    Icon: <Bell size={32} />,
-    to: "/erp/logs",
-    entryName: "logs",
-  },
-  {
-    label: "Zamówienia archiwalne",
-    Icon: <Bell size={32} />,
-    to: "/erp/orders-archive",
-    entryName: "orders-archive",
-  },
-  {
-    label: "Pracownicy",
-    Icon: <Bell size={32} />,
-    to: "/erp/users",
-    entryName: "users",
-  },
-]
+import navigationData from "../navigationData"
 
 const slideLeft = {
   in: { transform: "translateX(0)" },
@@ -240,7 +163,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                       </Title>
                     )}
                   </Group>
-                  {SecondNav && SecondNav}
+                  {SecondNav && <SecondNav />}
                 </Stack>
               </Paper>
             )}
@@ -284,7 +207,7 @@ const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
                 </Title>
               )}
             </Group>
-            {SecondNav && SecondNav}
+            {SecondNav && <SecondNav />}
           </Stack>
         </NavBar>
       )}

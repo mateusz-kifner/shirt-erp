@@ -21,6 +21,7 @@ interface NavButtonProps {
   gradient?: MantineGradient
   onClick?: (e: SyntheticEvent) => void
   size?: MantineNumberSize
+  small?: boolean
 }
 
 export const NavButton: FC<NavButtonProps> = ({
@@ -31,6 +32,7 @@ export const NavButton: FC<NavButtonProps> = ({
   gradient,
   onClick = () => {},
   size = "xl",
+  small = false,
 }) => {
   return (
     <UnstyledButton
@@ -69,11 +71,13 @@ export const NavButton: FC<NavButtonProps> = ({
           ) : (
             <Avatar radius="xl">{label?.substring(0, 2).toUpperCase()}</Avatar>
           )}
-          <Text size="sm" style={{ whiteSpace: "nowrap" }}>
-            {label}
-          </Text>
+          {!small && (
+            <Text size="sm" style={{ whiteSpace: "nowrap" }}>
+              {label}
+            </Text>
+          )}
         </Group>
-        <ChevronRight />
+        {!small && <ChevronRight />}
       </Group>
     </UnstyledButton>
   )
