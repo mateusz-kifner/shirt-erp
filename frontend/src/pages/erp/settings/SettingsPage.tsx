@@ -22,6 +22,7 @@ import Editable from "../../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
 import { Link } from "react-router-dom"
 import { useLocalStorage, useColorScheme } from "@mantine/hooks"
+import { experimentalFuturesState } from "../../../atoms/experimentalFuturesState"
 
 const testData = {
   name: "string",
@@ -46,6 +47,9 @@ const testData = {
 
 const SettingsPage: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
+  const [experimentalFutures, setExperimentalFutures] = useRecoilState(
+    experimentalFuturesState
+  )
   const [testFormVisible, setTestFormVisible] = useState(false)
   const preferredColorScheme = useColorScheme()
 
@@ -142,6 +146,22 @@ const SettingsPage: FC = () => {
                 <Group>
                   <Logout />
                   Open Test
+                </Group>
+              </Button>
+              <Button
+                style={{ width: "100%", color: "#fff" }}
+                onClick={() => {
+                  setExperimentalFutures((value: any) => ({
+                    ...value,
+                    advanced_navigation: !value.advanced_navigation,
+                  }))
+                }}
+                color="red"
+              >
+                <Group>
+                  <Bug />
+                  Experimental Navigation{" "}
+                  {experimentalFutures.advanced_navigation ? "ON" : "OFF"}
                 </Group>
               </Button>
             </Stack>

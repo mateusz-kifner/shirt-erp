@@ -11,7 +11,7 @@ import { useEffect, useState } from "react"
 import { BrowserRouter as Router } from "react-router-dom"
 import Routes from "./Routes"
 import "dayjs/locale/pl"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { iconState } from "./atoms/iconState"
 import axios from "axios"
 import dayjs from "dayjs"
@@ -21,6 +21,7 @@ import Navigation from "./components/layout/Navigation"
 import Header from "./components/layout/Header"
 import AdvancedNavigation from "./components/AdvancedNavigation"
 import ProductsList from "./pages/erp/products/ProductsList"
+import { experimentalFuturesState } from "./atoms/experimentalFuturesState"
 
 dayjs.locale("pl")
 dayjs.extend(localizedFormat)
@@ -31,6 +32,7 @@ const App = () => {
 
   const preferredColorScheme = useColorScheme()
   const [iconsData, setIconsData] = useRecoilState(iconState)
+  const experimentalFutures = useRecoilValue(experimentalFuturesState)
 
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "mantine-color-scheme",
@@ -90,7 +92,13 @@ const App = () => {
               padding={0}
               navbarOffsetBreakpoint="sm"
               fixed
-              navbar={<Navigation />}
+              navbar={
+                experimentalFutures.advanced_navigation ? (
+                  <AdvancedNavigation opened={opened} setOpened={setOpened} />
+                ) : (
+                  <Navigation opened={opened} setOpened={setOpened} />
+                )
+              }
               header={<Header navOpened={opened} setNavOpened={setOpened} />}
               styles={(theme: MantineTheme) => ({
                 main: {

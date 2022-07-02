@@ -46,7 +46,7 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
         },
       })}
     >
-      <MediaQuery largerThan="sm" styles={{ padding: "0 2rem" }}>
+      <MediaQuery largerThan="sm" styles={{ padding: "0 13px" }}>
         <Group position="apart" align="center" style={{ height: "100%" }}>
           <Group>
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
@@ -59,9 +59,9 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
               />
             </MediaQuery>
             <Image
-              src="/assets/logo_small.png"
+              src="/assets/logo_micro.png"
               alt="Shirt Dip ERP"
-              height={32}
+              height={40}
               // style={{
               //   filter: `invert(${
               //     +!(colorScheme === "dark") * 0.8

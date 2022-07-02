@@ -40,6 +40,8 @@ const slideRight = {
 
 interface AdvancedNavigationProps {
   // navigation: ReactNode
+  opened?: boolean
+  setOpened?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
