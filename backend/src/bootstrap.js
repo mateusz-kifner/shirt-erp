@@ -10,6 +10,17 @@ const set = _.set;
  * !!! use singular names in data.json and data_files.json !!!
  */
 
+const Crypto = require("crypto");
+
+function randomString(size = 48) {
+  return Crypto.randomBytes(size).toString("base64").slice(0, size);
+}
+
+const generateToken = async (event) => {
+  const { data } = event.params;
+  data.token = await randomString().replace(/\//, "_").replace(/\+/, "-");
+};
+
 async function setApiPermissions(newPermissions, role = "Public") {
   // Find the ID of the public role
   const strapiRole = await strapi
@@ -256,4 +267,9 @@ module.exports = async () => {
       strapi.log.error(error);
     }
   }
+
+  strapi.db.lifecycles.subscribe({
+    models: ["plugin::upload.file"],
+    beforeCreate: generateToken,
+  });
 };
