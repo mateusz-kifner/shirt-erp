@@ -13,7 +13,7 @@ import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
 import DisplayCell from "../../../components/details/DisplayCell"
 import FileList from "../../../components/FileList"
-import { Radioactive, RadioactiveOff, X } from "../../../utils/TablerIcons"
+import { Radioactive, RadioactiveOff, X } from "tabler-icons-react"
 import { useRecoilState } from "recoil"
 import { emailMessageState } from "../../../atoms/emailMessageState"
 

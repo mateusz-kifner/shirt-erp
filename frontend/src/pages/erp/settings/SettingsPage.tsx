@@ -8,13 +8,7 @@ import {
   Paper,
   Stack,
 } from "@mantine/core"
-import {
-  Affiliate,
-  Bug,
-  Logout,
-  MoonStars,
-  Sun,
-} from "../../../utils/TablerIcons"
+import { Affiliate, Bug, Logout, MoonStars, Sun } from "tabler-icons-react"
 import { loginState } from "../../../atoms/loginState"
 import { useRecoilState } from "recoil"
 import template from "../../../models/test.model.json"

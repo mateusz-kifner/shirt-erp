@@ -1,14 +1,14 @@
 import { DefaultMantineColor, MantineGradient } from "@mantine/core"
 import { ComponentType, ReactNode } from "react"
 import {
-  Bell,
   Checklist,
   Crown,
   Mail,
   Shirt,
   User,
   File,
-} from "./utils/TablerIcons"
+  Bell,
+} from "tabler-icons-react"
 
 const navigationData: {
   label: string

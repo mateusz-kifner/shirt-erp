@@ -13,7 +13,7 @@ import { FC } from "react"
 import { Link } from "react-router-dom"
 import { useRecoilValue } from "recoil"
 import { experimentalFuturesState } from "../../atoms/experimentalFuturesState"
-import { Bell, Search, Settings } from "../../utils/TablerIcons"
+import { Bell, Search, Settings } from "tabler-icons-react"
 
 const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   root: {

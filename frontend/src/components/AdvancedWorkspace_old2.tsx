@@ -6,7 +6,7 @@ import ResponsivePaper from "./ResponsivePaper"
 import NavBar from "./layout/NavBar"
 // import { navigationData } from "../Routes"
 import { NavButton } from "./layout/NavButton"
-import { Compass, ArrowLeft } from "../utils/TablerIcons"
+import { Compass, ArrowLeft } from "tabler-icons-react"
 import { useTransition } from "../mantine/useTransition"
 import { getTransitionStyles } from "../mantine/get-transition-styles"
 

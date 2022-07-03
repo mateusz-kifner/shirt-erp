@@ -23,7 +23,7 @@ import {
   FileUnknown,
   TrashX,
   Eye,
-} from "../utils/TablerIcons"
+} from "tabler-icons-react"
 import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"

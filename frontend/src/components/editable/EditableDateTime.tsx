@@ -12,7 +12,7 @@ import dayjs from "dayjs"
 import { FC, useEffect, useRef, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
-import { Calendar, Clock, Copy } from "../../utils/TablerIcons"
+import { Calendar, Clock, Copy } from "tabler-icons-react"
 
 // TODO: make it editable
 

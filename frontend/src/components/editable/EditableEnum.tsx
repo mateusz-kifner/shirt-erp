@@ -2,7 +2,7 @@ import { ActionIcon, InputWrapper, Select } from "@mantine/core"
 import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState } from "react"
-import { Copy } from "../../utils/TablerIcons"
+import { Copy } from "tabler-icons-react"
 
 interface EditableEnumProps {
   label?: string

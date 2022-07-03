@@ -1,7 +1,7 @@
 import { Button, useMantineTheme, Stack, Group } from "@mantine/core"
 import { FC, useReducer, useState } from "react"
 import Spreadsheet, { Matrix } from "react-spreadsheet"
-import { Plus } from "../utils/TablerIcons"
+import { Plus } from "tabler-icons-react"
 
 const initialState: Array<Array<any>> = [[{ value: "" }]]
 

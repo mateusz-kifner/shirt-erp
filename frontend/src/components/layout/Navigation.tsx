@@ -15,7 +15,7 @@ import { FC, ReactElement, Ref, SyntheticEvent, useState } from "react"
 import { Link } from "react-router-dom"
 import navigationData from "../../navigationData"
 // import { navigationData } from "../../Routes"
-import { ChevronRight, ChevronLeft } from "../../utils/TablerIcons"
+import { ChevronRight, ChevronLeft } from "tabler-icons-react"
 import { NavButton } from "./NavButton"
 
 interface NavigationProps {

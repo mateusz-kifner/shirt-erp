@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { Tabs } from "@mantine/core"
-import { Affiliate, Robot } from "../../../utils/TablerIcons"
+import { Affiliate, Robot } from "tabler-icons-react"
 import { useNavigate } from "react-router-dom"
 
 const ProductionNavigation: FC<{ initialTab?: number }> = ({

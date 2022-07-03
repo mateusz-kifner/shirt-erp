@@ -12,8 +12,8 @@ import {
 import { FC, ReactNode, useEffect, useRef, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import ProductsList from "../pages/erp/products/ProductsList"
-import { Compass, ArrowLeft } from "../utils/TablerIcons"
-import { Bell, Checklist, Crown, Mail, Shirt, User } from "../utils/TablerIcons"
+import { Compass, ArrowLeft } from "tabler-icons-react"
+import { Bell, Checklist, Crown, Mail, Shirt, User } from "tabler-icons-react"
 
 import NavBar from "./layout/NavBar"
 import { NavButton } from "./layout/NavButton"

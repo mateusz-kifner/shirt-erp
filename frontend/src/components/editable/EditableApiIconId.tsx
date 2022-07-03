@@ -10,7 +10,7 @@ import { useUuid } from "@mantine/hooks"
 import { FC, useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 import { iconState } from "../../atoms/iconState"
-import { X } from "../../utils/TablerIcons"
+import { X } from "tabler-icons-react"
 import ApiIconSVG from "../api/ApiIconSVG"
 
 interface EditableApiIconIdProps {

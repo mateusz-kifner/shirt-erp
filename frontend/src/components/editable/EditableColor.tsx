@@ -12,7 +12,7 @@ import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState, useRef, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ColorSwatch, Copy, Edit } from "../../utils/TablerIcons"
+import { ColorSwatch, Copy, Edit } from "tabler-icons-react"
 import { ColorType } from "../../types/ColorType"
 import { SxBorder, SxRadius } from "../../styles/basic"
 

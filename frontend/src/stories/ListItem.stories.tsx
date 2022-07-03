@@ -1,7 +1,7 @@
 import React from "react"
 import { ComponentStory, ComponentMeta } from "@storybook/react"
 import { NavButton } from "../components/layout/NavButton"
-import { Sun } from "../utils/TablerIcons"
+import { Sun } from "tabler-icons-react"
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { Text, TypographyStylesProvider } from "@mantine/core"
 import { Title } from "@mantine/core"
-import { X, FileUnknown, Lock } from "../utils/TablerIcons"
+import { X, FileUnknown, Lock } from "tabler-icons-react"
 
 interface ErrorPageProps {
   errorcode: number

@@ -1,6 +1,6 @@
 import { FC } from "react"
 import { useRecoilValue } from "recoil"
-import { X } from "../../utils/TablerIcons"
+import { X } from "tabler-icons-react"
 import { iconState } from "../../atoms/iconState"
 import SVG from "react-inlinesvg"
 import { serverURL } from "../../env"

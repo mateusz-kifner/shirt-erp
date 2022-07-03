@@ -10,7 +10,7 @@ import {
   Avatar,
   MantineNumberSize,
 } from "@mantine/core"
-import { ChevronRight } from "../../utils/TablerIcons"
+import { ChevronRight } from "tabler-icons-react"
 import { Link } from "react-router-dom"
 
 interface NavButtonProps {

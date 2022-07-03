@@ -10,7 +10,7 @@ import {
   MantineNumberSize,
 } from "@mantine/core"
 import { FC, useEffect, useState } from "react"
-import { Plus, Refresh, Search, SortAscending } from "../../utils/TablerIcons"
+import { Plus, Refresh, Search, SortAscending } from "tabler-icons-react"
 import useStrapiList from "../../hooks/useStrapiList"
 import {
   matchRoutes,

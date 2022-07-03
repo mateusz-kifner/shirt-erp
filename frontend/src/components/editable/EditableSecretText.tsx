@@ -5,7 +5,7 @@ import DOMPurify from "dompurify"
 import { FC, useEffect, useRef, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
-import { Notes } from "../../utils/TablerIcons"
+import { Notes } from "tabler-icons-react"
 
 interface EditableSecretTextProps {
   value?: string

@@ -3,7 +3,7 @@ import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useRef, useState, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Edit, X } from "../../utils/TablerIcons"
+import { Copy, Edit, X } from "tabler-icons-react"
 
 interface EditableTextProps {
   label?: string

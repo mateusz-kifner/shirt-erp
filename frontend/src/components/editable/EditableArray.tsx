@@ -12,7 +12,7 @@ import _ from "lodash"
 import { ComponentType, FC, useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
-import { Edit, Plus, TrashX, X } from "../../utils/TablerIcons"
+import { Edit, Plus, TrashX, X } from "tabler-icons-react"
 
 // fixme submit only on edit end
 

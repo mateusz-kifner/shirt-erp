@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Paper, ScrollArea, Stack, Sx } from "@mantine/core"
 import { useFocusWithin } from "@mantine/hooks"
 import { FC, forwardRef, ReactNode, SyntheticEvent, useState } from "react"
-import { PinnedOff, Pinned } from "../../utils/TablerIcons"
+import { PinnedOff, Pinned } from "tabler-icons-react"
 
 interface NavBarProps {
   children: ReactNode
