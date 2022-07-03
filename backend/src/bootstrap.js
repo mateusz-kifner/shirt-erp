@@ -232,7 +232,7 @@ async function setupEmployeeRole() {
   );
   await setPluginPermissions(
     "fuzzy-search",
-    "search-controller",
+    "searchController",
     ["search"],
     "Employee"
   );

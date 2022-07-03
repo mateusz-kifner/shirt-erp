@@ -174,9 +174,9 @@
   ],
   "log": [
     {
-      "message": "testLog",
+      "message": "first start",
       "type": "???",
-      "data": { "message": "test" },
+      "data": "{ \"message\": \"strapi first start\" }",
       "userId": "1"
     }
   ],
