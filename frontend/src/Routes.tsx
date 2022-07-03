@@ -174,7 +174,7 @@ const Routes: FC = () => {
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             {login.debug && (
-              <Route path="/erp/logs">
+              <Route path="/erp/logs" element={<LoggerPage />}>
                 <Route path=":id" element={<LoggerPage />} />
                 <Route path="" element={<ErrorPage errorcode={404} />} />
               </Route>

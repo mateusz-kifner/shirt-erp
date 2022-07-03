@@ -1,9 +1,5 @@
 import {
-  DefaultMantineColor,
   Group,
-  ThemeIcon,
-  UnstyledButton,
-  Text,
   Box,
   Navbar,
   ScrollArea,
@@ -17,6 +13,8 @@ import navigationData from "../../navigationData"
 // import { navigationData } from "../../Routes"
 import { ChevronRight, ChevronLeft } from "tabler-icons-react"
 import { NavButton } from "./NavButton"
+import { useRecoilValue } from "recoil"
+import { loginState } from "../../atoms/loginState"
 
 interface NavigationProps {
   opened?: boolean
@@ -24,7 +22,8 @@ interface NavigationProps {
 }
 
 const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
-  const biggerThanSM = useMediaQuery("(min-width: 800px)")
+  const user = useRecoilValue(loginState)
+  const biggerThanSM = useMediaQuery("(min-width: 1000px)")
   const [navSmall, setNavSmall] = useLocalStorage<boolean>({
     key: "nav-small",
     defaultValue: false,
@@ -32,7 +31,7 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
 
   return (
     <Navbar
-      hiddenBreakpoint="sm"
+      hiddenBreakpoint="md"
       hidden={!opened}
       width={{ base: "100%", sm: navSmall ? 85 : 300 }}
       px="sm"
@@ -47,16 +46,19 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
           }}
         >
           <Stack>
-            {navigationData.map((val, index) => (
-              <NavButton
-                {...val}
-                key={"navbar_" + val.label}
-                onClick={(e: any) => {
-                  setOpened && setOpened(false)
-                }}
-                small={navSmall && biggerThanSM}
-              />
-            ))}
+            {navigationData.map(
+              (val, index) =>
+                (!val?.debug || user.debug) && (
+                  <NavButton
+                    {...val}
+                    key={"navbar_" + val.label}
+                    onClick={(e: any) => {
+                      setOpened && setOpened(false)
+                    }}
+                    small={navSmall && biggerThanSM}
+                  />
+                )
+            )}
           </Stack>
           {biggerThanSM && (
             <Box

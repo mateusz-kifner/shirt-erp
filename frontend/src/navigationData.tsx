@@ -8,6 +8,7 @@ import {
   User,
   File,
   Bell,
+  ShoppingCart,
 } from "tabler-icons-react"
 
 const navigationData: {
@@ -18,6 +19,7 @@ const navigationData: {
   color?: DefaultMantineColor
   gradient?: MantineGradient
   SecondNavigation?: ComponentType<any>
+  debug?: boolean
 }[] = [
   {
     label: "Zadania",
@@ -49,39 +51,45 @@ const navigationData: {
   },
   {
     label: "Wydatki",
-    Icon: <Bell size={32} />,
+    Icon: <ShoppingCart size={32} />,
     to: "/erp/expenses",
     entryName: "expenses",
+    gradient: { from: "red", to: "orange", deg: 105 },
   },
   {
     label: "Maile",
     Icon: <Mail size={32} />,
     to: "/erp/email-messages",
     entryName: "email",
+    gradient: { from: "indigo", to: "teal", deg: 105 },
   },
   {
     label: "Logi",
     Icon: <Bell size={32} />,
     to: "/erp/logs",
     entryName: "logs",
+    debug: true,
   },
   {
     label: "Zamówienia archiwalne",
     Icon: <Bell size={32} />,
     to: "/erp/orders-archive",
     entryName: "orders-archive",
+    debug: true,
   },
   {
     label: "Pracownicy",
     Icon: <Bell size={32} />,
     to: "/erp/users",
     entryName: "users",
+    debug: true,
   },
   {
     label: "Pliki",
     Icon: <File size={32} />,
     to: "/erp/files",
     entryName: "upload/files",
+    gradient: { from: "green", to: "lime", deg: 105 },
   },
 ]
 

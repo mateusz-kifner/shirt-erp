@@ -50,10 +50,10 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
         },
       })}
     >
-      <MediaQuery largerThan="sm" styles={{ padding: "0 13px" }}>
+      <MediaQuery largerThan="md" styles={{ padding: "0 13px" }}>
         <Group position="apart" align="center" style={{ height: "100%" }}>
           <Group>
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+            <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
                 opened={navOpened ? navOpened : false}
                 onClick={() => setNavOpened && setNavOpened((o) => !o)}

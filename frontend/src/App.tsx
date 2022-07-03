@@ -92,7 +92,7 @@ const App = () => {
               <AppShell
                 style={{ height: "100%" }}
                 padding={0}
-                navbarOffsetBreakpoint="sm"
+                navbarOffsetBreakpoint="md"
                 fixed
                 header={<Header navOpened={opened} setNavOpened={setOpened} />}
                 navbar={

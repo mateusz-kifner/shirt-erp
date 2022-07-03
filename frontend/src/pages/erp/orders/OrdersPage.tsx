@@ -36,7 +36,9 @@ const OrdersPage: FC = () => {
   // console.log(sheet)
 
   return (
-    <AdvancedWorkspace>
+    // <AdvancedWorkspace>
+    <>
+      <ApiEntryEditable template={template} entryName={"orders"} id={1} />
       <EditableTable
         value={sheet}
         onSubmit={(data) => {
@@ -44,8 +46,8 @@ const OrdersPage: FC = () => {
           console.log(data)
         }}
       />
-      <ApiEntryEditable template={template} entryName={"orders"} id={1} />
-    </AdvancedWorkspace>
+    </>
+    // </AdvancedWorkspace>
     // <CalcTable />
     // <EditableTable
     //   value={sheet}

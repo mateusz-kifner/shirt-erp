@@ -4,7 +4,8 @@
   "info": {
     "singularName": "log",
     "pluralName": "logs",
-    "displayName": "Log"
+    "displayName": "Log",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -12,19 +13,16 @@
   "pluginOptions": {},
   "attributes": {
     "message": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "type": {
-      "type": "string",
-      "default": ""
-    },
-    "data": {
-      "type": "json"
+      "type": "string"
     },
     "userId": {
-      "type": "string",
-      "default": ""
+      "type": "string"
+    },
+    "data": {
+      "type": "text"
     }
   }
 }
