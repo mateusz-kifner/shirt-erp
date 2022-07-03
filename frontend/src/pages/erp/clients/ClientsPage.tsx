@@ -14,12 +14,12 @@ const ClientsPage: FC = ({}) => {
   const params = useParams()
   useEffect(() => {
     if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
-  })
-
+  }, [params])
+  console.log(id)
   return (
-    <AdvancedWorkspace>
-      <ApiEntryEditable template={template} entryName={entryName} id={id} />
-    </AdvancedWorkspace>
+    // <AdvancedWorkspace>
+    <ApiEntryEditable template={template} entryName={entryName} id={id} />
+    // </AdvancedWorkspace>
   )
 }
 

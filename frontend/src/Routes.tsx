@@ -21,7 +21,6 @@ import WorkstationsPage from "./pages/erp/production/WorkstationsPage"
 import EmailMessagesPage from "./pages/erp/email-messages/EmailMessagesPage"
 import ProductEditable from "./pages/erp/products/ProductEditable"
 import ProductsList from "./pages/erp/products/ProductsList"
-import ResponsivePaper from "./components/ResponsivePaper"
 import AdvancedWorkspace from "./components/AdvancedWorkspace"
 import ExpensesList from "./pages/erp/expenses/ExpensesList"
 import ExpenseEditable from "./pages/erp/expenses/ExpenseEditable"
@@ -31,6 +30,7 @@ import UsersList from "./pages/erp/users/UsersList"
 import OrdersArchiveList from "./pages/erp/orders-archive/OrdersArchiveList"
 import EmailMessagesList from "./pages/erp/email-messages/EmailMessagesList"
 import TasksList from "./pages/erp/tasks/TasksList"
+import Workspace from "./components/Workspace"
 
 const Routes: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -74,22 +74,22 @@ const Routes: FC = () => {
               <Route path="" element={<DashboardPage />} />
             </Route>
             <Route
-              path="tasks"
+              path="/erp/tasks"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <TasksList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<TasksPage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
-              path="orders"
+              path="/erp/orders"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <OrdersList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<OrdersPage />} />
@@ -98,39 +98,39 @@ const Routes: FC = () => {
             <Route
               path="/erp/products"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <ProductsList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<ProductEditable />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
-              path="clients"
+              path="/erp/clients"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <ClientsList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<ClientsPage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="procedures">
+            <Route path="/erp/procedures">
               <Route path=":id" element={<ProceduresPage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
-            <Route path="workstations">
+            <Route path="/erp/workstations">
               <Route path=":id" element={<WorkstationsPage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
               path="/erp/expenses"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <ExpensesList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<ExpenseEditable />} />
@@ -141,40 +141,40 @@ const Routes: FC = () => {
               <Route path="" element={<SettingsPage />} />
             </Route>
             <Route
-              path="users"
+              path="/erp/users"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <UsersList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<UsersPage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
-              path="orders-archive"
+              path="/erp/orders-archive"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <OrdersArchiveList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<OrdersArchivePage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route
-              path="email-messages"
+              path="/erp/email-messages"
               element={
-                <ResponsivePaper>
+                <Workspace>
                   <EmailMessagesList />
-                </ResponsivePaper>
+                </Workspace>
               }
             >
               <Route path=":id" element={<EmailMessagesPage />} />
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             {login.debug && (
-              <Route path="logs">
+              <Route path="/erp/logs">
                 <Route path=":id" element={<LoggerPage />} />
                 <Route path="" element={<ErrorPage errorcode={404} />} />
               </Route>
@@ -185,10 +185,6 @@ const Routes: FC = () => {
       </Switch>
     </>
   )
-}
-
-const EmptyPage: FC = () => {
-  return null
 }
 
 export default Routes

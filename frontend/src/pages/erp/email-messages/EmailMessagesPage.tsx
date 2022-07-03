@@ -41,62 +41,60 @@ const EmailMessagesPage: FC = () => {
         },
       })}
     >
-      <ResponsivePaper style={{ flexGrow: 1 }}>
-        {data && (
-          <Stack>
-            <Group>
-              <Title order={3} style={{ flexGrow: 1 }}>
-                {data.subject}
-              </Title>
-              <Menu withArrow>
-                {isDangerous ? (
-                  <Menu.Item
-                    icon={<RadioactiveOff />}
-                    onClick={() =>
-                      setEmailMessage((val: number[]) =>
-                        val.filter((val2) => val2 !== id)
-                      )
-                    }
-                  >
-                    Ukryj HTML
-                  </Menu.Item>
-                ) : (
-                  <Menu.Item
-                    icon={<Radioactive />}
-                    color="red"
-                    onClick={() =>
-                      setEmailMessage((val: number[]) => [...val, id])
-                    }
-                  >
-                    Pokaż HTML
-                  </Menu.Item>
-                )}
-              </Menu>
-            </Group>
+      {data && (
+        <Stack>
+          <Group>
+            <Title order={3} style={{ flexGrow: 1 }}>
+              {data.subject}
+            </Title>
+            <Menu withArrow>
+              {isDangerous ? (
+                <Menu.Item
+                  icon={<RadioactiveOff />}
+                  onClick={() =>
+                    setEmailMessage((val: number[]) =>
+                      val.filter((val2) => val2 !== id)
+                    )
+                  }
+                >
+                  Ukryj HTML
+                </Menu.Item>
+              ) : (
+                <Menu.Item
+                  icon={<Radioactive />}
+                  color="red"
+                  onClick={() =>
+                    setEmailMessage((val: number[]) => [...val, id])
+                  }
+                >
+                  Pokaż HTML
+                </Menu.Item>
+              )}
+            </Menu>
+          </Group>
 
-            <Group>
-              {data.from} {"->"} {data.to}
-            </Group>
-            <DisplayCell>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: isDangerous
-                    ? DOMPurify.sanitize(data.html)
-                    : DOMPurify.sanitize(data.textAsHtml),
-                }}
-              ></div>
-            </DisplayCell>
-            <FileList
-              value={
-                data?.attachments && Array.isArray(data?.attachments)
-                  ? data.attachments
-                  : []
-              }
-              disabled={true}
-            />
-          </Stack>
-        )}
-      </ResponsivePaper>
+          <Group>
+            {data.from} {"->"} {data.to}
+          </Group>
+          <DisplayCell>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: isDangerous
+                  ? DOMPurify.sanitize(data.html)
+                  : DOMPurify.sanitize(data.textAsHtml),
+              }}
+            ></div>
+          </DisplayCell>
+          <FileList
+            value={
+              data?.attachments && Array.isArray(data?.attachments)
+                ? data.attachments
+                : []
+            }
+            disabled={true}
+          />
+        </Stack>
+      )}
     </Group>
   )
 }

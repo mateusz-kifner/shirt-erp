@@ -22,6 +22,7 @@ import Header from "./components/layout/Header"
 import AdvancedNavigation from "./components/AdvancedNavigation"
 import ProductsList from "./pages/erp/products/ProductsList"
 import { experimentalFuturesState } from "./atoms/experimentalFuturesState"
+import Spotlight from "./components/Spotlight"
 
 dayjs.locale("pl")
 dayjs.extend(localizedFormat)
@@ -87,30 +88,32 @@ const App = () => {
       >
         <NotificationsProvider>
           <Router>
-            <AppShell
-              style={{ height: "100%" }}
-              padding={0}
-              navbarOffsetBreakpoint="sm"
-              fixed
-              navbar={
-                experimentalFutures.advanced_navigation ? (
-                  <AdvancedNavigation opened={opened} setOpened={setOpened} />
-                ) : (
-                  <Navigation opened={opened} setOpened={setOpened} />
-                )
-              }
-              header={<Header navOpened={opened} setNavOpened={setOpened} />}
-              styles={(theme: MantineTheme) => ({
-                main: {
-                  backgroundColor:
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[8]
-                      : theme.colors[theme.primaryColor][0],
-                },
-              })}
-            >
-              <Routes />
-            </AppShell>
+            <Spotlight>
+              <AppShell
+                style={{ height: "100%" }}
+                padding={0}
+                navbarOffsetBreakpoint="sm"
+                fixed
+                header={<Header navOpened={opened} setNavOpened={setOpened} />}
+                navbar={
+                  experimentalFutures.advanced_navigation ? (
+                    <AdvancedNavigation opened={opened} setOpened={setOpened} />
+                  ) : (
+                    <Navigation opened={opened} setOpened={setOpened} />
+                  )
+                }
+                styles={(theme: MantineTheme) => ({
+                  main: {
+                    backgroundColor:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[8]
+                        : theme.colors[theme.primaryColor][0],
+                  },
+                })}
+              >
+                <Routes />
+              </AppShell>
+            </Spotlight>
           </Router>
         </NotificationsProvider>
       </MantineProvider>

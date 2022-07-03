@@ -3,12 +3,12 @@ import {
   Group,
   Burger,
   Image,
-  Autocomplete,
   ActionIcon,
   Header as MantineHeader,
   useMantineTheme,
   MantineTheme,
 } from "@mantine/core"
+import { openSpotlight } from "@mantine/spotlight"
 import { FC } from "react"
 import { Link } from "react-router-dom"
 import { Bell, Search, Settings } from "../../utils/TablerIcons"
@@ -58,16 +58,19 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
                 mr="sm"
               />
             </MediaQuery>
-            <Image
-              src="/assets/logo_micro.png"
-              alt="Shirt Dip ERP"
-              height={40}
-              // style={{
-              //   filter: `invert(${
-              //     +!(colorScheme === "dark") * 0.8
-              //   })`,
-              // }}
-            />
+            {navOpened ? (
+              <Image
+                src="/assets/logo_small.png"
+                alt="Shirt Dip ERP"
+                height={40}
+              />
+            ) : (
+              <Image
+                src="/assets/logo_micro.png"
+                alt="Shirt Dip ERP"
+                height={40}
+              />
+            )}
           </Group>
           {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Autocomplete
@@ -127,10 +130,10 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
             <ActionIcon
               size="lg"
               radius="xl"
-              disabled
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
               styles={ActionButtonHeaderStyle}
+              onClick={openSpotlight}
             >
               <Search />
             </ActionIcon>
