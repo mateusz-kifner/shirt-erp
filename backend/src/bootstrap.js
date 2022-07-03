@@ -230,6 +230,12 @@ async function setupEmployeeRole() {
     ["find", "findOne", "count", "me"],
     "Employee"
   );
+  await setPluginPermissions(
+    "fuzzy-search",
+    "search-controller",
+    ["search"],
+    "Employee"
+  );
 }
 
 module.exports = async () => {
