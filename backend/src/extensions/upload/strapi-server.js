@@ -61,15 +61,16 @@ module.exports = (plugin) => {
       const file = await strapi.plugins.upload.services.upload.findOne(id);
       if (!file) return ctx.badRequest("File not found");
 
-      // fixme: authorize downloads
       const path = strapi.dirs.public + file.url;
 
       ctx.type = file.mime;
       ctx.set(
         "Content-disposition",
-        "attachment; filename=" + file.name + file.ext
+        "attachment; filename=" +
+          encodeURI(file.name + (file.name.endsWith(file.ext) ? "" : file.ext))
       );
-      console.log({ ...ctx });
+      // console.log({ ...ctx });
+      console.log(file.name + file.ext);
       ctx.body = await fs.createReadStream(path);
       await ctx.response.send(ctx.body);
       return ctx.body;

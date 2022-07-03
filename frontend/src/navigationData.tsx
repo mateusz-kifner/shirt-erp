@@ -90,6 +90,7 @@ const navigationData: {
     to: "/erp/files",
     entryName: "upload/files",
     gradient: { from: "green", to: "lime", deg: 105 },
+    debug: true,
   },
 ]
 

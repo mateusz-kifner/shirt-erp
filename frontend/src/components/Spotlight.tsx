@@ -29,9 +29,9 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
     <SpotlightProvider
       actions={actions}
       searchIcon={<Search size={18} />}
-      searchPlaceholder="Search..."
+      searchPlaceholder="Szukaj..."
       shortcut="ctrl + s"
-      nothingFoundMessage="Nothing found..."
+      nothingFoundMessage="Nic nie znaleziono..."
     >
       {children}
     </SpotlightProvider>

@@ -57,6 +57,8 @@ const App = () => {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
         theme={{
           colorScheme: colorScheme,
           datesLocale: "pl",

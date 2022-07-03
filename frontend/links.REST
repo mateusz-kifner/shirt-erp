@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUzNjg5MTM0LCJleHAiOjE2NTYyODExMzR9.W3-4LtWWaqIB2Fcj_a-PoPj8Lx8un0oUv17YI_hLEw8
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2ODYzMTc3LCJleHAiOjE2NTk0NTUxNzd9.vFsZWzO_9ZHtHmB13e1WhkKQszqt-IcX5XO9d8BDX-0
 
 @host=http://localhost:1337
 ###
@@ -26,7 +26,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/uploads/4071834_e3fceedd87.jpg
+GET {{host}}/uploads/Antoni_Wilinski_AI_2bd84edf61.png
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -115,13 +115,13 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/files/1
+GET {{host}}/api/upload/files/68
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/download/1
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
+GET {{host}}/api/upload/download/68?token=eDIodVnlvILH_4VyeWjX3JvHF6ShVRAjb-gVh5Ud2BCzTkNM
+# Content-Type: application/json
+# Authorization: Bearer {{authToken}}
 

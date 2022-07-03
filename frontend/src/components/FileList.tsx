@@ -23,6 +23,7 @@ import {
   FileUnknown,
   TrashX,
   Eye,
+  Download,
 } from "tabler-icons-react"
 import { serverURL } from "../env"
 import { FileType } from "../types/FileType"
@@ -148,7 +149,12 @@ const FileList: FC<FileListProps> = ({
 
   useEffect(() => {
     if (!filesData || filesData.length === 0) return
-    const files = filesData.map((val: FilesDataType) => val.file)
+    const files = filesData.map((val: FilesDataType) => {
+      if (typeof val?.file?.token !== "string") {
+        let res = axios.get("upload/token/" + val?.file?.id)
+      }
+      return val.file
+    })
     if (isArrayEqual(files, prev)) return
     onChange && onChange(files)
   }, [filesData])
@@ -280,9 +286,22 @@ const FileList: FC<FileListProps> = ({
               </Group>
             </div>
             <Text pr="xl">{val?.file?.name}</Text>
+            <ActionIcon
+              component="a"
+              href={
+                serverURL +
+                "/api/upload/download/" +
+                val?.file?.id +
+                "?token=" +
+                val?.file?.token
+              }
+              download
+            >
+              <Download />
+            </ActionIcon>
           </Group>
         ))}
-        {(filesData.length < maxFileCount || !!uploading) && (
+        {(filesData.length < maxFileCount || !!uploading) && !disabled && (
           <Button
             variant="default"
             styles={(theme) => ({
@@ -295,7 +314,7 @@ const FileList: FC<FileListProps> = ({
             })}
             onClick={() => setDropOpened(true)}
             radius="md"
-            disabled={disabled || !!uploading}
+            // disabled={disabled || !!uploading}
           >
             {uploading ? <LoadingOverlay visible={true} /> : <Plus size={32} />}
           </Button>
