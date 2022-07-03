@@ -38,3 +38,5 @@ export { default as RadioactiveOff } from "tabler-icons-react/dist/icons/radioac
 export { default as Pinned } from "tabler-icons-react/dist/icons/pinned.js"
 export { default as PinnedOff } from "tabler-icons-react/dist/icons/pinned-off.js"
 export { default as Compass } from "tabler-icons-react/dist/icons/compass.js"
+export { default as File } from "tabler-icons-react/dist/icons/file.js"
+export { default as ArrowLeft } from "tabler-icons-react/dist/icons/arrow-left.js"

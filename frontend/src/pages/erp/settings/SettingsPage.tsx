@@ -164,6 +164,22 @@ const SettingsPage: FC = () => {
                   {experimentalFutures.advanced_navigation ? "ON" : "OFF"}
                 </Group>
               </Button>
+              <Button
+                style={{ width: "100%", color: "#fff" }}
+                onClick={() => {
+                  setExperimentalFutures((value: any) => ({
+                    ...value,
+                    search: !value.search,
+                  }))
+                }}
+                color="red"
+              >
+                <Group>
+                  <Bug />
+                  Experimental Search{" "}
+                  {experimentalFutures.search ? "ON" : "OFF"}
+                </Group>
+              </Button>
             </Stack>
           )}
         </Group>

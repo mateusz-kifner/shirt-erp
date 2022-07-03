@@ -1,6 +1,14 @@
 import { DefaultMantineColor, MantineGradient } from "@mantine/core"
 import { ComponentType, ReactNode } from "react"
-import { Bell, Checklist, Crown, Mail, Shirt, User } from "./utils/TablerIcons"
+import {
+  Bell,
+  Checklist,
+  Crown,
+  Mail,
+  Shirt,
+  User,
+  File,
+} from "./utils/TablerIcons"
 
 const navigationData: {
   label: string
@@ -68,6 +76,12 @@ const navigationData: {
     Icon: <Bell size={32} />,
     to: "/erp/users",
     entryName: "users",
+  },
+  {
+    label: "Pliki",
+    Icon: <File size={32} />,
+    to: "/erp/files",
+    entryName: "upload/files",
   },
 ]
 

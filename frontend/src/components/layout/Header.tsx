@@ -11,6 +11,8 @@ import {
 import { openSpotlight } from "@mantine/spotlight"
 import { FC } from "react"
 import { Link } from "react-router-dom"
+import { useRecoilValue } from "recoil"
+import { experimentalFuturesState } from "../../atoms/experimentalFuturesState"
 import { Bell, Search, Settings } from "../../utils/TablerIcons"
 
 const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
@@ -33,6 +35,8 @@ interface HeaderProps {
 
 const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
   const theme = useMantineTheme()
+  const experimentalFutures = useRecoilValue(experimentalFuturesState)
+
   return (
     <MantineHeader
       height={60}
@@ -59,14 +63,14 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
               />
             </MediaQuery>
             {navOpened ? (
-              <Image
-                src="/assets/logo_small.png"
+              <img
+                src="/assets/logo_micro.png"
                 alt="Shirt Dip ERP"
                 height={40}
               />
             ) : (
-              <Image
-                src="/assets/logo_micro.png"
+              <img
+                src="/assets/logo_small.png"
                 alt="Shirt Dip ERP"
                 height={40}
               />
@@ -134,6 +138,7 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
               styles={ActionButtonHeaderStyle}
               onClick={openSpotlight}
+              disabled={!experimentalFutures.search}
             >
               <Search />
             </ActionIcon>

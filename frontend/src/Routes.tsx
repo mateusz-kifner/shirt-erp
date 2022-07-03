@@ -137,7 +137,7 @@ const Routes: FC = () => {
               <Route path="" element={<ErrorPage errorcode={404} />} />
             </Route>
             <Route path="/erp/files" element={<FilesPage />} />
-            <Route path="settings">
+            <Route path="/erp/settings">
               <Route path="" element={<SettingsPage />} />
             </Route>
             <Route

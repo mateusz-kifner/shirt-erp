@@ -73,7 +73,10 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
                 <ActionIcon
                   size="xl"
                   radius="xl"
-                  onClick={() => setNavSmall((val) => !val)}
+                  onClick={() => {
+                    setNavSmall((val) => !val)
+                    setOpened && setOpened((val) => !val)
+                  }}
                 >
                   {navSmall ? <ChevronRight /> : <ChevronLeft />}
                 </ActionIcon>
