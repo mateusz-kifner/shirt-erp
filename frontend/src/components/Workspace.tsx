@@ -14,7 +14,7 @@ const Workspace: FC<WorkspaceProps> = ({ children }) => {
       sx={(theme) => ({
         flexWrap: "nowrap",
         alignItems: "flex-start",
-        padding: theme.spacing.xl,
+        padding: theme.spacing.md,
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
           padding: 0,
         },
