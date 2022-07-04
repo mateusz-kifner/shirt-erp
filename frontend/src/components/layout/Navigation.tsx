@@ -26,7 +26,7 @@ const Navigation: FC<NavigationProps> = () => {
     <Navbar
       hiddenBreakpoint="md"
       hidden={!user.navigationCollapsed}
-      width={{ base: "100%", sm: user.navigationCollapsed ? 85 : 300 }}
+      width={{ base: "100%", md: user.navigationCollapsed ? 85 : 300 }}
       px="sm"
     >
       <ScrollArea>
@@ -46,10 +46,11 @@ const Navigation: FC<NavigationProps> = () => {
                     {...val}
                     key={"navbar_" + val.label}
                     onClick={(e: any) => {
-                      setUser((val) => ({
-                        ...val,
-                        navigationCollapsed: !val.navigationCollapsed,
-                      }))
+                      !biggerThanSM &&
+                        setUser((val) => ({
+                          ...val,
+                          navigationCollapsed: !val.navigationCollapsed,
+                        }))
                     }}
                     small={user.navigationCollapsed && biggerThanSM}
                   />
