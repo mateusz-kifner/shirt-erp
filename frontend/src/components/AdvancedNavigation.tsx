@@ -37,13 +37,9 @@ const slideRight = {
   transitionProperty: "transform",
 }
 
-interface AdvancedNavigationProps {
-  // navigation: ReactNode
-  opened?: boolean
-  setOpened?: React.Dispatch<React.SetStateAction<boolean>>
-}
+interface AdvancedNavigationProps {}
 
-const AdvancedNavigation: FC<AdvancedNavigationProps> = ({}) => {
+const AdvancedNavigation: FC<AdvancedNavigationProps> = () => {
   const [secondNavId, setSecoundNav] = useState<number | null>(null)
   const [showSecondNav, setShowSecondNav] = useState<boolean>(false)
   const [searchParams, setSearchParams] = useSearchParams()

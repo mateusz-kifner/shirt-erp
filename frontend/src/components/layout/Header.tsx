@@ -11,9 +11,10 @@ import {
 import { openSpotlight } from "@mantine/spotlight"
 import { FC } from "react"
 import { Link } from "react-router-dom"
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { experimentalFuturesState } from "../../atoms/experimentalFuturesState"
 import { Bell, Search, Settings } from "tabler-icons-react"
+import { loginState } from "../../atoms/loginState"
 
 const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   root: {
@@ -28,12 +29,11 @@ const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
   },
 })
 
-interface HeaderProps {
-  navOpened?: boolean
-  setNavOpened?: React.Dispatch<React.SetStateAction<boolean>>
-}
+interface HeaderProps {}
 
-const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
+const Header: FC<HeaderProps> = () => {
+  const [user, setUser] = useRecoilState(loginState)
+
   const theme = useMantineTheme()
   const experimentalFutures = useRecoilValue(experimentalFuturesState)
 
@@ -55,14 +55,21 @@ const Header: FC<HeaderProps> = ({ navOpened, setNavOpened }) => {
           <Group>
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
-                opened={navOpened ? navOpened : false}
-                onClick={() => setNavOpened && setNavOpened((o) => !o)}
+                opened={
+                  user.navigationCollapsed ? user.navigationCollapsed : false
+                }
+                onClick={() =>
+                  setUser((val) => ({
+                    ...val,
+                    navigationCollapsed: !val.navigationCollapsed,
+                  }))
+                }
                 size="sm"
                 color={theme.colors.gray[4]}
                 mr="sm"
               />
             </MediaQuery>
-            {navOpened ? (
+            {user.navigationCollapsed ? (
               <img
                 src="/assets/logo_micro.png"
                 alt="Shirt Dip ERP"

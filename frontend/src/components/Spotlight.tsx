@@ -38,11 +38,13 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
   const [query, setQuery] = useState<string>("")
   const { data } = useQuery(["search", query], () => fetchSearch(query))
 
-  const actions: SpotlightAction[] = data.orders.map((val: any) => ({
-    title: val.name,
-    description: val.status + " , Data oddania: " + val.dateOfCompletion,
-    onTrigger: () => navigate("/erp/" + "orders" + "/" + val.id),
-  }))
+  const actions: SpotlightAction[] = data?.orders
+    ? data?.orders.map((val: any) => ({
+        title: val.name,
+        description: val.status + " , Data oddania: " + val.dateOfCompletion,
+        onTrigger: () => navigate("/erp/" + "orders" + "/" + val.id),
+      }))
+    : []
 
   return (
     <SpotlightProvider

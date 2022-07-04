@@ -13,27 +13,20 @@ import navigationData from "../../navigationData"
 // import { navigationData } from "../../Routes"
 import { ChevronRight, ChevronLeft } from "tabler-icons-react"
 import { NavButton } from "./NavButton"
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { loginState } from "../../atoms/loginState"
 
-interface NavigationProps {
-  opened?: boolean
-  setOpened?: React.Dispatch<React.SetStateAction<boolean>>
-}
+interface NavigationProps {}
 
-const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
-  const user = useRecoilValue(loginState)
+const Navigation: FC<NavigationProps> = () => {
+  const [user, setUser] = useRecoilState(loginState)
   const biggerThanSM = useMediaQuery("(min-width: 1000px)")
-  const [navSmall, setNavSmall] = useLocalStorage<boolean>({
-    key: "nav-small",
-    defaultValue: false,
-  })
 
   return (
     <Navbar
       hiddenBreakpoint="md"
-      hidden={!opened}
-      width={{ base: "100%", sm: navSmall ? 85 : 300 }}
+      hidden={!user.navigationCollapsed}
+      width={{ base: "100%", sm: user.navigationCollapsed ? 85 : 300 }}
       px="sm"
     >
       <ScrollArea>
@@ -53,9 +46,12 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
                     {...val}
                     key={"navbar_" + val.label}
                     onClick={(e: any) => {
-                      setOpened && setOpened(false)
+                      setUser((val) => ({
+                        ...val,
+                        navigationCollapsed: !val.navigationCollapsed,
+                      }))
                     }}
-                    small={navSmall && biggerThanSM}
+                    small={user.navigationCollapsed && biggerThanSM}
                   />
                 )
             )}
@@ -76,11 +72,17 @@ const Navigation: FC<NavigationProps> = ({ opened, setOpened }) => {
                   size="xl"
                   radius="xl"
                   onClick={() => {
-                    setNavSmall((val) => !val)
-                    setOpened && setOpened((val) => !val)
+                    setUser((val) => ({
+                      ...val,
+                      navigationCollapsed: !val.navigationCollapsed,
+                    }))
                   }}
                 >
-                  {navSmall ? <ChevronRight /> : <ChevronLeft />}
+                  {user.navigationCollapsed ? (
+                    <ChevronRight />
+                  ) : (
+                    <ChevronLeft />
+                  )}
                 </ActionIcon>
               </Group>
             </Box>

@@ -20,7 +20,7 @@ export const loginState = atom<LoginType>({
     user: null,
     jwt: "",
     debug: false,
-    menuCollapsed: false,
+    navigationCollapsed: false,
   },
   effects_UNSTABLE: [
     localStorageEffect("login"),

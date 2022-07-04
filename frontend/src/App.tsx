@@ -7,7 +7,7 @@ import {
 } from "@mantine/core"
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { NotificationsProvider } from "@mantine/notifications"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { BrowserRouter as Router } from "react-router-dom"
 import Routes from "./Routes"
 import "dayjs/locale/pl"
@@ -20,7 +20,6 @@ import isToday from "dayjs/plugin/isToday"
 import Navigation from "./components/layout/Navigation"
 import Header from "./components/layout/Header"
 import AdvancedNavigation from "./components/AdvancedNavigation"
-import ProductsList from "./pages/erp/products/ProductsList"
 import { experimentalFuturesState } from "./atoms/experimentalFuturesState"
 import Spotlight from "./components/Spotlight"
 
@@ -29,11 +28,10 @@ dayjs.extend(localizedFormat)
 dayjs.extend(isToday)
 
 const App = () => {
-  const [opened, setOpened] = useState<boolean>(false)
-
-  const preferredColorScheme = useColorScheme()
   const [iconsData, setIconsData] = useRecoilState(iconState)
   const experimentalFutures = useRecoilValue(experimentalFuturesState)
+
+  const preferredColorScheme = useColorScheme()
 
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: "mantine-color-scheme",
@@ -96,12 +94,12 @@ const App = () => {
                 padding={0}
                 navbarOffsetBreakpoint="md"
                 fixed
-                header={<Header navOpened={opened} setNavOpened={setOpened} />}
+                header={<Header />}
                 navbar={
                   experimentalFutures.advanced_navigation ? (
-                    <AdvancedNavigation opened={opened} setOpened={setOpened} />
+                    <AdvancedNavigation />
                   ) : (
-                    <Navigation opened={opened} setOpened={setOpened} />
+                    <Navigation />
                   )
                 }
                 styles={(theme: MantineTheme) => ({
