@@ -5,6 +5,7 @@ import { Bug, Search } from "tabler-icons-react"
 import axios from "axios"
 import { useQuery } from "react-query"
 import { useNavigate } from "react-router-dom"
+import { useDebouncedValue } from "@mantine/hooks"
 
 // const actions: SpotlightAction[] = [
 //   {
@@ -36,7 +37,16 @@ const fetchSearch = async (query: string) => {
 const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate()
   const [query, setQuery] = useState<string>("")
-  const { data } = useQuery(["search", query], () => fetchSearch(query))
+  const [debounced] = useDebouncedValue(query, 500)
+  const { data } = useQuery(
+    ["search", debounced],
+    () => fetchSearch(debounced),
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    }
+  )
 
   const actions: SpotlightAction[] = data?.orders
     ? data?.orders.map((val: any) => ({
@@ -52,7 +62,9 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
       searchIcon={<Search size={18} />}
       searchPlaceholder="Szukaj..."
       shortcut="ctrl + s"
-      nothingFoundMessage="Nic nie znaleziono..."
+      nothingFoundMessage={
+        query !== debounced ? "Szukam..." : "Nic nie znaleziono..."
+      }
       onQueryChange={(query: string) => setQuery(query)}
     >
       {children}
