@@ -19,7 +19,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat"
 import isToday from "dayjs/plugin/isToday"
 import Navigation from "./components/layout/Navigation"
 import Header from "./components/layout/Header"
-import AdvancedNavigation from "./components/AdvancedNavigation"
+import AdvancedNavigation from "./components/layout/AdvancedNavigation"
 import { experimentalFuturesState } from "./atoms/experimentalFuturesState"
 import Spotlight from "./components/Spotlight"
 

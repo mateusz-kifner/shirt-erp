@@ -8,7 +8,7 @@ import * as XLSX from "xlsx"
 import EditableTable from "../../../components/editable/EditableTable"
 import { atom, useRecoilState } from "recoil"
 import TableType from "../../../types/TableType"
-import AdvancedWorkspace from "../../../components/AdvancedWorkspace"
+import AdvancedWorkspace from "../../../components/layout/AdvancedWorkspace"
 import Editable from "../../../components/editable/Editable"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 

@@ -2,13 +2,13 @@ import { ActionIcon, Box, Group, Paper, Stack, Title } from "@mantine/core"
 import { Children, FC, ReactNode, useEffect, useRef, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 
-import ResponsivePaper from "./ResponsivePaper"
-import NavBar from "./layout/NavBar"
+import ResponsivePaper from "../ResponsivePaper"
+import NavBar from "../layout/NavBar"
 // import { navigationData } from "../Routes"
-import { NavButton } from "./layout/NavButton"
+import { NavButton } from "../layout/NavButton"
 import { Compass, ArrowLeft } from "tabler-icons-react"
-import { useTransition } from "../mantine/useTransition"
-import { getTransitionStyles } from "../mantine/get-transition-styles"
+import { useTransition } from "../../mantine/useTransition"
+import { getTransitionStyles } from "../../mantine/get-transition-styles"
 
 // const slideRight = {
 //   in: { transform: "translateX(0)" },

@@ -2,9 +2,9 @@ import { Box, Group, Paper, UnstyledButton } from "@mantine/core"
 import { Children, FC, ReactNode, useEffect, useState } from "react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { ChevronLeft, ChevronRight } from "tabler-icons-react"
-import { TransitionNoUnmount } from "../mantine/TransitionNoUnmount"
-import { SxBackground } from "../styles/basic"
-import ResponsivePaper from "./ResponsivePaper"
+import { TransitionNoUnmount } from "../../mantine/TransitionNoUnmount"
+import { SxBackground } from "../../styles/basic"
+import ResponsivePaper from "../ResponsivePaper"
 
 interface AdvancedWorkspaceProps {
   children: ReactNode

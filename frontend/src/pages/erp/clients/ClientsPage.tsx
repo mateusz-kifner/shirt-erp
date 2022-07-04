@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 
 import _ from "lodash"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
-import AdvancedWorkspace from "../../../components/AdvancedWorkspace"
+import AdvancedWorkspace from "../../../components/layout/AdvancedWorkspace"
 
 const entryName = "clients"
 

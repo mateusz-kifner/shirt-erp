@@ -2,7 +2,7 @@ import { Tabs } from "@mantine/core"
 import { Children, FC, ReactNode } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Sun } from "tabler-icons-react"
-import ResponsivePaper from "./ResponsivePaper"
+import ResponsivePaper from "../ResponsivePaper"
 
 interface AdvancedWorkspaceProps {
   children: ReactNode
