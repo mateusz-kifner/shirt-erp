@@ -90,13 +90,14 @@
   },
   "client": {
     "label": "Klient",
-    "type": "client",
-    "initialValue": null
+    "type": "apiEntry",
+    "entryName": "clients"
   },
   "employees": {
     "label": "Pracownicy",
-    "type": "users",
-    "initialValue": null
+    "type": "array",
+    "arrayType": "apiEntry",
+    "entryName": "users"
   },
   "createdAt": {
     "label": "Utworzono",

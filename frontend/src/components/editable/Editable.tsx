@@ -25,6 +25,8 @@ import { makeDefaultListItem } from "../DefaultListItem"
 import EditableGraph from "./EditableGraph"
 import ProductListItem from "../../pages/erp/products/ProductListItem"
 import UserListItem from "../../pages/erp/users/UserListItem"
+import EditableNumber from "./EditableNumber"
+import { Cash, Numbers } from "tabler-icons-react"
 
 interface EditableProps {
   template: { [key: string]: any }
@@ -93,6 +95,29 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                 {...template[key]}
                 key={uuid + key}
                 onSubmit={onSubmitEntry}
+              />
+            )
+          case "number":
+            return (
+              <EditableNumber
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
+                onSubmit={onSubmitEntry}
+                icon={<Numbers />}
+                Icon={Numbers}
+              />
+            )
+          case "money":
+            return (
+              <EditableNumber
+                value={data[key]}
+                {...template[key]}
+                key={uuid + key}
+                onSubmit={onSubmitEntry}
+                rightSection={<Text pr={80}>PLN</Text>}
+                icon={<Cash />}
+                Icon={Cash}
               />
             )
           case "datetime":
@@ -253,9 +278,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
 
                           Element: ProductListItem,
                           copyProvider: (value: any) =>
-                            value?.name
-                              ? truncString(value.name, 40)
-                              : undefined,
+                            value?.name ? value.name : undefined,
 
                           withErase: false,
                         }}
@@ -275,14 +298,50 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                           copyProvider: (value: any) =>
                             (value?.firstname && value.firstname?.length > 0) ||
                             (value?.lastname && value.lastname?.length > 0)
-                              ? truncString(
-                                  value.firstname + " " + value.lastname,
-                                  40
-                                )
-                              : truncString(
-                                  value?.username ? value.username : "",
-                                  40
-                                ),
+                              ? value.firstname + " " + value.lastname
+                              : value?.username
+                              ? value.username
+                              : "",
+                          withErase: false,
+                        }}
+                      />
+                    )
+
+                  case "orders":
+                    return (
+                      <EditableArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={EditableApiEntry}
+                        elementProps={{
+                          entryName: template[key].entryName,
+                          Element: makeDefaultListItem("name"),
+                          copyProvider: (value: any) =>
+                            value?.name && value.name?.length > 0
+                              ? value.name
+                              : "",
+
+                          withErase: false,
+                        }}
+                      />
+                    )
+                  case "orders-archive":
+                    return (
+                      <EditableArray
+                        value={data[key]}
+                        {...template[key]}
+                        key={uuid + key}
+                        onSubmit={onSubmitEntry}
+                        Element={EditableApiEntry}
+                        elementProps={{
+                          entryName: template[key].entryName,
+                          Element: makeDefaultListItem("name"),
+                          copyProvider: (value: any) =>
+                            value?.name && value.name?.length > 0
+                              ? value.name
+                              : "",
 
                           withErase: false,
                         }}
@@ -301,7 +360,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                           Element: makeDefaultListItem("name"),
                           copyProvider: (value: any) =>
                             value?.name && value.name?.length > 0
-                              ? truncString(value.name, 40)
+                              ? value.name
                               : "",
 
                           withErase: false,

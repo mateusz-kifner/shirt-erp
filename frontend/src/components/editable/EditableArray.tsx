@@ -58,6 +58,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     setItems(value)
     setPrev(value)
   }, [value])
+  // console.log(items)
 
   return (
     <InputWrapper label={label} required={required}>

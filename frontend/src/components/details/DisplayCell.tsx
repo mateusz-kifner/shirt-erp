@@ -1,15 +1,20 @@
-import React, { FC } from "react"
-import { Text } from "@mantine/core"
+import React, { FC, ReactNode } from "react"
+import { Box, Text } from "@mantine/core"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import TablerIconType from "../../types/TablerIconType"
 
+// FIXME: make DisplayCell compatible with mantine
+// FIXME: make DisplayCell accept icon as ReactNode
+// FIXME: make DisplayCell accept rightSection as ReactNode
+
 interface DisplayCellProps {
   Icon?: TablerIconType
+  rightSection?: ReactNode
   children: React.ReactNode
 }
 
 const DisplayCell: FC<DisplayCellProps> = (props) => {
-  const { Icon, children } = props
+  const { Icon, rightSection, children } = props
   return (
     <Text
       sx={[
@@ -41,6 +46,20 @@ const DisplayCell: FC<DisplayCellProps> = (props) => {
         />
       )}
       {children}
+      <Box
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          right: -40,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "end",
+          width: 200,
+        }}
+      >
+        {rightSection}
+      </Box>
     </Text>
   )
 }
