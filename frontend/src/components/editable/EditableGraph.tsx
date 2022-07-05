@@ -38,15 +38,13 @@ const EditableGraph: FC<EditableGraphProps> = (props) => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   const [nodes, setNodes, onNodesChange] = useNodesState(
-    value?.nodes ? value.nodes : initialValue?.nodes ? initialValue.nodes : []
+    value?.nodes ?? initialValue?.nodes ?? []
   )
   const [edges, setEdges, onEdgesChange] = useEdgesState(
-    value?.edges ? value.edges : initialValue?.edges ? initialValue.edges : []
+    value?.edges ?? initialValue?.edges ?? []
   )
-  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<
-    any,
-    any
-  > | null>(null)
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance<any, any> | null>(null)
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),

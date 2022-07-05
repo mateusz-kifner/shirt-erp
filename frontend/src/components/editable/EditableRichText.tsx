@@ -189,7 +189,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
                 SxRadius,
               ]}
               className="plain-html"
-              dangerouslySetInnerHTML={{ __html: text ? text : "⸺" }}
+              dangerouslySetInnerHTML={{ __html: text ?? "⸺" }}
             ></Box>
             {/* </TypographyStylesProvider> */}
             <ActionIcon

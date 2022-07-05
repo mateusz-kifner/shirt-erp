@@ -29,9 +29,7 @@ const EditableBool: FC<EditableBoolProps> = (props) => {
     checkLabels = { checked: undefined, unchecked: undefined },
     stateLabels = { checked: "Tak", unchecked: "Nie" },
   } = props
-  const [bool, setBool] = useState<boolean>(
-    value ? value : initialValue ? initialValue : false
-  )
+  const [bool, setBool] = useState<boolean>(value ?? initialValue ?? false)
   const [dirty, setDirty] = useState<boolean>(false)
   const { hovered, ref } = useHover()
 

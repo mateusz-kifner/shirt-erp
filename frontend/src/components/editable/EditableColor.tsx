@@ -41,14 +41,11 @@ const EditableColor: FC<EditableColorProps> = (props) => {
     styles,
   } = props
   const [color, setColor] = useState<ColorType>(
-    value
-      ? value
-      : initialValue
-      ? initialValue
-      : {
-          name: "",
-          hex: "#ffffff",
-        }
+    value ??
+      initialValue ?? {
+        name: "",
+        hex: "#ffffff",
+      }
   )
   const [prevColor, setPrevColor] = useState(color)
   const [active, setActive] = useState<boolean>(false)
@@ -203,7 +200,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                     width: 24,
                     top: 9,
                     left: 6,
-                    backgroundColor: color.hex ? color.hex : undefined,
+                    backgroundColor: color.hex ?? undefined,
                     borderRadius: "100%",
                     border:
                       theme.colorScheme === "dark"
@@ -224,7 +221,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                   position: "absolute",
                 }}
               /> */}
-              {color.name ? color.name : "⸺"}
+              {color.name ?? "⸺"}
             </Text>
 
             <ActionIcon

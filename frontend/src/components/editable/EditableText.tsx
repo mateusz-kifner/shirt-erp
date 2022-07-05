@@ -40,9 +40,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
     style,
     styles,
   } = props
-  const [text, setText] = useState(
-    value ? value : initialValue ? initialValue : ""
-  )
+  const [text, setText] = useState(value ?? initialValue ?? "")
   const [prevText, setPrevText] = useState(text)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
@@ -70,7 +68,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    const new_value = value ? value : ""
+    const new_value = value ?? ""
     setText(new_value)
     setPrevText(new_value)
   }, [value])
@@ -143,7 +141,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
           onKeyDown={onKeyDownTextarea}
           onBlur={() => setActive(false)}
           readOnly={!active}
-          maxLength={maxLength ? maxLength : 255}
+          maxLength={maxLength ?? 255}
           styles={(theme) => ({
             input: {
               paddingRight: 40,

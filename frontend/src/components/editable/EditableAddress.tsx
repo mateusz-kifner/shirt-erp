@@ -145,22 +145,22 @@ const EditableAddress: FC<EditableAddressProps> = ({
           p="md"
         >
           <EditableText
-            label={label?.streetName ? label.streetName : undefined}
-            value={value?.streetName ? value.streetName : ""}
+            label={label?.streetName ?? undefined}
+            value={value?.streetName ?? ""}
             onSubmit={(value) => value && setAddressField("streetName", value)}
           />
           <Group grow={true}>
             <EditableText
-              label={label?.streetNumber ? label.streetNumber : undefined}
-              value={value?.streetNumber ? value.streetNumber : ""}
+              label={label?.streetNumber ?? undefined}
+              value={value?.streetNumber ?? ""}
               onSubmit={(value) =>
                 value && setAddressField("streetNumber", value)
               }
               style={{ flexGrow: 1 }}
             />
             <EditableText
-              label={label?.apartmentNumber ? label.apartmentNumber : undefined}
-              value={value?.apartmentNumber ? value.apartmentNumber : ""}
+              label={label?.apartmentNumber ?? undefined}
+              value={value?.apartmentNumber ?? ""}
               onSubmit={(value) =>
                 value && setAddressField("apartmentNumber", value)
               }
@@ -168,23 +168,23 @@ const EditableAddress: FC<EditableAddressProps> = ({
             />
           </Group>
           <EditableText
-            label={label?.secondLine ? label.secondLine : undefined}
-            value={value?.secondLine ? value.secondLine : ""}
+            label={label?.secondLine ?? undefined}
+            value={value?.secondLine ?? ""}
             onSubmit={(value) => value && setAddressField("secondLine", value)}
           />
           <EditableText
-            label={label?.postCode ? label.postCode : undefined}
-            value={value?.postCode ? value.postCode : ""}
+            label={label?.postCode ?? undefined}
+            value={value?.postCode ?? ""}
             onSubmit={(value) => value && setAddressField("postCode", value)}
           />
           <EditableText
-            label={label?.city ? label.city : undefined}
-            value={value?.city ? value.city : ""}
+            label={label?.city ?? undefined}
+            value={value?.city ?? ""}
             onSubmit={(value) => value && setAddressField("city", value)}
           />
           <EditableEnum
-            label={label?.province ? label.province : undefined}
-            value={value?.province ? value.province : ""}
+            label={label?.province ?? undefined}
+            value={value?.province ?? ""}
             onSubmit={(value) => value && setAddressField("province", value)}
             enum_data={provinces}
           />

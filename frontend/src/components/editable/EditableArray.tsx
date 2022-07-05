@@ -40,9 +40,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     Element,
     elementProps,
   } = props
-  const [items, setItems] = useState<any[]>(
-    value ? value : initialValue ? initialValue : []
-  )
+  const [items, setItems] = useState<any[]>(value ?? initialValue ?? [])
   const [prev, setPrev] = useState<any[]>(items)
   const [active, setActive] = useState<boolean>(false)
   const uuid = useUuid()

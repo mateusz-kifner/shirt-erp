@@ -66,7 +66,7 @@ function useStrapiList<EntryType>(
   page: number,
   options?: OptionsProps<EntryType>
 ) {
-  const pageSize = options?.pageSize ? options.pageSize : 10
+  const pageSize = options?.pageSize ?? 10
   const { data, status, refetch } = useQuery(
     [entryName, page, pageSize],
     () => fetchData(entryName, page, pageSize),

@@ -21,7 +21,7 @@ const DefaultPage: FC<DefaultPageProps> = ({
   ListElement,
 }) => {
   const [id, setId] = useState<number | null>(null)
-  const ListElem = ListElement ? ListElement : DefaultListItem
+  const ListElem = ListElement ?? DefaultListItem
   const navigate = useNavigate()
   const params = useParams()
   useEffect(() => {

@@ -55,9 +55,7 @@ const Header: FC<HeaderProps> = () => {
           <Group>
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
-                opened={
-                  user.navigationCollapsed ? user.navigationCollapsed : false
-                }
+                opened={user.navigationCollapsed ?? false}
                 onClick={() =>
                   setUser((val) => ({
                     ...val,

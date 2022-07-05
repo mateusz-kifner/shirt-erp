@@ -106,7 +106,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
       <Modal opened={opened} onClose={() => setOpened(false)} title="">
         {entryName ? (
           <ApiList
-            entryName={entryName ? entryName : ""}
+            entryName={entryName ?? ""}
             ListItem={Element}
             label={label}
             onChange={(value) => {

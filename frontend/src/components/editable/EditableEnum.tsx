@@ -24,9 +24,7 @@ const EditableEnum: FC<EditableEnumProps> = ({
   required,
   enum_data,
 }) => {
-  const [data, setData] = useState(
-    value ? value : initialValue ? initialValue : ""
-  )
+  const [data, setData] = useState(value ?? initialValue ?? "")
   const clipboard = useClipboard()
 
   useEffect(() => {

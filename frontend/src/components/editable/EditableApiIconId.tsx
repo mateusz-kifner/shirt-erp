@@ -35,7 +35,7 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
 }) => {
   const [opened, setOpened] = useState(false)
   const [iconId, setIconId] = useState<number | null>(
-    value ? value : initialValue ? initialValue : null
+    value ?? initialValue ?? null
   )
   const iconsData = useRecoilValue(iconState)
   const uuid = useUuid()

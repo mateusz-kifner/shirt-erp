@@ -61,8 +61,8 @@ export const NavButton: FC<NavButtonProps> = ({
           {Icon ? (
             <ThemeIcon
               variant={gradient ? "gradient" : "filled"}
-              gradient={gradient ? gradient : undefined}
-              color={gradient ? undefined : color ? color : "blue"}
+              gradient={gradient ?? undefined}
+              color={gradient ? undefined : color ?? "blue"}
               size={size}
               radius="xl"
             >

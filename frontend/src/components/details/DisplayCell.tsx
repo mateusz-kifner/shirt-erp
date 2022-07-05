@@ -56,7 +56,7 @@ const DisplayCell: FC<DisplayCellProps> = (props) => {
             width:
               typeof iconWidth === "number"
                 ? iconWidth
-                : theme.fn.size({ size: size ? size : 42, sizes }),
+                : theme.fn.size({ size: size ?? 42, sizes }),
             color:
               theme.colorScheme === "dark"
                 ? theme.colors.dark[2]

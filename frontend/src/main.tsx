@@ -18,24 +18,21 @@ const queryClient = new QueryClient()
 
 Logger.setHandler(function (messages, context) {
   const savedValue = localStorage.getItem("login")
-  console.log(
-    messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
-    messages[0]
-  )
+  console.log(messages[0]?.message ?? "Nieznany błąd", messages[0])
   if (context.level === Logger.ERROR)
     showNotification({
       title: "Błąd",
-      message: messages[0]?.message
-        ? messages[0]?.message
-        : "Nieznany błąd: sprawdź szczegóły w logu servera",
+      message:
+        messages[0]?.message ??
+        "Nieznany błąd: sprawdź szczegóły w logu servera",
       color: "red",
     })
   if (context.level === Logger.WARN)
     showNotification({
       title: "Ostrzeżenie",
-      message: messages[0]?.message
-        ? messages[0]?.message
-        : "Nieznany błąd: sprawdź szczegóły w logu servera",
+      message:
+        messages[0]?.message ??
+        "Nieznany błąd: sprawdź szczegóły w logu servera",
       color: "yellow",
     })
   if (typeof messages[0] === "string") {

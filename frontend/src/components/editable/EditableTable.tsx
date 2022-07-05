@@ -23,14 +23,10 @@ const EditableTable: FC<EditableTableProps> = (props) => {
   const { label, value, initialValue, onSubmit, disabled, required } = props
   const theme = useMantineTheme()
   const [name, setName] = useState(
-    value?.data ? value.name : initialValue?.name ? initialValue.name : "Arkusz"
+    value?.name ?? initialValue?.name ?? "Arkusz"
   )
   const [data, setData] = useState<Matrix<any>>(
-    value?.data
-      ? value.data
-      : initialValue?.data
-      ? initialValue.data
-      : [[{ value: null }]]
+    value?.data ?? initialValue?.data ?? [[{ value: null }]]
   )
   const [selected, setSelected] = useState<Point[]>([])
   const [prevSelected, setPrevSelected] = useState<Point[]>([])
