@@ -11,6 +11,14 @@ import TableType from "../../../types/TableType"
 import AdvancedWorkspace from "../../../components/layout/AdvancedWorkspace"
 import Editable from "../../../components/editable/Editable"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
+import Workspace from "../../../components/layout/Workspace"
+import OrdersList from "./OrdersList"
+import ApiList from "../../../components/api/ApiList"
+import _ from "lodash"
+import names from "../../../models/names.json"
+import { useNavigate } from "react-router-dom"
+
+const entryName = "orders"
 
 const sheetState = atom<any>({
   key: "sheet",
@@ -35,18 +43,48 @@ const OrdersPage: FC = () => {
   // })
   // console.log(sheet)
 
+  const [id, setId] = useState<number | null>(null)
+  const navigate = useNavigate()
   return (
     // <AdvancedWorkspace>
-    <>
-      <ApiEntryEditable template={template} entryName={"orders"} id={1} />
-      <EditableTable
-        value={sheet}
-        onSubmit={(data) => {
-          setSheet(data)
-          console.log(data)
+    <Workspace
+      childrenWrapperProps={[undefined, { style: { flexGrow: 1 } }]}
+      childrenLabels={["Lista zamówień", "Właściwości"]}
+      currentPage={id ? 1 : 0}
+    >
+      <ApiList
+        ListItem={OrderListItem}
+        entryName={entryName}
+        label={
+          entryName && entryName in names
+            ? _.capitalize(names[entryName as keyof typeof names].plural)
+            : undefined
+        }
+        spacing="xl"
+        listSpacing="sm"
+        entryId={id}
+        onChange={(val: any) => {
+          console.log(val)
+          setId(val.id)
+          navigate("/erp/" + entryName + "/" + val.id)
         }}
+        listItemProps={{
+          linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
+        }}
+        filterKeys={["name", "status"]}
       />
-    </>
+
+      <>
+        <ApiEntryEditable template={template} entryName={"orders"} id={1} />
+        <EditableTable
+          value={sheet}
+          onSubmit={(data) => {
+            setSheet(data)
+            console.log(data)
+          }}
+        />
+      </>
+    </Workspace>
     // </AdvancedWorkspace>
     // <CalcTable />
     // <EditableTable

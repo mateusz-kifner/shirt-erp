@@ -4,7 +4,7 @@ import DefaultPage from "../../../components/DefaultPage"
 import ProductionNavigation from "./ProductionNavigation"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
 
-const ProductsPage: FC = () => {
+const ProceduresPage: FC = () => {
   return (
     <>
       <ProductionNavigation initialTab={1} />
@@ -17,4 +17,4 @@ const ProductsPage: FC = () => {
   )
 }
 
-export default ProductsPage
+export default ProceduresPage

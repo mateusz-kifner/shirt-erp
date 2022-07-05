@@ -3,27 +3,45 @@ import { useEffect } from "react"
 import { useQuery, QueryClient } from "react-query"
 import qs from "qs"
 
-const queryClient = new QueryClient()
+// const queryClient = new QueryClient()
 
 const fetchData = async (
-  entryName: string | undefined,
-  page: number | undefined,
+  entryName?: string,
+  page?: number,
+  filterKeys?: string[],
+  filterQuery?: string,
   pageSize: number = 10
 ) => {
   if (!entryName) return
   if (!page) return
-  const query = qs.stringify(
-    {
-      pagination: {
-        page,
-        pageSize,
-      },
-      populate: "*",
+  let query_obj: any = {
+    pagination: {
+      page,
+      pageSize,
     },
-    {
-      encodeValuesOnly: true,
+    populate: "*",
+  }
+  if (
+    filterQuery &&
+    filterQuery.length > 0 &&
+    filterKeys &&
+    filterKeys?.length > 0
+  ) {
+    let filters_or = []
+    for (let key of filterKeys) {
+      filters_or.push({
+        [key]: {
+          $containsi: filterQuery,
+        },
+      })
     }
-  )
+    query_obj.filters = { $or: filters_or }
+  }
+
+  const query = qs.stringify(query_obj, {
+    encodeValuesOnly: true,
+  })
+  console.log(query_obj, query)
   const res = await axios.get(`/${entryName}?${query}`)
   return res.data
 }
@@ -64,19 +82,21 @@ interface OptionsProps<EntryType> {
 function useStrapiList<EntryType>(
   entryName: string,
   page: number,
+  filterKeys?: string[],
+  filterQuery?: string,
   options?: OptionsProps<EntryType>
 ) {
   const pageSize = options?.pageSize ?? 10
   const { data, status, refetch, isLoading } = useQuery(
-    [entryName, page, pageSize],
-    () => fetchData(entryName, page, pageSize),
-    { enabled: false, ...options?.queryOptions }
+    [entryName, page, pageSize, filterKeys, filterQuery],
+    () => fetchData(entryName, page, filterKeys, filterQuery, pageSize),
+    { ...options?.queryOptions }
   )
 
   useEffect(() => {
     refetch()
   }, [page, pageSize])
-  return { data: data?.data, meta: data?.meta, status, refetch, isLoading }
+  return { data: data?.data, meta: data?.meta, status, refetch }
 }
 
 export default useStrapiList

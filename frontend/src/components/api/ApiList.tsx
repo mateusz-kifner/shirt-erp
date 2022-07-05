@@ -26,6 +26,7 @@ import {
   useParams,
 } from "react-router-dom"
 import { useDrag, useGesture } from "@use-gesture/react"
+import { useDebouncedValue } from "@mantine/hooks"
 
 interface ApiListProps {
   entryName: string
@@ -37,6 +38,7 @@ interface ApiListProps {
   onChange?: (val: any) => void
   listItemProps?: any
   entryId?: number | null
+  filterKeys?: string[]
 }
 
 const ApiList: FC<ApiListProps> = ({
@@ -49,11 +51,19 @@ const ApiList: FC<ApiListProps> = ({
   onChange = (val: any) => {},
   listItemProps = {},
   entryId,
+  filterKeys,
 }) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
-
+  const [query, setQuery] = useState<string | undefined>(undefined)
+  const [debouncedQuery] = useDebouncedValue(query, 200)
   const [page, setPage] = useState<number>(1)
-  const { data, meta, refetch, status } = useStrapiList(entryName, page)
+  const { data, meta, refetch, status } = useStrapiList(
+    entryName,
+    page,
+    filterKeys,
+    debouncedQuery
+  )
+
   const theme = useMantineTheme()
   const bind = useGesture({
     onDragEnd: (state) => {
@@ -71,7 +81,7 @@ const ApiList: FC<ApiListProps> = ({
   // }, [id, location])
 
   return (
-    <Stack spacing={spacing}>
+    <Stack spacing={spacing} {...bind()}>
       <Stack>
         <Group position="apart">
           <Title order={2}>{label}</Title>
@@ -102,11 +112,11 @@ const ApiList: FC<ApiListProps> = ({
             icon={<Search />}
             data={[]}
             style={{ flexGrow: 1 }}
+            onChange={(value) => setQuery(value)}
           />
         </Group>
       </Stack>
-      <Stack spacing={listSpacing} {...bind()}>
-        <LoadingOverlay visible={status === "loading"} />
+      <Stack spacing={listSpacing}>
         {data &&
           data.map((val: any, index: number) => (
             <Box

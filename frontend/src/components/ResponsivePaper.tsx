@@ -1,4 +1,5 @@
 import { Paper, PaperProps } from "@mantine/core"
+import { unset } from "lodash"
 import { FC } from "react"
 
 const ResponsivePaper: FC<PaperProps<any>> = (props) => {
@@ -18,7 +19,8 @@ const ResponsivePaper: FC<PaperProps<any>> = (props) => {
               ],
         minWidth: 420,
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-          borderRadius: 0,
+          borderRadius: 4,
+          minWidth: "100%",
         },
       })}
       {...props}
