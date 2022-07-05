@@ -67,7 +67,7 @@ function useStrapiList<EntryType>(
   options?: OptionsProps<EntryType>
 ) {
   const pageSize = options?.pageSize ?? 10
-  const { data, status, refetch } = useQuery(
+  const { data, status, refetch, isLoading } = useQuery(
     [entryName, page, pageSize],
     () => fetchData(entryName, page, pageSize),
     { enabled: false, ...options?.queryOptions }
@@ -76,7 +76,7 @@ function useStrapiList<EntryType>(
   useEffect(() => {
     refetch()
   }, [page, pageSize])
-  return { data: data?.data, meta: data?.meta, status, refetch }
+  return { data: data?.data, meta: data?.meta, status, refetch, isLoading }
 }
 
 export default useStrapiList

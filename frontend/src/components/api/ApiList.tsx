@@ -8,9 +8,16 @@ import {
   Box,
   useMantineTheme,
   MantineNumberSize,
+  LoadingOverlay,
 } from "@mantine/core"
 import { FC, useEffect, useState } from "react"
-import { Plus, Refresh, Search, SortAscending } from "tabler-icons-react"
+import {
+  Direction,
+  Plus,
+  Refresh,
+  Search,
+  SortAscending,
+} from "tabler-icons-react"
 import useStrapiList from "../../hooks/useStrapiList"
 import {
   matchRoutes,
@@ -18,6 +25,7 @@ import {
   useLocation,
   useParams,
 } from "react-router-dom"
+import { useDrag, useGesture } from "@use-gesture/react"
 
 interface ApiListProps {
   entryName: string
@@ -42,9 +50,16 @@ const ApiList: FC<ApiListProps> = ({
   listItemProps = {},
   entryId,
 }) => {
+  // const [{ x }, api] = useSpring(() => ({ x: 0 }))
+
   const [page, setPage] = useState<number>(1)
-  const { data, meta, refetch } = useStrapiList(entryName, page)
+  const { data, meta, refetch, status } = useStrapiList(entryName, page)
   const theme = useMantineTheme()
+  const bind = useGesture({
+    onDragEnd: (state) => {
+      if (state.direction[1] > 0) refetch()
+    },
+  })
   // const cont = useInRouterContext()
   // const params = useParams()
   // const location = useLocation()
@@ -90,7 +105,8 @@ const ApiList: FC<ApiListProps> = ({
           />
         </Group>
       </Stack>
-      <Stack spacing={listSpacing}>
+      <Stack spacing={listSpacing} {...bind()}>
+        <LoadingOverlay visible={status === "loading"} />
         {data &&
           data.map((val: any, index: number) => (
             <Box
