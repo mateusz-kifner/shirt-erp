@@ -104,7 +104,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                 {...template[key]}
                 key={uuid + key}
                 onSubmit={onSubmitEntry}
-                icon={<Numbers />}
+                icon={<Numbers size={18} />}
                 Icon={Numbers}
               />
             )
@@ -116,7 +116,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                 key={uuid + key}
                 onSubmit={onSubmitEntry}
                 rightSection={<Text pr={80}>PLN</Text>}
-                icon={<Cash />}
+                icon={<Cash size={18} />}
                 Icon={Cash}
               />
             )
