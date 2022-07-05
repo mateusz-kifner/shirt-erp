@@ -272,11 +272,11 @@ const DisplayCell: FC<DisplayCellProps> = (props) => {
   const theme = useMantineTheme()
   const _variant = variant || "default"
   const { classes, cx } = useStyles({
-    radius: radius ? radius : "md",
-    size: size ? size : "md",
+    radius: radius ?? "md",
+    size: size ?? "md",
     variant: _variant,
-    rightSectionWidth: rightSectionWidth ? rightSectionWidth : 36,
-    iconWidth: iconWidth ? iconWidth : 36,
+    rightSectionWidth: rightSectionWidth ?? 36,
+    iconWidth: iconWidth ?? 36,
     withRightSection: !!rightSection,
   })
   return (

@@ -48,9 +48,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
     withErase = true,
   } = props
 
-  const [apiEntry, setApiEntry] = useState<any>(
-    value ? value : initialValue ? initialValue : null
-  )
+  const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
   const [prev, setPrev] = useState<any>(apiEntry)
   const [opened, setOpened] = useState<boolean>(false)
   const uuid = useUuid()
