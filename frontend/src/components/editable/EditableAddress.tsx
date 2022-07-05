@@ -204,7 +204,7 @@ const EditableAddress: FC<EditableAddressProps> = ({
         </Stack>
       ) : (
         <div style={{ position: "relative" }}>
-          <DisplayCell Icon={BuildingCommunity}> {toString()}</DisplayCell>
+          <DisplayCell icon={<BuildingCommunity />}> {toString()}</DisplayCell>
           <ActionIcon
             radius="xl"
             style={{

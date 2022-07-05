@@ -1,20 +1,27 @@
 import React, { FC, ReactNode } from "react"
-import { Box, Text } from "@mantine/core"
+import { Box, MantineSize, Text } from "@mantine/core"
 import { SxBorder, SxRadius } from "../../styles/basic"
-import TablerIconType from "../../types/TablerIconType"
 
-// FIXME: make DisplayCell compatible with mantine
-// FIXME: make DisplayCell accept icon as ReactNode
-// FIXME: make DisplayCell accept rightSection as ReactNode
+// FIXME: make DisplayCell icon respect position
+// FIXME: replace it with "mantine" DisplayCell
 
+const sizes = {
+  xs: 30,
+  sm: 36,
+  md: 42,
+  lg: 50,
+  xl: 60,
+}
 interface DisplayCellProps {
-  Icon?: TablerIconType
+  icon?: ReactNode
+  iconWidth?: number
+  size?: MantineSize
   rightSection?: ReactNode
   children: React.ReactNode
 }
 
 const DisplayCell: FC<DisplayCellProps> = (props) => {
-  const { Icon, rightSection, children } = props
+  const { icon, iconWidth, size, rightSection, children } = props
   return (
     <Text
       sx={[
@@ -34,16 +41,30 @@ const DisplayCell: FC<DisplayCellProps> = (props) => {
         SxRadius,
       ]}
     >
-      {Icon && (
-        <Icon
-          color="#adb5bd"
-          size={18}
-          style={{
-            top: 12,
-            left: 8,
+      {icon && (
+        <Box
+          sx={(theme) => ({
+            pointerEvents: "none",
             position: "absolute",
-          }}
-        />
+            zIndex: 1,
+            left: 0,
+            top: 0,
+            bottom: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width:
+              typeof iconWidth === "number"
+                ? iconWidth
+                : theme.fn.size({ size: size ? size : 42, sizes }),
+            color:
+              theme.colorScheme === "dark"
+                ? theme.colors.dark[2]
+                : theme.colors.gray[5],
+          })}
+        >
+          {icon}
+        </Box>
       )}
       {children}
       <Box

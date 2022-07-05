@@ -1,7 +1,14 @@
 import { ActionIcon, CSSObject, InputWrapper, Textarea } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useRef, useState, CSSProperties } from "react"
+import {
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  CSSProperties,
+  ReactNode,
+} from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "tabler-icons-react"
 
@@ -17,6 +24,7 @@ interface EditableTextProps {
   styles?: Partial<
     Record<"label" | "required" | "root" | "error" | "description", CSSObject>
   >
+  icon?: ReactNode
 }
 
 const EditableText: FC<EditableTextProps> = (props) => {

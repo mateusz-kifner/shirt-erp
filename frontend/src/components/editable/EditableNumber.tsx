@@ -23,7 +23,6 @@ interface EditableDateProps {
   disabled?: boolean
   required?: boolean
   icon?: ReactNode
-  Icon?: TablerIconType
   rightSection?: ReactNode
 }
 
@@ -36,7 +35,6 @@ const EditableDate: FC<EditableDateProps> = (props) => {
     disabled,
     required,
     icon,
-    Icon,
     rightSection,
   } = props
   const [text, setText] = useState<string>(
@@ -153,7 +151,7 @@ const EditableDate: FC<EditableDateProps> = (props) => {
           rightSection={rightSection}
         />
       ) : (
-        <DisplayCell Icon={Icon} rightSection={rightSection}>
+        <DisplayCell icon={icon} rightSection={rightSection}>
           {text ? text : "⸺"}
         </DisplayCell>
       )}

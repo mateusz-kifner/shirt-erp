@@ -164,7 +164,7 @@ const EditableDate: FC<EditableDateProps> = ({
           onKeyDown={onKeyDownDate}
         />
       ) : (
-        <DisplayCell Icon={Calendar}>
+        <DisplayCell icon={<Calendar />}>
           {date ? dayjs(date).format("L").toString() : "⸺"}
         </DisplayCell>
       )}
