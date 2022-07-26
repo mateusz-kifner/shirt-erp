@@ -7,6 +7,9 @@ import {
   Header as MantineHeader,
   useMantineTheme,
   MantineTheme,
+  Popover,
+  Text,
+  Title,
 } from "@mantine/core"
 import { useSpotlight } from "@mantine/spotlight"
 import { FC } from "react"
@@ -15,19 +18,6 @@ import { useRecoilState, useRecoilValue } from "recoil"
 import { experimentalFuturesState } from "../../atoms/experimentalFuturesState"
 import { Bell, Search, Settings } from "tabler-icons-react"
 import { loginState } from "../../atoms/loginState"
-
-const ActionButtonHeaderStyle = (theme: MantineTheme) => ({
-  root: {
-    "&:disabled": {
-      backgroundColor:
-        theme.colorScheme === "dark" ? undefined : theme.colors.dark[4],
-      borderColor: "transparent",
-    },
-    "&:disabled > svg": {
-      stroke: theme.colorScheme === "dark" ? undefined : theme.colors.dark[3],
-    },
-  },
-})
 
 interface HeaderProps {}
 
@@ -142,23 +132,38 @@ const Header: FC<HeaderProps> = () => {
               radius="xl"
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
-              styles={ActionButtonHeaderStyle}
               onClick={spotlight.openSpotlight}
               disabled={!experimentalFutures.search}
             >
               <Search />
             </ActionIcon>
             {/* </MediaQuery> */}
-            <ActionIcon
-              size="lg"
-              radius="xl"
-              disabled
-              color={theme.colorScheme === "dark" ? "gray" : "dark"}
-              variant={theme.colorScheme === "dark" ? "default" : "filled"}
-              styles={(theme) => ({})}
+            <Popover
+              width={400}
+              position="bottom-end"
+              arrowOffset={12}
+              offset={4}
+              withArrow
+              shadow="md"
             >
-              <Bell />
-            </ActionIcon>
+              <Popover.Target>
+                <ActionIcon
+                  size="lg"
+                  radius="xl"
+                  color={theme.colorScheme === "dark" ? "gray" : "dark"}
+                  variant={theme.colorScheme === "dark" ? "default" : "filled"}
+                >
+                  <Bell />
+                </ActionIcon>
+              </Popover.Target>
+              <Popover.Dropdown sx={{ pointerEvents: "none" }}>
+                <Title order={3}>
+                  <Bell size={18} /> Powiadomienia{" "}
+                </Title>
+                <Text size="sm">Brak powiadomień</Text>
+              </Popover.Dropdown>
+            </Popover>
+
             <ActionIcon
               size="lg"
               radius="xl"
@@ -166,7 +171,6 @@ const Header: FC<HeaderProps> = () => {
               to="/erp/settings"
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
-              styles={ActionButtonHeaderStyle}
             >
               <Settings />
             </ActionIcon>
