@@ -1,4 +1,4 @@
-import { ActionIcon, InputWrapper, Select } from "@mantine/core"
+import { ActionIcon, Input, Select } from "@mantine/core"
 import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState } from "react"
@@ -40,7 +40,7 @@ const EditableEnum: FC<EditableEnumProps> = ({
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -76,7 +76,7 @@ const EditableEnum: FC<EditableEnumProps> = ({
           disabled={disabled}
         />
       </div>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

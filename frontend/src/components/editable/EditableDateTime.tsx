@@ -1,10 +1,4 @@
-import {
-  Group,
-  InputWrapper,
-  useMantineTheme,
-  Text,
-  ActionIcon,
-} from "@mantine/core"
+import { Group, Input, useMantineTheme, Text, ActionIcon } from "@mantine/core"
 import { DatePicker, TimeInput } from "@mantine/dates"
 import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
@@ -93,7 +87,7 @@ const EditableDateTime: FC<EditableDateTimeProps> = (props) => {
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -176,7 +170,7 @@ const EditableDateTime: FC<EditableDateTimeProps> = (props) => {
           {date ? dayjs(date).format("LT").toString() : "⸺"}
         </Group>
       )}
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

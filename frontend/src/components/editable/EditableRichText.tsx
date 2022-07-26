@@ -1,9 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  InputWrapper,
-  TypographyStylesProvider,
-} from "@mantine/core"
+import { ActionIcon, Box, Input, TypographyStylesProvider } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import RichTextEditor, { Editor } from "@mantine/rte"
@@ -101,7 +96,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -203,7 +198,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
           </>
         )}
       </div>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

@@ -1,4 +1,5 @@
 import { Tabs } from "@mantine/core"
+import { Tab } from "@mantine/core/lib/Tabs/Tab/Tab"
 import { Children, FC, ReactNode } from "react"
 import { useSearchParams } from "react-router-dom"
 import { Sun } from "tabler-icons-react"
@@ -40,27 +41,29 @@ const AdvancedWorkspace: FC<AdvancedWorkspaceProps> = (props) => {
           },
         })}
       >
-        {children &&
-          Children.map(
-            children,
-            (child, index) =>
-              display_windows.includes(index) && (
-                <Tabs.Tab label="Gallery" icon={<Sun size={14} />}>
-                  <ResponsivePaper
-                    m="sm"
-                    style={{
-                      flexGrow: 1,
-                      flexBasis: 1,
-                      // backgroundColor: "transparent",
-                      borderStyle: "none",
-                      display: "flex",
-                    }}
-                  >
-                    {child}
-                  </ResponsivePaper>
-                </Tabs.Tab>
-              )
-          )}
+        <Tabs.List>
+          {children &&
+            Children.map(
+              children,
+              (child, index) =>
+                display_windows.includes(index) && (
+                  <Tabs.Tab value="Gallery" icon={<Sun size={14} />}>
+                    <ResponsivePaper
+                      m="sm"
+                      style={{
+                        flexGrow: 1,
+                        flexBasis: 1,
+                        // backgroundColor: "transparent",
+                        borderStyle: "none",
+                        display: "flex",
+                      }}
+                    >
+                      {child}
+                    </ResponsivePaper>
+                  </Tabs.Tab>
+                )
+            )}
+        </Tabs.List>
       </Tabs>
       {/* </div> */}
     </div>

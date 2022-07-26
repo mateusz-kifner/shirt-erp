@@ -12,6 +12,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.3",
     "@mantine/core": "^5.0.0",
     "@mantine/dates": "^5.0.0",
     "@mantine/dropzone": "^5.0.0",
@@ -40,6 +41,7 @@
     "recoil": "^0.7.4",
     "scheduler": "^0.23.0",
     "tabler-icons-react": "^1.54.0",
+    "turndown": "^7.1.1",
     "vitest": "^0.19.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.8/xlsx-0.18.8.tgz",
     "zod": "^3.17.10"

@@ -1,4 +1,4 @@
-import { InputWrapper } from "@mantine/core"
+import { Input } from "@mantine/core"
 import { Prism } from "@mantine/prism"
 import { FC } from "react"
 
@@ -13,12 +13,12 @@ interface EditableJSONProps {
 
 const EditableJSON: FC<EditableJSONProps> = ({ value, label }) => {
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={label && label.length > 0 ? label : undefined}
       labelElement="div"
     >
       <Prism language="json">{JSON.stringify(value, null, 2)}</Prism>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

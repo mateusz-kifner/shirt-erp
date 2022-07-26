@@ -1,10 +1,4 @@
-import {
-  ActionIcon,
-  Group,
-  InputWrapper,
-  Text,
-  useMantineTheme,
-} from "@mantine/core"
+import { ActionIcon, Group, Input, Text, useMantineTheme } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
 import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
@@ -95,7 +89,7 @@ const EditableDate: FC<EditableDateProps> = ({
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -230,7 +224,7 @@ const EditableDate: FC<EditableDateProps> = ({
         </Group>
       )}
       {/* </div> */}
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

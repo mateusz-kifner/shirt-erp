@@ -1,11 +1,4 @@
-import {
-  ActionIcon,
-  Group,
-  InputWrapper,
-  Stack,
-  Text,
-  Textarea,
-} from "@mantine/core"
+import { ActionIcon, Group, Input, Stack, Text, Textarea } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState } from "react"
@@ -107,7 +100,7 @@ const EditableAddress: FC<EditableAddressProps> = ({
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       ref={ref}
       label={
         <>
@@ -220,7 +213,7 @@ const EditableAddress: FC<EditableAddressProps> = ({
           </ActionIcon>
         </div>
       )}
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

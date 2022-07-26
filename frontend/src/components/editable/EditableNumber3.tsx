@@ -1,4 +1,4 @@
-import { ActionIcon, CSSObject, InputWrapper, TextInput } from "@mantine/core"
+import { ActionIcon, CSSObject, Input, TextInput } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState, CSSProperties, ReactNode } from "react"
@@ -95,7 +95,7 @@ const EditableNumber: FC<EditableNumberProps> = (props) => {
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -185,7 +185,7 @@ const EditableNumber: FC<EditableNumberProps> = (props) => {
           </ActionIcon>
         )}
       </div>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

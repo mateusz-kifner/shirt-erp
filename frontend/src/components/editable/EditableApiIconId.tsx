@@ -1,13 +1,5 @@
-import {
-  Button,
-  Group,
-  InputWrapper,
-  Modal,
-  SimpleGrid,
-  Stack,
-} from "@mantine/core"
-import { useUuid } from "@mantine/hooks"
-import { FC, useEffect, useState } from "react"
+import { Button, Group, Input, Modal, SimpleGrid, Stack } from "@mantine/core"
+import { FC, useEffect, useId, useState } from "react"
 import { useRecoilValue } from "recoil"
 import { iconState } from "../../atoms/iconState"
 import { X } from "tabler-icons-react"
@@ -38,7 +30,7 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
     value ?? initialValue ?? null
   )
   const iconsData = useRecoilValue(iconState)
-  const uuid = useUuid()
+  const uuid = useId()
 
   useEffect(() => {
     value && setIconId(value)
@@ -47,7 +39,7 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
   if (!entryName) return null
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={label && label.length > 0 ? label : undefined}
       required={required}
     >
@@ -112,7 +104,7 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
           </Button>
         </Group>
       </Stack>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

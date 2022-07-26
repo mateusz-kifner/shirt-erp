@@ -3,7 +3,7 @@ import {
   Box,
   ColorInput,
   Group,
-  InputWrapper,
+  Input,
   TextInput,
   Text,
   CSSObject,
@@ -97,7 +97,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -235,7 +235,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
           </>
         )}
       </div>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

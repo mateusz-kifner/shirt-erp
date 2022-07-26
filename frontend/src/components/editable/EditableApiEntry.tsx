@@ -2,12 +2,12 @@ import {
   ActionIcon,
   Box,
   CSSObject,
-  InputWrapper,
+  Input,
   Menu,
   Modal,
   Text,
 } from "@mantine/core"
-import { useClipboard, useUuid } from "@mantine/hooks"
+import { useClipboard, useId } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
 import { CSSProperties, FC, useEffect, useMemo, useState } from "react"
@@ -51,7 +51,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
   const [prev, setPrev] = useState<any>(apiEntry)
   const [opened, setOpened] = useState<boolean>(false)
-  const uuid = useUuid()
+  const uuid = useId()
   const clipboard = useClipboard()
   const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry])
 
@@ -67,7 +67,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
   }, [apiEntry])
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -173,7 +173,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
           Entry Name not valid or element was not defined in mapping
         </Text>
       )}
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

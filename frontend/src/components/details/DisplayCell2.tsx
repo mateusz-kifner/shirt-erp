@@ -56,14 +56,11 @@ const useStyles = createStyles(
       },
 
       input:
-        variant === "headless"
+        variant === "unstyled"
           ? {}
           : {
               ...theme.fn.fontStyles(),
-              height:
-                variant === "unstyled"
-                  ? undefined
-                  : theme.fn.size({ size, sizes }),
+              height: theme.fn.size({ size, sizes }),
               WebkitTapHighlightColor: "transparent",
               lineHeight: `${theme.fn.size({ size, sizes }) - 2}px`,
               appearance: "none",

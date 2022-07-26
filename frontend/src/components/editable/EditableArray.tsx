@@ -3,13 +3,12 @@ import {
   Box,
   Button,
   Group,
-  InputWrapper,
+  Input,
   Menu,
   Stack,
 } from "@mantine/core"
-import { useUuid } from "@mantine/hooks"
 import _ from "lodash"
-import { ComponentType, FC, useEffect, useState } from "react"
+import { ComponentType, FC, useEffect, useId, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import { Edit, Plus, TrashX, X } from "tabler-icons-react"
@@ -43,7 +42,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   const [items, setItems] = useState<any[]>(value ?? initialValue ?? [])
   const [prev, setPrev] = useState<any[]>(items)
   const [active, setActive] = useState<boolean>(false)
-  const uuid = useUuid()
+  const uuid = useId()
 
   useEffect(() => {
     if (isArrayEqual(items, prev)) return
@@ -59,7 +58,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   // console.log(items)
 
   return (
-    <InputWrapper label={label} required={required}>
+    <Input.Wrapper label={label} required={required}>
       <Stack
         sx={[
           (theme) => ({
@@ -176,7 +175,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
           </ActionIcon>
         )}
       </Stack>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

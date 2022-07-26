@@ -1,7 +1,7 @@
 import {
   ActionIcon,
   Group,
-  InputWrapper,
+  Input,
   TextInput,
   useMantineTheme,
 } from "@mantine/core"
@@ -98,7 +98,7 @@ const EditableDate: FC<EditableDateProps> = (props) => {
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -192,7 +192,7 @@ const EditableDate: FC<EditableDateProps> = (props) => {
         </Group>
       )}
       {/* </div> */}
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

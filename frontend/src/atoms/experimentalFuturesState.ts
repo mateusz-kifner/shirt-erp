@@ -4,6 +4,6 @@ export const experimentalFuturesState = atom<any>({
   key: "experimentalFuturesState",
   default: {
     advanced_navigation: false,
-    search: false,
+    search: true,
   },
 })

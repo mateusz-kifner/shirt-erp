@@ -62,29 +62,29 @@ const App = () => {
           datesLocale: "pl",
           dateFormat: "DD.MM.YYYY",
         }}
-        styles={{
-          Title: (theme) => ({
-            // root: {
-            //   color:
-            //     theme.colorScheme === "dark"
-            //       ? theme.colors.gray[3]
-            //       : theme.colors.dark[5],
-            // },
-          }),
-          Text: (theme) => ({
-            // root: {
-            //   color:
-            //     theme.colorScheme === "dark"
-            //       ? theme.colors.gray[3]
-            //       : theme.colors.dark[5],
-            // },
-          }),
-          // Group: (theme) => ({
-          //   root: {
+        // styles={{
+        //   Title: (theme) => ({
+        //     // root: {
+        //     //   color:
+        //     //     theme.colorScheme === "dark"
+        //     //       ? theme.colors.gray[3]
+        //     //       : theme.colors.dark[5],
+        //     // },
+        //   }),
+        //   Text: (theme) => ({
+        //     // root: {
+        //     //   color:
+        //     //     theme.colorScheme === "dark"
+        //     //       ? theme.colors.gray[3]
+        //     //       : theme.colors.dark[5],
+        //     // },
+        //   }),
+        //   // Group: (theme) => ({
+        //   //   root: {
 
-          //   },
-          // }),
-        }}
+        //   //   },
+        //   // }),
+        // }}
       >
         <NotificationsProvider>
           <Router>

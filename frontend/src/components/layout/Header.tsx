@@ -8,7 +8,7 @@ import {
   useMantineTheme,
   MantineTheme,
 } from "@mantine/core"
-import { openSpotlight } from "@mantine/spotlight"
+import { useSpotlight } from "@mantine/spotlight"
 import { FC } from "react"
 import { Link } from "react-router-dom"
 import { useRecoilState, useRecoilValue } from "recoil"
@@ -36,6 +36,7 @@ const Header: FC<HeaderProps> = () => {
 
   const theme = useMantineTheme()
   const experimentalFutures = useRecoilValue(experimentalFuturesState)
+  const spotlight = useSpotlight()
 
   return (
     <MantineHeader
@@ -142,7 +143,7 @@ const Header: FC<HeaderProps> = () => {
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
               styles={ActionButtonHeaderStyle}
-              onClick={openSpotlight}
+              onClick={spotlight.openSpotlight}
               disabled={!experimentalFutures.search}
             >
               <Search />
@@ -154,7 +155,7 @@ const Header: FC<HeaderProps> = () => {
               disabled
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
-              styles={ActionButtonHeaderStyle}
+              styles={(theme) => ({})}
             >
               <Bell />
             </ActionIcon>

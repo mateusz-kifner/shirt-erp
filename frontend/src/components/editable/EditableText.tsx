@@ -1,4 +1,4 @@
-import { ActionIcon, CSSObject, InputWrapper, Textarea } from "@mantine/core"
+import { ActionIcon, CSSObject, Input, Textarea } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import {
@@ -97,7 +97,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
   }
 
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={
         label && label.length > 0 ? (
           <>
@@ -189,7 +189,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
           </ActionIcon>
         )}
       </div>
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

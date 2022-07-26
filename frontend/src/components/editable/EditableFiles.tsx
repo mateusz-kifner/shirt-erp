@@ -1,4 +1,4 @@
-import { InputWrapper } from "@mantine/core"
+import { Input } from "@mantine/core"
 import React, { FC } from "react"
 import { FileType } from "../../types/FileType"
 import FileList from "../FileList"
@@ -17,7 +17,7 @@ const EditableFiles: FC<EditableFilesProps> = (props) => {
   const { label, value, initialValue, onSubmit, disabled, required, maxCount } =
     props
   return (
-    <InputWrapper
+    <Input.Wrapper
       label={label && label.length > 0 ? label : undefined}
       required={required}
     >
@@ -30,7 +30,7 @@ const EditableFiles: FC<EditableFilesProps> = (props) => {
         maxFileCount={maxCount}
         disabled={disabled}
       />
-    </InputWrapper>
+    </Input.Wrapper>
   )
 }
 

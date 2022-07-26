@@ -1,4 +1,4 @@
-import { InputWrapper } from "@mantine/core"
+import { Input } from "@mantine/core"
 import { FC, useCallback, useRef, useState } from "react"
 import ReactFlow, {
   addEdge,
@@ -85,7 +85,7 @@ const EditableGraph: FC<EditableGraphProps> = (props) => {
 
   return (
     <ReactFlowProvider>
-      <InputWrapper
+      <Input.Wrapper
         label={label}
         required={required}
         style={{ height: 500, width: 400 }}
@@ -105,7 +105,7 @@ const EditableGraph: FC<EditableGraphProps> = (props) => {
         >
           <Controls />
         </ReactFlow>
-      </InputWrapper>
+      </Input.Wrapper>
       <SiteBar />
     </ReactFlowProvider>
   )

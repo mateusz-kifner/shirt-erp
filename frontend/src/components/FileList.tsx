@@ -11,10 +11,9 @@ import {
   Divider,
   LoadingOverlay,
 } from "@mantine/core"
-import { Dropzone, DropzoneStatus } from "@mantine/dropzone"
-import { useUuid } from "@mantine/hooks"
+import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect, useId, useState } from "react"
 import {
   Photo,
   Upload,
@@ -34,7 +33,7 @@ import getBase64FromImage from "../utils/getBase64"
 
 // FIXME: ENFORCE FILE LIMIT
 
-function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
+function getIconColor(status: any, theme: MantineTheme) {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6]
     : status.rejected
@@ -51,7 +50,7 @@ function isFileImage(file: File) {
 function ImageUploadIcon({
   status,
   ...props
-}: React.ComponentProps<TablerIconType> & { status: DropzoneStatus }) {
+}: React.ComponentProps<TablerIconType> & { status: any }) {
   if (status.accepted) {
     return <Upload {...props} />
   }
@@ -82,7 +81,7 @@ const FileList: FC<FileListProps> = ({
   maxFileCount = 1024,
 }) => {
   const theme = useMantineTheme()
-  const uuid = useUuid()
+  const uuid = useId()
   const [filesData, setFilesData] = useState<FilesDataType[]>([])
   const [prev, setPrev] = useState<FileType[]>(filesData.map((val) => val.file))
   const [error, setError] = useState<string | undefined>()
@@ -184,26 +183,26 @@ const FileList: FC<FileListProps> = ({
           style={{ minWidth: "100%" }}
           multiple={maxFileCount !== 1}
         >
-          {(status) => (
-            <Group
-              position="center"
-              spacing="xl"
-              style={{ minHeight: 360, pointerEvents: "none" }}
-            >
-              <ImageUploadIcon
-                status={status}
-                style={{ color: getIconColor(status, theme) }}
-                size={80}
-              />
+          {/* {(status) => ( */}
+          <Group
+            position="center"
+            spacing="xl"
+            style={{ minHeight: 360, pointerEvents: "none" }}
+          >
+            <ImageUploadIcon
+              status={status}
+              style={{ color: getIconColor(status, theme) }}
+              size={80}
+            />
 
-              <div>
-                <Text size="xl" inline>
-                  Wrzuć tu pliki do wysłania
-                </Text>
-              </div>
-              <Text color="red">{error}</Text>
-            </Group>
-          )}
+            <div>
+              <Text size="xl" inline>
+                Wrzuć tu pliki do wysłania
+              </Text>
+            </div>
+            <Text color="red">{error}</Text>
+          </Group>
+          {/* )} */}
         </Dropzone>
       </Modal>
       <Stack
