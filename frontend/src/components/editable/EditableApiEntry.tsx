@@ -12,7 +12,7 @@ import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
 import { CSSProperties, FC, useEffect, useMemo, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
-import { Copy, TrashX, X } from "tabler-icons-react"
+import { Copy, Dots, Menu2, TrashX, X } from "tabler-icons-react"
 import ApiList from "../api/ApiList"
 
 interface EditableApiEntryProps {
@@ -136,23 +136,29 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
             value={apiEntry}
           />
           {apiEntry && withErase && (
-            <Menu
-              tabIndex={-1}
-              withArrow
-              sx={{
-                position: "absolute",
-                top: "50%",
-                right: 8,
-                transform: "translate(0,-50%)",
-              }}
-            >
-              <Menu.Item
-                icon={<TrashX size={14} />}
-                onClick={() => setApiEntry(null)}
-                color="red"
-              >
-                Delete
-              </Menu.Item>
+            <Menu withArrow>
+              <Menu.Target>
+                <ActionIcon
+                  tabIndex={-1}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    right: 8,
+                    transform: "translate(0,-50%)",
+                  }}
+                >
+                  <Dots size={14} />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item
+                  color="red"
+                  icon={<TrashX size={14} />}
+                  onClick={() => setApiEntry(null)}
+                >
+                  Delete
+                </Menu.Item>
+              </Menu.Dropdown>
             </Menu>
             // <ActionIcon
             //   style={{

@@ -1,4 +1,4 @@
-import { Group, Menu, Stack, Title } from "@mantine/core"
+import { ActionIcon, Group, Menu, Stack, Title } from "@mantine/core"
 import { FC, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -13,7 +13,13 @@ import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
 import DisplayCell from "../../../components/details/DisplayCell"
 import FileList from "../../../components/FileList"
-import { Radioactive, RadioactiveOff, X } from "tabler-icons-react"
+import {
+  Dots,
+  ManualGearbox,
+  Radioactive,
+  RadioactiveOff,
+  X,
+} from "tabler-icons-react"
 import { useRecoilState } from "recoil"
 import { emailMessageState } from "../../../atoms/emailMessageState"
 
@@ -48,28 +54,35 @@ const EmailMessagesPage: FC = () => {
               {data.subject}
             </Title>
             <Menu withArrow>
-              {isDangerous ? (
-                <Menu.Item
-                  icon={<RadioactiveOff />}
-                  onClick={() =>
-                    setEmailMessage((val: number[]) =>
-                      val.filter((val2) => val2 !== id)
-                    )
-                  }
-                >
-                  Ukryj HTML
-                </Menu.Item>
-              ) : (
-                <Menu.Item
-                  icon={<Radioactive />}
-                  color="red"
-                  onClick={() =>
-                    setEmailMessage((val: number[]) => [...val, id])
-                  }
-                >
-                  Pokaż HTML
-                </Menu.Item>
-              )}
+              <Menu.Target>
+                <ActionIcon tabIndex={-1}>
+                  <Dots size={14} />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown>
+                {isDangerous ? (
+                  <Menu.Item
+                    icon={<RadioactiveOff />}
+                    onClick={() =>
+                      setEmailMessage((val: number[]) =>
+                        val.filter((val2) => val2 !== id)
+                      )
+                    }
+                  >
+                    Ukryj HTML
+                  </Menu.Item>
+                ) : (
+                  <Menu.Item
+                    icon={<Radioactive />}
+                    color="red"
+                    onClick={() =>
+                      setEmailMessage((val: number[]) => [...val, id])
+                    }
+                  >
+                    Pokaż HTML
+                  </Menu.Item>
+                )}
+              </Menu.Dropdown>
             </Menu>
           </Group>
 

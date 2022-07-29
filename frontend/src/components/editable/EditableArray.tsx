@@ -11,7 +11,7 @@ import _ from "lodash"
 import { ComponentType, FC, useEffect, useId, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
-import { Edit, Plus, TrashX, X } from "tabler-icons-react"
+import { Dots, Edit, Plus, TrashX, X } from "tabler-icons-react"
 
 // fixme submit only on edit end
 
@@ -106,33 +106,49 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
               </Box>
               {active && (
                 <Menu
-                  tabIndex={-1}
-                  withArrow
-                  styles={(theme) => ({
-                    body: {
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white,
-                    },
-                    arrow: {
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white,
-                    },
-                  })}
+                // tabIndex={-1}
+                // withArrow
+                // styles={(theme) => ({
+                //   body: {
+                //     backgroundColor:
+                //       theme.colorScheme === "dark"
+                //         ? theme.colors.dark[7]
+                //         : theme.white,
+                //   },
+                //   arrow: {
+                //     backgroundColor:
+                //       theme.colorScheme === "dark"
+                //         ? theme.colors.dark[7]
+                //         : theme.white,
+                //   },
+                // })}
                 >
-                  <Menu.Item
-                    icon={<TrashX size={14} />}
-                    onClick={() => {
-                      console.log(index)
-                      setItems((val) => val.filter((_, i) => i !== index))
-                    }}
-                    color="red"
-                  >
-                    Delete
-                  </Menu.Item>
+                  <Menu.Target>
+                    <ActionIcon
+                      tabIndex={-1}
+                      // style={{
+                      //   position: "absolute",
+                      //   top: "50%",
+                      //   right: 8,
+                      //   transform: "translate(0,-50%)",
+                      // }}
+                    >
+                      <Dots size={14} />
+                    </ActionIcon>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      icon={<TrashX size={14} />}
+                      onClick={() => {
+                        console.log(index)
+                        setItems((val) => val.filter((_, i) => i !== index))
+                      }}
+                      color="red"
+                    >
+                      Delete
+                    </Menu.Item>
+                  </Menu.Dropdown>
                 </Menu>
               )}
             </Group>

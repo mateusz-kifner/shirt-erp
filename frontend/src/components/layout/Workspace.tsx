@@ -59,31 +59,33 @@ const Workspace: FC<WorkspaceProps> = ({
         )}
 
       {isMobile && (
-        <Menu
-          style={{ position: "fixed", bottom: 2, right: 2 }}
-          control={
-            <ActionIcon variant="filled" color="orange" radius="xl" size="xl">
+        <Menu>
+          <Menu.Target>
+            <ActionIcon
+              variant="filled"
+              color="orange"
+              radius="xl"
+              size="xl"
+              style={{ position: "fixed", bottom: 2, right: 2, zIndex: 999999 }}
+            >
               <Compass size={32} />
             </ActionIcon>
-          }
-          transition="slide-right"
-          transitionDuration={100}
-          transitionTimingFunction="ease"
-          size="xl"
-        >
-          {children &&
-            Children.map(children, (child, index) => (
-              <Menu.Item
-                onClick={() => {
-                  setPage(index)
-                }}
-              >
-                <Text size="md">
-                  {(childrenLabels && childrenLabels[index]) ??
-                    "Window " + (index + 1)}
-                </Text>
-              </Menu.Item>
-            ))}
+          </Menu.Target>
+          <Menu.Dropdown>
+            {children &&
+              Children.map(children, (child, index) => (
+                <Menu.Item
+                  onClick={() => {
+                    setPage(index)
+                  }}
+                >
+                  <Text size="md">
+                    {(childrenLabels && childrenLabels[index]) ??
+                      "Window " + (index + 1)}
+                  </Text>
+                </Menu.Item>
+              ))}
+          </Menu.Dropdown>
         </Menu>
       )}
     </Group>
