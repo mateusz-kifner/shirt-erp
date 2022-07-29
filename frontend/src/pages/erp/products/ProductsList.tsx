@@ -5,6 +5,7 @@ import DefaultListItem from "../../../components/DefaultListItem"
 import ProductListItem from "./ProductListItem"
 import _ from "lodash"
 import names from "../../../models/names.json"
+import { ProductType } from "../../../types/ProductType"
 
 const entryName = "products"
 
@@ -20,7 +21,7 @@ const ProductsList: FC = () => {
     if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
   })
   return (
-    <ApiList
+    <ApiList<ProductType>
       ListItem={ProductListItem}
       entryName={entryName}
       label={

@@ -23,7 +23,7 @@ import useStrapiList from "../../hooks/useStrapiList"
 import { useGesture } from "@use-gesture/react"
 import { useDebouncedValue, useToggle } from "@mantine/hooks"
 
-interface ApiListProps {
+interface ApiListProps<T = any> {
   entryName: string
   ListItem: React.ElementType
   label?: string
@@ -36,7 +36,7 @@ interface ApiListProps {
   filterKeys?: string[]
 }
 
-const ApiList: FC<ApiListProps> = ({
+const ApiList = <T extends any>({
   entryName,
   ListItem,
   label = "",
@@ -47,7 +47,7 @@ const ApiList: FC<ApiListProps> = ({
   listItemProps = {},
   entryId,
   filterKeys,
-}) => {
+}: ApiListProps<T>) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
     "asc",
@@ -56,7 +56,7 @@ const ApiList: FC<ApiListProps> = ({
   const [query, setQuery] = useState<string | undefined>(undefined)
   const [debouncedQuery] = useDebouncedValue(query, 200)
   const [page, setPage] = useState<number>(1)
-  const { data, meta, refetch, status } = useStrapiList(
+  const { data, meta, refetch, status } = useStrapiList<T>(
     entryName,
     page,
     filterKeys,

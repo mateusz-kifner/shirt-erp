@@ -1,11 +1,9 @@
 import axios from "axios"
 import { useEffect } from "react"
-import { useQuery, QueryClient } from "react-query"
+import { useQuery } from "react-query"
 import qs from "qs"
 
-// const queryClient = new QueryClient()
-
-const fetchData = async (
+const fetchData = async <T = any,>(
   entryName?: string,
   page?: number,
   filterKeys?: string[],
@@ -48,7 +46,7 @@ const fetchData = async (
   })
   console.log(query_obj, query)
   const res = await axios.get(`/${entryName}?${query}`)
-  return res.data
+  return res.data as { data: T; meta: any }
 }
 
 interface OptionsProps<EntryType> {
