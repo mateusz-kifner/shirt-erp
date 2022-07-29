@@ -3,6 +3,7 @@
 const { sanitize } = require("@strapi/utils");
 // const Crypto = require("crypto");
 const fs = require("fs");
+const file_content_type = require("./content-types/file");
 
 // function randomString(size = 48) {
 //   return Crypto.randomBytes(size).toString("base64").slice(0, size);
@@ -97,6 +98,8 @@ module.exports = (plugin, strapi) => {
     path: "/download/:id",
     handler: "content-api.download",
   });
+
+  plugin.contentTypes.file.schema = file_content_type.schema;
 
   return plugin;
 };

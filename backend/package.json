@@ -10,9 +10,9 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.2.3",
-    "@strapi/plugin-users-permissions": "4.2.3",
-    "@strapi/strapi": "4.2.3",
+    "@strapi/plugin-i18n": "4.3.0",
+    "@strapi/plugin-users-permissions": "4.3.0",
+    "@strapi/strapi": "4.3.0",
     "imapflow": "^1.0.100",
     "lodash": "^4.17.21",
     "mailparser": "^3.5.0",
