@@ -13,7 +13,7 @@ import fs from "fs";
 const UPLOADS_FOLDER_NAME = "uploads";
 
 module.exports = (plugin) => {
-  console.log(plugin, strapi);
+  // console.log(plugin, strapi);
   plugin.controllers["content-api"].public = async (ctx, next) => {
     try {
       const { id } = ctx.params;

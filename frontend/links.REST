@@ -127,6 +127,8 @@ GET {{host}}/api/upload/download/68?token=eDIodVnlvILH_4VyeWjX3JvHF6ShVRAjb-gVh5
 
 ###
 
-PUT {{host}}/api/users/setWelcomeMessageHash
+PUT {{host}}/api/users-permissions/setWelcomeMessageHash
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+{"welcomeMessageHash": "123"}

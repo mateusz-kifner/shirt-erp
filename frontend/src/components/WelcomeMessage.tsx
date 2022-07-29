@@ -2,7 +2,7 @@ import { Modal } from "@mantine/core"
 import axios from "axios"
 import { useEffect, useId, useState } from "react"
 import { useQuery } from "react-query"
-import { useRecoilValue } from "recoil"
+import { useRecoilState } from "recoil"
 import { loginState } from "../atoms/loginState"
 import simpleHash from "../utils/simpleHash"
 
@@ -12,7 +12,7 @@ const fetchWelcomeMessage = async () => {
 }
 
 const setWelcomeMessageHash = async (welcomeMessageHash: string) => {
-  const res = await axios.put("/users/setWelcomeMessageHash", {
+  const res = await axios.put("/users-permissions/setWelcomeMessageHash", {
     welcomeMessageHash,
   })
   return res.data
@@ -24,7 +24,7 @@ const WelcomeMessage = () => {
     enabled: false,
   })
   const id = useId()
-  const login = useRecoilValue(loginState)
+  const [login, setLogin] = useRecoilState(loginState)
   useEffect(() => {
     refetch()
   }, [])
@@ -39,6 +39,13 @@ const WelcomeMessage = () => {
       opened={opened}
       onClose={async () => {
         setWelcomeMessageHash(hash.toString())
+        setLogin((val) => {
+          if (!val.user) return { ...val }
+          return {
+            ...val,
+            user: { ...val.user, welcomeMessageHash: hash.toString() },
+          }
+        })
         setOpened(false)
       }}
     >
