@@ -2,10 +2,10 @@
 
 const { sanitize } = require("@strapi/utils");
 // const Crypto = require("crypto");
-const fs = require("fs");
 const file_content_type = require("./content-types/file");
-const strapi = require("@strapi/strapi");
+import { Strapi as strapi } from "@strapi/strapi";
 
+import fs from "fs";
 // function randomString(size = 48) {
 //   return Crypto.randomBytes(size).toString("base64").slice(0, size);
 // }
@@ -64,7 +64,7 @@ module.exports = (plugin) => {
       const file = await strapi.plugins.upload.services.upload.findOne(id);
       if (!file) return ctx.badRequest("File not found");
 
-      const path = strapi.dirs.public + file.url;
+      const path = "/public/" + file.url;
 
       ctx.type = file.mime;
       ctx.set(

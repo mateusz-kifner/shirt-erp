@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  *  workstation controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreController('api::workstation.workstation');
+export default factories.createCoreController("api::workstation.workstation");

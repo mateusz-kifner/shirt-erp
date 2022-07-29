@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * icon router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreRouter('api::icon.icon');
+export default factories.createCoreRouter("api::icon.icon");

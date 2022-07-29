@@ -1,9 +1,11 @@
-'use strict';
+"use strict";
 
 /**
  *  order-archive controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreController('api::order-archive.order-archive');
+export default factories.createCoreController(
+  "api::order-archive.order-archive"
+);

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * email-message router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreRouter('api::email-message.email-message');
+export default factories.createCoreRouter("api::email-message.email-message");

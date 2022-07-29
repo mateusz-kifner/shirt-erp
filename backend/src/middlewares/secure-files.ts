@@ -1,5 +1,5 @@
 "use strict";
-const url = require("url");
+import url from "url";
 
 // TODO: find better way to handle thumbnails, current imp strips "thumbnail_"
 

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * icon service.
  */
 
-const { createCoreService } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreService('api::icon.icon');
+export default factories.createCoreService("api::icon.icon");

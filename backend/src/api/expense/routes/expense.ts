@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * expense router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreRouter('api::expense.expense');
+export default factories.createCoreRouter("api::expense.expense");

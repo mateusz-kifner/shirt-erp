@@ -127,3 +127,4 @@ public/manifest.webmanifest
 public/sw.js
 public/workbox-*
 
+dist

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * plugin service.
  */
 
-const { createCoreService } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreService('api::plugin.plugin');
+export default factories.createCoreService("api::plugin.plugin");

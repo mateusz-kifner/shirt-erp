@@ -1,6 +1,6 @@
 "use strict";
 
-const strapi = require("@strapi/strapi");
+import { Strapi as strapi } from "@strapi/strapi";
 
 module.exports = (plugin) => {
   // console.log(plugin);
@@ -11,10 +11,10 @@ module.exports = (plugin) => {
         return ctx.badRequest("Type of welcomeMessageHash must be string");
       }
       console.log(strapi.plugins);
-      const user = await strapi.plugins.upload.services.upload.update(id, {
-        public: ctx.request.body.public,
-      });
-      console.log(user);
+      // const user = await strapi.plugins.upload.services.upload.update(id, {
+      //   public: ctx.request.body.public,
+      // });
+      // console.log(user);
       // const sanitizedEntity = await sanitize.contentAPI.output(
       //   file,
       //   strapi.getModel("plugin::upload.file"),

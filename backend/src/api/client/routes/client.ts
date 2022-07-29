@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * client router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreRouter('api::client.client');
+export default factories.createCoreRouter("api::client.client");

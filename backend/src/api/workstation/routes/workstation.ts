@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * workstation router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreRouter('api::workstation.workstation');
+export default factories.createCoreRouter("api::workstation.workstation");

@@ -1,9 +1,9 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
-const stream = require("stream");
-const _ = require("lodash");
+import fs from "fs";
+import path from "path";
+import _ from "lodash";
+import stream from "stream";
 
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
@@ -43,6 +43,7 @@ module.exports = (config, { strapi }) => {
       );
       const data = {};
       const content = _.template(index)(data);
+      // @ts-ignore
       const body = stream.Readable({
         read() {
           this.push(Buffer.from(content));

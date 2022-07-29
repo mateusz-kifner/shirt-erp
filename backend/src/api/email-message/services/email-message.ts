@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * email-message service.
  */
 
-const { createCoreService } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreService('api::email-message.email-message');
+export default factories.createCoreService("api::email-message.email-message");

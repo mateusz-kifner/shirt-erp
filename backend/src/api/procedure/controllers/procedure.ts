@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  *  procedure controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreController('api::procedure.procedure');
+export default factories.createCoreController("api::procedure.procedure");

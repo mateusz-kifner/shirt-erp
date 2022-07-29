@@ -1,16 +1,16 @@
-const fs = require("fs");
-const path = require("path");
-const mime = require("mime-types");
-const _ = require("lodash");
-const data = require("../data/data.json");
-const data_files = require("../data/data-files.json");
+import fs from "fs";
+import path from "path";
+import mime from "mime-types";
+import _ from "lodash";
+import data from "../data/data.json";
+import data_files from "../data/data-files.json";
 const set = _.set;
 
 /**
  * !!! use singular names in data.json and data_files.json !!!
  */
 
-const Crypto = require("crypto");
+import Crypto from "crypto";
 
 function randomString(size = 48) {
   return Crypto.randomBytes(size).toString("base64").slice(0, size);
@@ -109,10 +109,10 @@ function getFileData(fileName) {
 }
 
 // Create an entry and attach files if there are any
-async function createEntry({ model, entry, files, public }) {
+async function createEntry({ model, entry, files, isPublic }) {
   try {
     if (files) {
-      for (const [key, file] of Object.entries(files)) {
+      for (const [key, file] of Object.entries(files) as any) {
         // Get file name without the extension
         const [fileName] = file.name.split(".");
         // Upload each individual file
@@ -133,7 +133,7 @@ async function createEntry({ model, entry, files, public }) {
         // Attach each file to its entry
         set(entry, key, uploadedFile[0].id);
 
-        if (public) {
+        if (isPublic) {
           const file = await strapi.plugins.upload.services.upload.update(
             uploadedFile[0].id,
             {
@@ -159,7 +159,7 @@ async function createEntry({ model, entry, files, public }) {
   }
 }
 
-async function populateDatabase(data, data_files, public = false) {
+async function populateDatabase(data, data_files, isPublic = false) {
   if (!(data && Object.keys(data).length > 0)) return;
   for (let model in data) {
     let index = 0;
@@ -178,7 +178,7 @@ async function populateDatabase(data, data_files, public = false) {
         model: model,
         entry: data[model][entryIndex],
         files,
-        public,
+        isPublic,
       });
 
       index++;
@@ -275,6 +275,7 @@ module.exports = async () => {
   }
 
   strapi.db.lifecycles.subscribe({
+    // @ts-ignore
     models: ["plugin::upload.file"],
     beforeCreate: generateToken,
   });

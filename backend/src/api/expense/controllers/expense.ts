@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  *  expense controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreController('api::expense.expense');
+export default factories.createCoreController("api::expense.expense");

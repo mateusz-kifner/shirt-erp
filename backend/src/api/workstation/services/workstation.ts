@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * workstation service.
  */
 
-const { createCoreService } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreService('api::workstation.workstation');
+export default factories.createCoreService("api::workstation.workstation");

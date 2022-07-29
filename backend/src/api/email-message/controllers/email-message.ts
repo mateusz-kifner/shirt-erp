@@ -1,9 +1,11 @@
-'use strict';
+"use strict";
 
 /**
  *  email-message controller
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreController('api::email-message.email-message');
+export default factories.createCoreController(
+  "api::email-message.email-message"
+);

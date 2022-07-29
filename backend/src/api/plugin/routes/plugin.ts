@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * plugin router.
  */
 
-const { createCoreRouter } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreRouter('api::plugin.plugin');
+export default factories.createCoreRouter("api::plugin.plugin");

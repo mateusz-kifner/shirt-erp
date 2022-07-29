@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
 /**
  * order-archive service.
  */
 
-const { createCoreService } = require('@strapi/strapi').factories;
+import { factories } from "@strapi/strapi";
 
-module.exports = createCoreService('api::order-archive.order-archive');
+export default factories.createCoreService("api::order-archive.order-archive");

@@ -1,6 +1,6 @@
-const { ImapFlow } = require("imapflow");
-const simpleParser = require("mailparser").simpleParser;
-const { Readable } = require("stream");
+import { ImapFlow } from "imapflow";
+import { simpleParser } from "mailparser";
+import { Readable } from "stream";
 
 let mail_lock = 0;
 const FLAG = "ShirtERP";
@@ -188,10 +188,10 @@ module.exports = {
           const current_mail_date = new Date(parsed.date).getTime();
           let id = null;
           let time = Number.MAX_SAFE_INTEGER;
-          let orderIds = [];
+          let orderIds: number[] = [];
           for (let mail of mails) {
-            const autoReferenceTime = parseInt(
-              (current_mail_date - new Date(mail.date).getTime()) / 60000
+            const autoReferenceTime: number = Math.trunc(
+              (current_mail_date - new Date(mail.date).getTime()) / 60000.0
             );
             if (time > autoReferenceTime) {
               time = autoReferenceTime;
