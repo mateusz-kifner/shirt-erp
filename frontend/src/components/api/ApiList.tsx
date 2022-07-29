@@ -8,25 +8,20 @@ import {
   Box,
   useMantineTheme,
   MantineNumberSize,
-  LoadingOverlay,
+  TextInput,
 } from "@mantine/core"
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import {
-  Direction,
   Plus,
   Refresh,
   Search,
   SortAscending,
+  SortDescending,
 } from "tabler-icons-react"
 import useStrapiList from "../../hooks/useStrapiList"
-import {
-  matchRoutes,
-  useInRouterContext,
-  useLocation,
-  useParams,
-} from "react-router-dom"
-import { useDrag, useGesture } from "@use-gesture/react"
-import { useDebouncedValue } from "@mantine/hooks"
+
+import { useGesture } from "@use-gesture/react"
+import { useDebouncedValue, useToggle } from "@mantine/hooks"
 
 interface ApiListProps {
   entryName: string
@@ -54,6 +49,10 @@ const ApiList: FC<ApiListProps> = ({
   filterKeys,
 }) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
+  const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
+    "asc",
+    "desc",
+  ])
   const [query, setQuery] = useState<string | undefined>(undefined)
   const [debouncedQuery] = useDebouncedValue(query, 200)
   const [page, setPage] = useState<number>(1)
@@ -61,7 +60,8 @@ const ApiList: FC<ApiListProps> = ({
     entryName,
     page,
     filterKeys,
-    debouncedQuery
+    debouncedQuery,
+    sortOrder
   )
 
   const theme = useMantineTheme()
@@ -101,18 +101,33 @@ const ApiList: FC<ApiListProps> = ({
         </Group>
         <Group spacing="md" px="sm">
           <Group>
-            <ActionIcon size="lg" radius="xl" variant="default">
-              <SortAscending />
+            <ActionIcon
+              size="lg"
+              radius="xl"
+              variant="default"
+              onClick={() => toggleSortOrder()}
+            >
+              {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
             </ActionIcon>
           </Group>
-          <Autocomplete
+          {/* <Autocomplete
             placeholder="Search"
             radius="xl"
             // size="md"
             icon={<Search />}
             data={[]}
             style={{ flexGrow: 1 }}
-            onChange={(value) => setQuery(value)}
+            value={query}
+            onChange={(value) => {
+              setQuery(value)
+              console.log(value)
+            }}
+          /> */}
+          <TextInput
+            onChange={(value) => setQuery(value.target.value)}
+            radius="xl"
+            icon={<Search />}
+            style={{ flexGrow: 1 }}
           />
         </Group>
       </Stack>

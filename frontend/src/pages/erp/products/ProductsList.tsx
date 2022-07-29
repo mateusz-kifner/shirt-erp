@@ -38,6 +38,7 @@ const ProductsList: FC = () => {
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      filterKeys={["name", "codeName"]}
     />
   )
 }

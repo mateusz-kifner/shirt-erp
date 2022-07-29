@@ -27,6 +27,7 @@ import ProductListItem from "../../pages/erp/products/ProductListItem"
 import UserListItem from "../../pages/erp/users/UserListItem"
 import EditableNumber from "./EditableNumber"
 import { Cash, Numbers } from "tabler-icons-react"
+import _ from "lodash"
 
 interface EditableProps {
   template: { [key: string]: any }
@@ -50,7 +51,6 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
         Brak danych
       </Text>
     )
-
   return (
     <>
       {Object.keys(template).map((key) => {
@@ -73,7 +73,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
             return (
               <EditableText
                 value={data[key]}
-                {...template[key]}
+                {..._.omit(template[key], ["__self"])}
                 key={uuid + key}
                 onSubmit={onSubmitEntry}
               />

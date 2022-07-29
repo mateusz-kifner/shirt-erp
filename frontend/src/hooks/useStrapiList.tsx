@@ -10,6 +10,7 @@ const fetchData = async (
   page?: number,
   filterKeys?: string[],
   filterQuery?: string,
+  sortOrder: "asc" | "desc" = "asc",
   pageSize: number = 10
 ) => {
   if (!entryName) return
@@ -20,21 +21,25 @@ const fetchData = async (
       pageSize,
     },
     populate: "*",
+    sort: ["updatedAt:" + sortOrder],
   }
+  console.log(filterKeys, filterQuery)
   if (
-    filterQuery &&
-    filterQuery.length > 0 &&
     filterKeys &&
-    filterKeys?.length > 0
+    filterKeys?.length > 0 &&
+    filterQuery &&
+    filterQuery.length > 0
   ) {
     let filters_or = []
     for (let key of filterKeys) {
-      filters_or.push({
-        [key]: {
-          $containsi: filterQuery,
-        },
-      })
+      if (filterQuery && filterQuery.length > 0)
+        filters_or.push({
+          [key]: {
+            $containsi: filterQuery,
+          },
+        })
     }
+    console.log(filters_or)
     query_obj.filters = { $or: filters_or }
   }
 
@@ -47,7 +52,7 @@ const fetchData = async (
 }
 
 interface OptionsProps<EntryType> {
-  pageSize: number
+  pageSize?: number
   queryOptions?: {
     cacheTime?: number
     enabled?: boolean
@@ -84,19 +89,26 @@ function useStrapiList<EntryType>(
   page: number,
   filterKeys?: string[],
   filterQuery?: string,
-  options?: OptionsProps<EntryType>
+  sortOrder: "asc" | "desc" = "asc",
+  options: OptionsProps<EntryType> = {}
 ) {
   const pageSize = options?.pageSize ?? 10
   const { data, status, refetch, isLoading } = useQuery(
-    [entryName, page, pageSize, filterKeys, filterQuery],
-    () => fetchData(entryName, page, filterKeys, filterQuery, pageSize),
+    [entryName, page, filterKeys, filterQuery, sortOrder, pageSize],
+    () =>
+      fetchData(entryName, page, filterKeys, filterQuery, sortOrder, pageSize),
     { ...options?.queryOptions }
   )
 
   useEffect(() => {
     refetch()
   }, [page, pageSize])
-  return { data: data?.data, meta: data?.meta, status, refetch }
+  return {
+    data: data && "data" in data ? data?.data : data,
+    meta: data?.meta,
+    status,
+    refetch,
+  }
 }
 
 export default useStrapiList

@@ -31,7 +31,7 @@ const WelcomeMessage = () => {
 
   if (!data) return null
   const hash = simpleHash(data.data.welcomeMessage)
-  console.log(login, hash)
+  // console.log(login, hash)
   if (login?.user?.welcomeMessageHash === hash.toString()) return null
 
   return (
