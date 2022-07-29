@@ -20,9 +20,6 @@
       "configurable": false,
       "required": true
     },
-    "displayName": {
-      "type": "string"
-    },
     "email": {
       "type": "email",
       "minLength": 6,
@@ -66,6 +63,9 @@
       "inversedBy": "users",
       "configurable": false
     },
+    "displayName": {
+      "type": "string"
+    },
     "expenses": {
       "type": "relation",
       "relation": "oneToMany",
@@ -77,6 +77,9 @@
       "relation": "manyToMany",
       "target": "api::order.order",
       "mappedBy": "employees"
+    },
+    "welcomeMessageHash": {
+      "type": "string"
     }
   }
 }

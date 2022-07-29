@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2ODYzMTc3LCJleHAiOjE2NTk0NTUxNzd9.vFsZWzO_9ZHtHmB13e1WhkKQszqt-IcX5XO9d8BDX-0
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU5MDk4ODgwLCJleHAiOjE2NjE2OTA4ODB9.aOiihiG-_D3rv3M24zvy257XI2J6uiiHX-AuPk22FNs
 
 @host=http://localhost:1337
 ###
@@ -107,7 +107,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-PUT {{host}}/api/upload/public/12
+PUT {{host}}/api/upload/public/1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -125,3 +125,8 @@ GET {{host}}/api/upload/download/68?token=eDIodVnlvILH_4VyeWjX3JvHF6ShVRAjb-gVh5
 # Content-Type: application/json
 # Authorization: Bearer {{authToken}}
 
+###
+
+PUT {{host}}/api/users/setWelcomeMessageHash
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

@@ -17,4 +17,5 @@ export interface UserType {
   orders: any[]
   workstations: any[]
   displayName: string | null
+  welcomeMessageHash: string
 }

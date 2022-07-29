@@ -4,6 +4,7 @@ const { sanitize } = require("@strapi/utils");
 // const Crypto = require("crypto");
 const fs = require("fs");
 const file_content_type = require("./content-types/file");
+const strapi = require("@strapi/strapi");
 
 // function randomString(size = 48) {
 //   return Crypto.randomBytes(size).toString("base64").slice(0, size);
@@ -11,7 +12,8 @@ const file_content_type = require("./content-types/file");
 
 const UPLOADS_FOLDER_NAME = "uploads";
 
-module.exports = (plugin, strapi) => {
+module.exports = (plugin) => {
+  console.log(plugin, strapi);
   plugin.controllers["content-api"].public = async (ctx, next) => {
     try {
       const { id } = ctx.params;

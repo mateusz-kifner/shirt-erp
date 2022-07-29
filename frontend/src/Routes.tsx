@@ -33,6 +33,7 @@ import SettingsPage from "./pages/erp/settings/SettingsPage"
 import TasksPage from "./pages/erp/tasks/TasksPage"
 import UsersPage from "./pages/erp/users/UsersPage"
 import ExpensesPage from "./pages/erp/expenses/ExpensesPage"
+import WelcomeMessage from "./components/WelcomeMessage"
 
 const Routes: FC = () => {
   const [login, setLogin] = useRecoilState(loginState)
@@ -65,6 +66,7 @@ const Routes: FC = () => {
   return (
     <>
       {!isAuthenticated && <LoginPage />}
+      {isAuthenticated && <WelcomeMessage />}
       <Switch>
         {!isAuthenticated && (
           <Route path="*" element={<ErrorPage errorcode={403} />} />
