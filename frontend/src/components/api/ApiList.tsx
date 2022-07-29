@@ -30,8 +30,8 @@ interface ApiListProps<T = any> {
   listSpacing?: MantineNumberSize
   spacing?: MantineNumberSize
   withSeparators?: boolean
-  onChange?: (val: any) => void
-  listItemProps?: any
+  onChange?: (val: T) => void
+  listItemProps?: { linkTo: (val: T) => string } | any
   entryId?: number | null
   filterKeys?: string[]
 }
@@ -43,7 +43,7 @@ const ApiList = <T extends any>({
   listSpacing = "md",
   spacing = "md",
   withSeparators = false,
-  onChange = (val: any) => {},
+  onChange = (val: T) => {},
   listItemProps = {},
   entryId,
   filterKeys,
@@ -56,7 +56,7 @@ const ApiList = <T extends any>({
   const [query, setQuery] = useState<string | undefined>(undefined)
   const [debouncedQuery] = useDebouncedValue(query, 200)
   const [page, setPage] = useState<number>(1)
-  const { data, meta, refetch, status } = useStrapiList<T>(
+  const { data, meta, refetch, status } = useStrapiList<T[]>(
     entryName,
     page,
     filterKeys,

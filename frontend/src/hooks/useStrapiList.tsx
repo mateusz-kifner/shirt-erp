@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect } from "react"
-import { useQuery } from "react-query"
+import { QueryKey, useQuery, UseQueryOptions } from "react-query"
 import qs from "qs"
 
 const fetchData = async <T = any,>(
@@ -10,7 +10,7 @@ const fetchData = async <T = any,>(
   filterQuery?: string,
   sortOrder: "asc" | "desc" = "asc",
   pageSize: number = 10
-) => {
+): Promise<{ data: T; meta: any } | undefined> => {
   if (!entryName) return
   if (!page) return
   let query_obj: any = {
@@ -46,52 +46,48 @@ const fetchData = async <T = any,>(
   })
   console.log(query_obj, query)
   const res = await axios.get(`/${entryName}?${query}`)
-  return res.data as { data: T; meta: any }
+  return res.data
 }
 
-interface OptionsProps<EntryType> {
+interface OptionsProps<
+  TQueryFnData = unknown,
+  TError = unknown,
+  TData = TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey
+> {
   pageSize?: number
-  queryOptions?: {
-    cacheTime?: number
-    enabled?: boolean
-    initialData?: any
-    initialDataUpdatedAt?: any
-    isDataEqual?: any
-    keepPreviousData?: any
-    meta?: any
-    notifyOnChangeProps?: any
-    notifyOnChangePropsExclusions?: any
-    onError?: ((err: unknown) => void) | undefined
-    onSettled?: ((data: any, error: unknown) => void) | undefined
-    onSuccess?: ((data: any) => void) | undefined
-    placeholderData?: any
-    queryKeyHashFn?: any
-    refetchInterval?: any
-    refetchIntervalInBackground?: any
-    refetchOnMount?: any
-    refetchOnReconnect?: any
-    refetchOnWindowFocus?: any
-    retry?: any
-    retryOnMount?: any
-    retryDelay?: any
-    select?: any
-    staleTime?: any
-    structuralSharing?: any
-    suspense?: any
-    useErrorBoundary?: any
-  }
+  queryOptions?: Omit<
+    UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
+    "queryKey"
+  >
 }
 
-function useStrapiList<EntryType>(
+function useStrapiList<entryType>(
   entryName: string,
   page: number,
   filterKeys?: string[],
   filterQuery?: string,
   sortOrder: "asc" | "desc" = "asc",
-  options: OptionsProps<EntryType> = {}
+  options: {
+    pageSize?: number
+    queryOptions?: Omit<
+      UseQueryOptions<
+        any,
+        unknown,
+        { data: entryType; meta: any } | undefined,
+        (string | number | string[] | undefined)[]
+      >,
+      "queryKey"
+    >
+  } = {}
 ) {
   const pageSize = options?.pageSize ?? 10
-  const { data, status, refetch, isLoading } = useQuery(
+  const { data, status, refetch, isLoading } = useQuery<
+    any,
+    unknown,
+    { data: entryType; meta: any } | undefined,
+    (string | number | string[] | undefined)[]
+  >(
     [entryName, page, filterKeys, filterQuery, sortOrder, pageSize],
     () =>
       fetchData(entryName, page, filterKeys, filterQuery, sortOrder, pageSize),

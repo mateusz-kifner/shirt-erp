@@ -1,7 +1,6 @@
-import React, { FC, ReactNode, useEffect, useState } from "react"
-import { Outlet, useNavigate, useParams } from "react-router-dom"
+import { FC, useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import ApiList from "../../../components/api/ApiList"
-import DefaultListItem from "../../../components/DefaultListItem"
 import ProductListItem from "./ProductListItem"
 import _ from "lodash"
 import names from "../../../models/names.json"
@@ -31,13 +30,13 @@ const ProductsList: FC = () => {
       }
       spacing="xl"
       listSpacing="sm"
-      onChange={(val: any) => {
+      onChange={(val) => {
         console.log(val)
         setId(val.id)
         navigate("/erp/" + entryName + "/" + val.id)
       }}
       listItemProps={{
-        linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
+        linkTo: (val: ProductType) => "/erp/" + entryName + "/" + val.id,
       }}
       filterKeys={["name", "codeName"]}
     />
