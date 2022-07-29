@@ -30,6 +30,5 @@ module.exports = [
   "strapi::session",
   "global::secure-files",
   "strapi::favicon",
-  "global::public",
   "strapi::public",
 ];
