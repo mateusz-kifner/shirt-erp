@@ -1,25 +1,19 @@
-import { ActionIcon, Group, Menu, Stack, Title } from "@mantine/core"
+import {
+  ActionIcon,
+  Group,
+  Menu,
+  Stack,
+  Title,
+  TypographyStylesProvider,
+} from "@mantine/core"
 import { FC, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-
-import ApiList from "../../../components/api/ApiList"
-import ResponsivePaper from "../../../components/ResponsivePaper"
-import DefaultListItem, {
-  makeDefaultListItem,
-} from "../../../components/DefaultListItem"
+import { useParams } from "react-router-dom"
 import names from "../../../models/names.json"
 import _ from "lodash"
 import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
-import DisplayCell from "../../../components/details/DisplayCell"
 import FileList from "../../../components/FileList"
-import {
-  Dots,
-  ManualGearbox,
-  Radioactive,
-  RadioactiveOff,
-  X,
-} from "tabler-icons-react"
+import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
 import { useRecoilState } from "recoil"
 import { emailMessageState } from "../../../atoms/emailMessageState"
 
@@ -89,7 +83,7 @@ const EmailMessagesPage: FC = () => {
           <Group>
             {data.from} {"->"} {data.to}
           </Group>
-          <DisplayCell>
+          <TypographyStylesProvider>
             <div
               dangerouslySetInnerHTML={{
                 __html: isDangerous
@@ -97,7 +91,7 @@ const EmailMessagesPage: FC = () => {
                   : DOMPurify.sanitize(data.textAsHtml),
               }}
             ></div>
-          </DisplayCell>
+          </TypographyStylesProvider>
           <FileList
             value={
               data?.attachments && Array.isArray(data?.attachments)

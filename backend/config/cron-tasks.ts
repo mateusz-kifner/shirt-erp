@@ -21,7 +21,7 @@ const logWarn = (obj) => {
 const logError = (obj) => {
   strapi.log.error(JSON.stringify(obj, undefined, 2));
 };
-// 0 0/5 * * ? * *
+// default 0 0/5 * * ? * *
 module.exports = {
   "0 0/5 * ? * *": async ({ strapi }) => {
     // EMAIL FETCH
