@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Input, TypographyStylesProvider } from "@mantine/core"
 import { useClickOutside, useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import RichTextEditor, { Editor } from "@mantine/rte"
+import type { Editor } from "@mantine/rte"
 import { FC, useEffect, useState, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "tabler-icons-react"
@@ -9,6 +9,7 @@ import DOMPurify from "dompurify"
 import _ from "lodash"
 import TurndownService from "turndown"
 import { SxBorder, SxRadius } from "../../styles/basic"
+import RichText from "../../lib/mantine/RichText"
 
 const turndownService = new TurndownService()
 
@@ -138,7 +139,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
     >
       <div ref={ref} style={{ position: "relative" }}>
         {active ? (
-          <RichTextEditor
+          <RichText
             ref={richTextEditorRef}
             value={text}
             onChange={setText}
