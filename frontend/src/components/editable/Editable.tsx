@@ -16,18 +16,17 @@ import EditableFiles from "./EditableFiles"
 import EditableArray from "./EditableArray"
 import EditableApiEntry from "./EditableApiEntry"
 import EditableApiEntryId from "./EditableApiEntryId"
-import ClientListItem from "../../pages/erp/clients/ClientListItem"
-import { useRecoilValue } from "recoil"
-import { loginState } from "../../atoms/loginState"
+import ClientListItem from "../../page-components/erp/clients/ClientListItem"
 import { useId } from "@mantine/hooks"
 import { truncString } from "../../utils/truncString"
 import { makeDefaultListItem } from "../DefaultListItem"
 import EditableGraph from "./EditableGraph"
-import ProductListItem from "../../pages/erp/products/ProductListItem"
-import UserListItem from "../../pages/erp/users/UserListItem"
+import ProductListItem from "../../page-components/erp/products/ProductListItem"
+import UserListItem from "../../page-components/erp/users/UserListItem"
 import EditableNumber from "./EditableNumber"
 import { Cash, Numbers } from "tabler-icons-react"
 import _ from "lodash"
+import { useAuthContext } from "../../context/authContext"
 
 interface EditableProps {
   template: { [key: string]: any }
@@ -36,7 +35,7 @@ interface EditableProps {
 }
 
 const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
-  const user = useRecoilValue(loginState)
+  const { debug } = useAuthContext()
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
     return (
@@ -54,13 +53,13 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
   return (
     <>
       {Object.keys(template).map((key) => {
-        if (key === "id" && user.debug === true)
+        if (key === "id" && debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
         const onSubmitEntry = (value: any) => onSubmit && onSubmit(key, value)
         const getApiEntry = (props: any = {}) => {}
         if (!(key in template))
-          return user?.debug === true ? (
+          return debug === true ? (
             <NotImplemented
               message={"Key doesn't have template"}
               object_key={key}
@@ -368,7 +367,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                       />
                     )
                   default:
-                    return user?.debug === true ? (
+                    return debug === true ? (
                       <NotImplemented
                         message={"Key has unknown entryName"}
                         object_key={key}
@@ -469,7 +468,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                       />
                     )
                   default:
-                    return user?.debug === true ? (
+                    return debug === true ? (
                       <NotImplemented
                         message={"Key has unknown entryName"}
                         object_key={key}
@@ -480,7 +479,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                     ) : null
                 }
               default:
-                return user?.debug === true ? (
+                return debug === true ? (
                   <NotImplemented
                     message={"Key has unknown arrayType"}
                     object_key={key}
@@ -541,7 +540,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                   />
                 )
               default:
-                return user?.debug === true ? (
+                return debug === true ? (
                   <NotImplemented
                     message={"Key has unknown entryName"}
                     object_key={key}
@@ -601,7 +600,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                   />
                 )
               default:
-                return user?.debug === true ? (
+                return debug === true ? (
                   <NotImplemented
                     message={"Key has unknown entryName"}
                     object_key={key}
@@ -612,7 +611,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
                 ) : null
             }
           default:
-            return user?.debug === true ? (
+            return debug === true ? (
               <NotImplemented
                 message={"Key has unknown type"}
                 object_key={key}

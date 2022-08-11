@@ -2,7 +2,7 @@ import { Paper, PaperProps } from "@mantine/core"
 import { unset } from "lodash"
 import { FC } from "react"
 
-const ResponsivePaper: FC<PaperProps<any>> = (props) => {
+const ResponsivePaper: FC<PaperProps> = (props) => {
   return (
     <Paper
       shadow="xs"

@@ -2,7 +2,6 @@ import { ActionIcon, Group, Menu, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { useGesture } from "@use-gesture/react"
 import { Children, FC, ReactNode, useEffect, useState } from "react"
-import { Outlet } from "react-router-dom"
 import { Compass } from "tabler-icons-react"
 
 import ResponsivePaper from "../ResponsivePaper"
@@ -21,7 +20,8 @@ const Workspace: FC<WorkspaceProps> = ({
   currentPage,
 }) => {
   const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
+    "only screen and (hover: none) and (pointer: coarse)",
+    false
   )
   const [page, setPage] = useState(0)
 
@@ -80,8 +80,7 @@ const Workspace: FC<WorkspaceProps> = ({
                   }}
                 >
                   <Text size="md">
-                    {(childrenLabels && childrenLabels[index]) ??
-                      "Window " + (index + 1)}
+                    {childrenLabels?.[index] ?? "Window " + (index + 1)}
                   </Text>
                 </Menu.Item>
               ))}

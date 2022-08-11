@@ -8,25 +8,24 @@ import {
 } from "@mantine/core"
 import { useLocalStorage, useMediaQuery } from "@mantine/hooks"
 import { FC, ReactElement, Ref, SyntheticEvent, useState } from "react"
-import { Link } from "react-router-dom"
 import navigationData from "../../navigationData"
 // import { navigationData } from "../../Routes"
 import { ChevronRight, ChevronLeft } from "tabler-icons-react"
 import { NavButton } from "./NavButton"
-import { useRecoilState, useRecoilValue } from "recoil"
-import { loginState } from "../../atoms/loginState"
+import { useAuthContext } from "../../context/authContext"
 
 interface NavigationProps {}
 
 const Navigation: FC<NavigationProps> = () => {
-  const [user, setUser] = useRecoilState(loginState)
-  const biggerThanSM = useMediaQuery("(min-width: 1000px)")
+  const { navigationCollapsed, toggleNavigationCollapsed, debug } =
+    useAuthContext()
+  const biggerThanSM = useMediaQuery("(min-width: 1000px)", true)
 
   return (
     <Navbar
       hiddenBreakpoint="md"
-      hidden={!user.navigationCollapsed}
-      width={{ base: "100%", md: user.navigationCollapsed ? 85 : 300 }}
+      hidden={!navigationCollapsed}
+      width={{ base: "100%", md: navigationCollapsed ? 85 : 300 }}
       px="sm"
     >
       <ScrollArea>
@@ -41,18 +40,14 @@ const Navigation: FC<NavigationProps> = () => {
           <Stack>
             {navigationData.map(
               (val, index) =>
-                (!val?.debug || user.debug) && (
+                (!val?.debug || debug) && (
                   <NavButton
                     {...val}
                     key={"navbar_" + val.label}
                     onClick={(e: any) => {
-                      !biggerThanSM &&
-                        setUser((val) => ({
-                          ...val,
-                          navigationCollapsed: !val.navigationCollapsed,
-                        }))
+                      !biggerThanSM && toggleNavigationCollapsed()
                     }}
-                    small={user.navigationCollapsed && biggerThanSM}
+                    small={navigationCollapsed && biggerThanSM}
                   />
                 )
             )}
@@ -73,17 +68,10 @@ const Navigation: FC<NavigationProps> = () => {
                   size="xl"
                   radius="xl"
                   onClick={() => {
-                    setUser((val) => ({
-                      ...val,
-                      navigationCollapsed: !val.navigationCollapsed,
-                    }))
+                    toggleNavigationCollapsed()
                   }}
                 >
-                  {user.navigationCollapsed ? (
-                    <ChevronRight />
-                  ) : (
-                    <ChevronLeft />
-                  )}
+                  {navigationCollapsed ? <ChevronRight /> : <ChevronLeft />}
                 </ActionIcon>
               </Group>
             </Box>

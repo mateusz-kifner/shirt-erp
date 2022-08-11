@@ -4,8 +4,8 @@ import { FC, ReactNode, useState } from "react"
 import { Bug, Search } from "tabler-icons-react"
 import axios from "axios"
 import { useQuery } from "react-query"
-import { useNavigate } from "react-router-dom"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useRouter } from "next/router"
 
 // const actions: SpotlightAction[] = [
 //   {
@@ -35,7 +35,7 @@ const fetchSearch = async (query: string) => {
 }
 
 const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const [query, setQuery] = useState<string>("")
   const [debounced] = useDebouncedValue(query, 500)
   const { data } = useQuery(
@@ -52,7 +52,7 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
     ? data?.orders.map((val: any) => ({
         title: val.name,
         description: val.status + " , Data oddania: " + val.dateOfCompletion,
-        onTrigger: () => navigate("/erp/" + "orders" + "/" + val.id),
+        onTrigger: () => router.push("/erp/" + "orders" + "/" + val.id),
       }))
     : []
 

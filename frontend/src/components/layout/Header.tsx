@@ -13,19 +13,17 @@ import {
 } from "@mantine/core"
 import { useSpotlight } from "@mantine/spotlight"
 import { FC } from "react"
-import { Link } from "react-router-dom"
-import { useRecoilState, useRecoilValue } from "recoil"
-import { experimentalFuturesState } from "../../atoms/experimentalFuturesState"
 import { Bell, Search, Settings } from "tabler-icons-react"
-import { loginState } from "../../atoms/loginState"
+import { NextLink } from "@mantine/next"
+import { useAuthContext } from "../../context/authContext"
+import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = () => {
-  const [user, setUser] = useRecoilState(loginState)
-
+  const { toggleNavigationCollapsed, navigationCollapsed } = useAuthContext()
+  const { search } = useExperimentalFuturesContext()
   const theme = useMantineTheme()
-  const experimentalFutures = useRecoilValue(experimentalFuturesState)
   const spotlight = useSpotlight()
 
   return (
@@ -46,19 +44,14 @@ const Header: FC<HeaderProps> = () => {
           <Group>
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
-                opened={user.navigationCollapsed ?? false}
-                onClick={() =>
-                  setUser((val) => ({
-                    ...val,
-                    navigationCollapsed: !val.navigationCollapsed,
-                  }))
-                }
+                opened={navigationCollapsed ?? false}
+                onClick={() => toggleNavigationCollapsed()}
                 size="sm"
                 color={theme.colors.gray[4]}
                 mr="sm"
               />
             </MediaQuery>
-            {user.navigationCollapsed ? (
+            {navigationCollapsed ? (
               <img
                 src="/assets/logo_micro.png"
                 alt="Shirt Dip ERP"
@@ -133,7 +126,7 @@ const Header: FC<HeaderProps> = () => {
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
               onClick={spotlight.openSpotlight}
-              disabled={!experimentalFutures.search}
+              disabled={!search}
             >
               <Search />
             </ActionIcon>
@@ -167,8 +160,8 @@ const Header: FC<HeaderProps> = () => {
             <ActionIcon
               size="lg"
               radius="xl"
-              component={Link}
-              to="/erp/settings"
+              component={NextLink}
+              href="/erp/settings"
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
             >

@@ -32,7 +32,7 @@ interface ApiListProps<T = any> {
   withSeparators?: boolean
   onChange?: (val: T) => void
   listItemProps?: { linkTo: (val: T) => string } | any
-  entryId?: number | null
+  selectedId?: number | null
   filterKeys?: string[]
 }
 
@@ -45,7 +45,7 @@ const ApiList = <T extends any>({
   withSeparators = false,
   onChange = (val: T) => {},
   listItemProps = {},
-  entryId,
+  selectedId,
   filterKeys,
 }: ApiListProps<T>) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
@@ -71,13 +71,13 @@ const ApiList = <T extends any>({
     },
   })
   // const cont = useInRouterContext()
-  // const params = useParams()
+  // const params = router.query
   // const location = useLocation()
   // console.log(params, location, cont)
 
   // useEffect(() => {
   //   console.log(id, location, cont)
-  //   // if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
+  //   // if (typeof params?.id === "string" && parseInt(params.id) > 0) setId(parseInt(params.id))
   // }, [id, location])
 
   return (
@@ -155,7 +155,7 @@ const ApiList = <T extends any>({
                 value={val}
                 onChange={onChange}
                 {...listItemProps}
-                highlight={val.id === entryId}
+                highlight={val.id === selectedId}
               />
             </Box>
           ))}

@@ -1,8 +1,8 @@
 import { Stack, LoadingOverlay } from "@mantine/core"
 import { useDocumentTitle } from "@mantine/hooks"
+import { useRouter } from "next/router"
 import { FC } from "react"
 import useStrapi from "../../hooks/useStrapi"
-import { useLocation, useParams } from "react-router-dom"
 import names from "../../models/names.json"
 import Editable from "../editable/Editable"
 
@@ -21,8 +21,8 @@ const ApiEntryEditable: FC<ApiEntryEditableProps> = ({
     query: "populate=*",
   })
 
-  const location = useLocation()
-  const params = useParams()
+  const router = useRouter()
+  const params = router.query
 
   const entryNameData: any =
     //@ts-ignore

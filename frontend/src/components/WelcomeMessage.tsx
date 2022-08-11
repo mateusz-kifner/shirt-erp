@@ -2,8 +2,7 @@ import { Modal } from "@mantine/core"
 import axios from "axios"
 import { useEffect, useId, useState } from "react"
 import { useQuery } from "react-query"
-import { useRecoilState } from "recoil"
-import { loginState } from "../atoms/loginState"
+import { useAuthContext } from "../context/authContext"
 import simpleHash from "../utils/simpleHash"
 
 const fetchWelcomeMessage = async () => {
@@ -11,7 +10,7 @@ const fetchWelcomeMessage = async () => {
   return res.data
 }
 
-const setWelcomeMessageHash = async (welcomeMessageHash: string) => {
+const mutateWelcomeMessageHash = async (welcomeMessageHash: string) => {
   const res = await axios.put("/users-permissions/setWelcomeMessageHash", {
     welcomeMessageHash,
   })
@@ -20,11 +19,12 @@ const setWelcomeMessageHash = async (welcomeMessageHash: string) => {
 
 const WelcomeMessage = () => {
   const [opened, setOpened] = useState<boolean>(true)
+  const { setWelcomeMessageHash, user } = useAuthContext()
   const { data, refetch } = useQuery(["global"], fetchWelcomeMessage, {
     enabled: false,
   })
-  const id = useId()
-  const [login, setLogin] = useRecoilState(loginState)
+
+  const uuid = useId()
   useEffect(() => {
     refetch()
   }, [])
@@ -32,20 +32,14 @@ const WelcomeMessage = () => {
   if (!data) return null
   const hash = simpleHash(data.data.welcomeMessage)
   // console.log(login, hash)
-  if (login?.user?.welcomeMessageHash === hash.toString()) return null
+  if (user?.welcomeMessageHash === hash.toString()) return null
 
   return (
     <Modal
       opened={opened}
       onClose={async () => {
+        mutateWelcomeMessageHash(hash.toString())
         setWelcomeMessageHash(hash.toString())
-        setLogin((val) => {
-          if (!val.user) return { ...val }
-          return {
-            ...val,
-            user: { ...val.user, welcomeMessageHash: hash.toString() },
-          }
-        })
         setOpened(false)
       }}
     >
@@ -53,7 +47,7 @@ const WelcomeMessage = () => {
         {data.data.welcomeMessage
           .split("\n")
           .map((val: string, index: number) => (
-            <p key={id + index}>{val}</p>
+            <p key={uuid + index}>{val}</p>
           ))}
       </div>
     </Modal>
