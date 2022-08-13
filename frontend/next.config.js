@@ -11,7 +11,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/tasks",
+        destination: "/erp/tasks",
         permanent: true,
       },
     ]
