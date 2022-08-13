@@ -143,7 +143,8 @@ function useStrapi<EntryType>(
   })
 
   const updateMutation = useMutation(
-    (updateData: { data: EntryType }) => updateEntry(entryName, id, updateData),
+    (updateData: { data: Partial<EntryType> }) =>
+      updateEntry(entryName, id, updateData),
     {
       onError: notify(
         options?.updateMutationOptions?.onError,
@@ -167,7 +168,7 @@ function useStrapi<EntryType>(
     console.log("add Strapi api entry:", entry, entryName)
     addMutation.mutateAsync({ data: entry })
   }
-  async function update(entry: EntryType) {
+  async function update(entry: Partial<EntryType>) {
     updateMutation.mutateAsync({ data: entry })
   }
   async function remove(id?: number) {

@@ -14,6 +14,7 @@ import DOMPurify from "dompurify"
 import FileList from "../../../components/FileList"
 import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
 import { useRouter } from "next/router"
+import { EmailMessageType } from "../../../types/EmailMessageType"
 
 const entryName = "email-messages"
 
@@ -29,7 +30,9 @@ const EmailMessagesPage: FC = () => {
   // FIXME: put it in global state
   const [emailMessage, setEmailMessage] = useState<any[]>([])
 
-  const { data } = useStrapi(entryName, id, { query: "populate=*" })
+  const { data } = useStrapi<EmailMessageType>(entryName, id, {
+    query: "populate=*",
+  })
 
   const isDangerous = emailMessage.includes(id)
   return (

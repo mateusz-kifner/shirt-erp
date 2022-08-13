@@ -6,18 +6,18 @@ import useStrapi from "../../hooks/useStrapi"
 import names from "../../models/names.json"
 import Editable from "../editable/Editable"
 
-interface ApiEntryEditableProps {
+interface ApiEntryEditableProps<EntryType = any> {
   template: any
   entryName: string
   id: number | null
 }
 
-const ApiEntryEditable: FC<ApiEntryEditableProps> = ({
+const ApiEntryEditable = <EntryType extends any>({
   template,
   entryName,
   id,
-}) => {
-  const { data, status, update } = useStrapi(entryName, id, {
+}: ApiEntryEditableProps<EntryType>) => {
+  const { data, status, update } = useStrapi<EntryType>(entryName, id, {
     query: "populate=*",
   })
 
@@ -28,24 +28,26 @@ const ApiEntryEditable: FC<ApiEntryEditableProps> = ({
     //@ts-ignore
     entryName in names ? names[entryName] : { singular: "", plural: "" }
 
-  useDocumentTitle(
-    params.id
-      ? "ShirtERP - " +
-          entryNameData.singular +
-          " " +
-          data?.firstname +
-          " " +
-          data?.lastname
-      : "ShirtERP - " + entryNameData.plural
-  )
+  // useDocumentTitle(
+  //   params.id
+  //     ? "ShirtERP - " +
+  //         entryNameData.singular +
+  //         " " +
+  //         data?.firstname +
+  //         " " +
+  //         data?.lastname
+  //     : "ShirtERP - " + entryNameData.plural
+  // )
 
   const apiUpdate = (key: string, val: any) => {
-    update({ [key]: val })
+    update({ [key]: val } as Partial<EntryType>)
   }
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <Editable template={template} data={data} onSubmit={apiUpdate} />
+      {data && (
+        <Editable template={template} data={data as any} onSubmit={apiUpdate} />
+      )}
       <LoadingOverlay visible={status === "loading"} radius="xl" />
     </Stack>
   )
