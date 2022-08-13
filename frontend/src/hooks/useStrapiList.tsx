@@ -49,19 +49,6 @@ const fetchData = async <T = any,>(
   return res.data
 }
 
-interface OptionsProps<
-  TQueryFnData = unknown,
-  TError = unknown,
-  TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
-> {
-  pageSize?: number
-  queryOptions?: Omit<
-    UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>,
-    "queryKey"
-  >
-}
-
 function useStrapiList<entryType>(
   entryName: string,
   page: number,
