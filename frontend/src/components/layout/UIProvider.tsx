@@ -6,7 +6,7 @@ import {
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { NotificationsProvider } from "@mantine/notifications"
 import React, { ReactNode } from "react"
-import Spotlight from "./Spotlight"
+import Spotlight from "../../context/Spotlight"
 
 const UIProvider = ({ children }: { children: ReactNode }) => {
   const preferredColorScheme = useColorScheme()
