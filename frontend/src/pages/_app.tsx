@@ -63,26 +63,26 @@ export default function App(props: AppProps) {
   return (
     <>
       <Head>
-        <title>Page title</title>
+        <title>ShirtERP</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <AuthProvider>
-        <IconsProvider>
-          <ExperimentalFuturesProvider>
-            <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <IconsProvider>
+            <ExperimentalFuturesProvider>
               <UIProvider>
                 <AppLayout>
                   <Component {...pageProps} />
                 </AppLayout>
               </UIProvider>
-              <ReactQueryDevtools initialIsOpen={false} />
-            </QueryClientProvider>
-          </ExperimentalFuturesProvider>
-        </IconsProvider>
-      </AuthProvider>
+            </ExperimentalFuturesProvider>
+          </IconsProvider>
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   )
 }

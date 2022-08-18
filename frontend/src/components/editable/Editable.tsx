@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { ComponentType, FC } from "react"
 import { Text } from "@mantine/core"
 import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
@@ -28,6 +28,95 @@ import { Cash, Numbers } from "tabler-icons-react"
 import _ from "lodash"
 import { useAuthContext } from "../../context/authContext"
 
+const ApiProps: {
+  [key: string]: {
+    ListItem: ComponentType<any>
+    copyProvider: (val: any) => string | undefined
+  }
+} = {
+  clients: {
+    ListItem: ClientListItem,
+    copyProvider: (value: any) =>
+      (value?.firstname && value.firstname?.length > 0) ||
+      (value?.lastname && value.lastname?.length > 0)
+        ? truncString(value.firstname + " " + value.lastname, 40)
+        : truncString(value?.username ? value.username : "", 40),
+  },
+  products: {
+    ListItem: ProductListItem,
+    copyProvider: (value: any) =>
+      value?.name ? truncString(value.name, 40) : undefined,
+  },
+  users: {
+    ListItem: UserListItem,
+    copyProvider: (value: any) =>
+      value?.username ? truncString(value.username, 40) : undefined,
+  },
+  orders: {
+    ListItem: makeDefaultListItem("name"),
+    copyProvider: (value: any) =>
+      value?.name ? truncString(value.name, 40) : "",
+  },
+  "orders-archive": {
+    ListItem: makeDefaultListItem("name"),
+    copyProvider: (value: any) =>
+      value?.name ? truncString(value.name, 40) : "",
+  },
+  workstations: {
+    ListItem: makeDefaultListItem("name"),
+    copyProvider: (value: any) =>
+      value?.name ? truncString(value.name, 40) : "",
+  },
+}
+
+const Fields: {
+  [key: string]: { component: ComponentType<any>; props: any }
+} = {
+  text: { component: EditableText, props: {} },
+  richtext: { component: EditableRichText, props: {} },
+  secrettext: { component: EditableSecretText, props: {} },
+  number: {
+    component: EditableNumber,
+    props: { icon: <Numbers size={18} />, Icon: Numbers },
+  },
+  money: {
+    component: EditableNumber,
+    props: {
+      rightSection: <Text pr={80}>PLN</Text>,
+      icon: <Cash size={18} />,
+      Icon: Cash,
+    },
+  },
+  datetime: { component: EditableDateTime, props: {} },
+  date: { component: EditableDate, props: {} },
+  boolean: { component: EditableBool, props: {} },
+  color: { component: EditableColor, props: {} },
+  enum: { component: EditableEnum, props: {} },
+  json: { component: EditableJSON, props: {} },
+  iconId: { component: EditableApiIconId, props: {} },
+  address: { component: EditableAddress, props: {} },
+  file: { component: EditableFiles, props: { maxCount: 1 } },
+  image: { component: EditableFiles, props: { maxCount: 1 } },
+  files: { component: EditableFiles, props: {} },
+  apiEntry: { component: EditableApiEntry, props: {} },
+  apiEntryId: { component: EditableApiEntryId, props: {} },
+}
+
+const Field = (props: any) => {
+  console.log(props)
+  let componentProps = Fields[props.type].props
+  if (props.type === "apiEntry" || props.type === "apiEntryId") {
+    if (props.entryName in ApiProps) {
+      componentProps["Element"] = ApiProps[props.entryName].ListItem
+      componentProps["copyProvider"] = ApiProps[props.entryName].copyProvider
+    } else {
+      componentProps["Element"] = makeDefaultListItem("name")
+    }
+  }
+  const Component = Fields[props.type].component
+  return <Component {...props} {...componentProps} />
+}
+
 interface EditableProps {
   template: { [key: string]: any }
   data: { [key: string]: any }
@@ -56,8 +145,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
         if (key === "id" && debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
-        const onSubmitEntry = (value: any) => onSubmit && onSubmit(key, value)
-        const getApiEntry = (props: any = {}) => {}
+        const onSubmitEntry = (value: any) => onSubmit?.(key, value)
         if (!(key in template))
           return debug === true ? (
             <NotImplemented
@@ -67,560 +155,82 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
               key={uuid + key}
             />
           ) : null
-        switch (template[key].type) {
-          case "text":
-            return (
-              <EditableText
-                value={data[key]}
-                {..._.omit(template[key], ["__self"])}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "richtext":
-            return (
-              <EditableRichText
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
 
-          case "secrettext":
-            return (
-              <EditableSecretText
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "number":
-            return (
-              <EditableNumber
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-                icon={<Numbers size={18} />}
-                Icon={Numbers}
-              />
-            )
-          case "money":
-            return (
-              <EditableNumber
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-                rightSection={<Text pr={80}>PLN</Text>}
-                icon={<Cash size={18} />}
-                Icon={Cash}
-              />
-            )
-          case "datetime":
-            return (
-              <EditableDateTime
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "date":
-            return (
-              <EditableDate
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "boolean":
-            return (
-              <EditableBool
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "color":
-            return (
-              <EditableColor
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "enum":
-            return (
-              <EditableEnum
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "json":
-            return (
-              <EditableJSON
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "iconId":
-            return (
-              <EditableApiIconId
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "address":
-            return (
-              <EditableAddress
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "file":
-          case "image":
-            return (
-              <EditableFiles
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-                maxCount={1}
-              />
-            )
-          case "files":
-            return (
-              <EditableFiles
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "graph":
-            return (
-              <EditableGraph
-                value={data[key]}
-                {...template[key]}
-                key={uuid + key}
-                onSubmit={onSubmitEntry}
-              />
-            )
-          case "array":
-            switch (template[key].arrayType) {
-              case "text":
-                return (
-                  <EditableArray
-                    value={data[key]}
-                    {...template[key]}
-                    key={uuid + key}
-                    onSubmit={onSubmitEntry}
-                    Element={EditableText}
-                  />
-                )
-              case "color":
-                return (
-                  <EditableArray
-                    value={data[key]}
-                    {...template[key]}
-                    key={uuid + key}
-                    onSubmit={onSubmitEntry}
-                    Element={EditableColor}
-                  />
-                )
-              case "apiEntry":
-                switch (template[key].entryName) {
-                  case "users":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntry}
-                        elementProps={{
-                          entryName: template[key].entryName,
-
-                          Element: UserListItem,
-                          copyProvider: (value: any) =>
-                            value?.username
-                              ? truncString(value.username, 40)
-                              : undefined,
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "products":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntry}
-                        elementProps={{
-                          entryName: template[key].entryName,
-
-                          Element: ProductListItem,
-                          copyProvider: (value: any) =>
-                            value?.name ? value.name : undefined,
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "clients":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntry}
-                        elementProps={{
-                          entryName: template[key].entryName,
-                          Element: ClientListItem,
-                          copyProvider: (value: any) =>
-                            (value?.firstname && value.firstname?.length > 0) ||
-                            (value?.lastname && value.lastname?.length > 0)
-                              ? value.firstname + " " + value.lastname
-                              : value?.username
-                              ? value.username
-                              : "",
-                          withErase: false,
-                        }}
-                      />
-                    )
-
-                  case "orders":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntry}
-                        elementProps={{
-                          entryName: template[key].entryName,
-                          Element: makeDefaultListItem("name"),
-                          copyProvider: (value: any) =>
-                            value?.name && value.name?.length > 0
-                              ? value.name
-                              : "",
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "orders-archive":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntry}
-                        elementProps={{
-                          entryName: template[key].entryName,
-                          Element: makeDefaultListItem("name"),
-                          copyProvider: (value: any) =>
-                            value?.name && value.name?.length > 0
-                              ? value.name
-                              : "",
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "workstations":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntry}
-                        elementProps={{
-                          entryName: template[key].entryName,
-                          Element: makeDefaultListItem("name"),
-                          copyProvider: (value: any) =>
-                            value?.name && value.name?.length > 0
-                              ? value.name
-                              : "",
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  default:
-                    return debug === true ? (
-                      <NotImplemented
-                        message={"Key has unknown entryName"}
-                        object_key={key}
-                        value={data[key]}
-                        template={template[key]}
-                        key={uuid + key}
-                      />
-                    ) : null
-                }
-              case "apiEntryId":
-                switch (template[key].entryName) {
-                  case "users":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntryId}
-                        elementProps={{
-                          entryName: template[key].entryName,
-
-                          Element: UserListItem,
-                          copyProvider: (value: any) =>
-                            value?.username
-                              ? truncString(value.username, 40)
-                              : undefined,
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "products":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntryId}
-                        elementProps={{
-                          entryName: template[key].entryName,
-
-                          Element: ProductListItem,
-                          copyProvider: (value: any) =>
-                            value?.name
-                              ? truncString(value.name, 40)
-                              : undefined,
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "clients":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntryId}
-                        elementProps={{
-                          entryName: template[key].entryName,
-                          Element: ClientListItem,
-                          copyProvider: (value: any) =>
-                            (value?.firstname && value.firstname?.length > 0) ||
-                            (value?.lastname && value.lastname?.length > 0)
-                              ? truncString(
-                                  value.firstname + " " + value.lastname,
-                                  40
-                                )
-                              : truncString(
-                                  value?.username ? value.username : "",
-                                  40
-                                ),
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  case "workstations":
-                    return (
-                      <EditableArray
-                        value={data[key]}
-                        {...template[key]}
-                        key={uuid + key}
-                        onSubmit={onSubmitEntry}
-                        Element={EditableApiEntryId}
-                        elementProps={{
-                          entryName: template[key].entryName,
-                          Element: makeDefaultListItem("name"),
-                          copyProvider: (value: any) =>
-                            value?.name && value.name?.length > 0
-                              ? truncString(value.name, 40)
-                              : "",
-
-                          withErase: false,
-                        }}
-                      />
-                    )
-                  default:
-                    return debug === true ? (
-                      <NotImplemented
-                        message={"Key has unknown entryName"}
-                        object_key={key}
-                        value={data[key]}
-                        template={template[key]}
-                        key={uuid + key}
-                      />
-                    ) : null
-                }
-              default:
-                return debug === true ? (
-                  <NotImplemented
-                    message={"Key has unknown arrayType"}
-                    object_key={key}
-                    value={data[key]}
-                    template={template[key]}
-                    key={uuid + key}
-                  />
-                ) : null
+        const component_type = template[key].type
+        if (component_type in Fields) {
+          return (
+            <Field
+              value={data[key]}
+              {...template[key]}
+              onSubmit={onSubmitEntry}
+              key={uuid + key}
+            />
+          )
+          //   let componentProps = Fields[component_type].props
+          //   if (
+          //     component_type === "apiEntry" ||
+          //     component_type === "apiEntryId"
+          //   ) {
+          //     if (template[key].entryName in ApiProps) {
+          //       componentProps["Element"] =
+          //         ApiProps[template[key].entryName].ListItem
+          //       componentProps["copyProvider"] =
+          //         ApiProps[template[key].entryName].copyProvider
+          //     } else {
+          //       componentProps["Element"] = makeDefaultListItem("name")
+          //     }
+          //   }
+          //   const Component = Fields[component_type].component
+          //   return (
+          //     <Component
+          //       value={data[key]}
+          //       {...template[key]}
+          //       onSubmit={onSubmitEntry}
+          //       key={uuid + key}
+          //       {...componentProps}
+          //     />
+          //   )
+        } else if (component_type == "array") {
+          const inner_component_type = template[key].arrayType
+          let componentProps = Fields[inner_component_type].props
+          if (
+            inner_component_type === "apiEntry" ||
+            inner_component_type === "apiEntryId"
+          ) {
+            if (template[key].entryName in ApiProps) {
+              componentProps["Element"] =
+                ApiProps[template[key].entryName].ListItem
+              componentProps["copyProvider"] =
+                ApiProps[template[key].entryName].copyProvider
+            } else {
+              componentProps["Element"] = makeDefaultListItem("name")
             }
-
-          case "apiEntry":
-            switch (template[key].entryName) {
-              case "users":
-                return (
-                  <EditableApiEntry
-                    value={data[key]}
-                    key={uuid + key}
-                    {...template[key]}
-                    onSubmit={onSubmitEntry}
-                    Element={UserListItem}
-                    copyProvider={(value: any) =>
-                      value?.username
-                        ? truncString(value.username, 40)
-                        : undefined
-                    }
-                  />
-                )
-              case "products":
-                return (
-                  <EditableApiEntry
-                    value={data[key]}
-                    key={uuid + key}
-                    {...template[key]}
-                    onSubmit={onSubmitEntry}
-                    Element={ProductListItem}
-                    copyProvider={(value: any) =>
-                      value?.name ? truncString(value.name, 40) : undefined
-                    }
-                  />
-                )
-              case "clients":
-                return (
-                  <EditableApiEntry
-                    value={data[key]}
-                    key={uuid + key}
-                    {...template[key]}
-                    onSubmit={onSubmitEntry}
-                    Element={ClientListItem}
-                    copyProvider={(value: any) =>
-                      (value?.firstname && value.firstname?.length > 0) ||
-                      (value?.lastname && value.lastname?.length > 0)
-                        ? truncString(
-                            value.firstname + " " + value.lastname,
-                            40
-                          )
-                        : truncString(value?.username ? value.username : "", 40)
-                    }
-                  />
-                )
-              default:
-                return debug === true ? (
-                  <NotImplemented
-                    message={"Key has unknown entryName"}
-                    object_key={key}
-                    value={data[key]}
-                    template={template[key]}
-                    key={uuid + key}
-                  />
-                ) : null
-            }
-          case "apiEntryId":
-            switch (template[key].entryName) {
-              case "users":
-                return (
-                  <EditableApiEntryId
-                    value={data[key]}
-                    key={uuid + key}
-                    {...template[key]}
-                    onSubmit={onSubmitEntry}
-                    Element={UserListItem}
-                    copyProvider={(value: any) =>
-                      value?.username
-                        ? truncString(value.username, 40)
-                        : undefined
-                    }
-                  />
-                )
-              case "products":
-                return (
-                  <EditableApiEntryId
-                    value={data[key]}
-                    key={uuid + key}
-                    {...template[key]}
-                    onSubmit={onSubmitEntry}
-                    Element={ProductListItem}
-                    copyProvider={(value: any) =>
-                      value?.name ? truncString(value.name, 40) : undefined
-                    }
-                  />
-                )
-              case "clients":
-                return (
-                  <EditableApiEntryId
-                    value={data[key]}
-                    key={uuid + key}
-                    {...template[key]}
-                    onSubmit={onSubmitEntry}
-                    Element={ClientListItem}
-                    copyProvider={(value: any) =>
-                      (value?.firstname && value.firstname?.length > 0) ||
-                      (value?.lastname && value.lastname?.length > 0)
-                        ? truncString(
-                            value.firstname + " " + value.lastname,
-                            40
-                          )
-                        : truncString(value?.username ? value.username : "", 40)
-                    }
-                  />
-                )
-              default:
-                return debug === true ? (
-                  <NotImplemented
-                    message={"Key has unknown entryName"}
-                    object_key={key}
-                    value={data[key]}
-                    template={template[key]}
-                    key={uuid + key}
-                  />
-                ) : null
-            }
-          default:
-            return debug === true ? (
-              <NotImplemented
-                message={"Key has unknown type"}
-                object_key={key}
-                value={data[key]}
-                template={template[key]}
-                key={uuid + key}
-              />
-            ) : null
+          }
+          return (
+            <EditableArray
+              value={data[key]}
+              {...template[key]}
+              onSubmit={onSubmitEntry}
+              key={uuid + key}
+              Element={Field}
+              elementProps={{
+                ...template[key],
+                type: template[key].arrayType,
+                ...componentProps,
+              }}
+            />
+          )
         }
+
+        return debug === true ? (
+          <NotImplemented
+            message={"Key has unknown type"}
+            object_key={key}
+            value={data[key]}
+            template={template[key]}
+            key={uuid + key}
+          />
+        ) : null
       })}
     </>
   )

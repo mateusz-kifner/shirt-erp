@@ -15,6 +15,7 @@ const UserListItem: FC<{
   value: Partial<UserType>
 }> = ({ value, onChange }) => {
   const theme = useMantineTheme()
+  console.log(value)
 
   return (
     <UnstyledButton

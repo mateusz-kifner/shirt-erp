@@ -45,7 +45,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
     copyProvider = () => "",
     styles,
     style,
-    withErase = true,
+    withErase = false,
   } = props
 
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)

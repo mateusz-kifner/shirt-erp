@@ -33,7 +33,7 @@ const EditableApiEntryId: FC<EditableApiEntryIdProps> = (props) => {
     copyProvider = () => "",
     styles,
     style,
-    withErase = true,
+    withErase = false,
   } = props
 
   const { data } = useStrapi(entryName, value?.id ? value.id : null)

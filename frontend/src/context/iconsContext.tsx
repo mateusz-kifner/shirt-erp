@@ -1,5 +1,11 @@
-import { createContext, useState, ReactNode, useContext } from "react"
-import { ImageType } from "../types/ImageType"
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react"
+import useStrapiList from "../hooks/useStrapiList"
 
 export interface IconType {
   id: number
@@ -24,6 +30,17 @@ export const IconsProvider = ({ children }: { children: ReactNode }) => {
     productCategories: [],
     workstations: [],
   })
+
+  const { data } = useStrapiList<any>("icon", 1, undefined, undefined, "asc", {
+    pageSize: 100000,
+  })
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setIconsData(data)
+    }
+  }, [data])
+
   return (
     <IconsContext.Provider
       value={{
