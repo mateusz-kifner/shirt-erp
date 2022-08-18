@@ -5761,10 +5761,10 @@ ignore@^5.1.1:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
 
-imapflow@^1.0.101:
-  version "1.0.101"
-  resolved "https://registry.yarnpkg.com/imapflow/-/imapflow-1.0.101.tgz#aeeae8b065fa10009cd1925d18c7da6e0e3f8734"
-  integrity sha512-YgNFDUG+2gQBV6UNVvxAWiUGqLrexZMxewBeOueHNMQFNoZfbT6880UTJrFpQdcSBDwSZS0+FHvnHMf4+yuI0g==
+imapflow@^1.0.103:
+  version "1.0.103"
+  resolved "https://registry.yarnpkg.com/imapflow/-/imapflow-1.0.103.tgz#814cbec5f8f9cbc41f982f14ade47c1990141875"
+  integrity sha512-kUEFSrkAEVq8NPI7oe8KsQoZOoInV5U6dWXsrnR+ewjTm/d9syt1jYDZX9cXB1E24sH2pOYN8L5Bhoe83NuDYw==
   dependencies:
     encoding-japanese "2.0.0"
     iconv-lite "0.6.3"
@@ -5772,8 +5772,8 @@ imapflow@^1.0.101:
     libmime "5.1.0"
     libqp "1.1.0"
     mailsplit "5.3.2"
-    nodemailer "6.7.7"
-    pino "8.4.0"
+    nodemailer "6.7.8"
+    pino "8.4.1"
     socks "2.7.0"
 
 immer@9.0.15:
@@ -7511,10 +7511,10 @@ nodemailer@6.7.3:
   resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.3.tgz#b73f9a81b9c8fa8acb4ea14b608f5e725ea8e018"
   integrity sha512-KUdDsspqx89sD4UUyUKzdlUOper3hRkDVkrKh/89G+d9WKsU5ox51NWS4tB1XR5dPUdR4SP0E3molyEfOvSa3g==
 
-nodemailer@6.7.7:
-  version "6.7.7"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.7.tgz#e522fbd7507b81c51446d3f79c4603bf00083ddd"
-  integrity sha512-pOLC/s+2I1EXuSqO5Wa34i3kXZG3gugDssH+ZNCevHad65tc8vQlCQpOLaUjopvkRQKm2Cki2aME7fEOPRy3bA==
+nodemailer@6.7.8:
+  version "6.7.8"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.7.8.tgz#9f1af9911314960c0b889079e1754e8d9e3f740a"
+  integrity sha512-2zaTFGqZixVmTxpJRCFC+Vk5eGRd/fYtvIR+dl5u9QXLTQWGIf48x/JXvo58g9sa0bU6To04XUv554Paykum3g==
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
@@ -8105,10 +8105,10 @@ pino-std-serializers@^6.0.0:
   resolved "https://registry.yarnpkg.com/pino-std-serializers/-/pino-std-serializers-6.0.0.tgz#4c20928a1bafca122fdc2a7a4a171ca1c5f9c526"
   integrity sha512-mMMOwSKrmyl+Y12Ri2xhH1lbzQxwwpuru9VjyJpgFIH4asSj88F2csdMwN6+M5g1Ll4rmsYghHLQJw81tgZ7LQ==
 
-pino@8.4.0:
-  version "8.4.0"
-  resolved "https://registry.yarnpkg.com/pino/-/pino-8.4.0.tgz#fb8622b70670068cc9d10ccf04c168580cef00c0"
-  integrity sha512-R95U66WOb4Ggtb1RPGnC2uvtc8T0i1FSbrKHrAudRtiLDrlNxKjM1MyCJu+V4gL0qdE/7/LoXAmkEY/TlX6ELA==
+pino@8.4.1:
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/pino/-/pino-8.4.1.tgz#25c818489804364598fa27c11650021d986fbf70"
+  integrity sha512-rZnbTUNFiYBH1H2OfYYVNBEFRDhN2nRaEmBD2+MDmGXSGyps+YPJ55LzWZP90zg7zyWKy0ZMqGlk47AO6OaBqQ==
   dependencies:
     atomic-sleep "^1.0.0"
     fast-redact "^3.1.1"

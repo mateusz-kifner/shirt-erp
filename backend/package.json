@@ -13,7 +13,7 @@
     "@strapi/plugin-i18n": "4.3.4",
     "@strapi/plugin-users-permissions": "4.3.4",
     "@strapi/strapi": "4.3.4",
-    "imapflow": "^1.0.101",
+    "imapflow": "^1.0.103",
     "lodash": "^4.17.21",
     "mailparser": "^3.5.0",
     "mime-types": "^2.1.35",
