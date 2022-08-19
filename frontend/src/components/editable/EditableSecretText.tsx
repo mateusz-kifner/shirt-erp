@@ -53,6 +53,7 @@ const EditableSecretText: FC<EditableSecretTextProps> = ({
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {

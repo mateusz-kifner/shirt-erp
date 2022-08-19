@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { FC, useEffect, useId } from "react"
 import { Input, SimpleGrid, Stack } from "@mantine/core"
 import { FileType } from "../../../types/FileType"
 import axios from "axios"
@@ -14,6 +14,7 @@ const fetchFiles = async () => {
   return res.data
 }
 const FilesPage: FC = () => {
+  const uuid = useId()
   const { height, width } = useViewportSize()
 
   const { data } = useQuery<any>(["files"], () => fetchFiles(), {
@@ -37,9 +38,14 @@ const FilesPage: FC = () => {
       <Stack p="xl">
         <SimpleGrid cols={Math.floor((width - 340) / 400)}>
           {data &&
-            data.map((fileData: FileType) => {
+            data.map((fileData: FileType, index: number) => {
               console.log(fileData.mime)
-              return <FileDisplay fileData={fileData}></FileDisplay>
+              return (
+                <FileDisplay
+                  fileData={fileData}
+                  key={uuid + index}
+                ></FileDisplay>
+              )
             })}
         </SimpleGrid>
       </Stack>

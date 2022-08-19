@@ -10,9 +10,10 @@ interface DefaultListItemProps {
 }
 
 export const makeDefaultListItem = (entryKey: string) => {
-  return (props: Omit<DefaultListItemProps, "entryKey">) => (
+  const ListItem = (props: Omit<DefaultListItemProps, "entryKey">) => (
     <DefaultListItem {...props} entryKey={entryKey} />
   )
+  return ListItem
 }
 
 const DefaultListItem: FC<DefaultListItemProps> = ({

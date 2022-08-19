@@ -52,12 +52,14 @@ const Header: FC<HeaderProps> = () => {
               />
             </MediaQuery>
             {navigationCollapsed ? (
+              // eslint-disable-next-line
               <img
                 src="/assets/logo_micro.png"
                 alt="Shirt Dip ERP"
                 height={40}
               />
             ) : (
+              // eslint-disable-next-line
               <img
                 src="/assets/logo_small.png"
                 alt="Shirt Dip ERP"

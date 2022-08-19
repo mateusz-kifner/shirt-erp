@@ -83,6 +83,7 @@ function useStrapiList<entryType>(
 
   useEffect(() => {
     refetch()
+    // eslint-disable-next-line
   }, [page, pageSize])
   return {
     data: data && "data" in data ? data?.data : data,

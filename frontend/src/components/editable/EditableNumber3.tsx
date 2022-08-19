@@ -68,6 +68,7 @@ const EditableNumber: FC<EditableNumberProps> = (props) => {
     const new_value = typeof value === "number" ? value : 0
     setText(new_value.toFixed(2).toString())
     setPrevNumber(new_value)
+    // eslint-disable-next-line
   }, [value])
 
   const onChangeNumber = (e: React.ChangeEvent<HTMLInputElement>) => {

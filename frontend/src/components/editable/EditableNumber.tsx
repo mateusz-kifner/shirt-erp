@@ -69,6 +69,7 @@ const EditableDate: FC<EditableDateProps> = (props) => {
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {

@@ -25,9 +25,10 @@ const DefaultPage: FC<DefaultPageProps> = ({
   const router = useRouter()
   const params = router.query
   useEffect(() => {
-    if (typeof params?.id === "string" && parseInt(params.id) > 0)
+    if (typeof params?.id === "string" && parseInt(params.id) > 0) {
       setId(parseInt(params.id))
-  })
+    }
+  }, [params?.id])
 
   return (
     <Group

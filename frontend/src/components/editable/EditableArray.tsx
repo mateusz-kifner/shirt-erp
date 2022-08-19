@@ -46,16 +46,16 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
 
   useEffect(() => {
     if (isArrayEqual(items, prev)) return
-    onSubmit && onSubmit(items)
-    console.log(items, prev)
+    onSubmit?.(items)
+    // eslint-disable-next-line
   }, [items])
 
   useEffect(() => {
     if (value === undefined || value === null) return
     setItems(value)
     setPrev(value)
+    // eslint-disable-next-line
   }, [value])
-  // console.log(items)
 
   return (
     <Input.Wrapper label={label} required={required}>

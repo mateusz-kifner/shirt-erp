@@ -20,7 +20,7 @@ const ProductsList: FC = () => {
   useEffect(() => {
     if (typeof params?.id === "string" && parseInt(params.id) > 0)
       setId(parseInt(params.id))
-  })
+  }, [params.id])
   return (
     <ApiList<ProductType>
       ListItem={ProductListItem}

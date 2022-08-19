@@ -61,6 +61,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {

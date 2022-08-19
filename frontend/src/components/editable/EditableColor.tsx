@@ -62,6 +62,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {

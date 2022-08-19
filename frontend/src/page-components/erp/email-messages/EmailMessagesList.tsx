@@ -18,7 +18,7 @@ const EmailMessagesList = () => {
   useEffect(() => {
     if (typeof params?.id === "string" && parseInt(params.id) > 0)
       setId(parseInt(params.id))
-  })
+  }, [params.id])
   return (
     <ApiList
       ListItem={ListElem}

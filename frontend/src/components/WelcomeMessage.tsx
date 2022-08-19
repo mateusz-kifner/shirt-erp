@@ -27,6 +27,7 @@ const WelcomeMessage = () => {
   const uuid = useId()
   useEffect(() => {
     refetch()
+    // eslint-disable-next-line
   }, [])
 
   if (!data) return null

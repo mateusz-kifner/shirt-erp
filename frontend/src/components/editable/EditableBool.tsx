@@ -39,8 +39,9 @@ const EditableBool: FC<EditableBoolProps> = (props) => {
 
   useEffect(() => {
     if (dirty) {
-      onSubmit && onSubmit(bool)
+      onSubmit?.(bool)
     }
+    // eslint-disable-next-line
   }, [bool])
 
   return (

@@ -25,7 +25,7 @@ const EmailMessagesPage: FC = () => {
   useEffect(() => {
     if (typeof params?.id === "string" && parseInt(params.id) > 0)
       setId(parseInt(params.id))
-  })
+  }, [params.id])
 
   // FIXME: put it in global state
   const [emailMessage, setEmailMessage] = useState<any[]>([])

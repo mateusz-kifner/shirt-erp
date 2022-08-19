@@ -92,6 +92,7 @@ function useStrapi<EntryType>(
 
   useEffect(() => {
     refetch()
+    // eslint-disable-next-line
   }, [id])
 
   const optimisticUpdate = (fn: ((...args: any[]) => any) | undefined) => {

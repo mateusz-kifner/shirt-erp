@@ -165,30 +165,6 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
               key={uuid + key}
             />
           )
-          //   let componentProps = Fields[component_type].props
-          //   if (
-          //     component_type === "apiEntry" ||
-          //     component_type === "apiEntryId"
-          //   ) {
-          //     if (template[key].entryName in ApiProps) {
-          //       componentProps["Element"] =
-          //         ApiProps[template[key].entryName].ListItem
-          //       componentProps["copyProvider"] =
-          //         ApiProps[template[key].entryName].copyProvider
-          //     } else {
-          //       componentProps["Element"] = makeDefaultListItem("name")
-          //     }
-          //   }
-          //   const Component = Fields[component_type].component
-          //   return (
-          //     <Component
-          //       value={data[key]}
-          //       {...template[key]}
-          //       onSubmit={onSubmitEntry}
-          //       key={uuid + key}
-          //       {...componentProps}
-          //     />
-          //   )
         } else if (component_type == "array") {
           const inner_component_type = template[key].arrayType
           let componentProps = Fields[inner_component_type].props

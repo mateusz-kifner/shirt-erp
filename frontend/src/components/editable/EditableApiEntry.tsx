@@ -53,6 +53,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
   const [opened, setOpened] = useState<boolean>(false)
   const uuid = useId()
   const clipboard = useClipboard()
+  // eslint-disable-next-line
   const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry])
 
   useEffect(() => {
@@ -62,8 +63,9 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
 
   useEffect(() => {
     if (_.isEqual(apiEntry, prev)) return
-    onSubmit && onSubmit(apiEntry)
+    onSubmit?.(apiEntry)
     setPrev(apiEntry)
+    // eslint-disable-next-line
   }, [apiEntry])
 
   return (

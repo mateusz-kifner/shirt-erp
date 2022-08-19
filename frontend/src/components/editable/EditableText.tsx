@@ -59,6 +59,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {

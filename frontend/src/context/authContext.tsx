@@ -55,12 +55,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setNavigationCollapsed(navigationCollapsed)
     }
     setIsLoaded(true)
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem("loginState", getLoginStateAsJson())
     }
+    // eslint-disable-next-line
   }, [isAuthenticated, debug, navigationCollapsed])
 
   const signIn = ({ user, jwt }: { user: UserType; jwt: string }) => {
