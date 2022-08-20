@@ -23,7 +23,7 @@ interface EditableArrayProps {
   disabled?: boolean
   required?: boolean
   maxCount?: number
-  Element: ComponentType
+  Element: ComponentType<any>
   elementProps: any
 }
 
@@ -43,7 +43,6 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   const [prev, setPrev] = useState<any[]>(items)
   const [active, setActive] = useState<boolean>(false)
   const uuid = useId()
-
   useEffect(() => {
     if (isArrayEqual(items, prev)) return
     onSubmit?.(items)
@@ -101,7 +100,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                         )
                       )
                   }}
-                  {...elementProps}
+                  {..._.omit(elementProps, ["label"])}
                 />
               </Box>
               {active && (

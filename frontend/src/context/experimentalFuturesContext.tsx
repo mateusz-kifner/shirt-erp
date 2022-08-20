@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@mantine/hooks"
 import { createContext, useState, ReactNode, useContext } from "react"
 
 interface ExperimentalFuturesType {
@@ -15,8 +16,14 @@ export const ExperimentalFuturesProvider = ({
 }: {
   children: ReactNode
 }) => {
-  const [search, setSearch] = useState<boolean>(false)
-  const [advancedNavigation, setAdvancedNavigation] = useState<boolean>(false)
+  const [search, setSearch] = useLocalStorage<boolean>({
+    key: "flag-search",
+    defaultValue: true,
+  })
+  const [advancedNavigation, setAdvancedNavigation] = useLocalStorage<boolean>({
+    key: "flag-advanced-navigation",
+    defaultValue: false,
+  })
 
   return (
     <ExperimentalFuturesContext.Provider

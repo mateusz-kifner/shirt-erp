@@ -166,21 +166,6 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
             />
           )
         } else if (component_type == "array") {
-          const inner_component_type = template[key].arrayType
-          let componentProps = Fields[inner_component_type].props
-          if (
-            inner_component_type === "apiEntry" ||
-            inner_component_type === "apiEntryId"
-          ) {
-            if (template[key].entryName in ApiProps) {
-              componentProps["Element"] =
-                ApiProps[template[key].entryName].ListItem
-              componentProps["copyProvider"] =
-                ApiProps[template[key].entryName].copyProvider
-            } else {
-              componentProps["Element"] = makeDefaultListItem("name")
-            }
-          }
           return (
             <EditableArray
               value={data[key]}
@@ -191,7 +176,6 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
               elementProps={{
                 ...template[key],
                 type: template[key].arrayType,
-                ...componentProps,
               }}
             />
           )
