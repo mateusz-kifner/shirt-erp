@@ -5,4 +5,3 @@ const AdvancedNavigation = () => {
 }
 
 export default AdvancedNavigation
-simplify

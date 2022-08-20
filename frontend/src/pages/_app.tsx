@@ -19,7 +19,7 @@ axios.defaults.baseURL = serverURL + "/api"
 const queryClient = new QueryClient()
 
 Logger.setHandler(function (messages, context) {
-  const savedValue = localStorage.getItem("login")
+  const savedValue = localStorage.getItem("user-data")
   console.log(messages[0]?.message ?? "Nieznany błąd", messages[0])
   if (context.level === Logger.ERROR)
     showNotification({
