@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Box,
   Button,
@@ -12,9 +12,15 @@ import { useForm } from "@mantine/form"
 import { useAuthContext } from "../context/authContext"
 
 const LoginModal = () => {
-  const { signIn, isLoaded } = useAuthContext()
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
+  const { signIn } = useAuthContext()
 
   const [errorMessage, setErrorMessage] = useState(false)
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+
   const form = useForm({
     initialValues: { identifier: "", password: "" },
     validate: {
@@ -37,6 +43,7 @@ const LoginModal = () => {
         console.log(error)
       })
   }
+
   return (
     <Modal opened={isLoaded} onClose={() => {}}>
       <Box sx={{ maxWidth: 340 }} mx="auto">

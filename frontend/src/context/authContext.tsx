@@ -1,7 +1,7 @@
+import { useLocalStorage } from "@mantine/hooks"
 import axios from "axios"
 import {
   createContext,
-  useState,
   ReactNode,
   useContext,
   useEffect,
@@ -11,7 +11,7 @@ import {
 import { UserType } from "../types/UserType"
 
 interface LoginDataType {
-  user: UserType
+  user: UserType | null
   jwt: string
 }
 
@@ -21,7 +21,7 @@ interface AuthContextType {
   debug: boolean
   navigationCollapsed: boolean
   isAuthenticated: boolean
-  isLoaded: boolean
+
   signIn: (loginData: LoginDataType) => void
   signOut: () => void
   toggleNavigationCollapsed: () => void
@@ -33,53 +33,53 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [jwt, setJwt] = useState<string>("")
-  const [user, setUser] = useState<UserType | null>(null)
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [debug, setDebug] = useState(false)
-  const [navigationCollapsed, setNavigationCollapsed] = useState(false)
-
-  const getLoginStateAsJson = () => {
-    return JSON.stringify({ jwt, user, debug, navigationCollapsed })
-  }
-
+  const [jwt, setJwt] = useLocalStorage<string>({
+    key: "user-jwt",
+    defaultValue: "",
+  })
+  const [user, setUser] = useLocalStorage<UserType | null>({
+    key: "user-data",
+    defaultValue: null,
+  })
+  const isAuthenticated = jwt.length > 0
+  const [navigationCollapsed, setNavigationCollapsed] =
+    useLocalStorage<boolean>({
+      key: "user-navigation-collapsed",
+      defaultValue: false,
+    })
+  const [debug, setDebug] = useLocalStorage<boolean>({
+    key: "user-debug",
+    defaultValue: false,
+  })
+  console.log(isAuthenticated)
   useEffect(() => {
-    const loginState = localStorage.getItem("loginState")
-    if (loginState) {
-      const loginStorage = JSON.parse(loginState)
-      loginStorage?.jwt &&
-        loginStorage.jwt?.length > 0 &&
-        signIn({ user: loginStorage?.user, jwt: loginStorage.jwt })
-      setDebug(debug)
-      setNavigationCollapsed(navigationCollapsed)
+    if (jwt.length > 0) {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + jwt
+    } else {
+      delete axios.defaults.headers.common["Authorization"]
     }
-    setIsLoaded(true)
-    // eslint-disable-next-line
-  }, [])
+  }, [jwt])
 
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("loginState", getLoginStateAsJson())
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated, debug, navigationCollapsed])
-
-  const signIn = ({ user, jwt }: { user: UserType; jwt: string }) => {
-    axios.defaults.headers.common["Authorization"] = "Bearer " + jwt
+  const signIn = ({ user, jwt }: LoginDataType) => {
     setJwt(jwt)
     setUser(user)
-    setIsAuthenticated(true)
   }
 
   const signOut = () => {
-    delete axios.defaults.headers.common["Authorization"]
     setJwt("")
     setUser(null)
-    setIsAuthenticated(false)
   }
 
-  const setWelcomeMessageHash = (hash: string) => {}
+  const setWelcomeMessageHash = (hash: string) => {
+    setUser((user_data) => {
+      if (user_data !== null) {
+        let new_user_data = { ...user_data }
+        new_user_data.welcomeMessageHash = hash
+        return new_user_data
+      }
+      return user_data
+    })
+  }
 
   return (
     <AuthContext.Provider
@@ -89,7 +89,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         debug,
         navigationCollapsed,
         isAuthenticated,
-        isLoaded,
         signIn,
         signOut,
         toggleNavigationCollapsed: () => setNavigationCollapsed((val) => !val),
