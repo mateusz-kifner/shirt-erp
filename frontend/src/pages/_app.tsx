@@ -63,6 +63,27 @@ export default function App(props: AppProps) {
   return (
     <>
       <Head>
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="theme-color" content="#1f1f1f" />
+        <meta name="robots" content="noindex,nofollow" />
+        <meta name="description" content="ShirtERP system" />
+        <link
+          rel="apple-touch-icon"
+          sizes="192x192"
+          href="/shirterp-192x192.png"
+        />
+
+        <link
+          rel="manifest"
+          href="/manifest.webmanifest"
+          crossOrigin="use-credentials"
+        />
+
         <title>ShirtERP</title>
         <meta
           name="viewport"

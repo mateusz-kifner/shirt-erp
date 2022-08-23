@@ -102,7 +102,7 @@ const Fields: {
 }
 
 const Field = (props: any) => {
-  console.log(props)
+  // console.log(props)
   let componentProps = Fields[props.type].props
   if (props.type === "apiEntry" || props.type === "apiEntryId") {
     if (props.entryName in ApiProps) {
@@ -125,6 +125,7 @@ interface EditableProps {
 const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
   const { debug } = useAuthContext()
   const uuid = useId()
+  console.log(status)
   if (!(data && Object.keys(data).length > 0))
     return (
       <Text

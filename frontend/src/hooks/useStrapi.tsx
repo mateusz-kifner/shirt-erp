@@ -167,13 +167,13 @@ function useStrapi<EntryType>(
 
   async function add(entry: EntryType) {
     console.log("add Strapi api entry:", entry, entryName)
-    addMutation.mutateAsync({ data: entry })
+    return addMutation.mutateAsync({ data: entry })
   }
   async function update(entry: Partial<EntryType>) {
-    updateMutation.mutateAsync({ data: entry })
+    return updateMutation.mutateAsync({ data: entry })
   }
   async function remove(id?: number) {
-    removeMutation.mutateAsync(undefined, {
+    return removeMutation.mutateAsync(undefined, {
       onSuccess: () => {
         queryClient.setQueryData([entryName + "_one", id], null)
         queryClient.removeQueries([entryName + "_one", id])
