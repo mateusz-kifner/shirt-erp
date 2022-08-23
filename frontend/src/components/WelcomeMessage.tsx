@@ -33,7 +33,7 @@ const WelcomeMessage = () => {
   if (!data) return null
   const hash = simpleHash(data.data.welcomeMessage)
   // console.log(login, hash)
-  if (user?.welcomeMessageHash === hash.toString()) return null
+  if (!user || user?.welcomeMessageHash === hash.toString()) return null
 
   return (
     <Modal

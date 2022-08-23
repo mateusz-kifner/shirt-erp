@@ -7,6 +7,8 @@ import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { NotificationsProvider } from "@mantine/notifications"
 import React, { ReactNode } from "react"
 import Spotlight from "../../context/Spotlight"
+import EnvMessage from "../EnvMessage"
+import WelcomeMessage from "../WelcomeMessage"
 
 const UIProvider = ({ children }: { children: ReactNode }) => {
   const preferredColorScheme = useColorScheme()
@@ -57,7 +59,11 @@ const UIProvider = ({ children }: { children: ReactNode }) => {
         // }}
       >
         <NotificationsProvider>
-          <Spotlight>{children}</Spotlight>
+          <Spotlight>
+            {children}
+            <WelcomeMessage />
+            <EnvMessage />
+          </Spotlight>
         </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
