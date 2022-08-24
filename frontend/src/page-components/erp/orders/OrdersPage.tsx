@@ -12,23 +12,34 @@ import _ from "lodash"
 import { useRouter } from "next/router"
 import { createEmptyMatrix, Matrix } from "react-spreadsheet"
 import { NextPage } from "next"
+import {
+  getQueryAsArray,
+  setQuery,
+  getQueryAsInt,
+} from "../../../utils/nextQueryUtils"
 
-const OrdersPage: NextPage = (props) => {
-  console.log(props)
+const OrdersPage: NextPage = () => {
   const router = useRouter()
   const [sheet, setSheet] = useState<TableType>({
     name: "Arkusz 1",
     data: createEmptyMatrix(10, 10),
   })
 
-  const id =
-    typeof router?.query?.id === "string" ? parseInt(router.query.id) : null
-  console.log(router.query)
+  if (!router?.query?.show_views) {
+    setQuery(router, { show_views: ["0", "1"] })
+  }
+  console.log(getQueryAsArray(router, "show_views"))
+
+  const id = getQueryAsInt(router, "id")
   const currentPage = id ? 1 : 0
   return (
     <Workspace
-      childrenWrapperProps={[undefined, { style: { flexGrow: 1 } }]}
-      childrenLabels={["Lista zamówień", "Właściwości"]}
+      childrenWrapperProps={[
+        undefined,
+        { style: { flexGrow: 1 } },
+        { style: { flexGrow: 1 } },
+      ]}
+      childrenLabels={["Lista zamówień", "Właściwości", "Arkusz"]}
       currentPages={currentPage}
     >
       <OrdersList selectedId={id} />
