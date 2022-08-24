@@ -15,45 +15,103 @@ import { NextPage } from "next"
 import {
   getQueryAsArray,
   setQuery,
-  getQueryAsInt,
+  getQueryAsIntOrNull,
 } from "../../../utils/nextQueryUtils"
+import { Button, Modal, SimpleGrid, Stack, Text } from "@mantine/core"
+import { CirclePlus, Mail } from "tabler-icons-react"
 
 const OrdersPage: NextPage = () => {
   const router = useRouter()
-  const [sheet, setSheet] = useState<TableType>({
-    name: "Arkusz 1",
-    data: createEmptyMatrix(10, 10),
-  })
+  const [openAddModal, setOpenAddModal] = useState(false)
+  const [sheets, setSheets] = useState<TableType[]>([
+    {
+      name: "Arkusz 1",
+      data: createEmptyMatrix(2, 2),
+    },
+    {
+      name: "Arkusz 2",
+      data: createEmptyMatrix(2, 2),
+    },
+  ])
 
   if (!router?.query?.show_views) {
     setQuery(router, { show_views: ["0", "1"] })
   }
   console.log(getQueryAsArray(router, "show_views"))
 
-  const id = getQueryAsInt(router, "id")
+  const id = getQueryAsIntOrNull(router, "id")
   const currentPage = id ? 1 : 0
+  const childrenLabels = ["Lista zamówień", "Właściwości"].concat(
+    sheets.map((val) => val.name)
+  )
   return (
-    <Workspace
-      childrenWrapperProps={[
-        undefined,
-        { style: { flexGrow: 1 } },
-        { style: { flexGrow: 1 } },
-      ]}
-      childrenLabels={["Lista zamówień", "Właściwości", "Arkusz"]}
-      currentPages={currentPage}
-    >
-      <OrdersList selectedId={id} />
+    <>
+      <Workspace
+        childrenWrapperProps={[
+          undefined,
+          { style: { flexGrow: 1 } },
+          { style: { flexGrow: 1 } },
+        ]}
+        childrenLabels={childrenLabels}
+        currentPages={currentPage}
+      >
+        <OrdersList
+          selectedId={id}
+          onAddElement={() => setOpenAddModal(true)}
+        />
 
-      <ApiEntryEditable template={template} entryName={"orders"} id={1} />
-
-      <EditableTable
-        value={sheet}
-        onSubmit={(data) => {
-          data && setSheet(data)
-          console.log(data)
-        }}
-      />
-    </Workspace>
+        <ApiEntryEditable template={template} entryName={"orders"} id={1} />
+        {sheets.map((table_data, index) => (
+          <EditableTable
+            value={table_data}
+            onSubmit={(data) => {
+              data &&
+                setSheets((val) =>
+                  val.map((val, i) => (i === index ? data : val))
+                )
+              console.log(data)
+            }}
+          />
+        ))}
+      </Workspace>
+      <Modal
+        opened={openAddModal}
+        onClose={() => setOpenAddModal(false)}
+        size="xl"
+      >
+        <SimpleGrid cols={2} mt="md">
+          <Button
+            style={{ height: "unset", aspectRatio: "1.5/1" }}
+            size="xl"
+            variant="gradient"
+            gradient={{ from: "teal", to: "lime", deg: 105 }}
+          >
+            <Stack p="xl" align="center">
+              <CirclePlus size={52} />
+              <Text style={{ whiteSpace: "pre-wrap", textAlign: "center" }}>
+                Stwórz czyste zamówienie.
+              </Text>
+            </Stack>
+          </Button>
+          <Button
+            style={{
+              height: "unset",
+              aspectRatio: "1.5/1",
+            }}
+            size="xl"
+            variant="gradient"
+            gradient={{ from: "indigo", to: "teal", deg: 105 }}
+          >
+            <Stack p="xl" align="center">
+              <Mail size={52} />
+              <Text style={{ whiteSpace: "pre-wrap", textAlign: "center" }}>
+                Stwórz zamówienie z maila.
+              </Text>
+            </Stack>
+          </Button>
+        </SimpleGrid>
+      </Modal>
+    </>
   )
 }
 

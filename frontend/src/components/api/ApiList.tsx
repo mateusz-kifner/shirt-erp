@@ -34,6 +34,7 @@ interface ApiListProps<T = any> {
   listItemProps?: { linkTo: (val: T) => string } | any
   selectedId?: number | null
   filterKeys?: string[]
+  onAddElement?: () => void
 }
 
 const ApiList = <T extends any>({
@@ -47,6 +48,7 @@ const ApiList = <T extends any>({
   listItemProps = {},
   selectedId,
   filterKeys,
+  onAddElement,
 }: ApiListProps<T>) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
@@ -94,7 +96,12 @@ const ApiList = <T extends any>({
             >
               <Refresh />
             </ActionIcon>
-            <ActionIcon size="lg" radius="xl" variant="default">
+            <ActionIcon
+              size="lg"
+              radius="xl"
+              variant="default"
+              onClick={onAddElement}
+            >
               <Plus />
             </ActionIcon>
           </Group>

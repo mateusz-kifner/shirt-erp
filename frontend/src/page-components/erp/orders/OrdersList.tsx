@@ -14,9 +14,10 @@ const label =
 
 interface OrderListProps {
   selectedId: number | null
+  onAddElement: () => void
 }
 
-const OrdersList = ({ selectedId }: OrderListProps) => {
+const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
   const router = useRouter()
 
   return (
@@ -33,6 +34,7 @@ const OrdersList = ({ selectedId }: OrderListProps) => {
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      onAddElement={onAddElement}
     />
   )
 }
