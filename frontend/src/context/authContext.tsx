@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     key: "user-debug",
     defaultValue: false,
   })
-  console.log(isAuthenticated)
   useEffect(() => {
     if (jwt.length > 0) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + jwt

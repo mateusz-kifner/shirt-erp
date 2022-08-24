@@ -1,11 +1,10 @@
 import { SpotlightProvider } from "@mantine/spotlight"
 import type { SpotlightAction } from "@mantine/spotlight"
 import { FC, ReactNode, useState } from "react"
-import { Bug, Search } from "tabler-icons-react"
+import { Search } from "tabler-icons-react"
 import axios from "axios"
 import { useQuery } from "react-query"
 import { useDebouncedValue } from "@mantine/hooks"
-import { useRouter } from "next/router"
 import { useAuthContext } from "./authContext"
 
 // const actions: SpotlightAction[] = [
@@ -31,7 +30,7 @@ import { useAuthContext } from "./authContext"
 
 const fetchSearch = async (query: string) => {
   const res = await axios.get("fuzzy-search/search?query=" + encodeURI(query))
-  console.log(res.data)
+  // console.log(res.data)
   return res.data
 }
 

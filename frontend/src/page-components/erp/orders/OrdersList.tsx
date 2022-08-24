@@ -7,26 +7,27 @@ import names from "../../../models/names.json"
 import { useRouter } from "next/router"
 
 const entryName = "orders"
+const label =
+  entryName && entryName in names
+    ? _.capitalize(names[entryName as keyof typeof names].plural)
+    : undefined
 
-const OrdersList: FC = () => {
-  const [id, setId] = useState<number | null>(null)
+interface OrderListProps {
+  selectedId: number | null
+}
+
+const OrdersList = ({ selectedId }: OrderListProps) => {
   const router = useRouter()
 
   return (
     <ApiList
       ListItem={OrderListItem}
       entryName={entryName}
-      label={
-        entryName && entryName in names
-          ? _.capitalize(names[entryName as keyof typeof names].plural)
-          : undefined
-      }
-      spacing="xl"
-      listSpacing="sm"
-      selectedId={id}
+      label={label}
+      selectedId={selectedId}
       onChange={(val: any) => {
         console.log(val)
-        setId(val.id)
+        // setId(val.id)
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       listItemProps={{

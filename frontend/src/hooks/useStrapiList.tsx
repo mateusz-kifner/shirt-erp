@@ -21,7 +21,7 @@ const fetchData = async <T = any,>(
     populate: "*",
     sort: ["updatedAt:" + sortOrder],
   }
-  console.log(filterKeys, filterQuery)
+  // console.log(filterKeys, filterQuery)
   if (
     filterKeys &&
     filterKeys?.length > 0 &&
@@ -37,14 +37,14 @@ const fetchData = async <T = any,>(
           },
         })
     }
-    console.log(filters_or)
+    // console.log(filters_or)
     query_obj.filters = { $or: filters_or }
   }
 
   const query = qs.stringify(query_obj, {
     encodeValuesOnly: true,
   })
-  console.log(query_obj, query)
+  // console.log(query_obj, query)
   const res = await axios.get(`/${entryName}?${query}`)
   return res.data
 }

@@ -10,36 +10,33 @@ const EnvMessage = () => {
     defaultValue: true,
   })
   const uuid = useId()
-  console.log(message)
   if (!message) return null
 
   return (
-    message && (
-      <>
-        <ActionIcon
-          style={{ position: "fixed", right: 4, bottom: 4, zIndex: 999999 }}
-          size="xl"
-          radius="xl"
-          variant="gradient"
-          gradient={{ from: "red", to: "orange" }}
-          onClick={() => setEnvMessageOpen(true)}
-        >
-          <QuestionMark size={32} />
-        </ActionIcon>
-        <Modal
-          opened={envMessageOpen}
-          onClose={() => {
-            setEnvMessageOpen(false)
-          }}
-        >
-          <div>
-            {message.split("\\n").map((val: string, index: number) => (
-              <p key={uuid + index}>{val}</p>
-            ))}
-          </div>
-        </Modal>
-      </>
-    )
+    <>
+      <ActionIcon
+        style={{ position: "fixed", right: 8, bottom: 8, zIndex: 999999 }}
+        size="xl"
+        radius="xl"
+        variant="gradient"
+        gradient={{ from: "red", to: "orange" }}
+        onClick={() => setEnvMessageOpen(true)}
+      >
+        <QuestionMark size={32} />
+      </ActionIcon>
+      <Modal
+        opened={envMessageOpen}
+        onClose={() => {
+          setEnvMessageOpen(false)
+        }}
+      >
+        <div>
+          {message.split("\\n").map((val: string, index: number) => (
+            <p key={uuid + index}>{val}</p>
+          ))}
+        </div>
+      </Modal>
+    </>
   )
 }
 

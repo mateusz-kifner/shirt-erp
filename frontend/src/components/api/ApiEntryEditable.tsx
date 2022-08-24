@@ -1,8 +1,6 @@
-import { Stack, LoadingOverlay, ThemeIcon, Loader } from "@mantine/core"
-import { useDocumentTitle } from "@mantine/hooks"
+import { Stack } from "@mantine/core"
 import { useRouter } from "next/router"
-import { FC, useState } from "react"
-import { Check, X } from "tabler-icons-react"
+import { useState } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import names from "../../models/names.json"
 import Editable from "../editable/Editable"
@@ -23,26 +21,16 @@ const ApiEntryEditable = <EntryType extends any>({
     query: "populate=*",
   })
   const [status, setStatus] = useState<
-  "loading" | "idle" | "error" | "success"
+    "loading" | "idle" | "error" | "success"
   >("idle")
 
   const router = useRouter()
   const params = router.query
 
   const entryNameData: any =
-    //@ts-ignore
-    entryName in names ? names[entryName] : { singular: "", plural: "" }
-
-  // useDocumentTitle(
-  //   params.id
-  //     ? "ShirtERP - " +
-  //         entryNameData.singular +
-  //         " " +
-  //         data?.firstname +
-  //         " " +
-  //         data?.lastname
-  //     : "ShirtERP - " + entryNameData.plural
-  // )
+    entryName in names
+      ? names[entryName as keyof typeof names]
+      : { singular: "", plural: "" }
 
   const apiUpdate = (key: string, val: any) => {
     setStatus("loading")
@@ -57,15 +45,17 @@ const ApiEntryEditable = <EntryType extends any>({
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <ApiStatusIndicator status={status} style={{
-        position: "fixed",
-        top: "calc(var(--mantine-header-height, 0px) + 4px)",
-        right: 4,
-      }} />
+      <ApiStatusIndicator
+        status={status}
+        style={{
+          position: "fixed",
+          top: "calc(var(--mantine-header-height, 0px) + 8px)",
+          right: 8,
+        }}
+      />
       {data && (
         <Editable template={template} data={data as any} onSubmit={apiUpdate} />
       )}
-      {/* <LoadingOverlay visible={status === "loading"} radius="xl" /> */}
     </Stack>
   )
 }

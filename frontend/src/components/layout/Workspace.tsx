@@ -10,24 +10,28 @@ interface WorkspaceProps {
   childrenWrapperProps?: any[]
   childrenLabels?: string[]
   children?: ReactNode
-  currentPage?: number
+  currentPages?: number | number[]
 }
 
 const Workspace: FC<WorkspaceProps> = ({
   children,
   childrenLabels,
   childrenWrapperProps,
-  currentPage,
+  currentPages,
 }) => {
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)",
     false
   )
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState<number[]>([0])
 
   useEffect(() => {
-    currentPage && setPage(currentPage)
-  }, [currentPage])
+    if (typeof currentPages === "number") {
+      setPage([currentPages])
+    } else {
+      currentPages && setPage(currentPages)
+    }
+  }, [currentPages])
 
   return (
     <Group
@@ -46,9 +50,8 @@ const Workspace: FC<WorkspaceProps> = ({
         Children.map(
           children,
           (child, index) =>
-            (!isMobile || (isMobile && page === index)) && (
+            (!isMobile || (isMobile && page.includes(index))) && (
               <ResponsivePaper
-                radius={4}
                 {...(childrenWrapperProps &&
                   childrenWrapperProps[index] &&
                   childrenWrapperProps[index])}
@@ -76,7 +79,7 @@ const Workspace: FC<WorkspaceProps> = ({
               Children.map(children, (child, index) => (
                 <Menu.Item
                   onClick={() => {
-                    setPage(index)
+                    setPage([index])
                   }}
                 >
                   <Text size="md">

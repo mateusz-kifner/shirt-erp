@@ -10,6 +10,7 @@ import { FC } from "react"
 import ApiIconSVG from "../../../components/api/ApiIconSVG"
 import { ProductType } from "../../../types/ProductType"
 import convert from "color-convert"
+import { truncString } from "../../../utils/truncString"
 
 const ProductListItem: FC<{
   onChange?: (product: Partial<ProductType>) => void
@@ -69,10 +70,10 @@ const ProductListItem: FC<{
             </Avatar>
             <Box sx={{ flex: 1 }}>
               <Text size="sm" weight={500}>
-                {value?.name && value.name}
+                {value?.name && truncString(value.name, 40)}
               </Text>
               <Text color="dimmed" size="xs">
-                {value?.codeName && value.codeName}
+                {value?.codeName && truncString(value.codeName, 40)}
               </Text>
             </Box>
           </>
