@@ -1,8 +1,9 @@
 import { ActionIcon, Group, Menu, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
-import { useGesture } from "@use-gesture/react"
-import { Children, FC, ReactNode, useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import { Children, FC, ReactNode } from "react"
 import { Compass } from "tabler-icons-react"
+import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
 
 import ResponsivePaper from "../ResponsivePaper"
 
@@ -10,33 +11,31 @@ interface WorkspaceProps {
   childrenWrapperProps?: any[]
   childrenLabels?: string[]
   children?: ReactNode
-  currentPages?: number | number[]
+  defaultViews?: number | number[]
 }
 
 const Workspace: FC<WorkspaceProps> = ({
   children,
   childrenLabels,
   childrenWrapperProps,
-  currentPages,
+  defaultViews = 0,
 }) => {
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)",
     false
   )
-  const [page, setPage] = useState<number[]>([0])
 
-  useEffect(() => {
-    if (typeof currentPages === "number") {
-      setPage([currentPages])
-    } else {
-      currentPages && setPage(currentPages)
-    }
-  }, [currentPages])
+  const router = useRouter()
+  if (!router?.query?.show_views) {
+    setQuery(router, { show_views: defaultViews.toString() })
+  }
+  const show_views = getQueryAsArray(router, "show_views").map((val) =>
+    isNaN(parseInt(val)) ? -1 : parseInt(val)
+  )
 
   return (
     <Group
       sx={(theme) => ({
-        // position: "relative",
         flexWrap: "nowrap",
         alignItems: "flex-start",
         padding: theme.spacing.md,
@@ -47,10 +46,9 @@ const Workspace: FC<WorkspaceProps> = ({
       })}
     >
       {children &&
-        Children.map(
-          children,
-          (child, index) =>
-            (!isMobile || (isMobile && page.includes(index))) && (
+        show_views.map((childIndex) => {
+          return Children.map(children, (child, index) => {
+            return index === childIndex ? (
               <ResponsivePaper
                 {...(childrenWrapperProps &&
                   childrenWrapperProps[index] &&
@@ -58,10 +56,11 @@ const Workspace: FC<WorkspaceProps> = ({
               >
                 {child}
               </ResponsivePaper>
-            )
-        )}
+            ) : null
+          })
+        })}
 
-      {isMobile && (
+      {/* {isMobile && (
         <Menu>
           <Menu.Target>
             <ActionIcon
@@ -79,7 +78,7 @@ const Workspace: FC<WorkspaceProps> = ({
               Children.map(children, (child, index) => (
                 <Menu.Item
                   onClick={() => {
-                    setPage([index])
+                    // setPages([index])
                   }}
                 >
                   <Text size="md">
@@ -89,7 +88,7 @@ const Workspace: FC<WorkspaceProps> = ({
               ))}
           </Menu.Dropdown>
         </Menu>
-      )}
+      )} */}
     </Group>
   )
 }

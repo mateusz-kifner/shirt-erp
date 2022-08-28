@@ -1,7 +1,6 @@
-import { useState } from "react"
+import { useId, useState } from "react"
 
 import template from "../../../models/order.model.json"
-import CalcTable from "../../../components/CalcTable"
 import * as XLSX from "xlsx"
 import EditableTable from "../../../components/editable/EditableTable"
 import TableType from "../../../types/TableType"
@@ -10,18 +9,14 @@ import Workspace from "../../../components/layout/Workspace"
 import OrdersList from "./OrdersList"
 import _ from "lodash"
 import { useRouter } from "next/router"
-import { createEmptyMatrix, Matrix } from "react-spreadsheet"
+import { createEmptyMatrix } from "react-spreadsheet"
 import { NextPage } from "next"
-import {
-  getQueryAsArray,
-  setQuery,
-  getQueryAsIntOrNull,
-} from "../../../utils/nextQueryUtils"
+import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import { Button, Modal, SimpleGrid, Stack, Text } from "@mantine/core"
 import { CirclePlus, Mail } from "tabler-icons-react"
 
 const OrdersPage: NextPage = () => {
-  const router = useRouter()
+  const uuid = useId()
   const [openAddModal, setOpenAddModal] = useState(false)
   const [sheets, setSheets] = useState<TableType[]>([
     {
@@ -33,16 +28,9 @@ const OrdersPage: NextPage = () => {
       data: createEmptyMatrix(2, 2),
     },
   ])
-
-  if (!router?.query?.show_views) {
-    setQuery(router, { show_views: ["0", "1"] })
-  }
-  const show_views = getQueryAsArray(router, "show_views").map((val) =>
-    isNaN(parseInt(val)) ? -1 : parseInt(val)
-  )
-
+  const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
-  const currentPage = id ? 1 : 0
+  const currentView = id ? 1 : 0
   const childrenLabels = ["Lista zamówień", "Właściwości"].concat(
     sheets.map((val) => val.name)
   )
@@ -53,9 +41,11 @@ const OrdersPage: NextPage = () => {
           undefined,
           { style: { flexGrow: 1 } },
           { style: { flexGrow: 1 } },
+          { style: { flexGrow: 1 } },
+          { style: { flexGrow: 1 } },
         ]}
         childrenLabels={childrenLabels}
-        currentPages={currentPage}
+        defaultViews={currentView}
       >
         <OrdersList
           selectedId={id}
@@ -73,6 +63,7 @@ const OrdersPage: NextPage = () => {
                 )
               console.log(data)
             }}
+            key={uuid + index}
           />
         ))}
       </Workspace>

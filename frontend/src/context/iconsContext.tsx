@@ -31,10 +31,21 @@ export const IconsProvider = ({ children }: { children: ReactNode }) => {
     workstations: [],
   })
 
-  const { data } = useStrapiList<any>("icon", 1, undefined, undefined, "asc", {
-    pageSize: 100000,
-  })
+  const { data, refetch } = useStrapiList<any>(
+    "icon",
+    1,
+    undefined,
+    undefined,
+    "asc",
+    {
+      pageSize: 100000,
+      queryOptions: { enabled: false },
+    }
+  )
 
+  useEffect(() => {
+    refetch()
+  }, [])
   useEffect(() => {
     if (data !== undefined) {
       setIconsData(data)
