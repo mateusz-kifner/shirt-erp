@@ -1,7 +1,3 @@
-import ClientView from "../../../page-components/erp/clients/ClientView"
-
-const ClientsPage = ({ id }: { id: number | null }) => {
-  return <ClientView id={id} />
-}
+import ClientsPage from "../../../page-components/erp/clients/ClientsPage"
 
 export default ClientsPage

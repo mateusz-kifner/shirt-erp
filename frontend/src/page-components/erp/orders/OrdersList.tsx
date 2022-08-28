@@ -27,8 +27,6 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       label={label}
       selectedId={selectedId}
       onChange={(val: any) => {
-        console.log(val)
-        // setId(val.id)
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       listItemProps={{

@@ -74,6 +74,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
           SxRadius,
         ]}
       >
+        {items.length == 0 && "⸺"}
         {items.map((val, index) => {
           return (
             <Group spacing="xs" key={uuid + index}>

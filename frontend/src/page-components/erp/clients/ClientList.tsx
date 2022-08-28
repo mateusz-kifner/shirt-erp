@@ -7,7 +7,12 @@ import { useRouter } from "next/router"
 
 const entryName = "clients"
 
-const ClientsList = ({ selectedId }: { selectedId: number | null }) => {
+interface ClientListProps {
+  selectedId: number | null
+  onAddElement?: () => void
+}
+
+const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
   // const [id, setId] = useState<number | null>(null)
   const router = useRouter()
 
@@ -20,17 +25,14 @@ const ClientsList = ({ selectedId }: { selectedId: number | null }) => {
           ? _.capitalize(names[entryName as keyof typeof names].plural)
           : undefined
       }
-      spacing="xl"
-      listSpacing="sm"
       selectedId={selectedId}
       onChange={(val: any) => {
-        console.log(val)
-        // setId(val.id)
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      onAddElement={onAddElement}
     />
   )
 }

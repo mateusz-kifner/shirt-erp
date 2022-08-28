@@ -1,27 +1,26 @@
 import template from "../../../models/client.model.json"
 
-import { FC, useEffect, useState } from "react"
-
 import _ from "lodash"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import { useRouter } from "next/router"
+import Workspace from "../../../components/layout/Workspace"
+import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
+import ClientsList from "./ClientList"
 
 const entryName = "clients"
 
-const ClientsPage: FC = ({}) => {
-  const [id, setId] = useState<number | null>(null)
+const ClientsPage = () => {
   const router = useRouter()
+  const id = getQueryAsIntOrNull(router, "id")
 
-  const params = router.query
-  useEffect(() => {
-    if (typeof params?.id === "string" && parseInt(params.id) > 0)
-      setId(parseInt(params.id))
-  }, [params])
-  console.log(id)
   return (
-    // <AdvancedWorkspace>
-    <ApiEntryEditable template={template} entryName={entryName} id={id} />
-    // </AdvancedWorkspace>
+    <Workspace
+      childrenLabels={["Lista klientów", "Właściwości"]}
+      childrenWrapperProps={[undefined, { style: { flexGrow: 1 } }]}
+    >
+      <ClientsList selectedId={id} />
+      <ApiEntryEditable template={template} entryName={entryName} id={id} />
+    </Workspace>
   )
 }
 

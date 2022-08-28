@@ -17,11 +17,7 @@ const ProceduresList = () => {
           ? _.capitalize(names[entryName as keyof typeof names].plural)
           : undefined
       }
-      spacing="xl"
-      listSpacing="sm"
       onChange={(val: any) => {
-        console.log(val)
-        // setId(val.id)
         router.push("/erp/" + entryName + "/" + val.id)
       }}
     />

@@ -37,7 +37,9 @@ const OrdersPage: NextPage = () => {
   if (!router?.query?.show_views) {
     setQuery(router, { show_views: ["0", "1"] })
   }
-  console.log(getQueryAsArray(router, "show_views"))
+  const show_views = getQueryAsArray(router, "show_views").map((val) =>
+    isNaN(parseInt(val)) ? -1 : parseInt(val)
+  )
 
   const id = getQueryAsIntOrNull(router, "id")
   const currentPage = id ? 1 : 0
@@ -60,7 +62,7 @@ const OrdersPage: NextPage = () => {
           onAddElement={() => setOpenAddModal(true)}
         />
 
-        <ApiEntryEditable template={template} entryName={"orders"} id={1} />
+        <ApiEntryEditable template={template} entryName={"orders"} id={id} />
         {sheets.map((table_data, index) => (
           <EditableTable
             value={table_data}
