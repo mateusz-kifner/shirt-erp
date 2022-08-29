@@ -145,11 +145,11 @@ const ApiList = <T extends any>({
               key={`list_${entryName}_${index}`}
               sx={{
                 paddingTop:
-                  index != 0 && typeof listSpacing == "string"
+                  withSeparators && index != 0 && typeof listSpacing == "string"
                     ? theme.spacing[listSpacing]
                     : listSpacing,
                 borderTop:
-                  index != 0
+                  withSeparators && index != 0
                     ? `1px solid ${
                         theme.colorScheme === "dark"
                           ? theme.colors.dark[4]
@@ -162,7 +162,7 @@ const ApiList = <T extends any>({
                 value={val}
                 onChange={onChange}
                 {...listItemProps}
-                highlight={val.id === selectedId}
+                active={val.id === selectedId}
               />
             </Box>
           ))}
