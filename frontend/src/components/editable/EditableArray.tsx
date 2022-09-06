@@ -25,6 +25,7 @@ interface EditableArrayProps {
   maxCount?: number
   Element: ComponentType<any>
   elementProps: any
+  dragAndDrop: boolean
 }
 
 const EditableArray: FC<EditableArrayProps> = (props) => {
@@ -38,6 +39,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     maxCount,
     Element,
     elementProps,
+    dragAndDrop,
   } = props
   const [items, setItems] = useState<any[]>(value ?? initialValue ?? [])
   const [prev, setPrev] = useState<any[]>(items)

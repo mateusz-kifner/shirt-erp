@@ -11,12 +11,12 @@ const label =
     ? _.capitalize(names[entryName as keyof typeof names].plural)
     : undefined
 
-interface OrderListProps {
+interface ProceduresListProps {
   selectedId: number | null
   onAddElement?: () => void
 }
 
-const ProceduresList = (props: OrderListProps) => {
+const ProceduresList = (props: ProceduresListProps) => {
   const router = useRouter()
   return (
     <ApiList

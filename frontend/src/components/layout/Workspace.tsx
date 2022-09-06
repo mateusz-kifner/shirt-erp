@@ -1,7 +1,7 @@
 import { Group } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next/router"
-import { Children, FC, ReactNode } from "react"
+import { Children, FC, ReactNode, useId } from "react"
 import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
 
 import ResponsivePaper from "../ResponsivePaper"
@@ -19,6 +19,7 @@ const Workspace: FC<WorkspaceProps> = ({
   childrenWrapperProps = [null],
   defaultViews = 0,
 }) => {
+  const uuid = useId()
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)",
     false
@@ -51,12 +52,13 @@ const Workspace: FC<WorkspaceProps> = ({
       })}
     >
       {children &&
-        show_views.map((childIndex) => (
+        show_views.map((childIndex, index) => (
           <ResponsivePaper
             {...(childrenWrapperProps &&
             childrenWrapperProps[childIndex] !== undefined
               ? childrenWrapperProps[childIndex]
               : { style: { flexGrow: 1 } })}
+            key={uuid + index}
           >
             {child_array[childIndex]}
           </ResponsivePaper>

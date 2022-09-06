@@ -17,7 +17,7 @@ const ProceduresPage: FC = () => {
   const currentView = id ? [0, 1] : 0
   return (
     <>
-      <ProductionNavigation />
+      <ProductionNavigation defaultValue={entryName} />
       <Workspace
         childrenLabels={["Lista klientów", "Właściwości"]}
         childrenWrapperProps={[undefined, { style: { flexGrow: 1 } }]}

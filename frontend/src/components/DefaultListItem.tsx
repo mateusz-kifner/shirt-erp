@@ -1,6 +1,5 @@
 import { Avatar, NavLink } from "@mantine/core"
 import { FC } from "react"
-import { ChevronRight } from "tabler-icons-react"
 import { truncString } from "../utils/truncString"
 
 // export type DefaultListItemProps = {
@@ -49,7 +48,6 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
       description={secondElement && truncString(secondElement, 40)}
       active={active}
       onClick={() => onChange?.(value)}
-      rightSection={<ChevronRight />}
     />
   )
 }
