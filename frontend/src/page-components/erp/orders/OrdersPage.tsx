@@ -30,23 +30,13 @@ const OrdersPage: NextPage = () => {
   ])
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
-  const currentView = id ? 1 : 0
+  const currentView = id ? [0, 1] : 0
   const childrenLabels = ["Lista zamówień", "Właściwości"].concat(
     sheets.map((val) => val.name)
   )
   return (
     <>
-      <Workspace
-        childrenWrapperProps={[
-          undefined,
-          { style: { flexGrow: 1 } },
-          { style: { flexGrow: 1 } },
-          { style: { flexGrow: 1 } },
-          { style: { flexGrow: 1 } },
-        ]}
-        childrenLabels={childrenLabels}
-        defaultViews={currentView}
-      >
+      <Workspace childrenLabels={childrenLabels} defaultViews={currentView}>
         <OrdersList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}

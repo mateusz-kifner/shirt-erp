@@ -1,8 +1,7 @@
-import { ActionIcon, Group, Menu, Text } from "@mantine/core"
+import { Group } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next/router"
 import { Children, FC, ReactNode } from "react"
-import { Compass } from "tabler-icons-react"
 import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
 
 import ResponsivePaper from "../ResponsivePaper"
@@ -17,7 +16,7 @@ interface WorkspaceProps {
 const Workspace: FC<WorkspaceProps> = ({
   children,
   childrenLabels,
-  childrenWrapperProps,
+  childrenWrapperProps = [null],
   defaultViews = 0,
 }) => {
   const isMobile = useMediaQuery(
@@ -27,11 +26,17 @@ const Workspace: FC<WorkspaceProps> = ({
 
   const router = useRouter()
   if (!router?.query?.show_views) {
-    setQuery(router, { show_views: defaultViews.toString() })
+    setQuery(router, {
+      show_views: Array.isArray(defaultViews)
+        ? defaultViews.map((val) => val.toString())
+        : defaultViews.toString(),
+    })
   }
   const show_views = getQueryAsArray(router, "show_views").map((val) =>
     isNaN(parseInt(val)) ? -1 : parseInt(val)
   )
+
+  const child_array = Children.toArray(children)
 
   return (
     <Group
@@ -46,19 +51,16 @@ const Workspace: FC<WorkspaceProps> = ({
       })}
     >
       {children &&
-        show_views.map((childIndex) => {
-          return Children.map(children, (child, index) => {
-            return index === childIndex ? (
-              <ResponsivePaper
-                {...(childrenWrapperProps &&
-                  childrenWrapperProps[index] &&
-                  childrenWrapperProps[index])}
-              >
-                {child}
-              </ResponsivePaper>
-            ) : null
-          })
-        })}
+        show_views.map((childIndex) => (
+          <ResponsivePaper
+            {...(childrenWrapperProps &&
+            childrenWrapperProps[childIndex] !== undefined
+              ? childrenWrapperProps[childIndex]
+              : { style: { flexGrow: 1 } })}
+          >
+            {child_array[childIndex]}
+          </ResponsivePaper>
+        ))}
 
       {/* {isMobile && (
         <Menu>

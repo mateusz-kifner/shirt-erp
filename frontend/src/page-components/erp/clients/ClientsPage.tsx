@@ -12,11 +12,13 @@ const entryName = "clients"
 const ClientsPage = () => {
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
+  const currentView = id ? [0, 1] : 0
 
   return (
     <Workspace
       childrenLabels={["Lista klientów", "Właściwości"]}
       childrenWrapperProps={[undefined, { style: { flexGrow: 1 } }]}
+      defaultViews={currentView}
     >
       <ClientsList selectedId={id} />
       <ApiEntryEditable template={template} entryName={entryName} id={id} />

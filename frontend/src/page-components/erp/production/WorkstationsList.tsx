@@ -6,22 +6,29 @@ import names from "../../../models/names.json"
 
 const entryName = "workstations"
 
-const ProceduresList = () => {
+const label =
+  entryName && entryName in names
+    ? _.capitalize(names[entryName as keyof typeof names].plural)
+    : undefined
+
+interface OrderListProps {
+  selectedId: number | null
+  onAddElement?: () => void
+}
+
+const WorkstationsList = (props: OrderListProps) => {
   const router = useRouter()
   return (
     <ApiList
       ListItem={makeDefaultListItem("name")}
       entryName={entryName}
-      label={
-        entryName && entryName in names
-          ? _.capitalize(names[entryName as keyof typeof names].plural)
-          : undefined
-      }
+      label={label}
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
+      {...props}
     />
   )
 }
 
-export default ProceduresList
+export default WorkstationsList
