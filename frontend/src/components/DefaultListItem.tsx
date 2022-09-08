@@ -14,6 +14,7 @@ interface DefaultListItemProps {
   entryKey?: string
   entryKey2?: string
   active?: boolean
+  disabled?: boolean
 }
 
 export const makeDefaultListItem = (entryKey?: string, entryKey2?: string) => {
@@ -29,6 +30,7 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
   entryKey,
   entryKey2,
   active,
+  disabled,
 }) => {
   // start from 1, because 0 is id
   const firstElement = value
@@ -43,6 +45,7 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
     : null
   return (
     <NavLink
+      disabled={disabled}
       icon={<Avatar radius="xl"></Avatar>}
       label={firstElement && truncString(firstElement, 40)}
       description={secondElement && truncString(secondElement, 40)}

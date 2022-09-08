@@ -10,6 +10,7 @@ interface ProductListItemProps {
   onChange?: (item: Partial<ProductType>) => void
   value: Partial<ProductType>
   active?: boolean
+  disabled?: boolean
   linkTo?: (val: Partial<ProductType>) => string
 }
 
@@ -17,12 +18,14 @@ const ProductListItem = ({
   value,
   onChange,
   active,
+  disabled,
   linkTo,
 }: ProductListItemProps) => {
   const theme = useMantineTheme()
 
   return (
     <NavLink
+      disabled={disabled}
       icon={
         value && (
           <Avatar

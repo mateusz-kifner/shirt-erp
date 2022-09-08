@@ -16,8 +16,6 @@ import { useLocalStorage, useColorScheme } from "@mantine/hooks"
 import { NextLink } from "@mantine/next"
 import { useAuthContext } from "../../../context/authContext"
 import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
-import { MonthPicker } from "@mantine/dates/lib/components/CalendarBase/MonthPicker/MonthPicker"
-import { DndListHandle } from "../../../components/editable/Mockdnd"
 
 const testData = {
   name: "string",
@@ -163,7 +161,6 @@ const SettingsPage: FC = () => {
                   Experimental Search {search ? "ON" : "OFF"}
                 </Group>
               </Button>
-              <DndListHandle />
             </Stack>
           )}
         </Group>

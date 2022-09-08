@@ -17,14 +17,9 @@
     "label": "Stanowiska",
     "type": "array",
     "arrayType": "apiEntryId",
-    "entryName": "workstations"
+    "entryName": "workstations",
+    "organizingHandle": "arrows"
   },
-  "graph": {
-    "label": "Graph",
-    "type": "graph",
-    "reference": "workstations"
-  },
-
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",

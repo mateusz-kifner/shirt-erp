@@ -136,6 +136,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
               setOpened(true)
             }}
             value={apiEntry}
+            disabled={disabled}
           />
           {apiEntry && withErase && (
             <Menu withArrow>

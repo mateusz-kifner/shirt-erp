@@ -6,11 +6,18 @@ interface OrderListItemProps {
   onChange?: (item: Partial<OrderType>) => void
   value: Partial<OrderType>
   active?: boolean
+  disabled?: boolean
 }
 
-const OrderListItem = ({ value, onChange, active }: OrderListItemProps) => {
+const OrderListItem = ({
+  value,
+  onChange,
+  active,
+  disabled,
+}: OrderListItemProps) => {
   return (
     <NavLink
+      disabled={disabled}
       icon={
         value && (
           <Avatar radius="xl">

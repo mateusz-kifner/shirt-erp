@@ -7,11 +7,18 @@ interface ClientListItemProps {
   onChange?: (item: Partial<ClientType>) => void
   value: Partial<ClientType>
   active?: boolean
+  disabled?: boolean
 }
 
-const ClientListItem = ({ value, onChange, active }: ClientListItemProps) => {
+const ClientListItem = ({
+  value,
+  onChange,
+  active,
+  disabled,
+}: ClientListItemProps) => {
   return (
     <NavLink
+      disabled={disabled}
       onClick={() => onChange?.(value)}
       icon={
         value && (
