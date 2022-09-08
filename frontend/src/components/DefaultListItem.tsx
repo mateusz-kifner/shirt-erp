@@ -46,8 +46,8 @@ const DefaultListItem: FC<DefaultListItemProps> = ({
   return (
     <NavLink
       disabled={disabled}
-      icon={<Avatar radius="xl"></Avatar>}
-      label={firstElement && truncString(firstElement, 40)}
+      icon={firstElement && <Avatar radius="xl"></Avatar>}
+      label={firstElement ? truncString(firstElement, 40) : "⸺"}
       description={secondElement && truncString(secondElement, 40)}
       active={active}
       onClick={() => onChange?.(value)}

@@ -103,7 +103,7 @@ function useStrapi<EntryType>(
   }
 
   const addMutation = useMutation(
-    (addData: { data: EntryType }) => {
+    (addData: { data: Partial<EntryType> }) => {
       console.log(addData, entryName)
       return addEntry(entryName, addData)
     },
@@ -165,7 +165,7 @@ function useStrapi<EntryType>(
     }
   )
 
-  async function add(entry: EntryType) {
+  async function add(entry: Partial<EntryType>) {
     console.log("add Strapi api entry:", entry, entryName)
     return addMutation.mutateAsync({ data: entry })
   }

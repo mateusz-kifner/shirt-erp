@@ -12,8 +12,7 @@ import { useRouter } from "next/router"
 import { createEmptyMatrix } from "react-spreadsheet"
 import { NextPage } from "next"
 import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
-import { Button, Modal, SimpleGrid, Stack, Text } from "@mantine/core"
-import { CirclePlus, Mail } from "tabler-icons-react"
+import OrderAddModal from "./OrderAddModal"
 
 const OrdersPage: NextPage = () => {
   const uuid = useId()
@@ -57,43 +56,10 @@ const OrdersPage: NextPage = () => {
           />
         ))}
       </Workspace>
-      <Modal
+      <OrderAddModal
         opened={openAddModal}
         onClose={() => setOpenAddModal(false)}
-        size="xl"
-      >
-        <SimpleGrid cols={2} mt="md">
-          <Button
-            style={{ height: "unset", aspectRatio: "1.5/1" }}
-            size="xl"
-            variant="gradient"
-            gradient={{ from: "teal", to: "lime", deg: 105 }}
-          >
-            <Stack p="xl" align="center">
-              <CirclePlus size={52} />
-              <Text style={{ whiteSpace: "pre-wrap", textAlign: "center" }}>
-                Stwórz czyste zamówienie.
-              </Text>
-            </Stack>
-          </Button>
-          <Button
-            style={{
-              height: "unset",
-              aspectRatio: "1.5/1",
-            }}
-            size="xl"
-            variant="gradient"
-            gradient={{ from: "indigo", to: "teal", deg: 105 }}
-          >
-            <Stack p="xl" align="center">
-              <Mail size={52} />
-              <Text style={{ whiteSpace: "pre-wrap", textAlign: "center" }}>
-                Stwórz zamówienie z maila.
-              </Text>
-            </Stack>
-          </Button>
-        </SimpleGrid>
-      </Modal>
+      />
     </>
   )
 }
