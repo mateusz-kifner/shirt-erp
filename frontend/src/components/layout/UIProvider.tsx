@@ -39,6 +39,21 @@ const UIProvider = ({ children }: { children: ReactNode }) => {
                 radius: 4,
               },
             },
+            NavLink: {
+              defaultProps: {
+                sx: {
+                  "&:disabled": {
+                    opacity: 1,
+                    pointerEvents: "auto",
+                    userSelect: "text",
+                    cursor: "auto",
+                  },
+                  "&:disabled:hover": {
+                    backgroundColor: "transparent",
+                  },
+                },
+              },
+            },
           },
         }}
 

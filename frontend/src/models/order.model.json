@@ -38,18 +38,6 @@
     "initialValue": false,
     "children": { "checked": "Tak", "unchecked": "Nie" }
   },
-  "advance": {
-    "label": "Zaliczka",
-    "type": "money",
-
-    "initialValue": 0
-  },
-  "isAdvancePaid": {
-    "label": "Zaliczka zapłacona",
-    "type": "boolean",
-    "initialValue": false,
-    "children": { "checked": "Tak", "unchecked": "Nie" }
-  },
   "dateOfCompletion": {
     "label": "Data ukończenia",
     "type": "date"
@@ -63,6 +51,12 @@
     "label": "Pliki",
     "type": "files",
     "initialValue": []
+  },
+  "client": {
+    "label": "Klient",
+    "type": "apiEntry",
+    "entryName": "clients",
+    "onSubmitPopulate": ["address"]
   },
   "address": {
     "label": {
@@ -88,11 +82,7 @@
     "label": "Produkty",
     "type": "productcomponents"
   },
-  "client": {
-    "label": "Klient",
-    "type": "apiEntry",
-    "entryName": "clients"
-  },
+
   "employees": {
     "label": "Pracownicy",
     "type": "array",

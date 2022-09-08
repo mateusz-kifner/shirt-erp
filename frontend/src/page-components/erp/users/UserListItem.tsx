@@ -7,11 +7,18 @@ interface UserListItemProps {
   onChange?: (item: Partial<UserType>) => void
   value: Partial<UserType>
   active?: boolean
+  disabled?: boolean
 }
 
-const UserListItem = ({ value, onChange, active }: UserListItemProps) => {
+const UserListItem = ({
+  value,
+  onChange,
+  active,
+  disabled,
+}: UserListItemProps) => {
   return (
     <NavLink
+      disabled={disabled}
       onClick={() => onChange?.(value)}
       icon={
         value && (
@@ -21,8 +28,10 @@ const UserListItem = ({ value, onChange, active }: UserListItemProps) => {
           </Avatar>
         )
       }
-      label={value ? value?.username && truncString(value.username, 40) : "⸺"}
-      description={value?.email && truncString(value.email, 40)}
+      label={
+        value ? value?.displayName && truncString(value.displayName, 40) : "⸺"
+      }
+      description={value?.username && truncString(value.username, 40)}
       active={active}
     />
   )
