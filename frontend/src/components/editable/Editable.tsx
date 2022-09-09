@@ -54,17 +54,17 @@ const ApiProps: {
   orders: {
     ListItem: makeDefaultListItem("name"),
     copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : "",
+      value?.name ? truncString(value.name, 40) : undefined,
   },
   "orders-archive": {
     ListItem: makeDefaultListItem("name"),
     copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : "",
+      value?.name ? truncString(value.name, 40) : undefined,
   },
   workstations: {
     ListItem: makeDefaultListItem("name"),
     copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : "",
+      value?.name ? truncString(value.name, 40) : undefined,
   },
 }
 

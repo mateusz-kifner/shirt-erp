@@ -27,6 +27,7 @@ const ProceduresList = (props: ProceduresListProps) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       {...props}
+      showAddButton
     />
   )
 }

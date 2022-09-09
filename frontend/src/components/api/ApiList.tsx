@@ -35,6 +35,8 @@ interface ApiListProps<T = any> {
   selectedId?: number | null
   filterKeys?: string[]
   onAddElement?: () => void
+  defaultSearch?: string
+  showAddButton?: boolean
 }
 
 const ApiList = <T extends any>({
@@ -49,13 +51,15 @@ const ApiList = <T extends any>({
   selectedId,
   filterKeys,
   onAddElement,
+  defaultSearch,
+  showAddButton,
 }: ApiListProps<T>) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
-    "asc",
     "desc",
+    "asc",
   ])
-  const [query, setQuery] = useState<string | undefined>(undefined)
+  const [query, setQuery] = useState<string | undefined>(defaultSearch)
   const [debouncedQuery] = useDebouncedValue(query, 200)
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch, status } = useStrapiList<T[]>(
@@ -96,14 +100,16 @@ const ApiList = <T extends any>({
             >
               <Refresh />
             </ActionIcon>
-            <ActionIcon
-              size="lg"
-              radius="xl"
-              variant="default"
-              onClick={onAddElement}
-            >
-              <Plus />
-            </ActionIcon>
+            {showAddButton && (
+              <ActionIcon
+                size="lg"
+                radius="xl"
+                variant="default"
+                onClick={onAddElement}
+              >
+                <Plus />
+              </ActionIcon>
+            )}
           </Group>
         </Group>
         <Group spacing="md" px="sm">
@@ -131,6 +137,7 @@ const ApiList = <T extends any>({
             }}
           /> */}
           <TextInput
+            defaultValue={defaultSearch}
             onChange={(value) => setQuery(value.target.value)}
             radius="xl"
             icon={<Search />}

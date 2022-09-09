@@ -33,6 +33,7 @@ const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
       onAddElement={onAddElement}
+      showAddButton
     />
   )
 }

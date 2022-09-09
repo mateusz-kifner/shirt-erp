@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react"
-
 import ApiList from "../../../components/api/ApiList"
 import ExpenseListItem from "./ExpenseListItem"
 import _ from "lodash"
@@ -8,18 +7,15 @@ import { useRouter } from "next/router"
 
 const entryName = "expenses"
 
-interface ExpensesListProps {
-  // children?: ReactNode
+interface ExpenseListProps {
+  selectedId: number | null
+  onAddElement?: () => void
 }
 
-const ExpensesList: FC<ExpensesListProps> = ({}) => {
-  const [id, setId] = useState<number | null>(null)
+const ExpensesList = ({ selectedId, onAddElement }: ExpenseListProps) => {
+  // const [id, setId] = useState<number | null>(null)
   const router = useRouter()
-  const params = router.query
-  useEffect(() => {
-    if (typeof params?.id === "string" && parseInt(params.id) > 0)
-      setId(parseInt(params.id))
-  }, [params.id])
+
   return (
     <ApiList
       ListItem={ExpenseListItem}
@@ -29,12 +25,15 @@ const ExpensesList: FC<ExpensesListProps> = ({}) => {
           ? _.capitalize(names[entryName as keyof typeof names].plural)
           : undefined
       }
+      selectedId={selectedId}
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      onAddElement={onAddElement}
+      showAddButton
     />
   )
 }

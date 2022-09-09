@@ -49,7 +49,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           withErase
         />
         <EditableApiEntry
-          label="Template"
+          label="Szablon"
           entryName="orders"
           Element={OrderListItem}
           onSubmit={(template) => {
@@ -58,6 +58,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           }}
           value={template}
           withErase
+          listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
         />
         <EditableText
           label="Nazwa"
@@ -88,8 +89,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
                 },
               ]
             }
-            add(new_order)
-            console.log(new_order)
+            add(new_order).then(() => onClose())
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

@@ -4,39 +4,36 @@ import ApiList from "../../../components/api/ApiList"
 import ProductListItem from "./ProductListItem"
 import _ from "lodash"
 import names from "../../../models/names.json"
-import { ProductType } from "../../../types/ProductType"
 import { useRouter } from "next/router"
 
 const entryName = "products"
+const label =
+  entryName && entryName in names
+    ? _.capitalize(names[entryName as keyof typeof names].plural)
+    : undefined
 
-interface ProductsListProps {
-  // children?: ReactNode
+interface ProductListProps {
+  selectedId: number | null
+  onAddElement: () => void
 }
 
-const ProductsList: FC = () => {
-  const [id, setId] = useState<number | null>(null)
+const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
   const router = useRouter()
-  const params = router.query
-  useEffect(() => {
-    if (typeof params?.id === "string" && parseInt(params.id) > 0)
-      setId(parseInt(params.id))
-  }, [params.id])
+
   return (
-    <ApiList<ProductType>
+    <ApiList
       ListItem={ProductListItem}
       entryName={entryName}
-      label={
-        entryName && entryName in names
-          ? _.capitalize(names[entryName as keyof typeof names].plural)
-          : undefined
-      }
-      onChange={(val) => {
+      label={label}
+      selectedId={selectedId}
+      onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
-      listItemProps={{
-        linkTo: (val: ProductType) => "/erp/" + entryName + "/" + val.id,
-      }}
-      filterKeys={["name", "codeName"]}
+      // listItemProps={{
+      //   linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
+      // }}
+      onAddElement={onAddElement}
+      showAddButton
     />
   )
 }

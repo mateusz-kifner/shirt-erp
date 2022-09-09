@@ -27,6 +27,7 @@ const WorkstationsList = (props: WorkstationsListProps) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       {...props}
+      showAddButton
     />
   )
 }

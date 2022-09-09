@@ -28,6 +28,7 @@ const UsersList: FC = () => {
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      showAddButton
     />
   )
 }

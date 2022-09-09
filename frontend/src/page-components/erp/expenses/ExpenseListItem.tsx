@@ -27,7 +27,7 @@ const ExpenseListItem = ({
         )
       }
       label={value ? value.name && truncString(value.name, 40) : "⸺"}
-      description={(value.price ?? "") + "zł"}
+      description={(value?.price ?? "") + "zł"}
       active={active}
     />
   )

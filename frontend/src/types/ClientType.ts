@@ -2,6 +2,7 @@ import { AddressType } from "./AddressType"
 import { OrderType } from "./OrderType"
 
 export interface ClientType {
+  id?: number
   username: string
   firstname: string | null
   lastname: string | null

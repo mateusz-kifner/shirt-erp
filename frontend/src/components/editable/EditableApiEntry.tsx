@@ -30,6 +30,7 @@ interface EditableApiEntryProps {
     Record<"label" | "required" | "root" | "error" | "description", CSSObject>
   >
   withErase?: boolean
+  listProps?: any
 }
 
 const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
@@ -46,6 +47,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
     styles,
     style,
     withErase = false,
+    listProps,
   } = props
 
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
@@ -113,6 +115,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
               setApiEntry(value)
               setOpened(false)
             }}
+            {...listProps}
           />
         ) : (
           <Text color="red">

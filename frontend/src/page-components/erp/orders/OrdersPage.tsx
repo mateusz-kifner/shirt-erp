@@ -16,7 +16,7 @@ import OrderAddModal from "./OrderAddModal"
 
 const OrdersPage: NextPage = () => {
   const uuid = useId()
-  const [openAddModal, setOpenAddModal] = useState(false)
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false)
   const [sheets, setSheets] = useState<TableType[]>([
     {
       name: "Arkusz 1",

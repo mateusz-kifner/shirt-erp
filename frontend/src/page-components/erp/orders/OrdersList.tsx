@@ -33,6 +33,7 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
       onAddElement={onAddElement}
+      showAddButton
     />
   )
 }
