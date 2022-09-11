@@ -7,6 +7,11 @@ import { useRouter } from "next/router"
 
 const entryName = "expenses"
 
+const label =
+  entryName && entryName in names
+    ? _.capitalize(names[entryName as keyof typeof names].plural)
+    : undefined
+
 interface ExpenseListProps {
   selectedId: number | null
   onAddElement?: () => void
@@ -20,11 +25,7 @@ const ExpensesList = ({ selectedId, onAddElement }: ExpenseListProps) => {
     <ApiList
       ListItem={ExpenseListItem}
       entryName={entryName}
-      label={
-        entryName && entryName in names
-          ? _.capitalize(names[entryName as keyof typeof names].plural)
-          : undefined
-      }
+      label={label}
       selectedId={selectedId}
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
