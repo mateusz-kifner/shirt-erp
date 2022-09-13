@@ -32,6 +32,7 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      filterKeys={["name", "notes"]}
       onAddElement={onAddElement}
       showAddButton
     />

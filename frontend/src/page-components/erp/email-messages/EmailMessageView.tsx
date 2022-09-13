@@ -76,7 +76,8 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
           </Group>
 
           <Group>
-            {data.from} {"->"} {data.to}
+            {"Od: "}
+            {data.from} {", Do: "} {data.to}
           </Group>
           <TypographyStylesProvider>
             <div

@@ -33,6 +33,7 @@ const ExpensesList = ({ selectedId, onAddElement }: ExpenseListProps) => {
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      filterKeys={["name"]}
       onAddElement={onAddElement}
       showAddButton
     />

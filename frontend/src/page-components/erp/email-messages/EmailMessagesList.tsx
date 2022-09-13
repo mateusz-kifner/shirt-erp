@@ -30,6 +30,7 @@ const EmailMessagesList = ({ selectedId }: EmailMessagesProps) => {
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
+      filterKeys={["subject", "from", "text", "to"]}
     />
   )
 }

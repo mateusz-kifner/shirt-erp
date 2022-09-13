@@ -32,6 +32,7 @@ const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
       // listItemProps={{
       //   linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       // }}
+      filterKeys={["name", "codeName"]}
       onAddElement={onAddElement}
       showAddButton
     />
