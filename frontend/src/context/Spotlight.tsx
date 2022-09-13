@@ -6,6 +6,7 @@ import axios from "axios"
 import { useQuery } from "react-query"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useAuthContext } from "./authContext"
+import { useRouter } from "next/router"
 
 // const actions: SpotlightAction[] = [
 //   {
@@ -36,7 +37,7 @@ const fetchSearch = async (query: string) => {
 
 const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthContext()
-  // const router = useRouter()
+  const router = useRouter()
   const [query, setQuery] = useState<string>("")
   const [debounced] = useDebouncedValue(query, 500)
   const { data } = useQuery(
@@ -54,8 +55,8 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
     ? data?.orders.map((val: any) => ({
         title: val.name,
         description: val.status + " , Data oddania: " + val.dateOfCompletion,
-        onTrigger: () => {},
-        // onTrigger: () => router.push("/erp/" + "orders" + "/" + val.id),
+        // onTrigger: () => {},
+        onTrigger: () => router.push("/erp/" + "orders" + "/" + val.id),
       }))
     : []
 
