@@ -30,6 +30,7 @@ interface EditableApiEntryProps {
     Record<"label" | "required" | "root" | "error" | "description", CSSObject>
   >
   withErase?: boolean
+  listProps?: any
 }
 
 const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
@@ -45,7 +46,8 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
     copyProvider = () => "",
     styles,
     style,
-    withErase = true,
+    withErase = false,
+    listProps,
   } = props
 
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
@@ -53,6 +55,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
   const [opened, setOpened] = useState<boolean>(false)
   const uuid = useId()
   const clipboard = useClipboard()
+  // eslint-disable-next-line
   const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry])
 
   useEffect(() => {
@@ -62,8 +65,9 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
 
   useEffect(() => {
     if (_.isEqual(apiEntry, prev)) return
-    onSubmit && onSubmit(apiEntry)
+    onSubmit?.(apiEntry)
     setPrev(apiEntry)
+    // eslint-disable-next-line
   }, [apiEntry])
 
   return (
@@ -111,6 +115,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
               setApiEntry(value)
               setOpened(false)
             }}
+            {...listProps}
           />
         ) : (
           <Text color="red">
@@ -134,6 +139,7 @@ const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
               setOpened(true)
             }}
             value={apiEntry}
+            disabled={disabled}
           />
           {apiEntry && withErase && (
             <Menu withArrow>

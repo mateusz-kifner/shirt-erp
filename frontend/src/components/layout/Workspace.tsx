@@ -1,9 +1,8 @@
-import { ActionIcon, Group, Menu, Text } from "@mantine/core"
+import { Group } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
-import { useGesture } from "@use-gesture/react"
-import { Children, FC, ReactNode, useEffect, useState } from "react"
-import { Outlet } from "react-router-dom"
-import { Compass } from "tabler-icons-react"
+import { useRouter } from "next/router"
+import { Children, FC, ReactNode, useId } from "react"
+import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
 
 import ResponsivePaper from "../ResponsivePaper"
 
@@ -11,28 +10,38 @@ interface WorkspaceProps {
   childrenWrapperProps?: any[]
   childrenLabels?: string[]
   children?: ReactNode
-  currentPage?: number
+  defaultViews?: number | number[]
 }
 
 const Workspace: FC<WorkspaceProps> = ({
   children,
   childrenLabels,
-  childrenWrapperProps,
-  currentPage,
+  childrenWrapperProps = [null],
+  defaultViews = 0,
 }) => {
+  const uuid = useId()
   const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
+    "only screen and (hover: none) and (pointer: coarse)",
+    false
   )
-  const [page, setPage] = useState(0)
 
-  useEffect(() => {
-    currentPage && setPage(currentPage)
-  }, [currentPage])
+  const router = useRouter()
+  if (!router?.query?.show_views) {
+    setQuery(router, {
+      show_views: Array.isArray(defaultViews)
+        ? defaultViews.map((val) => val.toString())
+        : defaultViews.toString(),
+    })
+  }
+  const show_views = getQueryAsArray(router, "show_views").map((val) =>
+    isNaN(parseInt(val)) ? -1 : parseInt(val)
+  )
+
+  const child_array = Children.toArray(children)
 
   return (
     <Group
       sx={(theme) => ({
-        // position: "relative",
         flexWrap: "nowrap",
         alignItems: "flex-start",
         padding: theme.spacing.md,
@@ -43,22 +52,19 @@ const Workspace: FC<WorkspaceProps> = ({
       })}
     >
       {children &&
-        Children.map(
-          children,
-          (child, index) =>
-            (!isMobile || (isMobile && page === index)) && (
-              <ResponsivePaper
-                radius={4}
-                {...(childrenWrapperProps &&
-                  childrenWrapperProps[index] &&
-                  childrenWrapperProps[index])}
-              >
-                {child}
-              </ResponsivePaper>
-            )
-        )}
+        show_views.map((childIndex, index) => (
+          <ResponsivePaper
+            {...(childrenWrapperProps &&
+            childrenWrapperProps[childIndex] !== undefined
+              ? childrenWrapperProps[childIndex]
+              : { style: { flexGrow: 1 } })}
+            key={uuid + index}
+          >
+            {child_array[childIndex]}
+          </ResponsivePaper>
+        ))}
 
-      {isMobile && (
+      {/* {isMobile && (
         <Menu>
           <Menu.Target>
             <ActionIcon
@@ -76,18 +82,17 @@ const Workspace: FC<WorkspaceProps> = ({
               Children.map(children, (child, index) => (
                 <Menu.Item
                   onClick={() => {
-                    setPage(index)
+                    // setPages([index])
                   }}
                 >
                   <Text size="md">
-                    {(childrenLabels && childrenLabels[index]) ??
-                      "Window " + (index + 1)}
+                    {childrenLabels?.[index] ?? "Window " + (index + 1)}
                   </Text>
                 </Menu.Item>
               ))}
           </Menu.Dropdown>
         </Menu>
-      )}
+      )} */}
     </Group>
   )
 }

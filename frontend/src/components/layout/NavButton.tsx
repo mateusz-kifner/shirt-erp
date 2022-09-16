@@ -11,7 +11,7 @@ import {
   MantineNumberSize,
 } from "@mantine/core"
 import { ChevronRight } from "tabler-icons-react"
-import { Link } from "react-router-dom"
+import { NextLink } from "@mantine/next"
 
 interface NavButtonProps {
   label: string
@@ -52,8 +52,8 @@ export const NavButton: FC<NavButtonProps> = ({
               : theme.colors.gray[0],
         },
       })}
-      component={Link}
-      to={to}
+      component={NextLink}
+      href={to}
       onClick={onClick}
     >
       <Group position="apart" noWrap>

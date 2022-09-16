@@ -11,7 +11,15 @@ import _ from "lodash"
 import { ComponentType, FC, useEffect, useId, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
-import { Dots, Edit, Plus, TrashX, X } from "tabler-icons-react"
+import {
+  ArrowDown,
+  ArrowUp,
+  Dots,
+  Edit,
+  Plus,
+  TrashX,
+  X,
+} from "tabler-icons-react"
 
 // fixme submit only on edit end
 
@@ -23,8 +31,9 @@ interface EditableArrayProps {
   disabled?: boolean
   required?: boolean
   maxCount?: number
-  Element: ComponentType
+  Element: ComponentType<any>
   elementProps: any
+  organizingHandle: "none" | "arrows" | "drag and drop"
 }
 
 const EditableArray: FC<EditableArrayProps> = (props) => {
@@ -38,24 +47,24 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     maxCount,
     Element,
     elementProps,
+    organizingHandle = "none",
   } = props
   const [items, setItems] = useState<any[]>(value ?? initialValue ?? [])
   const [prev, setPrev] = useState<any[]>(items)
   const [active, setActive] = useState<boolean>(false)
   const uuid = useId()
-
   useEffect(() => {
     if (isArrayEqual(items, prev)) return
-    onSubmit && onSubmit(items)
-    console.log(items, prev)
+    onSubmit?.(items)
+    // eslint-disable-next-line
   }, [items])
 
   useEffect(() => {
     if (value === undefined || value === null) return
     setItems(value)
     setPrev(value)
+    // eslint-disable-next-line
   }, [value])
-  // console.log(items)
 
   return (
     <Input.Wrapper label={label} required={required}>
@@ -75,6 +84,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
           SxRadius,
         ]}
       >
+        {items.length == 0 && !active && "⸺"}
         {items.map((val, index) => {
           return (
             <Group spacing="xs" key={uuid + index}>
@@ -101,55 +111,78 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                         )
                       )
                   }}
-                  {...elementProps}
+                  disabled={!active}
+                  {..._.omit(elementProps, ["label"])}
                 />
               </Box>
               {active && (
-                <Menu
-                // tabIndex={-1}
-                // withArrow
-                // styles={(theme) => ({
-                //   body: {
-                //     backgroundColor:
-                //       theme.colorScheme === "dark"
-                //         ? theme.colors.dark[7]
-                //         : theme.white,
-                //   },
-                //   arrow: {
-                //     backgroundColor:
-                //       theme.colorScheme === "dark"
-                //         ? theme.colors.dark[7]
-                //         : theme.white,
-                //   },
-                // })}
-                >
-                  <Menu.Target>
-                    <ActionIcon
-                      tabIndex={-1}
-                      // style={{
-                      //   position: "absolute",
-                      //   top: "50%",
-                      //   right: 8,
-                      //   transform: "translate(0,-50%)",
-                      // }}
-                    >
-                      <Dots size={14} />
-                    </ActionIcon>
-                  </Menu.Target>
+                <>
+                  {organizingHandle === "arrows" && items.length > 1 && (
+                    <>
+                      <ActionIcon
+                        radius="xl"
+                        onClick={() => {}}
+                        disabled={disabled}
+                      >
+                        <ArrowUp size={14} />
+                      </ActionIcon>
+                      <ActionIcon
+                        radius="xl"
+                        onClick={() => {}}
+                        disabled={disabled}
+                      >
+                        <ArrowDown size={14} />
+                      </ActionIcon>
+                    </>
+                  )}
+                  <Menu
+                  // tabIndex={-1}
+                  // withArrow
+                  // styles={(theme) => ({
+                  //   body: {
+                  //     backgroundColor:
+                  //       theme.colorScheme === "dark"
+                  //         ? theme.colors.dark[7]
+                  //         : theme.white,
+                  //   },
+                  //   arrow: {
+                  //     backgroundColor:
+                  //       theme.colorScheme === "dark"
+                  //         ? theme.colors.dark[7]
+                  //         : theme.white,
+                  //   },
+                  // })}
+                  >
+                    <Menu.Target>
+                      <ActionIcon
+                        tabIndex={-1}
+                        radius="xl"
 
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      icon={<TrashX size={14} />}
-                      onClick={() => {
-                        console.log(index)
-                        setItems((val) => val.filter((_, i) => i !== index))
-                      }}
-                      color="red"
-                    >
-                      Delete
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
+                        // style={{
+                        //   position: "absolute",
+                        //   top: "50%",
+                        //   right: 8,
+                        //   transform: "translate(0,-50%)",
+                        // }}
+                      >
+                        <Dots size={14} />
+                      </ActionIcon>
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Item
+                        icon={<TrashX size={14} />}
+                        onClick={() => {
+                          console.log(index)
+                          setItems((val) => val.filter((_, i) => i !== index))
+                        }}
+                        color="red"
+                      >
+                        Delete
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                </>
               )}
             </Group>
           )
@@ -166,6 +199,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
             >
               <Plus />
             </Button>
+
             <ActionIcon
               radius="xl"
               onClick={() => setActive(false)}

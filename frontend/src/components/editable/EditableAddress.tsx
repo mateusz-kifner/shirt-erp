@@ -76,12 +76,14 @@ const EditableAddress: FC<EditableAddressProps> = ({
     if (active) {
       setPrevAddress(address)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {
     if (address !== prevAddress) {
       onSubmit && onSubmit(address)
     }
+    // eslint-disable-next-line
   }, [address])
 
   const toString = () => {

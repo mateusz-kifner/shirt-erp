@@ -1,10 +1,12 @@
 import { AddressType } from "./AddressType"
 import { ClientType } from "./ClientType"
+import { EmailMessageType } from "./EmailMessageType"
 import { FileType } from "./FileType"
 import { ProductComponentType } from "./ProductComponentType"
 import { UserType } from "./UserType"
 
 export interface OrderType {
+  id?: number
   name: string
   status: string
   notes: string | null
@@ -20,6 +22,8 @@ export interface OrderType {
   client: Partial<ClientType>
   // expenses: Partial<ExpensesType>[]
   employees: Partial<UserType>[]
+  emailMessages: Partial<EmailMessageType>[]
+  emailMessagesText: Partial<EmailMessageType>[]
   createdAt: Date
   updatedAt: Date
 }

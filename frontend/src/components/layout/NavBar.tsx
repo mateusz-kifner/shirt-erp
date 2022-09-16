@@ -85,13 +85,13 @@ const NavBar: FC<NavBarProps> = ({
               radius="xl"
               onClick={() => {
                 setPin((val) => {
-                  onPin && onPin(!val)
+                  onPin?.(!val)
                   return !val
                 })
               }}
               onContextMenu={(e: SyntheticEvent) => {
                 e.preventDefault()
-                setIndependent && setIndependent(!independent)
+                setIndependent?.(!independent)
               }}
               color={independent ? "blue" : undefined}
             >

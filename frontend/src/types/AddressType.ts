@@ -1,4 +1,5 @@
 export interface AddressType {
+  id?: number
   streetName: string | null
   streetNumber: string | null
   secondLine: string | null

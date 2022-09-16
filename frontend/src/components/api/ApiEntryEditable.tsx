@@ -1,52 +1,61 @@
-import { Stack, LoadingOverlay } from "@mantine/core"
-import { useDocumentTitle } from "@mantine/hooks"
-import { FC } from "react"
+import { Stack } from "@mantine/core"
+import { useRouter } from "next/router"
+import { useState } from "react"
 import useStrapi from "../../hooks/useStrapi"
-import { useLocation, useParams } from "react-router-dom"
 import names from "../../models/names.json"
 import Editable from "../editable/Editable"
+import ApiStatusIndicator from "./ApiStatusIndicator"
 
-interface ApiEntryEditableProps {
+interface ApiEntryEditableProps<EntryType = any> {
   template: any
   entryName: string
   id: number | null
 }
 
-const ApiEntryEditable: FC<ApiEntryEditableProps> = ({
+const ApiEntryEditable = <EntryType extends any>({
   template,
   entryName,
   id,
-}) => {
-  const { data, status, update } = useStrapi(entryName, id, {
+}: ApiEntryEditableProps<EntryType>) => {
+  const { data, update } = useStrapi<EntryType>(entryName, id, {
     query: "populate=*",
   })
+  const [status, setStatus] = useState<
+    "loading" | "idle" | "error" | "success"
+  >("idle")
 
-  const location = useLocation()
-  const params = useParams()
+  const router = useRouter()
+  const params = router.query
 
   const entryNameData: any =
-    //@ts-ignore
-    entryName in names ? names[entryName] : { singular: "", plural: "" }
-
-  useDocumentTitle(
-    params.id
-      ? "ShirtERP - " +
-          entryNameData.singular +
-          " " +
-          data?.firstname +
-          " " +
-          data?.lastname
-      : "ShirtERP - " + entryNameData.plural
-  )
+    entryName in names
+      ? names[entryName as keyof typeof names]
+      : { singular: "", plural: "" }
 
   const apiUpdate = (key: string, val: any) => {
-    update({ [key]: val })
+    setStatus("loading")
+    update({ [key]: val } as Partial<EntryType>)
+      .then((val) => {
+        setStatus("success")
+      })
+      .catch((err) => {
+        setStatus("error")
+      })
   }
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <Editable template={template} data={data} onSubmit={apiUpdate} />
-      <LoadingOverlay visible={status === "loading"} radius="xl" />
+      <ApiStatusIndicator
+        status={status}
+        style={{
+          position: "fixed",
+          top: "calc(var(--mantine-header-height, 0px) + 8px)",
+          right: 8,
+        }}
+      />
+      {data && (
+        <Editable template={template} data={data as any} onSubmit={apiUpdate} />
+      )}
     </Stack>
   )
 }

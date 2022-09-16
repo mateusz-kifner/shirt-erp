@@ -1,11 +1,10 @@
 import { FC } from "react"
-import { useRecoilValue } from "recoil"
 import { X } from "tabler-icons-react"
-import { iconState } from "../../atoms/iconState"
 import SVG from "react-inlinesvg"
 import { serverURL } from "../../env"
 import { useMantineTheme } from "@mantine/core"
-import { loginState } from "../../atoms/loginState"
+import { useAuthContext } from "../../context/authContext"
+import { IconType, useIconsContext } from "../../context/iconsContext"
 
 interface ApiIconSVGProps {
   color?: string
@@ -22,8 +21,8 @@ const ApiIconSVG: FC<ApiIconSVGProps> = ({
   id,
   noError,
 }) => {
-  const login = useRecoilValue(loginState)
-  const iconsData = useRecoilValue(iconState)
+  const { jwt } = useAuthContext()
+  const { iconsData } = useIconsContext()
   const theme = useMantineTheme()
   const new_size = size ? size : 24
   const new_color = color
@@ -32,10 +31,11 @@ const ApiIconSVG: FC<ApiIconSVGProps> = ({
     ? "#fff"
     : "#000"
   const icon =
-    iconsData &&
-    id &&
-    entryName &&
-    iconsData[entryName].filter((val: any) => val.id === id)
+    iconsData && id && entryName
+      ? iconsData[entryName as keyof typeof iconsData].filter(
+          (val: IconType) => val.id === id
+        )
+      : []
   const url = icon?.length > 0 ? icon[0].url : ""
   if (!entryName) return null
   return (
@@ -48,7 +48,7 @@ const ApiIconSVG: FC<ApiIconSVGProps> = ({
           height={new_size}
           onError={(error) => console.log(error.message)}
           loader={<X color={new_color} size={new_size} />}
-          fetchOptions={{ headers: { Authorization: "Bearer " + login.jwt } }}
+          fetchOptions={{ headers: { Authorization: "Bearer " + jwt } }}
         />
       ) : (
         !noError && <X color={new_color} size={new_size} />

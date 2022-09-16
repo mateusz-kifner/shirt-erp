@@ -155,7 +155,8 @@ const FileList: FC<FileListProps> = ({
       return val.file
     })
     if (isArrayEqual(files, prev)) return
-    onChange && onChange(files)
+    onChange?.(files)
+    // eslint-disable-next-line
   }, [filesData])
 
   useEffect(() => {

@@ -1,10 +1,9 @@
 import { useId } from "@mantine/hooks"
 import { Text } from "@mantine/core"
 import { FC } from "react"
-import { useRecoilValue } from "recoil"
-import { loginState } from "../../atoms/loginState"
 import NotImplemented from "../NotImplemented"
 import DisplayCell from "./DisplayCell"
+import { useAuthContext } from "../../context/authContext"
 
 interface DetailsProps {
   template: { [key: string]: any }
@@ -12,7 +11,7 @@ interface DetailsProps {
 }
 
 const Details: FC<DetailsProps> = ({ template, data }) => {
-  const user = useRecoilValue(loginState)
+  const { debug } = useAuthContext()
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
     return (
@@ -31,11 +30,11 @@ const Details: FC<DetailsProps> = ({ template, data }) => {
   return (
     <>
       {Object.keys(template).map((key) => {
-        if (key === "id" && user.debug === true)
+        if (key === "id" && debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
         if (!(key in template))
-          return user?.debug === true ? (
+          return debug === true ? (
             <NotImplemented
               message={"Key doesn't have template"}
               object_key={key}

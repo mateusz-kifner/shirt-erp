@@ -29,7 +29,8 @@
   "description": {
     "label": "Opis",
     "type": "text",
-    "initialValue": ""
+    "initialValue": "",
+    "maxLength": 4095
   },
   "colors": {
     "label": "Kolory",

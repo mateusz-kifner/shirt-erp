@@ -32,28 +32,34 @@ interface ApiListProps<T = any> {
   withSeparators?: boolean
   onChange?: (val: T) => void
   listItemProps?: { linkTo: (val: T) => string } | any
-  entryId?: number | null
+  selectedId?: number | null
   filterKeys?: string[]
+  onAddElement?: () => void
+  defaultSearch?: string
+  showAddButton?: boolean
 }
 
 const ApiList = <T extends any>({
   entryName,
   ListItem,
   label = "",
-  listSpacing = "md",
-  spacing = "md",
+  listSpacing = "sm",
+  spacing = "xl",
   withSeparators = false,
   onChange = (val: T) => {},
   listItemProps = {},
-  entryId,
+  selectedId,
   filterKeys,
+  onAddElement,
+  defaultSearch,
+  showAddButton,
 }: ApiListProps<T>) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
-    "asc",
     "desc",
+    "asc",
   ])
-  const [query, setQuery] = useState<string | undefined>(undefined)
+  const [query, setQuery] = useState<string | undefined>(defaultSearch)
   const [debouncedQuery] = useDebouncedValue(query, 200)
   const [page, setPage] = useState<number>(1)
   const { data, meta, refetch, status } = useStrapiList<T[]>(
@@ -71,13 +77,13 @@ const ApiList = <T extends any>({
     },
   })
   // const cont = useInRouterContext()
-  // const params = useParams()
+  // const params = router.query
   // const location = useLocation()
   // console.log(params, location, cont)
 
   // useEffect(() => {
   //   console.log(id, location, cont)
-  //   // if (params?.id && parseInt(params.id) > 0) setId(parseInt(params.id))
+  //   // if (typeof params?.id === "string" && parseInt(params.id) > 0) setId(parseInt(params.id))
   // }, [id, location])
 
   return (
@@ -94,9 +100,16 @@ const ApiList = <T extends any>({
             >
               <Refresh />
             </ActionIcon>
-            <ActionIcon size="lg" radius="xl" variant="default">
-              <Plus />
-            </ActionIcon>
+            {showAddButton && (
+              <ActionIcon
+                size="lg"
+                radius="xl"
+                variant="default"
+                onClick={onAddElement}
+              >
+                <Plus />
+              </ActionIcon>
+            )}
           </Group>
         </Group>
         <Group spacing="md" px="sm">
@@ -124,6 +137,7 @@ const ApiList = <T extends any>({
             }}
           /> */}
           <TextInput
+            defaultValue={defaultSearch}
             onChange={(value) => setQuery(value.target.value)}
             radius="xl"
             icon={<Search />}
@@ -138,11 +152,11 @@ const ApiList = <T extends any>({
               key={`list_${entryName}_${index}`}
               sx={{
                 paddingTop:
-                  index != 0 && typeof listSpacing == "string"
+                  withSeparators && index != 0 && typeof listSpacing == "string"
                     ? theme.spacing[listSpacing]
                     : listSpacing,
                 borderTop:
-                  index != 0
+                  withSeparators && index != 0
                     ? `1px solid ${
                         theme.colorScheme === "dark"
                           ? theme.colors.dark[4]
@@ -155,7 +169,7 @@ const ApiList = <T extends any>({
                 value={val}
                 onChange={onChange}
                 {...listItemProps}
-                highlight={val.id === entryId}
+                active={val.id === selectedId}
               />
             </Box>
           ))}

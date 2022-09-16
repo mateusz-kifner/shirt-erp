@@ -1,11 +1,12 @@
 import { ActionIcon, Box } from "@mantine/core"
 import { useClickOutside } from "@mantine/hooks"
-import RichTextEditor, { Editor } from "@mantine/rte"
+import type { Editor } from "@mantine/rte"
 import DOMPurify from "dompurify"
 import { FC, useEffect, useRef, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
 import { Notes } from "tabler-icons-react"
+import RichText from "../../lib/mantine/RichText"
 
 interface EditableSecretTextProps {
   value?: string
@@ -52,6 +53,7 @@ const EditableSecretText: FC<EditableSecretTextProps> = ({
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {
@@ -133,7 +135,7 @@ const EditableSecretText: FC<EditableSecretTextProps> = ({
               dangerouslySetInnerHTML={{ __html: text ?? "⸺" }}
             ></Box>
           ) : (
-            <RichTextEditor
+            <RichText
               ref={richTextEditorRef}
               value={text}
               onChange={setText}

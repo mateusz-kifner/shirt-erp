@@ -1,6 +1,12 @@
 import axios from "axios"
 import { useEffect } from "react"
-import { useMutation, useQuery, QueryClient } from "react-query"
+import {
+  useMutation,
+  useQuery,
+  QueryClient,
+  UseQueryOptions,
+  UseMutationOptions,
+} from "react-query"
 import notify from "../utils/notify"
 
 const queryClient = new QueryClient()
@@ -49,128 +55,28 @@ const updateEntry = async (
 
 interface OptionsProps<EntryType> {
   query: string
-  queryOptions?: {
-    cacheTime?: number
-    enabled?: boolean
-    initialData?: any
-    initialDataUpdatedAt?: any
-    isDataEqual?: any
-    keepPreviousData?: any
-    meta?: any
-    notifyOnChangeProps?: any
-    notifyOnChangePropsExclusions?: any
-    onError?: ((err: unknown) => void) | undefined
-    onSettled?: ((data: any, error: unknown) => void) | undefined
-    onSuccess?: ((data: any) => void) | undefined
-    placeholderData?: any
-    queryKeyHashFn?: any
-    refetchInterval?: any
-    refetchIntervalInBackground?: any
-    refetchOnMount?: any
-    refetchOnReconnect?: any
-    refetchOnWindowFocus?: any
-    retry?: any
-    retryOnMount?: any
-    retryDelay?: any
-    select?: any
-    staleTime?: any
-    structuralSharing?: any
-    suspense?: any
-    useErrorBoundary?: any
-  }
+  queryOptions?: Omit<
+    UseQueryOptions<
+      any,
+      unknown,
+      { data: EntryType; meta: any } | undefined,
+      (string | number | null | undefined)[]
+    >,
+    "queryKey" | "queryFn"
+  >
   addMutationOptions?: {
     errorMessage?: string
     successMessage?: string
-    onMutate?: ((variables: { data: EntryType }) => unknown) | undefined
-    onError?:
-      | ((
-          error: unknown,
-          variables: {
-            data: EntryType
-          },
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-    onSettled?:
-      | ((
-          data: any,
-          error: unknown,
-          variables: {
-            data: EntryType
-          },
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-    onSuccess?:
-      | ((
-          data: any,
-          variables: {
-            data: EntryType
-          },
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-  }
+  } & Omit<UseMutationOptions<any, unknown, any, unknown>, "mutationFn">
+
   removeMutationOptions?: {
     errorMessage?: string
     successMessage?: string
-    onError?:
-      | ((
-          error: unknown,
-          variables: void,
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-    onMutate?: ((variables: void) => unknown) | undefined
-    onSettled?:
-      | ((
-          data: any,
-          error: unknown,
-          variables: void,
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-    onSuccess?:
-      | ((
-          data: any,
-          variables: void,
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-  }
+  } & Omit<UseMutationOptions<any, unknown, any, unknown>, "mutationFn">
   updateMutationOptions?: {
     errorMessage?: string
     successMessage?: string
-    onError?:
-      | ((
-          error: unknown,
-          variables: {
-            data: EntryType
-          },
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-    onMutate?: ((variables: { data: EntryType }) => unknown) | undefined
-    onSettled?:
-      | ((
-          data: any,
-          error: unknown,
-          variables: {
-            data: EntryType
-          },
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-    onSuccess?:
-      | ((
-          data: any,
-          variables: {
-            data: EntryType
-          },
-          context: unknown
-        ) => void | Promise<unknown>)
-      | undefined
-  }
+  } & Omit<UseMutationOptions<any, unknown, any, unknown>, "mutationFn">
 }
 
 function useStrapi<EntryType>(
@@ -186,6 +92,7 @@ function useStrapi<EntryType>(
 
   useEffect(() => {
     refetch()
+    // eslint-disable-next-line
   }, [id])
 
   const optimisticUpdate = (fn: ((...args: any[]) => any) | undefined) => {
@@ -196,7 +103,7 @@ function useStrapi<EntryType>(
   }
 
   const addMutation = useMutation(
-    (addData: { data: EntryType }) => {
+    (addData: { data: Partial<EntryType> }) => {
       console.log(addData, entryName)
       return addEntry(entryName, addData)
     },
@@ -237,7 +144,8 @@ function useStrapi<EntryType>(
   })
 
   const updateMutation = useMutation(
-    (updateData: { data: EntryType }) => updateEntry(entryName, id, updateData),
+    (updateData: { data: Partial<EntryType> }) =>
+      updateEntry(entryName, id, updateData),
     {
       onError: notify(
         options?.updateMutationOptions?.onError,
@@ -257,15 +165,15 @@ function useStrapi<EntryType>(
     }
   )
 
-  async function add(entry: EntryType) {
+  async function add(entry: Partial<EntryType>) {
     console.log("add Strapi api entry:", entry, entryName)
-    addMutation.mutateAsync({ data: entry })
+    return addMutation.mutateAsync({ data: entry })
   }
-  async function update(entry: EntryType) {
-    updateMutation.mutateAsync({ data: entry })
+  async function update(entry: Partial<EntryType>) {
+    return updateMutation.mutateAsync({ data: entry })
   }
   async function remove(id?: number) {
-    removeMutation.mutateAsync(undefined, {
+    return removeMutation.mutateAsync(undefined, {
       onSuccess: () => {
         queryClient.setQueryData([entryName + "_one", id], null)
         queryClient.removeQueries([entryName + "_one", id])

@@ -32,7 +32,6 @@ const EditableText: FC<EditableTextProps> = (props) => {
     label,
     value,
     initialValue,
-
     onSubmit,
     disabled,
     required,
@@ -59,6 +58,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {

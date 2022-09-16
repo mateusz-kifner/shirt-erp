@@ -1,8 +1,7 @@
 import { Button, Group, Input, Modal, SimpleGrid, Stack } from "@mantine/core"
 import { FC, useEffect, useId, useState } from "react"
-import { useRecoilValue } from "recoil"
-import { iconState } from "../../atoms/iconState"
 import { X } from "tabler-icons-react"
+import { IconsDataType, useIconsContext } from "../../context/iconsContext"
 import ApiIconSVG from "../api/ApiIconSVG"
 
 interface EditableApiIconIdProps {
@@ -29,7 +28,7 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
   const [iconId, setIconId] = useState<number | null>(
     value ?? initialValue ?? null
   )
-  const iconsData = useRecoilValue(iconState)
+  const { iconsData } = useIconsContext()
   const uuid = useId()
 
   useEffect(() => {
@@ -51,26 +50,28 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
       >
         <SimpleGrid cols={3}>
           {iconsData &&
-            iconsData[entryName].map((val: { id: number }) => (
-              <Button
-                variant="default"
-                styles={{
-                  root: {
-                    width: 120,
-                    height: 120,
-                  },
-                }}
-                px="xs"
-                onClick={() => {
-                  onSubmit && onSubmit(val.id)
-                  setIconId(val.id)
-                  setOpened(false)
-                }}
-                key={uuid + val.id}
-              >
-                <ApiIconSVG entryName={entryName} id={val.id} size={96} />
-              </Button>
-            ))}
+            iconsData[entryName as keyof typeof iconsData].map(
+              (val: { id: number }) => (
+                <Button
+                  variant="default"
+                  styles={{
+                    root: {
+                      width: 120,
+                      height: 120,
+                    },
+                  }}
+                  px="xs"
+                  onClick={() => {
+                    onSubmit && onSubmit(val.id)
+                    setIconId(val.id)
+                    setOpened(false)
+                  }}
+                  key={uuid + val.id}
+                >
+                  <ApiIconSVG entryName={entryName} id={val.id} size={96} />
+                </Button>
+              )
+            )}
           <Button
             variant="default"
             styles={{

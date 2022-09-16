@@ -25,7 +25,7 @@
     "pluginConfig": {
       "type": "json"
     },
-    "workstations": {
+    "nextWorkstations": {
       "type": "json"
     }
   }
