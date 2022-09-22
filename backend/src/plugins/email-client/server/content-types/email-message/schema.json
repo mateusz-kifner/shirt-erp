@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email_messages",
+  "info": {
+    "singularName": "email-message",
+    "pluralName": "email-messages",
+    "displayName": "EmailMessage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "subject": {
+      "type": "string",
+      "default": ""
+    },
+    "from": {
+      "type": "string",
+      "default": ""
+    },
+    "to": {
+      "type": "string",
+      "default": ""
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "html": {
+      "type": "text",
+      "default": ""
+    },
+    "text": {
+      "type": "text",
+      "default": ""
+    },
+    "messageId": {
+      "type": "string"
+    },
+    "headerLines": {
+      "type": "json"
+    },
+    "textAsHtml": {
+      "type": "text",
+      "default": ""
+    },
+    "attachments": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images", "files", "videos", "audios"]
+    },
+    "nextMessageId": {
+      "type": "integer"
+    }
+  }
+}

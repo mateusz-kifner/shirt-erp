@@ -51,12 +51,7 @@
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "address": {
       "type": "component",
@@ -80,12 +75,6 @@
     },
     "designs": {
       "type": "json"
-    },
-    "emailMessages": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::email-message.email-message",
-      "inversedBy": "orders"
     },
     "emailMessagesText": {
       "type": "json"

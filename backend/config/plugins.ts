@@ -1,4 +1,8 @@
 module.exports = ({ env }) => ({
+  "email-client": {
+    enabled: true,
+    resolve: "./src/plugins/email-client",
+  },
   transformer: {
     enabled: true,
     config: {

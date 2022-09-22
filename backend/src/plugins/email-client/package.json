@@ -1,0 +1,31 @@
+{
+  "name": "email-client",
+  "version": "0.1.0",
+  "description": "Plugin that fetches mails from imap server.",
+  "strapi": {
+    "name": "Email client",
+    "description": "Plugin that fetches mails from imap server.",
+    "kind": "plugin"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "4.6.3"
+  },
+  "author": {
+    "name": "Mateusz Kifner"
+  },
+  "maintainers": [
+    {
+      "name": "Mateusz Kifner"
+    }
+  ],
+  "engines": {
+    "node": ">=14.19.1 <=16.x.x",
+    "npm": ">=6.0.0"
+  },
+  "scripts": {
+    "develop": "tsc -w",
+    "build": "tsc"
+  },
+  "license": "UNLICENSED"
+}

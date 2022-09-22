@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email_credentials",
+  "info": {
+    "singularName": "email-credential",
+    "pluralName": "email-credentials",
+    "displayName": "Email Credentials",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {
+    "content-type-builder": {
+      "visible": false
+    }
+  },
+  "attributes": {
+    "host": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer",
+      "default": 143
+    },
+    "user": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string",
+      "private": true
+    },
+    "secure": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
