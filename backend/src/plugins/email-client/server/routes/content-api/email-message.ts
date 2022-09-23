@@ -3,20 +3,20 @@
 export default [
   {
     method: "GET",
-    path: "/mail-messages",
+    path: "/messages",
     handler: "email-message.find",
-    config: {
-      prefix: "api",
-    },
   },
   {
     method: "GET",
-    path: "/mail-messages/:id",
-    handler: "email-message.findOne",
-    config: {
-      prefix: "api",
-    },
+    path: "/messages/refresh",
+    handler: "email-message.refresh",
   },
+  {
+    method: "GET",
+    path: "/messages/:id",
+    handler: "email-message.findOne",
+  },
+
   // {
   //   method: "POST",
   //   path: "/mail-messages",

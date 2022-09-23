@@ -1,4 +1,3 @@
 "use strict";
 
-// module.exports = require("./admin/src").default;
-module.exports = {};
+module.exports = require("./admin/src").default;

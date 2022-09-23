@@ -10,10 +10,10 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.3.8",
-    "@strapi/plugin-users-permissions": "4.3.8",
-    "@strapi/strapi": "4.3.8",
-    "imapflow": "^1.0.107",
+    "@strapi/plugin-i18n": "4.3.9",
+    "@strapi/plugin-users-permissions": "4.3.9",
+    "@strapi/strapi": "4.3.9",
+    "imapflow": "^1.0.108",
     "lodash": "^4.17.21",
     "mailparser": "^3.5.0",
     "mime-types": "^2.1.35",

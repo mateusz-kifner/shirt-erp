@@ -1,3 +1,3 @@
 # Strapi plugin mail-client
 
-A quick description of mail-client.
+Plugin that fetches mails from imap server.
