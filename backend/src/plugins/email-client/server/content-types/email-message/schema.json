@@ -18,45 +18,57 @@
   "attributes": {
     "subject": {
       "type": "string",
+      "configurable": false,
       "default": ""
     },
     "from": {
       "type": "string",
+      "configurable": false,
       "default": ""
     },
     "to": {
       "type": "string",
+      "configurable": false,
       "default": ""
     },
     "date": {
-      "type": "datetime"
+      "type": "datetime",
+      "configurable": false
     },
     "html": {
       "type": "text",
+      "configurable": false,
+
       "default": ""
     },
     "text": {
       "type": "text",
+      "configurable": false,
       "default": ""
     },
     "messageId": {
-      "type": "string"
+      "type": "string",
+      "configurable": false
     },
     "headerLines": {
-      "type": "json"
+      "type": "json",
+      "configurable": false
     },
     "textAsHtml": {
       "type": "text",
+      "configurable": false,
       "default": ""
     },
     "attachments": {
       "type": "media",
       "multiple": true,
+      "configurable": false,
       "required": false,
       "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "nextMessageId": {
-      "type": "integer"
+      "type": "integer",
+      "configurable": false
     }
   }
 }

@@ -1,8 +1,8 @@
 "use strict";
 
-const { FOLDER_MODEL_UID } = require("../../constants");
+const { FOLDER_MODEL_UID } = require("../../../constants");
 
-module.exports = {
+export default {
   collectionName: "files",
   info: {
     singularName: "file",
@@ -92,20 +92,24 @@ module.exports = {
       relation: "manyToOne",
       target: FOLDER_MODEL_UID,
       inversedBy: "files",
+      configurable: false,
       private: true,
     },
     folderPath: {
       type: "string",
       min: 1,
       required: true,
+      configurable: false,
       private: true,
     },
     public: {
       type: "boolean",
+      configurable: false,
       default: false,
     },
     token: {
       type: "string",
+      configurable: false,
       maxLength: 48,
     },
   },

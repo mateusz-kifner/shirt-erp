@@ -18,25 +18,30 @@
   "attributes": {
     "host": {
       "type": "string",
+      "configurable": false,
       "required": true
     },
     "port": {
       "type": "integer",
       "default": 143,
+      "configurable": false,
       "required": true
     },
     "user": {
       "type": "string",
+      "configurable": false,
       "required": true
     },
     "password": {
       "type": "string",
       "private": true,
+      "configurable": false,
       "required": true
     },
     "secure": {
       "type": "boolean",
       "default": false,
+      "configurable": false,
       "required": true
     }
   }
