@@ -17,22 +17,27 @@
   },
   "attributes": {
     "host": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "port": {
       "type": "integer",
-      "default": 143
+      "default": 143,
+      "required": true
     },
     "user": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "password": {
       "type": "string",
-      "private": true
+      "private": true,
+      "required": true
     },
     "secure": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "required": true
     }
   }
 }
