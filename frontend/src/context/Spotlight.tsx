@@ -7,6 +7,7 @@ import { useQuery } from "react-query"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useAuthContext } from "./authContext"
 import { useRouter } from "next/router"
+import { Avatar } from "@mantine/core"
 
 // const actions: SpotlightAction[] = [
 //   {
@@ -51,14 +52,34 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
     }
   )
 
-  const actions: SpotlightAction[] = data?.orders
-    ? data?.orders.map((val: any) => ({
-        title: val.name,
-        description: val.status + " , Data oddania: " + val.dateOfCompletion,
-        // onTrigger: () => {},
-        onTrigger: () => router.push("/erp/" + "orders" + "/" + val.id),
-      }))
-    : []
+  const actions: SpotlightAction[] = [
+    ...(data?.orders
+      ? data?.orders.map((val: any) => ({
+          title: val.name,
+          description: val.status + " , Data oddania: " + val.dateOfCompletion,
+          // onTrigger: () => {},
+          onTrigger: () => router.push("/erp/" + "orders" + "/" + val.id),
+          group: "Zamówienia",
+        }))
+      : []),
+    ...(data?.clients
+      ? data?.clients.map((val: any) => ({
+          title: `${val.firstname} ${val.lastname}`,
+          description: val.username,
+          // onTrigger: () => {},
+          onTrigger: () => router.push("/erp/" + "clients" + "/" + val.id),
+          group: "Klienci",
+          icon: val && (
+            <Avatar radius="xl">
+              {val?.firstname?.[0]}
+              {val?.lastname?.[0]}
+            </Avatar>
+          ),
+        }))
+      : []),
+  ]
+
+  console.log(data, actions)
 
   return (
     <SpotlightProvider

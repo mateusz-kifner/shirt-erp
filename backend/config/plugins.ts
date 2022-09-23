@@ -65,6 +65,22 @@ module.exports = ({ env }) => ({
                 name: "username",
                 weight: 100,
               },
+              {
+                name: "firstname",
+                weight: 100,
+              },
+              {
+                name: "lastname",
+                weight: 100,
+              },
+              {
+                name: "email",
+                weight: 100,
+              },
+              {
+                name: "companyName",
+                weight: 100,
+              },
             ],
           },
         },
