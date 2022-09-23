@@ -36,12 +36,16 @@ export default factories.createCoreController(
       async refresh(ctx) {
         const now = Math.floor(Date.now() / 1000);
         if (last_update > now) {
-          try {
-            ctx.body = "refresh in: " + (last_update - now).toString() + "s";
-          } catch (err) {
-            ctx.body = err;
-          }
-          return;
+          return {
+            data: {
+              success: false,
+              error:
+                "refreshed too fast, next refresh will be available in " +
+                (last_update - now).toString() +
+                "s",
+              timeToNextRefresh: (last_update - now).toString(),
+            },
+          };
         }
         last_update = now + refreshMinWait;
         /**
@@ -278,13 +282,7 @@ export default factories.createCoreController(
           }
         }
 
-        try {
-          ctx.body =
-            "refresh successful, new emails found: " + email_count.toString();
-        } catch (err) {
-          ctx.body = err;
-        }
-        return;
+        return { data: { success: true, newEmailFound: email_count } };
       },
     };
   }

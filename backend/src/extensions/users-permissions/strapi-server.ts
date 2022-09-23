@@ -15,10 +15,10 @@ module.exports = (plugin) => {
           welcomeMessageHash: ctx?.request?.body?.welcomeMessageHash,
         });
 
-      ctx.body = { success: true };
+      return { success: true };
     } catch (err) {
       strapi.log.error(err);
-      ctx.body = { success: false };
+      return { success: false };
     }
   };
   // console.log(plugin.routes["content-api"].routes);

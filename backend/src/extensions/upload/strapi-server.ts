@@ -3,7 +3,6 @@
 const { sanitize } = require("@strapi/utils");
 // const Crypto = require("crypto");
 const file_content_type = require("./content-types/file");
-import { Strapi as strapi } from "@strapi/strapi";
 
 import fs from "fs";
 // function randomString(size = 48) {
