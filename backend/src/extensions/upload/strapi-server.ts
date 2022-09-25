@@ -1,12 +1,10 @@
 "use strict";
 
-import publicController from "./server/controllers/public";
-import downloadController from "./server/controllers/download";
-import controllers from "./server/controllers";
+import controllers from "./controllers";
 
-import routes from "./server/routes";
+import routes from "./routes";
 
-import file_content_type from "./server/content-types/file";
+// import file_content_type from "./content-types/file";
 
 export default (plugin) => {
   plugin.controllers["content-api"] = {
@@ -19,7 +17,7 @@ export default (plugin) => {
     ...routes,
   ];
 
-  plugin.contentTypes.file.schema = file_content_type.schema;
+  // plugin.contentTypes.file.schema = file_content_type.schema;
 
   return plugin;
 };
