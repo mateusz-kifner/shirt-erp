@@ -1,32 +1,14 @@
 "use strict";
 
-module.exports = (plugin) => {
-  // console.log(plugin);
-  plugin.controllers["user"].setWelcomeMessageHash = async (ctx, next) => {
-    try {
-      if (typeof ctx?.request?.body?.welcomeMessageHash !== "string") {
-        return ctx.badRequest("Type of welcomeMessageHash must be string");
-      }
-      if (!ctx?.state?.user?.id) throw new Error("user not found");
-      await strapi
-        .plugin("users-permissions")
-        .service("user")
-        .edit(ctx.state.user.id, {
-          welcomeMessageHash: ctx?.request?.body?.welcomeMessageHash,
-        });
+import setWelcomeMessageHash from "./controllers/setWelcomeMessageHash";
+import routes from "./routes";
 
-      return { success: true };
-    } catch (err) {
-      strapi.log.error(err);
-      return { success: false };
-    }
-  };
-  // console.log(plugin.routes["content-api"].routes);
-  plugin.routes["content-api"].routes.push({
-    method: "PUT",
-    path: "/setWelcomeMessageHash",
-    handler: "user.setWelcomeMessageHash",
-  });
+export default (plugin) => {
+  plugin.controllers["user"].setWelcomeMessageHash = setWelcomeMessageHash;
+  plugin.routes["content-api"].routes = [
+    ...plugin.routes["content-api"].routes,
+    ...routes,
+  ];
 
   return plugin;
 };
