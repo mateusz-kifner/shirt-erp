@@ -4,7 +4,7 @@ import controllers from "./controllers";
 
 import routes from "./routes";
 
-// import file_content_type from "./content-types/file";
+import file_content_type from "./content-types/file";
 
 export default (plugin) => {
   plugin.controllers["content-api"] = {
@@ -17,7 +17,7 @@ export default (plugin) => {
     ...routes,
   ];
 
-  // plugin.contentTypes.file.schema = file_content_type.schema;
+  plugin.contentTypes.file = file_content_type;
 
   return plugin;
 };

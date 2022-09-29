@@ -1,6 +1,6 @@
 "use strict";
 
-const { FOLDER_MODEL_UID } = require("../../../constants");
+const { FOLDER_MODEL_UID } = require("../../constants");
 
 export default {
   collectionName: "files",
