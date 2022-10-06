@@ -1,10 +1,15 @@
 import url from "url";
 
 export default (config, { strapi }) => {
-  return (context, next) => {
+  return async (context, next) => {
     const urlParams = url.parse(context.request.url, true);
 
-    console.log(urlParams);
-    next();
+    if (
+      urlParams.pathname.startsWith("/upload") ||
+      urlParams.pathname.startsWith("/api/upload")
+    ) {
+      return context.forbidden();
+    }
+    return await next();
   };
 };

@@ -119,9 +119,10 @@ interface EditableProps {
   template: { [key: string]: any }
   data: { [key: string]: any }
   onSubmit?: (key: string, value: any) => void
+  refresh?: () => void
 }
 
-const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
+const Editable: FC<EditableProps> = ({ template, data, onSubmit, refresh }) => {
   const { debug } = useAuthContext()
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))
@@ -143,7 +144,19 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit }) => {
         if (key === "id" && debug === true)
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
-        const onSubmitEntry = (value: any) => onSubmit?.(key, value)
+        const onSubmitEntry = (value: any) => {
+          onSubmit?.(key, value)
+          onSubmit &&
+            template[key].onSubmitTrigger &&
+            template[key].onSubmitTrigger(
+              key,
+              value,
+              data,
+              (key: string, value: any) => {
+                onSubmit(key, value)
+              }
+            )
+        }
         if (!(key in template))
           return debug === true ? (
             <NotImplemented

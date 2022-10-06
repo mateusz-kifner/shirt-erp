@@ -1,6 +1,6 @@
 import { useId, useState } from "react"
 
-import template from "../../../models/order.model.json"
+import template from "../../../models/order.model"
 import * as XLSX from "xlsx"
 import EditableTable from "../../../components/editable/EditableTable"
 import TableType from "../../../types/TableType"
