@@ -10,15 +10,15 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.3.9",
-    "@strapi/plugin-users-permissions": "4.3.9",
-    "@strapi/strapi": "4.3.9",
-    "imapflow": "^1.0.108",
+    "@strapi/plugin-i18n": "4.4.3",
+    "@strapi/plugin-users-permissions": "4.4.3",
+    "@strapi/strapi": "4.4.3",
+    "imapflow": "^1.0.109",
     "lodash": "^4.17.21",
     "mailparser": "^3.5.0",
     "mime-types": "^2.1.35",
     "pg": "8.8.0",
-    "strapi-plugin-fuzzy-search": "^1.9.4",
+    "strapi-plugin-fuzzy-search": "^1.10.2",
     "strapi-plugin-transformer": "^2.1.0"
   },
   "devDependencies": {},

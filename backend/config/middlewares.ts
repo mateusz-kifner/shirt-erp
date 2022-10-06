@@ -7,7 +7,7 @@ module.exports = [
         // useDefaults: true
         directives: {
           "connect-src": ["'self'", "https:"],
-          "img-src": ["'self'", "data:", "blob:", "https://dl.airtable.com"],
+          "img-src": ["'self'", "data:", "blob:"],
           "media-src": ["'self'", "data:", "blob:"],
           "worker-src": ["'self'", "data:", "blob:"],
           upgradeInsecureRequests: null,
@@ -28,7 +28,8 @@ module.exports = [
     },
   },
   "strapi::session",
-  "global::secure-files",
+  // "global::secure-files",
+  "plugin::upload.secure-route",
   "strapi::favicon",
   "strapi::public",
 ];
