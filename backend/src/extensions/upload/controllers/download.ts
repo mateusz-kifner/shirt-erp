@@ -6,7 +6,7 @@ async function downloadController(ctx, next) {
     const file = await strapi.plugins.upload.services.upload.findOne(id);
     if (!file) return ctx.badRequest("File not found");
 
-    const path = "/public/" + file.url;
+    const path = "./public/" + file.url;
 
     ctx.type = file.mime;
     ctx.set(
@@ -15,7 +15,7 @@ async function downloadController(ctx, next) {
         encodeURI(file.name + (file.name.endsWith(file.ext) ? "" : file.ext))
     );
     // console.log({ ...ctx });
-    console.log(file.name + file.ext);
+    // console.log(file.name + file.ext);
     ctx.body = await fs.createReadStream(path);
     await ctx.response.send(ctx.body);
     return ctx.body;

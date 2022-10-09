@@ -1,7 +1,7 @@
 "use strict";
 
 import controllers from "./controllers";
-import secureRoute from "./middlewares/secure-route";
+import secureFiles from "./middlewares/secure-files";
 
 import routes from "./routes";
 
@@ -19,13 +19,10 @@ export default (plugin) => {
   ];
 
   plugin.contentTypes.file = file_content_type;
-  plugin.middlewares = { "secure-route": secureRoute };
-
-  for (let route of plugin.routes["content-api"].routes) {
-    route.config = { middlewares: ["plugin::upload.secure-route"] };
-    console.log(route);
-  }
-  console.log(plugin);
+  /**  secure-files middleware MUST be added to ./config/middlewares.ts because it's hijacking koa static routeing
+   * plugin::upload.secure-files
+   */
+  plugin.middlewares = { "secure-files": secureFiles };
 
   return plugin;
 };

@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU5MDk4ODgwLCJleHAiOjE2NjE2OTA4ODB9.aOiihiG-_D3rv3M24zvy257XI2J6uiiHX-AuPk22FNs
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1MzMwMjI5LCJleHAiOjE2Njc5MjIyMjl9.4l4ER9ObS_S1n3WAIWgOAyxmZD3Zj0nwmCopadracRs
 
 @host=http://localhost:1337
 ###
@@ -121,7 +121,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/download/68?token=eDIodVnlvILH_4VyeWjX3JvHF6ShVRAjb-gVh5Ud2BCzTkNM
+GET {{host}}/api/upload/download/317?token=KUf5xP4Ub2KJjTXupyuUPpL7KV10Lf-4MXtNAR7tAy6tF6bd
 # Content-Type: application/json
 # Authorization: Bearer {{authToken}}
 

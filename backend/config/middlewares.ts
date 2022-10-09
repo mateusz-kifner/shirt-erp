@@ -28,8 +28,7 @@ module.exports = [
     },
   },
   "strapi::session",
-  // "global::secure-files",
-  "plugin::upload.secure-route",
+  "plugin::upload.secure-files",
   "strapi::favicon",
   "strapi::public",
 ];
