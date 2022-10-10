@@ -121,6 +121,13 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+GET {{host}}/api/upload/download/305
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+###
+
 GET {{host}}/api/upload/download/317?token=KUf5xP4Ub2KJjTXupyuUPpL7KV10Lf-4MXtNAR7tAy6tF6bd
 # Content-Type: application/json
 # Authorization: Bearer {{authToken}}

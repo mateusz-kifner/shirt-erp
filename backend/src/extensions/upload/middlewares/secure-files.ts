@@ -1,5 +1,7 @@
 import url from "url";
 
+let permissions: any[] = [];
+
 export default (config, { strapi }) => {
   return async (context, next) => {
     const urlParams = url.parse(context.request.url, true);
@@ -45,24 +47,45 @@ export default (config, { strapi }) => {
 
     if (context?.request?.header?.authorization) {
       try {
+        // get auth data from token
         const jwt_data = await strapi.plugins[
           "users-permissions"
         ].services.jwt.getToken(context);
+        // find auth user
         const user = await strapi.plugins[
           "users-permissions"
         ].services.user.fetch(jwt_data.id, { populate: ["role"] });
-        const permissions = await strapi.plugins[
-          "users-permissions"
-        ].services.role.findOne(user.role.id);
-        const route_permissions =
-          permissions.permissions["plugin::upload"].controllers["content-api"];
-        if (is_file_path && route_permissions.allow_access_to_uploads.enabled)
+        // populate permissions cache
+        if (permissions.length === 0) {
+          // get all permissions (limited fields)
+          const permissions_list = await strapi
+            .query("plugin::users-permissions.role")
+            .findMany();
+          // populate all fields in permissions
+          permissions = await Promise.all(
+            permissions_list.map(
+              async (permission) =>
+                await strapi.plugins["users-permissions"].services.role.findOne(
+                  permission.id
+                )
+            )
+          );
+        }
+        // get permissions from user role
+        const route_permissions = permissions.filter(
+          (permission) => permission.id === user.role.id
+        )[0].permissions["plugin::upload"].controllers["content-api"];
+        // if can access files allow
+        if (is_file_path && route_permissions.allow_access_to_uploads.enabled) {
           return await next();
+        }
+        // if can download files allow
         if (
           is_download_path &&
           route_permissions.allow_access_to_api_file_download.enabled
-        )
+        ) {
           return await next();
+        }
       } catch (err) {
         strapi.log.error(err);
         return await context.unauthorized("Missing or invalid credentials");
