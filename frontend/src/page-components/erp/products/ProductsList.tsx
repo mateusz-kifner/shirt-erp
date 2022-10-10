@@ -35,6 +35,7 @@ const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
       filterKeys={["name", "codeName"]}
       onAddElement={onAddElement}
       showAddButton
+      exclude={{ username: "Szablon" }}
     />
   )
 }

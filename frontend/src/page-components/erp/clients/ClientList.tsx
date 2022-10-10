@@ -35,6 +35,7 @@ const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
       filterKeys={["username", "firstname", "email", "companyName"]}
       onAddElement={onAddElement}
       showAddButton
+      exclude={{ username: "Szablon" }}
     />
   )
 }

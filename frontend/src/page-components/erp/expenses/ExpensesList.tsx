@@ -36,6 +36,7 @@ const ExpensesList = ({ selectedId, onAddElement }: ExpenseListProps) => {
       filterKeys={["name"]}
       onAddElement={onAddElement}
       showAddButton
+      exclude={{ username: "Szablon" }}
     />
   )
 }
