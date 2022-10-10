@@ -4,6 +4,7 @@ import { useHover } from "@mantine/hooks"
 import { FC, useEffect, useState, useRef } from "react"
 
 // FIXME: respect disabled state
+// TODO: Remake this to respect height
 
 interface EditableBoolProps {
   label?: string

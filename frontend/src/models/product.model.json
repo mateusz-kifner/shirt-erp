@@ -7,11 +7,6 @@
     "initialValue": "",
     "required": true
   },
-  "codeName": {
-    "label": "Kod produktu",
-    "type": "text",
-    "initialValue": ""
-  },
   "category": {
     "label": "Kategoria",
     "type": "enum",
@@ -31,12 +26,6 @@
     "type": "text",
     "initialValue": "",
     "maxLength": 4095
-  },
-  "colors": {
-    "label": "Kolory",
-    "type": "array",
-    "arrayType": "color",
-    "initialValue": []
   },
   "iconId": {
     "label": "Ikona",

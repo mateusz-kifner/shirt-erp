@@ -16,36 +16,25 @@
       "type": "string"
     },
     "category": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "description": {
-      "type": "text",
-      "default": ""
+      "type": "text"
     },
     "previewImages": {
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": ["images"]
-    },
-    "colors": {
-      "type": "component",
-      "repeatable": true,
-      "component": "types.color"
-    },
-    "sizes": {
-      "type": "component",
-      "repeatable": true,
-      "component": "additions.product-data"
-    },
-    "codeName": {
-      "type": "string",
-      "default": ""
+      "allowedTypes": [
+        "images"
+      ]
     },
     "iconId": {
       "type": "integer",
       "default": -1
+    },
+    "variants": {
+      "type": "json"
     }
   }
 }
