@@ -83,11 +83,15 @@ const EditableBool: FC<EditableBoolProps> = (props) => {
                 checked={bool}
                 onLabel={checkLabels.checked}
                 offLabel={checkLabels.unchecked}
-                style={{ display: "inline-block" }}
+                style={{
+                  display: "inline-block",
+                  top: -12,
+                  position: "relative",
+                }}
               />
             )
           ) : (
-            <Text weight={700}>
+            <Text weight={700} style={{ minHeight: 37 }}>
               {bool ? stateLabels.checked : stateLabels.unchecked}
             </Text>
           )}
