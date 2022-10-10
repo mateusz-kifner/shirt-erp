@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect } from "react"
-import { QueryKey, useQuery, UseQueryOptions } from "react-query"
+import { useQuery, UseQueryOptions } from "react-query"
 import qs from "qs"
 
 const fetchData = async <T = any,>(
@@ -66,10 +66,16 @@ function useStrapiList<entryType>(
       >,
       "queryKey"
     >
+    exclude?: { [key: string]: string }
   } = {}
 ) {
   const pageSize = options?.pageSize ?? 10
-  const { data, status, refetch, isLoading } = useQuery<
+  const {
+    data: rawData,
+    status,
+    refetch,
+    isLoading,
+  } = useQuery<
     any,
     unknown,
     { data: entryType; meta: any } | undefined,
@@ -80,14 +86,25 @@ function useStrapiList<entryType>(
       fetchData(entryName, page, filterKeys, filterQuery, sortOrder, pageSize),
     { ...options?.queryOptions }
   )
-
+  const data = rawData && "data" in rawData ? rawData?.data : rawData
+  const filteredData = Array.isArray(data)
+    ? data.filter((val) => {
+        for (const key in options?.exclude) {
+          if (val[key]?.startsWith(options?.exclude[key])) {
+            return false
+          }
+        }
+        return true
+      })
+    : undefined
+  console.log(filteredData)
   useEffect(() => {
     refetch()
     // eslint-disable-next-line
   }, [page, pageSize])
   return {
-    data: data && "data" in data ? data?.data : data,
-    meta: data?.meta,
+    data: filterQuery ? data : filteredData,
+    meta: rawData?.meta,
     status,
     refetch,
   }

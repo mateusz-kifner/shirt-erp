@@ -35,6 +35,7 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       filterKeys={["name", "notes"]}
       onAddElement={onAddElement}
       showAddButton
+      exclude={{ name: "Szablon" }}
     />
   )
 }

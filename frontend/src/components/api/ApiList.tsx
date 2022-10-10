@@ -34,6 +34,7 @@ interface ApiListProps<T = any> {
   listItemProps?: { linkTo: (val: T) => string } | any
   selectedId?: number | null
   filterKeys?: string[]
+  exclude?: { [key: string]: string }
   onAddElement?: () => void
   defaultSearch?: string
   showAddButton?: boolean
@@ -50,6 +51,7 @@ const ApiList = <T extends any>({
   listItemProps = {},
   selectedId,
   filterKeys,
+  exclude,
   onAddElement,
   defaultSearch,
   showAddButton,
@@ -67,7 +69,8 @@ const ApiList = <T extends any>({
     page,
     filterKeys,
     debouncedQuery,
-    sortOrder
+    sortOrder,
+    { exclude }
   )
 
   const theme = useMantineTheme()
