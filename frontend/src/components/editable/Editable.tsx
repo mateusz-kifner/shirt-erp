@@ -1,5 +1,5 @@
 import { ComponentType, FC } from "react"
-import { Text } from "@mantine/core"
+import { Group, Text } from "@mantine/core"
 import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
 import EditableRichText from "./EditableRichText"
@@ -102,6 +102,7 @@ const Fields: {
 }
 
 const Field = (props: any) => {
+  console.log(props)
   let componentProps = Fields[props.type].props
   if (props.type === "apiEntry" || props.type === "apiEntryId") {
     if (props.entryName in ApiProps) {
@@ -190,6 +191,25 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit, refresh }) => {
                 type: template[key].arrayType,
               }}
             />
+          )
+        } else if (component_type == "group") {
+          return (
+            <Group key={uuid + key}>
+              {Object.keys(template[key].group as Object).map(
+                (key2: string, index: number) => {
+                  console.log(template[key]?.group?.[key2])
+                  return (
+                    <Field
+                      value={data[key]?.group?.[key2]}
+                      {...template[key]?.group?.[key2]}
+                      // onSubmit={onSubmitEntry}
+                      key={uuid + key + "_" + index}
+                      style={{ flexGrow: 1 }}
+                    />
+                  )
+                }
+              )}
+            </Group>
           )
         }
 

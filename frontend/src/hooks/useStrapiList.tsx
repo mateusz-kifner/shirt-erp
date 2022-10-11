@@ -97,7 +97,6 @@ function useStrapiList<entryType>(
         return true
       })
     : undefined
-  console.log(filteredData)
   useEffect(() => {
     refetch()
     // eslint-disable-next-line

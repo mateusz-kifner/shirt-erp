@@ -37,6 +37,19 @@
     "type": "files",
     "maxFileCount": 10
   },
+  "variants": {
+    "type": "group",
+    "group": {
+      "color": {
+        "label": "Kolor",
+        "type": "color"
+      },
+      "size": {
+        "label": "Rozmiar",
+        "type": "text"
+      }
+    }
+  },
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
