@@ -8,6 +8,7 @@ import { BuildingCommunity, Copy, Edit, X } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
+import _ from "lodash"
 
 const provinces = [
   "dolnośląskie",
@@ -69,22 +70,34 @@ const EditableAddress: FC<EditableAddressProps> = ({
   const ref = useClickOutside(() => setActive(false))
 
   const setAddressField = (key: string, val: string) => {
-    setAddress((old_value) => ({ ...old_value, [key]: val }))
+    const new_address = { ...address, [key]: val }
+    if (!_.isEqual(prevAddress, new_address)) {
+      onSubmit && onSubmit(new_address)
+      setAddress(new_address)
+      setPrevAddress({ ...new_address })
+    }
   }
 
   useEffect(() => {
     if (active) {
-      setPrevAddress(address)
+      setPrevAddress({ ...address })
     }
     // eslint-disable-next-line
   }, [active])
 
   useEffect(() => {
-    if (address !== prevAddress) {
-      onSubmit && onSubmit(address)
+    if (value && !_.isEqual(address, value)) {
+      setAddress({ ...value })
     }
-    // eslint-disable-next-line
-  }, [address])
+  }, [
+    value?.streetName,
+    value?.streetNumber,
+    value?.apartmentNumber,
+    value?.secondLine,
+    value?.postCode,
+    value?.city,
+    value?.province,
+  ])
 
   const toString = () => {
     return (

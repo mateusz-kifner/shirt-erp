@@ -21,7 +21,9 @@ const fetchData = async (
   if (!id) return
   if (!entryName) return
   const res = await axios.get(
-    `/${entryName}/${id}${query && query.length > 0 ? "?" + query : ""}`
+    `/${entryName}/${id}${
+      query && query.length > 0 ? "?" + query : "?populate=%2A"
+    }`
   )
   return res.data
 }
@@ -49,7 +51,7 @@ const updateEntry = async (
   if (!data) return
   if (!entryName) return
   if (!id) return
-  const res = await axios.put(`/${entryName}/${id}`, data)
+  const res = await axios.put(`/${entryName}/${id}?populate=%2A`, data)
   return res.data
 }
 
@@ -170,7 +172,15 @@ function useStrapi<EntryType>(
     return addMutation.mutateAsync({ data: entry })
   }
   async function update(entry: Partial<EntryType>) {
-    return updateMutation.mutateAsync({ data: entry })
+    return updateMutation.mutateAsync(
+      { data: entry },
+      {
+        onSuccess: (data) => {
+          console.log("update", data)
+          queryClient.setQueryData([entryName + "_one", id], data)
+        },
+      }
+    )
   }
   async function remove(id?: number) {
     return removeMutation.mutateAsync(undefined, {

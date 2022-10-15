@@ -26,6 +26,7 @@ import EditableNumber from "./EditableNumber"
 import { Cash, Numbers } from "tabler-icons-react"
 import _ from "lodash"
 import { useAuthContext } from "../../context/authContext"
+import EditableGroup from "./EditableGroup"
 
 const ApiProps: {
   [key: string]: {
@@ -102,7 +103,6 @@ const Fields: {
 }
 
 const Field = (props: any) => {
-  console.log(props)
   let componentProps = Fields[props.type].props
   if (props.type === "apiEntry" || props.type === "apiEntryId") {
     if (props.entryName in ApiProps) {
@@ -126,6 +126,7 @@ interface EditableProps {
 const Editable: FC<EditableProps> = ({ template, data, onSubmit, refresh }) => {
   const { debug } = useAuthContext()
   const uuid = useId()
+  console.log(data)
   if (!(data && Object.keys(data).length > 0))
     return (
       <Text
@@ -155,6 +156,7 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit, refresh }) => {
               data,
               (key: string, value: any) => {
                 onSubmit(key, value)
+                refresh?.()
               }
             )
         }
@@ -194,22 +196,36 @@ const Editable: FC<EditableProps> = ({ template, data, onSubmit, refresh }) => {
           )
         } else if (component_type == "group") {
           return (
-            <Group key={uuid + key}>
-              {Object.keys(template[key].group as Object).map(
-                (key2: string, index: number) => {
-                  console.log(template[key]?.group?.[key2])
-                  return (
-                    <Field
-                      value={data[key]?.group?.[key2]}
-                      {...template[key]?.group?.[key2]}
-                      // onSubmit={onSubmitEntry}
-                      key={uuid + key + "_" + index}
-                      style={{ flexGrow: 1 }}
-                    />
-                  )
-                }
-              )}
-            </Group>
+            // <EditableGroup
+            //   key={uuid + key}
+            //   Elements={{}}
+            //   // Elements={Object.keys(template[key].group as Object).map(
+            //   //   (key2: string, index: number) => {
+            //   //     // console.log(template[key]?.group?.[key2])
+            //   //     return (
+            //   //       <Field
+            //   //         value={data[key]?.group?.[key2]}
+            //   //         {...template[key]?.group?.[key2]}
+            //   //         // onSubmit={onSubmitEntry}
+            //   //         key={uuid + key + "_" + index}
+            //   //         style={{ flexGrow: 1 }}
+            //   //       />
+            //   //     )
+            //   //   }
+            //   // )}
+            // />
+            <Editable
+              key={uuid + key}
+              template={template[key].group}
+              data={data[key] ?? { __id: -1 }} // set phantom data to prevent errors
+              onSubmit={(key2, value) => {
+                console.log(data[key], key2, value, {
+                  ...data[key],
+                  [key2]: value,
+                })
+                onSubmitEntry({ ...data[key], [key2]: value })
+              }}
+            />
           )
         }
 
