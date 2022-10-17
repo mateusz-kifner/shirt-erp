@@ -11,22 +11,17 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "moduleResolution": "node",
+    "incremental": true,
+    "noUncheckedIndexedAccess": true
 
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/stories"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
+
+  "exclude": ["node_modules"]
 }

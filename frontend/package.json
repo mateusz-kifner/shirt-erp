@@ -42,7 +42,8 @@
     "scheduler": "^0.23.0",
     "tabler-icons-react": "^1.55.0",
     "turndown": "^7.1.1",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.8/xlsx-0.18.8.tgz"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.18.8/xlsx-0.18.8.tgz",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@types/color-convert": "^2.0.0",
