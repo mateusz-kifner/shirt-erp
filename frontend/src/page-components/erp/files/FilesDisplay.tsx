@@ -1,7 +1,7 @@
 import { ActionIcon, Group, Image, Text } from "@mantine/core"
 import { FC } from "react"
 import { Eye, FileUnknown, TrashX } from "tabler-icons-react"
-import { serverURL } from "../../../env"
+import { env } from "../../../env/client.mjs"
 import { FileType } from "../../../types/FileType"
 
 interface FileDisplayProps {
@@ -19,12 +19,15 @@ const FileDisplay: FC<FileDisplayProps> = (props) => {
         <Image
           src={
             typeof fileData?.formats?.thumbnail?.url === "string"
-              ? serverURL +
+              ? env.NEXT_PUBLIC_SERVER_API_URL +
                 fileData.formats.thumbnail?.url +
                 "?token=" +
                 fileData.token
               : typeof fileData?.url === "string"
-              ? serverURL + fileData.url + "?token=" + fileData.token
+              ? env.NEXT_PUBLIC_SERVER_API_URL +
+                fileData.url +
+                "?token=" +
+                fileData.token
               : undefined
           }
           alt=""

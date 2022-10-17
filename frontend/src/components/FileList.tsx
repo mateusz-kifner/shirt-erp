@@ -24,7 +24,7 @@ import {
   Eye,
   Download,
 } from "tabler-icons-react"
-import { serverURL } from "../env"
+import { env } from "../env/client.mjs"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
 import isArrayEqual from "../utils/isArrayEqual"
@@ -35,7 +35,8 @@ import getBase64FromImage from "../utils/getBase64"
 
 function getIconColor(status: any, theme: MantineTheme) {
   return status.accepted
-    ? theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6]
+    ? //@ts-ignore
+      theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6]
     : status.rejected
     ? theme.colors.red[theme.colorScheme === "dark" ? 4 : 6]
     : theme.colorScheme === "dark"
@@ -100,7 +101,7 @@ const FileList: FC<FileListProps> = ({
     console.log(formData.getAll("files"))
 
     axios
-      .post(serverURL + "/api/upload", formData)
+      .post(env.NEXT_PUBLIC_SERVER_API_URL + "/api/upload", formData)
       .then((res: any) => {
         const fileData = res.data.data[0]
         console.log(fileData)
@@ -135,7 +136,10 @@ const FileList: FC<FileListProps> = ({
 
   const onRemove = (index: number) => {
     axios
-      .delete(serverURL + `/api/upload/files/${filesData[index].file?.id}`)
+      .delete(
+        env.NEXT_PUBLIC_SERVER_API_URL +
+          `/api/upload/files/${filesData[index]?.file?.id}`
+      )
       .then((value) => {
         console.log(value)
       })
@@ -180,7 +184,10 @@ const FileList: FC<FileListProps> = ({
             for (let file of files) onUpload(file)
             setDropOpened(false)
           }}
-          onReject={(file_error) => setError(file_error[0].errors[0].message)}
+          onReject={(file_error) => {
+            console.log(file_error)
+            // setError(file_error[0].errors[0].message)
+          }}
           style={{ minWidth: "100%" }}
           multiple={maxFileCount !== 1}
         >
@@ -289,7 +296,7 @@ const FileList: FC<FileListProps> = ({
             <ActionIcon
               component="a"
               href={
-                serverURL +
+                env.NEXT_PUBLIC_SERVER_API_URL +
                 "/api/upload/download/" +
                 val?.file?.id +
                 "?token=" +

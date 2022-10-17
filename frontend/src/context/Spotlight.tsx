@@ -79,7 +79,7 @@ const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
       : []),
   ]
 
-  console.log(data, actions)
+  // console.log(data, actions)
 
   return (
     <SpotlightProvider

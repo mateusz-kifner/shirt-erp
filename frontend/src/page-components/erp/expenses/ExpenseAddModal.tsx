@@ -59,9 +59,8 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
               return setError("Musisz podać nie pustą nazwę wydatków")
             let new_expense = template ? template : {}
             new_expense?.id && delete new_expense?.id
-
-            add(new_expense)
-            console.log(new_expense)
+            new_expense.name = expenseName
+            add(new_expense).then(() => onClose())
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

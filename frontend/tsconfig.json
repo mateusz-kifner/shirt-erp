@@ -18,7 +18,6 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "incremental": true,
-    "noUncheckedIndexedAccess": true
 
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

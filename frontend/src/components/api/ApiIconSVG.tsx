@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { X } from "tabler-icons-react"
 import SVG from "react-inlinesvg"
-import { serverURL } from "../../env"
+import { env } from "../../env/client.mjs"
 import { useMantineTheme } from "@mantine/core"
 import { useAuthContext } from "../../context/authContext"
 import { IconType, useIconsContext } from "../../context/iconsContext"
@@ -36,13 +36,13 @@ const ApiIconSVG: FC<ApiIconSVGProps> = ({
           (val: IconType) => val.id === id
         )
       : []
-  const url = icon?.length > 0 ? icon[0].url : ""
+  const url = icon.length > 0 ? icon[0]?.url : ""
   if (!entryName) return null
   return (
     <>
       {url ? (
         <SVG
-          src={serverURL + url}
+          src={env.NEXT_PUBLIC_SERVER_API_URL + url}
           fill={new_color}
           width={new_size}
           height={new_size}

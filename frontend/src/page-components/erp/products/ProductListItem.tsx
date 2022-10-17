@@ -30,24 +30,24 @@ const ProductListItem = ({
         value && (
           <Avatar
             // style={{ backgroundColor: value.attributes.color?.hex }}
-            styles={{
-              placeholder: { backgroundColor: value?.color?.hex },
-            }}
+            // styles={{
+            //   placeholder: { backgroundColor: value?.color?.hex },
+            // }}
             radius="xl"
           >
             {value?.iconId && (
               <ApiIconSVG
                 entryName="productCategories"
                 id={value?.iconId}
-                color={
-                  value?.color?.hex
-                    ? convert.hex.hsl(value.color.hex)[2] < 0.5
-                      ? "#fff"
-                      : "#000"
-                    : theme.colorScheme === "dark"
-                    ? "#fff"
-                    : "#000"
-                }
+                // color={
+                //   value?.color?.hex
+                //     ? convert.hex.hsl(value.color.hex)[2] < 0.5
+                //       ? "#fff"
+                //       : "#000"
+                //     : theme.colorScheme === "dark"
+                //     ? "#fff"
+                //     : "#000"
+                // }
                 noError
               />
             )}
@@ -55,7 +55,7 @@ const ProductListItem = ({
         )
       }
       label={value ? value?.name && truncString(value.name, 20) : "⸺"}
-      description={value?.codeName && truncString(value.codeName, 40)}
+      // description={value?.codeName && truncString(value.codeName, 40)}
       onClick={() => onChange?.(value)}
       active={active}
       // @ts-ignore

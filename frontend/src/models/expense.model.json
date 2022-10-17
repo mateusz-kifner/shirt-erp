@@ -11,10 +11,20 @@
     "label": "Cena",
     "type": "money"
   },
-
   "items": {
     "label": "Produkty",
-    "type": "test"
+    "type": "array",
+    "arrayType": "group",
+    "group": {
+      "name": {
+        "label": "nazwa",
+        "type": "text"
+      },
+      "count": {
+        "label": "ilość",
+        "type": "number"
+      }
+    }
   },
   "createdAt": {
     "label": "Utworzono",
