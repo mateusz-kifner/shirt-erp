@@ -1,10 +1,11 @@
 import { ActionIcon, Modal } from "@mantine/core"
 import { useLocalStorage } from "@mantine/hooks"
-import React, { useId, useState } from "react"
+import React, { useId } from "react"
 import { QuestionMark } from "tabler-icons-react"
+import { env } from "../env/server.mjs"
 
 const EnvMessage = () => {
-  const message = process.env.NEXT_PUBLIC_START_MESSAGE
+  const message = env.NEXT_PUBLIC_START_MESSAGE
   const [envMessageOpen, setEnvMessageOpen] = useLocalStorage({
     key: "env-message",
     defaultValue: true,

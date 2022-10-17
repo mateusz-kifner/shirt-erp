@@ -8,13 +8,13 @@ import Logger from "js-logger"
 import axios from "axios"
 import { ReactQueryDevtools } from "react-query/devtools"
 import { showNotification } from "@mantine/notifications"
-import { serverURL } from "../env"
 import UIProvider from "../components/layout/UIProvider"
 import { AuthProvider } from "../context/authContext"
 import { IconsProvider } from "../context/iconsContext"
 import { ExperimentalFuturesProvider } from "../context/experimentalFuturesContext"
+import { env } from "../env/server.mjs"
 
-axios.defaults.baseURL = serverURL + "/api"
+axios.defaults.baseURL = env.NEXT_PUBLIC_SERVER_API_URL + "/api"
 
 const queryClient = new QueryClient()
 
@@ -53,9 +53,7 @@ Logger.setHandler(function (messages, context) {
   }
 })
 
-Logger.setLevel(
-  process.env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN
-)
+Logger.setLevel(env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN)
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props
