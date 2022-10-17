@@ -12,7 +12,7 @@ import UIProvider from "../components/layout/UIProvider"
 import { AuthProvider } from "../context/authContext"
 import { IconsProvider } from "../context/iconsContext"
 import { ExperimentalFuturesProvider } from "../context/experimentalFuturesContext"
-import { env } from "../env/server.mjs"
+import { env } from "../env/client.mjs"
 
 axios.defaults.baseURL = env.NEXT_PUBLIC_SERVER_API_URL + "/api"
 
@@ -53,7 +53,9 @@ Logger.setHandler(function (messages, context) {
   }
 })
 
-Logger.setLevel(env.NODE_ENV === "development" ? Logger.INFO : Logger.WARN)
+Logger.setLevel(
+  env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN
+)
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props

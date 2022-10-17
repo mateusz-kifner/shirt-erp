@@ -35,6 +35,7 @@ export const serverSchema = z.object({
 export const clientSchema = z.object({
   NEXT_PUBLIC_SERVER_API_URL: z.string().optional(),
   NEXT_PUBLIC_START_MESSAGE: z.string().optional(),
+  NEXT_PUBLIC_NODE_ENV: z.enum(["development", "test", "production"]),
 })
 
 /**
@@ -54,4 +55,5 @@ export const clientEnv = {
       return `${origin_split[0]}:${origin_split[1]}:1337`
     })(),
   NEXT_PUBLIC_START_MESSAGE: process.env.NEXT_PUBLIC_START_MESSAGE,
+  NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
 }

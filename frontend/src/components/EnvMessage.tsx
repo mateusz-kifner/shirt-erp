@@ -2,7 +2,7 @@ import { ActionIcon, Modal } from "@mantine/core"
 import { useLocalStorage } from "@mantine/hooks"
 import React, { useId } from "react"
 import { QuestionMark } from "tabler-icons-react"
-import { env } from "../env/server.mjs"
+import { env } from "../env/client.mjs"
 
 const EnvMessage = () => {
   const message = env.NEXT_PUBLIC_START_MESSAGE
