@@ -1,4 +1,4 @@
-import { Stack } from "@mantine/core"
+import { Stack, Text } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import useStrapi from "../../hooks/useStrapi"
@@ -53,8 +53,19 @@ const ApiEntryEditable = <EntryType extends any>({
           right: 8,
         }}
       />
-      {data && (
+      {data && Object.keys(data).length > 0 ? (
         <Editable template={template} data={data as any} onSubmit={apiUpdate} />
+      ) : (
+        <Text
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+          }}
+        >
+          Brak danych
+        </Text>
       )}
     </Stack>
   )

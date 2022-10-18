@@ -36,6 +36,11 @@ const testData = {
   employee: null,
   employees: null,
   submit: null,
+
+  group: { name: "test", color: { name: "White", hex: "#ff0022" } },
+  group2: { name: "test", color: { name: "White", hex: "#ff0022" } },
+  group3: { name: {}, color: { name: "White", hex: "#ff0022" } },
+  group_of_arrays: { arrayText: [], arrayText2: [] },
 }
 
 const SettingsPage: FC = () => {

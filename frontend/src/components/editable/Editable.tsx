@@ -1,5 +1,5 @@
-import { ComponentType, FC } from "react"
-import { Group, Text } from "@mantine/core"
+import { ComponentType, CSSProperties, FC } from "react"
+import { Box, Group, MantineTheme, Sx, Text } from "@mantine/core"
 import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
 import EditableRichText from "./EditableRichText"
@@ -27,6 +27,7 @@ import { Cash, Numbers } from "tabler-icons-react"
 import _ from "lodash"
 import { useAuthContext } from "../../context/authContext"
 import EditableGroup from "./EditableGroup"
+import { SxBorder, SxRadius } from "../../styles/basic"
 
 const ApiProps: {
   [key: string]: {
@@ -70,7 +71,13 @@ const ApiProps: {
 }
 
 const Fields: {
-  [key: string]: { component: ComponentType<any>; props: any }
+  [key: string]: {
+    component: ComponentType<any>
+    props: { [index: string]: any }
+    propsTransform?: (props: { [index: string]: any }) => {
+      [index: string]: any
+    }
+  }
 } = {
   text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
@@ -98,146 +105,161 @@ const Fields: {
   file: { component: EditableFiles, props: { maxCount: 1 } },
   image: { component: EditableFiles, props: { maxCount: 1 } },
   files: { component: EditableFiles, props: {} },
-  apiEntry: { component: EditableApiEntry, props: {} },
-  apiEntryId: { component: EditableApiEntryId, props: {} },
+  apiEntry: {
+    component: EditableApiEntry,
+    props: {},
+    propsTransform: (props) => {
+      let newProps = { ...props }
+      if (props.entryName in ApiProps) {
+        newProps["Element"] = ApiProps[props.entryName].ListItem
+        newProps["copyProvider"] = ApiProps[props.entryName].copyProvider
+      } else {
+        newProps["Element"] = makeDefaultListItem("name")
+      }
+      return newProps
+    },
+  },
+  apiEntryId: {
+    component: EditableApiEntryId,
+    props: {},
+    propsTransform: (props) => {
+      let newProps = { ...props }
+      if (props.entryName in ApiProps) {
+        newProps["Element"] = ApiProps[props.entryName].ListItem
+        newProps["copyProvider"] = ApiProps[props.entryName].copyProvider
+      } else {
+        newProps["Element"] = makeDefaultListItem("name")
+      }
+      return newProps
+    },
+  },
+  group: {
+    component: EditableWrapper,
+    props: {
+      sx: [
+        SxBorder,
+        SxRadius,
+        (theme: MantineTheme) => ({
+          padding: theme.spacing.xs,
+          display: "flex",
+          gap: theme.spacing.xs,
+          "&>*": { flex: "1" },
+        }),
+      ],
+    },
+    propsTransform: (props) => {
+      let newProps = {
+        ...props,
+        data: props.value ?? {},
+        onSubmit: (key: string, value: any, data: any) => {
+          console.log("group submit", key, value, data)
+          props.onSubmit({ ...data, [key]: value })
+        },
+      }
+
+      return newProps
+    },
+  },
+  array: {
+    component: EditableArray,
+    props: {},
+    propsTransform: (props) => {
+      let newProps = {
+        ...props,
+        Element: Field,
+        elementProps: {
+          ...props,
+          type: props.arrayType,
+        },
+      }
+      return newProps
+    },
+  },
 }
 
-const Field = (props: any) => {
-  let componentProps = Fields[props.type].props
-  if (props.type === "apiEntry" || props.type === "apiEntryId") {
-    if (props.entryName in ApiProps) {
-      componentProps["Element"] = ApiProps[props.entryName].ListItem
-      componentProps["copyProvider"] = ApiProps[props.entryName].copyProvider
-    } else {
-      componentProps["Element"] = makeDefaultListItem("name")
-    }
+function Field(props: any) {
+  let newProps = { ...Fields[props.type].props, ...props }
+  if (Fields[props.type].propsTransform) {
+    newProps = Fields[props.type]?.propsTransform?.(newProps)
   }
   const Component = Fields[props.type].component
-  return <Component {...props} {...componentProps} />
+  return <Component {...newProps} />
 }
 
 interface EditableProps {
   template: { [key: string]: any }
   data: { [key: string]: any }
-  onSubmit?: (key: string, value: any) => void
+  onSubmit?: (key: string, value: any, data: any) => void
   refresh?: () => void
 }
 
-const Editable: FC<EditableProps> = ({ template, data, onSubmit, refresh }) => {
+function EditableWrapper(
+  props: EditableProps & { style?: CSSProperties; sx?: Sx | (Sx | undefined)[] }
+) {
+  return (
+    <Box style={props.style} sx={props.sx}>
+      <Editable {...props} />
+    </Box>
+  )
+}
+
+function Editable({ template, data, onSubmit }: EditableProps) {
   const { debug } = useAuthContext()
   const uuid = useId()
-  console.log(data)
-  if (!(data && Object.keys(data).length > 0))
-    return (
-      <Text
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%,-50%)",
-        }}
-      >
-        Brak danych
-      </Text>
-    )
   return (
     <>
       {Object.keys(template).map((key) => {
-        if (key === "id" && debug === true)
+        if (debug && key === "id")
           return <Text key={uuid + key}>ID: {data[key]}</Text>
 
         const onSubmitEntry = (value: any) => {
-          onSubmit?.(key, value)
+          onSubmit?.(key, value, data)
           onSubmit &&
             template[key].onSubmitTrigger &&
             template[key].onSubmitTrigger(
               key,
               value,
               data,
-              (key: string, value: any) => {
-                onSubmit(key, value)
-                refresh?.()
+              (key: string, value: any, data: any) => {
+                onSubmit(key, value, data)
               }
             )
         }
-        if (!(key in template))
-          return debug === true ? (
+
+        if (debug && !(key in template))
+          return (
             <NotImplemented
               message={"Key doesn't have template"}
               object_key={key}
               value={data[key]}
               key={uuid + key}
             />
-          ) : null
+          )
 
         const component_type = template[key].type
         if (component_type in Fields) {
           return (
             <Field
               value={data[key]}
+              object_key={key}
               {...template[key]}
               onSubmit={onSubmitEntry}
               key={uuid + key}
-            />
-          )
-        } else if (component_type == "array") {
-          return (
-            <EditableArray
-              value={data[key]}
-              {...template[key]}
-              onSubmit={onSubmitEntry}
-              key={uuid + key}
-              Element={Field}
-              elementProps={{
-                ...template[key],
-                type: template[key].arrayType,
-              }}
-            />
-          )
-        } else if (component_type == "group") {
-          return (
-            // <EditableGroup
-            //   key={uuid + key}
-            //   Elements={{}}
-            //   // Elements={Object.keys(template[key].group as Object).map(
-            //   //   (key2: string, index: number) => {
-            //   //     // console.log(template[key]?.group?.[key2])
-            //   //     return (
-            //   //       <Field
-            //   //         value={data[key]?.group?.[key2]}
-            //   //         {...template[key]?.group?.[key2]}
-            //   //         // onSubmit={onSubmitEntry}
-            //   //         key={uuid + key + "_" + index}
-            //   //         style={{ flexGrow: 1 }}
-            //   //       />
-            //   //     )
-            //   //   }
-            //   // )}
-            // />
-            <Editable
-              key={uuid + key}
-              template={template[key].group}
-              data={data[key] ?? { __id: -1 }} // set phantom data to prevent errors
-              onSubmit={(key2, value) => {
-                console.log(data[key], key2, value, {
-                  ...data[key],
-                  [key2]: value,
-                })
-                onSubmitEntry({ ...data[key], [key2]: value })
-              }}
             />
           )
         }
-
-        return debug === true ? (
-          <NotImplemented
-            message={"Key has unknown type"}
-            object_key={key}
-            value={data[key]}
-            template={template[key]}
-            key={uuid + key}
-          />
-        ) : null
+        if (debug) {
+          return (
+            <NotImplemented
+              message={"Key has unknown type"}
+              object_key={key}
+              value={data[key]}
+              template={template[key]}
+              key={uuid + key}
+            />
+          )
+        }
+        return null
       })}
     </>
   )

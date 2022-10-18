@@ -39,14 +39,16 @@
   },
   "variants": {
     "type": "group",
-    "group": {
-      "color": {
-        "label": "Kolor",
-        "type": "color"
+    "template": {
+      "colors": {
+        "label": "Kolory",
+        "type": "array",
+        "arrayType": "color"
       },
-      "size": {
-        "label": "Rozmiar",
-        "type": "text"
+      "sizes": {
+        "label": "Rozmiary",
+        "type": "array",
+        "arrayType": "text"
       }
     }
   },

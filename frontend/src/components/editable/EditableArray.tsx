@@ -54,8 +54,15 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   const [active, setActive] = useState<boolean>(false)
   const uuid = useId()
   useEffect(() => {
-    if (isArrayEqual(items, prev)) return
-    onSubmit?.(items)
+    const filtered_items = items.filter((val) => !!val)
+    if (
+      isArrayEqual(
+        filtered_items,
+        prev.filter((val) => !!val)
+      )
+    )
+      return
+    onSubmit?.(filtered_items)
     // eslint-disable-next-line
   }, [items])
 
@@ -65,7 +72,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     setPrev(value)
     // eslint-disable-next-line
   }, [value])
-
+  // console.log("Editable Array props", props)
   return (
     <Input.Wrapper label={label} required={required}>
       <Stack
@@ -101,6 +108,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                 })}
               >
                 <Element
+                  {..._.omit(elementProps, ["label"])}
                   value={val}
                   onSubmit={(itemValue: any) => {
                     console.log("array", itemValue)
@@ -112,7 +120,6 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                       )
                   }}
                   disabled={!active}
-                  {..._.omit(elementProps, ["label"])}
                 />
               </Box>
               {active && (

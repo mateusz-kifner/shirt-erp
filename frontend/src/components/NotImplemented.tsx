@@ -1,22 +1,29 @@
 import { Title } from "@mantine/core"
-import { Prism } from "@mantine/prism"
 
 const NotImplemented = (props: any) => {
   return (
-    <div>
+    <div
+      style={{
+        border: "1px solid #f23",
+        borderRadius: 4,
+        margin: 4,
+        padding: 4,
+      }}
+    >
       <Title order={5}>
         Not implemented {props?.message ? " - " + props.message : ""}{" "}
       </Title>
-      <div
+      <code
         style={{
           overflow: "hidden",
           maxWidth: "100%",
           padding: "0",
           boxSizing: "border-box",
+          whiteSpace: "pre",
         }}
       >
-        <Prism language="json">{JSON.stringify(props, null, 2)}</Prism>
-      </div>
+        {JSON.stringify(props, null, 2)}
+      </code>
     </div>
   )
 }

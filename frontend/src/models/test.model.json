@@ -174,5 +174,68 @@
     "type": "array",
     "arrayType": "text",
     "maxCount": 10
+  },
+  "group": {
+    "label": "Grupa",
+    "type": "group",
+    "template": {
+      "name": {
+        "type": "text",
+        "label": "imie"
+      },
+      "color": {
+        "type": "color",
+        "label": "Kolor"
+      }
+    }
+  },
+  "group2": {
+    "label": "Grupa 2",
+    "type": "group",
+    "style": { "flexDirection": "column" },
+    "template": {
+      "name": {
+        "type": "text",
+        "label": "imie"
+      },
+      "color": {
+        "type": "color",
+        "label": "Kolor"
+      }
+    }
+  },
+  "group3": {
+    "label": "Grupa 2",
+    "type": "group",
+    "style": { "flexDirection": "column" },
+    "template": {
+      "name": {
+        "type": "apiEntry",
+        "label": "User",
+        "entryName": "users"
+      },
+      "color": {
+        "type": "color",
+        "label": "Kolor"
+      }
+    }
+  },
+  "group_of_arrays": {
+    "label": "group of arrays",
+    "type": "group",
+    "template": {
+      "arrayText": {
+        "label": "Array Text",
+        "type": "array",
+        "arrayType": "text",
+        "maxCount": 10
+      },
+      "arrayText2": {
+        "label": "Array Text",
+        "type": "array",
+        "arrayType": "text",
+        "maxCount": 10
+      }
+    }
   }
 }
