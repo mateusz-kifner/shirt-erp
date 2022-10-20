@@ -154,7 +154,7 @@ const FileList: FC<FileListProps> = ({
     if (!filesData || filesData.length === 0) return
     const files = filesData.map((val: FilesDataType) => {
       if (typeof val?.file?.token !== "string") {
-        let res = axios.get("upload/token/" + val?.file?.id)
+        let res = axios.get("upload/token/" + val?.file?.id).catch(() => {})
       }
       return val.file
     })

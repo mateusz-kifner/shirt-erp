@@ -25,7 +25,7 @@ const FilesPage: FC = () => {
     ;(async () => {
       for (let file of data) {
         if (typeof file.token !== "string") {
-          let res = await axios.get("upload/token/" + file.id)
+          let res = await axios.get("upload/token/" + file.id).catch(() => {})
         }
       }
     })()

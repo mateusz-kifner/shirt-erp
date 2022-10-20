@@ -132,7 +132,7 @@ const EditableSecretText: FC<EditableSecretTextProps> = ({
                 SxBorder,
                 SxRadius,
               ]}
-              dangerouslySetInnerHTML={{ __html: text ?? "⸺" }}
+              dangerouslySetInnerHTML={{ __html: text }}
             ></Box>
           ) : (
             <RichText

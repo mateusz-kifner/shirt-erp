@@ -188,7 +188,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
                 SxRadius,
               ]}
               className="plain-html"
-              dangerouslySetInnerHTML={{ __html: text ?? "⸺" }}
+              dangerouslySetInnerHTML={{ __html: text || "⸺" }}
             ></Box>
             {/* </TypographyStylesProvider> */}
             {hovered && (
