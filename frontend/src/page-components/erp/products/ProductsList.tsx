@@ -32,7 +32,7 @@ const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
       // listItemProps={{
       //   linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       // }}
-      filterKeys={["name", "codeName"]}
+      filterKeys={["name"]}
       onAddElement={onAddElement}
       showAddButton
       exclude={{ username: "Szablon" }}

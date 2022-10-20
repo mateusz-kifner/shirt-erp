@@ -225,7 +225,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                   position: "absolute",
                 }}
               /> */}
-              {color.name ?? "⸺"}
+              {color.name || "⸺"}
             </Text>
 
             {hovered && (
