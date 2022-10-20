@@ -9,6 +9,7 @@ import {
   useMantineTheme,
   MantineNumberSize,
   TextInput,
+  Loader,
 } from "@mantine/core"
 import { FC, useEffect, useState } from "react"
 import {
@@ -74,9 +75,19 @@ const ApiList = <T extends any>({
   )
 
   const theme = useMantineTheme()
+  const [y, setY] = useState(0)
   const bind = useGesture({
+    onDrag: (state) => {
+      setY(state.movement[1])
+    },
     onDragEnd: (state) => {
-      if (state.direction[1] > 0) refetch()
+      if (state.movement[1] > 50) {
+        refetch()
+      }
+
+      setTimeout(() => {
+        setY(0)
+      })
     },
   })
   // const cont = useInRouterContext()
@@ -93,8 +104,14 @@ const ApiList = <T extends any>({
     refetch()
   }, [selectedId])
 
+  const onChangeWithBlocking = (val: T) => {
+    if (y < 10) {
+      onChange(val)
+    }
+  }
+
   return (
-    <Stack spacing={spacing} {...bind()}>
+    <Stack spacing={spacing} {...bind()} style={{ touchAction: "none" }}>
       <Stack>
         <Group position="apart">
           <Title order={2}>{label}</Title>
@@ -152,6 +169,21 @@ const ApiList = <T extends any>({
           />
         </Group>
       </Stack>
+      <Box
+        style={{
+          height: y > 100 ? 100 : y,
+          overflow: "hidden",
+          position: "relative",
+        }}
+      >
+        <Loader
+          style={{
+            position: "absolute",
+            left: "50%",
+            transform: "translate(-50%,0)",
+          }}
+        />
+      </Box>
       <Stack spacing={listSpacing}>
         {data &&
           data.map((val: any, index: number) => (
@@ -174,7 +206,7 @@ const ApiList = <T extends any>({
             >
               <ListItem
                 value={val}
-                onChange={onChange}
+                onChange={onChangeWithBlocking}
                 {...listItemProps}
                 active={val.id === selectedId}
               />
