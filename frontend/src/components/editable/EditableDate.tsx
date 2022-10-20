@@ -1,6 +1,12 @@
 import { ActionIcon, Group, Input, Text, useMantineTheme } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
-import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
+import {
+  useClickOutside,
+  useClipboard,
+  useHover,
+  useMediaQuery,
+  useMergedRef,
+} from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
@@ -47,6 +53,8 @@ const EditableDate: FC<EditableDateProps> = ({
   }
 
   const ref = useClickOutside(deactivate)
+  const { hovered, ref: ref2 } = useHover()
+  const mergedRef = useMergedRef(ref, ref2)
 
   useEffect(() => {
     if (active) {
@@ -122,7 +130,7 @@ const EditableDate: FC<EditableDateProps> = ({
       labelElement="div"
       required={required}
       style={{ position: "relative" }}
-      ref={ref}
+      ref={mergedRef}
     >
       {/* <div > */}
       {active ? (
@@ -165,18 +173,20 @@ const EditableDate: FC<EditableDateProps> = ({
       )}
 
       {!active ? (
-        <ActionIcon
-          radius="xl"
-          style={{
-            position: "absolute",
-            right: 8,
-            bottom: 8,
-          }}
-          onClick={activate}
-          disabled={disabled}
-        >
-          <Edit size={18} />
-        </ActionIcon>
+        hovered && (
+          <ActionIcon
+            radius="xl"
+            style={{
+              position: "absolute",
+              right: 8,
+              bottom: 8,
+            }}
+            onClick={activate}
+            disabled={disabled}
+          >
+            <Edit size={18} />
+          </ActionIcon>
+        )
       ) : (
         <Group
           spacing={0}

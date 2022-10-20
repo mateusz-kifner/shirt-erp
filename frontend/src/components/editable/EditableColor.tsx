@@ -8,7 +8,7 @@ import {
   Text,
   CSSObject,
 } from "@mantine/core"
-import { useClickOutside, useClipboard } from "@mantine/hooks"
+import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState, useRef, CSSProperties } from "react"
 import preventLeave from "../../utils/preventLeave"
@@ -51,6 +51,8 @@ const EditableColor: FC<EditableColorProps> = (props) => {
   const [active, setActive] = useState<boolean>(false)
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
+  const { hovered, ref: refHover } = useHover()
+
   // console.log(color)
   useEffect(() => {
     if (active) {
@@ -129,6 +131,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
       required={required}
       style={style}
       styles={styles}
+      ref={refHover}
     >
       <div ref={ref} style={{ position: "relative" }}>
         {active ? (
@@ -225,14 +228,16 @@ const EditableColor: FC<EditableColorProps> = (props) => {
               {color.name ?? "⸺"}
             </Text>
 
-            <ActionIcon
-              radius="xl"
-              style={{ position: "absolute", right: 8, top: 8 }}
-              onClick={() => setActive(true)}
-              disabled={disabled}
-            >
-              <Edit size={18} />
-            </ActionIcon>
+            {hovered && (
+              <ActionIcon
+                radius="xl"
+                style={{ position: "absolute", right: 8, top: 8 }}
+                onClick={() => setActive(true)}
+                disabled={disabled}
+              >
+                <Edit size={18} />
+              </ActionIcon>
+            )}
           </>
         )}
       </div>

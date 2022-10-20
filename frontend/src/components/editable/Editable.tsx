@@ -26,7 +26,6 @@ import EditableNumber from "./EditableNumber"
 import { Cash, Numbers } from "tabler-icons-react"
 import _ from "lodash"
 import { useAuthContext } from "../../context/authContext"
-import EditableGroup from "./EditableGroup"
 import { SxBorder, SxRadius } from "../../styles/basic"
 
 const ApiProps: {

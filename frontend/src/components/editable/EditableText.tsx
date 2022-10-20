@@ -1,14 +1,7 @@
 import { ActionIcon, CSSObject, Input, Textarea } from "@mantine/core"
-import { useClickOutside, useClipboard } from "@mantine/hooks"
+import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import {
-  FC,
-  useEffect,
-  useRef,
-  useState,
-  CSSProperties,
-  ReactNode,
-} from "react"
+import { FC, useEffect, useState, CSSProperties, ReactNode } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "tabler-icons-react"
 
@@ -44,6 +37,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
   const textRef = useClickOutside(() => setActive(false))
+  const { hovered, ref } = useHover()
 
   useEffect(() => {
     if (active) {
@@ -129,6 +123,7 @@ const EditableText: FC<EditableTextProps> = (props) => {
       required={required}
       style={style}
       styles={styles}
+      ref={ref}
     >
       <div style={{ position: "relative" }}>
         <Textarea
@@ -160,19 +155,21 @@ const EditableText: FC<EditableTextProps> = (props) => {
         />
 
         {!active ? (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            onClick={() => setActive(true)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <Edit size={18} />
-          </ActionIcon>
+          hovered && (
+            <ActionIcon
+              radius="xl"
+              style={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+              }}
+              onClick={() => setActive(true)}
+              disabled={disabled}
+              tabIndex={-1}
+            >
+              <Edit size={18} />
+            </ActionIcon>
+          )
         ) : (
           <ActionIcon
             radius="xl"

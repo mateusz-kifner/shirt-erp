@@ -5,13 +5,19 @@ import {
   TextInput,
   useMantineTheme,
 } from "@mantine/core"
-import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
+import {
+  useClickOutside,
+  useClipboard,
+  useHover,
+  useMediaQuery,
+  useMergedRef,
+} from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import React, { FC, ReactNode, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Calendar, Edit, X } from "tabler-icons-react"
+import { Copy, Edit, X } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"
-import TablerIconType from "../../types/TablerIconType"
+import { number } from "zod"
 
 // FIXME: make DisplayCell accept icon as ReactNode
 
@@ -24,6 +30,10 @@ interface EditableDateProps {
   required?: boolean
   icon?: ReactNode
   rightSection?: ReactNode
+  increment?: number
+  fixed?: number
+  min?: number
+  max?: number
 }
 
 const EditableDate: FC<EditableDateProps> = (props) => {
@@ -36,6 +46,10 @@ const EditableDate: FC<EditableDateProps> = (props) => {
     required,
     icon,
     rightSection,
+    increment = 0.01,
+    fixed = 2,
+    min = Number.MIN_VALUE,
+    max = Number.MAX_VALUE,
   } = props
   const [text, setText] = useState<string>(
     value ? value.toString() : initialValue ? initialValue.toString() : "0.00"
@@ -49,6 +63,9 @@ const EditableDate: FC<EditableDateProps> = (props) => {
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)"
   )
+
+  const { hovered, ref: refHover } = useHover()
+
   const activate = () => {
     setActive(true)
   }
@@ -57,15 +74,20 @@ const EditableDate: FC<EditableDateProps> = (props) => {
   }
 
   const ref = useClickOutside(deactivate)
+  const mergedRef = useMergedRef(refHover, ref)
 
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave)
     } else {
       if (text !== prev && !isNaN(parseFloat(text))) {
-        text && onSubmit && onSubmit(parseFloat(text))
-        setPrev(text)
-        setText(parseFloat(text).toFixed(2))
+        if (parseFloat(text) > min && parseFloat(text) < max) {
+          text && onSubmit && onSubmit(parseFloat(text))
+          setPrev(text)
+          setText(parseFloat(text).toFixed(fixed))
+        } else {
+          setText(prev)
+        }
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -79,7 +101,8 @@ const EditableDate: FC<EditableDateProps> = (props) => {
   }, [])
 
   useEffect(() => {
-    const new_value = value && !isNaN(value) ? value.toFixed(2) : "0.00"
+    const new_value =
+      value && !isNaN(value) ? value.toFixed(fixed) : (0.0).toFixed(fixed)
     setText(new_value)
     setPrev(new_value)
   }, [value])
@@ -130,7 +153,7 @@ const EditableDate: FC<EditableDateProps> = (props) => {
       labelElement="div"
       required={required}
       style={{ position: "relative" }}
-      ref={ref}
+      ref={mergedRef}
     >
       {/* <div > */}
       {active ? (
@@ -158,18 +181,20 @@ const EditableDate: FC<EditableDateProps> = (props) => {
       )}
 
       {!active ? (
-        <ActionIcon
-          radius="xl"
-          style={{
-            position: "absolute",
-            right: 8,
-            bottom: 8,
-          }}
-          onClick={activate}
-          disabled={disabled}
-        >
-          <Edit size={18} />
-        </ActionIcon>
+        hovered && (
+          <ActionIcon
+            radius="xl"
+            style={{
+              position: "absolute",
+              right: 8,
+              bottom: 8,
+            }}
+            onClick={activate}
+            disabled={disabled}
+          >
+            <Edit size={18} />
+          </ActionIcon>
+        )
       ) : (
         <Group
           spacing={0}

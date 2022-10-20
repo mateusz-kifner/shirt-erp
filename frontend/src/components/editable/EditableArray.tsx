@@ -20,6 +20,7 @@ import {
   TrashX,
   X,
 } from "tabler-icons-react"
+import { useHover } from "@mantine/hooks"
 
 // fixme submit only on edit end
 
@@ -53,6 +54,8 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   const [prev, setPrev] = useState<any[]>(items)
   const [active, setActive] = useState<boolean>(false)
   const uuid = useId()
+  const { hovered, ref } = useHover()
+
   useEffect(() => {
     const filtered_items = items.filter((val) => !!val)
     if (
@@ -74,20 +77,27 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   }, [value])
   // console.log("Editable Array props", props)
   return (
-    <Input.Wrapper label={label} required={required}>
+    <Input.Wrapper label={label} required={required} ref={ref}>
       <Stack
         sx={[
           (theme) => ({
             padding: theme.spacing.sm,
             position: "relative",
             minHeight: 44,
-            backgroundColor: active
-              ? theme.colorScheme === "dark"
-                ? theme.colors.dark[6]
-                : theme.colors.gray[0]
-              : undefined,
+            // backgroundColor: active
+            //   ? theme.colorScheme === "dark"
+            //     ? theme.colors.dark[6]
+            //     : theme.colors.gray[0]
+            //   : undefined,
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderColor: active
+              ? "#1971c2"
+              : theme.colorScheme === "dark"
+              ? " #2C2E33"
+              : " #ced4da",
           }),
-          SxBorder,
+          // SxBorder,
           SxRadius,
         ]}
       >
@@ -217,19 +227,21 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
             </ActionIcon>
           </Group>
         ) : (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              bottom: 8,
-            }}
-            onClick={() => setActive(true)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <Edit size={18} />
-          </ActionIcon>
+          hovered && (
+            <ActionIcon
+              radius="xl"
+              style={{
+                position: "absolute",
+                right: 8,
+                bottom: 8,
+              }}
+              onClick={() => setActive(true)}
+              disabled={disabled}
+              tabIndex={-1}
+            >
+              <Edit size={18} />
+            </ActionIcon>
+          )
         )}
       </Stack>
     </Input.Wrapper>

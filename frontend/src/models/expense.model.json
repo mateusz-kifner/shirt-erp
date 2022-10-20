@@ -15,14 +15,17 @@
     "label": "Produkty",
     "type": "array",
     "arrayType": "group",
-    "group": {
+    "template": {
       "name": {
         "label": "nazwa",
         "type": "text"
       },
       "count": {
         "label": "ilość",
-        "type": "number"
+        "type": "number",
+        "min": 0,
+        "increment": 1,
+        "fixed": 0
       }
     }
   },

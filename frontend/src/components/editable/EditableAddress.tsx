@@ -1,5 +1,10 @@
 import { ActionIcon, Group, Input, Stack, Text, Textarea } from "@mantine/core"
-import { useClickOutside, useClipboard } from "@mantine/hooks"
+import {
+  useClickOutside,
+  useClipboard,
+  useHover,
+  useMergedRef,
+} from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
@@ -68,6 +73,8 @@ const EditableAddress: FC<EditableAddressProps> = ({
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
   const ref = useClickOutside(() => setActive(false))
+  const { hovered, ref: refHover } = useHover()
+  const mergedRef = useMergedRef(refHover, ref)
 
   const setAddressField = (key: string, val: string) => {
     const new_address = { ...address, [key]: val }
@@ -116,7 +123,7 @@ const EditableAddress: FC<EditableAddressProps> = ({
 
   return (
     <Input.Wrapper
-      ref={ref}
+      ref={mergedRef}
       label={
         <>
           {label?.name}
@@ -213,19 +220,21 @@ const EditableAddress: FC<EditableAddressProps> = ({
       ) : (
         <div style={{ position: "relative" }}>
           <DisplayCell icon={<BuildingCommunity />}> {toString()}</DisplayCell>
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            onClick={() => setActive(true)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <Edit size={18} />
-          </ActionIcon>
+          {hovered && (
+            <ActionIcon
+              radius="xl"
+              style={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+              }}
+              onClick={() => setActive(true)}
+              disabled={disabled}
+              tabIndex={-1}
+            >
+              <Edit size={18} />
+            </ActionIcon>
+          )}
         </div>
       )}
     </Input.Wrapper>

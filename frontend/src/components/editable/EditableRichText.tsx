@@ -1,5 +1,5 @@
 import { ActionIcon, Box, Input, TypographyStylesProvider } from "@mantine/core"
-import { useClickOutside, useClipboard } from "@mantine/hooks"
+import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import type { Editor } from "@mantine/rte"
 import { FC, useEffect, useState, useRef } from "react"
@@ -43,6 +43,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
   const richTextEditorRef = useRef<Editor>(null)
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
+  const { hovered, ref: refHover } = useHover()
 
   useEffect(() => {
     if (active) {
@@ -137,6 +138,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
       }
       labelElement="div"
       required={required}
+      ref={refHover}
     >
       <div ref={ref} style={{ position: "relative" }}>
         {active ? (
@@ -189,14 +191,16 @@ const EditableRichText: FC<EditableRichTextProps> = ({
               dangerouslySetInnerHTML={{ __html: text ?? "⸺" }}
             ></Box>
             {/* </TypographyStylesProvider> */}
-            <ActionIcon
-              radius="xl"
-              style={{ position: "absolute", right: 8, top: 8 }}
-              onClick={() => setActive(true)}
-              disabled={disabled}
-            >
-              <Edit size={18} />
-            </ActionIcon>
+            {hovered && (
+              <ActionIcon
+                radius="xl"
+                style={{ position: "absolute", right: 8, top: 8 }}
+                onClick={() => setActive(true)}
+                disabled={disabled}
+              >
+                <Edit size={18} />
+              </ActionIcon>
+            )}
           </>
         )}
       </div>
