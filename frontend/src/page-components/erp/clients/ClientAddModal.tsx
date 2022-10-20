@@ -9,7 +9,7 @@ import ClientListItem from "./ClientListItem"
 
 interface ClientAddModalProps {
   opened: boolean
-  onClose: () => void
+  onClose: (id?: number) => void
 }
 
 const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
@@ -61,7 +61,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
             new_client?.id && delete new_client?.id
             new_client?.address?.id && delete new_client.address.id
             new_client.username = clientName
-            add(new_client).then(() => onClose())
+            add(new_client).then((data) => onClose(data?.data?.id))
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

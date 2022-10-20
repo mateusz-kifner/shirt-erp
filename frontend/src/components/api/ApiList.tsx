@@ -10,7 +10,7 @@ import {
   MantineNumberSize,
   TextInput,
 } from "@mantine/core"
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import {
   Plus,
   Refresh,
@@ -88,6 +88,10 @@ const ApiList = <T extends any>({
   //   console.log(id, location, cont)
   //   // if (typeof params?.id === "string" && parseInt(params.id) > 0) setId(parseInt(params.id))
   // }, [id, location])
+
+  useEffect(() => {
+    refetch()
+  }, [selectedId])
 
   return (
     <Stack spacing={spacing} {...bind()}>

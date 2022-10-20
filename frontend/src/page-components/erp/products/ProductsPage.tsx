@@ -32,7 +32,11 @@ const ProductPage = () => {
       </Workspace>
       <ProductAddModal
         opened={openAddModal}
-        onClose={() => setOpenAddModal(false)}
+        onClose={(id) => {
+          setOpenAddModal(false)
+          id !== undefined &&
+            router.push(`/erp/products/${id}?show_views=0&show_views=1`)
+        }}
       />
     </>
   )

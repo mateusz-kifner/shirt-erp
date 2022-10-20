@@ -32,7 +32,11 @@ const ExpensePage = () => {
       </Workspace>
       <ExpenseAddModal
         opened={openAddModal}
-        onClose={() => setOpenAddModal(false)}
+        onClose={(id) => {
+          setOpenAddModal(false)
+          id !== undefined &&
+            router.push(`/erp/expenses/${id}?show_views=0&show_views=1`)
+        }}
       />
     </>
   )

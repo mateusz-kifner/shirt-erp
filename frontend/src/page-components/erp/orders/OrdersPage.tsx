@@ -58,7 +58,11 @@ const OrdersPage: NextPage = () => {
       </Workspace>
       <OrderAddModal
         opened={openAddModal}
-        onClose={() => setOpenAddModal(false)}
+        onClose={(id) => {
+          setOpenAddModal(false)
+          id !== undefined &&
+            router.push(`/erp/orders/${id}?show_views=0&show_views=1`)
+        }}
       />
     </>
   )

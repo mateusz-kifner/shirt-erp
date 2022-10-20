@@ -11,7 +11,7 @@ import OrderListItem from "./OrderListItem"
 
 interface OrderAddModalProps {
   opened: boolean
-  onClose: () => void
+  onClose: (id?: number) => void
 }
 
 const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
@@ -89,7 +89,10 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
                 },
               ]
             }
-            add(new_order).then(() => onClose())
+            add(new_order).then((data) => {
+              console.log("add fetch ", data)
+              onClose(data?.data?.id)
+            })
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

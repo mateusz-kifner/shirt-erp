@@ -9,7 +9,7 @@ import ExpenseListItem from "./ExpenseListItem"
 
 interface ExpenseAddModalProps {
   opened: boolean
-  onClose: () => void
+  onClose: (id?: number) => void
 }
 
 const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
@@ -60,7 +60,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
             let new_expense = template ? template : {}
             new_expense?.id && delete new_expense?.id
             new_expense.name = expenseName
-            add(new_expense).then(() => onClose())
+            add(new_expense).then((data) => onClose(data?.data?.id))
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

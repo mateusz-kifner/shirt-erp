@@ -9,7 +9,7 @@ import ProductListItem from "./ProductListItem"
 
 interface ProductAddModalProps {
   opened: boolean
-  onClose: () => void
+  onClose: (id?: number) => void
 }
 
 const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
@@ -60,7 +60,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
             let new_product = template ? template : {}
             new_product?.id && delete new_product?.id
             new_product.name = productName
-            add(new_product).then(() => onClose())
+            add(new_product).then((data) => onClose(data?.data?.id))
             console.log(new_product)
           }}
           leftIcon={<Plus />}
