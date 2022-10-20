@@ -6,6 +6,7 @@ export interface ProcedureWorkstationsType {
 }
 
 export interface ProcedureType {
+  id?: number
   name: string
   desc: string | null
   icon: ImageType

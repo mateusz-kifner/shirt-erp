@@ -1,3 +1,3 @@
-import workstationsPage from "../../../page-components/erp/production/WorkstationsPage"
+import workstationsPage from "../../../page-components/erp/workstations/WorkstationsPage"
 
 export default workstationsPage

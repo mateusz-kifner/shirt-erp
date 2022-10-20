@@ -1,3 +1,3 @@
-import ProceduresPage from "../../../page-components/erp/production/ProceduresPage"
+import ProceduresPage from "../../../page-components/erp/procedures/ProceduresPage"
 
 export default ProceduresPage
