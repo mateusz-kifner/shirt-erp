@@ -227,7 +227,7 @@ async function setupEmployeeRole() {
   await setPluginPermissions(
     "users-permissions",
     "user",
-    ["find", "findOne", "count", "me"],
+    ["find", "findOne", "count", "me", "setWelcomeMessageHash"],
     "Employee"
   );
   await setPluginPermissions(

@@ -176,7 +176,6 @@ function useStrapi<EntryType>(
       { data: entry },
       {
         onSuccess: (data) => {
-          console.log("update", data)
           queryClient.setQueryData([entryName + "_one", id], data)
         },
       }
