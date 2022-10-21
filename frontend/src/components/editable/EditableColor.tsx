@@ -1,26 +1,69 @@
 import {
   ActionIcon,
-  Box,
   ColorInput,
   Group,
   Input,
-  TextInput,
   Text,
   CSSObject,
 } from "@mantine/core"
 import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState, useRef, CSSProperties } from "react"
+import { FC, useEffect, useState, CSSProperties, useMemo } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ColorSwatch, Copy, Edit } from "tabler-icons-react"
-import { ColorType } from "../../types/ColorType"
 import { SxBorder, SxRadius } from "../../styles/basic"
+import colorNames from "../../models/color-names.json"
+
+const colorNameKeys = Object.keys(colorNames)
+const colorNamesRGB = colorNameKeys.map((val) => [
+  parseInt(val.substring(1, 3), 16),
+  parseInt(val.substring(3, 5), 16),
+  parseInt(val.substring(5, 7), 16),
+])
+
+const getColorNameFromHex = (hex: string) => {
+  let name = "Nieznany"
+  if (colorNames[hex as keyof typeof colorNames] !== undefined) {
+    name = colorNames[hex as keyof typeof colorNames]
+  } else {
+    const newColorNames = colorNameKeys.filter(
+      (val) =>
+        (val[1] === hex[1] && val[2] === hex[2]) ||
+        (val[3] === hex[3] && val[4] === hex[4]) ||
+        (val[5] === hex[5] && val[6] === hex[6])
+    )
+    let min = 100000.0
+    let min_index = -1
+
+    const hex_r = parseInt(hex.substring(1, 3), 16)
+    const hex_g = parseInt(hex.substring(3, 5), 16)
+    const hex_b = parseInt(hex.substring(5, 7), 16)
+
+    colorNamesRGB.forEach(([val_r, val_g, val_b], index) => {
+      const weight = Math.sqrt(
+        (val_r - hex_r) * (val_r - hex_r) +
+          (val_g - hex_g) * (val_g - hex_g) +
+          (val_b - hex_b) * (val_b - hex_b)
+      )
+      if (min > weight) {
+        min = weight
+        min_index = index
+      }
+    })
+
+    if (min_index !== -1) {
+      name =
+        colorNames[colorNameKeys[min_index] as keyof typeof colorNames] + "*"
+    }
+  }
+  return name
+}
 
 interface EditableColorProps {
   label?: string
-  value?: ColorType
-  initialValue?: ColorType
-  onSubmit?: (value: ColorType | null) => void
+  value?: string
+  initialValue?: string
+  onSubmit?: (value: string | null) => void
   disabled?: boolean
   required?: boolean
   style?: CSSProperties
@@ -40,18 +83,14 @@ const EditableColor: FC<EditableColorProps> = (props) => {
     style,
     styles,
   } = props
-  const [color, setColor] = useState<ColorType>(
-    value ??
-      initialValue ?? {
-        name: "",
-        hex: "#ffffff",
-      }
-  )
+  const [color, setColor] = useState<string>(value ?? initialValue ?? "#ffffff")
   const [prevColor, setPrevColor] = useState(color)
   const [active, setActive] = useState<boolean>(false)
   const ref = useClickOutside(() => setActive(false))
   const clipboard = useClipboard()
   const { hovered, ref: refHover } = useHover()
+
+  const colorName = useMemo(() => getColorNameFromHex(color), [color])
 
   // console.log(color)
   useEffect(() => {
@@ -105,7 +144,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
         label && label.length > 0 ? (
           <>
             {label}
-            {color.hex && color.hex.length > 0 && (
+            {color && color.length > 0 && (
               <ActionIcon
                 size="xs"
                 style={{
@@ -113,10 +152,10 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                   transform: "translate(4px, 4px)",
                 }}
                 onClick={() => {
-                  clipboard.copy(color.hex)
+                  clipboard.copy(color)
                   showNotification({
                     title: "Skopiowano do schowka",
-                    message: color.hex,
+                    message: color,
                   })
                 }}
                 tabIndex={-1}
@@ -155,30 +194,14 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                 "#fab005",
                 "#fd7e14",
               ]}
-              value={color?.hex}
+              value={color}
               onChange={(new_hex) => {
-                setColor((old_color) => ({
-                  ...old_color,
-                  hex: new_hex,
-                }))
+                setColor(new_hex)
               }}
               disabled={disabled}
               required={required}
               styles={{ input: { minHeight: 44 } }}
               withinPortal={false}
-              onKeyDown={onKeyDown}
-            />
-            <TextInput
-              value={color?.name}
-              onChange={(e) => {
-                setColor((old_color) => ({
-                  ...old_color,
-                  name: e.target.value,
-                }))
-              }}
-              disabled={disabled}
-              required={required}
-              styles={{ input: { minHeight: 44 } }}
               onKeyDown={onKeyDown}
             />
           </Group>
@@ -204,7 +227,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                     width: 24,
                     top: 9,
                     left: 6,
-                    backgroundColor: color.hex ?? undefined,
+                    backgroundColor: color ?? undefined,
                     borderRadius: "100%",
                     border:
                       theme.colorScheme === "dark"
@@ -216,16 +239,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                 SxRadius,
               ]}
             >
-              {/* <ColorSwatch
-                color="#adb5bd"
-                size={18}
-                style={{
-                  bottom: 13,
-                  left: 9,
-                  position: "absolute",
-                }}
-              /> */}
-              {color.name || "⸺"}
+              {colorName}
             </Text>
 
             {hovered && (

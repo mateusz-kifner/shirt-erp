@@ -1,4 +1,3 @@
-import { ColorType } from "./ColorType"
 import { ImageType } from "./ImageType"
 
 export interface ProductType {
