@@ -59,6 +59,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
               return setError("Musisz podać nie pustą nazwę produktu")
             let new_product = template ? template : {}
             new_product?.id && delete new_product?.id
+            new_product.category = "koszulka"
             new_product.name = productName
             add(new_product).then((data) => onClose(data?.data?.id))
             console.log(new_product)

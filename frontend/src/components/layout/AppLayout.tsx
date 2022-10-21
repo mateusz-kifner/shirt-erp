@@ -1,19 +1,12 @@
 import { AppShell, MantineTheme } from "@mantine/core"
 import { ReactNode } from "react"
-import "dayjs/locale/pl"
-import dayjs from "dayjs"
-import localizedFormat from "dayjs/plugin/localizedFormat"
-import isToday from "dayjs/plugin/isToday"
+
 import Navigation from "./Navigation"
 import Header from "./Header"
 import AdvancedNavigation from "./AdvancedNavigation"
 import { useAuthContext } from "../../context/authContext"
 import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
 import Login from "../../page-components/Login"
-
-dayjs.locale("pl")
-dayjs.extend(localizedFormat)
-dayjs.extend(isToday)
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
   const { isAuthenticated } = useAuthContext()
