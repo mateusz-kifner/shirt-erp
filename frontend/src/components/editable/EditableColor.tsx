@@ -86,7 +86,6 @@ const EditableColor: FC<EditableColorProps> = (props) => {
 
   const colorName = useMemo(() => getColorNameFromHex(color), [color])
 
-  // console.log(color)
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave)
@@ -142,11 +141,6 @@ const EditableColor: FC<EditableColorProps> = (props) => {
       setPrevColor(value)
     }
   }, [value])
-
-  // const onChangeColorarea = (value: string) => {
-  //   setColor(value)
-  //   onChange && onChange(value)
-  // }
 
   const onKeyDown = (e: React.KeyboardEvent<any>) => {
     if (active) {
