@@ -10,7 +10,7 @@ import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { FC, useEffect, useState, CSSProperties, useMemo } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ColorSwatch, Copy, Edit } from "tabler-icons-react"
+import { Copy, Edit } from "tabler-icons-react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import colorNames from "../../models/color-names.json"
 
@@ -26,12 +26,6 @@ const getColorNameFromHex = (hex: string) => {
   if (colorNames[hex as keyof typeof colorNames] !== undefined) {
     name = colorNames[hex as keyof typeof colorNames]
   } else {
-    const newColorNames = colorNameKeys.filter(
-      (val) =>
-        (val[1] === hex[1] && val[2] === hex[2]) ||
-        (val[3] === hex[3] && val[4] === hex[4]) ||
-        (val[5] === hex[5] && val[6] === hex[6])
-    )
     let min = 100000.0
     let min_index = -1
 
@@ -98,8 +92,38 @@ const EditableColor: FC<EditableColorProps> = (props) => {
       window.addEventListener("beforeunload", preventLeave)
     } else {
       if (color !== value) {
-        onSubmit && onSubmit(color)
-        setPrevColor(color)
+        let hex = ""
+        if (color.length === 3 && color[0] !== "#") {
+          hex =
+            "#" +
+            color[0] +
+            color[0] +
+            color[1] +
+            color[1] +
+            color[2] +
+            color[2]
+        }
+        if (color.length === 4 && color[0] === "#") {
+          hex =
+            "#" +
+            color[1] +
+            color[1] +
+            color[2] +
+            color[2] +
+            color[3] +
+            color[3]
+        }
+        if (color.length === 6 && color[0] !== "#") {
+          hex = "#" + color
+        }
+        if (color.length === 7 && color[0] === "#") {
+          hex = color
+        }
+        if (!isNaN(parseInt(hex.substring(1), 16))) {
+          onSubmit && onSubmit(hex)
+          setPrevColor(hex)
+          setColor(hex)
+        }
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -209,6 +233,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
           <>
             <Text
               sx={[
+                SxBorder,
                 (theme) => ({
                   width: "100%",
 
@@ -220,6 +245,7 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                   minHeight: 36,
                   lineHeight: 1.55,
                   paddingLeft: 36,
+                  borderColor: colorName === "Nieznany" ? "#f00" : undefined,
                   "&:before": {
                     content: "''",
                     position: "absolute",
@@ -235,7 +261,6 @@ const EditableColor: FC<EditableColorProps> = (props) => {
                         : "1px solid #ced4da",
                   },
                 }),
-                SxBorder,
                 SxRadius,
               ]}
             >
