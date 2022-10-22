@@ -42,7 +42,7 @@ const TestTable = () => {
       DataViewer={DataViewer}
       Cell={CellWrapper}
       DataEditor={undefined}
-      formulaParser={(val: any) => val}
+      // formulaParser={(val: any) => val}
     />
   )
 }

@@ -1,9 +1,7 @@
 import { ActionIcon, Group, Stack, useMantineTheme } from "@mantine/core"
-import { debounce } from "lodash"
-import { FC, useEffect, useState } from "react"
+import { useState } from "react"
 import Spreadsheet, { Matrix, Point } from "react-spreadsheet"
 import TableType from "../../types/TableType"
-import isArrayEqual from "../../utils/isArrayEqual"
 import TableCenterIcon from "../icons/TableCenterIcon"
 import TableEdgeIcon from "../icons/TableEdgeIcon"
 import EditableText from "./EditableText"
@@ -19,7 +17,7 @@ interface EditableTableProps {
   required?: boolean
 }
 
-const EditableTable: FC<EditableTableProps> = (props) => {
+const EditableTable = (props: EditableTableProps) => {
   const { label, value, initialValue, onSubmit, disabled, required } = props
   const theme = useMantineTheme()
   const [name, setName] = useState(

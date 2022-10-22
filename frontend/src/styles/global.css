@@ -88,3 +88,8 @@ body {
   /* outline: 1px solid var(--outline-color,#4285f4) !important; */
   background-color: var(--outline-background-color,rgba(160, 195, 255, 0.2)) !important;
 }
+
+.Spreadsheet {
+  height: 100%;
+  width: 100%;
+}

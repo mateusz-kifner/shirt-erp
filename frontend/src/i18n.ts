@@ -17,7 +17,7 @@ export const resources = {
 const i18n = i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
   lng: "pl",
-  debug: true,
+  // debug: true,
   resources,
   defaultNS,
 })

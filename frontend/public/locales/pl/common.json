@@ -1,4 +1,10 @@
 {
   "test": "To jest Test",
-  "lang": "Język"
+  "lang": "Język",
+  "add-row-top": "Dodaj wiersz powyżej",
+  "add-row-bottom": "Dodaj wiersz poniżej",
+  "add-column-left": "Dodaj kolumnę po lewej",
+  "add-column-right": "Dodaj kolumnę po prawej",
+  "remove-column": "Usuń kolumnę",
+  "remove-row": "Usuń wiersz"
 }
