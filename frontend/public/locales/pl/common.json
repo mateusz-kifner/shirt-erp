@@ -1,10 +1,66 @@
 {
   "test": "To jest Test",
   "lang": "Język",
+  "delete": "Usuń {{entry}}",
+  "operation-not-reversible": "Operacja jest nieodwracalna !!!",
   "add-row-top": "Dodaj wiersz powyżej",
   "add-row-bottom": "Dodaj wiersz poniżej",
   "add-column-left": "Dodaj kolumnę po lewej",
   "add-column-right": "Dodaj kolumnę po prawej",
   "remove-column": "Usuń kolumnę",
-  "remove-row": "Usuń wiersz"
+  "remove-row": "Usuń wiersz",
+  "cancel": "Anuluj",
+
+  "clients": {
+    "singular": "klient",
+    "plural": "klienci"
+  },
+  "products": {
+    "singular": "product",
+    "plural": "produkty"
+  },
+  "orders": {
+    "singular": "zamówienie",
+    "plural": "zamówienia"
+  },
+  "email-messages": {
+    "singular": "email",
+    "plural": "emalie"
+  },
+  "tasks": {
+    "singular": "zadanie",
+    "plural": "zadania"
+  },
+  "expenses": {
+    "singular": "wydatek",
+    "plural": "wydatki"
+  },
+  "logs": {
+    "singular": "log",
+    "plural": "logi"
+  },
+  "order-archives": {
+    "singular": "zamówienie archiwalne",
+    "plural": "zamówienia archiwalne"
+  },
+  "workstations": {
+    "singular": "stanowisko pracy",
+    "plural": "stanowiska pracy"
+  },
+  "procedures": {
+    "singular": "procedura",
+    "plural": "procedury"
+  },
+  "files": {
+    "singular": "plik",
+    "plural": "pliki"
+  },
+  "settings": {
+    "singular": "ustawienie",
+    "plural": "ustawienia"
+  },
+  "users": {
+    "singular": "pracownik",
+    "plural": "pracownicy"
+  }
 }

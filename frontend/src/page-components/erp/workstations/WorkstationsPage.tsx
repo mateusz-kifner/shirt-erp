@@ -35,7 +35,7 @@ const workstationsPage: FC = () => {
           root: {
             position: "fixed",
             top: 14,
-            zIndex: 99999,
+            zIndex: 101,
             width: "100%",
           },
         })}
