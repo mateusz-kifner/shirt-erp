@@ -35,7 +35,7 @@ const ProceduresPage: FC = () => {
           root: {
             position: "fixed",
             top: 14,
-            zIndex: 99999,
+            zIndex: 101,
             width: "100%",
           },
         })}
@@ -63,6 +63,7 @@ const ProceduresPage: FC = () => {
         opened={openAddModal}
         onClose={(id) => {
           setOpenAddModal(false)
+          console.log(id)
           id !== undefined &&
             router.push(`/erp/procedures/${id}?show_views=0&show_views=1`)
         }}

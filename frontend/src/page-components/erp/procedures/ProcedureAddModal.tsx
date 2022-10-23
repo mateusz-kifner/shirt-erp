@@ -29,7 +29,7 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
   return (
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose={() => onClose()}
       size="xl"
       title="Utwórz nową procedura"
     >

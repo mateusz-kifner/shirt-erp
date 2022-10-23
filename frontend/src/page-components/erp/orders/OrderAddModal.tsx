@@ -32,7 +32,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   return (
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose={() => onClose()}
       size="xl"
       title="Utwórz nowe zamówienie"
     >

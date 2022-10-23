@@ -29,7 +29,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
   return (
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose={() => onClose()}
       size="xl"
       title="Utwórz nowy wydatek"
     >

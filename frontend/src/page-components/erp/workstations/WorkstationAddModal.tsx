@@ -31,7 +31,7 @@ const WorkstationAddModal = ({ opened, onClose }: WorkstationAddModalProps) => {
   return (
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose={() => onClose()}
       size="xl"
       title="Utwórz nowe stanowisko"
     >

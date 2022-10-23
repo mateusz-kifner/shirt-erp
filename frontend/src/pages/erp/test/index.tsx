@@ -10,7 +10,11 @@ const index = () => {
   const theme = useMantineTheme()
 
   const { t } = useTranslation()
-  const [data, setData] = useState<Matrix<any>>([[{ value: "" }]])
+  const [data, setData] = useState<Matrix<any>>([
+    [{ value: "" }, { value: "" }, { value: "" }],
+    [{ value: "" }, { value: "" }, { value: "" }],
+    [{ value: "" }, { value: "" }, { value: "" }],
+  ])
   const [selection, setSelection] = useState<
     { row: number; column: number }[] | null
   >(null)

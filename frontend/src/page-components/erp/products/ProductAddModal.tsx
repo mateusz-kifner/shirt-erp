@@ -29,7 +29,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
   return (
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose={() => onClose()}
       size="xl"
       title="Utwórz nowy produkt"
     >

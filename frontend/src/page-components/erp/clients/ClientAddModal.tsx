@@ -29,7 +29,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
   return (
     <Modal
       opened={opened}
-      onClose={onClose}
+      onClose={() => onClose()}
       size="xl"
       title="Utwórz nowego klienta"
     >

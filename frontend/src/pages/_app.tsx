@@ -13,14 +13,7 @@ import { AuthProvider } from "../context/authContext"
 import { IconsProvider } from "../context/iconsContext"
 import { ExperimentalFuturesProvider } from "../context/experimentalFuturesContext"
 import { env } from "../env/client.mjs"
-
-import "dayjs/locale/pl"
-import dayjs from "dayjs"
-import localizedFormat from "dayjs/plugin/localizedFormat"
-import isToday from "dayjs/plugin/isToday"
-
-import i18n from "../i18n"
-import i18next from "i18next"
+import "../i18n"
 
 axios.defaults.baseURL = env.NEXT_PUBLIC_SERVER_API_URL + "/api"
 
@@ -46,7 +39,7 @@ Logger.setHandler(function (messages, context) {
       color: "yellow",
     })
   if (typeof messages[0] === "string") {
-    axios.post("/loggers", {
+    axios.post("/logs", {
       message: messages[0],
       type: context.level.name,
       userId: savedValue && savedValue?.length > 0 ? savedValue : null,
@@ -64,13 +57,6 @@ Logger.setHandler(function (messages, context) {
 Logger.setLevel(
   env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN
 )
-
-//wait for i18n initialization to get current locale
-i18n.then(() => {
-  dayjs.locale(i18next.language)
-})
-dayjs.extend(localizedFormat)
-dayjs.extend(isToday)
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props
