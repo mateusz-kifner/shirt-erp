@@ -27,6 +27,7 @@ import { Cash, Numbers } from "tabler-icons-react"
 import _ from "lodash"
 import { useAuthContext } from "../../context/authContext"
 import { SxBorder, SxRadius } from "../../styles/basic"
+import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
 
 const ApiProps: {
   [key: string]: {
@@ -63,7 +64,7 @@ const ApiProps: {
       value?.name ? truncString(value.name, 40) : undefined,
   },
   workstations: {
-    ListItem: makeDefaultListItem("name"),
+    ListItem: WorkstationListItem,
     copyProvider: (value: any) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },

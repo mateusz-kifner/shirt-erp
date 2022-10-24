@@ -1,8 +1,8 @@
 import _ from "lodash"
 import { useRouter } from "next/router"
 import ApiList from "../../../components/api/ApiList"
-import { makeDefaultListItem } from "../../../components/DefaultListItem"
 import names from "../../../models/names.json"
+import WorkstationListItem from "./WorkstationListItem"
 
 const entryName = "workstations"
 
@@ -20,7 +20,7 @@ const WorkstationsList = (props: WorkstationsListProps) => {
   const router = useRouter()
   return (
     <ApiList
-      ListItem={makeDefaultListItem("name")}
+      ListItem={WorkstationListItem}
       entryName={entryName}
       label={label}
       onChange={(val: any) => {

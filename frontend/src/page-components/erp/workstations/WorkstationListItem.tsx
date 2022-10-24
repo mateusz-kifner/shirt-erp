@@ -1,4 +1,5 @@
 import { Avatar, useMantineTheme, NavLink } from "@mantine/core"
+import ApiIconSVG from "../../../components/api/ApiIconSVG"
 import { WorkstationType } from "../../../types/WorkstationType"
 import { truncString } from "../../../utils/truncString"
 
@@ -18,12 +19,40 @@ const WorkstationListItem = ({
   linkTo,
 }: WorkstationListItemProps) => {
   const theme = useMantineTheme()
-
+  console.log(value)
   return (
     <NavLink
       disabled={disabled}
-      icon={value && <Avatar radius="xl"></Avatar>}
+      icon={
+        value && (
+          <Avatar radius="xl">
+            {value?.iconId ? (
+              <ApiIconSVG
+                entryName="workstations"
+                id={value?.iconId}
+                // color={
+                //   value?.color?.hex
+                //     ? convert.hex.hsl(value.color.hex)[2] < 0.5
+                //       ? "#fff"
+                //       : "#000"
+                //     : theme.colorScheme === "dark"
+                //     ? "#fff"
+                //     : "#000"
+                // }
+                noError
+              />
+            ) : (
+              " "
+            )}
+          </Avatar>
+        )
+      }
       label={value ? value?.name && truncString(value.name, 20) : "⸺"}
+      description={
+        value
+          ? value?.description && truncString(value.description, 20)
+          : undefined
+      }
       onClick={() => onChange?.(value)}
       active={active}
       // @ts-ignore

@@ -101,8 +101,9 @@ function useStrapiList<entryType>(
     refetch()
     // eslint-disable-next-line
   }, [page, pageSize])
+
   return {
-    data: filterQuery ? data : filteredData,
+    data: filterQuery ? filteredData : data,
     meta: rawData?.meta,
     status,
     refetch,

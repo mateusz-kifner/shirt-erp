@@ -7,7 +7,7 @@ export interface ProductType {
   desc: string
   iconId: number | null
   previewImg: Partial<ImageType> | null
-  variant: Object
+  variants: any
   createdAt: Date
   updatedAt: Date
 }

@@ -7,20 +7,22 @@ import {
   Menu,
   Stack,
 } from "@mantine/core"
-import _ from "lodash"
+import _, { clamp } from "lodash"
 import { ComponentType, FC, useEffect, useId, useState } from "react"
-import { SxBorder, SxRadius } from "../../styles/basic"
+import { SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import {
   ArrowDown,
   ArrowUp,
   Dots,
   Edit,
+  GripVertical,
   Plus,
   TrashX,
   X,
 } from "tabler-icons-react"
-import { useHover, useListState } from "@mantine/hooks"
+import { useHover, useListState, useResizeObserver } from "@mantine/hooks"
+import { useDrag } from "@use-gesture/react"
 
 // fixme submit only on edit end
 
@@ -55,6 +57,43 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
   const [active, setActive] = useState<boolean>(false)
   const uuid = useId()
   const { hovered, ref } = useHover()
+  // const [y, setY] = useState(0)
+  // const [moveIndex, setMoveIndex] = useState(-1)
+  // const [ref2, rect] = useResizeObserver()
+  // const [ref3, itemRect] = useResizeObserver()
+  // const gap = 16
+
+  // const curRow = clamp(
+  //   Math.round(
+  //     ((moveIndex - 0.5) * (itemRect.height + gap) + y) /
+  //       (itemRect.height + gap)
+  //   ),
+  //   0,
+  //   items.length - 1
+  // )
+  // const bind = useDrag((state) => {
+  //   const [originalIndex] = state.args
+  //   const [, y] = state.movement
+  //   setMoveIndex(originalIndex)
+  //   // index =2
+  //   const minY = -originalIndex * (itemRect.height + gap)
+  //   const maxY = (items.length - originalIndex - 1) * (itemRect.height + gap)
+  //   const curRow = clamp(
+  //     Math.round(
+  //       (originalIndex * (itemRect.height + gap) + y) / (itemRect.height + gap)
+  //     ),
+  //     0,
+  //     items.length - 1
+  //   )
+
+  // if (curRow !== originalIndex) {
+  //   handlers.reorder({ from: originalIndex, to: curRow })
+  // }
+
+  //   console.log(clamp(y, minY, maxY), y, minY, maxY, curRow)
+
+  //   setY(clamp(y, minY, maxY))
+  // })
 
   useEffect(() => {
     const filtered_items = items.filter((val) => !!val)
@@ -75,10 +114,19 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     setPrev(value)
     // eslint-disable-next-line
   }, [value])
-  console.log("Editable Array list", items)
 
   return (
-    <Input.Wrapper label={label} required={required} ref={ref}>
+    <Input.Wrapper
+      label={label}
+      required={required}
+      ref={ref}
+      sx={(theme) => ({
+        touchAction: "none",
+        "& *": {
+          touchAction: "none",
+        },
+      })}
+    >
       <Stack
         sx={[
           (theme) => ({
@@ -102,114 +150,143 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
           SxRadius,
         ]}
       >
-        {items.length == 0 && !active && "⸺"}
-        {items.map((val, index) => {
-          return (
-            <Group spacing="xs" key={uuid + index}>
-              <Box
-                sx={(theme) => ({
-                  backgroundColor: active
-                    ? theme.colorScheme === "dark"
-                      ? theme.colors.dark[7]
-                      : theme.white
-                    : undefined,
-                  flexGrow: 1,
-                  paddingRight: active ? undefined : 32,
-                  borderRadius: theme.radius.sm,
-                })}
+        <Stack
+        // ref={ref2}
+        >
+          {items.length == 0 && !active && "⸺"}
+          {items.map((val, index) => {
+            return (
+              <Group
+                spacing="xs"
+                key={uuid + index}
+                // style={{
+                //   position: "relative",
+                //   top:
+                //     moveIndex === index
+                //       ? y
+                //       : index > curRow
+                //       ? itemRect.height + 16
+                //       : undefined,
+                //   zIndex: moveIndex === index ? 102 : undefined,
+                // }}
+                // ref={index == 0 ? ref3 : undefined}
               >
-                <Element
-                  {..._.omit(elementProps, ["label"])}
-                  value={val}
-                  onSubmit={(itemValue: any) => {
-                    console.log("array", itemValue)
-                    itemValue && handlers.setItem(index, itemValue)
-                    // setItems((stringArrayOld) =>
-                    //   stringArrayOld.map((val, i) =>
-                    //     i === index ? itemValue : val
-                    //   )
-                    // )
-                  }}
-                  disabled={!active}
-                />
-              </Box>
-              {active && (
-                <>
-                  {organizingHandle === "arrows" && items.length > 1 && (
-                    <>
+                <Box
+                  sx={(theme) => ({
+                    backgroundColor: active
+                      ? theme.colorScheme === "dark"
+                        ? theme.colors.dark[7]
+                        : theme.white
+                      : undefined,
+                    flexGrow: 1,
+                    paddingRight: active ? undefined : 32,
+                    borderRadius: theme.radius.sm,
+                  })}
+                >
+                  <Element
+                    {..._.omit(elementProps, ["label"])}
+                    value={val}
+                    onSubmit={(itemValue: any) => {
+                      console.log("array", itemValue)
+                      itemValue && handlers.setItem(index, itemValue)
+                      // setItems((stringArrayOld) =>
+                      //   stringArrayOld.map((val, i) =>
+                      //     i === index ? itemValue : val
+                      //   )
+                      // )
+                    }}
+                    disabled={!active}
+                  />
+                </Box>
+                {active && (
+                  <>
+                    {organizingHandle === "arrows" && items.length > 1 && (
+                      <>
+                        <ActionIcon
+                          radius="xl"
+                          onClick={() =>
+                            handlers.reorder({ from: index, to: index - 1 })
+                          }
+                          disabled={disabled}
+                        >
+                          <ArrowUp size={14} />
+                        </ActionIcon>
+                        <ActionIcon
+                          radius="xl"
+                          onClick={() =>
+                            handlers.reorder({ from: index, to: index + 1 })
+                          }
+                          disabled={disabled}
+                        >
+                          <ArrowDown size={14} />
+                        </ActionIcon>
+                      </>
+                    )}
+                    {organizingHandle === "drag and drop" && items.length > 1 && (
                       <ActionIcon
+                        // {...bind(index)}
                         radius="xl"
-                        onClick={() =>
-                          handlers.reorder({ from: index, to: index - 1 })
-                        }
-                        // disabled={disabled}
+                        onClick={() => {}}
+                        disabled={disabled}
+                        style={{ touchAction: "none" }}
                       >
-                        <ArrowUp size={14} />
+                        <GripVertical size={14} />
                       </ActionIcon>
-                      <ActionIcon
-                        radius="xl"
-                        onClick={() =>
-                          handlers.reorder({ from: index, to: index + 1 })
-                        }
-                        // disabled={disabled}
-                      >
-                        <ArrowDown size={14} />
-                      </ActionIcon>
-                    </>
-                  )}
-                  <Menu
-                  // tabIndex={-1}
-                  // withArrow
-                  // styles={(theme) => ({
-                  //   body: {
-                  //     backgroundColor:
-                  //       theme.colorScheme === "dark"
-                  //         ? theme.colors.dark[7]
-                  //         : theme.white,
-                  //   },
-                  //   arrow: {
-                  //     backgroundColor:
-                  //       theme.colorScheme === "dark"
-                  //         ? theme.colors.dark[7]
-                  //         : theme.white,
-                  //   },
-                  // })}
-                  >
-                    <Menu.Target>
-                      <ActionIcon
-                        tabIndex={-1}
-                        radius="xl"
+                    )}
+                    <Menu
+                    // tabIndex={-1}
+                    // withArrow
+                    // styles={(theme) => ({
+                    //   body: {
+                    //     backgroundColor:
+                    //       theme.colorScheme === "dark"
+                    //         ? theme.colors.dark[7]
+                    //         : theme.white,
+                    //   },
+                    //   arrow: {
+                    //     backgroundColor:
+                    //       theme.colorScheme === "dark"
+                    //         ? theme.colors.dark[7]
+                    //         : theme.white,
+                    //   },
+                    // })}
+                    >
+                      <Menu.Target>
+                        <ActionIcon
+                          tabIndex={-1}
+                          radius="xl"
 
-                        // style={{
-                        //   position: "absolute",
-                        //   top: "50%",
-                        //   right: 8,
-                        //   transform: "translate(0,-50%)",
-                        // }}
-                      >
-                        <Dots size={14} />
-                      </ActionIcon>
-                    </Menu.Target>
+                          // style={{
+                          //   position: "absolute",
+                          //   top: "50%",
+                          //   right: 8,
+                          //   transform: "translate(0,-50%)",
+                          // }}
+                        >
+                          <Dots size={14} />
+                        </ActionIcon>
+                      </Menu.Target>
 
-                    <Menu.Dropdown>
-                      <Menu.Item
-                        icon={<TrashX size={14} />}
-                        onClick={() => {
-                          console.log(index)
-                          handlers.remove(index)
-                          // setItems((val) => val.filter((_, i) => i !== index))
-                        }}
-                        color="red"
-                      >
-                        Delete
-                      </Menu.Item>
-                    </Menu.Dropdown>
-                  </Menu>
-                </>
-              )}
-            </Group>
-          )
-        })}
+                      <Menu.Dropdown>
+                        <Menu.Item
+                          icon={<TrashX size={14} />}
+                          onClick={() => {
+                            console.log(index)
+                            handlers.remove(index)
+                            // setItems((val) => val.filter((_, i) => i !== index))
+                          }}
+                          color="red"
+                        >
+                          Delete
+                        </Menu.Item>
+                      </Menu.Dropdown>
+                    </Menu>
+                  </>
+                )}
+              </Group>
+            )
+          })}
+        </Stack>
         {active ? (
           <Group>
             <Button

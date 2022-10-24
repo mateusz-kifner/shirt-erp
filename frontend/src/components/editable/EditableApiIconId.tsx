@@ -18,7 +18,6 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
   label,
   value,
   initialValue,
-
   onSubmit,
   disabled,
   required,

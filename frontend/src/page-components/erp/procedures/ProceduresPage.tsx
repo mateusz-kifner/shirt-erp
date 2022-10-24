@@ -32,12 +32,12 @@ const ProceduresPage: FC = () => {
             paddingRight: theme.spacing.lg,
             paddingTop: theme.spacing.xs,
           },
-          root: {
-            position: "fixed",
-            top: 14,
-            zIndex: 101,
-            width: "100%",
-          },
+          // root: {
+          //   position: "fixed",
+          //   top: 14,
+          //   zIndex: 101,
+          //   width: "100%",
+          // },
         })}
       >
         <Tabs.List>

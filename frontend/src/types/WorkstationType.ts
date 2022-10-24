@@ -3,10 +3,10 @@ import { ImageType } from "./ImageType"
 export interface WorkstationType {
   id?: number
   name: string
-  desc: string | null
+  description: string | null
   numberOfJobs: number
   createdAt: Date
   updatedAt: Date
-  icon: ImageType | null
+  iconId: number | null
   nextWorkstations: WorkstationType[]
 }
