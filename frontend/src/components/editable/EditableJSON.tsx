@@ -1,5 +1,4 @@
 import { Input } from "@mantine/core"
-import { FC } from "react"
 
 interface EditableJSONProps {
   label?: string

@@ -13,7 +13,7 @@ import {
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
-import { FC, useEffect, useId, useState } from "react"
+import { useEffect, useId, useState } from "react"
 import {
   Photo,
   Upload,

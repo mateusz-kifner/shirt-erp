@@ -1,5 +1,5 @@
 import { CSSObject } from "@mantine/core"
-import { CSSProperties, FC } from "react"
+import { CSSProperties } from "react"
 import useStrapi from "../../hooks/useStrapi"
 import EditableApiEntry from "./EditableApiEntry"
 

@@ -8,7 +8,7 @@ import {
   Stack,
 } from "@mantine/core"
 import _, { clamp } from "lodash"
-import { ComponentType, FC, useEffect, useId, useState } from "react"
+import { ComponentType, useEffect, useId, useState } from "react"
 import { SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import {

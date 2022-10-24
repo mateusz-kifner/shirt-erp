@@ -1,5 +1,5 @@
 import { Button, Group, Input, Modal, SimpleGrid, Stack } from "@mantine/core"
-import { FC, useEffect, useId, useState } from "react"
+import { useEffect, useId, useState } from "react"
 import { X } from "tabler-icons-react"
 import { useIconsContext } from "../../context/iconsContext"
 import ApiIconSVG from "../api/ApiIconSVG"

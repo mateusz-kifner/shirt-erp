@@ -11,7 +11,7 @@ import {
   TextInput,
   Loader,
 } from "@mantine/core"
-import { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Plus,
   Refresh,

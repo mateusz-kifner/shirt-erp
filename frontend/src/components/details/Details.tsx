@@ -1,6 +1,5 @@
 import { useId } from "@mantine/hooks"
 import { Text } from "@mantine/core"
-import { FC } from "react"
 import NotImplemented from "../NotImplemented"
 import DisplayCell from "./DisplayCell"
 import { useAuthContext } from "../../context/authContext"

@@ -1,4 +1,4 @@
-import { FC, forwardRef, useState } from "react"
+import { forwardRef, useState } from "react"
 import {
   Avatar,
   Button,

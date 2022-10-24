@@ -8,7 +8,7 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 
-import React, { CSSProperties, FC, ReactNode } from "react"
+import React, { CSSProperties, ReactNode } from "react"
 
 const sizes = {
   xs: 30,

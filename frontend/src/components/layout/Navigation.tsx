@@ -7,7 +7,7 @@ import {
   ActionIcon,
 } from "@mantine/core"
 import { useLocalStorage, useMediaQuery } from "@mantine/hooks"
-import { FC, ReactElement, Ref, SyntheticEvent, useState } from "react"
+import { ReactElement, Ref, SyntheticEvent, useState } from "react"
 import navigationData from "../../navigationData"
 // import { navigationData } from "../../Routes"
 import { ChevronRight, ChevronLeft } from "tabler-icons-react"

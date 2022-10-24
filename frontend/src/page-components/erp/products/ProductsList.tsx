@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 
 import ApiList from "../../../components/api/ApiList"
 import ProductListItem from "./ProductListItem"

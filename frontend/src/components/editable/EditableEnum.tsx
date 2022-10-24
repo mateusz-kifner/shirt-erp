@@ -1,7 +1,7 @@
 import { ActionIcon, Input, Select } from "@mantine/core"
 import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Copy } from "tabler-icons-react"
 
 interface EditableEnumProps {

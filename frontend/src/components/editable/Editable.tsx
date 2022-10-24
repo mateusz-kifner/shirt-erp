@@ -1,4 +1,4 @@
-import { ComponentType, CSSProperties, FC } from "react"
+import { ComponentType, CSSProperties } from "react"
 import { Box, Group, MantineTheme, Sx, Text } from "@mantine/core"
 import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"

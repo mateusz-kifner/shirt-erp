@@ -12,7 +12,6 @@ import {
   Title,
 } from "@mantine/core"
 import { useSpotlight } from "@mantine/spotlight"
-import { FC } from "react"
 import { Bell, Search, Settings } from "tabler-icons-react"
 import { NextLink } from "@mantine/next"
 import { useAuthContext } from "../../context/authContext"

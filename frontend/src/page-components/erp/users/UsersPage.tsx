@@ -1,5 +1,3 @@
-import { FC } from "react"
-
 import template from "../../../models/user.model.json"
 import UserListItem from "./UserListItem"
 import DefaultPage from "../../../components/DefaultPage"

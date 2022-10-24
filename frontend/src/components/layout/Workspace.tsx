@@ -1,7 +1,7 @@
 import { Group } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next/router"
-import { Children, FC, ReactNode, useId } from "react"
+import { Children, ReactNode, useId } from "react"
 import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
 
 import ResponsivePaper from "../ResponsivePaper"

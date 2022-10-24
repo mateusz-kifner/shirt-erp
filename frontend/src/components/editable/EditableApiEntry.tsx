@@ -10,7 +10,7 @@ import {
 import { useClipboard, useId } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
-import { CSSProperties, FC, useEffect, useMemo, useState } from "react"
+import { CSSProperties, useEffect, useMemo, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import { Copy, Dots, Menu2, TrashX, X } from "tabler-icons-react"
 import ApiList from "../api/ApiList"

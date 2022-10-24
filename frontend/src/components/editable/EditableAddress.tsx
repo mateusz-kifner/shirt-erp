@@ -6,7 +6,7 @@ import {
   useMergedRef,
 } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
 import { BuildingCommunity, Copy, Edit, X } from "tabler-icons-react"

@@ -8,7 +8,7 @@ import {
 } from "@mantine/core"
 import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState, CSSProperties, useMemo } from "react"
+import { useEffect, useState, CSSProperties, useMemo } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "tabler-icons-react"
 import { SxBorder, SxRadius } from "../../styles/basic"

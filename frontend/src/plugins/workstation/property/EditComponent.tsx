@@ -1,5 +1,3 @@
-import { FC } from "react"
-
 interface EditComponentProps {
   config: object
   onSubmit: (config: object) => void

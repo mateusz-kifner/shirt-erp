@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { useState } from "react"
 
 import template from "../../../models/workstation.model.json"
 import Workspace from "../../../components/layout/Workspace"

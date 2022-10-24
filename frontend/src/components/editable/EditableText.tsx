@@ -1,7 +1,7 @@
 import { ActionIcon, CSSObject, Input, Textarea } from "@mantine/core"
 import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useState, CSSProperties, ReactNode } from "react"
+import { useEffect, useState, CSSProperties, ReactNode } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "tabler-icons-react"
 

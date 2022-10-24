@@ -1,4 +1,3 @@
-import { FC } from "react"
 import { X } from "tabler-icons-react"
 import SVG from "react-inlinesvg"
 import { env } from "../../env/client.mjs"

@@ -1,5 +1,4 @@
 import { ActionIcon, Group, Image, Text } from "@mantine/core"
-import { FC } from "react"
 import { Eye, FileUnknown, TrashX } from "tabler-icons-react"
 import { env } from "../../../env/client.mjs"
 import { FileType } from "../../../types/FileType"

@@ -1,5 +1,4 @@
 import { Input } from "@mantine/core"
-import React, { FC } from "react"
 import { FileType } from "../../types/FileType"
 import FileList from "../FileList"
 

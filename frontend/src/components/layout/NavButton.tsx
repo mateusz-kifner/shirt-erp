@@ -1,4 +1,4 @@
-import { cloneElement, FC, ReactNode, Ref, SyntheticEvent } from "react"
+import { cloneElement, ReactNode, Ref, SyntheticEvent } from "react"
 
 import {
   DefaultMantineColor,

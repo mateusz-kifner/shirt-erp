@@ -1,4 +1,3 @@
-import { FC } from "react"
 import { Text } from "@mantine/core"
 
 const DashboardPage = () => {

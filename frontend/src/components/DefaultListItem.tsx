@@ -1,5 +1,4 @@
 import { Avatar, NavLink } from "@mantine/core"
-import { FC } from "react"
 import { truncString } from "../utils/truncString"
 
 // export type DefaultListItemProps = {

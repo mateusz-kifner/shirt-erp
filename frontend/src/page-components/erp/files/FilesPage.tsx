@@ -1,4 +1,4 @@
-import { FC, useEffect, useId } from "react"
+import { useEffect, useId } from "react"
 import { Input, SimpleGrid, Stack } from "@mantine/core"
 import { FileType } from "../../../types/FileType"
 import axios from "axios"

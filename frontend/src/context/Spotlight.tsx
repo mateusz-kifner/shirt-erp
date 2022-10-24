@@ -1,6 +1,6 @@
 import { SpotlightProvider } from "@mantine/spotlight"
 import type { SpotlightAction } from "@mantine/spotlight"
-import { FC, ReactNode, useState } from "react"
+import { ReactNode, useState } from "react"
 import { Search } from "tabler-icons-react"
 import axios from "axios"
 import { useQuery } from "react-query"

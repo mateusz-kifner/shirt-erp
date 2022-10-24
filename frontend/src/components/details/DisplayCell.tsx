@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import { Box, MantineSize, Text } from "@mantine/core"
 import { SxBorder, SxRadius } from "../../styles/basic"
 

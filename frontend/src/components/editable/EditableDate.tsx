@@ -8,7 +8,7 @@ import {
   useMergedRef,
 } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { FC, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, X } from "tabler-icons-react"
 import dayjs from "dayjs"

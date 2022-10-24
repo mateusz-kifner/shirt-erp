@@ -13,7 +13,7 @@ import {
   useMergedRef,
 } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import React, { FC, ReactNode, useEffect, useRef, useState } from "react"
+import React, { ReactNode, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit, X } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"

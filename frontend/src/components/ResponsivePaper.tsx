@@ -1,5 +1,4 @@
 import { Paper, PaperProps } from "@mantine/core"
-import { FC } from "react"
 
 const ResponsivePaper = (props: PaperProps) => {
   return (

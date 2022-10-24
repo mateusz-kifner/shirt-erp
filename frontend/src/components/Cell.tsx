@@ -1,4 +1,11 @@
-import * as React from "react"
+import {
+  ReactElement,
+  useMemo,
+  useRef,
+  MouseEvent,
+  useCallback,
+  useEffect,
+} from "react"
 import {
   CellBase,
   CellComponentProps,
@@ -16,7 +23,7 @@ export function getOffsetRect(element: HTMLElement): Dimensions {
   }
 }
 
-export const Cell: React.FC<CellComponentProps> = ({
+export const Cell = ({
   row,
   column,
   DataViewer,
@@ -29,9 +36,9 @@ export const Cell: React.FC<CellComponentProps> = ({
   select,
   activate,
   setCellDimensions,
-}): React.ReactElement => {
-  const rootRef = React.useRef<HTMLTableCellElement | null>(null)
-  const point = React.useMemo(
+}: CellComponentProps): ReactElement => {
+  const rootRef = useRef<HTMLTableCellElement | null>(null)
+  const point = useMemo(
     (): Point => ({
       row,
       column,
@@ -39,8 +46,8 @@ export const Cell: React.FC<CellComponentProps> = ({
     [row, column]
   )
 
-  const handleMouseDown = React.useCallback(
-    (event: React.MouseEvent<HTMLTableCellElement>) => {
+  const handleMouseDown = useCallback(
+    (event: MouseEvent<HTMLTableCellElement>) => {
       if (mode === "view") {
         setCellDimensions(point, getOffsetRect(event.currentTarget))
 
@@ -54,8 +61,8 @@ export const Cell: React.FC<CellComponentProps> = ({
     [mode, setCellDimensions, point, select, activate]
   )
 
-  const handleMouseOver = React.useCallback(
-    (event: React.MouseEvent<HTMLTableCellElement>) => {
+  const handleMouseOver = useCallback(
+    (event: MouseEvent<HTMLTableCellElement>) => {
       if (dragging) {
         setCellDimensions(point, getOffsetRect(event.currentTarget))
         select(point)
@@ -64,7 +71,7 @@ export const Cell: React.FC<CellComponentProps> = ({
     [setCellDimensions, select, dragging, point]
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     const root = rootRef.current
     if (selected && root) {
       setCellDimensions(point, getOffsetRect(root))

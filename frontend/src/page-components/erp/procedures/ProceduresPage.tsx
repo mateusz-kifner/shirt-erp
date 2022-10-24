@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { useState } from "react"
 import template from "../../../models/procedure.model.json"
 import DefaultPage from "../../../components/DefaultPage"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"

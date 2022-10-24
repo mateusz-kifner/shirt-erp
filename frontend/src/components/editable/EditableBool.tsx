@@ -1,7 +1,7 @@
 import { Group, Switch, Text, Checkbox } from "@mantine/core"
 import { useHover } from "@mantine/hooks"
 
-import { FC, useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 
 // FIXME: respect disabled state
 // TODO: Remake this to respect height
