@@ -139,15 +139,19 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                     <>
                       <ActionIcon
                         radius="xl"
-                        onClick={() => {}}
-                        disabled={disabled}
+                        onClick={() =>
+                          handlers.reorder({ from: index, to: index - 1 })
+                        }
+                        // disabled={disabled}
                       >
                         <ArrowUp size={14} />
                       </ActionIcon>
                       <ActionIcon
                         radius="xl"
-                        onClick={() => {}}
-                        disabled={disabled}
+                        onClick={() =>
+                          handlers.reorder({ from: index, to: index + 1 })
+                        }
+                        // disabled={disabled}
                       >
                         <ArrowDown size={14} />
                       </ActionIcon>

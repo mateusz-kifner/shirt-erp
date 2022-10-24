@@ -5,9 +5,9 @@ import EditableApiEntry from "./EditableApiEntry"
 
 interface EditableApiEntryIdProps {
   label?: string
-  value?: any
-  initialValue?: any
-  onSubmit?: (value: any | null) => void
+  value?: number
+  initialValue?: number
+  onSubmit?: (value: number | null) => void
   disabled?: boolean
   required?: boolean
   entryName: string
@@ -36,13 +36,12 @@ const EditableApiEntryId: FC<EditableApiEntryIdProps> = (props) => {
     withErase = false,
   } = props
 
-  const { data } = useStrapi(entryName, value?.id ? value.id : null)
-  // const data = null
+  const { data } = useStrapi(entryName, value ? value : null)
   return (
     <EditableApiEntry
       {...props}
       onSubmit={(value) => onSubmit && onSubmit(value.id)}
-      value={value?.id ? data : null}
+      value={value ? data : null}
     />
   )
 }
