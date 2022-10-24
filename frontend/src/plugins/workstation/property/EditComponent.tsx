@@ -5,7 +5,7 @@ interface EditComponentProps {
   onSubmit: (config: object) => void
 }
 
-const EditComponent: FC<EditComponentProps> = ({ config, onSubmit }) => {
+const EditComponent = ({ config, onSubmit }: EditComponentProps) => {
   return <div>EditComponent</div>
 }
 

@@ -20,7 +20,7 @@ function reducer(state: Array<Array<any>>, action: Action): Array<Array<any>> {
 
 interface CalcTableProps {}
 
-const CalcTable: FC<CalcTableProps> = () => {
+const CalcTable = (props: CalcTableProps) => {
   const [data, setData] = useState<Matrix<any>>([
     [
       { value: "test" },

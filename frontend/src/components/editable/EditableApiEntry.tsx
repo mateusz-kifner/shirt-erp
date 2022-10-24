@@ -33,7 +33,7 @@ interface EditableApiEntryProps {
   listProps?: any
 }
 
-const EditableApiEntry: FC<EditableApiEntryProps> = (props) => {
+const EditableApiEntry = (props: EditableApiEntryProps) => {
   const {
     label,
     value,

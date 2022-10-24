@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { Text } from "@mantine/core"
 
-const DashboardPage: FC = () => {
+const DashboardPage = () => {
   return <Text>DashboardPage</Text>
 }
 

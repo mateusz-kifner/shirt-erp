@@ -24,14 +24,14 @@ export const makeDefaultListItem = (entryKey?: string, entryKey2?: string) => {
   return ListItem
 }
 
-const DefaultListItem: FC<DefaultListItemProps> = ({
+const DefaultListItem = ({
   value,
   onChange,
   entryKey,
   entryKey2,
   active,
   disabled,
-}) => {
+}: DefaultListItemProps) => {
   // start from 1, because 0 is id
   const firstElement = value
     ? entryKey

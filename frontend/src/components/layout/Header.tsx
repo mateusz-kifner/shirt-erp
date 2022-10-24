@@ -20,7 +20,7 @@ import { useExperimentalFuturesContext } from "../../context/experimentalFutures
 
 interface HeaderProps {}
 
-const Header: FC<HeaderProps> = () => {
+const Header = (props: HeaderProps) => {
   const { toggleNavigationCollapsed, navigationCollapsed } = useAuthContext()
   const { search } = useExperimentalFuturesContext()
   const theme = useMantineTheme()

@@ -24,7 +24,7 @@ interface EditableDateProps {
   required?: boolean
 }
 
-const EditableDate: FC<EditableDateProps> = ({
+const EditableDate = ({
   label,
   value,
   initialValue,
@@ -32,7 +32,7 @@ const EditableDate: FC<EditableDateProps> = ({
   onSubmit,
   disabled,
   required,
-}) => {
+}: EditableDateProps) => {
   const [date, setDate] = useState<Date | null>(
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )

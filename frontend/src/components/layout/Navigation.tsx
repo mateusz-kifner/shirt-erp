@@ -16,7 +16,7 @@ import { useAuthContext } from "../../context/authContext"
 
 interface NavigationProps {}
 
-const Navigation: FC<NavigationProps> = () => {
+const Navigation = (props: NavigationProps) => {
   const { navigationCollapsed, toggleNavigationCollapsed, debug } =
     useAuthContext()
   const biggerThanSM = useMediaQuery("(min-width: 1000px)", true)

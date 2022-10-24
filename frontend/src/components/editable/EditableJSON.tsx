@@ -10,7 +10,7 @@ interface EditableJSONProps {
   required?: boolean
 }
 
-const EditableJSON: FC<EditableJSONProps> = ({ value, label }) => {
+const EditableJSON = ({ value, label }: EditableJSONProps) => {
   return (
     <Input.Wrapper
       label={label && label.length > 0 ? label : undefined}

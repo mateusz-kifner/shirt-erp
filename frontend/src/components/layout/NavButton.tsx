@@ -24,7 +24,7 @@ interface NavButtonProps {
   small?: boolean
 }
 
-export const NavButton: FC<NavButtonProps> = ({
+export const NavButton = ({
   label,
   Icon,
   to,
@@ -33,7 +33,7 @@ export const NavButton: FC<NavButtonProps> = ({
   onClick = () => {},
   size = "xl",
   small = false,
-}) => {
+}: NavButtonProps) => {
   return (
     <UnstyledButton
       sx={(theme) => ({

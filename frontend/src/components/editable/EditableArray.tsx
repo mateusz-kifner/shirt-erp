@@ -39,7 +39,7 @@ interface EditableArrayProps {
   organizingHandle: "none" | "arrows" | "drag and drop"
 }
 
-const EditableArray: FC<EditableArrayProps> = (props) => {
+const EditableArray = (props: EditableArrayProps) => {
   const {
     label,
     value,

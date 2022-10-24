@@ -75,12 +75,12 @@ interface FileListProps {
   maxFileCount?: number
 }
 
-const FileList: FC<FileListProps> = ({
+const FileList = ({
   onChange,
   value,
   disabled,
   maxFileCount = 1024,
-}) => {
+}: FileListProps) => {
   const theme = useMantineTheme()
   const uuid = useId()
   const [filesData, setFilesData] = useState<FilesDataType[]>([])

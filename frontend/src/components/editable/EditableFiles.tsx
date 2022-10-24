@@ -13,7 +13,7 @@ interface EditableFilesProps {
   maxCount?: number
 }
 
-const EditableFiles: FC<EditableFilesProps> = (props) => {
+const EditableFiles = (props: EditableFilesProps) => {
   const { label, value, initialValue, onSubmit, disabled, required, maxCount } =
     props
   return (

@@ -35,8 +35,11 @@ const fetchSearch = async (query: string) => {
   // console.log(res.data)
   return res.data
 }
+interface SpotlightProps {
+  children: ReactNode
+}
 
-const Spotlight: FC<{ children: ReactNode }> = ({ children }) => {
+const Spotlight = ({ children }: SpotlightProps) => {
   const { isAuthenticated } = useAuthContext()
   const router = useRouter()
   const [query, setQuery] = useState<string>("")

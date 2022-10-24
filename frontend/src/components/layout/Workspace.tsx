@@ -13,12 +13,12 @@ interface WorkspaceProps {
   defaultViews?: number | number[]
 }
 
-const Workspace: FC<WorkspaceProps> = ({
+const Workspace = ({
   children,
   childrenLabels,
   childrenWrapperProps = [null],
   defaultViews = 0,
-}) => {
+}: WorkspaceProps) => {
   const uuid = useId()
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)",

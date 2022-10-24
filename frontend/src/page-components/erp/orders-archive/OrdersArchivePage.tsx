@@ -1,7 +1,7 @@
 import { FC } from "react"
 import { Text } from "@mantine/core"
 
-const OrdersArchivePage: FC = () => {
+const OrdersArchivePage = () => {
   return <Text>OrdersArchivePage</Text>
 }
 

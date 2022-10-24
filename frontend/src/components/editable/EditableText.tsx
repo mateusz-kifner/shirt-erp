@@ -20,7 +20,7 @@ interface EditableTextProps {
   icon?: ReactNode
 }
 
-const EditableText: FC<EditableTextProps> = (props) => {
+const EditableText = (props: EditableTextProps) => {
   const {
     label,
     value,

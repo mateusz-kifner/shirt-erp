@@ -14,7 +14,7 @@ interface EditableApiIconIdProps {
   entryName?: string
 }
 
-const EditableApiIconId: FC<EditableApiIconIdProps> = ({
+const EditableApiIconId = ({
   label,
   value,
   initialValue,
@@ -22,7 +22,7 @@ const EditableApiIconId: FC<EditableApiIconIdProps> = ({
   disabled,
   required,
   entryName,
-}) => {
+}: EditableApiIconIdProps) => {
   const [opened, setOpened] = useState(false)
   const [iconId, setIconId] = useState<number | null>(
     value ?? initialValue ?? null

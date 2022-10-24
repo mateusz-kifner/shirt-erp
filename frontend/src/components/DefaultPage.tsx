@@ -15,11 +15,11 @@ interface DefaultPageProps {
   ListElement?: React.ElementType
 }
 
-const DefaultPage: FC<DefaultPageProps> = ({
+const DefaultPage = ({
   entryName,
   template,
   ListElement,
-}) => {
+}: DefaultPageProps) => {
   const [id, setId] = useState<number | null>(null)
   const ListElem = ListElement ?? DefaultListItem
   const router = useRouter()

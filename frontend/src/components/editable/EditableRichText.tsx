@@ -22,7 +22,7 @@ interface EditableRichTextProps {
   required?: boolean
 }
 
-const EditableRichText: FC<EditableRichTextProps> = ({
+const EditableRichText = ({
   label,
   value,
   initialValue,
@@ -30,7 +30,7 @@ const EditableRichText: FC<EditableRichTextProps> = ({
   onSubmit,
   disabled,
   required,
-}) => {
+}: EditableRichTextProps) => {
   const [text, setText] = useState(
     value
       ? DOMPurify.sanitize(value)

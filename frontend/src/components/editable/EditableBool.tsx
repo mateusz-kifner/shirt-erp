@@ -18,7 +18,7 @@ interface EditableBoolProps {
   stateLabels: { checked: string; unchecked: string }
 }
 
-const EditableBool: FC<EditableBoolProps> = (props) => {
+const EditableBool = (props: EditableBoolProps) => {
   const {
     label,
     value,

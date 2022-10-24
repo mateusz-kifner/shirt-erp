@@ -13,7 +13,7 @@ const fetchFiles = async () => {
   const res = await axios.get("upload/files")
   return res.data
 }
-const FilesPage: FC = () => {
+const FilesPage = () => {
   const uuid = useId()
   const { height, width } = useViewportSize()
 

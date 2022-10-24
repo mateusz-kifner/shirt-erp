@@ -44,7 +44,7 @@ interface EditableAddressProps {
   maxLength?: number
 }
 
-const EditableAddress: FC<EditableAddressProps> = ({
+const EditableAddress = ({
   label,
   value,
   initialValue,
@@ -53,7 +53,7 @@ const EditableAddress: FC<EditableAddressProps> = ({
   disabled,
   required,
   maxLength,
-}) => {
+}: EditableAddressProps) => {
   const [address, setAddress] = useState<AddressType>(
     value
       ? value

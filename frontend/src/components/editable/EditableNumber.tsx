@@ -36,7 +36,7 @@ interface EditableDateProps {
   max?: number
 }
 
-const EditableDate: FC<EditableDateProps> = (props) => {
+const EditableDate = (props: EditableDateProps) => {
   const {
     label,
     value,

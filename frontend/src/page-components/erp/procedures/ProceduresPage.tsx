@@ -13,7 +13,7 @@ import ProcedureAddModal from "./ProcedureAddModal"
 
 const entryName = "procedures"
 
-const ProceduresPage: FC = () => {
+const ProceduresPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")

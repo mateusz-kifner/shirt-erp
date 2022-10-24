@@ -1,7 +1,7 @@
 import { Paper, PaperProps } from "@mantine/core"
 import { FC } from "react"
 
-const ResponsivePaper: FC<PaperProps> = (props) => {
+const ResponsivePaper = (props: PaperProps) => {
   return (
     <Paper
       shadow="xs"

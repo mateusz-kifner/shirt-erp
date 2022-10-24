@@ -19,7 +19,7 @@ interface EditableDateTimeProps {
   required?: boolean
 }
 
-const EditableDateTime: FC<EditableDateTimeProps> = (props) => {
+const EditableDateTime = (props: EditableDateTimeProps) => {
   const { label, value, initialValue, onSubmit, disabled, required } = props
   // let new_props = { ...props }
   // delete new_label

@@ -20,7 +20,7 @@ interface EditableApiEntryIdProps {
   withErase?: boolean
 }
 
-const EditableApiEntryId: FC<EditableApiEntryIdProps> = (props) => {
+const EditableApiEntryId = (props: EditableApiEntryIdProps) => {
   const {
     label,
     value,

@@ -20,7 +20,7 @@ interface DisplayCellProps {
   children: React.ReactNode
 }
 
-const DisplayCell: FC<DisplayCellProps> = (props) => {
+const DisplayCell = (props: DisplayCellProps) => {
   const { icon, iconWidth, size, rightSection, children } = props
   return (
     <Text

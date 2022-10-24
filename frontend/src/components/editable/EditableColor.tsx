@@ -66,7 +66,7 @@ interface EditableColorProps {
   >
 }
 
-const EditableColor: FC<EditableColorProps> = (props) => {
+const EditableColor = (props: EditableColorProps) => {
   const {
     label,
     value,

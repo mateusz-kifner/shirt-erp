@@ -8,7 +8,7 @@ import { useRouter } from "next/router"
 
 const entryName = "users"
 
-const UsersList: FC = () => {
+const UsersList = () => {
   const [id, setId] = useState<number | null>(null)
   const router = useRouter()
 

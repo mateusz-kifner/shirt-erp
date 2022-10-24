@@ -14,13 +14,13 @@ interface ApiIconSVGProps {
   noError?: boolean
 }
 
-const ApiIconSVG: FC<ApiIconSVGProps> = ({
+const ApiIconSVG = ({
   color,
   size,
   entryName,
   id,
   noError,
-}) => {
+}: ApiIconSVGProps) => {
   const { jwt } = useAuthContext()
   const { iconsData } = useIconsContext()
   const theme = useMantineTheme()

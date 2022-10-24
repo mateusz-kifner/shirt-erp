@@ -16,14 +16,14 @@ interface EditableSecretTextProps {
   maxLength?: number
 }
 
-const EditableSecretText: FC<EditableSecretTextProps> = ({
+const EditableSecretText = ({
   value,
   initialValue,
 
   onSubmit,
   disabled,
   maxLength,
-}) => {
+}: EditableSecretTextProps) => {
   const [text, setText] = useState(
     value
       ? DOMPurify.sanitize(value)

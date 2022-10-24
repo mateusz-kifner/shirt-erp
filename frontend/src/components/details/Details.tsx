@@ -10,7 +10,7 @@ interface DetailsProps {
   data: { [key: string]: any }
 }
 
-const Details: FC<DetailsProps> = ({ template, data }) => {
+const Details = ({ template, data }: DetailsProps) => {
   const { debug } = useAuthContext()
   const uuid = useId()
   if (!(data && Object.keys(data).length > 0))

@@ -12,7 +12,7 @@ import { Affiliate, Robot } from "tabler-icons-react"
 
 const entryName = "workstations"
 
-const workstationsPage: FC = () => {
+const workstationsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
 
   const router = useRouter()

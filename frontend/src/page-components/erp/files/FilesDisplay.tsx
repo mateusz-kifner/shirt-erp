@@ -10,7 +10,7 @@ interface FileDisplayProps {
   onPreview?: (url: string) => void
 }
 
-const FileDisplay: FC<FileDisplayProps> = (props) => {
+const FileDisplay = (props: FileDisplayProps) => {
   const { fileData, disabled, onPreview } = props
   console.log(fileData.id, fileData.token)
   return (

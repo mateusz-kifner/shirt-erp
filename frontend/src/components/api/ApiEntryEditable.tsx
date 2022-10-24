@@ -59,11 +59,13 @@ const ApiEntryEditable = <EntryType extends any>({
       />
       {data && Object.keys(data).length > 0 ? (
         <>
-          <Editable
-            template={template}
-            data={data as any}
-            onSubmit={apiUpdate}
-          />
+          <Stack style={{ position: "relative", minHeight: 200 }}>
+            <Editable
+              template={template}
+              data={data as any}
+              onSubmit={apiUpdate}
+            />
+          </Stack>
           <Button
             color="red"
             variant="outline"
@@ -75,6 +77,7 @@ const ApiEntryEditable = <EntryType extends any>({
               entry: t(`${entryName}.singular` as any),
             })}
           </Button>
+
           <Modal
             opened={openedDelete}
             onClose={() => setOpenedDelete(false)}

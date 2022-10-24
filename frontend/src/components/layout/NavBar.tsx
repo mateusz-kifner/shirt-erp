@@ -13,7 +13,7 @@ interface NavBarProps {
   setIndependent?: (independent: boolean) => void
 }
 
-const NavBar: FC<NavBarProps> = ({
+const NavBar = ({
   children,
   sx,
   onPin,
@@ -21,7 +21,7 @@ const NavBar: FC<NavBarProps> = ({
   width = 340,
   independent = false,
   setIndependent,
-}) => {
+}: NavBarProps) => {
   const [pin, setPin] = useState<boolean>(false)
   const { ref: refFocus, focused: focused } = useFocusWithin()
 

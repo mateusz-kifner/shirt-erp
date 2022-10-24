@@ -8,7 +8,7 @@ import { useRouter } from "next/router"
 
 const entryName = "orders-archive"
 
-const OrdersArchiveList: FC = () => {
+const OrdersArchiveList = () => {
   const [id, setId] = useState<number | null>(null)
   const router = useRouter()
 

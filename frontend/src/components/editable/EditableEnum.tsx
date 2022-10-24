@@ -14,7 +14,7 @@ interface EditableEnumProps {
   enum_data: string[]
 }
 
-const EditableEnum: FC<EditableEnumProps> = ({
+const EditableEnum = ({
   label,
   value,
   initialValue,
@@ -23,7 +23,7 @@ const EditableEnum: FC<EditableEnumProps> = ({
   disabled,
   required,
   enum_data,
-}) => {
+}: EditableEnumProps) => {
   const [data, setData] = useState(value ?? initialValue ?? "")
   const clipboard = useClipboard()
 
