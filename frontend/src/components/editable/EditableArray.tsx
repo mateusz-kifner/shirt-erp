@@ -20,7 +20,7 @@ import {
   TrashX,
   X,
 } from "tabler-icons-react"
-import { useHover } from "@mantine/hooks"
+import { useHover, useListState } from "@mantine/hooks"
 
 // fixme submit only on edit end
 
@@ -50,7 +50,7 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
     elementProps,
     organizingHandle = "none",
   } = props
-  const [items, setItems] = useState<any[]>(value ?? initialValue ?? [])
+  const [items, handlers] = useListState<any>(value ?? initialValue ?? [])
   const [prev, setPrev] = useState<any[]>(items)
   const [active, setActive] = useState<boolean>(false)
   const uuid = useId()
@@ -71,11 +71,12 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
 
   useEffect(() => {
     if (value === undefined || value === null) return
-    setItems(value)
+    handlers.setState(value)
     setPrev(value)
     // eslint-disable-next-line
   }, [value])
-  // console.log("Editable Array props", props)
+  console.log("Editable Array list", items)
+
   return (
     <Input.Wrapper label={label} required={required} ref={ref}>
       <Stack
@@ -122,12 +123,12 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                   value={val}
                   onSubmit={(itemValue: any) => {
                     console.log("array", itemValue)
-                    itemValue &&
-                      setItems((stringArrayOld) =>
-                        stringArrayOld.map((val, i) =>
-                          i === index ? itemValue : val
-                        )
-                      )
+                    itemValue && handlers.setItem(index, itemValue)
+                    // setItems((stringArrayOld) =>
+                    //   stringArrayOld.map((val, i) =>
+                    //     i === index ? itemValue : val
+                    //   )
+                    // )
                   }}
                   disabled={!active}
                 />
@@ -191,7 +192,8 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
                         icon={<TrashX size={14} />}
                         onClick={() => {
                           console.log(index)
-                          setItems((val) => val.filter((_, i) => i !== index))
+                          handlers.remove(index)
+                          // setItems((val) => val.filter((_, i) => i !== index))
                         }}
                         color="red"
                       >
@@ -208,7 +210,10 @@ const EditableArray: FC<EditableArrayProps> = (props) => {
           <Group>
             <Button
               variant="light"
-              onClick={() => setItems((val) => [...val, null])}
+              onClick={
+                () => handlers.append(null)
+                //  setItems((val) => [...val, null])
+              }
               disabled={
                 disabled || (maxCount ? maxCount <= items.length : undefined)
               }

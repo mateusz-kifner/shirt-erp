@@ -1,5 +1,5 @@
-import common_pl from "../public/locales/pl/common.json"
-import common_en from "../public/locales/en/common.json"
+import common_pl from "./locales/pl/common.json"
+import common_en from "./locales/en/common.json"
 
 import i18next from "i18next"
 import { initReactI18next } from "react-i18next"

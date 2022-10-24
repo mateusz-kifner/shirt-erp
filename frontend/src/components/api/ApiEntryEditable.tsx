@@ -71,12 +71,14 @@ const ApiEntryEditable = <EntryType extends any>({
             onClick={() => setOpenedDelete(true)}
             mt={"4rem"}
           >
-            {t("delete", { entry: t(`${entryName}.singular`) })}
+            {t("delete", {
+              entry: t(`${entryName}.singular` as any),
+            })}
           </Button>
           <Modal
             opened={openedDelete}
             onClose={() => setOpenedDelete(false)}
-            title={t("delete", { entry: t(`${entryName}.singular`) })}
+            title={t("delete", { entry: t(`${entryName}.singular` as any) })}
             centered
           >
             <Text color="red" mb="xl">
@@ -95,7 +97,7 @@ const ApiEntryEditable = <EntryType extends any>({
                   setOpenedDelete(false)
                 }}
               >
-                {t("delete", { entry: t(`${entryName}.singular`) })}
+                {t("delete", { entry: t(`${entryName}.singular` as any) })}
               </Button>
               <Button onClick={() => setOpenedDelete(false)}>
                 {t("cancel")}
