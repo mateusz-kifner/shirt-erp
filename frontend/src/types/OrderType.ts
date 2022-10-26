@@ -21,6 +21,7 @@ export interface OrderType {
   products: ProductComponentType[]
   client: Partial<ClientType>
   // expenses: Partial<ExpensesType>[]
+  tables: { name: string; data: any }[]
   employees: Partial<UserType>[]
   emailMessages: Partial<EmailMessageType>[]
   emailMessagesText: Partial<EmailMessageType>[]

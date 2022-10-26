@@ -62,5 +62,6 @@
   "users": {
     "singular": "pracownik",
     "plural": "pracownicy"
-  }
+  },
+  "close": "Zamknij"
 }

@@ -8,7 +8,7 @@ const fetchData = async (entryName?: string | null) => {
   const res = await axios.get(`/${entryName}?populate=%2A`)
   return res.data
 }
-
+// Complex query https://youtu.be/JaM2rExmmqs?t=640
 const TasksPage = () => {
   const { data } = useQuery("users", () => fetchData("users/me"))
   return (

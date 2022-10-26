@@ -5,6 +5,7 @@ import {
   MouseEvent,
   useCallback,
   useEffect,
+  CSSProperties,
 } from "react"
 import {
   CellBase,
@@ -12,6 +13,9 @@ import {
   Dimensions,
   Point,
 } from "react-spreadsheet"
+import { ColorSwatch, RulerMeasure } from "tabler-icons-react"
+
+const icons = { ColorSwatch: ColorSwatch, RulerMeasure: RulerMeasure }
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -36,7 +40,7 @@ export const Cell = ({
   select,
   activate,
   setCellDimensions,
-}: CellComponentProps): ReactElement => {
+}: CellComponentProps) => {
   const rootRef = useRef<HTMLTableCellElement | null>(null)
   const point = useMemo(
     (): Point => ({
@@ -85,7 +89,8 @@ export const Cell = ({
     // @ts-ignore
     DataViewer = data.DataViewer
   }
-
+  //@ts-ignore
+  const Icon = icons[data?.icon]
   return (
     <td
       ref={rootRef}
@@ -96,6 +101,10 @@ export const Cell = ({
       onMouseDown={handleMouseDown}
       tabIndex={0}
     >
+      {/* @ts-ignore */}
+      {data?.icon && (
+        <Icon size={12} style={{ position: "absolute", top: 0, right: 0 }} />
+      )}
       <DataViewer
         row={row}
         column={column}
