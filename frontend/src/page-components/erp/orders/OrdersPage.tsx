@@ -2,14 +2,11 @@ import { useId, useState } from "react"
 
 import template from "../../../models/order.model"
 import * as XLSX from "xlsx"
-import EditableTable from "../../../components/editable/EditableTable"
-import TableType from "../../../types/TableType"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import Workspace from "../../../components/layout/Workspace"
 import OrdersList from "./OrdersList"
 import _ from "lodash"
 import { useRouter } from "next/router"
-import { createEmptyMatrix } from "react-spreadsheet"
 import { NextPage } from "next"
 import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import OrderAddModal from "./OrderAddModal"
@@ -95,19 +92,6 @@ const OrdersPage: NextPage = () => {
               )
             )
           })}
-        {/* {sheets.map((table_data, index) => (
-          <EditableTable
-            value={table_data}
-            onSubmit={(data) => {
-              data &&
-                setSheets((val) =>
-                  val.map((val, i) => (i === index ? data : val))
-                )
-              console.log(data)
-            }}
-            key={uuid + index}
-          />
-        ))} */}
       </Workspace>
       <OrderAddModal
         opened={openAddModal}

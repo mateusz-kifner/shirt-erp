@@ -28,6 +28,7 @@ import _ from "lodash"
 import { useAuthContext } from "../../context/authContext"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
+import EditableTable from "./EditableTable"
 
 const ApiProps: {
   [key: string]: {
@@ -105,6 +106,7 @@ const Fields: {
   file: { component: EditableFiles, props: { maxCount: 1 } },
   image: { component: EditableFiles, props: { maxCount: 1 } },
   files: { component: EditableFiles, props: {} },
+  table: { component: EditableTable, props: {} },
   apiEntry: {
     component: EditableApiEntry,
     props: {},
