@@ -1,21 +1,17 @@
 import {
-  ReactElement,
   useMemo,
   useRef,
   MouseEvent,
   useCallback,
   useEffect,
-  CSSProperties,
+  SVGAttributes,
 } from "react"
-import {
-  CellBase,
-  CellComponentProps,
-  Dimensions,
-  Point,
-} from "react-spreadsheet"
-import { ColorSwatch, RulerMeasure } from "tabler-icons-react"
+import { Dimensions, Point } from "react-spreadsheet"
 
-const icons = { ColorSwatch: ColorSwatch, RulerMeasure: RulerMeasure }
+import type { FC, ComponentType } from "react"
+import type { CellBase, CellComponentProps } from "react-spreadsheet"
+import { merge } from "lodash"
+import colors from "../models/colors.json"
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -25,6 +21,16 @@ export function getOffsetRect(element: HTMLElement): Dimensions {
     left: element.offsetLeft,
     top: element.offsetTop,
   }
+}
+
+type GenericSVGIcon = ComponentType<
+  ({ size?: number } & SVGAttributes<SVGElement>) | any
+>
+
+type CellWithIcons = CellComponentProps<
+  CellBase<string> & { metaId?: number; metaActionId?: number }
+> & {
+  icons: GenericSVGIcon[]
 }
 
 export const Cell = ({
@@ -40,7 +46,8 @@ export const Cell = ({
   select,
   activate,
   setCellDimensions,
-}: CellComponentProps) => {
+  icons,
+}: CellWithIcons) => {
   const rootRef = useRef<HTMLTableCellElement | null>(null)
   const point = useMemo(
     (): Point => ({
@@ -74,7 +81,6 @@ export const Cell = ({
     },
     [setCellDimensions, select, dragging, point]
   )
-
   useEffect(() => {
     const root = rootRef.current
     if (selected && root) {
@@ -89,26 +95,29 @@ export const Cell = ({
     // @ts-ignore
     DataViewer = data.DataViewer
   }
-  //@ts-ignore
-  const Icon = icons[data?.icon]
+
+  const Icon = icons?.[data?.metaActionId ?? -1]
+
   return (
     <td
       ref={rootRef}
       className={"Spreadsheet__cell"}
       // @ts-ignore
-      style={data?.style}
+      style={merge(data?.style, {
+        // @ts-ignore
+        background: data?.metaId ? colors[data?.metaId % 10] + "88" : undefined,
+      })}
       onMouseOver={handleMouseOver}
       onMouseDown={handleMouseDown}
       tabIndex={0}
     >
-      {/* @ts-ignore */}
-      {data?.icon && (
+      {Icon && (
         <Icon size={12} style={{ position: "absolute", top: 0, right: 0 }} />
       )}
       <DataViewer
         row={row}
         column={column}
-        cell={data}
+        cell={data ?? { value: "" }}
         formulaParser={formulaParser}
         setCellData={function (cell: CellBase<any>): void {
           throw new Error("Function not implemented.")
@@ -116,4 +125,13 @@ export const Cell = ({
       />
     </td>
   )
+}
+
+export const enhance = (
+  CellComponent: FC<CellWithIcons>,
+  icons: GenericSVGIcon[]
+): FC<CellWithIcons> => {
+  return function ColumnIndicatorWrapper(props) {
+    return <CellComponent {...props} icons={icons} />
+  }
 }

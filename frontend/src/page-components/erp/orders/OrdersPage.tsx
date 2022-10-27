@@ -13,6 +13,7 @@ import OrderAddModal from "./OrderAddModal"
 import useStrapi from "../../../hooks/useStrapi"
 import { OrderType } from "../../../types/OrderType"
 import Editable from "../../../components/editable/Editable"
+import { ColorSwatch, RulerMeasure } from "tabler-icons-react"
 
 const entryName = "orders"
 
@@ -29,6 +30,16 @@ const table_template = {
   },
   table: {
     type: "table",
+    metadataIcons: [ColorSwatch, RulerMeasure],
+    metadataLabels: ["Kolor", "Rozmiar"],
+    metadata: {
+      Product1: {
+        id: 1,
+      },
+      Product2: {
+        id: 2,
+      },
+    },
   },
 }
 

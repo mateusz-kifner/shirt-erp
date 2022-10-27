@@ -63,5 +63,6 @@
     "singular": "pracownik",
     "plural": "pracownicy"
   },
-  "close": "Zamknij"
+  "close": "Zamknij",
+  "clear": "Wyczyść"
 }

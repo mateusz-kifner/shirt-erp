@@ -4,28 +4,38 @@ import {
   Menu,
   Stack,
   Text,
+  Tooltip,
   useMantineTheme,
+  Input,
+  Divider,
 } from "@mantine/core"
-import React, { useEffect, useMemo, useState } from "react"
+import React, {
+  ComponentType,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { useTranslation } from "react-i18next"
 import Spreadsheet, {
+  CellComponent,
   ColumnIndicatorComponent,
   CornerIndicatorComponent,
-  createEmptyMatrix,
   Matrix,
   Point,
   RowIndicatorComponent,
 } from "react-spreadsheet"
-import { Bug, ColorSwatch, RulerMeasure } from "tabler-icons-react"
+import { Trash } from "tabler-icons-react"
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
 } from "../ColumnIndicator"
 import CornerIndicator from "../CornerIndicator"
-
 import TableCenterIcon from "../icons/TableCenterIcon"
 import TableEdgeIcon from "../icons/TableEdgeIcon"
 import RowIndicator, { enhance as enhanceRowIndicator } from "../RowIndicator"
-import { Cell } from "../Cell"
+import { Cell, enhance as enhanceCell } from "../Cell"
+import colors from "../../models/colors.json"
 
 interface EditableTableProps {
   label?: string
@@ -34,10 +44,29 @@ interface EditableTableProps {
   onSubmit?: (value: Matrix<any> | null) => void
   disabled?: boolean
   required?: boolean
+  metadataIcons?: ComponentType[]
+  metadataLabels?: string[]
+  metadata: {
+    [key: string]: {
+      id: number
+      [key: string]: any
+    }
+  }
 }
 
 const EditableTable = (props: EditableTableProps) => {
-  const { label, value, initialValue, onSubmit, disabled, required } = props
+  const {
+    label,
+    value,
+    initialValue,
+    onSubmit,
+    disabled,
+    required,
+    metadataIcons,
+    metadataLabels,
+    metadata,
+  } = props
+  const uuid = useId()
   const theme = useMantineTheme()
   const [openedColumn, setOpenedColumn] = useState<boolean>(false)
   const [openedRow, setOpenedRow] = useState<boolean>(false)
@@ -49,6 +78,9 @@ const EditableTable = (props: EditableTableProps) => {
     value ?? initialValue ?? [[{ value: "" }]]
   )
   const [selection, setSelection] = useState<Point[]>([])
+  const [updateCount, setUpdateCount] = useState<number>(0)
+  const [canUpdate, setCanUpdate] = useState<boolean>(true)
+  const incrementUpdateCount = () => setUpdateCount((count) => count + 1)
 
   const setDataWhenNEQ = (new_data: any[][]) => {
     let eq = true
@@ -80,9 +112,9 @@ const EditableTable = (props: EditableTableProps) => {
 
   const setSelectionIfNotNull = (value: Point[]) => {
     value.length != 0 && setSelection(value)
-    setData((val) => val)
   }
-  const applySelect = () => {
+
+  const setMetadata = (metadata: { [key: string]: any }) => {
     let new_data = [
       ...data.map((val) => [
         ...val.map((val2) => ({
@@ -92,18 +124,50 @@ const EditableTable = (props: EditableTableProps) => {
     ]
 
     for (let point of selection) {
-      // console.log(point)
-      new_data[point.row][point.column].style = {
-        backgroundColor: "#FFDCA155",
+      new_data[point.row][point.column] = {
+        ...new_data[point.row][point.column],
+        ...metadata,
       }
-      new_data[point.row][point.column].icon = "ColorSwatch"
     }
-    // console.log(new_data)
     setData(new_data)
+    incrementUpdateCount()
+    setSelection([])
+  }
+
+  const clearMetadata = () => {
+    let new_data = [
+      ...data.map((val) => [
+        ...val.map((val2) => ({
+          ...val2,
+        })),
+      ]),
+    ]
+
+    for (let point of selection) {
+      new_data[point.row][point.column] = {
+        value: new_data[point.row][point.column].value ?? "",
+      }
+    }
+    setData(new_data)
+    incrementUpdateCount()
+    setSelection([])
+  }
+
+  const clearAllMetadata = () => {
+    let new_data = [
+      ...data.map((val) => [
+        ...val.map((val2) => ({
+          value: val2?.value ?? "",
+        })),
+      ]),
+    ]
+
+    setData(new_data)
+    incrementUpdateCount()
+    setSelection([])
   }
 
   const addColumn = (column: number) => {
-    console.log("addColumn", column)
     setData((data) => [
       ...data.map((val, index) => [
         ...val.slice(0, column),
@@ -111,11 +175,15 @@ const EditableTable = (props: EditableTableProps) => {
         ...val.slice(column),
       ]),
     ])
+    incrementUpdateCount()
   }
 
-  const removeRow = (row: number) =>
-    data.length > 2 &&
-    setData((data) => data.filter((_, index) => row !== index))
+  const removeRow = (row: number) => {
+    if (data.length > 2) {
+      setData((data) => data.filter((_, index) => row !== index))
+      incrementUpdateCount()
+    }
+  }
 
   const addRow = (row: number) => {
     setData((data) => [
@@ -123,13 +191,17 @@ const EditableTable = (props: EditableTableProps) => {
       data[0].map(() => ({ value: "" })),
       ...data.slice(row),
     ])
+    incrementUpdateCount()
   }
 
-  const removeColumn = (column: number) =>
-    data[0].length > 2 &&
-    setData((data) =>
-      data.map((val) => val.filter((_, index) => column !== index))
-    )
+  const removeColumn = (column: number) => {
+    if (data[0].length > 2) {
+      setData((data) =>
+        data.map((val) => val.filter((_, index) => column !== index))
+      )
+      incrementUpdateCount()
+    }
+  }
 
   const onContextmenuColumn = (
     e: React.MouseEvent<HTMLDivElement>,
@@ -157,6 +229,36 @@ const EditableTable = (props: EditableTableProps) => {
     }
   }
 
+  useEffect(() => {
+    if (updateCount > 0 && canUpdate) {
+      let eq = true
+      if (
+        value &&
+        value.length === data.length &&
+        value[0].length === data[0].length
+      ) {
+        for (let y = 0; y < data.length; y++) {
+          for (let x = 0; x < data[0].length; x++) {
+            if (
+              value[y][x]?.value !== data[y][x]?.value ||
+              value[y][x]?.metaId !== data[y][x]?.metaId ||
+              value[y][x]?.metaActionId !== data[y][x]?.metaActionId
+            ) {
+              eq = false
+            }
+          }
+        }
+      } else {
+        eq = false
+      }
+
+      if (!eq) {
+        onSubmit && onSubmit(data)
+        setUpdateCount(0)
+      }
+    }
+  }, [updateCount, canUpdate])
+
   const enhancedColumnIndicator = useMemo(
     () =>
       enhanceColumnIndicator(
@@ -174,10 +276,15 @@ const EditableTable = (props: EditableTableProps) => {
       ) as unknown as RowIndicatorComponent,
     [openedRow]
   )
-  console.log(data)
+
+  const enhancedCell = useMemo(
+    () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
+    [metadataIcons]
+  )
+
   return (
     <Stack spacing={0} style={{ height: "100%" }}>
-      <Group p="xs">
+      <Group p="xs" align="end">
         {/*Column Menu*/}
         <Menu
           opened={openedColumn}
@@ -273,7 +380,10 @@ const EditableTable = (props: EditableTableProps) => {
                 />
               }
               component="button"
-              onClick={() => addRow(contextPositionAndValue[2])}
+              onClick={() => {
+                addRow(contextPositionAndValue[2])
+                incrementUpdateCount()
+              }}
             >
               {t("add-row-top")}
             </Menu.Item>
@@ -286,7 +396,10 @@ const EditableTable = (props: EditableTableProps) => {
                   style={{ transform: "rotate(90deg)" }}
                 />
               }
-              onClick={() => addRow(contextPositionAndValue[2] + 1)}
+              onClick={() => {
+                addRow(contextPositionAndValue[2] + 1)
+                incrementUpdateCount()
+              }}
             >
               {t("add-row-bottom")}
             </Menu.Item>
@@ -301,70 +414,92 @@ const EditableTable = (props: EditableTableProps) => {
                   action_position="center"
                 />
               }
-              onClick={() => removeRow(contextPositionAndValue[2])}
+              onClick={() => {
+                removeRow(contextPositionAndValue[2])
+                incrementUpdateCount()
+              }}
             >
               {t("remove-row")}
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
 
-        <Button.Group>
-          <Button variant="default" p={0} size="xs">
-            <ColorSwatch />
-          </Button>
-          <Button variant="default" p={0} size="xs">
-            <RulerMeasure />
-          </Button>
-        </Button.Group>
+        {metadata &&
+          Object.keys(metadata).map((key, bgIndex) => (
+            <div key={uuid + "_" + bgIndex}>
+              <Input.Wrapper label={key}>
+                <Button.Group>
+                  {metadataIcons &&
+                    metadataIcons.map((Icon, index) => (
+                      <Tooltip
+                        label={metadataLabels?.[index]}
+                        m={0}
+                        withinPortal
+                        key={uuid + "_" + bgIndex + "_" + index}
+                      >
+                        <Button
+                          variant="default"
+                          p={0}
+                          size="xs"
+                          style={{
+                            backgroundColor:
+                              colors[metadata[key].id % 10] + "88",
+                          }}
+                          onClick={() => {
+                            setMetadata({
+                              metaId: metadata[key].id,
+                              metaActionId: index,
+                            })
+                            incrementUpdateCount()
+                          }}
+                        >
+                          {Icon && <Icon />}
+                        </Button>
+                      </Tooltip>
+                    ))}
+                </Button.Group>
+              </Input.Wrapper>
 
-        <Button.Group>
-          <Button variant="default" p={0} size="xs" onClick={applySelect}>
-            <ColorSwatch />
+              <Divider orientation="vertical" />
+            </div>
+          ))}
+
+        <Tooltip label={t("clear") as string}>
+          <Button
+            variant="default"
+            p={0}
+            size="xs"
+            onClick={() => {
+              clearMetadata()
+              incrementUpdateCount()
+            }}
+          >
+            <Trash />
           </Button>
-          <Button variant="default" p={0} size="xs">
-            <RulerMeasure />
-          </Button>
-          <Button variant="default" p={0} size="xs">
-            <RulerMeasure />
-          </Button>
-        </Button.Group>
+        </Tooltip>
       </Group>
 
       <Spreadsheet
         data={data}
-        onChange={setDataWhenNEQ}
+        onChange={(data) => {
+          setDataWhenNEQ(data)
+          incrementUpdateCount()
+        }}
         onSelect={setSelectionIfNotNull}
         darkMode={darkTheme}
-        Cell={Cell}
+        Cell={enhancedCell}
         className="Spreadsheet"
         ColumnIndicator={enhancedColumnIndicator}
         RowIndicator={enhancedRowIndicator}
         CornerIndicator={CornerIndicator as unknown as CornerIndicatorComponent}
-        onCellCommit={(prevCell, nextCell, coords) => {
-          let eq = true
-          if (
-            value &&
-            value.length === data.length &&
-            value[0].length === data[0].length
-          ) {
-            for (let y = 0; y < data.length; y++) {
-              for (let x = 0; x < data[0].length; x++) {
-                if (
-                  value[y][x]?.value !== data[y][x]?.value ||
-                  value[y][x]?.productId !== data[y][x]?.productId ||
-                  value[y][x]?.property !== data[y][x]?.property
-                ) {
-                  eq = false
-                }
-              }
-            }
-          } else {
-            eq = false
-          }
-
-          !eq && onSubmit && onSubmit(data)
+        onModeChange={(mode) => {
+          setCanUpdate(mode === "view")
         }}
+        onCellCommit={() => setCanUpdate(true)}
       />
+      <>
+        {updateCount} {canUpdate ? "true" : "false"}
+      </>
     </Stack>
   )
 }
