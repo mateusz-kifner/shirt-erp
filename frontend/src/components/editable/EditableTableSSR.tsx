@@ -27,7 +27,7 @@ import Spreadsheet, {
   Point,
   RowIndicatorComponent,
 } from "react-spreadsheet"
-import { Trash } from "tabler-icons-react"
+import { ScreenShare, Trash } from "tabler-icons-react"
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
 } from "../ColumnIndicator"
@@ -37,6 +37,7 @@ import TableEdgeIcon from "../icons/TableEdgeIcon"
 import RowIndicator, { enhance as enhanceRowIndicator } from "../RowIndicator"
 import { Cell, enhance as enhanceCell } from "../Cell"
 import colors from "../../models/colors.json"
+import { SxBackground } from "../../styles/basic"
 
 interface EditableTableProps {
   label?: string
@@ -81,6 +82,7 @@ const EditableTable = (props: EditableTableProps) => {
   const [selection, setSelection] = useState<Point[]>([])
   const [updateCount, setUpdateCount] = useState<number>(0)
   const [canUpdate, setCanUpdate] = useState<boolean>(true)
+  const [fullscreen, setFullscreen] = useState<boolean>(false)
   const incrementUpdateCount = () => setUpdateCount((count) => count + 1)
 
   const setDataWhenNEQ = (new_data: any[][]) => {
@@ -284,200 +286,238 @@ const EditableTable = (props: EditableTableProps) => {
   )
 
   return (
-    <Stack spacing={0} style={{ height: "100%" }}>
-      <Group p="xs" align="end">
-        {/*Column Menu*/}
-        <Menu
-          opened={openedColumn}
-          position="bottom-end"
-          onChange={setOpenedColumn}
-          closeOnEscape={true}
-          closeOnItemClick={true}
-          closeOnClickOutside={true}
-          styles={{
-            dropdown: {
+    <Stack
+      spacing={0}
+      style={
+        fullscreen
+          ? {
               position: "absolute",
-              top: contextPositionAndValue[1],
-              left: contextPositionAndValue[0],
-            },
-          }}
-        >
-          <Menu.Dropdown onBlur={() => setOpenedColumn(false)}>
-            <Menu.Item py={4}>
-              <Text color="grey" size="xs">
-                {t("close")}
-              </Text>
-            </Menu.Item>
-            <Menu.Item
-              icon={
-                <TableEdgeIcon
-                  action_color={theme.colors.green[6]}
-                  size={18}
-                  stroke={1.2}
-                  style={{ transform: "scale(-1)" }}
-                />
-              }
-              onClick={() => addColumn(contextPositionAndValue[2])}
-            >
-              {t("add-column-left")}
-            </Menu.Item>
-            <Menu.Item
-              icon={
-                <TableEdgeIcon
-                  action_color={theme.colors.green[6]}
-                  size={18}
-                  stroke={1.2}
-                />
-              }
-              onClick={() => addColumn(contextPositionAndValue[2] + 1)}
-            >
-              {t("add-column-right")}
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item
-              icon={
-                <TableCenterIcon
-                  action_color={theme.colors.red[6]}
-                  size={18}
-                  stroke={1}
-                  action_position="center"
-                />
-              }
-              onClick={() => removeColumn(contextPositionAndValue[2])}
-            >
-              {t("remove-column")}
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-        {/*Row Menu*/}
-        <Menu
-          opened={openedRow}
-          position="bottom-end"
-          onChange={setOpenedRow}
-          closeOnEscape={true}
-          closeOnItemClick={true}
-          closeOnClickOutside={true}
-          styles={{
-            dropdown: {
-              position: "absolute",
-              top: contextPositionAndValue[1],
-              left: contextPositionAndValue[0],
-            },
-          }}
-        >
-          <Menu.Dropdown onBlur={() => setOpenedRow(false)}>
-            <Menu.Item py={4}>
-              <Text color="grey" size="xs">
-                {t("close")}
-              </Text>
-            </Menu.Item>
-            <Menu.Item
-              icon={
-                <TableEdgeIcon
-                  action_color={theme.colors.green[6]}
-                  size={18}
-                  stroke={1.2}
-                  style={{ transform: "rotate(-90deg)" }}
-                />
-              }
-              component="button"
-              onClick={() => {
-                addRow(contextPositionAndValue[2])
-                incrementUpdateCount()
-              }}
-            >
-              {t("add-row-top")}
-            </Menu.Item>
-            <Menu.Item
-              icon={
-                <TableEdgeIcon
-                  action_color={theme.colors.green[6]}
-                  size={18}
-                  stroke={1.2}
-                  style={{ transform: "rotate(90deg)" }}
-                />
-              }
-              onClick={() => {
-                addRow(contextPositionAndValue[2] + 1)
-                incrementUpdateCount()
-              }}
-            >
-              {t("add-row-bottom")}
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Item
-              icon={
-                <TableCenterIcon
-                  action_color={theme.colors.red[6]}
-                  size={18}
-                  stroke={1.2}
-                  style={{ transform: "rotate(-90deg)" }}
-                  action_position="center"
-                />
-              }
-              onClick={() => {
-                removeRow(contextPositionAndValue[2])
-                incrementUpdateCount()
-              }}
-            >
-              {t("remove-row")}
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
-
-        {metadata &&
-          Object.keys(metadata).map((key, bgIndex) => (
-            <div key={uuid + "_" + bgIndex}>
-              <Input.Wrapper label={key}>
-                <Button.Group>
-                  {metadataIcons &&
-                    metadataIcons.map((Icon, index) => (
-                      <Tooltip
-                        label={metadataLabels?.[index]}
-                        m={0}
-                        withinPortal
-                        key={uuid + "_" + bgIndex + "_" + index}
-                      >
-                        <Button
-                          variant="default"
-                          p={0}
-                          size="xs"
-                          style={{
-                            backgroundColor:
-                              colors[metadata[key].id % 10] + "88",
-                          }}
-                          onClick={() => {
-                            setMetadata({
-                              metaId: metadata[key].id,
-                              metaActionId: index,
-                            })
-                            incrementUpdateCount()
-                          }}
-                        >
-                          {Icon && <Icon />}
-                        </Button>
-                      </Tooltip>
-                    ))}
-                </Button.Group>
-              </Input.Wrapper>
-
-              <Divider orientation="vertical" />
-            </div>
-          ))}
-
-        <Tooltip label={t("clear") as string}>
-          <Button
-            variant="default"
-            p={0}
-            size="xs"
-            onClick={() => {
-              clearMetadata()
-              incrementUpdateCount()
+              top: 0,
+              left: 0,
+              // bottom: 0,
+              right: 0,
+              zIndex: 9999,
+              height: "200vh",
+              background: theme.colorScheme === "dark" ? "#000" : "#fff",
+              overflow: "hidden",
+            }
+          : { height: "100%" }
+      }
+    >
+      <Group
+        p="xs"
+        align="end"
+        position="apart"
+        sx={fullscreen ? SxBackground : undefined}
+      >
+        <Group p={0} align="end">
+          {/*Column Menu*/}
+          <Menu
+            opened={openedColumn}
+            position="bottom-end"
+            onChange={setOpenedColumn}
+            closeOnEscape={true}
+            closeOnItemClick={true}
+            closeOnClickOutside={true}
+            styles={{
+              dropdown: {
+                position: "absolute",
+                top: contextPositionAndValue[1],
+                left: contextPositionAndValue[0],
+              },
             }}
           >
-            <Trash />
-          </Button>
-        </Tooltip>
+            <Menu.Dropdown onBlur={() => setOpenedColumn(false)}>
+              <Menu.Item py={4}>
+                <Text color="grey" size="xs">
+                  {t("close")}
+                </Text>
+              </Menu.Item>
+              <Menu.Item
+                icon={
+                  <TableEdgeIcon
+                    action_color={theme.colors.green[6]}
+                    size={18}
+                    stroke={1.2}
+                    style={{ transform: "scale(-1)" }}
+                  />
+                }
+                onClick={() => addColumn(contextPositionAndValue[2])}
+              >
+                {t("add-column-left")}
+              </Menu.Item>
+              <Menu.Item
+                icon={
+                  <TableEdgeIcon
+                    action_color={theme.colors.green[6]}
+                    size={18}
+                    stroke={1.2}
+                  />
+                }
+                onClick={() => addColumn(contextPositionAndValue[2] + 1)}
+              >
+                {t("add-column-right")}
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item
+                icon={
+                  <TableCenterIcon
+                    action_color={theme.colors.red[6]}
+                    size={18}
+                    stroke={1}
+                    action_position="center"
+                  />
+                }
+                onClick={() => removeColumn(contextPositionAndValue[2])}
+              >
+                {t("remove-column")}
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+          {/*Row Menu*/}
+          <Menu
+            opened={openedRow}
+            position="bottom-end"
+            onChange={setOpenedRow}
+            closeOnEscape={true}
+            closeOnItemClick={true}
+            closeOnClickOutside={true}
+            styles={{
+              dropdown: {
+                position: "absolute",
+                top: contextPositionAndValue[1],
+                left: contextPositionAndValue[0],
+              },
+            }}
+          >
+            <Menu.Dropdown onBlur={() => setOpenedRow(false)}>
+              <Menu.Item py={4}>
+                <Text color="grey" size="xs">
+                  {t("close")}
+                </Text>
+              </Menu.Item>
+              <Menu.Item
+                icon={
+                  <TableEdgeIcon
+                    action_color={theme.colors.green[6]}
+                    size={18}
+                    stroke={1.2}
+                    style={{ transform: "rotate(-90deg)" }}
+                  />
+                }
+                component="button"
+                onClick={() => {
+                  addRow(contextPositionAndValue[2])
+                  incrementUpdateCount()
+                }}
+              >
+                {t("add-row-top")}
+              </Menu.Item>
+              <Menu.Item
+                icon={
+                  <TableEdgeIcon
+                    action_color={theme.colors.green[6]}
+                    size={18}
+                    stroke={1.2}
+                    style={{ transform: "rotate(90deg)" }}
+                  />
+                }
+                onClick={() => {
+                  addRow(contextPositionAndValue[2] + 1)
+                  incrementUpdateCount()
+                }}
+              >
+                {t("add-row-bottom")}
+              </Menu.Item>
+              <Menu.Divider />
+              <Menu.Item
+                icon={
+                  <TableCenterIcon
+                    action_color={theme.colors.red[6]}
+                    size={18}
+                    stroke={1.2}
+                    style={{ transform: "rotate(-90deg)" }}
+                    action_position="center"
+                  />
+                }
+                onClick={() => {
+                  removeRow(contextPositionAndValue[2])
+                  incrementUpdateCount()
+                }}
+              >
+                {t("remove-row")}
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+
+          {metadata &&
+            Object.keys(metadata).map((key, bgIndex) => (
+              <div key={uuid + "_" + bgIndex}>
+                <Input.Wrapper label={key}>
+                  <Button.Group>
+                    {metadataIcons &&
+                      metadataIcons.map((Icon, index) => (
+                        <Tooltip
+                          label={metadataLabels?.[index]}
+                          m={0}
+                          withinPortal
+                          key={uuid + "_" + bgIndex + "_" + index}
+                        >
+                          <Button
+                            variant="default"
+                            p={0}
+                            size="xs"
+                            style={{
+                              backgroundColor:
+                                colors[metadata[key].id % 10] + "88",
+                            }}
+                            onClick={() => {
+                              setMetadata({
+                                metaId: metadata[key].id,
+                                metaActionId: index,
+                              })
+                              incrementUpdateCount()
+                            }}
+                          >
+                            {Icon && <Icon />}
+                          </Button>
+                        </Tooltip>
+                      ))}
+                  </Button.Group>
+                </Input.Wrapper>
+
+                <Divider orientation="vertical" />
+              </div>
+            ))}
+
+          <Tooltip label={t("clear") as string}>
+            <Button
+              variant="default"
+              p={0}
+              size="xs"
+              onClick={() => {
+                clearMetadata()
+                incrementUpdateCount()
+              }}
+            >
+              <Trash />
+            </Button>
+          </Tooltip>
+        </Group>
+        <Group p={0} align="end">
+          <Tooltip label={t("fullscreen") as string}>
+            <Button
+              variant="default"
+              p={0}
+              size="xs"
+              onClick={() => {
+                setFullscreen((fullscreen) => !fullscreen)
+              }}
+            >
+              <ScreenShare />
+            </Button>
+          </Tooltip>
+        </Group>
       </Group>
       <ScrollArea>
         <Spreadsheet
