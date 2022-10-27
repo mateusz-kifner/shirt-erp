@@ -68,7 +68,7 @@ const OrdersPage: NextPage = () => {
         setStatus("error")
       })
   }
-  console.log(data)
+  // console.log(data)
   return (
     <>
       <Workspace childrenLabels={childrenLabels} defaultViews={currentView}>
@@ -81,7 +81,7 @@ const OrdersPage: NextPage = () => {
         {data &&
           Array.isArray(data?.tables) &&
           data.tables.map((table, index) => {
-            console.log(table)
+            // console.log(table)
             return (
               table && (
                 <Editable

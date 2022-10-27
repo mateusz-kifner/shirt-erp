@@ -8,6 +8,7 @@ import {
   useMantineTheme,
   Input,
   Divider,
+  ScrollArea,
 } from "@mantine/core"
 import React, {
   ComponentType,
@@ -478,28 +479,28 @@ const EditableTable = (props: EditableTableProps) => {
           </Button>
         </Tooltip>
       </Group>
-
-      <Spreadsheet
-        data={data}
-        onChange={(data) => {
-          setDataWhenNEQ(data)
-          incrementUpdateCount()
-        }}
-        onSelect={setSelectionIfNotNull}
-        darkMode={darkTheme}
-        Cell={enhancedCell}
-        className="Spreadsheet"
-        ColumnIndicator={enhancedColumnIndicator}
-        RowIndicator={enhancedRowIndicator}
-        CornerIndicator={CornerIndicator as unknown as CornerIndicatorComponent}
-        onModeChange={(mode) => {
-          setCanUpdate(mode === "view")
-        }}
-        onCellCommit={() => setCanUpdate(true)}
-      />
-      <>
-        {updateCount} {canUpdate ? "true" : "false"}
-      </>
+      <ScrollArea>
+        <Spreadsheet
+          data={data}
+          onChange={(data) => {
+            setDataWhenNEQ(data)
+            incrementUpdateCount()
+          }}
+          onSelect={setSelectionIfNotNull}
+          darkMode={darkTheme}
+          Cell={enhancedCell}
+          className="Spreadsheet"
+          ColumnIndicator={enhancedColumnIndicator}
+          RowIndicator={enhancedRowIndicator}
+          CornerIndicator={
+            CornerIndicator as unknown as CornerIndicatorComponent
+          }
+          onModeChange={(mode) => {
+            setCanUpdate(mode === "view")
+          }}
+          onCellCommit={() => setCanUpdate(true)}
+        />
+      </ScrollArea>
     </Stack>
   )
 }

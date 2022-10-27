@@ -26,6 +26,7 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
             theme.colorScheme === "dark"
               ? theme.colors.dark[8]
               : theme.colors[theme.primaryColor][0],
+          overflowX: "hidden",
         },
       })}
     >
