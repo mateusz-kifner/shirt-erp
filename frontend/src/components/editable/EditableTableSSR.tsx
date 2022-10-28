@@ -9,7 +9,6 @@ import {
   Input,
   Divider,
   ScrollArea,
-  Loader,
 } from "@mantine/core"
 import React, {
   ComponentType,
@@ -41,6 +40,10 @@ import { Cell, enhance as enhanceCell } from "../spreadsheet/Cell"
 import colors from "../../models/colors.json"
 import { SxBackground } from "../../styles/basic"
 import DataViewer from "../spreadsheet/DataViewer"
+import {
+  UniversalCell,
+  useSpreadSheetData,
+} from "../spreadsheet/useSpreadSheetData"
 
 interface EditableTableProps {
   label?: string
@@ -79,8 +82,24 @@ const EditableTable = (props: EditableTableProps) => {
     [number, number, number]
   >([0, 0, -1])
   const { t } = useTranslation()
-  const [data, setData] = useState<Matrix<any>>(
-    value ?? initialValue ?? [[{ value: "" }]]
+  // const [data, setData] = useState<Matrix<any>>()
+  const [
+    data,
+    {
+      setData,
+      addColumn,
+      removeColumn,
+      addRow,
+      removeRow,
+      clearMetadata,
+      setMetadata,
+    },
+  ] = useSpreadSheetData(
+    value ??
+      initialValue ?? [
+        [undefined, undefined],
+        [undefined, undefined],
+      ]
   )
   const [selection, setSelection] = useState<Point[]>([])
   const [updateCount, setUpdateCount] = useState<number>(0)
@@ -120,93 +139,15 @@ const EditableTable = (props: EditableTableProps) => {
     value.length != 0 && setSelection(value)
   }
 
-  const setMetadata = (metadata: { [key: string]: any }) => {
-    let new_data = [
-      ...data.map((val) => [
-        ...val.map((val2) => ({
-          ...val2,
-        })),
-      ]),
-    ]
-
-    for (let point of selection) {
-      new_data[point.row][point.column] = {
-        ...new_data[point.row][point.column],
-        ...metadata,
-      }
-    }
-    setData(new_data)
+  const setMetadataOnSelection = (metadata: { [key: string]: any }) => {
+    setMetadata(selection, metadata)
     incrementUpdateCount()
     setSelection([])
   }
-
-  const clearMetadata = () => {
-    let new_data = [
-      ...data.map((val) => [
-        ...val.map((val2) => ({
-          ...val2,
-        })),
-      ]),
-    ]
-
-    for (let point of selection) {
-      new_data[point.row][point.column] = {
-        value: new_data[point.row][point.column].value ?? "",
-      }
-    }
-    setData(new_data)
+  const clearMetadataOnSelection = () => {
+    clearMetadata(selection)
     incrementUpdateCount()
     setSelection([])
-  }
-
-  const clearAllMetadata = () => {
-    let new_data = [
-      ...data.map((val) => [
-        ...val.map((val2) => ({
-          value: val2?.value ?? "",
-        })),
-      ]),
-    ]
-
-    setData(new_data)
-    incrementUpdateCount()
-    setSelection([])
-  }
-
-  const addColumn = (column: number) => {
-    setData((data) => [
-      ...data.map((val, index) => [
-        ...val.slice(0, column),
-        { value: "" },
-        ...val.slice(column),
-      ]),
-    ])
-    incrementUpdateCount()
-  }
-
-  const removeRow = (row: number) => {
-    if (data.length > 2) {
-      setData((data) => data.filter((_, index) => row !== index))
-      incrementUpdateCount()
-    }
-  }
-
-  const addRow = (row: number) => {
-    setData((data) => [
-      ...data.slice(0, row),
-      data[0].map(() => ({ value: "" })),
-      ...data.slice(row),
-    ])
-    incrementUpdateCount()
-  }
-
-  const removeColumn = (column: number) => {
-    if (data[0].length > 2) {
-      setData((data) =>
-        data.map((val) => val.filter((_, index) => column !== index))
-      )
-      incrementUpdateCount()
-    }
   }
 
   const onContextmenuColumn = (
@@ -345,7 +286,10 @@ const EditableTable = (props: EditableTableProps) => {
                     style={{ transform: "scale(-1)" }}
                   />
                 }
-                onClick={() => addColumn(contextPositionAndValue[2])}
+                onClick={() => {
+                  addColumn(contextPositionAndValue[2])
+                  incrementUpdateCount()
+                }}
               >
                 {t("add-column-left")}
               </Menu.Item>
@@ -357,7 +301,10 @@ const EditableTable = (props: EditableTableProps) => {
                     stroke={1.2}
                   />
                 }
-                onClick={() => addColumn(contextPositionAndValue[2] + 1)}
+                onClick={() => {
+                  addColumn(contextPositionAndValue[2] + 1)
+                  incrementUpdateCount()
+                }}
               >
                 {t("add-column-right")}
               </Menu.Item>
@@ -371,7 +318,10 @@ const EditableTable = (props: EditableTableProps) => {
                     action_position="center"
                   />
                 }
-                onClick={() => removeColumn(contextPositionAndValue[2])}
+                onClick={() => {
+                  removeColumn(contextPositionAndValue[2])
+                  incrementUpdateCount()
+                }}
               >
                 {t("remove-column")}
               </Menu.Item>
@@ -475,7 +425,7 @@ const EditableTable = (props: EditableTableProps) => {
                                 colors[metadata[key].id % 10] + "88",
                             }}
                             onClick={() => {
-                              setMetadata({
+                              setMetadataOnSelection({
                                 metaId: metadata[key].id,
                                 metaActionId: index,
                               })
@@ -499,7 +449,7 @@ const EditableTable = (props: EditableTableProps) => {
               p={0}
               size="xs"
               onClick={() => {
-                clearMetadata()
+                clearMetadataOnSelection()
                 incrementUpdateCount()
               }}
             >
