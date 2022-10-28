@@ -70,7 +70,9 @@ const ProductListItem = ({
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "100% 100%",
                   maskImage:
-                    "radial-gradient(circle, transparent 54%, black  56%)",
+                    value?.iconId === -1
+                      ? undefined
+                      : "radial-gradient(circle, transparent 54%, black  56%)",
                 },
               },
             }}

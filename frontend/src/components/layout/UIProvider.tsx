@@ -33,6 +33,7 @@ const UIProvider = ({ children }: { children: ReactNode }) => {
           colorScheme: colorScheme,
           datesLocale: "pl",
           dateFormat: "DD.MM.YYYY",
+
           components: {
             Paper: {
               defaultProps: {
@@ -53,6 +54,16 @@ const UIProvider = ({ children }: { children: ReactNode }) => {
                   },
                 },
               },
+            },
+            Text: {
+              styles: (theme, params: any) => ({
+                root: {
+                  color:
+                    params.color === "dimmed" && theme.colorScheme === "light"
+                      ? theme.colors.gray[8]
+                      : undefined,
+                },
+              }),
             },
           },
         }}
