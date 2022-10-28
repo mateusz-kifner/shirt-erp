@@ -103,7 +103,7 @@ export default {
     type: "array",
     arrayType: "apiEntry",
     entryName: "products",
-    organizingHandle: "arrows",
+    // organizingHandle: "arrows",
   },
 
   employees: {

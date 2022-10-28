@@ -2,7 +2,7 @@ import { AddressType } from "./AddressType"
 import { ClientType } from "./ClientType"
 import { EmailMessageType } from "./EmailMessageType"
 import { FileType } from "./FileType"
-import { ProductComponentType } from "./ProductComponentType"
+import { ProductType } from "./ProductType"
 import { UserType } from "./UserType"
 
 export interface OrderType {
@@ -18,7 +18,7 @@ export interface OrderType {
   secretNotes: string | null
   files: Partial<FileType>[]
   address: Partial<AddressType>
-  products: ProductComponentType[]
+  products: Partial<ProductType>[]
   client: Partial<ClientType>
   // expenses: Partial<ExpensesType>[]
   tables: { name: string; data: any }[]

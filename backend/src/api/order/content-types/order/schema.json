@@ -13,20 +13,16 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "status": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "notes": {
-      "type": "text",
-      "default": ""
+      "type": "text"
     },
     "secretNotes": {
-      "type": "text",
-      "default": ""
+      "type": "text"
     },
     "price": {
       "type": "decimal",
@@ -51,7 +47,12 @@
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": ["images", "files", "videos", "audios"]
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     },
     "address": {
       "type": "component",
@@ -78,6 +79,11 @@
     },
     "emailMessagesText": {
       "type": "json"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product"
     }
   }
 }
