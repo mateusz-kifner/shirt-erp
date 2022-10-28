@@ -85,7 +85,7 @@ body {
 }
 
 .Spreadsheet__cell, .Spreadsheet__header{
-  min-width: 2em !important;
+  min-width: 2.92em !important;
   position: relative;
 }
 
