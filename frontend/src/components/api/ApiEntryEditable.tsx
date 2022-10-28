@@ -72,6 +72,7 @@ const ApiEntryEditable = <EntryType extends any>({
             leftIcon={<TrashX size={18} />}
             onClick={() => setOpenedDelete(true)}
             mt={"4rem"}
+            className="erase_on_print"
           >
             {t("delete", {
               entry: t(`${entryName}.singular` as any),

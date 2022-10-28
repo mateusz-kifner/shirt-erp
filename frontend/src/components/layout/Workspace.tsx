@@ -59,6 +59,7 @@ const Workspace = ({
               ? childrenWrapperProps[childIndex]
               : { style: { flexGrow: 1 } })}
             key={uuid + index}
+            // className={index === 0 ? "erase_on_print" : undefined}
           >
             {child_array[childIndex]}
           </ResponsivePaper>

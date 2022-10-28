@@ -95,7 +95,7 @@ const EditableSecretText = ({
     }
   }
   return (
-    <div>
+    <div className="erase_on_print">
       {active && (
         <div
           style={{

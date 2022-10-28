@@ -265,6 +265,7 @@ const EditableTable = (props: EditableTableProps) => {
           position="apart"
           sx={fullscreen ? SxBackground : undefined}
           style={{ display: disabled ? "none" : undefined }}
+          className="Spreadsheet__controls"
         >
           <Group p={0} align="end">
             {/*Column Menu*/}

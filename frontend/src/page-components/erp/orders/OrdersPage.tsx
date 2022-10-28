@@ -17,32 +17,6 @@ import { ColorSwatch, RulerMeasure } from "tabler-icons-react"
 
 const entryName = "orders"
 
-const table_template = {
-  name: {
-    label: "Nazwa arkusza",
-    type: "text",
-  },
-  products: {
-    type: "array",
-    label: "Produkty",
-    arrayType: "apiEntry",
-    entryName: "products",
-  },
-  table: {
-    type: "table",
-    metadataIcons: [ColorSwatch, RulerMeasure],
-    metadataLabels: ["Kolor", "Rozmiar"],
-    metadata: {
-      Product1: {
-        id: 1,
-      },
-      Product2: {
-        id: 2,
-      },
-    },
-  },
-}
-
 const OrdersPage: NextPage = () => {
   const uuid = useId()
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
@@ -68,7 +42,28 @@ const OrdersPage: NextPage = () => {
         setStatus("error")
       })
   }
-  // console.log(data)
+
+  const metadata = data
+    ? data.products.reduce(
+        (prev, next) => ({
+          ...prev,
+          [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },
+        }),
+        {}
+      )
+    : {}
+  const table_template = {
+    name: {
+      label: "Nazwa arkusza",
+      type: "text",
+    },
+    table: {
+      type: "table",
+      metadataIcons: [ColorSwatch, RulerMeasure],
+      metadataLabels: ["Kolor", "Rozmiar"],
+      metadata,
+    },
+  }
   return (
     <>
       <Workspace childrenLabels={childrenLabels} defaultViews={currentView}>

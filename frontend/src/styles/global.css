@@ -27,6 +27,38 @@ body {
   box-sizing: border-box;
 }
 
+@media print {
+  body, html{
+    background-color: #fff !important; 
+
+  }
+
+   * {
+    color: #000 !important;
+    background-color: transparent !important; 
+    box-shadow: none !important;
+
+  }
+
+  .mantine-Paper-root {
+    background-color: #fff !important; 
+    border-color: transparent !important;
+    margin: 0 !important;
+  }
+
+  .mantine-Header-root, .mantine-Navbar-root,.erase_on_print {
+    display: none !important;
+  }
+  .mantine-AppShell-main{ 
+    padding: 0 !important;
+  }
+  .Spreadsheet,.Spreadsheet__controls {
+    background-color: #fff !important; 
+
+  }
+
+}
+
 
 /* Line numbers for Quill, works only on normal text */
 /* .ql-editor {
