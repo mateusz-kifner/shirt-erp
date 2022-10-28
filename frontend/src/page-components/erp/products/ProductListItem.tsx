@@ -24,16 +24,16 @@ const ProductListItem = ({
   const colors: string[] = Array.isArray(value?.variants?.colors)
     ? value?.variants?.colors
     : []
-  const gradient_gap = 5
+  const gradient_gap = 0.1
 
   const gradient = useMemo(
     () =>
       colors.reduce((prev, next, index, arr) => {
-        const percent_last = (index / (colors.length + 1)) * 100
-        const percent = ((index + 1) / (colors.length + 1)) * 100
+        const percent_last = (index / colors.length) * 100
+        const percent = ((index + 1) / colors.length) * 100
         return (
           prev +
-          "," +
+          (index !== 0 ? "," : "") +
           next +
           " " +
           (percent_last + gradient_gap).toFixed(2) +
@@ -43,7 +43,7 @@ const ProductListItem = ({
           percent.toFixed(2) +
           "%"
         )
-      }, "linear-gradient(217deg") + ")",
+      }, "conic-gradient(") + ")",
     [colors]
   )
 
@@ -55,11 +55,25 @@ const ProductListItem = ({
           <Avatar
             // style={{ background: gradient }}
             styles={{
+              root: {
+                transform: "scale(1.2)",
+              },
               placeholder: {
-                background: gradient,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "110% 110%",
-                backgroundPosition: "30% 30%",
+                position: "relative",
+                "&:before": {
+                  content: "''",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  right: 0,
+                  borderRadius: "100%",
+                  background: gradient,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "100% 100%",
+                  maskImage:
+                    "radial-gradient(circle, transparent 54%, black  56%)",
+                },
               },
             }}
             radius="xl"
