@@ -11,7 +11,7 @@ import { Dimensions, Point } from "react-spreadsheet"
 import type { FC, ComponentType } from "react"
 import type { CellBase, CellComponentProps } from "react-spreadsheet"
 import { merge } from "lodash"
-import colors from "../models/colors.json"
+import colors from "../../models/colors.json"
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {

@@ -30,14 +30,17 @@ import Spreadsheet, {
 import { ScreenShare, Trash } from "tabler-icons-react"
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
-} from "../ColumnIndicator"
-import CornerIndicator from "../CornerIndicator"
+} from "../spreadsheet/ColumnIndicator"
+import CornerIndicator from "../spreadsheet/CornerIndicator"
 import TableCenterIcon from "../icons/TableCenterIcon"
 import TableEdgeIcon from "../icons/TableEdgeIcon"
-import RowIndicator, { enhance as enhanceRowIndicator } from "../RowIndicator"
-import { Cell, enhance as enhanceCell } from "../Cell"
+import RowIndicator, {
+  enhance as enhanceRowIndicator,
+} from "../spreadsheet/RowIndicator"
+import { Cell, enhance as enhanceCell } from "../spreadsheet/Cell"
 import colors from "../../models/colors.json"
 import { SxBackground } from "../../styles/basic"
+import DataViewer from "../spreadsheet/DataViewer"
 
 interface EditableTableProps {
   label?: string
@@ -519,7 +522,7 @@ const EditableTable = (props: EditableTableProps) => {
           </Tooltip>
         </Group>
       </Group>
-      <ScrollArea>
+      <ScrollArea type="auto">
         <Spreadsheet
           data={data}
           onChange={(data) => {
@@ -539,6 +542,7 @@ const EditableTable = (props: EditableTableProps) => {
             setCanUpdate(mode === "view")
           }}
           onCellCommit={() => setCanUpdate(true)}
+          DataViewer={DataViewer}
         />
       </ScrollArea>
     </Stack>

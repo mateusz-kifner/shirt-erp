@@ -99,6 +99,11 @@ body {
   background-color: var(--outline-background-color,rgba(160, 195, 255, 0.2)) !important;
 }
 
+.Spreadsheet__data-viewer{
+  width: 100%;
+  display: inline-block;
+}
+
 .border-transparent { border-color: transparent}
 .border-black { border-color: rgb(0 0 0)}
 .border-white { border-color: rgb(255 255 255)}

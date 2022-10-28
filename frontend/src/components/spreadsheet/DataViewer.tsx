@@ -5,6 +5,7 @@ import {
   Dimensions,
   getComputedValue,
 } from "react-spreadsheet"
+import isNumeric from "../../utils/isNumeric"
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -23,14 +24,20 @@ export const FALSE_TEXT = "FALSE"
 const DataViewer = <Cell extends CellBase<Value>, Value>({
   cell,
   formulaParser,
-}: DataViewerProps<Cell>): React.ReactElement => {
+}: DataViewerProps<Cell>) => {
   const value = getComputedValue<Cell, Value>({ cell, formulaParser })
   return typeof value === "boolean" ? (
     <span className="Spreadsheet__data-viewer Spreadsheet__data-viewer--boolean">
       {convertBooleanToText(value)}
     </span>
   ) : (
-    <span className="Spreadsheet__data-viewer"></span>
+    <span
+      className="Spreadsheet__data-viewer" // @ts-ignore
+      style={{ textAlign: isNumeric(value) ? "right" : "left" }}
+    >
+      {/* @ts-ignore*/}
+      {value}
+    </span>
   )
 }
 
