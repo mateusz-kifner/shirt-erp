@@ -104,6 +104,10 @@ body {
   display: inline-block;
 }
 
+.Spreadsheet__data-viewer--disabled {
+  background-color: var(--outline-background-color,rgba(160,160,160, 0.5)) !important;
+}
+
 .border-transparent { border-color: transparent}
 .border-black { border-color: rgb(0 0 0)}
 .border-white { border-color: rgb(255 255 255)}
