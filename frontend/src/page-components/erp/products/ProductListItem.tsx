@@ -4,8 +4,6 @@ import { ProductType } from "../../../types/ProductType"
 import { truncString } from "../../../utils/truncString"
 import { useMemo } from "react"
 
-// FIXME: COLORS not working
-
 interface ProductListItemProps {
   onChange?: (item: Partial<ProductType>) => void
   value: Partial<ProductType>

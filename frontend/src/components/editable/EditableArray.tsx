@@ -207,7 +207,7 @@ const EditableArray = (props: EditableArrayProps) => {
                           onClick={() =>
                             handlers.reorder({ from: index, to: index - 1 })
                           }
-                          disabled={disabled}
+                          disabled={disabled || index === 0}
                         >
                           <ArrowUp size={14} />
                         </ActionIcon>
@@ -216,7 +216,7 @@ const EditableArray = (props: EditableArrayProps) => {
                           onClick={() =>
                             handlers.reorder({ from: index, to: index + 1 })
                           }
-                          disabled={disabled}
+                          disabled={disabled || index === items.length - 1}
                         >
                           <ArrowDown size={14} />
                         </ActionIcon>

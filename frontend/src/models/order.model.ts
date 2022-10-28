@@ -100,7 +100,10 @@ export default {
   },
   products: {
     label: "Produkty",
-    type: "productcomponents",
+    type: "array",
+    arrayType: "apiEntry",
+    entryName: "products",
+    organizingHandle: "arrows",
   },
 
   employees: {
