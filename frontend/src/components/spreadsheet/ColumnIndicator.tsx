@@ -7,7 +7,6 @@ const ColumnIndicator = ({
   column,
   label,
   selected,
-  onSelect,
   onContextmenu,
 }: ColumnIndicatorProps & {
   onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void

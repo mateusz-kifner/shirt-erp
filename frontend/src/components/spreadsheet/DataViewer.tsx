@@ -1,4 +1,3 @@
-import * as React from "react"
 import {
   CellBase,
   DataViewerProps,
@@ -32,7 +31,7 @@ const DataViewer = <Cell extends CellBase<Value>, Value>({
     </span>
   ) : (
     <span
-      className="Spreadsheet__data-viewer" // @ts-ignore
+      className="Spreadsheet__data-viewer"
       style={{ textAlign: isNumeric(value) ? "right" : "left" }}
     >
       {/* @ts-ignore*/}

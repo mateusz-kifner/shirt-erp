@@ -18,32 +18,37 @@ import React, {
   useState,
 } from "react"
 import { useTranslation } from "react-i18next"
-import Spreadsheet, {
-  CellBase,
+
+import colors from "../../models/colors.json"
+
+// Icons
+import { ScreenShare, Trash } from "tabler-icons-react"
+import TableCenterIcon from "../icons/TableCenterIcon"
+import TableEdgeIcon from "../icons/TableEdgeIcon"
+
+// Spreadsheet Imports
+import Spreadsheet from "react-spreadsheet"
+import type {
   CellComponent,
   ColumnIndicatorComponent,
   CornerIndicatorComponent,
-  DataEditorComponent,
   Matrix,
   Point,
   RowIndicatorComponent,
 } from "react-spreadsheet"
-import { ScreenShare, Trash } from "tabler-icons-react"
+import RowIndicator, {
+  enhance as enhanceRowIndicator,
+} from "../spreadsheet/RowIndicator"
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
 } from "../spreadsheet/ColumnIndicator"
 import CornerIndicator from "../spreadsheet/CornerIndicator"
-import TableCenterIcon from "../icons/TableCenterIcon"
-import TableEdgeIcon from "../icons/TableEdgeIcon"
-import RowIndicator, {
-  enhance as enhanceRowIndicator,
-} from "../spreadsheet/RowIndicator"
 import { Cell, enhance as enhanceCell } from "../spreadsheet/Cell"
-import colors from "../../models/colors.json"
-import { SxBackground } from "../../styles/basic"
 import DataViewer from "../spreadsheet/DataViewer"
 import { useSpreadSheetData } from "../spreadsheet/useSpreadSheetData"
 import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
+
+import { SxBackground } from "../../styles/basic"
 
 interface EditableTableProps {
   label?: string

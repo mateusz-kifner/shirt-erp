@@ -7,7 +7,6 @@ const RowIndicator = ({
   row,
   label,
   selected,
-  onSelect,
   onContextmenu,
 }: RowIndicatorProps & {
   onContextmenu: (e: MouseEvent<HTMLDivElement>, row: number) => void

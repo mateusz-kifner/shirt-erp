@@ -5,6 +5,7 @@ import {
   useCallback,
   useEffect,
   SVGAttributes,
+  CSSProperties,
 } from "react"
 import { Dimensions, Point } from "react-spreadsheet"
 
@@ -28,7 +29,11 @@ type GenericSVGIcon = ComponentType<
 >
 
 type CellWithIcons = CellComponentProps<
-  CellBase<string> & { metaId?: number; metaActionId?: number }
+  CellBase<string> & {
+    metaId?: number
+    metaActionId?: number
+    style?: CSSProperties
+  }
 > & {
   icons: GenericSVGIcon[]
 }
@@ -92,7 +97,6 @@ export const Cell = ({
   }, [setCellDimensions, selected, active, mode, point, data])
 
   if (data && data.DataViewer) {
-    // @ts-ignore
     DataViewer = data.DataViewer
   }
 
@@ -102,9 +106,7 @@ export const Cell = ({
     <td
       ref={rootRef}
       className={"Spreadsheet__cell"}
-      // @ts-ignore
       style={merge(data?.style, {
-        // @ts-ignore
         background: data?.metaId ? colors[data?.metaId % 10] + "88" : undefined,
       })}
       onMouseOver={handleMouseOver}
