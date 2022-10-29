@@ -2,24 +2,23 @@ import { useEffect, useState } from "react"
 
 import ApiList from "../../../components/api/ApiList"
 import _ from "lodash"
-import names from "../../../models/names.json"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
 import { useRouter } from "next/router"
+import { useTranslation } from "react-i18next"
 
 const entryName = "orders-archive"
 
 const OrdersArchiveList = () => {
   const [id, setId] = useState<number | null>(null)
   const router = useRouter()
+  const { t } = useTranslation()
 
   return (
     <ApiList
       ListItem={makeDefaultListItem("name")}
       entryName={entryName}
       label={
-        entryName && entryName in names
-          ? _.capitalize(names[entryName as keyof typeof names].plural)
-          : undefined
+        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
       }
       selectedId={id}
       onChange={(val: any) => {

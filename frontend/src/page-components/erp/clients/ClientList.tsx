@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import ApiList from "../../../components/api/ApiList"
 import ClientListItem from "./ClientListItem"
 import _ from "lodash"
-import names from "../../../models/names.json"
 import { useRouter } from "next/router"
+import { useTranslation } from "react-i18next"
 
 const entryName = "clients"
 
@@ -15,15 +15,14 @@ interface ClientListProps {
 const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
   // const [id, setId] = useState<number | null>(null)
   const router = useRouter()
+  const { t } = useTranslation()
 
   return (
     <ApiList
       ListItem={ClientListItem}
       entryName={entryName}
       label={
-        entryName && entryName in names
-          ? _.capitalize(names[entryName as keyof typeof names].plural)
-          : undefined
+        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
       }
       selectedId={selectedId}
       onChange={(val: any) => {

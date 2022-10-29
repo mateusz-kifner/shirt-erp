@@ -5,9 +5,9 @@ import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryEditable from "./api/ApiEntryEditable"
 import DefaultListItem from "./DefaultListItem"
-import names from "../models/names.json"
 import _ from "lodash"
 import { useRouter } from "next/router"
+import { useTranslation } from "react-i18next"
 
 interface DefaultPageProps {
   entryName: string
@@ -20,6 +20,7 @@ const DefaultPage = ({
   template,
   ListElement,
 }: DefaultPageProps) => {
+  const { t } = useTranslation()
   const [id, setId] = useState<number | null>(null)
   const ListElem = ListElement ?? DefaultListItem
   const router = useRouter()
@@ -46,8 +47,8 @@ const DefaultPage = ({
           ListItem={ListElem}
           entryName={entryName}
           label={
-            entryName && entryName in names
-              ? _.capitalize(names[entryName as keyof typeof names].plural)
+            entryName
+              ? _.capitalize(t(`${entryName}.singular` as any))
               : undefined
           }
           onChange={(val: any) => {

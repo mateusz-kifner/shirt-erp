@@ -1,10 +1,9 @@
-import { Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
+import { Button, Group, Modal, Stack, Text } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { TrashX } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
-import names from "../../models/names.json"
 import Editable from "../editable/Editable"
 import ApiStatusIndicator from "./ApiStatusIndicator"
 
@@ -28,13 +27,7 @@ const ApiEntryEditable = <EntryType extends any>({
   >("idle")
 
   const router = useRouter()
-  const params = router.query
   const { t } = useTranslation()
-
-  const entryNameData: any =
-    entryName in names
-      ? names[entryName as keyof typeof names]
-      : { singular: "", plural: "" }
 
   const apiUpdate = (key: string, val: any) => {
     setStatus("loading")

@@ -1,5 +1,5 @@
 import { ComponentType, CSSProperties } from "react"
-import { Box, Group, MantineTheme, Sx, Text } from "@mantine/core"
+import { Box, MantineTheme, Sx, Text } from "@mantine/core"
 import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
 import EditableRichText from "./EditableRichText"
@@ -29,6 +29,7 @@ import { useAuthContext } from "../../context/authContext"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
 import EditableTable from "./EditableTable"
+import OrderListItem from "../../page-components/erp/orders/OrderListItem"
 
 const ApiProps: {
   [key: string]: {
@@ -55,12 +56,12 @@ const ApiProps: {
       value?.username ? truncString(value.username, 40) : undefined,
   },
   orders: {
-    ListItem: makeDefaultListItem("name"),
+    ListItem: OrderListItem,
     copyProvider: (value: any) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },
   "orders-archive": {
-    ListItem: makeDefaultListItem("name"),
+    ListItem: OrderListItem,
     copyProvider: (value: any) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },

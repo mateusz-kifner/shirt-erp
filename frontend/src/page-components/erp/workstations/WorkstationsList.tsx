@@ -1,15 +1,10 @@
 import _ from "lodash"
 import { useRouter } from "next/router"
+import { useTranslation } from "react-i18next"
 import ApiList from "../../../components/api/ApiList"
-import names from "../../../models/names.json"
 import WorkstationListItem from "./WorkstationListItem"
 
 const entryName = "workstations"
-
-const label =
-  entryName && entryName in names
-    ? _.capitalize(names[entryName as keyof typeof names].plural)
-    : undefined
 
 interface WorkstationsListProps {
   selectedId: number | null
@@ -18,11 +13,14 @@ interface WorkstationsListProps {
 
 const WorkstationsList = (props: WorkstationsListProps) => {
   const router = useRouter()
+  const { t } = useTranslation()
   return (
     <ApiList
       ListItem={WorkstationListItem}
       entryName={entryName}
-      label={label}
+      label={
+        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
+      }
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
