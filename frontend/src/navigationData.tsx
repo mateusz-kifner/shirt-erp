@@ -59,7 +59,7 @@ const navigationData: {
   {
     label: "Maile",
     Icon: <Mail size={32} />,
-    to: "/erp/email-messages",
+    to: "/erp/email-client/messages",
     entryName: "email",
     gradient: { from: "indigo", to: "teal", deg: 105 },
   },
