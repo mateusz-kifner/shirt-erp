@@ -7,13 +7,20 @@ import {
   Menu,
   Modal,
   Text,
+  Tooltip,
 } from "@mantine/core"
 import { useClipboard, useId } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
 import { CSSProperties, useEffect, useMemo, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
-import { Copy, Dots, ExternalLink, TrashX } from "tabler-icons-react"
+import {
+  Copy,
+  Dots,
+  ExternalLink,
+  QuestionMark,
+  TrashX,
+} from "tabler-icons-react"
 import ApiList from "../api/ApiList"
 import { useRouter } from "next/router"
 import Link from "next/link"
@@ -35,6 +42,7 @@ interface EditableApiEntryProps {
   withErase?: boolean
   listProps?: any
   linkEntry: boolean
+  helpTooltip?: string
 }
 
 const EditableApiEntry = (props: EditableApiEntryProps) => {
@@ -53,6 +61,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     withErase = false,
     listProps,
     linkEntry = false,
+    helpTooltip,
   } = props
 
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
@@ -101,6 +110,19 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 >
                   <Copy size={16} />
                 </ActionIcon>
+              )}
+
+              {helpTooltip && (
+                <Tooltip
+                  label={helpTooltip}
+                  openDelay={1000}
+                  multiline
+                  width={220}
+                >
+                  <ActionIcon variant="transparent" tabIndex={-1}>
+                    <QuestionMark size={16} />
+                  </ActionIcon>
+                </Tooltip>
               )}
             </Group>
             {linkEntry && value?.id && (

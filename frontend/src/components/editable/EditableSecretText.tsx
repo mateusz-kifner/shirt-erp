@@ -95,9 +95,10 @@ const EditableSecretText = ({
     }
   }
   return (
-    <div className="erase_on_print">
+    <>
       {active && (
         <div
+          className="erase_on_print"
           style={{
             position: "absolute",
             right: 0,
@@ -157,6 +158,7 @@ const EditableSecretText = ({
       )}
       {!active && (
         <ActionIcon
+          className="erase_on_print"
           radius="xl"
           sx={[
             (theme) => ({
@@ -177,7 +179,7 @@ const EditableSecretText = ({
           <Notes size={18} />
         </ActionIcon>
       )}
-    </div>
+    </>
   )
 }
 

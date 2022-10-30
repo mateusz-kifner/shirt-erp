@@ -169,49 +169,53 @@ const ApiList = <T extends any>({
           />
         </Group>
       </Stack>
-      <Box
-        style={{
-          height: y > 100 ? 100 : y,
-          overflow: "hidden",
-          position: "relative",
-        }}
-      >
-        <Loader
+      <Stack spacing={0}>
+        <Box
           style={{
-            position: "absolute",
-            left: "50%",
-            transform: "translate(-50%,0)",
+            height: y > 100 ? 100 : y,
+            overflow: "hidden",
+            position: "relative",
           }}
-        />
-      </Box>
-      <Stack spacing={listSpacing}>
-        {data &&
-          data.map((val: any, index: number) => (
-            <Box
-              key={`list_${entryName}_${index}`}
-              sx={{
-                paddingTop:
-                  withSeparators && index != 0 && typeof listSpacing == "string"
-                    ? theme.spacing[listSpacing]
-                    : listSpacing,
-                borderTop:
-                  withSeparators && index != 0
-                    ? `1px solid ${
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[4]
-                          : theme.colors.gray[2]
-                      }`
-                    : undefined,
-              }}
-            >
-              <ListItem
-                value={val}
-                onChange={onChangeWithBlocking}
-                {...listItemProps}
-                active={val.id === selectedId}
-              />
-            </Box>
-          ))}
+        >
+          <Loader
+            style={{
+              position: "absolute",
+              left: "50%",
+              transform: "translate(-50%,0)",
+            }}
+          />
+        </Box>
+        <Stack spacing={listSpacing}>
+          {data &&
+            data.map((val: any, index: number) => (
+              <Box
+                key={`list_${entryName}_${index}`}
+                sx={{
+                  paddingTop:
+                    withSeparators &&
+                    index != 0 &&
+                    typeof listSpacing == "string"
+                      ? theme.spacing[listSpacing]
+                      : listSpacing,
+                  borderTop:
+                    withSeparators && index != 0
+                      ? `1px solid ${
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[4]
+                            : theme.colors.gray[2]
+                        }`
+                      : undefined,
+                }}
+              >
+                <ListItem
+                  value={val}
+                  onChange={onChangeWithBlocking}
+                  {...listItemProps}
+                  active={val.id === selectedId}
+                />
+              </Box>
+            ))}
+        </Stack>
       </Stack>
       <Pagination
         total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}

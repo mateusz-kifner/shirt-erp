@@ -60,6 +60,8 @@ export default {
     type: "apiEntry",
     entryName: "clients",
     linkEntry: true,
+    helpTooltip:
+      "Jeśli adres jest całkowicie pusty to ustawienie Klienta spowoduje automatyczne wypełnienie adresu.",
     onSubmitTrigger: (
       key: string,
       client: ClientType,
