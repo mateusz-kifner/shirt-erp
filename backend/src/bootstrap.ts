@@ -236,6 +236,12 @@ async function setupEmployeeRole() {
     ["search"],
     "Employee"
   );
+  await setPluginPermissions(
+    "email-client",
+    "email-message",
+    ["find", "findOne", "refresh"],
+    "Employee"
+  );
 }
 
 module.exports = async () => {
