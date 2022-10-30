@@ -12,7 +12,7 @@ import { Dimensions, Point } from "react-spreadsheet"
 import type { FC, ComponentType } from "react"
 import type { CellBase, CellComponentProps } from "react-spreadsheet"
 import { merge } from "lodash"
-import colors from "../../models/colors.json"
+import { getRandomColorByNumber } from "../../utils/getRandomColor"
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -107,7 +107,9 @@ export const Cell = ({
       ref={rootRef}
       className={"Spreadsheet__cell"}
       style={merge(data?.style, {
-        background: data?.metaId ? colors[data?.metaId % 10] + "88" : undefined,
+        background: data?.metaId
+          ? getRandomColorByNumber(data.metaId) + "88"
+          : undefined,
       })}
       onMouseOver={handleMouseOver}
       onMouseDown={handleMouseDown}

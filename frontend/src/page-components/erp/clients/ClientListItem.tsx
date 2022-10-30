@@ -1,6 +1,7 @@
 import { Avatar, NavLink } from "@mantine/core"
 
 import { ClientType } from "../../../types/ClientType"
+import { getRandomColorByNumber } from "../../../utils/getRandomColor"
 import { truncString } from "../../../utils/truncString"
 
 interface ClientListItemProps {
@@ -22,7 +23,16 @@ const ClientListItem = ({
       onClick={() => onChange?.(value)}
       icon={
         value && (
-          <Avatar radius="xl">
+          <Avatar
+            radius="xl"
+            styles={{
+              placeholder: {
+                background: `radial-gradient(circle, transparent 64%, ${getRandomColorByNumber(
+                  value.id
+                )}  66%)`,
+              },
+            }}
+          >
             {value?.firstname?.[0]}
             {value?.lastname?.[0]}
           </Avatar>

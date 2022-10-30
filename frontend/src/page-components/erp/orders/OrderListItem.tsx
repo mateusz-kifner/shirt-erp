@@ -1,6 +1,7 @@
 import { Avatar, NavLink } from "@mantine/core"
 import { OrderType } from "../../../types/OrderType"
 import { truncString } from "../../../utils/truncString"
+import { getRandomColorByNumber } from "../../../utils/getRandomColor"
 
 interface OrderListItemProps {
   onChange?: (item: Partial<OrderType>) => void
@@ -20,7 +21,16 @@ const OrderListItem = ({
       disabled={disabled}
       icon={
         value && (
-          <Avatar radius="xl">
+          <Avatar
+            radius="xl"
+            styles={{
+              placeholder: {
+                background: `radial-gradient(circle, transparent 64%, ${getRandomColorByNumber(
+                  value.id
+                )}  66%)`,
+              },
+            }}
+          >
             {value?.name && value.name.substring(0, 2)}
           </Avatar>
         )

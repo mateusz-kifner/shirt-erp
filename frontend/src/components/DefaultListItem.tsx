@@ -1,4 +1,5 @@
 import { Avatar, NavLink } from "@mantine/core"
+import { getRandomColorByNumber } from "../utils/getRandomColor"
 import { truncString } from "../utils/truncString"
 
 // export type DefaultListItemProps = {
@@ -45,7 +46,22 @@ const DefaultListItem = ({
   return (
     <NavLink
       disabled={disabled}
-      icon={firstElement && <Avatar radius="xl"> </Avatar>}
+      icon={
+        firstElement && (
+          <Avatar
+            radius="xl"
+            styles={{
+              placeholder: {
+                background: `radial-gradient(circle, transparent 64%, ${getRandomColorByNumber(
+                  value.id
+                )}  66%)`,
+              },
+            }}
+          >
+            {" "}
+          </Avatar>
+        )
+      }
       label={firstElement ? truncString(firstElement, 40) : "⸺"}
       description={secondElement && truncString(secondElement, 40)}
       active={active}

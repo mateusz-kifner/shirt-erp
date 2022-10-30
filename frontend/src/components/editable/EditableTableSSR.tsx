@@ -19,8 +19,6 @@ import React, {
 } from "react"
 import { useTranslation } from "react-i18next"
 
-import colors from "../../models/colors.json"
-
 // Icons
 import { ScreenShare, Trash } from "tabler-icons-react"
 import TableCenterIcon from "../icons/TableCenterIcon"
@@ -49,6 +47,7 @@ import { useSpreadSheetData } from "../spreadsheet/useSpreadSheetData"
 import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
 
 import { SxBackground } from "../../styles/basic"
+import { getRandomColorByNumber } from "../../utils/getRandomColor"
 
 interface EditableTableProps {
   label?: string
@@ -435,7 +434,8 @@ const EditableTable = (props: EditableTableProps) => {
                               size="xs"
                               style={{
                                 backgroundColor:
-                                  colors[metadata[key].id % 10] + "88",
+                                  getRandomColorByNumber(metadata[key].id) +
+                                  "88",
                               }}
                               onClick={() => {
                                 setMetadataOnSelection({

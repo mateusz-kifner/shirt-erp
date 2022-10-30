@@ -1,9 +1,9 @@
 import ApiList from "../../../components/api/ApiList"
-import { makeDefaultListItem } from "../../../components/DefaultListItem"
 
 import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
+import EmailMessageListItem from "./EmailMessageListItem"
 
 const entryName = "email-messages"
 
@@ -12,13 +12,12 @@ interface EmailMessagesProps {
 }
 
 const EmailMessagesList = ({ selectedId }: EmailMessagesProps) => {
-  const ListElem = makeDefaultListItem("subject")
   const router = useRouter()
   const { t } = useTranslation()
 
   return (
     <ApiList
-      ListItem={ListElem}
+      ListItem={EmailMessageListItem}
       entryName={entryName}
       label={
         entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined

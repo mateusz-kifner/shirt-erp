@@ -1,5 +1,6 @@
 import { Avatar, NavLink } from "@mantine/core"
 import { ExpenseType } from "../../../types/ExpenseType"
+import { getRandomColorByNumber } from "../../../utils/getRandomColor"
 import { truncString } from "../../../utils/truncString"
 
 interface ExpenseListItemProps {
@@ -21,7 +22,16 @@ const ExpenseListItem = ({
       onClick={() => onChange?.(value)}
       icon={
         value && (
-          <Avatar radius="xl">
+          <Avatar
+            radius="xl"
+            styles={{
+              placeholder: {
+                background: `radial-gradient(circle, transparent 64%, ${getRandomColorByNumber(
+                  value.id
+                )}  66%)`,
+              },
+            }}
+          >
             {value.name?.substring(0, 2).toUpperCase()}
           </Avatar>
         )

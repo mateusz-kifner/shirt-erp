@@ -149,11 +149,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
           ]}
         >
           <Element
-            onChange={() => {
-              linkEntry
-                ? router.push("/erp/" + entryName + "/" + value.id)
-                : setOpened(true)
-            }}
+            onChange={() => setOpened(true)}
             value={apiEntry}
             disabled={disabled}
           />
@@ -167,7 +163,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               })}
             >
               <Link href={"/erp/" + entryName + "/" + value.id} passHref>
-                <ActionIcon size="md" component="a" tabIndex={-1}>
+                <ActionIcon size="md" component="a" tabIndex={-1} radius="xl">
                   <ExternalLink size={16} />
                 </ActionIcon>
               </Link>
