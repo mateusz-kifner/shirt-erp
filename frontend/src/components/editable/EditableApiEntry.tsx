@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Box,
   CSSObject,
+  Group,
   Input,
   Menu,
   Modal,
@@ -12,8 +13,10 @@ import { showNotification } from "@mantine/notifications"
 import _ from "lodash"
 import { CSSProperties, useEffect, useMemo, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
-import { Copy, Dots, Menu2, TrashX, X } from "tabler-icons-react"
+import { Copy, Dots, ExternalLink, TrashX } from "tabler-icons-react"
 import ApiList from "../api/ApiList"
+import { useRouter } from "next/router"
+import Link from "next/link"
 
 interface EditableApiEntryProps {
   label?: string
@@ -31,6 +34,7 @@ interface EditableApiEntryProps {
   >
   withErase?: boolean
   listProps?: any
+  linkEntry: boolean
 }
 
 const EditableApiEntry = (props: EditableApiEntryProps) => {
@@ -48,6 +52,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     style,
     withErase = false,
     listProps,
+    linkEntry = false,
   } = props
 
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
@@ -57,6 +62,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
   const clipboard = useClipboard()
   // eslint-disable-next-line
   const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry])
+  const router = useRouter()
 
   useEffect(() => {
     setApiEntry(value)
@@ -74,35 +80,43 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     <Input.Wrapper
       label={
         label && label.length > 0 ? (
-          <>
-            {label}
-            {apiEntry && copyValue && (
-              <ActionIcon
-                size="xs"
-                style={{
-                  display: "inline-block",
-                  transform: "translate(4px, 4px)",
-                  marginRight: 4,
-                }}
-                onClick={() => {
-                  clipboard.copy(copyValue)
-                  showNotification({
-                    title: "Skopiowano do schowka",
-                    message: copyValue,
-                  })
-                }}
-                tabIndex={-1}
-              >
-                <Copy size={16} />
-              </ActionIcon>
+          <Group position="apart" spacing={0} style={{ width: "100%" }}>
+            <Group spacing={0}>
+              {label}
+              {apiEntry && copyValue && (
+                <ActionIcon
+                  size="xs"
+                  style={{
+                    display: "inline-block",
+                    transform: "translate(4px,0)",
+                  }}
+                  onClick={() => {
+                    clipboard.copy(copyValue)
+                    showNotification({
+                      title: "Skopiowano do schowka",
+                      message: copyValue,
+                    })
+                  }}
+                  tabIndex={-1}
+                >
+                  <Copy size={16} />
+                </ActionIcon>
+              )}
+            </Group>
+            {linkEntry && value?.id && (
+              <Link href={"/erp/" + entryName + "/" + value.id} passHref>
+                <ActionIcon size="xs" component="a" tabIndex={-1}>
+                  <ExternalLink />
+                </ActionIcon>
+              </Link>
             )}
-          </>
+          </Group>
         ) : undefined
       }
       labelElement="div"
       required={required}
       // style={{ position: "relative" }}
-      styles={styles}
+      styles={{ ...styles, label: { ...styles?.label, width: "100%" } }}
       style={style}
     >
       <Modal opened={opened} onClose={() => setOpened(false)} title="">
@@ -136,11 +150,29 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
         >
           <Element
             onChange={() => {
-              setOpened(true)
+              linkEntry
+                ? router.push("/erp/" + entryName + "/" + value.id)
+                : setOpened(true)
             }}
             value={apiEntry}
             disabled={disabled}
           />
+          {(!label || label.length === 0) && linkEntry && value?.id && (
+            <Box
+              sx={(theme) => ({
+                position: "absolute",
+                top: "50%",
+                right: theme.spacing.sm,
+                transform: "translate(0,-50%)",
+              })}
+            >
+              <Link href={"/erp/" + entryName + "/" + value.id} passHref>
+                <ActionIcon size="md" component="a" tabIndex={-1}>
+                  <ExternalLink size={16} />
+                </ActionIcon>
+              </Link>
+            </Box>
+          )}
           {apiEntry && withErase && (
             <Menu withArrow>
               <Menu.Target>

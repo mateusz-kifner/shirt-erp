@@ -66,14 +66,16 @@
     "label": "Zamówienia",
     "type": "array",
     "arrayType": "apiEntry",
-    "entryName": "orders"
+    "entryName": "orders",
+    "linkEntry": true
   },
 
   "orderArchives": {
     "label": "Zamówienia archiwizowane",
     "type": "array",
     "arrayType": "apiEntry",
-    "entryName": "orders-archive"
+    "entryName": "orders-archive",
+    "linkEntry": true
   },
 
   "createdAt": {

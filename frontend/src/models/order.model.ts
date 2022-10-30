@@ -59,13 +59,13 @@ export default {
     label: "Klient",
     type: "apiEntry",
     entryName: "clients",
+    linkEntry: true,
     onSubmitTrigger: (
       key: string,
       client: ClientType,
       data: OrderType,
       onSubmit: (key: string, value: any) => void
     ) => {
-      console.log(data.address)
       if (
         data.address === null ||
         (!data.address.streetName &&
@@ -74,8 +74,9 @@ export default {
           !data.address.postCode &&
           !data.address.city &&
           !data.address.secondLine)
-      )
+      ) {
         onSubmit?.("address", { ...client.address, id: undefined })
+      }
     },
   },
   address: {
@@ -104,6 +105,7 @@ export default {
     arrayType: "apiEntry",
     entryName: "products",
     // organizingHandle: "arrows",
+    linkEntry: true,
   },
 
   employees: {

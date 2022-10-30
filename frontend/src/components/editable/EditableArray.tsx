@@ -37,6 +37,7 @@ interface EditableArrayProps {
   Element: ComponentType<any>
   elementProps: any
   organizingHandle: "none" | "arrows" | "drag and drop"
+  linkEntry: boolean
 }
 
 const EditableArray = (props: EditableArrayProps) => {
@@ -51,6 +52,7 @@ const EditableArray = (props: EditableArrayProps) => {
     Element,
     elementProps,
     organizingHandle = "none",
+    linkEntry = false,
   } = props
   const [items, handlers] = useListState<any>(value ?? initialValue ?? [])
   const [prev, setPrev] = useState<any[]>(items)
@@ -196,6 +198,7 @@ const EditableArray = (props: EditableArrayProps) => {
                       // )
                     }}
                     disabled={!active}
+                    linkEntry={linkEntry ? !active : false}
                   />
                 </Box>
                 {active && (
