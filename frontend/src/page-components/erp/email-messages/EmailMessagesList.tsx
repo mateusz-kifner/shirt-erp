@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { useTranslation } from "react-i18next"
 import EmailMessageListItem from "./EmailMessageListItem"
 
-const entryName = "email-messages"
+const entryName = "email-client/messages"
 
 interface EmailMessagesProps {
   selectedId: number | null
@@ -20,7 +20,7 @@ const EmailMessagesList = ({ selectedId }: EmailMessagesProps) => {
       ListItem={EmailMessageListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
+        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={selectedId}
       onChange={(val: any) => {

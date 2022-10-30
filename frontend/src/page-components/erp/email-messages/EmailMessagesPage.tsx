@@ -6,7 +6,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import EmailMessagesList from "./EmailMessagesList"
 import EmailMessagesView from "./EmailMessageView"
 
-const entryName = "email-messages"
+const entryName = "email-client/messages"
 
 const EmailMessagesPage = () => {
   const router = useRouter()

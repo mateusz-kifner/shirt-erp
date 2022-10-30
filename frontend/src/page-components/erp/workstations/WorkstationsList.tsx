@@ -19,7 +19,7 @@ const WorkstationsList = (props: WorkstationsListProps) => {
       ListItem={WorkstationListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
+        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)

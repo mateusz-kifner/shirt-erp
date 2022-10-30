@@ -18,7 +18,7 @@ const UsersList = () => {
       ListItem={UserListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
+        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={id}
       onChange={(val: any) => {

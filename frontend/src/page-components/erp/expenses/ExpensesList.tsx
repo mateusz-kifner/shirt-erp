@@ -21,7 +21,7 @@ const ExpensesList = ({ selectedId, onAddElement }: ExpenseListProps) => {
       ListItem={ExpenseListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.singular` as any)) : undefined
+        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={selectedId}
       onChange={(val: any) => {

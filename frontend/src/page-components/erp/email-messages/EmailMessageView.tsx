@@ -14,7 +14,7 @@ import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { useEmailContext } from "../../../context/emailContext"
 
-const entryName = "email-messages"
+const entryName = "email-client/messages"
 interface EmailMessagesViewProps {
   id: number | null
 }
