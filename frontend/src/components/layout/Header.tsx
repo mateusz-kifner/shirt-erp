@@ -50,21 +50,23 @@ const Header = (props: HeaderProps) => {
                 mr="sm"
               />
             </MediaQuery>
-            {navigationCollapsed ? (
-              // eslint-disable-next-line
-              <img
-                src="/assets/logo_micro.png"
-                alt="Shirt Dip ERP"
-                height={40}
-              />
-            ) : (
-              // eslint-disable-next-line
-              <img
-                src="/assets/logo_small.png"
-                alt="Shirt Dip ERP"
-                height={40}
-              />
-            )}
+            <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+              {navigationCollapsed ? (
+                // eslint-disable-next-line
+                <img
+                  src="/assets/logo_micro.png"
+                  alt="Shirt Dip ERP"
+                  height={40}
+                />
+              ) : (
+                // eslint-disable-next-line
+                <img
+                  src="/assets/logo_small.png"
+                  alt="Shirt Dip ERP"
+                  height={40}
+                />
+              )}
+            </MediaQuery>
           </Group>
           {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Autocomplete

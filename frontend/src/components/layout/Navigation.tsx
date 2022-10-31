@@ -5,11 +5,10 @@ import {
   ScrollArea,
   Stack,
   ActionIcon,
+  useMantineTheme,
 } from "@mantine/core"
-import { useLocalStorage, useMediaQuery } from "@mantine/hooks"
-import { ReactElement, Ref, SyntheticEvent, useState } from "react"
+import { useMediaQuery } from "@mantine/hooks"
 import navigationData from "../../navigationData"
-// import { navigationData } from "../../Routes"
 import { ChevronRight, ChevronLeft } from "tabler-icons-react"
 import { NavButton } from "./NavButton"
 import { useAuthContext } from "../../context/authContext"
@@ -19,7 +18,11 @@ interface NavigationProps {}
 const Navigation = (props: NavigationProps) => {
   const { navigationCollapsed, toggleNavigationCollapsed, debug } =
     useAuthContext()
-  const biggerThanSM = useMediaQuery("(min-width: 1000px)", true)
+  const theme = useMantineTheme()
+  const biggerThanSM = useMediaQuery(
+    `(min-width: ${theme.breakpoints.md}px)`,
+    true
+  )
 
   return (
     <Navbar

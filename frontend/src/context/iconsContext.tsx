@@ -42,7 +42,6 @@ export const IconsProvider = ({ children }: { children: ReactNode }) => {
       queryOptions: { enabled: false },
     }
   )
-  console.log(data)
 
   useEffect(() => {
     refetch()

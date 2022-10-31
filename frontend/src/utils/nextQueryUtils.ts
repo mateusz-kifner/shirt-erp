@@ -13,9 +13,13 @@ const setQuery = (
   }
 ) => {
   if (router.isReady) {
-    router.replace({ pathname: router.asPath, query }, undefined, {
-      shallow: true,
-    })
+    router.replace(
+      { pathname: router.asPath.split("?")[0], query },
+      undefined,
+      {
+        shallow: true,
+      }
+    )
   }
 }
 

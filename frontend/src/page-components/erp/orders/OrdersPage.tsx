@@ -13,7 +13,13 @@ import OrderAddModal from "./OrderAddModal"
 import useStrapi from "../../../hooks/useStrapi"
 import { OrderType } from "../../../types/OrderType"
 import Editable from "../../../components/editable/Editable"
-import { ColorSwatch, RulerMeasure } from "tabler-icons-react"
+import {
+  ColorSwatch,
+  List,
+  Notebook,
+  RulerMeasure,
+  Table,
+} from "tabler-icons-react"
 
 const entryName = "orders"
 
@@ -24,14 +30,25 @@ const OrdersPage: NextPage = () => {
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
   const currentView = id ? [0, 1] : 0
-  const childrenLabels = ["Lista zamówień", "Właściwości"]
+  const childrenIcons = [List, Notebook, Table]
   const { data, update } = useStrapi<OrderType>(entryName, id, {
     query: "populate=*",
   })
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle")
-
+  const childrenLabels = [
+    "Lista zamówień",
+    "Właściwości",
+    ...(data && Array.isArray(data?.tables)
+      ? data.tables.map((table, index) => table.name)
+      : []),
+  ]
+  console.log(
+    data &&
+      Array.isArray(data?.tables) &&
+      data.tables.map((table, index) => table.name)
+  )
   const apiUpdate = (key: string, val: any) => {
     setStatus("loading")
     update({ [key]: val } as Partial<OrderType>)
@@ -64,9 +81,15 @@ const OrdersPage: NextPage = () => {
       metadata,
     },
   }
+
+  console.log(childrenLabels)
   return (
     <>
-      <Workspace childrenLabels={childrenLabels} defaultViews={currentView}>
+      <Workspace
+        childrenLabels={childrenLabels}
+        childrenIcons={childrenIcons}
+        defaultViews={currentView}
+      >
         <OrdersList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
