@@ -82,6 +82,23 @@ const OrdersPage: NextPage = () => {
     },
   }
 
+  const onAddElement = () => {
+    data &&
+      update({
+        id: data.id,
+        tables: [
+          ...(data.tables ?? []),
+          {
+            name: "Arkusz " + ((data.tables?.length ?? 0) + 1),
+            table: [
+              [null, null],
+              [null, null],
+            ],
+          },
+        ],
+      })
+  }
+
   console.log(childrenLabels)
   return (
     <>
@@ -89,6 +106,7 @@ const OrdersPage: NextPage = () => {
         childrenLabels={childrenLabels}
         childrenIcons={childrenIcons}
         defaultViews={currentView}
+        onAddElement={onAddElement}
       >
         <OrdersList
           selectedId={id}

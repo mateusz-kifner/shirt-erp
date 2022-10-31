@@ -104,10 +104,9 @@ export const Tab = (props: TabProps) => {
 }
 
 interface MultiTabsProps {
-  children: ReactElement[] | ReactElement | null
+  children: any[] | null
   style?: CSSProperties
   sx?: Sx
-  onAddElement?: () => void
   value: string | null
   pinned?: string[]
   onPin: (value: string) => void
@@ -117,16 +116,8 @@ interface MultiTabsProps {
 
 const MultiTabs = (props: MultiTabsProps) => {
   const [tabsSizes, setTabsSizes] = useState<number[]>([])
-  const {
-    children,
-    onAddElement,
-    availableSpace,
-    pinned,
-    value,
-    onTabChange,
-    onPin,
-    sx,
-  } = props
+  const { children, availableSpace, pinned, value, onTabChange, onPin, sx } =
+    props
   const { width, ref } = useElementSize()
 
   return (
@@ -147,29 +138,18 @@ const MultiTabs = (props: MultiTabsProps) => {
                 }),
               rightSection: isPinned ? <Pinned size={16} /> : undefined,
               isActive: child.props.value === value || isPinned,
-              onClick: () => !isPinned && onTabChange(child.props.value),
-              onContextMenu: (e: SyntheticEvent) => {
-                e.preventDefault()
-                onPin(child.props.value)
-              },
+              onClick: !child.props?.onClick
+                ? () => !isPinned && onTabChange(child.props.value)
+                : child.props?.onClick,
+              onContextMenu: !child.props?.onContextMenu
+                ? (e: SyntheticEvent) => {
+                    e.preventDefault()
+                    onPin(child.props.value)
+                  }
+                : child.props?.onContextMenu,
             })
           )
         })}
-        <Tab
-          value="plus"
-          p="xs"
-          variant="outline"
-          onClick={onAddElement}
-          Icon={Plus}
-          small={false}
-          setBigSize={(size: number) =>
-            setTabsSizes((val) => {
-              let new_arr = [...val]
-              new_arr[Children.count(children)] = size
-              return new_arr
-            })
-          }
-        ></Tab>
       </Button.Group>
     </Group>
   )

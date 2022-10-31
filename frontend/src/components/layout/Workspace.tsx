@@ -4,11 +4,13 @@ import { useRouter } from "next/router"
 import {
   Children,
   ComponentType,
+  ReactElement,
   ReactNode,
   useEffect,
   useId,
   useState,
 } from "react"
+import { Plus } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
 import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
 
@@ -21,6 +23,7 @@ interface WorkspaceProps {
   childrenIcons?: ComponentType<any & { size?: number }>[]
   children?: ReactNode
   defaultViews?: number | number[]
+  onAddElement: () => void
 }
 
 const Workspace = ({
@@ -29,6 +32,7 @@ const Workspace = ({
   childrenIcons,
   childrenWrapperProps = [null],
   defaultViews = 0,
+  onAddElement,
 }: WorkspaceProps) => {
   const [activeTab, setActiveTab] = useState<string | null>(
     childrenLabels?.[0] ?? null
@@ -99,20 +103,31 @@ const Workspace = ({
         availableSpace={width}
       >
         {childrenLabels
-          ? childrenLabels?.map((label, index) => (
-              <Tab
-                value={label}
-                Icon={
-                  childrenIcons?.[index]
-                    ? childrenIcons?.[index]
-                    : childrenIcons?.[childrenIcons.length - 1]
-                }
-                key={uuid + "_tab_" + index}
-              >
-                {label}
-              </Tab>
-            ))
+          ? childrenLabels
+              ?.filter((val) => val !== undefined)
+              ?.map((label, index) => (
+                <Tab
+                  value={label}
+                  Icon={
+                    childrenIcons?.[index]
+                      ? childrenIcons?.[index]
+                      : childrenIcons?.[childrenIcons.length - 1]
+                  }
+                  key={uuid + "_tab_" + index}
+                >
+                  {label}
+                </Tab>
+              ))
           : null}
+
+        <Tab
+          value="plus"
+          p="xs"
+          variant="outline"
+          onClick={onAddElement}
+          onContextMenu={(e) => e.preventDefault()}
+          Icon={Plus}
+        ></Tab>
       </MultiTabs>
 
       {children &&
