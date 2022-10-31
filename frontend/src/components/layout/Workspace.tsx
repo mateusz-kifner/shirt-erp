@@ -1,55 +1,71 @@
-import { Group, Tabs } from "@mantine/core"
-import { useElementSize } from "@mantine/hooks"
+import { Group, Menu, Text } from "@mantine/core"
+import { useElementSize, useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next/router"
 import {
   Children,
   ComponentType,
-  ReactElement,
   ReactNode,
-  useEffect,
   useId,
   useState,
+  MouseEvent,
 } from "react"
+import { useTranslation } from "react-i18next"
 import { Plus } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
-import { getQueryAsArray, setQuery } from "../../utils/nextQueryUtils"
+import {
+  getQueryAsArray,
+  getQueryAsIntOrNull,
+  setQuery,
+} from "../../utils/nextQueryUtils"
 
 import ResponsivePaper from "../ResponsivePaper"
-import MultiTabs, { Tab } from "./MultiTabs"
+import MultiTabs from "./MultiTabs"
 
 interface WorkspaceProps {
   childrenWrapperProps?: any[]
   childrenLabels?: string[]
   childrenIcons?: ComponentType<any & { size?: number }>[]
   children?: ReactNode
-  defaultViews?: number | number[]
-  onAddElement: () => void
+  defaultActive?: number
+  defaultPinned?: number[]
+  addElementLabels?: string[]
+  addElementIcons?: ComponentType<any & { size?: number }>[]
+  onAddElement: (element: number) => void
 }
 
 const Workspace = ({
   children,
-  childrenLabels,
-  childrenIcons,
+  childrenLabels = [],
+  childrenIcons = [],
   childrenWrapperProps = [null],
-  defaultViews = 0,
+  defaultActive = 1,
+  defaultPinned = [0],
   onAddElement,
+  addElementLabels = [],
+  addElementIcons = [],
 }: WorkspaceProps) => {
-  const [activeTab, setActiveTab] = useState<string | null>(
-    childrenLabels?.[0] ?? null
+  const isMobile = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)"
   )
-  const [pinned, setPinned] = useState<string[]>([])
+  const [menuPosition, setMenuPosition] = useState<[number, number]>([0, 0])
+  const [menuOpened, setMenuOpen] = useState<boolean>(false)
   const uuid = useId()
   const router = useRouter()
-  if (!router?.query?.show_views) {
+  if (
+    typeof router?.query?.pinned !== "string" ||
+    typeof router?.query?.active !== "string"
+  ) {
     setQuery(router, {
-      show_views: Array.isArray(defaultViews)
-        ? defaultViews.map((val) => val.toString())
-        : defaultViews.toString(),
+      pinned: defaultPinned,
+      active: defaultActive,
     })
   }
-  const show_views = getQueryAsArray(router, "show_views").map((val) =>
-    isNaN(parseInt(val)) ? -1 : parseInt(val)
-  )
+  const { t } = useTranslation()
+  const pinned = getQueryAsArray(router, "pinned")
+    .map((val) => (isNaN(parseInt(val)) ? null : parseInt(val)))
+    .filter((value) => value !== null) as number[]
+
+  const active = getQueryAsIntOrNull(router, "active") ?? undefined
 
   const child_array = Children.toArray(children)
 
@@ -57,15 +73,23 @@ const Workspace = ({
     useAuthContext()
   const { ref, width } = useElementSize()
 
-  useEffect(() => {
-    if (!childrenLabels) return
-    let new_arr = [...pinned]
-    if (activeTab && !pinned.includes(activeTab)) new_arr.push(activeTab)
-    let index_arr = new_arr.map((val) => childrenLabels?.indexOf(val))
-    setQuery(router, {
-      show_views: index_arr.map((val) => val.toString()),
-    })
-  }, [pinned, activeTab])
+  const activeTabs = isMobile ? [] : [...pinned]
+  if (active !== undefined) activeTabs.push(active)
+
+  // useEffect(() => {
+  //   if (!childrenLabels) return
+  //   let new_arr = [...pinned]
+  //   if (active && !pinned.includes(active)) new_arr.push(active)
+  //   let index_arr = new_arr.map((val) => childrenLabels?.indexOf(val))
+  //   setQuery(router, {
+  //     show_views: index_arr.map((val) => val.toString()),
+  //   })
+  // }, [pinned, active])
+
+  const openMenu = (e: MouseEvent<any, any>) => {
+    setMenuPosition(isMobile ? [width / 2, 60] : [e.pageX, e.pageY])
+    setMenuOpen(true)
+  }
 
   return (
     <Group
@@ -80,58 +104,66 @@ const Workspace = ({
         overflow: "hidden",
       })}
     >
+      <Menu
+        opened={menuOpened}
+        position="bottom-end"
+        onChange={setMenuOpen}
+        closeOnEscape={true}
+        closeOnItemClick={true}
+        closeOnClickOutside={true}
+        styles={{
+          dropdown: {
+            position: "absolute",
+            top: menuPosition[1],
+            left: menuPosition[0],
+          },
+        }}
+      >
+        <Menu.Dropdown onBlur={() => setMenuOpen(false)}>
+          <Menu.Item py={4}>
+            <Text color="grey" size="xs">
+              {t("close")}
+            </Text>
+          </Menu.Item>
+          {addElementLabels.map((label, index) => {
+            const Icon = addElementIcons?.[index]
+              ? addElementIcons[index]
+              : Plus
+            return (
+              <Menu.Item
+                icon={<Icon size={18} />}
+                onClick={() => onAddElement(index)}
+              >
+                {t(label as any)}
+              </Menu.Item>
+            )
+          })}
+        </Menu.Dropdown>
+      </Menu>
       <MultiTabs
-        value={activeTab}
-        onTabChange={setActiveTab}
+        active={active}
+        onTabChange={(value) =>
+          setQuery(router, {
+            pinned,
+            active: value,
+          })
+        }
         pinned={pinned}
         onPin={(value) =>
-          setPinned((val) =>
-            val.includes(value)
-              ? val.filter((val2) => val2 !== value)
-              : [...val, value]
-          )
+          setQuery(router, {
+            pinned: pinned.includes(value)
+              ? pinned.filter((val2) => val2 !== value)
+              : [...pinned, value],
+            active,
+          })
         }
-        sx={(theme) => ({
-          position: "fixed",
-          top: 18,
-          zIndex: 102,
-          height: 38,
-          [`@media (max-width: ${theme.breakpoints.md}px)`]: {
-            left: 52,
-          },
-        })}
+        childrenLabels={childrenLabels}
+        childrenIcons={childrenIcons}
         availableSpace={width}
-      >
-        {childrenLabels
-          ? childrenLabels
-              ?.filter((val) => val !== undefined)
-              ?.map((label, index) => (
-                <Tab
-                  value={label}
-                  Icon={
-                    childrenIcons?.[index]
-                      ? childrenIcons?.[index]
-                      : childrenIcons?.[childrenIcons.length - 1]
-                  }
-                  key={uuid + "_tab_" + index}
-                >
-                  {label}
-                </Tab>
-              ))
-          : null}
-
-        <Tab
-          value="plus"
-          p="xs"
-          variant="outline"
-          onClick={onAddElement}
-          onContextMenu={(e) => e.preventDefault()}
-          Icon={Plus}
-        ></Tab>
-      </MultiTabs>
-
+        onAddElement={(e) => openMenu(e)}
+      />
       {children &&
-        show_views.map((childIndex, index) => (
+        activeTabs.map((childIndex, index) => (
           <ResponsivePaper
             {...(childrenWrapperProps &&
             childrenWrapperProps[childIndex] !== undefined

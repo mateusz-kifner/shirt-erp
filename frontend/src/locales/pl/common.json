@@ -65,5 +65,8 @@
   },
   "close": "Zamknij",
   "clear": "Wyczyść",
-  "fullscreen": "Pełny ekran"
+  "fullscreen": "Pełny ekran",
+  "sheet": "Arkusz",
+  "design": "Design",
+  "add": "Dodaj"
 }

@@ -9,12 +9,29 @@ import type { NextRouter } from "next/router"
 const setQuery = (
   router: NextRouter,
   query: {
-    [key: string]: string | string[] | undefined
+    [key: string]: string | string[] | number | number[] | undefined
   }
 ) => {
   if (router.isReady) {
+    let new_query: { [key: string]: string } = {}
+    for (const key in query) {
+      const elem = query[key]
+      new_query[key] = Array.isArray(elem)
+        ? elem.length !== 0
+          ? (elem as any[]).reduce(
+              (
+                prev: string,
+                next: string | number,
+                index: number,
+                arr: (string | number)[]
+              ) => prev + next.toString() + (index < arr.length - 1 ? "," : ""),
+              ""
+            )
+          : ""
+        : elem?.toString()
+    }
     router.replace(
-      { pathname: router.asPath.split("?")[0], query },
+      { pathname: router.asPath.split("?")[0], query: new_query },
       undefined,
       {
         shallow: true,
@@ -32,7 +49,13 @@ const getQueryAsArray = (router: NextRouter, key: string): string[] => {
 
   if (Array.isArray(query)) return query
 
-  if (typeof query === "string") return [query]
+  if (typeof query === "string") {
+    if (query.includes(",")) {
+      return query.split(",")
+    } else {
+      return [query]
+    }
+  }
 
   return []
 }

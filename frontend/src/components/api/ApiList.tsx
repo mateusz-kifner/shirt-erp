@@ -111,7 +111,11 @@ const ApiList = <T extends any>({
   }
 
   return (
-    <Stack spacing={spacing} {...bind()} style={{ touchAction: "none" }}>
+    <Stack
+      spacing={spacing}
+      // {...bind()}
+      // style={{ touchAction: "none" }}
+    >
       <Stack>
         <Group position="apart">
           <Title order={2}>{label}</Title>

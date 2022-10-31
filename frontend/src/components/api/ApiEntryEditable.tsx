@@ -1,9 +1,8 @@
-import { Button, Group, Modal, Stack, Text } from "@mantine/core"
+import { Stack, Text } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { useTranslation } from "react-i18next"
-import { TrashX } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
+import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
 import ApiStatusIndicator from "./ApiStatusIndicator"
 
@@ -18,7 +17,6 @@ const ApiEntryEditable = <EntryType extends any>({
   entryName,
   id,
 }: ApiEntryEditableProps<EntryType>) => {
-  const [openedDelete, setOpenedDelete] = useState<boolean>(false)
   const { data, update, remove } = useStrapi<EntryType>(entryName, id, {
     query: "populate=*",
   })
@@ -27,7 +25,6 @@ const ApiEntryEditable = <EntryType extends any>({
   >("idle")
 
   const router = useRouter()
-  const { t } = useTranslation()
 
   const apiUpdate = (key: string, val: any) => {
     setStatus("loading")
@@ -38,6 +35,13 @@ const ApiEntryEditable = <EntryType extends any>({
       .catch((err) => {
         setStatus("error")
       })
+  }
+
+  const onDelete = () => {
+    id &&
+      remove(id)
+        .then(() => router.push("."))
+        .catch(() => {})
   }
 
   return (
@@ -59,48 +63,11 @@ const ApiEntryEditable = <EntryType extends any>({
               onSubmit={apiUpdate}
             />
           </Stack>
-          <Button
-            color="red"
-            variant="outline"
-            leftIcon={<TrashX size={18} />}
-            onClick={() => setOpenedDelete(true)}
-            mt={"4rem"}
-            className="erase_on_print"
-          >
-            {t("delete", {
-              entry: t(`${entryName}.singular` as any),
-            })}
-          </Button>
-
-          <Modal
-            opened={openedDelete}
-            onClose={() => setOpenedDelete(false)}
-            title={t("delete", { entry: t(`${entryName}.singular` as any) })}
-            centered
-          >
-            <Text color="red" mb="xl">
-              {t("operation-not-reversible")}
-            </Text>
-            <Group position="apart" mt="xl">
-              <Button
-                color="red"
-                variant="outline"
-                leftIcon={<TrashX size={18} />}
-                onClick={() => {
-                  id &&
-                    remove(id)
-                      .then(() => router.push("."))
-                      .catch(() => {})
-                  setOpenedDelete(false)
-                }}
-              >
-                {t("delete", { entry: t(`${entryName}.singular` as any) })}
-              </Button>
-              <Button onClick={() => setOpenedDelete(false)}>
-                {t("cancel")}
-              </Button>
-            </Group>
-          </Modal>
+          <DeleteButton
+            label={`${entryName}.singular`}
+            onDelete={onDelete}
+            buttonProps={{ mt: "4rem" }}
+          />
         </>
       ) : (
         <Text
