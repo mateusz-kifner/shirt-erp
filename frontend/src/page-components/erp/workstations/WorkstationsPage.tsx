@@ -8,7 +8,7 @@ import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import WorkstationsList from "./WorkstationsList"
 import WorkstationAddModal from "./WorkstationAddModal"
 import { Tabs, TabsValue } from "@mantine/core"
-import { Affiliate, Robot } from "tabler-icons-react"
+import { Affiliate, List, Notebook, Robot } from "tabler-icons-react"
 
 const entryName = "workstations"
 
@@ -49,7 +49,12 @@ const workstationsPage = () => {
           </Tabs.Tab>
         </Tabs.List>
       </Tabs>
-      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
+      <Workspace
+        childrenLabels={
+          id ? ["Lista stanowisk", "Właściwości"] : ["Lista stanowisk"]
+        }
+        childrenIcons={[List, Notebook]}
+      >
         <WorkstationsList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
@@ -61,7 +66,7 @@ const workstationsPage = () => {
         onClose={(id) => {
           setOpenAddModal(false)
           id !== undefined &&
-            router.push(`/erp/workstations/${id}?show_views=0&show_views=1`)
+            router.push(`/erp/workstations/${id}?pinned=0&active=1`)
         }}
       />
     </>

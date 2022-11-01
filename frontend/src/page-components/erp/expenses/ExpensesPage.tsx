@@ -8,6 +8,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ExpenseList from "./ExpensesList"
 import ExpenseAddModal from "./ExpenseAddModal"
 import { useState } from "react"
+import { Notebook, List } from "tabler-icons-react"
 
 const entryName = "expenses"
 
@@ -20,7 +21,12 @@ const ExpensePage = () => {
 
   return (
     <>
-      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
+      <Workspace
+        childrenLabels={
+          id ? ["Lista wydatków", "Właściwości"] : ["Lista wydatków"]
+        }
+        childrenIcons={[List, Notebook]}
+      >
         <ExpenseList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
@@ -32,7 +38,7 @@ const ExpensePage = () => {
         onClose={(id) => {
           setOpenAddModal(false)
           id !== undefined &&
-            router.push(`/erp/expenses/${id}?show_views=0&show_views=1`)
+            router.push(`/erp/expenses/${id}?pinned=0&active=1`)
         }}
       />
     </>

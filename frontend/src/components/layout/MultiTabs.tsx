@@ -19,9 +19,9 @@ import React, {
   useState,
   MouseEvent,
 } from "react"
-import { GridDots, Navigation, Pinned, Plus } from "tabler-icons-react"
+import { GridDots, Pinned, Plus, AlertCircle } from "tabler-icons-react"
 import { SxBorder } from "../../styles/basic"
-import { getRandomColorByString } from "../../utils/getRandomColor"
+import { colors, getRandomColorByString } from "../../utils/getRandomColor"
 import { useAuthContext } from "../../context/authContext"
 import { useTranslation } from "../../i18n"
 
@@ -46,6 +46,7 @@ export interface TabProps
   small?: boolean
   setBigSize?: (size: number) => void
   isActive?: boolean
+  index?: number
 }
 
 export const Tab = (props: TabProps) => {
@@ -58,6 +59,7 @@ export const Tab = (props: TabProps) => {
     isActive = false,
     onClick,
     onContextMenu,
+    index,
   } = props
   const [ref, rect] = useResizeObserver()
 
@@ -67,7 +69,7 @@ export const Tab = (props: TabProps) => {
 
   const hasIcon = !!Icon
   const hasRightSection = !!rightSection
-  const color = getRandomColorByString((children as string) + "e")
+  const color = index !== undefined ? colors[index % colors.length] : undefined
   return (
     <Tooltip label={children} disabled={!small} withinPortal withArrow>
       <Button
@@ -79,7 +81,7 @@ export const Tab = (props: TabProps) => {
         sx={[
           SxBorder,
           () => ({
-            color: isActive ? color : undefined,
+            // color: isActive ? color : undefined,
             borderBottom: isActive ? `2px solid ${color}` : undefined,
             "&:active": {
               transform: "none",
@@ -99,7 +101,12 @@ export const Tab = (props: TabProps) => {
         onContextMenu={onContextMenu}
       >
         <Group spacing={4} noWrap>
-          {hasIcon && <Icon size={16} />}
+          {hasIcon &&
+            (isActive && color ? (
+              <Icon size={16} stroke={color} />
+            ) : (
+              <Icon size={16} />
+            ))}
           {!small && children}
           {hasRightSection && rightSection}
         </Group>
@@ -181,7 +188,8 @@ const MultiTabs = (props: MultiTabsProps) => {
           {childrenLabels.map((label, index) => {
             const Icon =
               childrenIcons?.[index] ??
-              childrenIcons?.[childrenIcons.length - 1]
+              childrenIcons?.[childrenIcons.length - 1] ??
+              AlertCircle
             return (
               <Menu.Item
                 px="md"
@@ -230,6 +238,7 @@ const MultiTabs = (props: MultiTabsProps) => {
 
           return (
             <Tab
+              index={index}
               key={uuid + index + childrenLabelsKey}
               value={index}
               Icon={

@@ -40,6 +40,7 @@ dayjs.extend(isToday)
 
 export default i18n
 
+// remove tsc for translation as it is unreasonably slow
 export function useTranslation(ns?: any, options?: UseTranslationOptions<any>) {
   // @ts-ignore
   const elems = useTranslationReact(ns, options)

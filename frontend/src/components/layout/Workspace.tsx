@@ -60,6 +60,7 @@ const Workspace = ({
       active: defaultActive,
     })
   }
+
   const { t } = useTranslation()
   const pinned = getQueryAsArray(router, "pinned")
     .map((val) => (isNaN(parseInt(val)) ? null : parseInt(val)))
@@ -73,8 +74,9 @@ const Workspace = ({
     useAuthContext()
   const { ref, width } = useElementSize()
 
-  const activeTabs = isMobile ? [] : [...pinned]
-  if (active !== undefined) activeTabs.push(active)
+  const activeTabs = [...pinned]
+  if (active !== undefined && !activeTabs.includes(active))
+    activeTabs.push(active)
 
   // useEffect(() => {
   //   if (!childrenLabels) return
@@ -131,6 +133,7 @@ const Workspace = ({
               : Plus
             return (
               <Menu.Item
+                key={uuid + "_menu_" + index}
                 icon={<Icon size={18} />}
                 onClick={() => onAddElement?.(index)}
               >
@@ -160,7 +163,7 @@ const Workspace = ({
         childrenLabels={childrenLabels}
         childrenIcons={childrenIcons}
         availableSpace={width}
-        onAddElement={(e) => openMenu(e)}
+        onAddElement={onAddElement ? (e) => openMenu(e) : undefined}
       />
       {children &&
         activeTabs.map((childIndex, index) => (

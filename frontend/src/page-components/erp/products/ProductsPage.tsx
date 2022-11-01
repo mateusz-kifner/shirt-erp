@@ -8,6 +8,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ProductList from "./ProductsList"
 import ProductAddModal from "./ProductAddModal"
 import { useState } from "react"
+import { List, Notebook } from "tabler-icons-react"
 
 const entryName = "products"
 
@@ -20,7 +21,12 @@ const ProductPage = () => {
 
   return (
     <>
-      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
+      <Workspace
+        childrenLabels={
+          id ? ["Lista produktów", "Właściwości"] : ["Lista produktów"]
+        }
+        childrenIcons={[List, Notebook]}
+      >
         <ProductList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
@@ -32,7 +38,7 @@ const ProductPage = () => {
         onClose={(id) => {
           setOpenAddModal(false)
           id !== undefined &&
-            router.push(`/erp/products/${id}?show_views=0&show_views=1`)
+            router.push(`/erp/products/${id}?pinned=0&active=1`)
         }}
       />
     </>

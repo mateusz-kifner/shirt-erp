@@ -8,7 +8,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import ProceduresList from "./ProceduresList"
 import { Tabs, TabsValue } from "@mantine/core"
-import { Affiliate, Robot } from "tabler-icons-react"
+import { Affiliate, List, Notebook, Robot } from "tabler-icons-react"
 import ProcedureAddModal from "./ProcedureAddModal"
 
 const entryName = "procedures"
@@ -49,7 +49,12 @@ const ProceduresPage = () => {
           </Tabs.Tab>
         </Tabs.List>
       </Tabs>
-      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
+      <Workspace
+        childrenLabels={
+          id ? ["Lista procedur", "Właściwości"] : ["Lista procedur"]
+        }
+        childrenIcons={[List, Notebook]}
+      >
         <ProceduresList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
@@ -62,7 +67,7 @@ const ProceduresPage = () => {
           setOpenAddModal(false)
           console.log(id)
           id !== undefined &&
-            router.push(`/erp/procedures/${id}?show_views=0&show_views=1`)
+            router.push(`/erp/procedures/${id}?pinned=0&active=1`)
         }}
       />
     </>

@@ -8,19 +8,29 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ClientsList from "./ClientList"
 import ClientAddModal from "./ClientAddModal"
 import { useState } from "react"
+import { List, Notebook } from "tabler-icons-react"
+import { useMediaQuery } from "@mantine/hooks"
 
 const entryName = "clients"
 
 const ClientsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
-
+  const isMobile = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)"
+  )
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
-  const currentView = id ? [0, 1] : 0
 
   return (
     <>
-      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
+      <Workspace
+        childrenLabels={
+          id ? ["Lista klientów", "Właściwości"] : ["Lista klientów"]
+        }
+        childrenIcons={[List, Notebook]}
+        defaultActive={id ? 1 : 0}
+        defaultPinned={isMobile ? [] : id ? [0] : []}
+      >
         <ClientsList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
@@ -32,7 +42,7 @@ const ClientsPage = () => {
         onClose={(id) => {
           setOpenAddModal(false)
           id !== undefined &&
-            router.push(`/erp/clients/${id}?show_views=0&show_views=1`)
+            router.push(`/erp/clients/${id}?pinned=0&active=1`)
         }}
       />
     </>

@@ -40,13 +40,15 @@ const OrdersPage: NextPage = () => {
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle")
-  const childrenLabels = [
-    "Lista zamówień",
-    "Właściwości",
-    ...(data && Array.isArray(data?.tables)
-      ? data.tables.map((table, index) => table.name)
-      : []),
-  ]
+  const childrenLabels = id
+    ? [
+        "Lista zamówień",
+        "Właściwości",
+        ...(data && Array.isArray(data?.tables)
+          ? data.tables.map((table, index) => table.name)
+          : []),
+      ]
+    : ["Lista zamówień"]
 
   const apiUpdate = (key: string, val: any) => {
     setStatus("loading")
@@ -114,7 +116,7 @@ const OrdersPage: NextPage = () => {
         childrenIcons={childrenIcons}
         addElementLabels={["sheet", "design"]}
         addElementIcons={[Table, Vector]}
-        onAddElement={onAddElement}
+        onAddElement={id !== null ? onAddElement : undefined}
       >
         <OrdersList
           selectedId={id}
@@ -128,12 +130,11 @@ const OrdersPage: NextPage = () => {
             // console.log(table)
             return (
               table && (
-                <>
+                <div key={uuid + index}>
                   <Stack style={{ position: "relative", minHeight: 200 }}>
                     <Editable
                       template={table_template}
                       data={table}
-                      key={uuid + index}
                       onSubmit={(key, value) => {
                         console.log("onSubmit table [", key, "]: ", value)
                         apiUpdate(
@@ -158,7 +159,7 @@ const OrdersPage: NextPage = () => {
                     }
                     buttonProps={{ mt: "4rem" }}
                   />
-                </>
+                </div>
               )
             )
           })}
