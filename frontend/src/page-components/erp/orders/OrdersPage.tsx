@@ -209,11 +209,8 @@ const OrdersPage: NextPage = () => {
             }
           }
 
-          console.log("row ", rowMin, rowMax)
-          console.log("column", columnMin, columnMax)
           for (let y = columnMin; y < columnMax + 1; y++) {
             for (let x = rowMin; x < rowMax + 1; x++) {
-              console.log(x, y)
               if (
                 table[y][x]?.metaId !== undefined &&
                 table[y][x]?.metaId !== metaId
@@ -237,7 +234,7 @@ const OrdersPage: NextPage = () => {
           return [table, "success: Tablica mam poprawne metadane"]
         },
       ],
-      metadataActionLabels: ["Auto uzupełnij", "Wykryj pola"],
+      metadataActionLabels: ["Auto uzupełnij", "Sprawdź poprawność pól"],
       metadataActionIcons: [Robot, Check],
     },
   }
