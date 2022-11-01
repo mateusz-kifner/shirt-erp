@@ -160,7 +160,6 @@ const EditableTable = (props: EditableTableProps) => {
   ) => {
     e.preventDefault()
     if (disabled) return
-
     if (!openedColumn) {
       setOpenedColumn(true)
       setContextPositionAndValue([e?.pageX, e?.pageY, column])
@@ -175,11 +174,11 @@ const EditableTable = (props: EditableTableProps) => {
   ) => {
     e.preventDefault()
     if (disabled) return
-    if (!openedRow) {
+    if (!openedColumn) {
       setOpenedRow(true)
       setContextPositionAndValue([e?.pageX, e?.pageY, row])
     } else {
-      setOpenedRow(false)
+      setOpenedColumn(false)
     }
   }
 
@@ -269,6 +268,7 @@ const EditableTable = (props: EditableTableProps) => {
           <Group p={0} align="end">
             {/*Column Menu*/}
             <Menu
+              withinPortal
               opened={openedColumn}
               position="bottom-end"
               onChange={setOpenedColumn}
@@ -341,6 +341,7 @@ const EditableTable = (props: EditableTableProps) => {
             </Menu>
             {/*Row Menu*/}
             <Menu
+              withinPortal
               opened={openedRow}
               position="bottom-end"
               onChange={setOpenedRow}
