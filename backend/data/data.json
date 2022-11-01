@@ -144,32 +144,23 @@
   ],
   "product": [
     {
+      "id": 1,
       "name": "Koszulka",
-      "category": "Koszulka",
+      "category": "koszulka",
       "description": "T-Shirt JHK męski z krótkim rękawem.\nBrak bocznych szwów. Podwójne szwy na ramionach.\nWzmocniony lycrą ściągacz. Taśma wzmacniająca. Bawełna stabilizowana.\nGramatura: 155 - 160g\nSkład - 100% bawełna\n(kolor GREY  85% bawełna/ 15% wiskoza, kolor ASH MELANGE - 98% bawełna/ 2% wiskoza,\nkolor FLUOR - 100% poliester, kolor HEATHER - 65% bawełna / 35% poliester)\n\nRozmiary: XS / S / M / L / XL / XXL / 3XL* / 4XL* / 5XL*\n* Rozmiary 3XL, 4XL i 5XL są dostępne w kolorach: BK, NY, RB, WH, RD, OR, SY, GM\n\nPakowanie: Karton=100, Paczka=10\n\nwymiary koszulek - szerokość/długość w cm\n\nROZMIAR\tXS\tS\tM\tL\tXL\tXXL\t3XL*\t4XL*\t5XL*\nSzerokość\t48\t51\t53\t56\t58\t61\t66\t68\t72\nDługość\t\t68\t70\t72\t74\t76\t78\t82\t84\t88",
-      "codeName": "T-Shirt",
       "iconId": 10,
-      "previewImages": null,
-      "colors": [
-        { "name": "BLACK", "hex": "#050608" },
-        { "name": "WHITE", "hex": "#f8f8f8" },
-        { "name": "TURQUOISE", "hex": "#0ba1a9" },
-        { "name": "ORANGE", "hex": "ea5f24" },
-        { "name": "PINK", "hex": "#f3b1cc" },
-        { "name": "GOLD", "hex": "#fbbf0f" },
-        { "name": "NAVY", "hex": "#101b2d" }
-      ],
-      "sizes": [
-        { "size": "XS", "cost": 13 },
-        { "size": "S", "cost": 13 },
-        { "size": "M", "cost": 13 },
-        { "size": "L", "cost": 13 },
-        { "size": "XL", "cost": 13 },
-        { "size": "XXL", "cost": 14.7 },
-        { "size": "3XL", "cost": 16 },
-        { "size": "4XL", "cost": 18.6 },
-        { "size": "5XL", "cost": 20.2 }
-      ]
+      "variants": {
+        "sizes": ["XS", "S", "M", "L", "XL", "XXL", "3XL", "4XL", "5XL"],
+        "colors": [
+          "#00A6B6",
+          "#F54D80",
+          "#FF681F",
+          "#000e1c",
+          "#D0E1D9",
+          "#77BC21",
+          "#4F4A34"
+        ]
+      }
     }
   ],
   "log": [

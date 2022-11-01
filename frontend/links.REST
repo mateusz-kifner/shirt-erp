@@ -1,4 +1,4 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY1MzMwMjI5LCJleHAiOjE2Njc5MjIyMjl9.4l4ER9ObS_S1n3WAIWgOAyxmZD3Zj0nwmCopadracRs
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY3MzI0OTE5LCJleHAiOjE2Njk5MTY5MTl9.YCPwxq6ts_C5MXz5phBiHlEJP5g3MsvkyAm8phadWjM
 
 @host=http://localhost:1337
 ###
@@ -139,3 +139,9 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {"welcomeMessageHash": "123"}
+
+###
+
+GET {{host}}/api/products/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
