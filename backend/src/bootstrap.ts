@@ -221,7 +221,17 @@ async function setupEmployeeRole() {
   await setPluginPermissions(
     "upload",
     "content-api",
-    ["count", "destroy", "find", "findOne", "upload", "public", "download"],
+    [
+      "count",
+      "destroy",
+      "find",
+      "findOne",
+      "upload",
+      "public",
+      "download",
+      "allow_access_to_api_file_download",
+      "allow_access_to_uploads",
+    ],
     "Employee"
   );
   // await setPluginPermissions(
@@ -281,6 +291,7 @@ module.exports = async () => {
         icon: ["find"],
         product: ["find", "findOne"],
       });
+      await setPluginPermissions("upload", "content-api", ["download"]);
       strapi.log.info("Setting up Employee role");
       await setupEmployeeRole();
       strapi.log.info("Setting up the test data ");
