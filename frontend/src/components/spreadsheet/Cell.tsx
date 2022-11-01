@@ -31,7 +31,7 @@ type GenericSVGIcon = ComponentType<
 type CellWithIcons = CellComponentProps<
   CellBase<string> & {
     metaId?: number
-    metaActionId?: number
+    metaPropertyId?: number
     style?: CSSProperties
   }
 > & {
@@ -100,7 +100,7 @@ export const Cell = ({
     DataViewer = data.DataViewer
   }
 
-  const Icon = icons?.[data?.metaActionId ?? -1]
+  const Icon = icons?.[data?.metaPropertyId ?? -1]
 
   return (
     <td

@@ -13,7 +13,7 @@ const RowIndicator = ({
 }) => {
   return (
     <th
-      className={classNames("Spreadsheet__header", "Spreadsheet__hovered", {
+      className={classNames("Spreadsheet__header", {
         "Spreadsheet__header--selected": selected,
       })}
       tabIndex={0}

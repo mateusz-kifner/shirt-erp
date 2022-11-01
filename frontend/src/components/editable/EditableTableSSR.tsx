@@ -43,7 +43,10 @@ import ColumnIndicator, {
 import CornerIndicator from "../spreadsheet/CornerIndicator"
 import { Cell, enhance as enhanceCell } from "../spreadsheet/Cell"
 import DataViewer from "../spreadsheet/DataViewer"
-import { useSpreadSheetData } from "../spreadsheet/useSpreadSheetData"
+import {
+  UniversalMatrix,
+  useSpreadSheetData,
+} from "../spreadsheet/useSpreadSheetData"
 import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
 
 import { SxBackground } from "../../styles/basic"
@@ -64,6 +67,12 @@ interface EditableTableProps {
       [key: string]: any
     }
   }
+  metadataActions: ((
+    table: UniversalMatrix,
+    metaId: number
+  ) => [UniversalMatrix, string])[]
+  metadataActionIcons: ComponentType[]
+  metadataActionLabels?: string[]
 }
 
 const EditableTable = (props: EditableTableProps) => {
@@ -77,7 +86,11 @@ const EditableTable = (props: EditableTableProps) => {
     metadataIcons,
     metadataLabels,
     metadata,
+    metadataActions,
+    metadataActionIcons,
+    metadataActionLabels,
   } = props
+  const [statusText, setStatusText] = useState<string>("")
   const uuid = useId()
   const theme = useMantineTheme()
   const [openedColumn, setOpenedColumn] = useState<boolean>(false)
@@ -111,7 +124,7 @@ const EditableTable = (props: EditableTableProps) => {
   const [fullscreen, setFullscreen] = useState<boolean>(false)
   const incrementUpdateCount = () => setUpdateCount((count) => count + 1)
 
-  const setDataWhenNEQ = (new_data: any[][]) => {
+  const setDataWhenNEQ = (new_data: UniversalMatrix) => {
     let eq = true
     if (
       new_data.length === data.length &&
@@ -121,8 +134,8 @@ const EditableTable = (props: EditableTableProps) => {
         for (let x = 0; x < data[0].length; x++) {
           if (
             new_data[y][x]?.value !== data[y][x]?.value ||
-            new_data[y][x]?.productId !== data[y][x]?.productId ||
-            new_data[y][x]?.property !== data[y][x]?.property
+            new_data[y][x]?.metaId !== data[y][x]?.metaId ||
+            new_data[y][x]?.metaPropertyId !== data[y][x]?.metaPropertyId
           ) {
             eq = false
           }
@@ -195,7 +208,7 @@ const EditableTable = (props: EditableTableProps) => {
             if (
               value[y][x]?.value !== data[y][x]?.value ||
               value[y][x]?.metaId !== data[y][x]?.metaId ||
-              value[y][x]?.metaActionId !== data[y][x]?.metaActionId
+              value[y][x]?.metaPropertyId !== data[y][x]?.metaPropertyId
             ) {
               eq = false
             }
@@ -236,6 +249,8 @@ const EditableTable = (props: EditableTableProps) => {
     () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
     [metadataIcons]
   )
+
+  const metadataActionsMemo = useMemo(() => metadataActions, [metadataActions])
 
   return (
     <Input.Wrapper label={label} required={required}>
@@ -301,6 +316,7 @@ const EditableTable = (props: EditableTableProps) => {
                   onClick={() => {
                     addColumn(contextPositionAndValue[2])
                     incrementUpdateCount()
+                    setStatusText("Dodano kolumnę")
                   }}
                 >
                   {t("add-column-left")}
@@ -316,6 +332,7 @@ const EditableTable = (props: EditableTableProps) => {
                   onClick={() => {
                     addColumn(contextPositionAndValue[2] + 1)
                     incrementUpdateCount()
+                    setStatusText("Dodano kolumnę")
                   }}
                 >
                   {t("add-column-right")}
@@ -333,6 +350,7 @@ const EditableTable = (props: EditableTableProps) => {
                   onClick={() => {
                     removeColumn(contextPositionAndValue[2])
                     incrementUpdateCount()
+                    setStatusText("Usunięto kolumnę")
                   }}
                 >
                   {t("remove-column")}
@@ -375,6 +393,7 @@ const EditableTable = (props: EditableTableProps) => {
                   onClick={() => {
                     addRow(contextPositionAndValue[2])
                     incrementUpdateCount()
+                    setStatusText("Dodano wiersz")
                   }}
                 >
                   {t("add-row-top")}
@@ -391,6 +410,7 @@ const EditableTable = (props: EditableTableProps) => {
                   onClick={() => {
                     addRow(contextPositionAndValue[2] + 1)
                     incrementUpdateCount()
+                    setStatusText("Dodano wiersz")
                   }}
                 >
                   {t("add-row-bottom")}
@@ -409,6 +429,7 @@ const EditableTable = (props: EditableTableProps) => {
                   onClick={() => {
                     removeRow(contextPositionAndValue[2])
                     incrementUpdateCount()
+                    setStatusText("Usunięto wiersz")
                   }}
                 >
                   {t("remove-row")}
@@ -420,37 +441,78 @@ const EditableTable = (props: EditableTableProps) => {
               Object.keys(metadata).map((key, bgIndex) => (
                 <div key={uuid + "_" + bgIndex}>
                   <Input.Wrapper label={key}>
-                    <Button.Group>
-                      {metadataIcons &&
-                        metadataIcons.map((Icon, index) => (
-                          <Tooltip
-                            label={metadataLabels?.[index]}
-                            m={0}
-                            withinPortal
-                            key={uuid + "_" + bgIndex + "_" + index}
-                          >
-                            <Button
-                              variant="default"
-                              p={0}
-                              size="xs"
-                              style={{
-                                backgroundColor:
-                                  getRandomColorByNumber(metadata[key].id) +
-                                  "88",
-                              }}
-                              onClick={() => {
-                                setMetadataOnSelection({
-                                  metaId: metadata[key].id,
-                                  metaActionId: index,
-                                })
-                                incrementUpdateCount()
-                              }}
+                    <Group>
+                      <Button.Group>
+                        {metadataIcons &&
+                          metadataIcons.map((Icon, index) => (
+                            <Tooltip
+                              label={metadataLabels?.[index]}
+                              m={0}
+                              withinPortal
+                              key={uuid + "_" + bgIndex + "_" + index}
+                              openDelay={500}
                             >
-                              {Icon && <Icon />}
-                            </Button>
-                          </Tooltip>
-                        ))}
-                    </Button.Group>
+                              <Button
+                                variant="default"
+                                p={0}
+                                size="xs"
+                                style={{
+                                  backgroundColor:
+                                    getRandomColorByNumber(metadata[key].id) +
+                                    "88",
+                                }}
+                                onClick={() => {
+                                  setMetadataOnSelection({
+                                    metaId: metadata[key].id,
+                                    metaPropertyId: index,
+                                  })
+                                  setStatusText("Ustawiono metadane")
+                                  incrementUpdateCount()
+                                }}
+                              >
+                                {Icon && <Icon />}
+                              </Button>
+                            </Tooltip>
+                          ))}
+                      </Button.Group>
+                      <Button.Group>
+                        {metadataActionIcons &&
+                          metadataActionIcons.map((Icon, index) => (
+                            <Tooltip
+                              label={metadataActionLabels?.[index]}
+                              m={0}
+                              withinPortal
+                              key={uuid + "_" + bgIndex + "_action_" + index}
+                              openDelay={500}
+                            >
+                              <Button
+                                variant="default"
+                                p={0}
+                                size="xs"
+                                style={{
+                                  backgroundColor:
+                                    getRandomColorByNumber(metadata[key].id) +
+                                    "88",
+                                }}
+                                onClick={() => {
+                                  metadataActionsMemo[index] &&
+                                    setData((data) => {
+                                      const [new_data, status] =
+                                        metadataActionsMemo[index](
+                                          data,
+                                          metadata[key].id
+                                        )
+                                      setStatusText(status)
+                                      return new_data
+                                    })
+                                }}
+                              >
+                                {Icon && <Icon />}
+                              </Button>
+                            </Tooltip>
+                          ))}
+                      </Button.Group>
+                    </Group>
                   </Input.Wrapper>
 
                   <Divider orientation="vertical" />
@@ -465,6 +527,7 @@ const EditableTable = (props: EditableTableProps) => {
                 onClick={() => {
                   clearMetadataOnSelection()
                   incrementUpdateCount()
+                  setStatusText("Usunięto metadane")
                 }}
               >
                 <Trash />
@@ -510,6 +573,17 @@ const EditableTable = (props: EditableTableProps) => {
             DataEditor={disabled ? DataEditorDisabled : undefined}
           />
         </ScrollArea>
+        <Text
+          color={
+            statusText.startsWith("error")
+              ? "red"
+              : statusText.startsWith("success")
+              ? "green"
+              : "gray"
+          }
+        >
+          {statusText || "⸺"}
+        </Text>
       </Stack>
     </Input.Wrapper>
   )

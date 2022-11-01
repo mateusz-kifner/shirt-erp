@@ -7,6 +7,7 @@ import EditableText from "../../../components/editable/EditableText"
 import useStrapi from "../../../hooks/useStrapi"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { OrderType } from "../../../types/OrderType"
+import EmailMessageListItem from "../email-messages/EmailMessageListItem"
 import OrderListItem from "./OrderListItem"
 
 interface OrderAddModalProps {
@@ -39,8 +40,8 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
       <Stack>
         <EditableApiEntry
           label="Mail"
-          entryName="email-messages"
-          Element={makeDefaultListItem("subject")}
+          entryName="email-client/messages"
+          Element={EmailMessageListItem}
           onSubmit={(mail) => {
             setMail(mail)
             orderName === "Zamówienie" && setOrderName(mail.subject)

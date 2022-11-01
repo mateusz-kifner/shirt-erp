@@ -21,7 +21,7 @@ const colorNamesRGB = colorNameKeys.map((val) => [
   parseInt(val.substring(5, 7), 16),
 ])
 
-const getColorNameFromHex = (hex: string) => {
+export const getColorNameFromHex = (hex: string) => {
   let name = "Nieznany"
   if (colorNames[hex as keyof typeof colorNames] !== undefined) {
     name = colorNames[hex as keyof typeof colorNames]
