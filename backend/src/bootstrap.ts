@@ -215,6 +215,8 @@ async function setupEmployeeRole() {
       workstation: ["create", "delete", "find", "findOne", "update"],
       procedure: ["create", "delete", "find", "findOne", "update"],
       "email-message": ["find", "findOne", "delete"],
+      plugin: ["find"],
+      future: ["find"],
     },
     "Employee"
   );
