@@ -7,7 +7,7 @@ import ApiEntryEditable from "./api/ApiEntryEditable"
 import DefaultListItem from "./DefaultListItem"
 import _ from "lodash"
 import { useRouter } from "next/router"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../i18n"
 
 interface DefaultPageProps {
   entryName: string

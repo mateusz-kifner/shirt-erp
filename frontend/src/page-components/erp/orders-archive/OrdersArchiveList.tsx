@@ -4,7 +4,7 @@ import ApiList from "../../../components/api/ApiList"
 import _ from "lodash"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
 import { useRouter } from "next/router"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../../../i18n"
 
 const entryName = "orders-archive"
 

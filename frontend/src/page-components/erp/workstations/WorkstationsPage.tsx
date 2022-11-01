@@ -49,10 +49,7 @@ const workstationsPage = () => {
           </Tabs.Tab>
         </Tabs.List>
       </Tabs>
-      <Workspace
-        childrenLabels={["Lista klientów", "Właściwości"]}
-        defaultViews={currentView}
-      >
+      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
         <WorkstationsList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}

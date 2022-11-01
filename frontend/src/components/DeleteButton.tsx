@@ -8,8 +8,9 @@ import {
   ModalProps,
 } from "@mantine/core"
 import React, { useState, CSSProperties } from "react"
-import { useTranslation } from "react-i18next"
+// import { useTranslation } from "../../../i18n"
 import { TrashX } from "tabler-icons-react"
+import { useTranslation } from "../i18n"
 
 interface DeleteButtonProps {
   label: string
@@ -32,7 +33,7 @@ const DeleteButton = ({
     <>
       <Button
         color="red"
-        variant="outline"
+        variant="subtle"
         leftIcon={<TrashX size={18} />}
         onClick={() => setOpenedDelete(true)}
         className="erase_on_print"

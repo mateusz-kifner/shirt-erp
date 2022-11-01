@@ -20,7 +20,7 @@ import { NextLink } from "@mantine/next"
 import { useAuthContext } from "../../../context/authContext"
 import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
 import { useRouter } from "next/router"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../../../i18n"
 
 const testData = {
   name: "string",

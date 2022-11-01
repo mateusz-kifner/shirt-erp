@@ -20,10 +20,7 @@ const ClientsPage = () => {
 
   return (
     <>
-      <Workspace
-        childrenLabels={["Lista klientów", "Właściwości"]}
-        defaultViews={currentView}
-      >
+      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
         <ClientsList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}

@@ -2,7 +2,7 @@ import ApiList from "../../../components/api/ApiList"
 
 import _ from "lodash"
 import { useRouter } from "next/router"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../../../i18n"
 import EmailMessageListItem from "./EmailMessageListItem"
 
 const entryName = "email-client/messages"

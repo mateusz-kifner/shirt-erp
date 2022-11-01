@@ -41,7 +41,7 @@ interface EditableApiEntryProps {
   >
   withErase?: boolean
   listProps?: any
-  linkEntry: boolean
+  linkEntry?: boolean
   helpTooltip?: string
 }
 

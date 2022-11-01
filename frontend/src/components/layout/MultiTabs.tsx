@@ -23,7 +23,7 @@ import { GridDots, Navigation, Pinned, Plus } from "tabler-icons-react"
 import { SxBorder } from "../../styles/basic"
 import { getRandomColorByString } from "../../utils/getRandomColor"
 import { useAuthContext } from "../../context/authContext"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../../i18n"
 
 export interface TabProps
   extends ButtonProps,

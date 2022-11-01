@@ -19,11 +19,11 @@ import {
   Notebook,
   RulerMeasure,
   Table,
-  TrashX,
   Vector,
 } from "tabler-icons-react"
-import { Button, Group, Modal, Stack, Text } from "@mantine/core"
-import { useTranslation } from "react-i18next"
+import { Group, Stack } from "@mantine/core"
+import DeleteButton from "../../../components/DeleteButton"
+import { useTranslation } from "../../../i18n"
 
 const entryName = "orders"
 
@@ -147,52 +147,17 @@ const OrdersPage: NextPage = () => {
                       }}
                     />{" "}
                   </Stack>
-                  <Button
-                    color="red"
-                    variant="outline"
-                    leftIcon={<TrashX size={18} />}
-                    onClick={() => {} /*setOpenedDelete(true)*/}
-                    mt={"4rem"}
-                    className="erase_on_print"
-                    style={{ width: "100%" }}
-                  >
-                    {t("delete", {
-                      entry: t(`${"sheet"}` as any),
-                    })}
-                  </Button>
-                  <Modal
-                    opened={false}
-                    onClose={() => {} /*setOpenedDelete(false)*/}
-                    title={t("delete", {
-                      entry: t(`${"sheet"}` as any),
-                    })}
-                    centered
-                  >
-                    <Text color="red" mb="xl">
-                      {t("operation-not-reversible")}
-                    </Text>
-                    <Group position="apart" mt="xl">
-                      <Button
-                        color="red"
-                        variant="outline"
-                        leftIcon={<TrashX size={18} />}
-                        onClick={() => {
-                          // id &&
-                          //   remove(id)
-                          //     .then(() => router.push("."))
-                          //     .catch(() => {})
-                          /*setOpenedDelete(false)*/
-                        }}
-                      >
-                        {t("delete", {
-                          entry: t(`${"sheet"}` as any),
-                        })}
-                      </Button>
-                      <Button onClick={() => {} /*setOpenedDelete(false)*/}>
-                        {t("cancel")}
-                      </Button>
-                    </Group>
-                  </Modal>
+                  <Group></Group>
+                  <DeleteButton
+                    label="sheet"
+                    onDelete={() =>
+                      update({
+                        id: data.id,
+                        tables: data.tables.filter((val, i) => i !== index),
+                      })
+                    }
+                    buttonProps={{ mt: "4rem" }}
+                  />
                 </>
               )
             )

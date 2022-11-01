@@ -49,10 +49,7 @@ const ProceduresPage = () => {
           </Tabs.Tab>
         </Tabs.List>
       </Tabs>
-      <Workspace
-        childrenLabels={["Lista klientów", "Właściwości"]}
-        defaultViews={currentView}
-      >
+      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
         <ProceduresList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}

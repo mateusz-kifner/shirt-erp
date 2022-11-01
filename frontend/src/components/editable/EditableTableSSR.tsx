@@ -17,7 +17,7 @@ import React, {
   useMemo,
   useState,
 } from "react"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../../i18n"
 
 // Icons
 import { ScreenShare, Trash } from "tabler-icons-react"

@@ -20,10 +20,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <Workspace
-        childrenLabels={["Lista klientów", "Właściwości"]}
-        defaultViews={currentView}
-      >
+      <Workspace childrenLabels={["Lista klientów", "Właściwości"]}>
         <ProductList
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}

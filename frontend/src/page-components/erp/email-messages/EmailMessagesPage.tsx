@@ -15,10 +15,7 @@ const EmailMessagesPage = () => {
 
   return (
     <EmailProvider>
-      <Workspace
-        childrenLabels={["Lista email", "Treść"]}
-        defaultViews={currentView}
-      >
+      <Workspace childrenLabels={["Lista email", "Treść"]}>
         <EmailMessagesList selectedId={id} />
         <EmailMessagesView id={id} />
       </Workspace>

@@ -9,7 +9,7 @@ import {
   useState,
   MouseEvent,
 } from "react"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "../../i18n"
 import { Plus } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
 import {
@@ -30,7 +30,7 @@ interface WorkspaceProps {
   defaultPinned?: number[]
   addElementLabels?: string[]
   addElementIcons?: ComponentType<any & { size?: number }>[]
-  onAddElement: (element: number) => void
+  onAddElement?: (element: number) => void
 }
 
 const Workspace = ({
@@ -132,7 +132,7 @@ const Workspace = ({
             return (
               <Menu.Item
                 icon={<Icon size={18} />}
-                onClick={() => onAddElement(index)}
+                onClick={() => onAddElement?.(index)}
               >
                 {t(label as any)}
               </Menu.Item>
