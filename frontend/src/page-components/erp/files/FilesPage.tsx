@@ -22,13 +22,15 @@ const FilesPage = () => {
   })
 
   useEffect(() => {
-    ;(async () => {
-      for (let file of data) {
-        if (typeof file.token !== "string") {
-          let res = await axios.get("upload/token/" + file.id).catch(() => {})
+    if (data) {
+      ;(async () => {
+        for (let file of data) {
+          if (typeof file.token !== "string") {
+            let res = await axios.get("upload/token/" + file.id).catch(() => {})
+          }
         }
-      }
-    })()
+      })()
+    }
   }, [data])
 
   return (

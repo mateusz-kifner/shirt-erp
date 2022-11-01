@@ -138,6 +138,18 @@ async function createEntry({ model, entry, files, isPublic }) {
             uploadedFile[0].id,
             {
               public: true,
+              token: "public",
+            }
+          );
+        } else {
+          const token = await randomString()
+            .replace(/\//, "_")
+            .replace(/\+/, "-");
+          const file = await strapi.plugins.upload.services.upload.update(
+            uploadedFile[0].id,
+            {
+              public: false,
+              token,
             }
           );
         }
