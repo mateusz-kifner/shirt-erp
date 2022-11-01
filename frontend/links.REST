@@ -115,13 +115,13 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/files/68
+GET {{host}}/api/upload/files/27
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/upload/download/305
+GET {{host}}/api/upload/download/27
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -143,5 +143,12 @@ Authorization: Bearer {{authToken}}
 ###
 
 GET {{host}}/api/products/1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+###
+
+GET {{host}}/api/email-client/messages/refresh
 Content-Type: application/json
 Authorization: Bearer {{authToken}}

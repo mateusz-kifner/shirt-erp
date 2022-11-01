@@ -18,7 +18,7 @@ function randomString(size = 48) {
 
 const generateToken = async (event) => {
   const { data } = event.params;
-  data.token = await randomString().replace(/\//, "_").replace(/\+/, "-");
+  data.token = await randomString().replace(/\//g, "_").replace(/\+/g, "-");
 };
 
 async function setApiPermissions(newPermissions, role = "Public") {
@@ -143,8 +143,8 @@ async function createEntry({ model, entry, files, isPublic }) {
           );
         } else {
           const token = await randomString()
-            .replace(/\//, "_")
-            .replace(/\+/, "-");
+            .replace(/\//g, "_")
+            .replace(/\+/g, "-");
           const file = await strapi.plugins.upload.services.upload.update(
             uploadedFile[0].id,
             {

@@ -39,7 +39,7 @@ export default (config, { strapi }) => {
     //check if has token and token is correct
     if (file[0]?.token) {
       const token = context.request.query.token;
-      //console.log(file[0]?.token, token);
+      console.log(file[0]?.token, token);
       if (token && token === file[0].token) {
         return await next();
       }

@@ -6,7 +6,7 @@ function randomString(size = 48) {
 
 export default {
   beforeCreate: (event) => {
-    const token = randomString().replace(/\//, "_").replace(/\+/, "-");
+    const token = randomString().replace(/\//g, "_").replace(/\+/g, "-");
     // console.log("beforeCreate", event.params, token);
     event.params = { ...event.params, token };
   },

@@ -1,4 +1,5 @@
 import { Avatar, NavLink } from "@mantine/core"
+import dayjs from "dayjs"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { getRandomColorByString } from "../../../utils/getRandomColor"
 import { truncString } from "../../../utils/truncString"
@@ -20,6 +21,11 @@ const EmailMessageListItem = ({
     <NavLink
       disabled={disabled}
       onClick={() => onChange?.(value)}
+      styles={{
+        description: {
+          whiteSpace: "pre-wrap",
+        },
+      }}
       icon={
         value && (
           <Avatar
@@ -37,7 +43,10 @@ const EmailMessageListItem = ({
         )
       }
       label={value ? value.subject && truncString(value.subject, 40) : "⸺"}
-      description={(value?.from ?? "") + "zł"}
+      description={
+        (value?.from ?? "") +
+        (value?.date ? "\n" + dayjs(value?.date).format("LT L").toString() : "")
+      }
       active={active}
     />
   )
