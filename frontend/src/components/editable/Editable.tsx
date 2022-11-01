@@ -194,6 +194,7 @@ interface EditableProps {
   data: { [key: string]: any }
   onSubmit?: (key: string, value: any, data: any) => void
   refresh?: () => void
+  disabled?: boolean
 }
 
 function EditableWrapper(
@@ -206,7 +207,7 @@ function EditableWrapper(
   )
 }
 
-function Editable({ template, data, onSubmit }: EditableProps) {
+function Editable({ template, data, onSubmit, disabled }: EditableProps) {
   const { debug } = useAuthContext()
   const uuid = useId()
   return (
@@ -248,6 +249,7 @@ function Editable({ template, data, onSubmit }: EditableProps) {
               {...template[key]}
               onSubmit={onSubmitEntry}
               key={uuid + key}
+              disabled={disabled}
             />
           )
         }

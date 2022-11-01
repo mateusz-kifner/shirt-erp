@@ -125,7 +125,7 @@ async function createEntry({ model, entry, files, isPublic }) {
               fileInfo: {
                 alternativeText: fileName,
                 caption: fileName,
-                name: fileName,
+                name: file.name,
               },
             },
           });
