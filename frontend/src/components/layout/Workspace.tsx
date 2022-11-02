@@ -74,7 +74,7 @@ const Workspace = ({
     useAuthContext()
   const { ref, width } = useElementSize()
 
-  const activeTabs = [...pinned]
+  const activeTabs = isMobile ? [] : [...pinned]
   if (active !== undefined && !activeTabs.includes(active))
     activeTabs.push(active)
 
@@ -157,7 +157,7 @@ const Workspace = ({
             pinned: pinned.includes(value)
               ? pinned.filter((val2) => val2 !== value)
               : [...pinned, value],
-            active,
+            active: active === undefined ? value : active,
           })
         }
         childrenLabels={childrenLabels}
