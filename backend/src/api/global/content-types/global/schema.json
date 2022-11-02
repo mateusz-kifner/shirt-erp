@@ -24,7 +24,7 @@
     },
     "welcomeMessage": {
       "type": "richtext",
-      "default": "# Witaj w systemie ShirtERP  \n### Zmiany w  wersji 1.1.0  \n- Automatyczne ładowanie poczty \n- Tabele excela w zamówieniach \n- Wsparcie dla urządzeń mobilnych \n- Zmiana skórki"
+      "default": "# Witaj w systemie ShirtERP  \n"
     }
   }
 }

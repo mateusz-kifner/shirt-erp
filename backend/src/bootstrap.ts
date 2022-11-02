@@ -319,6 +319,9 @@ module.exports = async () => {
       strapi.log.info(
         "SETUP: First run detected setting up database, don't restart"
       );
+      await strapi.entityService.create(`api::global.global`, {
+        data: { title: "ShirtERP" },
+      });
       strapi.log.info("Set upload settings");
       const uploadSettings = await strapi.store({
         type: "plugin",

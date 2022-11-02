@@ -22,9 +22,8 @@ const EditableDesign = (props: EditableDesignProps) => {
   return (
     <Input.Wrapper label={label}>
       <div>Design editor</div>
-      {images.map((imageData, index) => (
-        <img src={imageData.url}></img>
-      ))}
+      {files &&
+        files.map((imageData, index) => <img src={imageData.url}></img>)}
     </Input.Wrapper>
   )
 }
