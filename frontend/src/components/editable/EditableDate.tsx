@@ -55,6 +55,7 @@ const EditableDate = ({
   const ref = useClickOutside(deactivate)
   const { hovered, ref: ref2 } = useHover()
   const mergedRef = useMergedRef(ref, ref2)
+  console.log(dayjs(date))
 
   useEffect(() => {
     if (active) {
@@ -63,7 +64,7 @@ const EditableDate = ({
       // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prev) {
-        date && onSubmit && onSubmit(date.toISOString())
+        date && onSubmit?.(dayjs(date).format("YYYY-MM-DD"))
         setPrev(date)
       }
       window.removeEventListener("beforeunload", preventLeave)
@@ -78,7 +79,7 @@ const EditableDate = ({
   }, [])
 
   useEffect(() => {
-    const new_value = value ? new Date(value) : new Date()
+    const new_value = value ? dayjs(value).toDate() : dayjs().toDate()
     setDate(new_value)
     setPrev(new_value)
   }, [value])
@@ -204,7 +205,7 @@ const EditableDate = ({
               paddingRight: 8,
             }}
             onClick={() => {
-              setDate(new Date())
+              setDate(dayjs().toDate())
               deactivate()
             }}
             disabled={disabled}

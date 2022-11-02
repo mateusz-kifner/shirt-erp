@@ -77,6 +77,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
             new_order?.address?.id && delete new_order.address.id
             new_order["name"] = orderName
             new_order["status"] = "planowane"
+            new_order["dateOfCompletion"] = new Date()
             if (mail) {
               new_order["notes"] = mail.textAsHtml
               new_order["files"] = mail.attachments

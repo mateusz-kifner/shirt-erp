@@ -1,7 +1,9 @@
-import { Avatar, NavLink } from "@mantine/core"
+import { Avatar, Indicator, NavLink } from "@mantine/core"
 import { OrderType } from "../../../types/OrderType"
 import { truncString } from "../../../utils/truncString"
 import { getRandomColorByNumber } from "../../../utils/getRandomColor"
+import dayjs from "dayjs"
+import { CalendarTime } from "tabler-icons-react"
 
 interface OrderListItemProps {
   onChange?: (item: Partial<OrderType>) => void
@@ -16,6 +18,10 @@ const OrderListItem = ({
   active,
   disabled,
 }: OrderListItemProps) => {
+  const timeLeft = value?.dateOfCompletion
+    ? dayjs(value?.dateOfCompletion).diff(Date.now(), "day")
+    : null
+  console.log(timeLeft)
   return (
     <NavLink
       disabled={disabled}
@@ -36,9 +42,15 @@ const OrderListItem = ({
         )
       }
       label={value ? value?.name && truncString(value.name, 20) : "⸺"}
-      description={value?.status && truncString(value.status, 20)}
+      description={
+        (value?.status ? truncString(value.status, 20) + " | " : "") +
+        (value?.dateOfCompletion
+          ? dayjs(value?.dateOfCompletion).fromNow()
+          : "")
+      }
       onClick={() => onChange?.(value)}
       active={active}
+      rightSection={<CalendarTime size={18} />}
     />
   )
 }

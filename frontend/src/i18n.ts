@@ -11,6 +11,8 @@ import {
 import "dayjs/locale/pl"
 import dayjs from "dayjs"
 import localizedFormat from "dayjs/plugin/localizedFormat"
+import relativeTime from "dayjs/plugin/relativeTime"
+
 import isToday from "dayjs/plugin/isToday"
 
 export const defaultNS = "translation"
@@ -37,6 +39,7 @@ i18n.then(() => {
 })
 dayjs.extend(localizedFormat)
 dayjs.extend(isToday)
+dayjs.extend(relativeTime)
 
 export default i18n
 
