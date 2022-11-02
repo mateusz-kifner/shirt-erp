@@ -27,14 +27,21 @@ const Notifications = () => {
   const { data, refetch } = useStarpiUser()
   const router = useRouter()
   const activeOrders = data?.orders
-    ? data?.orders.filter(
-        (val) =>
+    ? data?.orders.filter((val) => {
+        const timeLeft = val?.dateOfCompletion
+          ? dayjs(val?.dateOfCompletion).diff(dayjs(), "day")
+          : null
+        return (
           !(
             val.status === "odrzucone" ||
             val.status === "archiwizowane" ||
             val.status === "wysłane"
-          )
-      ).length
+          ) &&
+          timeLeft !== null &&
+          timeLeft < 7 &&
+          timeLeft > -1
+        )
+      }).length
     : 0
 
   useEffect(() => {
