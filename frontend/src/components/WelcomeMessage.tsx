@@ -2,8 +2,11 @@ import { Modal } from "@mantine/core"
 import axios from "axios"
 import { useEffect, useId, useState } from "react"
 import { useQuery } from "react-query"
+import TurndownService from "turndown"
 import { useAuthContext } from "../context/authContext"
 import simpleHash from "../utils/simpleHash"
+
+const turndownService = new TurndownService()
 
 const fetchWelcomeMessage = async () => {
   const res = await axios.get("/global")
@@ -43,6 +46,7 @@ const WelcomeMessage = () => {
         setWelcomeMessageHash(hash.toString())
         setOpened(false)
       }}
+      size="xl"
     >
       <div>
         {data.data.welcomeMessage

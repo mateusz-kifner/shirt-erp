@@ -30,6 +30,7 @@ const EnvMessage = () => {
         onClose={() => {
           setEnvMessageOpen(false)
         }}
+        size="xl"
       >
         <div>
           {message.split("\\n").map((val: string, index: number) => (

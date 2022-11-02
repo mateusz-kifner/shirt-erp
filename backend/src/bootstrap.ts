@@ -1,10 +1,27 @@
 import fs from "fs";
+import fsp from "fs/promises";
 import path from "path";
 import mime from "mime-types";
 import _ from "lodash";
 import data from "../data/data.json";
 import data_files from "../data/data-files.json";
 const set = _.set;
+/**
+ * Returns a hash code from a string
+ * @param  {String} str The string to hash.
+ * @return {Number}    A 32bit integer
+ * @see http://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
+ * CC0
+ */
+function simpleHash(str: string) {
+  let hash = 0;
+  for (let i = 0, len = str.length; i < len; i++) {
+    let chr = str.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+}
 
 /**
  * !!! use singular names in data.json and data_files.json !!!
@@ -84,6 +101,34 @@ async function isFirstRun() {
   const initHasRun = await pluginStore.get({ key: "initHasRun" });
   await pluginStore.set({ key: "initHasRun", value: true });
   return !initHasRun;
+}
+
+async function updateWelcomeMessage() {
+  const pluginStore = strapi.store({
+    environment: strapi.config.environment,
+    type: "type",
+    name: "changelog",
+  });
+  const hash = await pluginStore.get({ key: "welcomeMessageHash" });
+  const changelog = await fsp
+    .readFile("CHANGELOG.md")
+    .then((val) => val.toString())
+    .catch(() => "");
+  const welcome = await fsp
+    .readFile("WELCOME_MESSAGE.md")
+    .then((val) => val.toString())
+    .catch(() => "");
+  const currentHash = simpleHash(welcome + changelog);
+  if (hash !== currentHash) {
+    strapi.log.info(" --- Updating welcome message --- ");
+    await strapi.entityService.update(`api::global.global`, 1, {
+      data: {
+        title: process.env.TITLE ?? "ShirtERP",
+        welcomeMessage: process.env.WELCOME_MESSAGE ?? welcome + changelog,
+      },
+    });
+    await pluginStore.set({ key: "welcomeMessageHash", value: currentHash });
+  }
 }
 
 function getFileSizeInBytes(filePath) {
@@ -303,6 +348,12 @@ module.exports = async () => {
       strapi.log.error("Could not import data");
       strapi.log.error(error);
     }
+  }
+  try {
+    await updateWelcomeMessage();
+  } catch (error) {
+    strapi.log.error("Could not update welcome message");
+    strapi.log.error(error);
   }
 
   strapi.db.lifecycles.subscribe({
