@@ -89,7 +89,7 @@ export default {
       city: "Miasto",
       province: "Województwo",
       postCode: "Kod pocztowy",
-      name: "Address",
+      name: "Adres",
     },
     type: "address",
     initialValue: {
