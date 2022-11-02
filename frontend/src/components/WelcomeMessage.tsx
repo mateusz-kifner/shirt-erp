@@ -1,12 +1,10 @@
-import { Modal } from "@mantine/core"
+import { Modal, TypographyStylesProvider } from "@mantine/core"
 import axios from "axios"
-import { useEffect, useId, useState } from "react"
+import { lazy, useEffect, useState } from "react"
 import { useQuery } from "react-query"
-import TurndownService from "turndown"
 import { useAuthContext } from "../context/authContext"
 import simpleHash from "../utils/simpleHash"
-
-const turndownService = new TurndownService()
+import Markdown from "./details/Markdown"
 
 const fetchWelcomeMessage = async () => {
   const res = await axios.get("/global")
@@ -27,7 +25,6 @@ const WelcomeMessage = () => {
     enabled: false,
   })
 
-  const uuid = useId()
   useEffect(() => {
     refetch()
     // eslint-disable-next-line
@@ -48,13 +45,9 @@ const WelcomeMessage = () => {
       }}
       size="xl"
     >
-      <div>
-        {data.data.welcomeMessage
-          .split("\n")
-          .map((val: string, index: number) => (
-            <p key={uuid + index}>{val}</p>
-          ))}
-      </div>
+      <TypographyStylesProvider>
+        <Markdown value={data.data.welcomeMessage ?? ""} />
+      </TypographyStylesProvider>
     </Modal>
   )
 }

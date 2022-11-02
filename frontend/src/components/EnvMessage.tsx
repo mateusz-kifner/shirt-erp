@@ -1,8 +1,9 @@
-import { ActionIcon, Modal } from "@mantine/core"
+import { ActionIcon, Modal, TypographyStylesProvider } from "@mantine/core"
 import { useLocalStorage } from "@mantine/hooks"
 import React, { useId } from "react"
 import { QuestionMark } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
+import Markdown from "./details/Markdown"
 
 const EnvMessage = () => {
   const message = env.NEXT_PUBLIC_START_MESSAGE
@@ -10,7 +11,7 @@ const EnvMessage = () => {
     key: "env-message",
     defaultValue: true,
   })
-  const uuid = useId()
+
   if (!message) return null
 
   return (
@@ -32,11 +33,9 @@ const EnvMessage = () => {
         }}
         size="xl"
       >
-        <div>
-          {message.split("\\n").map((val: string, index: number) => (
-            <p key={uuid + index}>{val}</p>
-          ))}
-        </div>
+        <TypographyStylesProvider>
+          <Markdown value={message ?? ""} />
+        </TypographyStylesProvider>
       </Modal>
     </>
   )
