@@ -1,25 +1,14 @@
-import { Input } from "@mantine/core"
-import React from "react"
-import { FileType } from "../../types/FileType"
+import { Loader, Stack } from "@mantine/core"
+import dynamic from "next/dynamic"
 
-interface EditableDesignProps {
-  label?: string
-  value?: any
-  initialValue?: any
-  onSubmit?: (value: any | null) => void
-  disabled?: boolean
-  required?: boolean
-  files?: FileType[]
-}
+export default dynamic(() => import("./EditableDesignSSR"), {
+  // Disable during server side rendering
+  ssr: false,
 
-const EditableDesign = (props: EditableDesignProps) => {
-  const { label, value, initialValue, onSubmit, disabled, required, files } =
-    props
-  return (
-    <Input.Wrapper label={label}>
-      <div>Design editor</div>
-    </Input.Wrapper>
-  )
-}
-
-export default EditableDesign
+  // Render anything as fallback on server, e.g. loader or html content without editor
+  loading: () => (
+    <Stack justify="center" align="center" style={{ height: 100 }}>
+      <Loader />
+    </Stack>
+  ),
+})
