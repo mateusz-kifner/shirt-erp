@@ -30,6 +30,7 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
 import EditableTable from "./EditableTable"
 import OrderListItem from "../../page-components/erp/orders/OrderListItem"
+import EditableDesign from "./EditableDesign"
 
 const ApiProps: {
   [key: string]: {
@@ -108,6 +109,7 @@ const Fields: {
   image: { component: EditableFiles, props: { maxCount: 1 } },
   files: { component: EditableFiles, props: {} },
   table: { component: EditableTable, props: {} },
+  design: { component: EditableDesign, props: {} },
   apiEntry: {
     component: EditableApiEntry,
     props: {},

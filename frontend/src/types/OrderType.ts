@@ -22,6 +22,7 @@ export interface OrderType {
   client: Partial<ClientType>
   // expenses: Partial<ExpensesType>[]
   tables: { name: string; table: (any | null)[][] }[]
+  designs: { name: string; design: any }[]
   employees: Partial<UserType>[]
   emailMessages: Partial<EmailMessageType>[]
   emailMessagesText: Partial<EmailMessageType>[]

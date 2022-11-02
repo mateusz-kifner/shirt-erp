@@ -38,10 +38,16 @@ const OrdersPage: NextPage = () => {
 
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
-  const childrenIcons = [List, Notebook, Table]
   const { data, update } = useStrapi<OrderType>(entryName, id, {
     query: "populate=*",
   })
+  const childrenIcons = [
+    List,
+    Notebook,
+    ...((data && data?.tables && data?.tables.map(() => Table)) ?? []),
+    Vector,
+  ]
+
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle")
@@ -51,6 +57,9 @@ const OrdersPage: NextPage = () => {
         "Właściwości",
         ...(data && Array.isArray(data?.tables)
           ? data.tables.map((table, index) => table.name)
+          : []),
+        ...(data && Array.isArray(data?.designs)
+          ? data.designs.map((design, index) => design.name)
           : []),
       ]
     : ["Lista zamówień"]
@@ -239,6 +248,16 @@ const OrdersPage: NextPage = () => {
     },
   }
 
+  const design_template = {
+    name: {
+      label: "Nazwa designu",
+      type: "text",
+    },
+    design: {
+      type: "design",
+    },
+  }
+
   const onAddElement = (element: number) => {
     switch (element) {
       case 0:
@@ -259,7 +278,17 @@ const OrdersPage: NextPage = () => {
 
         break
       case 1:
-        console.log("Design")
+        data &&
+          update({
+            id: data.id,
+            designs: [
+              ...(data.designs ?? []),
+              {
+                name: "Design " + ((data.designs?.length ?? 0) + 1),
+                design: {},
+              },
+            ],
+          })
         break
     }
   }
@@ -310,6 +339,45 @@ const OrdersPage: NextPage = () => {
                       update({
                         id: data.id,
                         tables: data.tables.filter((val, i) => i !== index),
+                      })
+                    }
+                    buttonProps={{ mt: "4rem" }}
+                  />
+                </div>
+              )
+            )
+          })}
+        {data &&
+          Array.isArray(data?.designs) &&
+          data.designs.map((design, index) => {
+            // console.log(table)
+            return (
+              design && (
+                <div key={uuid + index}>
+                  <Stack style={{ position: "relative", minHeight: 200 }}>
+                    <Editable
+                      template={design_template}
+                      data={design}
+                      onSubmit={(key, value) => {
+                        console.log("onSubmit design [", key, "]: ", value)
+                        apiUpdate(
+                          "design",
+                          data.designs.map((originalVal, originalIndex) =>
+                            index === originalIndex
+                              ? { ...originalVal, [key]: value }
+                              : originalVal
+                          )
+                        )
+                      }}
+                    />{" "}
+                  </Stack>
+                  <Group></Group>
+                  <DeleteButton
+                    label="sheet"
+                    onDelete={() =>
+                      update({
+                        id: data.id,
+                        designs: data.designs.filter((val, i) => i !== index),
                       })
                     }
                     buttonProps={{ mt: "4rem" }}
