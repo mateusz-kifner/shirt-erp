@@ -56,8 +56,9 @@ const EditableRichText = ({
         )
       })
     } else {
-      if (text !== value) {
-        onSubmit && onSubmit(text)
+      //prevent excessive updates
+      if (text != value && text != "" && value !== undefined) {
+        onSubmit?.(text)
         setPrevText(text)
       }
       window.removeEventListener("beforeunload", preventLeave)

@@ -47,7 +47,8 @@ const EditableSecretText = ({
         )
       })
     } else {
-      if (text !== value) {
+      //prevent excessive updates
+      if (text != value && text != "" && value !== undefined) {
         onSubmit && onSubmit(text)
         setPrevText(text)
       }
