@@ -1,6 +1,7 @@
 import { Input } from "@mantine/core"
 import { useListState } from "@mantine/hooks"
 import React from "react"
+import { env } from "../../env/client.mjs"
 import { FileType } from "../../types/FileType"
 
 interface EditableDesignProps {
@@ -23,7 +24,16 @@ const EditableDesign = (props: EditableDesignProps) => {
     <Input.Wrapper label={label}>
       <div>Design editor</div>
       {files &&
-        files.map((imageData, index) => <img src={imageData.url}></img>)}
+        files.map((imageData, index) => (
+          <img
+            src={
+              env.NEXT_PUBLIC_SERVER_API_URL +
+              imageData.url +
+              "?token=" +
+              imageData.token
+            }
+          ></img>
+        ))}
     </Input.Wrapper>
   )
 }

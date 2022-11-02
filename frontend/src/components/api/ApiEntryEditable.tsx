@@ -1,6 +1,7 @@
-import { Stack, Text } from "@mantine/core"
+import { Stack, Text, ActionIcon } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { Refresh } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
 import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
@@ -17,9 +18,13 @@ const ApiEntryEditable = <EntryType extends any>({
   entryName,
   id,
 }: ApiEntryEditableProps<EntryType>) => {
-  const { data, update, remove } = useStrapi<EntryType>(entryName, id, {
-    query: "populate=*",
-  })
+  const { data, update, remove, refetch } = useStrapi<EntryType>(
+    entryName,
+    id,
+    {
+      query: "populate=*",
+    }
+  )
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle")
@@ -46,14 +51,6 @@ const ApiEntryEditable = <EntryType extends any>({
 
   return (
     <Stack style={{ position: "relative", minHeight: 200 }}>
-      <ApiStatusIndicator
-        status={status}
-        style={{
-          position: "fixed",
-          top: "calc(var(--mantine-header-height, 0px) + 8px)",
-          right: 8,
-        }}
-      />
       {data && Object.keys(data).length > 0 ? (
         <>
           <Stack style={{ position: "relative", minHeight: 200 }}>
@@ -81,6 +78,26 @@ const ApiEntryEditable = <EntryType extends any>({
           Brak danych
         </Text>
       )}
+      <ApiStatusIndicator
+        status={status}
+        style={{
+          position: "fixed",
+          top: "calc(var(--mantine-header-height, 0px) + 8px)",
+          right: 8,
+        }}
+      />
+      <ActionIcon
+        onClick={() => refetch()}
+        radius="xl"
+        sx={(theme) => ({
+          position: "absolute",
+          top: 0,
+          right: 0,
+        })}
+        size="xs"
+      >
+        <Refresh />
+      </ActionIcon>
     </Stack>
   )
 }
