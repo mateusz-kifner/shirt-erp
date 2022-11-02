@@ -55,7 +55,6 @@ const EditableDate = ({
   const ref = useClickOutside(deactivate)
   const { hovered, ref: ref2 } = useHover()
   const mergedRef = useMergedRef(ref, ref2)
-  console.log(dayjs(date))
 
   useEffect(() => {
     if (active) {

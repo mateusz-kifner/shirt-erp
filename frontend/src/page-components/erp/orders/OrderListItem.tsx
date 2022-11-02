@@ -19,9 +19,20 @@ const OrderListItem = ({
   disabled,
 }: OrderListItemProps) => {
   const timeLeft = value?.dateOfCompletion
-    ? dayjs(value?.dateOfCompletion).diff(Date.now(), "day")
+    ? dayjs(value?.dateOfCompletion).diff(dayjs(), "day")
     : null
-  console.log(timeLeft)
+
+  const color =
+    timeLeft !== null
+      ? timeLeft < 1
+        ? "#F03E3E"
+        : timeLeft < 3
+        ? "#FF922B"
+        : timeLeft < 5
+        ? "#FAB005"
+        : "transparent"
+      : "transparent"
+
   return (
     <NavLink
       disabled={disabled}
@@ -50,7 +61,17 @@ const OrderListItem = ({
       }
       onClick={() => onChange?.(value)}
       active={active}
-      rightSection={<CalendarTime size={18} />}
+      rightSection={
+        !(
+          value.status === "odrzucone" ||
+          value.status === "archiwizowane" ||
+          value.status === "wysłane"
+        ) &&
+        timeLeft !== null &&
+        timeLeft > -1 ? (
+          <CalendarTime size={18} stroke={color} />
+        ) : undefined
+      }
     />
   )
 }

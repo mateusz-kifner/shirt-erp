@@ -2,20 +2,16 @@ import {
   MediaQuery,
   Group,
   Burger,
-  Image,
   ActionIcon,
   Header as MantineHeader,
   useMantineTheme,
-  MantineTheme,
-  Popover,
-  Text,
-  Title,
 } from "@mantine/core"
 import { useSpotlight } from "@mantine/spotlight"
-import { Bell, Search, Settings } from "tabler-icons-react"
+import { Search, Settings } from "tabler-icons-react"
 import { NextLink } from "@mantine/next"
 import { useAuthContext } from "../../context/authContext"
 import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
+import Notifications from "../Notifications"
 
 interface HeaderProps {}
 
@@ -134,31 +130,7 @@ const Header = (props: HeaderProps) => {
               <Search />
             </ActionIcon>
             {/* </MediaQuery> */}
-            <Popover
-              width={400}
-              position="bottom-end"
-              arrowOffset={12}
-              offset={4}
-              withArrow
-              shadow="md"
-            >
-              <Popover.Target>
-                <ActionIcon
-                  size="lg"
-                  radius="xl"
-                  color={theme.colorScheme === "dark" ? "gray" : "dark"}
-                  variant={theme.colorScheme === "dark" ? "default" : "filled"}
-                >
-                  <Bell />
-                </ActionIcon>
-              </Popover.Target>
-              <Popover.Dropdown sx={{ pointerEvents: "none" }}>
-                <Title order={3}>
-                  <Bell size={18} /> Powiadomienia{" "}
-                </Title>
-                <Text size="sm">Brak powiadomień</Text>
-              </Popover.Dropdown>
-            </Popover>
+            <Notifications />
 
             <ActionIcon
               size="lg"

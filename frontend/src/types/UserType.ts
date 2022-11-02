@@ -1,3 +1,7 @@
+import { ExpenseType } from "./ExpenseType"
+import { OrderType } from "./OrderType"
+import { WorkstationType } from "./WorkstationType"
+
 export interface UserType {
   username: string
   email: string
@@ -13,9 +17,9 @@ export interface UserType {
   createdAt: string
   updatedAt: string
   darkMode: boolean
-  expenses: any[]
-  orders: any[]
-  workstations: any[]
+  expenses: Partial<ExpenseType>[]
+  orders: Partial<OrderType>[]
+  workstations: Partial<WorkstationType>[]
   displayName: string | null
   welcomeMessageHash: string
 }
