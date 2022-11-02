@@ -38,10 +38,10 @@ const Notifications = () => {
     : 0
 
   useEffect(() => {
-    if (typeof document !== undefined && prevActiveOrders < activeOrders) {
-      ;(
-        document.getElementById("AudioNotification") as HTMLAudioElement
-      )?.play?.()
+    if (prevActiveOrders < activeOrders) {
+      const audio = new Audio("/vgmenuhighlight.ogg")
+      audio.loop = false
+      audio.play().catch(() => {})
     }
     setPrevActiveOrders(activeOrders)
   }, [activeOrders])
@@ -67,7 +67,6 @@ const Notifications = () => {
             setOpened((val) => !val)
           }}
         >
-          <audio src="/vgmenuhighlight.ogg" id="AudioNotification"></audio>
           <Indicator
             position="bottom-end"
             color="blue"

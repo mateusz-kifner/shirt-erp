@@ -10,7 +10,7 @@ const fetchData = async (entryName?: string | null) => {
 
 function useStarpiUser() {
   return useQuery<UserType>("users", () => fetchData("users/me"), {
-    refetchInterval: 5000,
+    refetchInterval: 300000,
   })
 }
 
