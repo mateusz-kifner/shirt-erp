@@ -160,6 +160,14 @@ const MultiTabs = (props: MultiTabsProps) => {
     setTabsSizes([])
   }, [childrenLabelsKey])
 
+  // reset if value and pin are not set
+  if (
+    (pinned.length === 0 && active === undefined) ||
+    (active !== undefined && active >= childrenLabels.length)
+  ) {
+    onTabChange(0)
+  }
+
   if (isMobile) {
     return (
       <Menu

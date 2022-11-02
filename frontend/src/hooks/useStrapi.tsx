@@ -32,7 +32,6 @@ const addEntry = async (entryName?: string | null, data?: any | null) => {
   if (!data) return
   if (!entryName) return
   const res = await axios.post(`/${entryName}`, data)
-  console.log(res)
   return res.data
 }
 
@@ -106,7 +105,6 @@ function useStrapi<EntryType>(
 
   const addMutation = useMutation(
     (addData: { data: Partial<EntryType> }) => {
-      console.log(addData, entryName)
       return addEntry(entryName, addData)
     },
     {
@@ -168,7 +166,6 @@ function useStrapi<EntryType>(
   )
 
   async function add(entry: Partial<EntryType>) {
-    console.log("add Strapi api entry:", entry, entryName)
     return addMutation.mutateAsync({ data: entry })
   }
   async function update(entry: Partial<EntryType>) {
