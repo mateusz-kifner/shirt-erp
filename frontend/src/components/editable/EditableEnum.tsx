@@ -3,6 +3,7 @@ import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
 import { Copy } from "tabler-icons-react"
+import { useTranslation } from "../../i18n"
 
 interface EditableEnumProps {
   label?: string
@@ -26,6 +27,7 @@ const EditableEnum = ({
 }: EditableEnumProps) => {
   const [data, setData] = useState(value ?? initialValue ?? "")
   const clipboard = useClipboard()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (value) {
@@ -70,7 +72,7 @@ const EditableEnum = ({
     >
       <div style={{ position: "relative" }}>
         <Select
-          data={enum_data}
+          data={enum_data.map((value) => ({ value, label: t(value) }))}
           value={data}
           onChange={onChangeData}
           disabled={disabled}

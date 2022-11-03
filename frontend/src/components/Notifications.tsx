@@ -33,9 +33,9 @@ const Notifications = () => {
           : null
         return (
           !(
-            val.status === "odrzucone" ||
-            val.status === "archiwizowane" ||
-            val.status === "wysłane"
+            val?.status === "rejected" ||
+            val?.status === "archived" ||
+            val?.status === "sent"
           ) &&
           timeLeft !== null &&
           timeLeft < 7 &&
@@ -92,33 +92,37 @@ const Notifications = () => {
           </Group>
 
           {activeOrders ? (
-            data?.orders.map((val, index) => {
-              const timeLeft = val?.dateOfCompletion
-                ? dayjs(val?.dateOfCompletion).diff(dayjs(), "day")
-                : null
-              if (
-                !(
-                  val.status === "odrzucone" ||
-                  val.status === "archiwizowane" ||
-                  val.status === "wysłane"
-                ) &&
-                timeLeft !== null &&
-                timeLeft < 7 &&
-                timeLeft > -1
-              ) {
-                return (
-                  <OrderListItem
-                    value={val}
-                    onChange={(val) => {
-                      router.push("/erp/orders/" + val.id)
-                      setOpened(false)
-                    }}
-                    key={uuid + index}
-                  />
-                )
-              }
-              return null
-            })
+            data?.orders
+              .sort((a, b) =>
+                dayjs(a.dateOfCompletion).diff(dayjs(b.dateOfCompletion))
+              )
+              .map((val, index) => {
+                const timeLeft = val?.dateOfCompletion
+                  ? dayjs(val?.dateOfCompletion).diff(dayjs(), "day")
+                  : null
+                if (
+                  !(
+                    val?.status === "rejected" ||
+                    val?.status === "archived" ||
+                    val?.status === "sent"
+                  ) &&
+                  timeLeft !== null &&
+                  timeLeft < 7 &&
+                  timeLeft > -1
+                ) {
+                  return (
+                    <OrderListItem
+                      value={val}
+                      onChange={(val) => {
+                        router.push("/erp/orders/" + val.id)
+                        setOpened(false)
+                      }}
+                      key={uuid + index}
+                    />
+                  )
+                }
+                return null
+              })
           ) : (
             <Text size="sm">Brak powiadomień</Text>
           )}

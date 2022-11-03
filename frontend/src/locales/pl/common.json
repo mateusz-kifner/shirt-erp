@@ -68,5 +68,13 @@
   "fullscreen": "Pełny ekran",
   "sheet": "Arkusz",
   "design": "Design",
-  "add": "Dodaj"
+  "add": "Dodaj",
+  "today": "dziś",
+  "planned": "planowane",
+  "accepted": "zaakceptowane",
+  "in production": "w produkcji",
+  "wrapped": "zapakowane",
+  "sent": "wysłane",
+  "rejected": "odrzucone",
+  "archived": "archiwizowane"
 }

@@ -4,6 +4,7 @@ import { truncString } from "../../../utils/truncString"
 import { getRandomColorByNumber } from "../../../utils/getRandomColor"
 import dayjs from "dayjs"
 import { CalendarTime } from "tabler-icons-react"
+import { useTranslation } from "../../../i18n"
 
 interface OrderListItemProps {
   onChange?: (item: Partial<OrderType>) => void
@@ -18,6 +19,7 @@ const OrderListItem = ({
   active,
   disabled,
 }: OrderListItemProps) => {
+  const { t } = useTranslation()
   const timeLeft = value?.dateOfCompletion
     ? dayjs(value?.dateOfCompletion).diff(dayjs(), "day")
     : null
@@ -33,6 +35,13 @@ const OrderListItem = ({
         : "transparent"
       : "transparent"
 
+  const dateDisplay = value?.dateOfCompletion
+    ? timeLeft !== null && timeLeft < 0
+      ? dayjs(value?.dateOfCompletion).format("L")
+      : timeLeft === 0
+      ? t("today")
+      : dayjs(value?.dateOfCompletion).fromNow()
+    : ""
   return (
     <NavLink
       disabled={disabled}
@@ -54,18 +63,16 @@ const OrderListItem = ({
       }
       label={value ? value?.name && truncString(value.name, 20) : "⸺"}
       description={
-        (value?.status ? truncString(value.status, 20) + " | " : "") +
-        (value?.dateOfCompletion
-          ? dayjs(value?.dateOfCompletion).fromNow()
-          : "")
+        (value?.status ? truncString(t(value.status), 20) + " | " : "") +
+        dateDisplay
       }
       onClick={() => onChange?.(value)}
       active={active}
       rightSection={
         !(
-          value.status === "odrzucone" ||
-          value.status === "archiwizowane" ||
-          value.status === "wysłane"
+          value?.status === "rejected" ||
+          value?.status === "archived" ||
+          value?.status === "sent"
         ) &&
         timeLeft !== null &&
         timeLeft > -1 ? (

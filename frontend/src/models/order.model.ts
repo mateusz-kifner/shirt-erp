@@ -13,15 +13,15 @@ export default {
   status: {
     label: "Status",
     type: "enum",
-    initialValue: "planowane",
+    initialValue: "planned",
     enum_data: [
-      "planowane",
-      "zaakceptowane",
-      "w produkcji",
-      "zapakowane",
-      "wysłane",
-      "odrzucone",
-      "archiwizowane",
+      "planned",
+      "accepted",
+      "in production",
+      "wrapped",
+      "sent",
+      "rejected",
+      "archived",
     ],
   },
   notes: {
