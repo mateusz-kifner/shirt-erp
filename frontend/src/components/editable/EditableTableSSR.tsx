@@ -273,7 +273,7 @@ const EditableTable = (props: EditableTableProps) => {
         }
       >
         <Group
-          p="xs"
+          py="xs"
           align="end"
           position="apart"
           sx={fullscreen ? SxBackground : undefined}
