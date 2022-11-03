@@ -23,13 +23,14 @@ const Notifications = () => {
     defaultValue: 0,
   })
   const uuid = useId()
+  const todayDate = dayjs().format("YYYY-MM-DD")
   const theme = useMantineTheme()
   const { data, refetch } = useStarpiUser()
   const router = useRouter()
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {
         const timeLeft = val?.dateOfCompletion
-          ? dayjs(val?.dateOfCompletion).diff(dayjs(), "day")
+          ? dayjs(val?.dateOfCompletion).diff(todayDate, "day")
           : null
         return (
           !(
@@ -98,7 +99,7 @@ const Notifications = () => {
               )
               .map((val, index) => {
                 const timeLeft = val?.dateOfCompletion
-                  ? dayjs(val?.dateOfCompletion).diff(dayjs(), "day")
+                  ? dayjs(val?.dateOfCompletion).diff(todayDate, "day")
                   : null
                 if (
                   !(

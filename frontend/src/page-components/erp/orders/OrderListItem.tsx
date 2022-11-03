@@ -20,8 +20,9 @@ const OrderListItem = ({
   disabled,
 }: OrderListItemProps) => {
   const { t } = useTranslation()
+  const todayDate = dayjs().format("YYYY-MM-DD")
   const timeLeft = value?.dateOfCompletion
-    ? dayjs(value?.dateOfCompletion).diff(dayjs(), "day")
+    ? dayjs(value?.dateOfCompletion).diff(todayDate, "day")
     : null
 
   const color =
@@ -36,11 +37,14 @@ const OrderListItem = ({
       : "transparent"
 
   const dateDisplay = value?.dateOfCompletion
-    ? timeLeft !== null && timeLeft < 0
+    ? (timeLeft !== null && timeLeft < 0) ||
+      value?.status === "rejected" ||
+      value?.status === "archived" ||
+      value?.status === "sent"
       ? dayjs(value?.dateOfCompletion).format("L")
       : timeLeft === 0
       ? t("today")
-      : dayjs(value?.dateOfCompletion).fromNow()
+      : dayjs(value?.dateOfCompletion).from(todayDate)
     : ""
   return (
     <NavLink
