@@ -47,7 +47,7 @@ const Notifications = () => {
 
   useEffect(() => {
     if (prevActiveOrders < activeOrders) {
-      const audio = new Audio("/vgmenuhighlight.ogg")
+      const audio = new Audio("/notification.ogg")
       audio.loop = false
       audio.play().catch(() => {})
     }

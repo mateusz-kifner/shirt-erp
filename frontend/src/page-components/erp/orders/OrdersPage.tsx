@@ -29,6 +29,7 @@ import { useTranslation } from "../../../i18n"
 import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
 import { getColorNameFromHex } from "../../../components/editable/EditableColor"
 import verifyMetadata from "../../../components/spreadsheet/verifyMetadata"
+import designBackgrounds from "./designBackgrounds"
 
 const entryName = "orders"
 
@@ -166,6 +167,7 @@ const OrdersPage: NextPage = () => {
     design: {
       type: "design",
       files: data?.files,
+      backgrounds: designBackgrounds,
     },
   }
 
@@ -226,7 +228,7 @@ const OrdersPage: NextPage = () => {
             return (
               table && (
                 <div key={uuid + index}>
-                  <Stack style={{ position: "relative", minHeight: 200 }}>
+                  <Stack style={{ minHeight: 200 }}>
                     <Editable
                       template={table_template}
                       data={table}
@@ -265,7 +267,7 @@ const OrdersPage: NextPage = () => {
             return (
               design && (
                 <div key={uuid + index}>
-                  <Stack style={{ position: "relative", minHeight: 200 }}>
+                  <Stack style={{ minHeight: 200 }}>
                     <Editable
                       template={design_template}
                       data={design}

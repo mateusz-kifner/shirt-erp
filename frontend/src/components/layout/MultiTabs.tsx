@@ -78,16 +78,17 @@ export const Tab = (props: TabProps) => {
         color="gray"
         size="md"
         style={{ borderEndEndRadius: 0, borderEndStartRadius: 0 }}
-        sx={[
-          SxBorder,
-          () => ({
-            // color: isActive ? color : undefined,
-            borderBottom: isActive ? `2px solid ${color}` : undefined,
-            "&:active": {
-              transform: "none",
-            },
-          }),
-        ]}
+        sx={(theme) => ({
+          // color: isActive ? color : undefined,
+          border:
+            theme.colorScheme === "dark"
+              ? "1px solid #2C2E33"
+              : "1px solid #343A40",
+          borderBottom: isActive ? `2px solid ${color}` : undefined,
+          "&:active": {
+            transform: "none",
+          },
+        })}
         p={small ? "xs" : undefined}
         {...omit(props, [
           "isActive",
@@ -222,7 +223,7 @@ const MultiTabs = (props: MultiTabsProps) => {
     <Group
       sx={(theme) => ({
         position: "fixed",
-        top: 18,
+        top: 17.5,
         zIndex: 102,
         height: 38,
         [`@media (max-width: ${theme.breakpoints.md}px)`]: {

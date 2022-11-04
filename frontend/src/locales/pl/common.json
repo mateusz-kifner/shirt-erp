@@ -76,5 +76,9 @@
   "wrapped": "zapakowane",
   "sent": "wysłane",
   "rejected": "odrzucone",
-  "archived": "archiwizowane"
+  "archived": "archiwizowane",
+  "color": "kolor",
+  "item": "przedmiot",
+  "item color": "kolor przedmiotu",
+  "background color": "kolor tła"
 }
