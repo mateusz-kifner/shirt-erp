@@ -13,10 +13,12 @@ import dayjs from "dayjs"
 import { useRouter } from "next/router"
 import React, { useEffect, useId, useState } from "react"
 import { Bell } from "tabler-icons-react"
+import { useAuthContext } from "../context/authContext"
 import useStarpiUser from "../hooks/useStrapiUser"
 import OrderListItem from "../page-components/erp/orders/OrderListItem"
 
 const Notifications = () => {
+  const { isAuthenticated } = useAuthContext()
   const [opened, setOpened] = useState<boolean>()
   const [prevActiveOrders, setPrevActiveOrders] = useLocalStorage<number>({
     key: "prevActiveOrders",
@@ -25,7 +27,9 @@ const Notifications = () => {
   const uuid = useId()
   const todayDate = dayjs().format("YYYY-MM-DD")
   const theme = useMantineTheme()
-  const { data, refetch } = useStarpiUser()
+  const { data, refetch } = useStarpiUser({
+    queryOptions: { enabled: isAuthenticated },
+  })
   const router = useRouter()
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {

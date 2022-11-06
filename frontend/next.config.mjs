@@ -17,13 +17,4 @@ export default defineNextConfig({
   reactStrictMode: true,
   swcMinify: true,
   crossOrigin: "anonymous",
-  async redirects() {
-    return [
-      {
-        source: "/",
-        destination: "/erp/tasks",
-        permanent: true,
-      },
-    ]
-  },
 })
