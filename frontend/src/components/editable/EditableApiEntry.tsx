@@ -45,6 +45,7 @@ interface EditableApiEntryProps {
   listProps?: any
   linkEntry?: boolean
   helpTooltip?: string
+  allowClear?: boolean
 }
 
 const EditableApiEntry = (props: EditableApiEntryProps) => {
@@ -64,6 +65,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     listProps,
     linkEntry = false,
     helpTooltip,
+    allowClear = false,
   } = props
 
   const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
@@ -148,19 +150,21 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
         opened={opened}
         onClose={() => setOpened(false)}
         title={
-          <Button
-            onClick={() => {
-              setOpened(false)
-              onSubmit?.(null)
-            }}
-            color="red"
-            variant="subtle"
-            size="sm"
-            leftIcon={<TrashX />}
-            radius="xl"
-          >
-            {t("clear")}
-          </Button>
+          allowClear ? (
+            <Button
+              onClick={() => {
+                setOpened(false)
+                onSubmit?.(null)
+              }}
+              color="red"
+              variant="subtle"
+              size="sm"
+              leftIcon={<TrashX />}
+              radius="xl"
+            >
+              {t("clear")}
+            </Button>
+          ) : undefined
         }
       >
         {entryName ? (

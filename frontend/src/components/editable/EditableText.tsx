@@ -1,9 +1,21 @@
-import { ActionIcon, CSSObject, Input, Textarea, Tooltip } from "@mantine/core"
-import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
+import {
+  ActionIcon,
+  CSSObject,
+  Group,
+  Input,
+  Textarea,
+  Tooltip,
+} from "@mantine/core"
+import {
+  useClickOutside,
+  useClipboard,
+  useHover,
+  useMergedRef,
+} from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { useEffect, useState, CSSProperties, ReactNode } from "react"
+import { useEffect, useState, CSSProperties, ReactNode, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, Copy, Edit } from "tabler-icons-react"
+import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
 
 interface EditableTextProps {
@@ -37,9 +49,11 @@ const EditableText = (props: EditableTextProps) => {
   const [prevText, setPrevText] = useState(text)
   const [active, setActive] = useState<boolean>(false)
   const clipboard = useClipboard()
-  const textRef = useClickOutside(() => setActive(false))
+  const textRef = useRef<HTMLTextAreaElement>(null)
+  const clickOutsideRef = useClickOutside(() => setActive(false))
   const { hovered, ref } = useHover()
   const { t } = useTranslation()
+  const wrapperRef = useMergedRef(clickOutsideRef, ref)
 
   useEffect(() => {
     if (active) {
@@ -125,7 +139,7 @@ const EditableText = (props: EditableTextProps) => {
       required={required}
       style={style}
       styles={styles}
-      ref={ref}
+      ref={wrapperRef}
     >
       <div style={{ position: "relative" }}>
         <Textarea
@@ -136,7 +150,7 @@ const EditableText = (props: EditableTextProps) => {
           value={text}
           onChange={onChangeTextarea}
           onKeyDown={onKeyDownTextarea}
-          onBlur={() => setActive(false)}
+          // onBlur={() => setActive(false)}
           readOnly={!active}
           maxLength={maxLength ?? 255}
           styles={(theme) => ({
@@ -173,21 +187,39 @@ const EditableText = (props: EditableTextProps) => {
             </ActionIcon>
           )
         ) : (
-          <Tooltip label="Undo" openDelay={300}>
+          <Group
+            style={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+            spacing={4}
+          >
+            <Tooltip label="Undo" openDelay={500}>
+              <ActionIcon
+                radius="xl"
+                onClick={() => {
+                  setText(prevText)
+                  setTimeout(() => setActive(false))
+                }}
+                disabled={disabled}
+                tabIndex={-1}
+              >
+                <ArrowBackUp size={18} />
+              </ActionIcon>
+            </Tooltip>
+
             <ActionIcon
               radius="xl"
-              style={{
-                position: "absolute",
-                right: 8,
-                top: 8,
+              onClick={() => {
+                setTimeout(() => setActive(false))
               }}
-              onClick={() => setActive(false)}
               disabled={disabled}
               tabIndex={-1}
             >
-              <ArrowBackUp size={18} />
+              <X size={18} />
             </ActionIcon>
-          </Tooltip>
+          </Group>
         )}
       </div>
     </Input.Wrapper>
