@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 
 import ApiList from "../../../components/api/ApiList"
 import UserListItem from "./UserListItem"
-import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
+import { capitalize } from "lodash"
 
 const entryName = "users"
 
@@ -18,7 +18,7 @@ const UsersList = () => {
       ListItem={UserListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
+        entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={id}
       onChange={(val: any) => {

@@ -6,7 +6,6 @@ import { useEffect, useState, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "tabler-icons-react"
 import DOMPurify from "dompurify"
-import _ from "lodash"
 import TurndownService from "turndown"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import RichText from "../../lib/mantine/RichText"
@@ -113,7 +112,7 @@ const EditableRichText = ({
                   transform: "translate(4px, 4px)",
                 }}
                 onClick={() => {
-                  const plainText = _.unescape(
+                  const plainText = unescape(
                     turndownService.turndown(
                       text
                         .replace(/h[0-9]>/g, "div>")

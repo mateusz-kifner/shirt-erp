@@ -5,9 +5,9 @@ import ApiList from "./api/ApiList"
 import ResponsivePaper from "./ResponsivePaper"
 import ApiEntryEditable from "./api/ApiEntryEditable"
 import DefaultListItem from "./DefaultListItem"
-import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "../i18n"
+import { capitalize } from "lodash"
 
 interface DefaultPageProps {
   entryName: string
@@ -48,7 +48,7 @@ const DefaultPage = ({
           entryName={entryName}
           label={
             entryName
-              ? _.capitalize(t(`${entryName}.singular` as any))
+              ? capitalize(t(`${entryName}.singular` as any))
               : undefined
           }
           onChange={(val: any) => {

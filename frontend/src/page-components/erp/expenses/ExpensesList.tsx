@@ -1,8 +1,8 @@
 import ApiList from "../../../components/api/ApiList"
 import ExpenseListItem from "./ExpenseListItem"
-import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
+import { capitalize } from "lodash"
 
 const entryName = "expenses"
 
@@ -21,7 +21,7 @@ const ExpensesList = ({ selectedId, onAddElement }: ExpenseListProps) => {
       ListItem={ExpenseListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
+        entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={selectedId}
       onChange={(val: any) => {

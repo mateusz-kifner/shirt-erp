@@ -11,7 +11,6 @@ import {
 } from "@mantine/core"
 import { useClipboard, useId } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import _ from "lodash"
 import { CSSProperties, useEffect, useMemo, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import {
@@ -24,6 +23,7 @@ import {
 import ApiList from "../api/ApiList"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import { isEqual } from "lodash"
 
 interface EditableApiEntryProps {
   label?: string
@@ -79,7 +79,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
   }, [value])
 
   useEffect(() => {
-    if (_.isEqual(apiEntry, prev)) return
+    if (isEqual(apiEntry, prev)) return
     onSubmit?.(apiEntry)
     setPrev(apiEntry)
     // eslint-disable-next-line

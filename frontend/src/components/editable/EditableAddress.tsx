@@ -13,7 +13,7 @@ import { BuildingCommunity, Copy, Edit, X } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
-import _ from "lodash"
+import { isEqual } from "lodash"
 
 const provinces = [
   "dolnośląskie",
@@ -78,7 +78,7 @@ const EditableAddress = ({
 
   const setAddressField = (key: string, val: string) => {
     const new_address = { ...address, [key]: val }
-    if (!_.isEqual(prevAddress, new_address)) {
+    if (!isEqual(prevAddress, new_address)) {
       onSubmit && onSubmit(new_address)
       setAddress(new_address)
       setPrevAddress({ ...new_address })
@@ -93,7 +93,7 @@ const EditableAddress = ({
   }, [active])
 
   useEffect(() => {
-    if (value && !_.isEqual(address, value)) {
+    if (value && !isEqual(address, value)) {
       setAddress({ ...value })
     }
   }, [

@@ -1,9 +1,9 @@
 import ApiList from "../../../components/api/ApiList"
 
-import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
 import EmailMessageListItem from "./EmailMessageListItem"
+import { capitalize } from "lodash"
 
 const entryName = "email-client/messages"
 
@@ -20,7 +20,7 @@ const EmailMessagesList = ({ selectedId }: EmailMessagesProps) => {
       ListItem={EmailMessageListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
+        entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={selectedId}
       onChange={(val: any) => {

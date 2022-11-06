@@ -5,8 +5,6 @@ import * as XLSX from "xlsx"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import Workspace from "../../../components/layout/Workspace"
 import OrdersList from "./OrdersList"
-import _ from "lodash"
-import { useRouter } from "next/router"
 import { NextPage } from "next"
 import { getQueryAsIntOrNull, setQuery } from "../../../utils/nextQueryUtils"
 import OrderAddModal from "./OrderAddModal"
@@ -30,6 +28,7 @@ import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetD
 import { getColorNameFromHex } from "../../../components/editable/EditableColor"
 import verifyMetadata from "../../../components/spreadsheet/verifyMetadata"
 import designBackgrounds from "./designBackgrounds"
+import { useRouter } from "next/router"
 
 const entryName = "orders"
 

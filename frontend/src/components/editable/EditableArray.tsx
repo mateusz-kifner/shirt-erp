@@ -7,7 +7,6 @@ import {
   Menu,
   Stack,
 } from "@mantine/core"
-import _, { clamp } from "lodash"
 import { ComponentType, useEffect, useId, useState } from "react"
 import { SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
@@ -21,8 +20,8 @@ import {
   TrashX,
   X,
 } from "tabler-icons-react"
-import { useHover, useListState, useResizeObserver } from "@mantine/hooks"
-import { useDrag } from "@use-gesture/react"
+import { useHover, useListState } from "@mantine/hooks"
+import { omit } from "lodash"
 
 // fixme submit only on edit end
 
@@ -186,7 +185,7 @@ const EditableArray = (props: EditableArrayProps) => {
                   })}
                 >
                   <Element
-                    {..._.omit(elementProps, ["label"])}
+                    {...omit(elementProps, ["label"])}
                     value={val}
                     onSubmit={(itemValue: any) => {
                       console.log("array", itemValue)
@@ -206,6 +205,7 @@ const EditableArray = (props: EditableArrayProps) => {
                     {organizingHandle === "arrows" && items.length > 1 && (
                       <>
                         <ActionIcon
+                          tabIndex={-1}
                           radius="xl"
                           onClick={() =>
                             handlers.reorder({ from: index, to: index - 1 })
@@ -215,6 +215,7 @@ const EditableArray = (props: EditableArrayProps) => {
                           <ArrowUp size={14} />
                         </ActionIcon>
                         <ActionIcon
+                          tabIndex={-1}
                           radius="xl"
                           onClick={() =>
                             handlers.reorder({ from: index, to: index + 1 })
@@ -227,6 +228,7 @@ const EditableArray = (props: EditableArrayProps) => {
                     )}
                     {organizingHandle === "drag and drop" && items.length > 1 && (
                       <ActionIcon
+                        tabIndex={-1}
                         // {...bind(index)}
                         radius="xl"
                         onClick={() => {}}
@@ -237,22 +239,24 @@ const EditableArray = (props: EditableArrayProps) => {
                       </ActionIcon>
                     )}
                     <Menu
-                    // tabIndex={-1}
-                    // withArrow
-                    // styles={(theme) => ({
-                    //   body: {
-                    //     backgroundColor:
-                    //       theme.colorScheme === "dark"
-                    //         ? theme.colors.dark[7]
-                    //         : theme.white,
-                    //   },
-                    //   arrow: {
-                    //     backgroundColor:
-                    //       theme.colorScheme === "dark"
-                    //         ? theme.colors.dark[7]
-                    //         : theme.white,
-                    //   },
-                    // })}
+                      withArrow
+                      styles={(theme) => ({
+                        dropdown: {
+                          backgroundColor:
+                            theme.colorScheme === "dark"
+                              ? theme.colors.dark[7]
+                              : theme.white,
+                        },
+                        arrow: {
+                          backgroundColor:
+                            theme.colorScheme === "dark"
+                              ? theme.colors.dark[7]
+                              : theme.white,
+                        },
+                      })}
+                      position="bottom-end"
+                      arrowOffset={10}
+                      offset={2}
                     >
                       <Menu.Target>
                         <ActionIcon

@@ -1,8 +1,8 @@
-import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
 import ApiList from "../../../components/api/ApiList"
 import WorkstationListItem from "./WorkstationListItem"
+import { capitalize } from "lodash"
 
 const entryName = "workstations"
 
@@ -19,7 +19,7 @@ const WorkstationsList = (props: WorkstationsListProps) => {
       ListItem={WorkstationListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
+        entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)

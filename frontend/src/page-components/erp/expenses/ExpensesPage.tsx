@@ -1,6 +1,5 @@
 import template from "../../../models/expense.model.json"
 
-import _ from "lodash"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import { useRouter } from "next/router"
 import Workspace from "../../../components/layout/Workspace"

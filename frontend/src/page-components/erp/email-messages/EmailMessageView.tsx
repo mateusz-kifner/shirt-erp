@@ -6,7 +6,6 @@ import {
   Title,
   TypographyStylesProvider,
 } from "@mantine/core"
-import _ from "lodash"
 import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
 import FileList from "../../../components/FileList"

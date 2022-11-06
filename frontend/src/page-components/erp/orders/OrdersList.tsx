@@ -2,9 +2,9 @@ import { useEffect, useState } from "react"
 
 import ApiList from "../../../components/api/ApiList"
 import OrderListItem from "./OrderListItem"
-import _ from "lodash"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
+import { capitalize } from "lodash"
 
 const entryName = "orders"
 
@@ -22,7 +22,7 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       ListItem={OrderListItem}
       entryName={entryName}
       label={
-        entryName ? _.capitalize(t(`${entryName}.plural` as any)) : undefined
+        entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
       }
       selectedId={selectedId}
       onChange={(val: any) => {
