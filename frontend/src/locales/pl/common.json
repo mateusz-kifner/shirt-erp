@@ -80,5 +80,6 @@
   "color": "kolor",
   "item": "przedmiot",
   "item color": "kolor przedmiotu",
-  "background color": "kolor tła"
+  "background color": "kolor tła",
+  "grid": "siatka"
 }

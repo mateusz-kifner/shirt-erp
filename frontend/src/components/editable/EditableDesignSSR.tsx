@@ -35,7 +35,6 @@ import { env } from "../../env/client.mjs"
 import { useTranslation } from "../../i18n"
 import { SxBackground } from "../../styles/basic"
 import { FileType } from "../../types/FileType"
-import { ImageType } from "../../types/ImageType"
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -108,8 +107,8 @@ export type DesignBackgroundsType = {
   icon: ComponentType<any & { size?: number }>
   images: {
     name: string
-    image?: Partial<ImageType>
-    mask?: Partial<ImageType>
+    image?: Partial<FileType>
+    mask?: Partial<FileType>
   }[]
 }[]
 

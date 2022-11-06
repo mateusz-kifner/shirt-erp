@@ -1,4 +1,4 @@
-import { ImageType } from "./ImageType"
+import { FileType } from "./FileType"
 
 export interface ProcedureWorkstationsType {
   prevId: number
@@ -9,7 +9,7 @@ export interface ProcedureType {
   id?: number
   name: string
   desc: string | null
-  icon: ImageType
+  icon: FileType
   createdAt: Date
   updatedAt: Date
   workstations: ProcedureWorkstationsType[]

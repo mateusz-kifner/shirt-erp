@@ -10,6 +10,7 @@ import {
   Select,
   Stack,
   Text,
+  Image,
 } from "@mantine/core"
 import { Affiliate, Bug, Logout, MoonStars, Sun } from "tabler-icons-react"
 import template from "../../../models/test.model.json"
@@ -21,6 +22,97 @@ import { useAuthContext } from "../../../context/authContext"
 import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
+import FileListItem from "../../../components/FileListItem"
+
+const testFiles = [
+  {
+    id: 28,
+    name: "wobbly-blob-16-asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl;asdghjkl;asdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjklasdfghjkl.svg",
+    alternativeText: "wobbly-blob-16.svg",
+    caption: "wobbly-blob-16.svg",
+    width: 500,
+    height: 356,
+    formats: null,
+    hash: "wobbly_blob_16_b9ce33c13f",
+    ext: ".svg",
+    mime: "image/svg+xml",
+    size: 0.79,
+    url: "/uploads/wobbly_blob_16_b9ce33c13f.svg",
+    previewUrl: null,
+    provider: "local",
+    provider_metadata: null,
+    public: false,
+    token: "LxCQYGIyaA4r6_3lK0R6HI-1dBysoNU8P53UZ2bbar12SIw-",
+    createdAt: "2022-11-02T20:24:07.206Z",
+    updatedAt: "2022-11-02T20:24:07.206Z",
+  },
+  {
+    id: 27,
+    name: "tshirt_black.png",
+    alternativeText: "tshirt_black",
+    caption: "tshirt_black",
+    width: 260,
+    height: 260,
+    formats: {
+      thumbnail: {
+        ext: ".png",
+        url: "/uploads/thumbnail_tshirt_black_06130aa350.png",
+        hash: "thumbnail_tshirt_black_06130aa350",
+        mime: "image/png",
+        name: "thumbnail_tshirt_black.png",
+        path: null,
+        size: 10.71,
+        width: 156,
+        height: 156,
+      },
+    },
+    hash: "tshirt_black_06130aa350",
+    ext: ".png",
+    mime: "image/png",
+    size: 21.86,
+    url: "/uploads/tshirt_black_06130aa350.png",
+    previewUrl: null,
+    provider: "local",
+    provider_metadata: null,
+    public: true,
+    token: "public",
+    createdAt: "2022-11-02T20:15:39.977Z",
+    updatedAt: "2022-11-02T20:15:39.988Z",
+  },
+  {
+    id: 27,
+    name: "tshirt_black.png",
+    alternativeText: "tshirt_black",
+    caption: "tshirt_black",
+    width: 260,
+    height: 260,
+    formats: {
+      thumbnail: {
+        ext: ".png",
+        url: "/uploads/thumbnail_tshit_black_06130aa350.png",
+        hash: "thumbnail_tshirt_black_06130aa350",
+        mime: "image/png",
+        name: "thumbnail_tshirt_black.png",
+        path: null,
+        size: 10.71,
+        width: 156,
+        height: 156,
+      },
+    },
+    hash: "tshirt_black_06130aa350",
+    ext: ".png",
+    mime: "image/png",
+    size: 21.86,
+    url: "/uploads/tshirt_blck_06130aa350.png",
+    previewUrl: null,
+    provider: "local",
+    provider_metadata: null,
+    public: true,
+    token: "public",
+    createdAt: "2022-11-02T20:15:39.977Z",
+    updatedAt: "2022-11-02T20:15:39.988Z",
+  },
+]
 
 const testData = {
   name: "string",
@@ -87,6 +179,9 @@ const SettingsPage = () => {
   const handleLocaleChange = (value: string) => {
     i18n.changeLanguage(value)
   }
+
+  const [previewOpened, setPreviewOpened] = useState<boolean>(false)
+  const [preview, setPreview] = useState<string>("")
 
   return (
     <Container size="xs" px="xs" my="xl">
@@ -223,6 +318,22 @@ const SettingsPage = () => {
                 </Group>
               </Button>
               <Text>{i18n.language}</Text>
+              <Modal
+                opened={previewOpened}
+                onClose={() => setPreviewOpened(false)}
+              >
+                <Image src={preview} alt="" />
+              </Modal>
+              {testFiles.map((file) => (
+                <FileListItem
+                  value={file}
+                  onDelete={() => {}}
+                  onPreview={(url) => {
+                    setPreview(url)
+                    setPreviewOpened(true)
+                  }}
+                />
+              ))}
             </Stack>
           )}
         </Group>

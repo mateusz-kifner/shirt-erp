@@ -22,7 +22,7 @@ const EditableFiles = (props: EditableFilesProps) => {
     >
       <FileList
         value={value}
-        // initialValue={initialValue}
+        initialValue={initialValue}
         onChange={(files) => {
           onSubmit && onSubmit(files)
         }}

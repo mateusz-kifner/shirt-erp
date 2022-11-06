@@ -1,5 +1,3 @@
-import { ImageType } from "./ImageType"
-
 export interface WorkstationType {
   id?: number
   name: string

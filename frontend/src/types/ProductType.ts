@@ -1,4 +1,4 @@
-import { ImageType } from "./ImageType"
+import { FileType } from "./FileType"
 
 export interface ProductType {
   id: number
@@ -6,7 +6,7 @@ export interface ProductType {
   category: string
   desc: string
   iconId: number | null
-  previewImg: Partial<ImageType> | null
+  previewImg: Partial<FileType> | null
   variants: any
   createdAt: Date
   updatedAt: Date

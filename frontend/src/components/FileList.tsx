@@ -7,29 +7,17 @@ import {
   Stack,
   Image,
   Button,
-  ActionIcon,
-  Divider,
   LoadingOverlay,
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
-import { useEffect, useId, useState } from "react"
-import {
-  Photo,
-  Upload,
-  X,
-  Plus,
-  FileUnknown,
-  TrashX,
-  Eye,
-  Download,
-} from "tabler-icons-react"
+import { useId, useState } from "react"
+import { Photo, Upload, X, Plus } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
-import isArrayEqual from "../utils/isArrayEqual"
 import { SxBorder, SxRadius } from "../styles/basic"
-import getBase64FromImage from "../utils/getBase64"
+import FileListItem from "./FileListItem"
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -42,10 +30,6 @@ function getIconColor(status: any, theme: MantineTheme) {
     : theme.colorScheme === "dark"
     ? theme.colors.dark[0]
     : theme.colors.gray[7]
-}
-
-function isFileImage(file: File) {
-  return file && file["type"].split("/")[0] === "image"
 }
 
 function ImageUploadIcon({
@@ -63,14 +47,10 @@ function ImageUploadIcon({
   return <Photo {...props} />
 }
 
-interface FilesDataType {
-  file: FileType
-  preview: string | Promise<string | null> | null
-}
-
 interface FileListProps {
   onChange?: (files: FileType[] | null) => void
   value?: FileType[] | null
+  initialValue?: FileType[] | null
   disabled?: boolean
   maxFileCount?: number
 }
@@ -78,13 +58,14 @@ interface FileListProps {
 const FileList = ({
   onChange,
   value,
+  initialValue,
   disabled,
   maxFileCount = 1024,
 }: FileListProps) => {
   const theme = useMantineTheme()
   const uuid = useId()
-  const [filesData, setFilesData] = useState<FilesDataType[]>([])
-  const [prev, setPrev] = useState<FileType[]>(filesData.map((val) => val.file))
+  const [files, setFiles] = useState<FileType[]>(value ?? initialValue ?? [])
+  const [prev, setPrev] = useState<FileType[]>(files)
   const [error, setError] = useState<string | undefined>()
   const [uploading, setUploading] = useState<number>(0)
   const [dropOpened, setDropOpened] = useState<boolean>(false)
@@ -104,29 +85,9 @@ const FileList = ({
       .post(env.NEXT_PUBLIC_SERVER_API_URL + "/api/upload", formData)
       .then((res: any) => {
         const fileData = res.data.data[0]
-        console.log(fileData)
 
-        setFilesData((filesDataValue: FilesDataType[]) => [
-          ...filesDataValue,
-          {
-            file: fileData,
-            preview: null,
-          },
-        ])
+        setFiles((files) => [...files, fileData])
         setUploading((num: number) => num - 1)
-
-        try {
-          isFileImage(file) &&
-            getBase64FromImage(file).then((preview) => {
-              setFilesData((filesDataValue) => [
-                ...filesDataValue.map((fileDataValue) =>
-                  fileDataValue.file.id === fileData.id
-                    ? { ...fileDataValue, preview: preview }
-                    : { ...fileDataValue }
-                ),
-              ])
-            })
-        } catch (err) {}
       })
       .catch((err: AxiosError) => {
         setError(err.response?.statusText)
@@ -134,11 +95,10 @@ const FileList = ({
       })
   }
 
-  const onRemove = (index: number) => {
+  const onDelete = (index: number) => {
     axios
       .delete(
-        env.NEXT_PUBLIC_SERVER_API_URL +
-          `/api/upload/files/${filesData[index]?.file?.id}`
+        env.NEXT_PUBLIC_SERVER_API_URL + `/api/upload/files/${files[index]?.id}`
       )
       .then((value) => {
         console.log(value)
@@ -147,26 +107,26 @@ const FileList = ({
         setError(err.response?.statusText)
         console.log({ ...err })
       })
-    setFilesData((filesData) => filesData.filter((_, i) => i !== index))
+    setFiles((files) => files.filter((_, i) => i !== index))
   }
 
-  useEffect(() => {
-    if (!filesData || filesData.length === 0) return
-    const files = filesData.map((val: FilesDataType) => {
-      if (typeof val?.file?.token !== "string") {
-        let res = axios.get("upload/token/" + val?.file?.id).catch(() => {})
-      }
-      return val.file
-    })
-    if (isArrayEqual(files, prev)) return
-    onChange?.(files)
-    // eslint-disable-next-line
-  }, [filesData])
+  // useEffect(() => {
+  //   if (!filesData || filesData.length === 0) return
+  //   const files = filesData.map((val: FilesDataType) => {
+  //     if (typeof val?.file?.token !== "string") {
+  //       let res = axios.get("upload/token/" + val?.file?.id).catch(() => {})
+  //     }
+  //     return val.file
+  //   })
+  //   if (isArrayEqual(files, prev)) return
+  //   onChange?.(files)
+  //   // eslint-disable-next-line
+  // }, [filesData])
 
-  useEffect(() => {
-    if (value === undefined || value === null) return
-    setFilesData(value.map((val) => ({ file: val, preview: null })))
-  }, [value])
+  // useEffect(() => {
+  //   if (value === undefined || value === null) return
+  //   setFilesData(value.map((val) => ({ file: val, preview: null })))
+  // }, [value])
 
   return (
     <>
@@ -225,90 +185,17 @@ const FileList = ({
           SxRadius,
         ]}
       >
-        {filesData.map((val: FilesDataType, index: number) => (
-          <Group key={uuid + "_" + val.file.id + "_" + val.file.name}>
-            <div style={{ position: "relative" }}>
-              <Image
-                src={typeof val.preview === "string" ? val.preview : undefined}
-                alt=""
-                width={100}
-                height={100}
-                radius="md"
-                fit="cover"
-                styles={(theme) => ({
-                  image: {
-                    visibility:
-                      typeof val.preview === "string" ? undefined : "hidden",
-                    backgroundColor: "#eee",
-                    border:
-                      theme.colorScheme === "dark"
-                        ? "1px solid #2C2E33"
-                        : "1px solid #ced4da",
-                  },
-                  placeholder: {
-                    backgroundColor:
-                      theme.colorScheme === "dark" ? "#2C2E33" : "#eee",
-                  },
-                })}
-                withPlaceholder
-                placeholder={<FileUnknown size={88} />}
-              />
-              <Group
-                position="center"
-                align="center"
-                noWrap
-                sx={(theme) => ({
-                  position: "absolute",
-                  top: "50%",
-                  left: 0,
-                  width: "100%",
-                  gap: theme.spacing.xs / 2,
-                  transform: "translate(0,-50%)",
-                })}
-              >
-                {typeof val.preview === "string" && (
-                  <>
-                    <ActionIcon
-                      onClick={() => {
-                        setPreview(val.preview as string)
-                        setPreviewOpened(true)
-                      }}
-                    >
-                      <Eye />
-                    </ActionIcon>
-
-                    <div
-                      style={{
-                        borderLeft: "1px solid rgba(0.3,0.3,0.3,0.5)",
-                        height: 20,
-                      }}
-                    ></div>
-                  </>
-                )}
-                {!disabled && (
-                  <ActionIcon color="red" onClick={() => onRemove(index)}>
-                    <TrashX />
-                  </ActionIcon>
-                )}
-              </Group>
-            </div>
-            <Text pr="xl">{val?.file?.name}</Text>
-            <ActionIcon
-              component="a"
-              href={
-                env.NEXT_PUBLIC_SERVER_API_URL +
-                "/api/upload/download/" +
-                val?.file?.id +
-                "?token=" +
-                val?.file?.token
-              }
-              download
-            >
-              <Download />
-            </ActionIcon>
-          </Group>
+        {files.map((file, index) => (
+          <FileListItem
+            value={file}
+            onPreview={(url) => {
+              setPreview(url)
+              setPreviewOpened(true)
+            }}
+            onDelete={onDelete}
+          />
         ))}
-        {(filesData.length < maxFileCount || !!uploading) && !disabled && (
+        {(files.length < maxFileCount || !!uploading) && !disabled && (
           <Button
             variant="default"
             styles={(theme) => ({

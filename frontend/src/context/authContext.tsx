@@ -7,6 +7,7 @@ import {
   useEffect,
   Dispatch,
   SetStateAction,
+  useState,
 } from "react"
 import { UserType } from "../types/UserType"
 
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     key: "user-data",
     defaultValue: null,
   })
-  const isAuthenticated = jwt.length > 0
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [navigationCollapsed, setNavigationCollapsed] =
     useLocalStorage<boolean>({
       key: "user-navigation-collapsed",
@@ -54,8 +55,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (jwt.length > 0) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + jwt
+      setIsAuthenticated(true)
     } else {
       delete axios.defaults.headers.common["Authorization"]
+      setIsAuthenticated(false)
     }
   }, [jwt])
 

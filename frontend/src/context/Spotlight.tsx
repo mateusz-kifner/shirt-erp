@@ -40,7 +40,7 @@ interface SpotlightProps {
 }
 
 const Spotlight = ({ children }: SpotlightProps) => {
-  const { isAuthenticated } = useAuthContext()
+  const { isAuthenticated, jwt } = useAuthContext()
   const router = useRouter()
   const [query, setQuery] = useState<string>("")
   const [debounced] = useDebouncedValue(query, 500)
