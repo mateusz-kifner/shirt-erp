@@ -8,11 +8,13 @@ import {
   Image,
   Button,
   Loader,
+  Menu,
+  ActionIcon,
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
 import { useEffect, useId, useState } from "react"
-import { Photo, Upload, X, Plus } from "tabler-icons-react"
+import { Photo, Upload, X, Plus, Dots, TrashX, Edit } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
 import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
@@ -60,10 +62,11 @@ const FileList = ({
   value,
   initialValue,
   disabled,
-  maxFileCount = 1024,
+  maxFileCount = 32,
 }: FileListProps) => {
   const theme = useMantineTheme()
   const uuid = useId()
+  const [active, setActive] = useState<boolean>(false)
   const [files, setFiles] = useState<FileType[]>(value ?? initialValue ?? [])
   const [error, setError] = useState<string | undefined>()
   const [uploading, setUploading] = useState<number>(0)
@@ -71,9 +74,6 @@ const FileList = ({
   const [previewOpened, setPreviewOpened] = useState<boolean>(false)
   const [preview, setPreview] = useState<string>("")
   const [previewWidth, setPreviewWidth] = useState<number | null | undefined>(
-    null
-  )
-  const [previewHeight, setPreviewHeight] = useState<number | null | undefined>(
     null
   )
 
@@ -112,7 +112,7 @@ const FileList = ({
         if (res?.data?.id !== undefined) {
           setFiles((files) => files.filter((file) => file.id !== res.data.id))
         }
-        console.log(res)
+        //        console.log(res)
       })
       .catch((err: AxiosError) => {
         setError(err.response?.statusText)
@@ -135,7 +135,6 @@ const FileList = ({
           modal: {
             maxWidth: "80vw",
             width: previewWidth ?? undefined,
-            // height: previewHeight ?? undefined,
           },
         }}
       >
@@ -176,12 +175,13 @@ const FileList = ({
           </Group>
         </Dropzone>
       </Modal>
+
       <Stack
         p="md"
         sx={[
           (theme) => ({
             width: "100%",
-
+            position: "relative",
             // backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
           }),
           SxBorder,
@@ -189,35 +189,104 @@ const FileList = ({
         ]}
       >
         {files.map((file, index) => (
-          <FileListItem
+          <Group
+            pr={active ? undefined : 32}
             key={uuid + "_" + file.id + "_" + file.name}
-            value={file}
-            onPreview={(url, width, height) => {
-              setPreview(url)
-              setPreviewWidth(width)
-              setPreviewHeight(height)
-              setPreviewOpened(true)
-            }}
-          />
+          >
+            <FileListItem
+              value={file}
+              onPreview={(url, width) => {
+                setPreview(url)
+                setPreviewWidth(width)
+                setPreviewOpened(true)
+              }}
+              style={{ flexGrow: 1 }}
+            />
+            {active && (
+              <Menu
+                withArrow
+                styles={(theme) => ({
+                  dropdown: {
+                    backgroundColor:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[7]
+                        : theme.white,
+                  },
+                  arrow: {
+                    backgroundColor:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[7]
+                        : theme.white,
+                  },
+                })}
+                position="bottom-end"
+                arrowOffset={10}
+                offset={2}
+              >
+                <Menu.Target>
+                  <ActionIcon
+                    tabIndex={-1}
+                    radius="xl"
+
+                    // style={{
+                    //   position: "absolute",
+                    //   top: "50%",
+                    //   right: 8,
+                    //   transform: "translate(0,-50%)",
+                    // }}
+                  >
+                    <Dots size={14} />
+                  </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Item
+                    icon={<TrashX size={14} />}
+                    onClick={() => {
+                      console.log(index)
+                      // handlers.remove(index)
+                      // setItems((val) => val.filter((_, i) => i !== index))
+                      onDelete(index)
+                    }}
+                    color="red"
+                  >
+                    Delete
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            )}
+          </Group>
         ))}
         {error && <Text color="red">{error}</Text>}
-        {(files.length < maxFileCount || !!uploading) && !disabled && (
-          <Button
-            variant="default"
-            styles={(theme) => ({
-              root: {
-                height: 46,
-                width: "100%",
-                backgroundColor:
-                  theme.colorScheme === "dark" ? "#1A1B1E" : "#fff",
-              },
-            })}
-            onClick={() => !uploading && setDropOpened(true)}
-            radius="sm"
-            disabled={disabled || !!uploading}
+        {active ? (
+          (files.length < maxFileCount || !!uploading) &&
+          !disabled && (
+            <Button
+              variant="default"
+              styles={(theme) => ({
+                root: {
+                  height: 46,
+                  width: "100%",
+                  backgroundColor:
+                    theme.colorScheme === "dark" ? "#1A1B1E" : "#fff",
+                },
+              })}
+              onClick={() => !uploading && setDropOpened(true)}
+              radius="sm"
+              disabled={disabled || !!uploading}
+            >
+              {uploading ? <Loader /> : <Plus size={26} />}
+            </Button>
+          )
+        ) : (
+          <ActionIcon
+            radius="xl"
+            style={{ position: "absolute", right: 8, bottom: 8 }}
+            onClick={() => setActive(true)}
+            disabled={disabled}
           >
-            {uploading ? <Loader /> : <Plus size={26} />}
-          </Button>
+            <Edit size={18} />
+          </ActionIcon>
         )}
       </Stack>
     </>

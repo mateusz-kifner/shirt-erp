@@ -6,8 +6,9 @@ import {
   Text,
   useMantineTheme,
   Tooltip,
+  CSSObject,
 } from "@mantine/core"
-import React from "react"
+import React, { CSSProperties } from "react"
 import { Download, Eye, FileUnknown, TrashX } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
 import { useTranslation } from "../i18n"
@@ -24,7 +25,7 @@ interface FileListItemProps {
     width?: number | null,
     height?: number | null
   ) => void
-  onDelete?: (fileId: number) => void
+  style?: CSSProperties
 }
 
 const FileListItem = ({
@@ -33,7 +34,7 @@ const FileListItem = ({
   active,
   disabled,
   onPreview,
-  onDelete,
+  style,
 }: FileListItemProps) => {
   const { t } = useTranslation()
   const theme = useMantineTheme()
@@ -49,7 +50,11 @@ const FileListItem = ({
             (value?.token && !value.public ? "?token=" + value?.token : ""))
       : undefined
   return (
-    <Group sx={[SxBorder, SxRadius, { overflow: "hidden" }]} align="center">
+    <Group
+      sx={[SxBorder, SxRadius, { overflow: "hidden" }]}
+      align="center"
+      style={style}
+    >
       <Box
         sx={{
           position: "relative",

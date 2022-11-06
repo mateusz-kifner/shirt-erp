@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Box,
+  Button,
   CSSObject,
   Group,
   Input,
@@ -24,6 +25,7 @@ import ApiList from "../api/ApiList"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { isEqual } from "lodash"
+import { useTranslation } from "../../i18n"
 
 interface EditableApiEntryProps {
   label?: string
@@ -72,6 +74,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
   // eslint-disable-next-line
   const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry])
   const router = useRouter()
+  const { t } = useTranslation()
 
   useEffect(() => {
     setApiEntry(value)
@@ -141,15 +144,33 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
       styles={{ ...styles, label: { ...styles?.label, width: "100%" } }}
       style={style}
     >
-      <Modal opened={opened} onClose={() => setOpened(false)} title="">
+      <Modal
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title={
+          <Button
+            onClick={() => {
+              setOpened(false)
+              onSubmit?.(null)
+            }}
+            color="red"
+            variant="subtle"
+            size="sm"
+            leftIcon={<TrashX />}
+            radius="xl"
+          >
+            {t("clear")}
+          </Button>
+        }
+      >
         {entryName ? (
           <ApiList
             entryName={entryName ?? ""}
             ListItem={Element}
             label={label}
             onChange={(value) => {
-              setApiEntry(value)
               setOpened(false)
+              setApiEntry(value)
             }}
             {...listProps}
           />

@@ -1,9 +1,10 @@
-import { ActionIcon, CSSObject, Input, Textarea } from "@mantine/core"
+import { ActionIcon, CSSObject, Input, Textarea, Tooltip } from "@mantine/core"
 import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, ReactNode } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Edit, X } from "tabler-icons-react"
+import { ArrowBackUp, Copy, Edit } from "tabler-icons-react"
+import { useTranslation } from "../../i18n"
 
 interface EditableTextProps {
   label?: string
@@ -38,6 +39,7 @@ const EditableText = (props: EditableTextProps) => {
   const clipboard = useClipboard()
   const textRef = useClickOutside(() => setActive(false))
   const { hovered, ref } = useHover()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (active) {
@@ -171,19 +173,21 @@ const EditableText = (props: EditableTextProps) => {
             </ActionIcon>
           )
         ) : (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            onClick={() => setActive(false)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <X size={18} />
-          </ActionIcon>
+          <Tooltip label="Undo" openDelay={300}>
+            <ActionIcon
+              radius="xl"
+              style={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+              }}
+              onClick={() => setActive(false)}
+              disabled={disabled}
+              tabIndex={-1}
+            >
+              <ArrowBackUp size={18} />
+            </ActionIcon>
+          </Tooltip>
         )}
       </div>
     </Input.Wrapper>

@@ -15,7 +15,7 @@ import {
 import { showNotification } from "@mantine/notifications"
 import React, { ReactNode, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Edit, X } from "tabler-icons-react"
+import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"
 import { number } from "zod"
 
@@ -213,7 +213,7 @@ const EditableDate = (props: EditableDateProps) => {
             disabled={disabled}
             tabIndex={-1}
           >
-            <X size={18} />
+            <ArrowBackUp size={18} />
           </ActionIcon>
         </Group>
       )}

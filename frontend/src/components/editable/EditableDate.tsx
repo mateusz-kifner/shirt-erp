@@ -10,9 +10,8 @@ import {
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Calendar, TrashX, Edit, X } from "tabler-icons-react"
+import { Copy, Calendar, TrashX, Edit, ArrowBackUp } from "tabler-icons-react"
 import dayjs from "dayjs"
-import { SxBorder, SxRadius } from "../../styles/basic"
 import DisplayCell from "../details/DisplayCell"
 
 interface EditableDateProps {
@@ -63,7 +62,7 @@ const EditableDate = ({
       // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prev) {
-        date && onSubmit?.(dayjs(date).format("YYYY-MM-DD"))
+        date ? onSubmit?.(dayjs(date).format("YYYY-MM-DD")) : onSubmit?.(null)
         setPrev(date)
       }
       window.removeEventListener("beforeunload", preventLeave)
@@ -78,7 +77,7 @@ const EditableDate = ({
   }, [])
 
   useEffect(() => {
-    const new_value = value ? dayjs(value).toDate() : dayjs().toDate()
+    const new_value = value ? dayjs(value).toDate() : null
     setDate(new_value)
     setPrev(new_value)
   }, [value])
@@ -230,7 +229,7 @@ const EditableDate = ({
             disabled={disabled}
             tabIndex={-1}
           >
-            <X size={18} />
+            <ArrowBackUp size={18} />
           </ActionIcon>
         </Group>
       )}
