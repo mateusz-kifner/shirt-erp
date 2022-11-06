@@ -8,6 +8,7 @@ import {
   Image,
   Button,
   LoadingOverlay,
+  Loader,
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
@@ -197,9 +198,9 @@ const FileList = ({
             })}
             onClick={() => !uploading && setDropOpened(true)}
             radius="sm"
-            // disabled={disabled || !!uploading}
+            disabled={disabled || !!uploading}
           >
-            {uploading ? <LoadingOverlay visible={true} /> : <Plus size={26} />}
+            {uploading ? <Loader /> : <Plus size={26} />}
           </Button>
         )}
       </Stack>
