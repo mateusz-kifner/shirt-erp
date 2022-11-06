@@ -11,7 +11,7 @@ import {
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
-import { useId, useState } from "react"
+import { useEffect, useId, useState } from "react"
 import { Photo, Upload, X, Plus } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
 import { FileType } from "../types/FileType"
@@ -65,7 +65,6 @@ const FileList = ({
   const theme = useMantineTheme()
   const uuid = useId()
   const [files, setFiles] = useState<FileType[]>(value ?? initialValue ?? [])
-  const [prev, setPrev] = useState<FileType[]>(files)
   const [error, setError] = useState<string | undefined>()
   const [uploading, setUploading] = useState<number>(0)
   const [dropOpened, setDropOpened] = useState<boolean>(false)
@@ -77,15 +76,20 @@ const FileList = ({
     setUploading((num: number) => num + 1)
 
     const formData = new FormData()
+
     formData.append("files", file)
 
+    // upload file for spec entry
+    // formData.append("ref", "api::order.order") // entryName
+    // formData.append("refId", "1") // entry id
+    // formData.append("field", "files")
     console.log(formData.getAll("files"))
 
     axios
       .post(env.NEXT_PUBLIC_SERVER_API_URL + "/api/upload", formData)
       .then((res: any) => {
-        const fileData = res.data.data[0]
-
+        const fileData = res.data[0]
+        onChange?.([...files, fileData])
         setFiles((files) => [...files, fileData])
         setUploading((num: number) => num - 1)
       })
@@ -97,36 +101,24 @@ const FileList = ({
 
   const onDelete = (index: number) => {
     axios
-      .delete(
-        env.NEXT_PUBLIC_SERVER_API_URL + `/api/upload/files/${files[index]?.id}`
-      )
-      .then((value) => {
-        console.log(value)
+      .delete(env.NEXT_PUBLIC_SERVER_API_URL + `/api/upload/files/${index}`)
+      .then((res) => {
+        if (res?.data?.id !== undefined) {
+          setFiles((files) => files.filter((file) => file.id !== res.data.id))
+        }
+        console.log(res)
       })
       .catch((err: AxiosError) => {
         setError(err.response?.statusText)
-        console.log({ ...err })
+        console.log(err)
       })
     setFiles((files) => files.filter((_, i) => i !== index))
   }
 
-  // useEffect(() => {
-  //   if (!filesData || filesData.length === 0) return
-  //   const files = filesData.map((val: FilesDataType) => {
-  //     if (typeof val?.file?.token !== "string") {
-  //       let res = axios.get("upload/token/" + val?.file?.id).catch(() => {})
-  //     }
-  //     return val.file
-  //   })
-  //   if (isArrayEqual(files, prev)) return
-  //   onChange?.(files)
-  //   // eslint-disable-next-line
-  // }, [filesData])
-
-  // useEffect(() => {
-  //   if (value === undefined || value === null) return
-  //   setFilesData(value.map((val) => ({ file: val, preview: null })))
-  // }, [value])
+  useEffect(() => {
+    if (value === undefined || value === null) return
+    setFiles(value)
+  }, [value])
 
   return (
     <>
@@ -146,12 +138,10 @@ const FileList = ({
           }}
           onReject={(file_error) => {
             console.log(file_error)
-            // setError(file_error[0].errors[0].message)
           }}
           style={{ minWidth: "100%" }}
           multiple={maxFileCount !== 1}
         >
-          {/* {(status) => ( */}
           <Group
             position="center"
             spacing="xl"
@@ -162,15 +152,12 @@ const FileList = ({
               style={{ color: getIconColor(status, theme) }}
               size={80}
             />
-
             <div>
               <Text size="xl" inline>
                 Wrzuć tu pliki do wysłania
               </Text>
             </div>
-            <Text color="red">{error}</Text>
           </Group>
-          {/* )} */}
         </Dropzone>
       </Modal>
       <Stack
@@ -179,7 +166,7 @@ const FileList = ({
           (theme) => ({
             width: "100%",
 
-            backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
+            // backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
           }),
           SxBorder,
           SxRadius,
@@ -187,6 +174,7 @@ const FileList = ({
       >
         {files.map((file, index) => (
           <FileListItem
+            key={uuid + "_" + file.id + "_" + file.name}
             value={file}
             onPreview={(url) => {
               setPreview(url)
@@ -195,22 +183,23 @@ const FileList = ({
             onDelete={onDelete}
           />
         ))}
+        {error && <Text color="red">{error}</Text>}
         {(files.length < maxFileCount || !!uploading) && !disabled && (
           <Button
             variant="default"
             styles={(theme) => ({
               root: {
-                height: 100,
-                width: 100,
+                height: 46,
+                width: "100%",
                 backgroundColor:
                   theme.colorScheme === "dark" ? "#1A1B1E" : "#fff",
               },
             })}
-            onClick={() => setDropOpened(true)}
-            radius="md"
+            onClick={() => !uploading && setDropOpened(true)}
+            radius="sm"
             // disabled={disabled || !!uploading}
           >
-            {uploading ? <LoadingOverlay visible={true} /> : <Plus size={32} />}
+            {uploading ? <LoadingOverlay visible={true} /> : <Plus size={26} />}
           </Button>
         )}
       </Stack>
