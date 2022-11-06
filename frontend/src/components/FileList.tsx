@@ -7,7 +7,6 @@ import {
   Stack,
   Image,
   Button,
-  LoadingOverlay,
   Loader,
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
@@ -71,6 +70,12 @@ const FileList = ({
   const [dropOpened, setDropOpened] = useState<boolean>(false)
   const [previewOpened, setPreviewOpened] = useState<boolean>(false)
   const [preview, setPreview] = useState<string>("")
+  const [previewWidth, setPreviewWidth] = useState<number | null | undefined>(
+    null
+  )
+  const [previewHeight, setPreviewHeight] = useState<number | null | undefined>(
+    null
+  )
 
   const onUpload = (file: File) => {
     if (!file) return
@@ -123,7 +128,17 @@ const FileList = ({
 
   return (
     <>
-      <Modal opened={previewOpened} onClose={() => setPreviewOpened(false)}>
+      <Modal
+        opened={previewOpened}
+        onClose={() => setPreviewOpened(false)}
+        styles={{
+          modal: {
+            maxWidth: "80vw",
+            width: previewWidth ?? undefined,
+            // height: previewHeight ?? undefined,
+          },
+        }}
+      >
         <Image src={preview} alt="" />
       </Modal>
       <Modal
@@ -177,11 +192,12 @@ const FileList = ({
           <FileListItem
             key={uuid + "_" + file.id + "_" + file.name}
             value={file}
-            onPreview={(url) => {
+            onPreview={(url, width, height) => {
               setPreview(url)
+              setPreviewWidth(width)
+              setPreviewHeight(height)
               setPreviewOpened(true)
             }}
-            onDelete={onDelete}
           />
         ))}
         {error && <Text color="red">{error}</Text>}

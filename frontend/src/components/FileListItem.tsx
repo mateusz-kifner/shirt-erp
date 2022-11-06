@@ -19,7 +19,11 @@ interface FileListItemProps {
   value: Partial<FileType>
   active?: boolean
   disabled?: boolean
-  onPreview?: (url: string) => void
+  onPreview?: (
+    url: string,
+    width?: number | null,
+    height?: number | null
+  ) => void
   onDelete?: (fileId: number) => void
 }
 
@@ -47,9 +51,10 @@ const FileListItem = ({
   return (
     <Group sx={[SxBorder, SxRadius, { overflow: "hidden" }]} align="center">
       <Box
-        style={{
+        sx={{
           position: "relative",
           overflow: "hidden",
+          "&:hover > *": { visibility: "visible" },
         }}
       >
         <Image
@@ -87,61 +92,45 @@ const FileListItem = ({
             />
           }
         />
-        <Group
-          position="center"
-          align="center"
-          noWrap
-          sx={(theme) => ({
-            position: "absolute",
-            top: "50%",
-            left: 0,
-            width: "100%",
-            gap: theme.spacing.xs / 2,
-            transform: "translate(0,-50%)",
-            "&:hover *": {
-              visibility: "visible",
-            },
-          })}
-        >
-          {preview && onPreview && (
-            <ActionIcon
-              style={{ visibility: "hidden" }}
-              onClick={() => {
-                value?.url &&
-                  onPreview(
-                    env.NEXT_PUBLIC_SERVER_API_URL +
-                      value.url +
-                      (value?.token && !value.public
-                        ? "?token=" + value?.token
-                        : "")
-                  )
-              }}
-            >
-              <Eye />
-            </ActionIcon>
-          )}
-          {preview && onPreview && !disabled && onDelete && (
-            <div
-              style={{
-                borderLeft: "1px solid rgba(0.3,0.3,0.3,0.5)",
-                height: 20,
-                visibility: "hidden",
-              }}
-            ></div>
-          )}
 
-          {!disabled && onDelete && (
-            <ActionIcon
-              color="red"
-              style={{ visibility: "hidden" }}
-              onClick={() => {
-                value?.id && onDelete(value.id)
-              }}
-            >
-              <TrashX />
-            </ActionIcon>
-          )}
-        </Group>
+        {preview && onPreview && (
+          <ActionIcon
+            sx={(theme) => ({
+              visibility: "hidden",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 102,
+              height: 100,
+              width: 100,
+
+              "&:hover": {
+                backgroundColor:
+                  theme.colorScheme === "dark" ? "#00000088" : "#ffffff88",
+              },
+            })}
+            onClick={() => {
+              value?.url &&
+                onPreview(
+                  env.NEXT_PUBLIC_SERVER_API_URL +
+                    value.url +
+                    (value?.token && !value.public
+                      ? "?token=" + value?.token
+                      : ""),
+                  value.width,
+                  value.height
+                )
+            }}
+          >
+            <Eye
+              color={
+                theme.colorScheme === "dark"
+                  ? theme.colors.gray[4]
+                  : theme.colors.gray[8]
+              }
+            />
+          </ActionIcon>
+        )}
       </Box>
       <Tooltip
         label={value?.name}

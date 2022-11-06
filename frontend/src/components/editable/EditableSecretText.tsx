@@ -108,6 +108,8 @@ const EditableSecretText = ({
             width: "100%",
             zIndex: 10,
             overflowY: "auto",
+            boxShadow:
+              "rgba(0, 0, 0, 0.05) 0px 1px 3px, rgba(0, 0, 0, 0.05) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px",
           }}
           ref={ref}
         >
