@@ -14,7 +14,7 @@ export interface OrderType {
   isPricePaid: boolean
   advance: number
   isAdvancePaid: boolean
-  dateOfCompletion: Date
+  dateOfCompletion: string
   secretNotes: string | null
   files: Partial<FileType>[]
   address: Partial<AddressType>

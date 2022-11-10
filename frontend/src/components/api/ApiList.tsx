@@ -23,6 +23,7 @@ import useStrapiList from "../../hooks/useStrapiList"
 
 import { useGesture } from "@use-gesture/react"
 import { useDebouncedValue, useToggle } from "@mantine/hooks"
+import List from "../List"
 
 interface ApiListProps<T = any> {
   entryName: string
@@ -189,37 +190,15 @@ const ApiList = <T extends any>({
             }}
           />
         </Box>
-        <Stack spacing={listSpacing}>
-          {data &&
-            data.map((val: any, index: number) => (
-              <Box
-                key={`list_${entryName}_${index}`}
-                sx={{
-                  paddingTop:
-                    withSeparators &&
-                    index != 0 &&
-                    typeof listSpacing == "string"
-                      ? theme.spacing[listSpacing]
-                      : listSpacing,
-                  borderTop:
-                    withSeparators && index != 0
-                      ? `1px solid ${
-                          theme.colorScheme === "dark"
-                            ? theme.colors.dark[4]
-                            : theme.colors.gray[2]
-                        }`
-                      : undefined,
-                }}
-              >
-                <ListItem
-                  value={val}
-                  onChange={onChangeWithBlocking}
-                  {...listItemProps}
-                  active={val.id === selectedId}
-                />
-              </Box>
-            ))}
-        </Stack>
+        <List<T>
+          data={data}
+          ListItem={ListItem}
+          withSeparators={withSeparators}
+          onChange={onChangeWithBlocking}
+          selectedId={selectedId}
+          listItemProps={listItemProps}
+          listSpacing={listSpacing}
+        />
       </Stack>
       <Pagination
         total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
