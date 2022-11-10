@@ -81,5 +81,6 @@
   "item": "przedmiot",
   "item color": "kolor przedmiotu",
   "background color": "kolor tła",
-  "grid": "siatka"
+  "grid": "siatka",
+  "uploading": "wysyłam"
 }

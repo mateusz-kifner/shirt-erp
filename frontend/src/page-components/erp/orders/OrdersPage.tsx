@@ -16,12 +16,13 @@ import {
   ColorSwatch,
   List,
   Notebook,
+  Plus,
   Robot,
   RulerMeasure,
   Table,
   Vector,
 } from "tabler-icons-react"
-import { Group, Stack } from "@mantine/core"
+import { Group, Menu, Stack, Text } from "@mantine/core"
 import DeleteButton from "../../../components/DeleteButton"
 import { useTranslation } from "../../../i18n"
 import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
@@ -29,10 +30,15 @@ import { getColorNameFromHex } from "../../../components/editable/EditableColor"
 import verifyMetadata from "../../../components/spreadsheet/verifyMetadata"
 import designBackgrounds from "./designBackgrounds"
 import { useRouter } from "next/router"
+import { Tab } from "../../../components/layout/MultiTabs"
+import { useMediaQuery } from "@mantine/hooks"
 
 const entryName = "orders"
 
 const OrdersPage: NextPage = () => {
+  const isMobile = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)"
+  )
   const uuid = useId()
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
 
@@ -205,14 +211,51 @@ const OrdersPage: NextPage = () => {
     }
   }
 
+  const addElementLabels = ["sheet", "design"]
+  const addElementIcons = [Table, Vector]
+
   return (
     <>
       <Workspace
         childrenLabels={childrenLabels}
         childrenIcons={childrenIcons}
-        addElementLabels={["sheet", "design"]}
-        addElementIcons={[Table, Vector]}
-        onAddElement={id !== null ? onAddElement : undefined}
+        rightMenuSection={
+          id !== null && (
+            <Menu position="bottom" withArrow withinPortal>
+              <Menu.Target>
+                <Tab
+                  Icon={Plus}
+                  value={childrenLabels.length}
+                  p="xs"
+                  variant="outline"
+                >
+                  {isMobile ? t("add") : ""}
+                </Tab>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item py={4}>
+                  <Text color="grey" size="xs">
+                    {t("close")}
+                  </Text>
+                </Menu.Item>
+                {addElementLabels.map((label, index) => {
+                  const Icon = addElementIcons?.[index]
+                    ? addElementIcons[index]
+                    : Plus
+                  return (
+                    <Menu.Item
+                      key={uuid + "_menu_" + index}
+                      icon={<Icon size={18} />}
+                      onClick={() => onAddElement?.(index)}
+                    >
+                      {t(label as any)}
+                    </Menu.Item>
+                  )
+                })}
+              </Menu.Dropdown>
+            </Menu>
+          )
+        }
       >
         <OrdersList
           selectedId={id}
@@ -285,7 +328,7 @@ const OrdersPage: NextPage = () => {
                   </Stack>
                   <Group></Group>
                   <DeleteButton
-                    label="sheet"
+                    label="design"
                     onDelete={() =>
                       update({
                         id: data.id,

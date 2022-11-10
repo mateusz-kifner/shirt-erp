@@ -20,6 +20,8 @@ import { FileType } from "../types/FileType"
 import TablerIconType from "../types/TablerIconType"
 import { SxBorder, SxRadius } from "../styles/basic"
 import FileListItem from "./FileListItem"
+import { handleBlurForInnerElements } from "../utils/handleBlurForInnerElements"
+import { useTranslation } from "../i18n"
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -62,8 +64,9 @@ const FileList = ({
   value,
   initialValue,
   disabled,
-  maxFileCount = 32,
+  maxFileCount = 128,
 }: FileListProps) => {
+  const { t } = useTranslation()
   const theme = useMantineTheme()
   const uuid = useId()
   const [active, setActive] = useState<boolean>(false)
@@ -77,31 +80,36 @@ const FileList = ({
     null
   )
 
-  const onUpload = (file: File) => {
-    if (!file) return
-    setUploading((num: number) => num + 1)
+  const onUploadMany = (new_files: File[]) => {
+    if (!new_files) return
+    if (files.length + new_files.length > maxFileCount) {
+      setError("File limit reached")
+      return
+    }
+    setUploading((num: number) => num + new_files.length)
 
     const formData = new FormData()
 
-    formData.append("files", file)
+    for (let i = 0; i < new_files.length; i++) {
+      formData.append("files", new_files[i])
+    }
 
     // upload file for spec entry
     // formData.append("ref", "api::order.order") // entryName
     // formData.append("refId", "1") // entry id
     // formData.append("field", "files")
-    console.log(formData.getAll("files"))
 
     axios
       .post(env.NEXT_PUBLIC_SERVER_API_URL + "/api/upload", formData)
       .then((res: any) => {
-        const fileData = res.data[0]
-        onChange?.([...files, fileData])
-        setFiles((files) => [...files, fileData])
-        setUploading((num: number) => num - 1)
+        const filesData = res.data
+        onChange?.([...files, ...filesData])
+        setFiles((files) => [...files, ...filesData])
+        setUploading((num: number) => num - new_files.length)
       })
       .catch((err: AxiosError) => {
         setError(err.response?.statusText)
-        setUploading((num: number) => num - 1)
+        setUploading((num: number) => num - new_files.length)
       })
   }
 
@@ -127,7 +135,7 @@ const FileList = ({
   }, [value])
 
   return (
-    <>
+    <div onBlur={handleBlurForInnerElements(() => setActive(false))}>
       <Modal
         opened={previewOpened}
         onClose={() => setPreviewOpened(false)}
@@ -148,7 +156,7 @@ const FileList = ({
       >
         <Dropzone
           onDrop={(files) => {
-            for (let file of files) onUpload(file)
+            onUploadMany(files)
             setDropOpened(false)
           }}
           onReject={(file_error) => {
@@ -269,13 +277,26 @@ const FileList = ({
                   width: "100%",
                   backgroundColor:
                     theme.colorScheme === "dark" ? "#1A1B1E" : "#fff",
+                  "&:disabled": {
+                    color: theme.colorScheme === "dark" ? "#fff" : "#000",
+                  },
                 },
               })}
               onClick={() => !uploading && setDropOpened(true)}
               radius="sm"
               disabled={disabled || !!uploading}
             >
-              {uploading ? <Loader /> : <Plus size={26} />}
+              {uploading ? (
+                <Group align="center" position="center">
+                  <Loader />
+                  <Text>
+                    {t("uploading")} {uploading}{" "}
+                    {uploading === 1 ? t("files.singular") : t("files.plural")}
+                  </Text>
+                </Group>
+              ) : (
+                <Plus size={26} />
+              )}
             </Button>
           )
         ) : (
@@ -289,7 +310,7 @@ const FileList = ({
           </ActionIcon>
         )}
       </Stack>
-    </>
+    </div>
   )
 }
 

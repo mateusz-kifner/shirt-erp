@@ -10,7 +10,6 @@ import {
   MouseEvent,
 } from "react"
 import { useTranslation } from "../../i18n"
-import { Plus } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
 import {
   getQueryAsArray,
@@ -28,9 +27,8 @@ interface WorkspaceProps {
   children?: ReactNode
   defaultActive?: number
   defaultPinned?: number[]
-  addElementLabels?: string[]
-  addElementIcons?: ComponentType<any & { size?: number }>[]
-  onAddElement?: (element: number) => void
+  leftMenuSection?: ReactNode
+  rightMenuSection?: ReactNode
 }
 
 const Workspace = ({
@@ -40,9 +38,8 @@ const Workspace = ({
   childrenWrapperProps = [null],
   defaultActive = 1,
   defaultPinned = [0],
-  onAddElement,
-  addElementLabels = [],
-  addElementIcons = [],
+  leftMenuSection,
+  rightMenuSection,
 }: WorkspaceProps) => {
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)"
@@ -106,43 +103,6 @@ const Workspace = ({
         overflow: "hidden",
       })}
     >
-      <Menu
-        opened={menuOpened}
-        position="bottom-end"
-        onChange={setMenuOpen}
-        closeOnEscape={true}
-        closeOnItemClick={true}
-        closeOnClickOutside={true}
-        styles={{
-          dropdown: {
-            position: "absolute",
-            top: menuPosition[1],
-            left: menuPosition[0],
-          },
-        }}
-      >
-        <Menu.Dropdown onBlur={() => setMenuOpen(false)}>
-          <Menu.Item py={4}>
-            <Text color="grey" size="xs">
-              {t("close")}
-            </Text>
-          </Menu.Item>
-          {addElementLabels.map((label, index) => {
-            const Icon = addElementIcons?.[index]
-              ? addElementIcons[index]
-              : Plus
-            return (
-              <Menu.Item
-                key={uuid + "_menu_" + index}
-                icon={<Icon size={18} />}
-                onClick={() => onAddElement?.(index)}
-              >
-                {t(label as any)}
-              </Menu.Item>
-            )
-          })}
-        </Menu.Dropdown>
-      </Menu>
       <MultiTabs
         active={active}
         onTabChange={(value) =>
@@ -163,7 +123,8 @@ const Workspace = ({
         childrenLabels={childrenLabels}
         childrenIcons={childrenIcons}
         availableSpace={width}
-        onAddElement={onAddElement ? (e) => openMenu(e) : undefined}
+        rightSection={rightMenuSection}
+        leftSection={leftMenuSection}
       />
       {children &&
         activeTabs.map((childIndex, index) => (

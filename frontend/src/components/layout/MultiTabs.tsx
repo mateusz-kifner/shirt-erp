@@ -8,7 +8,7 @@ import {
   Text,
   ActionIcon,
 } from "@mantine/core"
-import { useMediaQuery, useResizeObserver } from "@mantine/hooks"
+import { useMediaQuery, useMergedRef, useResizeObserver } from "@mantine/hooks"
 import { max, omit } from "lodash"
 import React, {
   ComponentPropsWithoutRef,
@@ -18,6 +18,8 @@ import React, {
   useId,
   useState,
   MouseEvent,
+  ReactNode,
+  forwardRef,
 } from "react"
 import { GridDots, Pinned, Plus, AlertCircle } from "tabler-icons-react"
 import { SxBorder } from "../../styles/basic"
@@ -49,7 +51,7 @@ export interface TabProps
   index?: number
 }
 
-export const Tab = (props: TabProps) => {
+export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
   const {
     children,
     Icon,
@@ -61,7 +63,8 @@ export const Tab = (props: TabProps) => {
     onContextMenu,
     index,
   } = props
-  const [ref, rect] = useResizeObserver()
+  const [resizeRef, rect] = useResizeObserver()
+  const groupRef = useMergedRef(resizeRef, ref)
 
   useEffect(() => {
     rect.width !== 0 && !small && setBigSize?.(rect.width + 46)
@@ -73,7 +76,7 @@ export const Tab = (props: TabProps) => {
   return (
     <Tooltip label={children} disabled={!small} withinPortal withArrow>
       <Button
-        ref={ref}
+        ref={groupRef}
         variant="outline"
         color="gray"
         size="md"
@@ -114,7 +117,7 @@ export const Tab = (props: TabProps) => {
       </Button>
     </Tooltip>
   )
-}
+})
 
 interface MultiTabsProps {
   active?: number
@@ -126,7 +129,8 @@ interface MultiTabsProps {
   childrenLabels: string[]
   childrenIcons: ComponentType<any & { size?: number }>[]
 
-  onAddElement?: (e: MouseEvent<any, any>) => void
+  leftSection?: ReactNode
+  rightSection?: ReactNode
 
   availableSpace: number
 }
@@ -139,7 +143,8 @@ const MultiTabs = (props: MultiTabsProps) => {
     onPin,
     childrenLabels,
     childrenIcons,
-    onAddElement,
+    rightSection,
+    leftSection,
     availableSpace,
   } = props
   const isMobile = useMediaQuery(
@@ -186,6 +191,7 @@ const MultiTabs = (props: MultiTabsProps) => {
           </ActionIcon>
         </Menu.Target>
         <Menu.Dropdown>
+          {!!leftSection && leftSection}
           {childrenLabels.map((label, index) => {
             const Icon =
               childrenIcons?.[index] ??
@@ -202,18 +208,7 @@ const MultiTabs = (props: MultiTabsProps) => {
               </Menu.Item>
             )
           })}
-          {onAddElement && (
-            <>
-              <Menu.Divider />
-              <Menu.Item
-                p="md"
-                onClick={(event: MouseEvent<any, any>) => onAddElement(event)}
-                icon={<Plus />}
-              >
-                {t("add")}
-              </Menu.Item>
-            </>
-          )}
+          {!!rightSection && rightSection}
         </Menu.Dropdown>
       </Menu>
     )
@@ -234,6 +229,7 @@ const MultiTabs = (props: MultiTabsProps) => {
       style={{ width: availableSpace - 144 }}
     >
       <Button.Group>
+        {!!leftSection && leftSection}
         {childrenLabels.map((label, index) => {
           const isPinned = pinned?.includes(index)
 
@@ -266,19 +262,7 @@ const MultiTabs = (props: MultiTabsProps) => {
             </Tab>
           )
         })}
-        {onAddElement && (
-          <Tab
-            value={childrenLabels.length}
-            p="xs"
-            variant="outline"
-            onClick={(event: MouseEvent<any, any>) => onAddElement(event)}
-            onContextMenu={(event: MouseEvent<any, any>) => {
-              event.preventDefault()
-              onAddElement(event)
-            }}
-            Icon={Plus}
-          ></Tab>
-        )}
+        {!!rightSection && rightSection}
       </Button.Group>
     </Group>
   )
