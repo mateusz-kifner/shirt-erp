@@ -13,7 +13,8 @@
     "install": "yarn --cwd backend install && yarn --cwd frontend install",
     "enable_hidden_windows": "yarn add node-hide-console-window",
     "prod_hidden": "node ./hide_cmd.js && yarn prod",
-    "clean": "rm -dr node_modules && rm -dr frontend/node_modules && rm -dr backend/node_modules"
+    "clean": "rm -dr node_modules && rm -dr frontend/node_modules && rm -dr backend/node_modules",
+    "node_version": "node --version"
   },
   "dependencies": {},
   "devDependencies": {
