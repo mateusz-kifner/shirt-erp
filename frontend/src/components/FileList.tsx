@@ -266,7 +266,7 @@ const FileList = ({
           </Group>
         ))}
         {error && <Text color="red">{error}</Text>}
-        {active ? (
+        {active || !!uploading ? (
           (files.length < maxFileCount || !!uploading) &&
           !disabled && (
             <Button
