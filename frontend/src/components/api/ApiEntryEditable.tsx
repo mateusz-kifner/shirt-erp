@@ -11,12 +11,14 @@ interface ApiEntryEditableProps<EntryType = any> {
   template: any
   entryName: string
   id: number | null
+  allowDelete?: boolean
 }
 
 const ApiEntryEditable = <EntryType extends any>({
   template,
   entryName,
   id,
+  allowDelete = false,
 }: ApiEntryEditableProps<EntryType>) => {
   const { data, update, remove, refetch } = useStrapi<EntryType>(
     entryName,
@@ -60,11 +62,13 @@ const ApiEntryEditable = <EntryType extends any>({
               onSubmit={apiUpdate}
             />
           </Stack>
-          <DeleteButton
-            label={`${entryName}.singular`}
-            onDelete={onDelete}
-            buttonProps={{ mt: "4rem" }}
-          />
+          {allowDelete && (
+            <DeleteButton
+              label={`${entryName}.singular`}
+              onDelete={onDelete}
+              buttonProps={{ mt: "4rem" }}
+            />
+          )}
         </>
       ) : (
         <Text

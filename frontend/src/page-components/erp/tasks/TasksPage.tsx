@@ -1,4 +1,4 @@
-import { Group, Stack, Text } from "@mantine/core"
+import { Group, Stack, Text, Title } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useId, useState } from "react"
 import {
@@ -173,11 +173,6 @@ const TasksPage = () => {
   }
 
   const design_template = {
-    name: {
-      label: "Nazwa designu",
-      type: "text",
-      disabled: true,
-    },
     design: {
       type: "designView",
       files: data?.files,
@@ -195,11 +190,6 @@ const TasksPage = () => {
       )
     : {}
   const table_template = {
-    name: {
-      label: "Nazwa arkusza",
-      type: "text",
-      disabled: true,
-    },
     table: {
       type: "tableView",
       metadataIcons: [ColorSwatch, RulerMeasure],
@@ -283,11 +273,11 @@ const TasksPage = () => {
       {data &&
         Array.isArray(data?.tables) &&
         data.tables.map((table, index) => {
-          // console.log(table)
           return (
             table && (
               <div key={uuid + index}>
                 <Stack style={{ minHeight: 200 }}>
+                  <Title order={3}>{table.name}</Title>
                   <Editable
                     template={table_template}
                     data={table}
@@ -305,18 +295,6 @@ const TasksPage = () => {
                     }}
                   />{" "}
                 </Stack>
-                <Group></Group>
-                <DeleteButton
-                  label="sheet"
-                  onDelete={() =>
-                    data.tables &&
-                    update({
-                      id: data.id,
-                      tables: data.tables.filter((val, i) => i !== index),
-                    })
-                  }
-                  buttonProps={{ mt: "4rem" }}
-                />
               </div>
             )
           )
@@ -324,11 +302,11 @@ const TasksPage = () => {
       {data &&
         Array.isArray(data?.designs) &&
         data.designs.map((design, index) => {
-          // console.log(table)
           return (
             design && (
               <div key={uuid + index}>
                 <Stack style={{ minHeight: 200 }}>
+                  <Title order={3}>{design.name}</Title>
                   <Editable
                     template={design_template}
                     data={design}
@@ -346,18 +324,6 @@ const TasksPage = () => {
                     }}
                   />{" "}
                 </Stack>
-                <Group></Group>
-                <DeleteButton
-                  label="design"
-                  onDelete={() =>
-                    data.designs &&
-                    update({
-                      id: data.id,
-                      designs: data.designs.filter((val, i) => i !== index),
-                    })
-                  }
-                  buttonProps={{ mt: "4rem" }}
-                />
               </div>
             )
           )

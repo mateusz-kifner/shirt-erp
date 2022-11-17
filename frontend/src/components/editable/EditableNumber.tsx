@@ -180,6 +180,7 @@ const EditableDate = (props: EditableDateProps) => {
           icon={icon}
           rightSection={rightSection}
           disabled={disabled}
+          hovered={hovered}
         >
           {text ? text : "⸺"}
         </DisplayCell>

@@ -22,6 +22,7 @@ import { SxBorder, SxRadius } from "../styles/basic"
 import FileListItem from "./FileListItem"
 import { handleBlurForInnerElements } from "../utils/handleBlurForInnerElements"
 import { useTranslation } from "../i18n"
+import { useHover } from "@mantine/hooks"
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -79,6 +80,7 @@ const FileList = ({
   const [previewWidth, setPreviewWidth] = useState<number | null | undefined>(
     null
   )
+  const { hovered, ref: hoverdRef } = useHover()
   const ref = useRef<any>(null)
 
   const onUploadMany = (new_files: File[]) => {
@@ -194,6 +196,7 @@ const FileList = ({
       </Modal>
 
       <Stack
+        ref={hoverdRef}
         p={files.length > 0 || active ? "md" : "xs"}
         sx={[
           (theme) => ({
@@ -271,52 +274,54 @@ const FileList = ({
             ))
           : !active && !uploading && <Text>⸺</Text>}
         {error && <Text color="red">{error}</Text>}
-        {active || !!uploading ? (
-          (files.length < maxFileCount || !!uploading) &&
-          !disabled && (
-            <Button
-              variant="default"
-              styles={(theme) => ({
-                root: {
-                  height: 46,
-                  width: "100%",
-                  backgroundColor:
-                    theme.colorScheme === "dark" ? "#1A1B1E" : "#fff",
-                  "&:disabled": {
-                    color: theme.colorScheme === "dark" ? "#fff" : "#000",
+        {active || !!uploading
+          ? (files.length < maxFileCount || !!uploading) &&
+            !disabled && (
+              <Button
+                variant="default"
+                styles={(theme) => ({
+                  root: {
+                    height: 46,
+                    width: "100%",
+                    backgroundColor:
+                      theme.colorScheme === "dark" ? "#1A1B1E" : "#fff",
+                    "&:disabled": {
+                      color: theme.colorScheme === "dark" ? "#fff" : "#000",
+                    },
                   },
-                },
-              })}
-              onClick={() => !uploading && setDropOpened(true)}
-              radius="sm"
-              disabled={disabled || !!uploading}
-            >
-              {uploading ? (
-                <Group align="center" position="center">
-                  <Loader />
-                  <Text>
-                    {t("uploading")} {uploading}{" "}
-                    {uploading === 1 ? t("files.singular") : t("files.plural")}
-                  </Text>
-                </Group>
-              ) : (
-                <Plus size={26} />
-              )}
-            </Button>
-          )
-        ) : (
-          <ActionIcon
-            radius="xl"
-            style={{ position: "absolute", right: 8, bottom: 8 }}
-            onClick={() => {
-              setActive(true)
-              ref.current?.focus?.()
-            }}
-            disabled={disabled}
-          >
-            <Edit size={18} />
-          </ActionIcon>
-        )}
+                })}
+                onClick={() => !uploading && setDropOpened(true)}
+                radius="sm"
+                disabled={disabled || !!uploading}
+              >
+                {uploading ? (
+                  <Group align="center" position="center">
+                    <Loader />
+                    <Text>
+                      {t("uploading")} {uploading}{" "}
+                      {uploading === 1
+                        ? t("files.singular")
+                        : t("files.plural")}
+                    </Text>
+                  </Group>
+                ) : (
+                  <Plus size={26} />
+                )}
+              </Button>
+            )
+          : hovered && (
+              <ActionIcon
+                radius="xl"
+                style={{ position: "absolute", right: 8, bottom: 8 }}
+                onClick={() => {
+                  setActive(true)
+                  ref.current?.focus?.()
+                }}
+                disabled={disabled}
+              >
+                <Edit size={18} />
+              </ActionIcon>
+            )}
       </Stack>
     </div>
   )

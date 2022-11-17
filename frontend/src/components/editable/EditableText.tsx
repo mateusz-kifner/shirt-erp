@@ -54,6 +54,7 @@ const EditableText = (props: EditableTextProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const clickOutsideRef = useClickOutside(() => setActive(false))
   const { hovered, ref } = useHover()
+  const { hovered: hovered2, ref: hoveredRef2 } = useHover<HTMLButtonElement>()
   const { t } = useTranslation()
   const wrapperRef = useMergedRef(clickOutsideRef, ref)
 
@@ -173,12 +174,15 @@ const EditableText = (props: EditableTextProps) => {
             })}
           />
         ) : (
-          <DisplayCell disabled={disabled}>{text ? text : "⸺"}</DisplayCell>
+          <DisplayCell disabled={disabled} hovered={hovered}>
+            {text ? text : "⸺"}
+          </DisplayCell>
         )}
 
         {!active ? (
           hovered && (
             <ActionIcon
+              // ref={hoveredRef2}
               radius="xl"
               style={{
                 position: "absolute",

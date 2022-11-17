@@ -19,6 +19,7 @@ interface DisplayCellProps {
   rightSection?: ReactNode
   children: React.ReactNode
   disabled?: boolean
+  hovered?: boolean
 }
 
 const DisplayCell = (props: DisplayCellProps) => {
@@ -29,6 +30,7 @@ const DisplayCell = (props: DisplayCellProps) => {
     rightSection,
     children,
     disabled = false,
+    hovered,
   } = props
 
   return (
@@ -46,14 +48,23 @@ const DisplayCell = (props: DisplayCellProps) => {
           paddingRight: !!rightSection ? 32 : undefined,
           lineHeight: 1.55,
           paddingLeft: !!icon ? 36 : undefined,
-          border: "1px solid transparent",
-          "&:hover": {
-            border: disabled
-              ? undefined
+          border: hovered
+            ? disabled
+              ? "1px solid transparent"
               : theme.colorScheme === "dark"
               ? "1px solid #2C2E33"
-              : "1px solid #ced4da",
-          },
+              : "1px solid #ced4da"
+            : "1px solid transparent",
+          "&:hover":
+            hovered === undefined
+              ? {
+                  border: disabled
+                    ? undefined
+                    : theme.colorScheme === "dark"
+                    ? "1px solid #2C2E33"
+                    : "1px solid #ced4da",
+                }
+              : {},
         }),
       ]}
     >
