@@ -47,6 +47,9 @@ const OrdersPage: NextPage = () => {
   const { data, update } = useStrapi<OrderType>(entryName, id, {
     query: "populate=*",
   })
+  const [status, setStatus] = useState<
+    "loading" | "idle" | "error" | "success"
+  >("idle")
   const childrenIcons = [
     List,
     Notebook,
@@ -54,9 +57,6 @@ const OrdersPage: NextPage = () => {
     Vector,
   ]
 
-  const [status, setStatus] = useState<
-    "loading" | "idle" | "error" | "success"
-  >("idle")
   const childrenLabels = id
     ? [
         "Lista zamówień",

@@ -45,6 +45,7 @@ const EditableText = (props: EditableTextProps) => {
     style,
     styles,
   } = props
+
   const [text, setText] = useState(value ?? initialValue ?? "")
   const [prevText, setPrevText] = useState(text)
   const [active, setActive] = useState<boolean>(false)

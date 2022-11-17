@@ -2,7 +2,7 @@ import React from "react"
 import { OrderType } from "../../../types/OrderType"
 
 interface TaskViewProps {
-  order: Partial<OrderType> | null
+  order?: Partial<OrderType>
 }
 
 const TaskView = (props: TaskViewProps) => {

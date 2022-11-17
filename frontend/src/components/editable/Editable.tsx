@@ -245,12 +245,12 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
         if (component_type in Fields) {
           return (
             <Field
+              disabled={disabled}
               value={data[key]}
               object_key={key}
               {...template[key]}
               onSubmit={onSubmitEntry}
               key={uuid + key}
-              disabled={disabled}
             />
           )
         }
