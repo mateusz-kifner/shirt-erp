@@ -1,9 +1,11 @@
-import { Group, Stack, Text, Title } from "@mantine/core"
+import { ActionIcon, Group, Stack, Text, Title } from "@mantine/core"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useId, useState } from "react"
 import {
   Check,
   ColorSwatch,
+  ExternalLink,
   List,
   Notebook,
   Robot,
@@ -28,13 +30,6 @@ import designBackgrounds from "../orders/designBackgrounds"
 import TasksList from "./TasksList"
 
 const template = {
-  name: {
-    label: "Nazwa",
-    type: "text",
-    initialValue: "",
-    required: true,
-    disabled: true,
-  },
   status: {
     label: "Status",
     type: "enum",
@@ -265,7 +260,17 @@ const TasksPage = () => {
         }}
       />
       {id !== null ? (
-        <ApiEntryEditable template={template} entryName={"orders"} id={id} />
+        <Stack>
+          <Group position="apart">
+            <Title order={3}>{data?.name}</Title>
+            <Link href={"/erp/orders/" + data?.id} passHref>
+              <ActionIcon size="lg" radius="xl">
+                <ExternalLink />
+              </ActionIcon>
+            </Link>
+          </Group>
+          <ApiEntryEditable template={template} entryName={"orders"} id={id} />
+        </Stack>
       ) : (
         <Text align="center">{t("no data")}</Text>
       )}

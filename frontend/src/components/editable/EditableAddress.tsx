@@ -96,6 +96,7 @@ const EditableAddress = ({
     if (value && !isEqual(address, value)) {
       setAddress({ ...value })
     }
+    //eslint-disable-next-line
   }, [
     value?.streetName,
     value?.streetNumber,
