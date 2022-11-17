@@ -21,9 +21,10 @@ import {
 import List from "../../../components/List"
 import useStarpiUser from "../../../hooks/useStrapiUser"
 import { useTranslation } from "../../../i18n"
+import { OrderType } from "../../../types/OrderType"
 import OrderListItem from "../orders/OrderListItem"
 
-interface ApiListProps<T = any> {
+interface TasksListProps<T = any> {
   listSpacing?: MantineNumberSize
   spacing?: MantineNumberSize
   withSeparators?: boolean
@@ -32,14 +33,14 @@ interface ApiListProps<T = any> {
   selectedId?: number | null
 }
 
-const ApiList = <T extends any>({
+const TasksList = ({
   listSpacing = "sm",
   spacing = "xl",
   withSeparators = false,
-  onChange = (val: T) => {},
+  onChange = (val: OrderType) => {},
   listItemProps = {},
   selectedId,
-}: ApiListProps<T>) => {
+}: TasksListProps<OrderType>) => {
   const { t } = useTranslation()
   const pageSize = 20
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
@@ -54,6 +55,7 @@ const ApiList = <T extends any>({
 
   useEffect(() => {
     refetch()
+    // eslint-disable-next-line
   }, [selectedId])
 
   const filteredOrders =
@@ -140,4 +142,4 @@ const ApiList = <T extends any>({
   )
 }
 
-export default ApiList
+export default TasksList

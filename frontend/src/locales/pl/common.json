@@ -1,5 +1,4 @@
 {
-  "test": "To jest Test",
   "lang": "Język",
   "delete": "Usuń {{entry}}",
   "operation-not-reversible": "Operacja jest nieodwracalna !!!",
@@ -82,5 +81,6 @@
   "item color": "kolor przedmiotu",
   "background color": "kolor tła",
   "grid": "siatka",
-  "uploading": "wysyłam"
+  "uploading": "wysyłam",
+  "no data": "Brak danych"
 }
