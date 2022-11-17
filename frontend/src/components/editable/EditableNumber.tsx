@@ -105,6 +105,7 @@ const EditableDate = (props: EditableDateProps) => {
       value && !isNaN(value) ? value.toFixed(fixed) : (0.0).toFixed(fixed)
     setText(new_value)
     setPrev(new_value)
+    // eslint-disable-next-line
   }, [value])
 
   const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
@@ -175,7 +176,11 @@ const EditableDate = (props: EditableDateProps) => {
           rightSection={rightSection}
         />
       ) : (
-        <DisplayCell icon={icon} rightSection={rightSection}>
+        <DisplayCell
+          icon={icon}
+          rightSection={rightSection}
+          disabled={disabled}
+        >
           {text ? text : "⸺"}
         </DisplayCell>
       )}

@@ -160,8 +160,9 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
               paddingRight: 32,
               lineHeight: 1.55,
               // paddingLeft: 36,
+              border: "1px solid transparent",
             }),
-            SxBorder,
+            // SxBorder,
             SxRadius,
           ]}
         >

@@ -229,7 +229,10 @@ const EditableAddress = ({
         </Stack>
       ) : (
         <div style={{ position: "relative" }}>
-          <DisplayCell icon={<BuildingCommunity />}> {toString()}</DisplayCell>
+          <DisplayCell icon={<BuildingCommunity />} disabled={disabled}>
+            {" "}
+            {toString()}
+          </DisplayCell>
           {hovered && (
             <ActionIcon
               radius="xl"

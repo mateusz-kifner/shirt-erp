@@ -18,13 +18,23 @@ interface DisplayCellProps {
   size?: MantineSize
   rightSection?: ReactNode
   children: React.ReactNode
+  disabled?: boolean
 }
 
 const DisplayCell = (props: DisplayCellProps) => {
-  const { icon, iconWidth, size, rightSection, children } = props
+  const {
+    icon,
+    iconWidth,
+    size,
+    rightSection,
+    children,
+    disabled = false,
+  } = props
+
   return (
     <Text
       sx={[
+        SxRadius,
         (theme) => ({
           position: "relative",
           width: "100%",
@@ -33,15 +43,21 @@ const DisplayCell = (props: DisplayCellProps) => {
           wordBreak: "break-word",
           whiteSpace: "pre-line",
           padding: "10px 16px",
-          paddingRight: 32,
+          paddingRight: !!rightSection ? 32 : undefined,
           lineHeight: 1.55,
-          paddingLeft: 36,
+          paddingLeft: !!icon ? 36 : undefined,
+          border: "1px solid transparent",
+          "&:hover": {
+            border: disabled
+              ? undefined
+              : theme.colorScheme === "dark"
+              ? "1px solid #2C2E33"
+              : "1px solid #ced4da",
+          },
         }),
-        SxBorder,
-        SxRadius,
       ]}
     >
-      {icon && (
+      {!!icon && (
         <Box
           sx={(theme) => ({
             pointerEvents: "none",

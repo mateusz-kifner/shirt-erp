@@ -188,11 +188,18 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
         <Box
           key={uuid}
           sx={[
+            SxRadius,
             (theme) => ({
               position: "relative",
+              border: "1px solid transparent",
+              "&:hover": {
+                border: disabled
+                  ? undefined
+                  : theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da",
+              },
             }),
-            SxBorder,
-            SxRadius,
           ]}
         >
           <Element

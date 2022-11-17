@@ -17,6 +17,7 @@ import { useEffect, useState, CSSProperties, ReactNode, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
+import DisplayCell from "../details/DisplayCell"
 
 interface EditableTextProps {
   label?: string
@@ -143,33 +144,37 @@ const EditableText = (props: EditableTextProps) => {
       ref={wrapperRef}
     >
       <div style={{ position: "relative" }}>
-        <Textarea
-          ref={textRef}
-          autosize
-          autoFocus
-          minRows={1}
-          value={text}
-          onChange={onChangeTextarea}
-          onKeyDown={onKeyDownTextarea}
-          // onBlur={() => setActive(false)}
-          readOnly={!active}
-          maxLength={maxLength ?? 255}
-          styles={(theme) => ({
-            input: {
-              paddingRight: 40,
-              backgroundColor: active
-                ? theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0]
-                : "transparent",
+        {active ? (
+          <Textarea
+            ref={textRef}
+            autosize
+            autoFocus
+            minRows={1}
+            value={text}
+            onChange={onChangeTextarea}
+            onKeyDown={onKeyDownTextarea}
+            // onBlur={() => setActive(false)}
+            // readOnly={!active}
+            maxLength={maxLength ?? 255}
+            styles={(theme) => ({
+              input: {
+                paddingRight: 40,
+                backgroundColor: active
+                  ? theme.colorScheme === "dark"
+                    ? theme.colors.dark[6]
+                    : theme.colors.gray[0]
+                  : "transparent",
 
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
-            },
-          })}
-        />
+                border:
+                  theme.colorScheme === "dark"
+                    ? "1px solid #2C2E33"
+                    : "1px solid #ced4da",
+              },
+            })}
+          />
+        ) : (
+          <DisplayCell disabled={disabled}>{text ? text : "⸺"}</DisplayCell>
+        )}
 
         {!active ? (
           hovered && (

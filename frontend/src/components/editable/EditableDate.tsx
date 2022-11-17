@@ -166,7 +166,7 @@ const EditableDate = ({
           onKeyDown={onKeyDownDate}
         />
       ) : (
-        <DisplayCell icon={<Calendar size={18} />}>
+        <DisplayCell icon={<Calendar size={18} />} disabled={disabled}>
           {date ? dayjs(date).format("L").toString() : "⸺"}
         </DisplayCell>
       )}

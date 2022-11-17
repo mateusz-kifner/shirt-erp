@@ -200,8 +200,15 @@ const FileList = ({
             width: "100%",
             position: "relative",
             minHeight: 44,
+            border: "1px solid transparent",
+            "&:hover": {
+              border:
+                theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da",
+            },
           }),
-          SxBorder,
+          // SxBorder,
           SxRadius,
         ]}
       >

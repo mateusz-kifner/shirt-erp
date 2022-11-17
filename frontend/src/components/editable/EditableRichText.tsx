@@ -183,8 +183,15 @@ const EditableRichText = ({
                   lineHeight: text.trimStart().startsWith("<")
                     ? undefined
                     : 1.55,
+                  border: hovered
+                    ? disabled
+                      ? undefined
+                      : theme.colorScheme === "dark"
+                      ? "1px solid #2C2E33"
+                      : "1px solid #ced4da"
+                    : "1px solid transparent",
                 }),
-                SxBorder,
+                // SxBorder,
                 SxRadius,
               ]}
               className="plain-html"

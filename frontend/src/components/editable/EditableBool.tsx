@@ -34,6 +34,8 @@ const EditableBool = (props: EditableBoolProps) => {
   const [dirty, setDirty] = useState<boolean>(false)
   const { hovered, ref } = useHover()
 
+  const active = hovered && !disabled
+
   useEffect(() => {
     value !== undefined && setBool(value)
   }, [value])
@@ -62,7 +64,7 @@ const EditableBool = (props: EditableBoolProps) => {
             position: "relative",
           }}
         >
-          {hovered ? (
+          {active ? (
             checkbox ? (
               <Checkbox
                 onChange={(e) => {

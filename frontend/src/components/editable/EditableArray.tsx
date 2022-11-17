@@ -141,11 +141,13 @@ const EditableArray = (props: EditableArrayProps) => {
             //   : undefined,
             borderWidth: 1,
             borderStyle: "solid",
-            borderColor: active
-              ? "#1971c2"
-              : theme.colorScheme === "dark"
-              ? " #2C2E33"
-              : " #ced4da",
+            borderColor: active ? "#1971c2" : "transparent",
+            "&:hover": {
+              border:
+                theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da",
+            },
           }),
           // SxBorder,
           SxRadius,

@@ -26,7 +26,6 @@ const Navigation = (props: NavigationProps) => {
     `(min-width: ${theme.breakpoints.md}px)`,
     true
   )
-  console.log(router.pathname.split("/")[2])
   return (
     <Navbar
       hiddenBreakpoint="md"
