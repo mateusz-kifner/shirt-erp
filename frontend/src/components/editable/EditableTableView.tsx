@@ -1,6 +1,11 @@
 import React, { ComponentType, useId } from "react"
-import { Matrix } from "react-spreadsheet"
+import { CellBase, Matrix } from "react-spreadsheet"
+import DataViewer from "../spreadsheet/DataViewer"
 import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData"
+import { Parser as FormulaParser } from "hot-formula-parser"
+import { Cell } from "../spreadsheet/Cell"
+import { useMantineTheme } from "@mantine/core"
+import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
 
 interface EditableTableProps {
   label?: string
@@ -28,17 +33,35 @@ interface EditableTableProps {
 const EditableTableView = (props: EditableTableProps) => {
   const { value } = props
   const uuid = useId()
+  const theme = useMantineTheme()
+  const darkTheme = theme.colorScheme === "dark"
+
+  const formulaParser = React.useMemo(() => new FormulaParser(), [])
+
+  React.useEffect(() => {
+    formulaParser.on("callCellValue", (cellCoord, done) => {})
+    formulaParser.on(
+      "callRangeValue",
+      (startCellCoord, endCellCoord, done) => {}
+    )
+  }, [formulaParser])
   return (
     <table style={{ borderCollapse: "collapse" }}>
       {value?.map((row, rowIndex) => (
         <tr key={uuid + "_row_" + rowIndex}>
           {row.map((val, colIndex) => (
-            <td
+            <Cell
               key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
-              style={{ border: "1px solid black" }}
-            >
-              {val?.value ?? ""}
-            </td>
+              column={colIndex}
+              row={rowIndex}
+              formulaParser={formulaParser}
+              darkMode={darkTheme}
+              className="Spreadsheet"
+              // @ts-ignore
+              DataViewer={DataViewer}
+              DataEditor={DataEditorDisabled}
+              data={val}
+            />
           ))}
         </tr>
       ))}
