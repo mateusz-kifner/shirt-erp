@@ -12,18 +12,21 @@ import navigationData from "../../navigationData"
 import { ChevronRight, ChevronLeft } from "tabler-icons-react"
 import { NavButton } from "./NavButton"
 import { useAuthContext } from "../../context/authContext"
+import { useRouter } from "next/router"
 
 interface NavigationProps {}
 
 const Navigation = (props: NavigationProps) => {
   const { navigationCollapsed, toggleNavigationCollapsed, debug } =
     useAuthContext()
+
+  const router = useRouter()
   const theme = useMantineTheme()
   const biggerThanSM = useMediaQuery(
     `(min-width: ${theme.breakpoints.md}px)`,
     true
   )
-
+  console.log(router.pathname.split("/")[2])
   return (
     <Navbar
       hiddenBreakpoint="md"
@@ -51,6 +54,7 @@ const Navigation = (props: NavigationProps) => {
                       !biggerThanSM && toggleNavigationCollapsed()
                     }}
                     small={navigationCollapsed && biggerThanSM}
+                    active={val.entryName === router.pathname.split("/")[2]}
                   />
                 )
             )}

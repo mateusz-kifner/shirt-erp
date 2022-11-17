@@ -22,6 +22,7 @@ interface NavButtonProps {
   onClick?: (e: SyntheticEvent) => void
   size?: MantineNumberSize
   small?: boolean
+  active?: boolean
 }
 
 export const NavButton = ({
@@ -33,6 +34,7 @@ export const NavButton = ({
   onClick = () => {},
   size = "xl",
   small = false,
+  active = false,
 }: NavButtonProps) => {
   return (
     <UnstyledButton
@@ -44,6 +46,11 @@ export const NavButton = ({
         borderRadius: theme.radius.md,
         color:
           theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+        backgroundColor: active
+          ? theme.colorScheme === "dark"
+            ? theme.colors.dark[6]
+            : theme.colors.gray[0]
+          : undefined,
         overflow: "hidden",
         "&:hover": {
           backgroundColor:
@@ -77,7 +84,13 @@ export const NavButton = ({
             </Text>
           )}
         </Group>
-        {!small && <ChevronRight />}
+        {!small && (
+          <ChevronRight
+            style={{
+              transform: active ? "translate(2px,0)" : "translate(-2px,0)",
+            }}
+          />
+        )}
       </Group>
     </UnstyledButton>
   )
