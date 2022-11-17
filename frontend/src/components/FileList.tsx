@@ -106,6 +106,7 @@ const FileList = ({
         onChange?.([...files, ...filesData])
         setFiles((files) => [...files, ...filesData])
         setUploading((num: number) => num - new_files.length)
+        setError("")
       })
       .catch((err: AxiosError) => {
         setError(err.response?.statusText)
@@ -119,14 +120,17 @@ const FileList = ({
       .then((res) => {
         if (res?.data?.id !== undefined) {
           setFiles((files) => files.filter((file) => file.id !== res.data.id))
+          onChange?.(files.filter((file) => file.id !== res.data.id))
         }
+        setError("")
+
         //        console.log(res)
       })
       .catch((err: AxiosError) => {
+        setFiles((files) => files.filter((val) => val.id !== index))
         setError(err.response?.statusText)
         console.log(err)
       })
-    setFiles((files) => files.filter((_, i) => i !== index))
   }
 
   useEffect(() => {
@@ -185,86 +189,77 @@ const FileList = ({
       </Modal>
 
       <Stack
-        p="md"
+        p={files.length > 0 ? "md" : undefined}
         sx={[
           (theme) => ({
             width: "100%",
             position: "relative",
-            // backgroundColor: theme.colorScheme === "dark" ? "#2C2E33" : "#fff",
+            minHeight: 44,
           }),
           SxBorder,
           SxRadius,
         ]}
       >
-        {files.map((file, index) => (
-          <Group
-            pr={active ? undefined : 32}
-            key={uuid + "_" + file.id + "_" + file.name}
-          >
-            <FileListItem
-              value={file}
-              onPreview={(url, width) => {
-                setPreview(url)
-                setPreviewWidth(width)
-                setPreviewOpened(true)
-              }}
-              style={{ flexGrow: 1 }}
-            />
-            {active && (
-              <Menu
-                withArrow
-                styles={(theme) => ({
-                  dropdown: {
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[7]
-                        : theme.white,
-                  },
-                  arrow: {
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[7]
-                        : theme.white,
-                  },
-                })}
-                position="bottom-end"
-                arrowOffset={10}
-                offset={2}
-              >
-                <Menu.Target>
-                  <ActionIcon
-                    tabIndex={-1}
-                    radius="xl"
+        {files.length > 0 ? (
+          files.map((file, index) => (
+            <Group
+              pr={active ? undefined : 32}
+              key={uuid + "_" + file.id + "_" + file.name}
+            >
+              <FileListItem
+                value={file}
+                onPreview={(url, width) => {
+                  setPreview(url)
+                  setPreviewWidth(width)
+                  setPreviewOpened(true)
+                }}
+                style={{ flexGrow: 1 }}
+              />
+              {active && (
+                <Menu
+                  withArrow
+                  styles={(theme) => ({
+                    dropdown: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[7]
+                          : theme.white,
+                    },
+                    arrow: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[7]
+                          : theme.white,
+                    },
+                  })}
+                  position="bottom-end"
+                  arrowOffset={10}
+                  offset={2}
+                >
+                  <Menu.Target>
+                    <ActionIcon tabIndex={-1} radius="xl">
+                      <Dots size={14} />
+                    </ActionIcon>
+                  </Menu.Target>
 
-                    // style={{
-                    //   position: "absolute",
-                    //   top: "50%",
-                    //   right: 8,
-                    //   transform: "translate(0,-50%)",
-                    // }}
-                  >
-                    <Dots size={14} />
-                  </ActionIcon>
-                </Menu.Target>
-
-                <Menu.Dropdown>
-                  <Menu.Item
-                    icon={<TrashX size={14} />}
-                    onClick={() => {
-                      console.log(index)
-                      // handlers.remove(index)
-                      // setItems((val) => val.filter((_, i) => i !== index))
-                      onDelete(index)
-                    }}
-                    color="red"
-                  >
-                    Delete
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            )}
-          </Group>
-        ))}
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      icon={<TrashX size={14} />}
+                      onClick={() => {
+                        file.id && onDelete(file.id)
+                      }}
+                      color="red"
+                    >
+                      Delete
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              )}
+            </Group>
+          ))
+        ) : (
+          <Text>⸺</Text>
+        )}
         {error && <Text color="red">{error}</Text>}
         {active || !!uploading ? (
           (files.length < maxFileCount || !!uploading) &&
