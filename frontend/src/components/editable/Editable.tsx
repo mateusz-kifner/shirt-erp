@@ -111,6 +111,7 @@ const Fields: {
   table: { component: EditableTable, props: {} },
   tableView: { component: EditableTableView, props: {} },
   design: { component: EditableDesign, props: {} },
+  designView: { component: EditableDesign, props: {} },
   apiEntry: {
     component: EditableApiEntry,
     props: {},

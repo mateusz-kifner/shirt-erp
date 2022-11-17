@@ -5,9 +5,11 @@ import {
   Group,
   Input,
   Menu,
+  Overlay,
   Popover,
   Stack,
   TextInput,
+  Title,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
@@ -24,6 +26,7 @@ import React, {
 import {
   Category,
   ColorSwatch,
+  GardenCart,
   GridPattern,
   ScreenShare,
   Square1,
@@ -31,6 +34,7 @@ import {
   Square3,
   Wallpaper,
 } from "tabler-icons-react"
+import { useAuthContext } from "../../context/authContext"
 import { env } from "../../env/client.mjs"
 import { useTranslation } from "../../i18n"
 import { SxBackground } from "../../styles/basic"
@@ -124,7 +128,6 @@ interface EditableDesignProps {
 }
 
 const EditableDesign = (props: EditableDesignProps) => {
-  const { t } = useTranslation()
   const {
     label,
     value,
@@ -135,6 +138,8 @@ const EditableDesign = (props: EditableDesignProps) => {
     files,
     backgrounds: externalBackgrounds,
   } = props
+  const { t } = useTranslation()
+  const { debug } = useAuthContext()
   const backgrounds: DesignBackgroundsType = [
     ...externalBackgrounds,
     {
@@ -210,7 +215,15 @@ const EditableDesign = (props: EditableDesignProps) => {
   }, [SVGWrapperRefElement, SVGContainer])
 
   return (
-    <Input.Wrapper label={label}>
+    <Input.Wrapper label={label} style={!debug ? { position: "relative" } : {}}>
+      {!debug && (
+        <Overlay color="#333" opacity={0.9} style={{ zIndex: 40 }}>
+          <Group p={60}>
+            <GardenCart size={32} />
+            <Title order={3}>Design niedostępny</Title>
+          </Group>
+        </Overlay>
+      )}
       <Stack
         spacing={0}
         style={
