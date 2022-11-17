@@ -119,7 +119,7 @@ const Notifications = () => {
                     <OrderListItem
                       value={val}
                       onChange={(val) => {
-                        router.push("/erp/orders/" + val.id)
+                        router.push("/erp/tasks/" + val.id)
                         setOpened(false)
                       }}
                       key={uuid + index}

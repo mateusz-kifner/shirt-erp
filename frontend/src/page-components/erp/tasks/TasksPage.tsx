@@ -26,7 +26,6 @@ import { OrderType } from "../../../types/OrderType"
 import { getQueryAsIntOrNull, setQuery } from "../../../utils/nextQueryUtils"
 import designBackgrounds from "../orders/designBackgrounds"
 import TasksList from "./TasksList"
-import TaskView from "./TaskView"
 
 const template = {
   name: {
@@ -77,7 +76,6 @@ const template = {
     label: "Sekretne notatki",
     type: "secrettext",
     initialValue: "",
-    disabled: true,
   },
   files: {
     label: "Pliki",
