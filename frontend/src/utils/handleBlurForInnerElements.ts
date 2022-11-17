@@ -1,7 +1,9 @@
+// Element needs to have tabIndex to receive focus
+// if Element in focus is removed on next render use ref.current?.focus?.() on container
+
 export const handleBlurForInnerElements = (callback: () => void) => {
   return (e: React.FocusEvent<any, Element>) => {
     const currentTarget = e.currentTarget
-
     // Check the newly focused element in the next tick of the event loop
     setTimeout(() => {
       // console.log(document.activeElement)

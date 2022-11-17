@@ -13,7 +13,7 @@ import {
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
-import { useEffect, useId, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { Photo, Upload, X, Plus, Dots, TrashX, Edit } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
 import { FileType } from "../types/FileType"
@@ -79,6 +79,7 @@ const FileList = ({
   const [previewWidth, setPreviewWidth] = useState<number | null | undefined>(
     null
   )
+  const ref = useRef<any>(null)
 
   const onUploadMany = (new_files: File[]) => {
     if (!new_files) return
@@ -106,7 +107,7 @@ const FileList = ({
         onChange?.([...files, ...filesData])
         setFiles((files) => [...files, ...filesData])
         setUploading((num: number) => num - new_files.length)
-        setError("")
+        setError(undefined)
       })
       .catch((err: AxiosError) => {
         setError(err.response?.statusText)
@@ -122,7 +123,7 @@ const FileList = ({
           setFiles((files) => files.filter((file) => file.id !== res.data.id))
           onChange?.(files.filter((file) => file.id !== res.data.id))
         }
-        setError("")
+        setError(undefined)
 
         //        console.log(res)
       })
@@ -138,8 +139,12 @@ const FileList = ({
     setFiles(value)
   }, [value])
 
+  const onBlur = handleBlurForInnerElements(() => {
+    setActive(false)
+  })
+
   return (
-    <div onBlur={handleBlurForInnerElements(() => setActive(false))}>
+    <div tabIndex={100000} onBlur={onBlur} ref={ref}>
       <Modal
         opened={previewOpened}
         onClose={() => setPreviewOpened(false)}
@@ -189,7 +194,7 @@ const FileList = ({
       </Modal>
 
       <Stack
-        p={files.length > 0 ? "md" : undefined}
+        p={files.length > 0 || active ? "md" : "xs"}
         sx={[
           (theme) => ({
             width: "100%",
@@ -200,66 +205,64 @@ const FileList = ({
           SxRadius,
         ]}
       >
-        {files.length > 0 ? (
-          files.map((file, index) => (
-            <Group
-              pr={active ? undefined : 32}
-              key={uuid + "_" + file.id + "_" + file.name}
-            >
-              <FileListItem
-                value={file}
-                onPreview={(url, width) => {
-                  setPreview(url)
-                  setPreviewWidth(width)
-                  setPreviewOpened(true)
-                }}
-                style={{ flexGrow: 1 }}
-              />
-              {active && (
-                <Menu
-                  withArrow
-                  styles={(theme) => ({
-                    dropdown: {
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white,
-                    },
-                    arrow: {
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white,
-                    },
-                  })}
-                  position="bottom-end"
-                  arrowOffset={10}
-                  offset={2}
-                >
-                  <Menu.Target>
-                    <ActionIcon tabIndex={-1} radius="xl">
-                      <Dots size={14} />
-                    </ActionIcon>
-                  </Menu.Target>
+        {files.length > 0
+          ? files.map((file, index) => (
+              <Group
+                pr={active ? undefined : 32}
+                key={uuid + "_" + file.id + "_" + file.name}
+              >
+                <FileListItem
+                  value={file}
+                  onPreview={(url, width) => {
+                    setPreview(url)
+                    setPreviewWidth(width)
+                    setPreviewOpened(true)
+                  }}
+                  style={{ flexGrow: 1 }}
+                />
+                {active && (
+                  <Menu
+                    withArrow
+                    styles={(theme) => ({
+                      dropdown: {
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white,
+                      },
+                      arrow: {
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white,
+                      },
+                    })}
+                    position="bottom-end"
+                    arrowOffset={10}
+                    offset={2}
+                  >
+                    <Menu.Target>
+                      <ActionIcon tabIndex={-1} radius="xl">
+                        <Dots size={14} />
+                      </ActionIcon>
+                    </Menu.Target>
 
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      icon={<TrashX size={14} />}
-                      onClick={() => {
-                        file.id && onDelete(file.id)
-                      }}
-                      color="red"
-                    >
-                      Delete
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
-              )}
-            </Group>
-          ))
-        ) : (
-          <Text>⸺</Text>
-        )}
+                    <Menu.Dropdown>
+                      <Menu.Item
+                        icon={<TrashX size={14} />}
+                        onClick={() => {
+                          file.id && onDelete(file.id)
+                        }}
+                        color="red"
+                      >
+                        Delete
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                )}
+              </Group>
+            ))
+          : !active && !uploading && <Text>⸺</Text>}
         {error && <Text color="red">{error}</Text>}
         {active || !!uploading ? (
           (files.length < maxFileCount || !!uploading) &&
@@ -298,7 +301,10 @@ const FileList = ({
           <ActionIcon
             radius="xl"
             style={{ position: "absolute", right: 8, bottom: 8 }}
-            onClick={() => setActive(true)}
+            onClick={() => {
+              setActive(true)
+              ref.current?.focus?.()
+            }}
             disabled={disabled}
           >
             <Edit size={18} />
