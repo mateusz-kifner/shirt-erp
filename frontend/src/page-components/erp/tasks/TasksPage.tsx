@@ -11,6 +11,7 @@ import {
   Table,
   Vector,
 } from "tabler-icons-react"
+import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import DeleteButton from "../../../components/DeleteButton"
 import Editable from "../../../components/editable/Editable"
 import { getColorNameFromHex } from "../../../components/editable/EditableColor"
@@ -26,6 +27,102 @@ import { getQueryAsIntOrNull, setQuery } from "../../../utils/nextQueryUtils"
 import designBackgrounds from "../orders/designBackgrounds"
 import TasksList from "./TasksList"
 import TaskView from "./TaskView"
+
+const template = {
+  name: {
+    label: "Nazwa",
+    type: "text",
+    initialValue: "",
+    required: true,
+    disabled: true,
+  },
+  status: {
+    label: "Status",
+    type: "enum",
+    initialValue: "planned",
+    enum_data: [
+      "planned",
+      "accepted",
+      "in production",
+      "wrapped",
+      "sent",
+      "rejected",
+      "archived",
+    ],
+  },
+  notes: {
+    label: "Notatki",
+    type: "richtext",
+    initialValue: "",
+  },
+  price: {
+    label: "Cena",
+    type: "money",
+    initialValue: 0,
+    disabled: true,
+  },
+  isPricePaid: {
+    label: "Cena zapłacona",
+    type: "boolean",
+    initialValue: false,
+    children: { checked: "Tak", unchecked: "Nie" },
+    disabled: true,
+  },
+  dateOfCompletion: {
+    label: "Data ukończenia",
+    type: "date",
+    disabled: true,
+  },
+  secretNotes: {
+    label: "Sekretne notatki",
+    type: "secrettext",
+    initialValue: "",
+    disabled: true,
+  },
+  files: {
+    label: "Pliki",
+    type: "files",
+    initialValue: [],
+    disabled: true,
+  },
+  client: {
+    label: "Klient",
+    type: "apiEntry",
+    entryName: "clients",
+    linkEntry: true,
+    disabled: true,
+  },
+  address: {
+    label: {
+      streetName: "Ulica",
+      streetNumber: "Nr. bloku",
+      apartmentNumber: "Nr. mieszkania",
+      city: "Miasto",
+      province: "Województwo",
+      postCode: "Kod pocztowy",
+      name: "Adres",
+    },
+    type: "address",
+    initialValue: {
+      streetName: "",
+      streetNumber: "",
+      apartmentNumber: "",
+      city: "",
+      province: "pomorskie",
+      postCode: "",
+    },
+    disabled: true,
+  },
+  products: {
+    label: "Produkty",
+    type: "array",
+    arrayType: "apiEntry",
+    entryName: "products",
+    // organizingHandle: "arrows",
+    linkEntry: true,
+    disabled: true,
+  },
+}
 
 // Complex query https://youtu.be/JaM2rExmmqs?t=640
 const TasksPage = () => {
@@ -180,7 +277,7 @@ const TasksPage = () => {
         }}
       />
       {id !== null ? (
-        <TaskView order={data} />
+        <ApiEntryEditable template={template} entryName={"orders"} id={id} />
       ) : (
         <Text align="center">{t("no data")}</Text>
       )}

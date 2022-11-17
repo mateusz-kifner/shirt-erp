@@ -130,7 +130,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 </Tooltip>
               )}
             </Group>
-            {linkEntry && value?.id && (
+            {!disabled && linkEntry && value?.id && (
               <Link href={"/erp/" + entryName + "/" + value.id} passHref>
                 <ActionIcon size="xs" component="a" tabIndex={-1}>
                   <ExternalLink />
@@ -200,7 +200,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
             value={apiEntry}
             disabled={disabled}
           />
-          {(!label || label.length === 0) && linkEntry && value?.id && (
+          {disabled && linkEntry && value?.id && (
             <Box
               sx={(theme) => ({
                 position: "absolute",
