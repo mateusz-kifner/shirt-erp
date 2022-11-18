@@ -4,9 +4,11 @@ import DataViewer from "../spreadsheet/DataViewer"
 import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData"
 import { Parser as FormulaParser } from "hot-formula-parser"
 import { Cell, enhance as enhanceCell } from "../spreadsheet/Cell"
-import { useMantineTheme } from "@mantine/core"
+import { ScrollArea, useMantineTheme } from "@mantine/core"
 import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
 import { merge } from "lodash"
+import isNumeric from "../../utils/isNumeric"
+import { getRandomColorByNumber } from "../../utils/getRandomColor"
 
 interface EditableTableProps {
   label?: string
@@ -52,31 +54,58 @@ const EditableTableView = (props: EditableTableProps) => {
     [metadataIcons]
   )
   return (
-    <table style={{ borderCollapse: "collapse" }}>
-      {value?.map((row, rowIndex) => (
-        <tr key={uuid + "_row_" + rowIndex}>
-          {row.map((val, colIndex) => {
-            console.log(val, rowIndex, colIndex)
-            return (
-              <EnhancedCell
-                key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
-                column={colIndex}
-                row={rowIndex}
-                formulaParser={formulaParser}
-                // @ts-ignore
-                DataViewer={DataViewer}
-                // @ts-ignore
-                DataEditor={DataEditorDisabled}
-                data={{
-                  ...val,
-                  style: merge(val?.style, { border: "1px solid #333" }),
-                }}
-              />
-            )
-          })}
-        </tr>
-      ))}
-    </table>
+    <ScrollArea type="auto">
+      <table
+        style={{
+          borderCollapse: "collapse",
+          background: theme.colorScheme === "dark" ? "#000" : "#fff",
+        }}
+      >
+        <tbody>
+          {value?.map((row, rowIndex) => (
+            <tr key={uuid + "_row_" + rowIndex}>
+              {row.map((val, colIndex) => {
+                console.log(val, rowIndex, colIndex)
+
+                const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
+
+                return (
+                  <td
+                    key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
+                    style={{
+                      border: "1px solid #333",
+                      padding: 4,
+                      minWidth: "2.92em",
+                      minHeight: "1.9em",
+                      height: "1.9em",
+                      maxHeight: "1.9em",
+                      overflow: "hidden",
+                      wordBreak: "keep-all",
+                      whiteSpace: "nowrap",
+                      textAlign: isNumeric(val?.value) ? "right" : "left",
+                      boxSizing: "border-box",
+                      position: "relative",
+                      background: val?.metaId
+                        ? getRandomColorByNumber(val.metaId) + "88"
+                        : undefined,
+                    }}
+                  >
+                    {Icon && (
+                      <Icon
+                        // @ts-ignore
+                        size={12}
+                        style={{ position: "absolute", top: 0, right: 0 }}
+                      />
+                    )}
+                    {val?.value ?? ""}
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ScrollArea>
   )
 }
 
