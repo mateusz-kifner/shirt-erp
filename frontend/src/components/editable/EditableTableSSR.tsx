@@ -558,6 +558,12 @@ const EditableTable = (props: EditableTableProps) => {
             }}
             onSelect={setSelectionIfNotNull}
             darkMode={darkTheme}
+            onModeChange={(mode) => {
+              setCanUpdate(mode === "view")
+            }}
+            onCellCommit={() => setCanUpdate(true)}
+            DataViewer={DataViewer}
+            DataEditor={disabled ? DataEditorDisabled : undefined}
             Cell={enhancedCell}
             className="Spreadsheet"
             ColumnIndicator={enhancedColumnIndicator}
@@ -565,12 +571,6 @@ const EditableTable = (props: EditableTableProps) => {
             CornerIndicator={
               CornerIndicator as unknown as CornerIndicatorComponent
             }
-            onModeChange={(mode) => {
-              setCanUpdate(mode === "view")
-            }}
-            onCellCommit={() => setCanUpdate(true)}
-            DataViewer={DataViewer}
-            DataEditor={disabled ? DataEditorDisabled : undefined}
           />
         </ScrollArea>
         <Text

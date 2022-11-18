@@ -1,3 +1,4 @@
+import { execPath } from "process"
 import {
   CellBase,
   DataViewerProps,
@@ -24,7 +25,11 @@ const DataViewer = <Cell extends CellBase<Value>, Value>({
   cell,
   formulaParser,
 }: DataViewerProps<Cell>) => {
-  const value = getComputedValue<Cell, Value>({ cell, formulaParser })
+  console.log(cell)
+  let value = cell?.value ?? ""
+
+  // value = getComputedValue<Cell, Value>({ cell, formulaParser })
+
   return typeof value === "boolean" ? (
     <span className="Spreadsheet__data-viewer Spreadsheet__data-viewer--boolean">
       {convertBooleanToText(value)}
@@ -32,7 +37,7 @@ const DataViewer = <Cell extends CellBase<Value>, Value>({
   ) : (
     <span
       className="Spreadsheet__data-viewer"
-      style={{ textAlign: isNumeric(value) ? "right" : "left" }}
+      // style={{ textAlign: isNumeric(value) ? "right" : "left" }}
     >
       {/* @ts-ignore*/}
       {value}
