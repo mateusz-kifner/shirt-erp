@@ -14,12 +14,13 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
   let columnMin = -1
   let columnMax = -1
   // find row & column
-  for (let y = 0; y < table.length - 1; y++) {
-    for (let x = 0; x < table[0].length - 1; x++) {
+  for (let y = 0; y < table.length; y++) {
+    for (let x = 0; x < table[0].length; x++) {
       if (table[y][x]?.metaId === metaId) {
         if (table[y][x]?.metaPropertyId !== undefined) {
           if (row === -1) {
             if (
+              x < table[0].length - 1 &&
               table[y][x]?.metaPropertyId === table[y][x + 1]?.metaPropertyId
             ) {
               row = y
@@ -28,6 +29,7 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
           }
           if (column === -1) {
             if (
+              y < table.length - 1 &&
               table[y][x]?.metaPropertyId === table[y + 1][x]?.metaPropertyId
             ) {
               column = x
@@ -39,8 +41,8 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
     }
   }
   // check if all metadata is present the same orientation
-  for (let y = 0; y < table.length - 1; y++) {
-    for (let x = 0; x < table[0].length - 1; x++) {
+  for (let y = 0; y < table.length; y++) {
+    for (let x = 0; x < table[0].length; x++) {
       if (table[y][x]?.metaId === metaId) {
         if (table[y][x]?.metaPropertyId !== undefined) {
           if (row === y) {

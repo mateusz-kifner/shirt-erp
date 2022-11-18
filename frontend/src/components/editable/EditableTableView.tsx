@@ -54,7 +54,7 @@ const EditableTableView = (props: EditableTableProps) => {
     <ScrollArea type="auto">
       <table
         style={{
-          borderCollapse: "collapse",
+          // borderCollapse: "collapse",
           background: darkTheme ? "#000" : "#fff",
         }}
       >
@@ -63,11 +63,17 @@ const EditableTableView = (props: EditableTableProps) => {
             <tr key={uuid + "_row_" + rowIndex}>
               {row.map((val, colIndex) => {
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
+                const inAABB =
+                  boundingBox &&
+                  rowIndex >= boundingBox.minY &&
+                  rowIndex <= boundingBox.maxY &&
+                  colIndex >= boundingBox.minX &&
+                  colIndex <= boundingBox.maxX
                 return (
                   <td
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
                     style={{
-                      border: "1px solid #333",
+                      // border: "1px solid #333",
                       padding: 4,
                       minWidth: "2.92em",
                       minHeight: "1.9em",
@@ -82,6 +88,25 @@ const EditableTableView = (props: EditableTableProps) => {
                       background: val?.metaId
                         ? getRandomColorByNumber(val.metaId) + "88"
                         : undefined,
+
+                      border: inAABB ? "1px solid #f00" : "1px solid #333",
+                      // borderBottom:
+                      //   inAABB && boundingBox?.maxX === rowIndex
+                      //     ? "1px solid #f00"
+                      //     : "1px solid #333",
+                      // borderTop:
+                      //   inAABB && boundingBox?.minX === rowIndex
+                      //     ? "1px solid #f00"
+                      //     : "1px solid #333",
+
+                      // borderLeft:
+                      //   inAABB && boundingBox?.minX === colIndex
+                      //     ? "1px solid #f00"
+                      //     : "1px solid #333",
+                      // borderRight:
+                      //   inAABB && boundingBox?.maxX === colIndex
+                      //     ? "1px solid #f00"
+                      //     : "1px solid #333",
                     }}
                   >
                     {Icon && (
