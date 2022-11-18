@@ -93,6 +93,7 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
     table,
     "success: Tablica mam poprawne metadane",
     { minX: rowMin, maxX: rowMax, minY: columnMin, maxY: columnMax } as AABB2D,
+    { row: column, column: row },
   ]
 }
 

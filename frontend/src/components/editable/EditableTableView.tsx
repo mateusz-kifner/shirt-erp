@@ -6,6 +6,24 @@ import isNumeric from "../../utils/isNumeric"
 import { getRandomColorByNumber } from "../../utils/getRandomColor"
 import { AABB2D } from "../../types/AABB"
 
+function expandAABB(aabb: AABB2D, row: number, col: number) {
+  let new_aabb = { ...aabb }
+  console.log(aabb, row, col)
+  if (row === aabb.minX - 1) {
+    new_aabb.minX -= 1
+  }
+  if (col === aabb.minY - 1) {
+    new_aabb.minY -= 1
+  }
+  if (row === aabb.maxX + 1) {
+    new_aabb.maxX += 1
+  }
+  if (col === aabb.maxY + 1) {
+    new_aabb.maxY += 1
+  }
+  return new_aabb
+}
+
 interface EditableTableProps {
   label?: string
   value?: Matrix<any>
@@ -24,7 +42,9 @@ interface EditableTableProps {
   metadataActions: ((
     table: UniversalMatrix,
     metaId: number
-  ) => [UniversalMatrix, string] | [UniversalMatrix, string, AABB2D])[]
+  ) =>
+    | [UniversalMatrix, string]
+    | [UniversalMatrix, string, AABB2D, { row: number; column: number }])[]
   metadataActionIcons: ComponentType[]
   metadataActionLabels?: string[]
 }
@@ -47,7 +67,11 @@ const EditableTableView = (props: EditableTableProps) => {
     [metadata, value]
   )
   const boundingBox = verify && verify?.length > 1 ? verify[2] : null
-  console.log(verify, boundingBox)
+  const metaIdPosition = verify && verify?.length > 1 ? verify[3] : null
+  const expandedBoundingBox =
+    boundingBox && metaIdPosition
+      ? expandAABB(boundingBox, metaIdPosition?.row, metaIdPosition?.column)
+      : null
 
   if (verify === null || verify[1].startsWith("error")) {
     return <Text color="red">{verify?.[1] ?? ""}</Text>
@@ -57,8 +81,10 @@ const EditableTableView = (props: EditableTableProps) => {
     <ScrollArea type="auto">
       <table
         style={{
-          borderCollapse: "collapse",
           background: darkTheme ? "#000" : "#fff",
+          padding: 0,
+          margin: 0,
+          borderSpacing: 0,
         }}
       >
         <tbody>
@@ -67,11 +93,12 @@ const EditableTableView = (props: EditableTableProps) => {
               {row.map((val, colIndex) => {
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
                 const inAABB =
-                  boundingBox &&
-                  rowIndex >= boundingBox.minY &&
-                  rowIndex <= boundingBox.maxY &&
-                  colIndex >= boundingBox.minX &&
-                  colIndex <= boundingBox.maxX
+                  expandedBoundingBox &&
+                  rowIndex >= expandedBoundingBox.minY &&
+                  rowIndex <= expandedBoundingBox.maxY &&
+                  colIndex >= expandedBoundingBox.minX &&
+                  colIndex <= expandedBoundingBox.maxX
+                if (!inAABB) return null
                 return (
                   <td
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
@@ -92,27 +119,10 @@ const EditableTableView = (props: EditableTableProps) => {
                         ? getRandomColorByNumber(meta_id) + "88"
                         : undefined,
 
-                      borderTop:
-                        inAABB || val?.metaId == meta_id
+                      border:
+                        (inAABB || val?.metaId == meta_id) && !!val?.value
                           ? "1px solid " + getRandomColorByNumber(meta_id)
                           : "1px solid #333",
-                      borderLeft:
-                        inAABB || val?.metaId == meta_id
-                          ? "1px solid " + getRandomColorByNumber(meta_id)
-                          : "1px solid #333",
-                      borderRight:
-                        colIndex === row.length - 1
-                          ? inAABB || val?.metaId == meta_id
-                            ? "1px solid " + getRandomColorByNumber(meta_id)
-                            : "1px solid #333"
-                          : undefined,
-
-                      borderBottom:
-                        rowIndex === value.length - 1
-                          ? inAABB || val?.metaId == meta_id
-                            ? "1px solid " + getRandomColorByNumber(meta_id)
-                            : "1px solid #333"
-                          : undefined,
 
                       // borderBottom:
                       //   inAABB && boundingBox?.maxX === rowIndex
