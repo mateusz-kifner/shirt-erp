@@ -34,11 +34,14 @@ const EditableTableView = (props: EditableTableProps) => {
   const uuid = useId()
   const theme = useMantineTheme()
   const darkTheme = theme.colorScheme === "dark"
+
+  const meta_id = Object.values(metadata)[0].id
+
   // FIXME: make memo refresh after changes to table
   const verify = useMemo(
     () =>
       Array.isArray(value) && value.length > 0
-        ? metadataActions[0](value, Object.values(metadata)[0].id)
+        ? metadataActions[0](value, meta_id)
         : null,
     //eslint-disable-next-line
     [metadata, value]
@@ -54,7 +57,7 @@ const EditableTableView = (props: EditableTableProps) => {
     <ScrollArea type="auto">
       <table
         style={{
-          // borderCollapse: "collapse",
+          borderCollapse: "collapse",
           background: darkTheme ? "#000" : "#fff",
         }}
       >
@@ -75,7 +78,7 @@ const EditableTableView = (props: EditableTableProps) => {
                     style={{
                       // border: "1px solid #333",
                       padding: 4,
-                      minWidth: "2.92em",
+                      minWidth: "3.92em",
                       minHeight: "1.9em",
                       height: "1.9em",
                       maxHeight: "1.9em",
@@ -86,10 +89,31 @@ const EditableTableView = (props: EditableTableProps) => {
                       boxSizing: "border-box",
                       position: "relative",
                       background: val?.metaId
-                        ? getRandomColorByNumber(val.metaId) + "88"
+                        ? getRandomColorByNumber(meta_id) + "88"
                         : undefined,
 
-                      border: inAABB ? "1px solid #f00" : "1px solid #333",
+                      borderTop:
+                        inAABB || val?.metaId == meta_id
+                          ? "1px solid " + getRandomColorByNumber(meta_id)
+                          : "1px solid #333",
+                      borderLeft:
+                        inAABB || val?.metaId == meta_id
+                          ? "1px solid " + getRandomColorByNumber(meta_id)
+                          : "1px solid #333",
+                      borderRight:
+                        colIndex === row.length - 1
+                          ? inAABB || val?.metaId == meta_id
+                            ? "1px solid " + getRandomColorByNumber(meta_id)
+                            : "1px solid #333"
+                          : undefined,
+
+                      borderBottom:
+                        rowIndex === value.length - 1
+                          ? inAABB || val?.metaId == meta_id
+                            ? "1px solid " + getRandomColorByNumber(meta_id)
+                            : "1px solid #333"
+                          : undefined,
+
                       // borderBottom:
                       //   inAABB && boundingBox?.maxX === rowIndex
                       //     ? "1px solid #f00"
