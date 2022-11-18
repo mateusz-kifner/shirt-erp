@@ -23,7 +23,10 @@ import React, {
 } from "react"
 import { GridDots, Pinned, Plus, AlertCircle } from "tabler-icons-react"
 import { SxBorder } from "../../styles/basic"
-import { colors, getRandomColorByString } from "../../utils/getRandomColor"
+import {
+  simpleColors,
+  getRandomColorByString,
+} from "../../utils/getRandomColor"
 import { useAuthContext } from "../../context/authContext"
 import { useTranslation } from "../../i18n"
 
@@ -68,11 +71,13 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
 
   useEffect(() => {
     rect.width !== 0 && !small && setBigSize?.(rect.width + 46)
+    //eslint-disable-next-line
   }, [rect.width])
 
   const hasIcon = !!Icon
   const hasRightSection = !!rightSection
-  const color = index !== undefined ? colors[index % colors.length] : undefined
+  const color =
+    index !== undefined ? simpleColors[index % simpleColors.length] : undefined
   return (
     <Tooltip label={children} disabled={!small} withinPortal withArrow>
       <Button
@@ -118,6 +123,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>((props, ref) => {
     </Tooltip>
   )
 })
+
+Tab.displayName = "Tab"
 
 interface MultiTabsProps {
   active?: number
@@ -199,6 +206,7 @@ const MultiTabs = (props: MultiTabsProps) => {
               AlertCircle
             return (
               <Menu.Item
+                key={uuid + "_" + index}
                 px="md"
                 icon={<Icon size={32} />}
                 onClick={() => onTabChange(index)}
@@ -236,7 +244,7 @@ const MultiTabs = (props: MultiTabsProps) => {
           return (
             <Tab
               index={index}
-              key={uuid + index + childrenLabelsKey}
+              key={uuid + "_" + index + "_" + childrenLabelsKey}
               value={index}
               Icon={
                 childrenIcons?.[index] ??

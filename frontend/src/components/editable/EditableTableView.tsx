@@ -5,11 +5,13 @@ import {
   ScrollArea,
   useMantineTheme,
   Text,
-  Button,
   UnstyledButton,
 } from "@mantine/core"
 import isNumeric from "../../utils/isNumeric"
-import { getRandomColorByNumber } from "../../utils/getRandomColor"
+import {
+  getColorByName,
+  getRandomColorByNumber,
+} from "../../utils/getRandomColor"
 import { AABB2D } from "../../types/AABB"
 
 function expandAABB(aabb: AABB2D, row: number, col: number) {
@@ -136,7 +138,6 @@ const EditableTableView = (props: EditableTableProps) => {
           {value?.map((row, rowIndex) => (
             <tr key={uuid + "_row_" + rowIndex}>
               {row.map((val, colIndex) => {
-                const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
                 const inAABB =
                   expandedBoundingBox &&
                   rowIndex >= expandedBoundingBox.minY &&
@@ -144,6 +145,10 @@ const EditableTableView = (props: EditableTableProps) => {
                   colIndex >= expandedBoundingBox.minX &&
                   colIndex <= expandedBoundingBox.maxX
                 if (!inAABB) return null
+                const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
+                const color =
+                  val?.metaPropertyId === 1 ? getColorByName(val?.value) : null
+
                 return (
                   <td
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
@@ -205,6 +210,16 @@ const EditableTableView = (props: EditableTableProps) => {
                       </UnstyledButton>
                     ) : (
                       val?.value ?? ""
+                    )}
+
+                    {color && (
+                      <div
+                        style={{
+                          height: "100%",
+                          aspectRatio: "1 / 1",
+                          backgroundColor: color,
+                        }}
+                      ></div>
                     )}
                   </td>
                 )

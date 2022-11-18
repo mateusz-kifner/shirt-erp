@@ -223,6 +223,7 @@ const EditableTable = (props: EditableTableProps) => {
         setUpdateCount(0)
       }
     }
+    //eslint-disable-next-line
   }, [updateCount, canUpdate])
 
   useEffect(() => {}, [disabled])
@@ -233,6 +234,7 @@ const EditableTable = (props: EditableTableProps) => {
         ColumnIndicator,
         onContextmenuColumn
       ) as unknown as ColumnIndicatorComponent,
+    //eslint-disable-next-line
     [openedColumn]
   )
 
@@ -242,6 +244,7 @@ const EditableTable = (props: EditableTableProps) => {
         RowIndicator,
         onContextmenuRow
       ) as unknown as RowIndicatorComponent,
+    //eslint-disable-next-line
     [openedRow]
   )
 

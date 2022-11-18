@@ -1,6 +1,15 @@
 import simpleHash from "./simpleHash"
+import colorNames from "../models/color-names.json"
+import { startCase, toLower } from "lodash"
 
-export const colors = [
+const colorNamesValues = Object.values(colorNames)
+const colorNamesKeys = Object.keys(colorNames)
+
+function toTitleCase(str: string) {
+  return startCase(toLower(str))
+}
+
+export const simpleColors = [
   "#2B8A3E",
   "#D9480F",
   "#364FC7",
@@ -14,9 +23,14 @@ export const colors = [
 ]
 
 export function getRandomColorByNumber(num?: number | null) {
-  return colors[(num ?? 0) % colors.length]
+  return simpleColors[(num ?? 0) % simpleColors.length]
 }
 
 export function getRandomColorByString(str?: string | null) {
-  return colors[Math.abs(simpleHash("" + str)) % colors.length]
+  return simpleColors[Math.abs(simpleHash("" + str)) % simpleColors.length]
+}
+
+export function getColorByName(name: string) {
+  const index = colorNamesValues.indexOf(toTitleCase(name))
+  return index !== -1 ? colorNamesKeys[index] : null
 }
