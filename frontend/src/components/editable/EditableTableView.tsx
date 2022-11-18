@@ -1,5 +1,5 @@
 import React, { ComponentType, useId, useMemo } from "react"
-import { Matrix } from "react-spreadsheet"
+import { CellBase, Matrix } from "react-spreadsheet"
 import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData"
 import {
   ScrollArea,
@@ -14,7 +14,6 @@ import { AABB2D } from "../../types/AABB"
 
 function expandAABB(aabb: AABB2D, row: number, col: number) {
   let new_aabb = { ...aabb }
-  console.log(aabb, row, col)
   if (row === aabb.minX - 1) {
     new_aabb.minX -= 1
   }
@@ -56,7 +55,7 @@ interface EditableTableProps {
 }
 
 const EditableTableView = (props: EditableTableProps) => {
-  const { value, metadataIcons, metadataActions, metadata } = props
+  const { value, metadataIcons, metadataActions, metadata, onSubmit } = props
   const uuid = useId()
   const theme = useMantineTheme()
   const darkTheme = theme.colorScheme === "dark"
@@ -81,6 +80,45 @@ const EditableTableView = (props: EditableTableProps) => {
 
   if (verify === null || verify[1].startsWith("error")) {
     return <Text color="red">{verify?.[1] ?? ""}</Text>
+  }
+
+  const onCellClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    row: number,
+    col: number
+  ) => {
+    if (!value) return
+    const ctrl = e.ctrlKey
+    let new_data: UniversalMatrix = [
+      ...value.map((val) => [
+        ...val.map((val2) =>
+          val2
+            ? {
+                ...val2,
+              }
+            : undefined
+        ),
+      ]),
+    ]
+    if (ctrl) {
+      console.log("TODO: special action TableView")
+    } else {
+      if (
+        new_data[row][col] !== undefined &&
+        new_data[row][col]?.active !== undefined
+      ) {
+        new_data[row][col] = {
+          ...(new_data[row][col] as CellBase<any>),
+          active: 0,
+        }
+      } else {
+        new_data[row][col] = {
+          ...(new_data[row][col] as CellBase<any>),
+          active: new_data[row][col]?.value as any,
+        }
+      }
+    }
+    onSubmit?.(new_data)
   }
 
   return (
@@ -145,7 +183,7 @@ const EditableTableView = (props: EditableTableProps) => {
                         sx={(theme) => ({
                           width: "100%",
                           height: "100%",
-                          backgroundColor: val?.active
+                          backgroundColor: !!val?.active
                             ? "#2F9E4488"
                             : "#E0313188",
                           color: darkTheme ? "#fff" : "#000",
@@ -154,11 +192,14 @@ const EditableTableView = (props: EditableTableProps) => {
                           padding: 4,
                           gap: 0,
                           "&:hover": {
-                            backgroundColor: val?.active
+                            backgroundColor: !!val?.active
                               ? "#2F9E44"
                               : "#E03131",
                           },
                         })}
+                        onClick={(
+                          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                        ) => onCellClick(e, rowIndex, colIndex)}
                       >
                         {val?.value ?? ""}
                       </UnstyledButton>
