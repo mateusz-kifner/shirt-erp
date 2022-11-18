@@ -572,6 +572,7 @@ const EditableTable = (props: EditableTableProps) => {
               CornerIndicator as unknown as CornerIndicatorComponent
             }
           />
+          <div style={{ height: 4 }}></div>
         </ScrollArea>
         <Text
           color={

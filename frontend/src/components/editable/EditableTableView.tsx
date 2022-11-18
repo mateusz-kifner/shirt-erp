@@ -62,7 +62,6 @@ const EditableTableView = (props: EditableTableProps) => {
           {value?.map((row, rowIndex) => (
             <tr key={uuid + "_row_" + rowIndex}>
               {row.map((val, colIndex) => {
-                // console.log(val, rowIndex, colIndex)
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
                 return (
                   <td
@@ -100,6 +99,11 @@ const EditableTableView = (props: EditableTableProps) => {
           ))}
         </tbody>
       </table>
+      <div
+        style={{
+          height: 12,
+        }}
+      ></div>
     </ScrollArea>
   )
 }
