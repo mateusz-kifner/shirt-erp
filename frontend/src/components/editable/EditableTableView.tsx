@@ -1,7 +1,13 @@
 import React, { ComponentType, useId, useMemo } from "react"
 import { Matrix } from "react-spreadsheet"
 import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData"
-import { ScrollArea, useMantineTheme, Text } from "@mantine/core"
+import {
+  ScrollArea,
+  useMantineTheme,
+  Text,
+  Button,
+  UnstyledButton,
+} from "@mantine/core"
 import isNumeric from "../../utils/isNumeric"
 import { getRandomColorByNumber } from "../../utils/getRandomColor"
 import { AABB2D } from "../../types/AABB"
@@ -85,6 +91,7 @@ const EditableTableView = (props: EditableTableProps) => {
           padding: 0,
           margin: 0,
           borderSpacing: 0,
+          border: "1px solid #333",
         }}
       >
         <tbody>
@@ -104,7 +111,7 @@ const EditableTableView = (props: EditableTableProps) => {
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
                     style={{
                       // border: "1px solid #333",
-                      padding: 4,
+                      padding: 0,
                       minWidth: "3.92em",
                       minHeight: "1.9em",
                       height: "1.9em",
@@ -123,24 +130,6 @@ const EditableTableView = (props: EditableTableProps) => {
                         (inAABB || val?.metaId == meta_id) && !!val?.value
                           ? "1px solid " + getRandomColorByNumber(meta_id)
                           : "1px solid #333",
-
-                      // borderBottom:
-                      //   inAABB && boundingBox?.maxX === rowIndex
-                      //     ? "1px solid #f00"
-                      //     : "1px solid #333",
-                      // borderTop:
-                      //   inAABB && boundingBox?.minX === rowIndex
-                      //     ? "1px solid #f00"
-                      //     : "1px solid #333",
-
-                      // borderLeft:
-                      //   inAABB && boundingBox?.minX === colIndex
-                      //     ? "1px solid #f00"
-                      //     : "1px solid #333",
-                      // borderRight:
-                      //   inAABB && boundingBox?.maxX === colIndex
-                      //     ? "1px solid #f00"
-                      //     : "1px solid #333",
                     }}
                   >
                     {Icon && (
@@ -150,7 +139,32 @@ const EditableTableView = (props: EditableTableProps) => {
                         style={{ position: "absolute", top: 0, right: 0 }}
                       />
                     )}
-                    {val?.value ?? ""}
+
+                    {isNumeric(val?.value) ? (
+                      <UnstyledButton
+                        sx={(theme) => ({
+                          width: "100%",
+                          height: "100%",
+                          backgroundColor: val?.active
+                            ? "#2F9E4488"
+                            : "#E0313188",
+                          color: darkTheme ? "#fff" : "#000",
+                          border: "none",
+                          margin: 0,
+                          padding: 4,
+                          gap: 0,
+                          "&:hover": {
+                            backgroundColor: val?.active
+                              ? "#2F9E44"
+                              : "#E03131",
+                          },
+                        })}
+                      >
+                        {val?.value ?? ""}
+                      </UnstyledButton>
+                    ) : (
+                      val?.value ?? ""
+                    )}
                   </td>
                 )
               })}
