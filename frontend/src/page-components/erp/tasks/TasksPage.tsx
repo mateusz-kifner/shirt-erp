@@ -190,66 +190,9 @@ const TasksPage = () => {
       metadataIcons: [ColorSwatch, RulerMeasure],
       metadataLabels: ["Kolor", "Rozmiar"],
       metadata,
-      metadataActions: [
-        (table: UniversalMatrix, metaId: number) => {
-          let pusta = true
-          table: for (let y = 0; y < table.length; y++) {
-            for (let x = 0; x < table[0].length; x++) {
-              if (!(!table[y][x] || (table[y][x] && !table[y][x]?.value))) {
-                pusta = false
-                break table
-              }
-            }
-          }
-
-          if (pusta) {
-            let new_table: UniversalMatrix = []
-            const product = data?.products
-              ? (data?.products.filter((val) => val.id === metaId) || [null])[0]
-              : null
-            const sizes = product?.variants?.sizes
-            const colors = product?.variants?.colors
-
-            for (let y = 0; y < colors.length + 1; y++) {
-              new_table.push([])
-              for (let x = 0; x < sizes.length + 1; x++) {
-                if (y > 0 && x == 0) {
-                  new_table[y].push({
-                    value: getColorNameFromHex(colors[y - 1]),
-                    metaId,
-                    metaPropertyId: 0,
-                  })
-                } else if (y == 0 && x > 0) {
-                  new_table[y].push({
-                    value: sizes[x - 1],
-                    metaId,
-                    metaPropertyId: 1,
-                  })
-                } else {
-                  new_table[y].push({ value: "" })
-                }
-              }
-            }
-
-            new_table = [
-              new_table[0].map((val, index) =>
-                index === 0 ? { value: product?.name } : undefined
-              ),
-
-              ...new_table,
-            ]
-
-            return [new_table, "Auto uzupełnienie się powiodło."]
-          }
-          return [
-            table,
-            "error: Tablica musi być pusta do operacji auto uzupełniania.",
-          ]
-        },
-        verifyMetadata,
-      ],
-      metadataActionLabels: ["Auto uzupełnij", "Sprawdź poprawność pól"],
-      metadataActionIcons: [Robot, Check],
+      metadataActions: [verifyMetadata],
+      metadataActionLabels: ["Sprawdź poprawność pól"],
+      metadataActionIcons: [Check],
     },
   }
   return (

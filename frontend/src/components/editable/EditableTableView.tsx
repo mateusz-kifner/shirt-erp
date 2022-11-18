@@ -25,12 +25,12 @@ interface EditableTableProps {
       [key: string]: any
     }
   }
-  metadataActions: ((
-    table: UniversalMatrix,
-    metaId: number
-  ) => [UniversalMatrix, string])[]
-  metadataActionIcons: ComponentType[]
-  metadataActionLabels?: string[]
+  // metadataActions: ((
+  //   table: UniversalMatrix,
+  //   metaId: number
+  // ) => [UniversalMatrix, string])[]
+  // metadataActionIcons: ComponentType[]
+  // metadataActionLabels?: string[]
 }
 
 const EditableTableView = (props: EditableTableProps) => {

@@ -1,3 +1,4 @@
+import { AABB2D } from "../../types/AABB"
 import isNumeric from "../../utils/isNumeric"
 import { UniversalMatrix } from "./useSpreadSheetData"
 
@@ -85,7 +86,11 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
     }
   }
 
-  return [table, "success: Tablica mam poprawne metadane"]
+  return [
+    table,
+    "success: Tablica mam poprawne metadane",
+    { minX: columnMin, maxX: columnMax, minY: rowMin, maxY: rowMax } as AABB2D,
+  ]
 }
 
 export default verifyMetadata
