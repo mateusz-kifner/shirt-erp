@@ -1,14 +1,10 @@
 import React, { ComponentType, useId, useMemo } from "react"
-import { CellBase, CellComponent, Matrix } from "react-spreadsheet"
-import DataViewer from "../spreadsheet/DataViewer"
+import { Matrix } from "react-spreadsheet"
 import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData"
-import { Parser as FormulaParser } from "hot-formula-parser"
-import { Cell, enhance as enhanceCell } from "../spreadsheet/Cell"
-import { ScrollArea, useMantineTheme } from "@mantine/core"
-import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
-import { merge } from "lodash"
+import { ScrollArea, useMantineTheme, Text } from "@mantine/core"
 import isNumeric from "../../utils/isNumeric"
 import { getRandomColorByNumber } from "../../utils/getRandomColor"
+import { AABB2D } from "../../types/AABB"
 
 interface EditableTableProps {
   label?: string
@@ -25,50 +21,49 @@ interface EditableTableProps {
       [key: string]: any
     }
   }
-  // metadataActions: ((
-  //   table: UniversalMatrix,
-  //   metaId: number
-  // ) => [UniversalMatrix, string])[]
-  // metadataActionIcons: ComponentType[]
-  // metadataActionLabels?: string[]
+  metadataActions: ((
+    table: UniversalMatrix,
+    metaId: number
+  ) => [UniversalMatrix, string] | [UniversalMatrix, string, AABB2D])[]
+  metadataActionIcons: ComponentType[]
+  metadataActionLabels?: string[]
 }
 
 const EditableTableView = (props: EditableTableProps) => {
-  const { value, metadataIcons } = props
+  const { value, metadataIcons, metadataActions, metadata } = props
   const uuid = useId()
   const theme = useMantineTheme()
   const darkTheme = theme.colorScheme === "dark"
-
-  const formulaParser = React.useMemo(() => new FormulaParser(), [])
-
-  React.useEffect(() => {
-    formulaParser.on("callCellValue", (cellCoord, done) => {})
-    formulaParser.on(
-      "callRangeValue",
-      (startCellCoord, endCellCoord, done) => {}
-    )
-  }, [formulaParser])
-
-  const EnhancedCell = useMemo(
-    () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
-    [metadataIcons]
+  // FIXME: make memo refresh after changes to table
+  const verify = useMemo(
+    () =>
+      Array.isArray(value) && value.length > 0
+        ? metadataActions[0](value, Object.values(metadata)[0].id)
+        : null,
+    //eslint-disable-next-line
+    [metadata, value]
   )
+  const boundingBox = verify && verify?.length > 1 ? verify[2] : null
+  console.log(verify, boundingBox)
+
+  if (verify === null || verify[1].startsWith("error")) {
+    return <Text color="red">{verify?.[1] ?? ""}</Text>
+  }
+
   return (
     <ScrollArea type="auto">
       <table
         style={{
           borderCollapse: "collapse",
-          background: theme.colorScheme === "dark" ? "#000" : "#fff",
+          background: darkTheme ? "#000" : "#fff",
         }}
       >
         <tbody>
           {value?.map((row, rowIndex) => (
             <tr key={uuid + "_row_" + rowIndex}>
               {row.map((val, colIndex) => {
-                console.log(val, rowIndex, colIndex)
-
+                // console.log(val, rowIndex, colIndex)
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
-
                 return (
                   <td
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}

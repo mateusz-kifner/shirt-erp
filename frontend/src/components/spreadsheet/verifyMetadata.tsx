@@ -13,7 +13,6 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
 
   let columnMin = -1
   let columnMax = -1
-
   // find row & column
   for (let y = 0; y < table.length - 1; y++) {
     for (let x = 0; x < table[0].length - 1; x++) {
@@ -66,6 +65,8 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
       }
     }
   }
+  if (columnMin === -1 || columnMax === -1 || rowMin === -1 || rowMax === -1)
+    return [table, "error: Tablica nie ma danego typu"]
 
   for (let y = columnMin; y < columnMax + 1; y++) {
     for (let x = rowMin; x < rowMax + 1; x++) {
@@ -89,7 +90,7 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
   return [
     table,
     "success: Tablica mam poprawne metadane",
-    { minX: columnMin, maxX: columnMax, minY: rowMin, maxY: rowMax } as AABB2D,
+    { minX: rowMin, maxX: rowMax, minY: columnMin, maxY: columnMax } as AABB2D,
   ]
 }
 
