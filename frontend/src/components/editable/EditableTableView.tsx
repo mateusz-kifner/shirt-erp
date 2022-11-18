@@ -146,8 +146,8 @@ const EditableTableView = (props: EditableTableProps) => {
                   colIndex <= expandedBoundingBox.maxX
                 if (!inAABB) return null
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
-                const color =
-                  val?.metaPropertyId === 1 ? getColorByName(val?.value) : null
+                const color = getColorByName(val?.value)
+                console.log(getColorByName(val?.value), val?.value)
 
                 return (
                   <td
@@ -168,18 +168,23 @@ const EditableTableView = (props: EditableTableProps) => {
                       background: val?.metaId
                         ? getRandomColorByNumber(meta_id) + "88"
                         : undefined,
-
                       border:
                         (inAABB || val?.metaId == meta_id) && !!val?.value
                           ? "1px solid " + getRandomColorByNumber(meta_id)
                           : "1px solid #333",
+                      paddingRight: color !== null ? 32 : 0,
                     }}
                   >
                     {Icon && (
                       <Icon
                         // @ts-ignore
                         size={12}
-                        style={{ position: "absolute", top: 0, right: 0 }}
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          right: 0,
+                          zIndex: 10,
+                        }}
                       />
                     )}
 
@@ -215,9 +220,13 @@ const EditableTableView = (props: EditableTableProps) => {
                     {color && (
                       <div
                         style={{
-                          height: "100%",
+                          position: "absolute",
+                          top: 2,
+                          right: 2,
+                          bottom: 2,
                           aspectRatio: "1 / 1",
                           backgroundColor: color,
+                          borderRadius: "0.5em",
                         }}
                       ></div>
                     )}
