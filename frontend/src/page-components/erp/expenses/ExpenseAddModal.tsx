@@ -1,4 +1,5 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
+import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
 import { Plus } from "tabler-icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
@@ -57,10 +58,13 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
           onClick={() => {
             if (expenseName.length == 0)
               return setError("Musisz podać nie pustą nazwę wydatków")
-            let new_expense = template ? template : {}
-            new_expense?.id && delete new_expense?.id
-            new_expense.name = expenseName
-            add(new_expense).then((data) => onClose(data?.data?.id))
+            let new_expense = {
+              ...(template ? omit(template, "id") : {}),
+              name: expenseName,
+            }
+            add(new_expense)
+              .then((data) => onClose(data?.data?.id))
+              .catch(() => setError("Wydatek o takiej nazwie istnieje."))
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

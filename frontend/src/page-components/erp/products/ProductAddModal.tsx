@@ -1,4 +1,5 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
+import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
 import { Plus } from "tabler-icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
@@ -57,11 +58,14 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
           onClick={() => {
             if (productName.length == 0)
               return setError("Musisz podać nie pustą nazwę produktu")
-            let new_product = template ? template : {}
-            new_product?.id && delete new_product?.id
-            new_product.category = "koszulka"
-            new_product.name = productName
-            add(new_product).then((data) => onClose(data?.data?.id))
+            let new_product = {
+              ...(template ? omit(template, "id") : {}),
+              category: "koszulka",
+              name: productName,
+            }
+            add(new_product)
+              .then((data) => onClose(data?.data?.id))
+              .catch(() => setError("Produkt o takiej nazwie istnieje."))
             console.log(new_product)
           }}
           leftIcon={<Plus />}

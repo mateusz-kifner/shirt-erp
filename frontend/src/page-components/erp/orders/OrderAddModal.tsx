@@ -1,4 +1,6 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
+import dayjs from "dayjs"
+import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
 import { Plus } from "tabler-icons-react"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
@@ -72,12 +74,10 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           onClick={() => {
             if (orderName.length == 0)
               return setError("Musisz podać nie pustą nazwę zamówienia")
-            let new_order = template ? template : {}
-            new_order?.id && delete new_order?.id
-            new_order?.address?.id && delete new_order.address.id
+            let new_order = { ...(template ? omit(template, "id") : {}) }
             new_order["name"] = orderName
             new_order["status"] = "planned"
-            new_order["dateOfCompletion"] = new Date()
+            new_order["dateOfCompletion"] = dayjs().toISOString()
             if (mail) {
               new_order["notes"] = mail.textAsHtml
               new_order["files"] = mail.attachments
@@ -91,10 +91,12 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
                 },
               ]
             }
-            add(new_order).then((data) => {
-              console.log("add fetch ", data)
-              onClose(data?.data?.id)
-            })
+            add(new_order)
+              .then((data) => {
+                console.log("add fetch ", data)
+                onClose(data?.data?.id)
+              })
+              .catch(() => setError("Zamówienie o takiej nazwie istnieje."))
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

@@ -1,4 +1,5 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
+import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
 import { Plus } from "tabler-icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
@@ -57,11 +58,16 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
           onClick={() => {
             if (clientName.length == 0)
               return setError("Musisz podać nie pustą nazwę użytkownika")
-            let new_client = template ? template : {}
-            new_client?.id && delete new_client?.id
-            new_client?.address?.id && delete new_client.address.id
-            new_client.username = clientName
-            add(new_client).then((data) => onClose(data?.data?.id))
+            let new_client = {
+              ...(template ? omit(template, "id") : {}),
+              address: template?.address ? omit(template.address, "id") : null,
+              username: clientName,
+              orders: [],
+              "orders-archive": [],
+            }
+            add(new_client)
+              .then((data) => onClose(data?.data?.id))
+              .catch(() => setError("Klient o takiej nazwie istnieje."))
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

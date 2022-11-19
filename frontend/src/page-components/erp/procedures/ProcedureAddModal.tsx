@@ -1,4 +1,5 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
+import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
 import { Plus } from "tabler-icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
@@ -56,10 +57,14 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
           onClick={() => {
             if (procedureName.length == 0)
               return setError("Musisz podać nie pustą nazwę procedury")
-            let newProcedure = template ? template : {}
-            newProcedure?.id && delete newProcedure?.id
-            newProcedure.name = procedureName
-            add(newProcedure).then((data) => onClose(data?.data?.id))
+            let newProcedure = {
+              ...(template ? omit(template, "id") : {}),
+              name: procedureName,
+            }
+
+            add(newProcedure)
+              .then((data) => onClose(data?.data?.id))
+              .catch(() => setError("Procedura o takiej nazwie istnieje."))
             console.log(newProcedure)
           }}
           leftIcon={<Plus />}

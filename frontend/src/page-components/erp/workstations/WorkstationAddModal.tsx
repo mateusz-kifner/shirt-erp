@@ -1,4 +1,5 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
+import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
 import { Plus } from "tabler-icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
@@ -59,10 +60,15 @@ const WorkstationAddModal = ({ opened, onClose }: WorkstationAddModalProps) => {
           onClick={() => {
             if (workstationName.length == 0)
               return setError("Musisz podać nie pustą nazwę stanowiska")
-            let newWorkstation = template ? template : {}
-            newWorkstation?.id && delete newWorkstation?.id
-            newWorkstation.name = workstationName
-            add(newWorkstation).then((data) => onClose(data?.data?.id))
+            let newWorkstation = {
+              ...(template ? omit(template, "id") : {}),
+              name: workstationName,
+            }
+
+            add(newWorkstation)
+              .then((data) => onClose(data?.data?.id))
+              .catch(() => setError("Stanowisko o takiej nazwie istnieje."))
+
             console.log(newWorkstation)
           }}
           leftIcon={<Plus />}

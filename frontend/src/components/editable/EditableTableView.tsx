@@ -146,6 +146,7 @@ const EditableTableView = (props: EditableTableProps) => {
                   colIndex <= expandedBoundingBox.maxX
                 if (!inAABB) return null
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
+                // TODO: make this use products
                 const color = getColorByName(val?.value)
                 console.log(getColorByName(val?.value), val?.value)
 
