@@ -57,15 +57,15 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
           onClick={() => {
             if (procedureName.length == 0)
               return setError("Musisz podać nie pustą nazwę procedury")
-            let newProcedure = {
+            const new_procedure = {
               ...(template ? omit(template, "id") : {}),
               name: procedureName,
             }
 
-            add(newProcedure)
+            add(new_procedure)
               .then((data) => onClose(data?.data?.id))
               .catch(() => setError("Procedura o takiej nazwie istnieje."))
-            console.log(newProcedure)
+            console.log(new_procedure)
           }}
           leftIcon={<Plus />}
           loading={status === "loading"}

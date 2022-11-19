@@ -58,7 +58,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
           onClick={() => {
             if (clientName.length == 0)
               return setError("Musisz podać nie pustą nazwę użytkownika")
-            let new_client = {
+            const new_client = {
               ...(template ? omit(template, "id") : {}),
               address: template?.address ? omit(template.address, "id") : null,
               username: clientName,

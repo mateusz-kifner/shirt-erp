@@ -58,7 +58,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
           onClick={() => {
             if (productName.length == 0)
               return setError("Musisz podać nie pustą nazwę produktu")
-            let new_product = {
+            const new_product = {
               ...(template ? omit(template, "id") : {}),
               category: "koszulka",
               name: productName,

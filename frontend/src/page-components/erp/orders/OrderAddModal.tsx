@@ -74,23 +74,28 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           onClick={() => {
             if (orderName.length == 0)
               return setError("Musisz podać nie pustą nazwę zamówienia")
-            let new_order = { ...(template ? omit(template, "id") : {}) }
-            new_order["name"] = orderName
-            new_order["status"] = "planned"
-            new_order["dateOfCompletion"] = dayjs().toISOString()
-            if (mail) {
-              new_order["notes"] = mail.textAsHtml
-              new_order["files"] = mail.attachments
-              new_order["emailMessages"] = [{ ...mail }]
-              new_order["emailMessagesText"] = [
-                {
-                  subject: mail.subject,
-                  text: mail.text,
-                  date: mail.date,
-                  id: mail.id,
-                },
-              ]
+            const new_order = {
+              ...(template ? omit(template, "id") : {}),
+              name: orderName,
+              status: "planned",
+              dateOfCompletion: dayjs().toISOString(),
+              ...(mail
+                ? {
+                    notes: mail.textAsHtml,
+                    files: mail.attachments,
+                    emailMessages: [{ ...mail }],
+                    emailMessagesText: [
+                      {
+                        subject: mail.subject,
+                        text: mail.text,
+                        date: mail.date,
+                        id: mail.id,
+                      },
+                    ],
+                  }
+                : {}),
             }
+
             add(new_order)
               .then((data) => {
                 console.log("add fetch ", data)

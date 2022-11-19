@@ -58,7 +58,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
           onClick={() => {
             if (expenseName.length == 0)
               return setError("Musisz podać nie pustą nazwę wydatków")
-            let new_expense = {
+            const new_expense = {
               ...(template ? omit(template, "id") : {}),
               name: expenseName,
             }
