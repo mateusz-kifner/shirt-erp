@@ -111,7 +111,7 @@ const EditableTableView = (props: EditableTableProps) => {
       ) {
         new_data[row][col] = {
           ...(new_data[row][col] as CellBase<any>),
-          active: 0,
+          active: undefined,
         }
       } else {
         new_data[row][col] = {
@@ -148,7 +148,7 @@ const EditableTableView = (props: EditableTableProps) => {
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
                 // TODO: make this use products
                 const color = getColorByName(val?.value)
-                console.log(getColorByName(val?.value), val?.value)
+                // console.log(getColorByName(val?.value), val?.value)
 
                 return (
                   <td

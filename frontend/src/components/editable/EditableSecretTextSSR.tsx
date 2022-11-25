@@ -159,23 +159,6 @@ const EditableSecretText = ({
               dangerouslySetInnerHTML={{ __html: text }}
             ></Box>
           ) : (
-            // <RichText
-            //   ref={richTextEditorRef}
-            //   value={text}
-            //   onChange={setText}
-            //   readOnly={!active}
-            //   controls={[
-            //     ["bold", "italic", "underline", "strike", "clean"],
-            //     ["h1", "h2", "h3", "h4"],
-            //     ["unorderedList", "orderedList"],
-            //     ["sup", "sub"],
-            //     ["alignLeft", "alignCenter", "alignRight"],
-            //     ["link", "blockquote", "codeBlock"],
-            //   ]}
-            //   onKeyDown={onKeyDownTextarea}
-            //   sticky={true}
-            //   style={{ minHeight: 400 }}
-            // />
             <Paper>
               <RichTextEditor
                 editor={editor}

@@ -164,35 +164,8 @@ const EditableRichText = ({
     >
       <div ref={ref} style={{ position: "relative" }}>
         {active ? (
-          // <RichText
-          //   ref={richTextEditorRef}
-          //   value={text}
-          //   onChange={setText}
-          //   readOnly={false}
-          //   controls={[
-          //     ["bold", "italic", "underline", "strike", "clean"],
-          //     ["h1", "h2", "h3", "h4"],
-          //     ["unorderedList", "orderedList"],
-          //     ["sup", "sub"],
-          //     ["alignLeft", "alignCenter", "alignRight"],
-          //     ["link", "blockquote", "codeBlock"],
-          //   ]}
-          //   onKeyDown={onKeyDownTextarea}
-          //   sticky={true}
-          //   stickyOffset={60}
-          //   sx={(theme) => ({
-          //     backgroundColor: active
-          //       ? theme.colorScheme === "dark"
-          //         ? theme.colors.dark[6]
-          //         : theme.colors.gray[0]
-          //       : "transparent",
-          //   })}
-          // />
-          <RichTextEditor
-            editor={editor}
-            onChange={(event) => console.log(event)}
-          >
-            <RichTextEditor.Toolbar sticky stickyOffset={60}>
+          <RichTextEditor editor={editor}>
+            <RichTextEditor.Toolbar sticky>
               <RichTextEditor.ControlsGroup>
                 <RichTextEditor.Bold />
                 <RichTextEditor.Italic />
