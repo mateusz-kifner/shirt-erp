@@ -10,16 +10,16 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.5.0",
-    "@strapi/plugin-users-permissions": "4.5.0",
-    "@strapi/strapi": "4.5.0",
-    "imapflow": "^1.0.113",
+    "@strapi/plugin-i18n": "4.5.2",
+    "@strapi/plugin-users-permissions": "4.5.2",
+    "@strapi/strapi": "4.5.2",
+    "imapflow": "^1.0.115",
     "lodash": "^4.17.21",
     "mailparser": "^3.5.0",
     "mime-types": "^2.1.35",
     "pg": "8.8.0",
     "strapi-plugin-fuzzy-search": "^1.10.2",
-    "strapi-plugin-transformer": "^2.1.0"
+    "strapi-plugin-transformer": "^2.1.1"
   },
   "devDependencies": {},
   "strapi": {
