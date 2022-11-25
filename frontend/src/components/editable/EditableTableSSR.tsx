@@ -9,6 +9,7 @@ import {
   Input,
   Divider,
   ScrollArea,
+  Portal,
 } from "@mantine/core"
 import React, {
   ComponentType,
@@ -285,160 +286,176 @@ const EditableTable = (props: EditableTableProps) => {
         >
           <Group p={0} align="end">
             {/*Column Menu*/}
-            <Menu
-              withinPortal
-              opened={openedColumn}
-              position="bottom-end"
-              onChange={setOpenedColumn}
-              closeOnEscape={true}
-              closeOnItemClick={true}
-              closeOnClickOutside={true}
-              styles={{
-                dropdown: {
-                  position: "absolute",
-                  top: contextPositionAndValue[1],
-                  left: contextPositionAndValue[0],
-                },
-              }}
-            >
-              <Menu.Dropdown onBlur={() => setOpenedColumn(false)}>
-                <Menu.Item py={4}>
-                  <Text color="grey" size="xs">
-                    {t("close")}
-                  </Text>
-                </Menu.Item>
-                <Menu.Item
-                  icon={
-                    <TableEdgeIcon
-                      action_color={theme.colors.green[6]}
-                      size={18}
-                      stroke={1.2}
-                      style={{ transform: "scale(-1)" }}
-                    />
-                  }
-                  onClick={() => {
-                    addColumn(contextPositionAndValue[2])
-                    incrementUpdateCount()
-                    setStatusText("Dodano kolumnę")
+            {openedColumn && (
+              <Portal>
+                <Stack
+                  style={{
+                    position: "absolute",
+                    top: contextPositionAndValue[1],
+                    left: contextPositionAndValue[0],
                   }}
                 >
-                  {t("add-column-left")}
-                </Menu.Item>
-                <Menu.Item
-                  icon={
-                    <TableEdgeIcon
-                      action_color={theme.colors.green[6]}
-                      size={18}
-                      stroke={1.2}
-                    />
-                  }
-                  onClick={() => {
-                    addColumn(contextPositionAndValue[2] + 1)
-                    incrementUpdateCount()
-                    setStatusText("Dodano kolumnę")
-                  }}
-                >
-                  {t("add-column-right")}
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  icon={
-                    <TableCenterIcon
-                      action_color={theme.colors.red[6]}
-                      size={18}
-                      stroke={1}
-                      action_position="center"
-                    />
-                  }
-                  onClick={() => {
-                    removeColumn(contextPositionAndValue[2])
-                    incrementUpdateCount()
-                    setStatusText("Usunięto kolumnę")
-                  }}
-                >
-                  {t("remove-column")}
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+                  <Button.Group
+                    orientation="vertical"
+                    // onBlur={() => setOpenedColumn(false)}
+                  >
+                    <Button
+                      variant="default"
+                      onClick={() => {
+                        setOpenedColumn(false)
+                      }}
+                    >
+                      <Text color="grey" size="xs">
+                        {t("close")}
+                      </Text>
+                    </Button>
+                    <Button
+                      variant="default"
+                      leftIcon={
+                        <TableEdgeIcon
+                          action_color={theme.colors.green[6]}
+                          size={18}
+                          stroke={1.2}
+                          style={{ transform: "scale(-1)" }}
+                        />
+                      }
+                      onClick={() => {
+                        addColumn(contextPositionAndValue[2])
+                        incrementUpdateCount()
+                        setStatusText("Dodano kolumnę")
+                        setOpenedColumn(false)
+                      }}
+                    >
+                      {t("add-column-left")}
+                    </Button>
+                    <Button
+                      variant="default"
+                      leftIcon={
+                        <TableEdgeIcon
+                          action_color={theme.colors.green[6]}
+                          size={18}
+                          stroke={1.2}
+                        />
+                      }
+                      onClick={() => {
+                        addColumn(contextPositionAndValue[2] + 1)
+                        incrementUpdateCount()
+                        setStatusText("Dodano kolumnę")
+                        setOpenedColumn(false)
+                      }}
+                    >
+                      {t("add-column-right")}
+                    </Button>
+                    <Divider />
+                    <Button
+                      variant="default"
+                      leftIcon={
+                        <TableCenterIcon
+                          action_color={theme.colors.red[6]}
+                          size={18}
+                          stroke={1}
+                          action_position="center"
+                        />
+                      }
+                      onClick={() => {
+                        removeColumn(contextPositionAndValue[2])
+                        incrementUpdateCount()
+                        setStatusText("Usunięto kolumnę")
+                        setOpenedColumn(false)
+                      }}
+                    >
+                      {t("remove-column")}
+                    </Button>
+                  </Button.Group>
+                </Stack>
+              </Portal>
+            )}
+
             {/*Row Menu*/}
-            <Menu
-              withinPortal
-              opened={openedRow}
-              position="bottom-end"
-              onChange={setOpenedRow}
-              closeOnEscape={true}
-              closeOnItemClick={true}
-              closeOnClickOutside={true}
-              styles={{
-                dropdown: {
-                  position: "absolute",
-                  top: contextPositionAndValue[1],
-                  left: contextPositionAndValue[0],
-                },
-              }}
-            >
-              <Menu.Dropdown onBlur={() => setOpenedRow(false)}>
-                <Menu.Item py={4}>
-                  <Text color="grey" size="xs">
-                    {t("close")}
-                  </Text>
-                </Menu.Item>
-                <Menu.Item
-                  icon={
-                    <TableEdgeIcon
-                      action_color={theme.colors.green[6]}
-                      size={18}
-                      stroke={1.2}
-                      style={{ transform: "rotate(-90deg)" }}
-                    />
-                  }
-                  component="button"
-                  onClick={() => {
-                    addRow(contextPositionAndValue[2])
-                    incrementUpdateCount()
-                    setStatusText("Dodano wiersz")
+            {openedRow && (
+              <Portal>
+                <Stack
+                  style={{
+                    position: "absolute",
+                    top: contextPositionAndValue[1],
+                    left: contextPositionAndValue[0],
                   }}
                 >
-                  {t("add-row-top")}
-                </Menu.Item>
-                <Menu.Item
-                  icon={
-                    <TableEdgeIcon
-                      action_color={theme.colors.green[6]}
-                      size={18}
-                      stroke={1.2}
-                      style={{ transform: "rotate(90deg)" }}
-                    />
-                  }
-                  onClick={() => {
-                    addRow(contextPositionAndValue[2] + 1)
-                    incrementUpdateCount()
-                    setStatusText("Dodano wiersz")
-                  }}
-                >
-                  {t("add-row-bottom")}
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  icon={
-                    <TableCenterIcon
-                      action_color={theme.colors.red[6]}
-                      size={18}
-                      stroke={1.2}
-                      style={{ transform: "rotate(-90deg)" }}
-                      action_position="center"
-                    />
-                  }
-                  onClick={() => {
-                    removeRow(contextPositionAndValue[2])
-                    incrementUpdateCount()
-                    setStatusText("Usunięto wiersz")
-                  }}
-                >
-                  {t("remove-row")}
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+                  <Button.Group
+                    orientation="vertical"
+                    // onBlur={() => setOpenedRow(false)}
+                  >
+                    <Button
+                      variant="default"
+                      onClick={() => {
+                        setOpenedRow(false)
+                      }}
+                    >
+                      <Text color="grey" size="xs">
+                        {t("close")}
+                      </Text>
+                    </Button>
+                    <Button
+                      variant="default"
+                      leftIcon={
+                        <TableEdgeIcon
+                          action_color={theme.colors.green[6]}
+                          size={18}
+                          stroke={1.2}
+                          style={{ transform: "scale(-1)" }}
+                        />
+                      }
+                      onClick={() => {
+                        addRow(contextPositionAndValue[2])
+                        incrementUpdateCount()
+                        setStatusText("Dodano kolumnę")
+                        setOpenedRow(false)
+                      }}
+                    >
+                      {t("add-column-left")}
+                    </Button>
+                    <Button
+                      variant="default"
+                      leftIcon={
+                        <TableEdgeIcon
+                          action_color={theme.colors.green[6]}
+                          size={18}
+                          stroke={1.2}
+                        />
+                      }
+                      onClick={() => {
+                        addRow(contextPositionAndValue[2] + 1)
+                        incrementUpdateCount()
+                        setStatusText("Dodano kolumnę")
+                        setOpenedRow(false)
+                      }}
+                    >
+                      {t("add-column-right")}
+                    </Button>
+                    <Divider />
+                    <Button
+                      variant="default"
+                      leftIcon={
+                        <TableCenterIcon
+                          action_color={theme.colors.red[6]}
+                          size={18}
+                          stroke={1}
+                          action_position="center"
+                        />
+                      }
+                      onClick={() => {
+                        removeRow(contextPositionAndValue[2])
+                        incrementUpdateCount()
+                        setStatusText("Usunięto kolumnę")
+                        setOpenedRow(false)
+                      }}
+                    >
+                      {t("remove-column")}
+                    </Button>
+                  </Button.Group>
+                </Stack>
+              </Portal>
+            )}
 
             {metadata &&
               Object.keys(metadata).map((key, bgIndex) => (
