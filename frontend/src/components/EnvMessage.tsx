@@ -34,7 +34,7 @@ const EnvMessage = () => {
         size="xl"
       >
         <TypographyStylesProvider>
-          <Markdown value={message ?? ""} />
+          <Markdown value={message.split("\\n").join("\n") ?? ""} />
         </TypographyStylesProvider>
       </Modal>
     </>
