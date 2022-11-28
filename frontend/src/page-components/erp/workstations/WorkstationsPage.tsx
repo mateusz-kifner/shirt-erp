@@ -12,7 +12,7 @@ import { Affiliate, List, Notebook, Robot } from "tabler-icons-react"
 
 const entryName = "workstations"
 
-const workstationsPage = () => {
+const WorkstationsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false)
 
   const router = useRouter()
@@ -73,4 +73,4 @@ const workstationsPage = () => {
   )
 }
 
-export default workstationsPage
+export default WorkstationsPage

@@ -19,9 +19,11 @@ const ProductListItem = ({
   disabled,
   linkTo,
 }: ProductListItemProps) => {
-  const colors: string[] = Array.isArray(value?.variants?.colors)
-    ? value?.variants?.colors
-    : []
+  const colors: string[] = useMemo(
+    () =>
+      Array.isArray(value?.variants?.colors) ? value?.variants?.colors : [],
+    [value?.variants?.colors]
+  )
   const gradient_gap = 0.1
 
   const gradient = useMemo(

@@ -67,6 +67,8 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
   )
 )
 
+SelectItem.displayName = "SelectItem"
+
 const SettingsPage = () => {
   const { debug, toggleDebug, signOut } = useAuthContext()
   const router = useRouter()

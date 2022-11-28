@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import React, { useEffect } from "react"
 
-const index = () => {
+const Main = () => {
   const router = useRouter()
 
   useEffect(() => {
@@ -11,4 +11,4 @@ const index = () => {
   return <div>Redirecting</div>
 }
 
-export default index
+export default Main
