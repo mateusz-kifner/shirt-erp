@@ -1,6 +1,6 @@
-@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY3MzI0OTE5LCJleHAiOjE2Njk5MTY5MTl9.YCPwxq6ts_C5MXz5phBiHlEJP5g3MsvkyAm8phadWjM
+@authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY5NjU4OTM4LCJleHAiOjE2NzIyNTA5Mzh9.0AEHrdZSHt7gX-yy-J1wybmm86yDYow6B37gbZ1-J1o
 
-@host=http://localhost:1337
+@host=http://api_shirt.ct8.pl:80
 ###
 
 POST {{host}}/api/auth/local
