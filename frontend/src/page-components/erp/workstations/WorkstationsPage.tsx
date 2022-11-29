@@ -59,7 +59,12 @@ const WorkstationsPage = () => {
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
         />
-        <ApiEntryEditable template={template} entryName={entryName} id={id} />
+        <ApiEntryEditable
+          template={template}
+          entryName={entryName}
+          id={id}
+          allowDelete
+        />
       </Workspace>
       <WorkstationAddModal
         opened={openAddModal}

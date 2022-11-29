@@ -30,7 +30,12 @@ const ExpensePage = () => {
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
         />
-        <ApiEntryEditable template={template} entryName={entryName} id={id} />
+        <ApiEntryEditable
+          template={template}
+          entryName={entryName}
+          id={id}
+          allowDelete
+        />
       </Workspace>
       <ExpenseAddModal
         opened={openAddModal}

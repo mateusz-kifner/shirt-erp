@@ -34,7 +34,12 @@ const ClientsPage = () => {
           selectedId={id}
           onAddElement={() => setOpenAddModal(true)}
         />
-        <ApiEntryEditable template={template} entryName={entryName} id={id} />
+        <ApiEntryEditable
+          template={template}
+          entryName={entryName}
+          id={id}
+          allowDelete
+        />
       </Workspace>
       <ClientAddModal
         opened={openAddModal}

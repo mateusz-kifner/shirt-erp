@@ -262,7 +262,12 @@ const OrdersPage: NextPage = () => {
           onAddElement={() => setOpenAddModal(true)}
         />
 
-        <ApiEntryEditable template={template} entryName={"orders"} id={id} />
+        <ApiEntryEditable
+          template={template}
+          entryName={"orders"}
+          id={id}
+          allowDelete
+        />
         {data &&
           Array.isArray(data?.tables) &&
           data.tables.map((table, index) => {

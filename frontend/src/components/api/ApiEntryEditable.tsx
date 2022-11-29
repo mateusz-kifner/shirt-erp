@@ -18,7 +18,7 @@ const ApiEntryEditable = <EntryType extends any>({
   template,
   entryName,
   id,
-  allowDelete = false,
+  allowDelete,
 }: ApiEntryEditableProps<EntryType>) => {
   const { data, update, remove, refetch } = useStrapi<EntryType>(
     entryName,
