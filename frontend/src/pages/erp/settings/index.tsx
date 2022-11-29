@@ -21,6 +21,7 @@ import { useAuthContext } from "../../../context/authContext"
 import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
+import { default as ButtonNEW } from "../../../components/basic/Button/Button"
 
 const testData = {
   name: "string",
@@ -191,6 +192,7 @@ const SettingsPage = () => {
           </Button>
           {debug && (
             <Stack style={{ width: "100%" }}>
+              <ButtonNEW color="red">test</ButtonNEW>
               <Button
                 style={{ width: "100%", color: "#fff" }}
                 onClick={() => {
