@@ -1,10 +1,10 @@
-/* @tailwind base; */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
   .btn {
-    @apply py-2 px-4 bg-primary-700 text-white font-semibold rounded focus-visible:outline outline-offset-[3px] outline-primary-700 outline-[3px] hover:bg-primary-800 border-none;
+    @apply py-2 px-4 bg-primary-700 text-white font-semibold rounded focus-visible:outline outline-offset-2 outline-primary-700 outline-2 hover:bg-primary-900 border-none transform active:translate-y-0.5;
   }
 }
 

@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react"
-import { TailwindColorNames } from "../../../types/TailwindColors"
+import { TailwindColorNames } from "../../../../tailwind.types"
 
 interface ButtonProps
   extends DetailedHTMLProps<
@@ -11,10 +11,10 @@ interface ButtonProps
 }
 
 const Button = (props: ButtonProps) => {
-  const { variant = "filled", ...moreProps } = props
+  const { variant = "filled", children, ...moreProps } = props
   return (
     <button className="btn" {...moreProps}>
-      Button
+      {children}
     </button>
   )
 }
