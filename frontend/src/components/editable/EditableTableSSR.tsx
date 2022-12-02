@@ -294,6 +294,7 @@ const EditableTable = (props: EditableTableProps) => {
                     top: contextPositionAndValue[1],
                     left: contextPositionAndValue[0],
                   }}
+                  sx={SxBackground}
                 >
                   <Button.Group
                     orientation="vertical"
@@ -380,6 +381,7 @@ const EditableTable = (props: EditableTableProps) => {
                     top: contextPositionAndValue[1],
                     left: contextPositionAndValue[0],
                   }}
+                  sx={SxBackground}
                 >
                   <Button.Group
                     orientation="vertical"
@@ -402,7 +404,7 @@ const EditableTable = (props: EditableTableProps) => {
                           action_color={theme.colors.green[6]}
                           size={18}
                           stroke={1.2}
-                          style={{ transform: "scale(-1)" }}
+                          style={{ transform: "rotate(-90deg)" }}
                         />
                       }
                       onClick={() => {
@@ -412,7 +414,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("add-column-left")}
+                      {t("add-row-top")}
                     </Button>
                     <Button
                       variant="default"
@@ -421,6 +423,7 @@ const EditableTable = (props: EditableTableProps) => {
                           action_color={theme.colors.green[6]}
                           size={18}
                           stroke={1.2}
+                          style={{ transform: "rotate(90deg)" }}
                         />
                       }
                       onClick={() => {
@@ -430,7 +433,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("add-column-right")}
+                      {t("add-row-bottom")}
                     </Button>
                     <Divider />
                     <Button
@@ -439,7 +442,8 @@ const EditableTable = (props: EditableTableProps) => {
                         <TableCenterIcon
                           action_color={theme.colors.red[6]}
                           size={18}
-                          stroke={1}
+                          stroke={1.2}
+                          style={{ transform: "rotate(-90deg)" }}
                           action_position="center"
                         />
                       }
@@ -450,7 +454,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("remove-column")}
+                      {t("remove-row")}
                     </Button>
                   </Button.Group>
                 </Stack>
