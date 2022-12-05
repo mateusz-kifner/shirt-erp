@@ -80,6 +80,12 @@
     },
     "welcomeMessageHash": {
       "type": "string"
+    },
+    "order_archives": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order-archive.order-archive",
+      "inversedBy": "employees"
     }
   }
 }
