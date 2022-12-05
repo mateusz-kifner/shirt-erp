@@ -17,7 +17,7 @@ import { useEffect, useState, CSSProperties, ReactNode, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
-import DisplayCell from "../details/DisplayCell"
+import DisplayCell from "../basic/DisplayCell"
 
 interface EditableTextProps {
   label?: string
@@ -174,7 +174,10 @@ const EditableText = (props: EditableTextProps) => {
             })}
           />
         ) : (
-          <DisplayCell disabled={disabled} hovered={hovered}>
+          <DisplayCell
+            disabled={disabled}
+            // hovered={hovered}
+          >
             {text ? text : "⸺"}
           </DisplayCell>
         )}

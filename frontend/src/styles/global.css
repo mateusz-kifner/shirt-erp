@@ -4,8 +4,16 @@
 
 @layer components {
   .btn {
-    @apply  px-4 text-white font-semibold rounded focus-visible:outline outline-offset-2 outline-sky-700 outline-2  border-none transform active:translate-y-0.5 min-h-[2.25rem] max-h-screen flex justify-center items-center;
+    @apply px-4 text-white font-semibold rounded focus-visible:outline outline-offset-2 outline-sky-700 outline-2  border-none transform active:translate-y-0.5 min-h-[2.25rem] max-h-screen flex justify-center items-center gap-1;
   }
+  .display-cell{
+    @apply p-2  rounded focus-visible:outline outline-offset-2 outline-sky-700 outline-2 min-h-[2.75rem] max-h-screen flex justify-center items-center gap-2 border-solid border-gray-300 dark:border-dark-400 border dark:bg-dark-600 text-sm break-words whitespace-pre-line leading-[1.55]	;
+  }
+
+  .display-cell svg {
+    @apply stroke-gray-500
+  }
+
 }
 
 body {

@@ -22,7 +22,10 @@ type defaultColorNames =
   | "pink"
   | "rose"
 
-type extendedColorNames = "primary" | "grape" | "dark"
+type extendedColorNames =
+  // |"primary"
+  // | "grape"
+  "dark"
 
 export type TailwindColorNames = Extract<
   defaultColorNames | extendedColorNames,

@@ -1,7 +1,7 @@
 import { AppProps } from "next/app"
 import Head from "next/head"
 import "../styles/global.css"
-import React from "react"
+import React, { useEffect } from "react"
 import AppLayout from "../components/layout/AppLayout"
 import { QueryClient, QueryClientProvider } from "react-query"
 import Logger from "js-logger"
@@ -14,6 +14,8 @@ import { IconsProvider } from "../context/iconsContext"
 import { ExperimentalFuturesProvider } from "../context/experimentalFuturesContext"
 import { env } from "../env/client.mjs"
 import "../i18n"
+import { useLocalStorage } from "@mantine/hooks"
+import { ColorScheme } from "@mantine/core"
 
 axios.defaults.baseURL = env.NEXT_PUBLIC_SERVER_API_URL + "/api"
 
@@ -60,6 +62,18 @@ Logger.setLevel(
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props
+  const [colorScheme] = useLocalStorage<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: "dark",
+  })
+
+  useEffect(() => {
+    if (colorScheme === "dark") {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }, [colorScheme])
 
   return (
     <>

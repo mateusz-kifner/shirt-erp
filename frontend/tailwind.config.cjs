@@ -3,30 +3,30 @@
 // make sure to add any extended color names to TailwindColors.ts type def
 const extendedColors = {
   // Colors Sky
-  // dark: {
-  //   50: "#C1C2C5",
-  //   100: "#A6A7AB",
-  //   200: "#909296",
-  //   300: "#5c5f66",
-  //   400: "#373A40",
-  //   500: "#2C2E33",
-  //   600: "#25262b",
-  //   700: "#1A1B1E",
-  //   800: "#141517",
-  //   900: "#101113",
-  // },
-  // gray: {
-  //   50: "#f8f9fa",
-  //   100: "#f1f3f5",
-  //   200: "#e9ecef",
-  //   300: "#dee2e6",
-  //   400: "#ced4da",
-  //   500: "#adb5bd",
-  //   600: "#868e96",
-  //   700: "#495057",
-  //   800: "#343a40",
-  //   900: "#212529",
-  // },
+  dark: {
+    50: "#C1C2C5",
+    100: "#A6A7AB",
+    200: "#909296",
+    300: "#5c5f66",
+    400: "#373A40",
+    500: "#2C2E33",
+    600: "#25262b",
+    700: "#1A1B1E",
+    800: "#141517",
+    900: "#101113",
+  },
+  gray: {
+    50: "#f8f9fa",
+    100: "#f1f3f5",
+    200: "#e9ecef",
+    300: "#dee2e6",
+    400: "#ced4da",
+    500: "#adb5bd",
+    600: "#868e96",
+    700: "#495057",
+    800: "#343a40",
+    900: "#212529",
+  },
   // red: {
   //   50: "#fff5f5",
   //   100: "#ffe3e3",
@@ -186,6 +186,7 @@ const extendedColors = {
 }
 
 module.exports = {
+  darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -196,7 +197,7 @@ module.exports = {
     // button patters
     {
       pattern: /bg-(.*)-(600|700)/,
-      variants: ["hover"],
+      variants: ["hover", "dark"],
     },
   ],
   plugins: [],

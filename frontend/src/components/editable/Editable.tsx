@@ -87,13 +87,13 @@ const Fields: {
   secrettext: { component: EditableSecretText, props: {} },
   number: {
     component: EditableNumber,
-    props: { icon: <Numbers size={18} />, Icon: Numbers },
+    props: { icon: <Numbers />, Icon: Numbers },
   },
   money: {
     component: EditableNumber,
     props: {
-      rightSection: <Text pr={80}>PLN</Text>,
-      icon: <Cash size={18} />,
+      rightSection: <Text pr={44}>PLN</Text>,
+      icon: <Cash />,
       Icon: Cash,
     },
   },

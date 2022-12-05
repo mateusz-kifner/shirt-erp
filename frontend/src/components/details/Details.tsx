@@ -1,7 +1,7 @@
 import { useId } from "@mantine/hooks"
 import { Text } from "@mantine/core"
 import NotImplemented from "../NotImplemented"
-import DisplayCell from "./DisplayCell"
+import DisplayCell from "../basic/DisplayCell"
 import { useAuthContext } from "../../context/authContext"
 
 interface DetailsProps {
