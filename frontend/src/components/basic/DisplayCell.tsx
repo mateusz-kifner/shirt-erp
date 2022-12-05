@@ -20,12 +20,13 @@ const DisplayCell = (props: DisplayCellProps) => {
     leftSection,
     children,
     label,
+    disabled,
     ...moreProps
   } = props
   return (
     <div>
       <div className="text-sm">{!!label && label}</div>
-      <div className={`display-cell bg-${color}-600`}>
+      <div className={`display-cell bg-${color}-600`} data-disabled={disabled}>
         {!!leftSection ? leftSection : <div></div>}
         <div className="w-full">{children}</div>
         {!!rightSection && rightSection}

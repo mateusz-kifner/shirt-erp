@@ -192,6 +192,9 @@ module.exports = {
     extend: {
       colors: extendedColors,
     },
+    data: {
+      disabled: 'disabled="true"',
+    },
   },
   safelist: [
     // button patters
