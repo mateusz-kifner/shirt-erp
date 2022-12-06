@@ -73,7 +73,7 @@ const navigationData: {
   {
     label: "Zamówienia archiwalne",
     Icon: <Bell size={32} />,
-    to: "/erp/orders-archive",
+    to: "/erp/order-archives",
     entryName: "orders-archive",
     debug: true,
   },

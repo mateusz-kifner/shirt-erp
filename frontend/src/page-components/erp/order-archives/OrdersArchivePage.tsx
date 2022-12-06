@@ -80,15 +80,16 @@ const OrdersPage: NextPage = () => {
   }
 
   const { t } = useTranslation()
-  const metadata = data
-    ? data.products.reduce(
-        (prev, next) => ({
-          ...prev,
-          [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },
-        }),
-        {}
-      )
-    : {}
+  const metadata =
+    data && data?.products
+      ? data.products.reduce(
+          (prev, next) => ({
+            ...prev,
+            [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },
+          }),
+          {}
+        )
+      : {}
   const table_template = {
     name: {
       label: "Nazwa arkusza",
@@ -119,6 +120,16 @@ const OrdersPage: NextPage = () => {
             const sizes = product?.variants?.sizes
             const colors = product?.variants?.colors
 
+            if (
+              sizes === undefined ||
+              sizes.length === 0 ||
+              colors === undefined ||
+              colors.length == 0
+            )
+              return [
+                table,
+                "error: Produkt musi mieć rozmiary i kolory do operacji auto uzupełniania.",
+              ]
             for (let y = 0; y < colors.length + 1; y++) {
               new_table.push([])
               for (let x = 0; x < sizes.length + 1; x++) {
@@ -259,7 +270,7 @@ const OrdersPage: NextPage = () => {
 
         <ApiEntryEditable
           template={template}
-          entryName={"orders"}
+          entryName={entryName}
           id={id}
           allowDelete
         />
