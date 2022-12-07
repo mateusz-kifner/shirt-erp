@@ -34,7 +34,7 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
       size="xl"
       title="Utwórz nową procedura"
     >
-      <Stack>
+      <div className="flex flex-col gap-3">
         <EditableApiEntry
           label="Szablon"
           entryName="procedures"
@@ -73,7 +73,7 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
           Utwórz procedure
         </Button>
         <Text color="red">{error}</Text>
-      </Stack>
+      </div>
     </Modal>
   )
 }

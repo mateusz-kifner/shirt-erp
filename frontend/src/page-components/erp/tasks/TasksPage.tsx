@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Stack, Text, Title } from "@mantine/core"
+import { ActionIcon, Group, Text, Title } from "@mantine/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useId, useState } from "react"
@@ -203,7 +203,7 @@ const TasksPage = () => {
         }}
       />
       {id !== null ? (
-        <Stack>
+        <div className="flex flex-col gap-3">
           <Group position="apart">
             <Title order={3}>{data?.name}</Title>
             <Link href={"/erp/orders/" + data?.id} passHref>
@@ -213,7 +213,7 @@ const TasksPage = () => {
             </Link>
           </Group>
           <ApiEntryEditable template={template} entryName={"orders"} id={id} />
-        </Stack>
+        </div>
       ) : (
         <Text align="center">{t("no data")}</Text>
       )}
@@ -224,7 +224,7 @@ const TasksPage = () => {
           return (
             table && (
               <div key={uuid + index}>
-                <Stack style={{ minHeight: 200 }}>
+                <div className="flex flex-col gap-3 min-h-[200px]">
                   <Title order={3}>{table.name}</Title>
                   <Editable
                     template={table_template}
@@ -242,7 +242,7 @@ const TasksPage = () => {
                         )
                     }}
                   />{" "}
-                </Stack>
+                </div>
               </div>
             )
           )
@@ -253,7 +253,7 @@ const TasksPage = () => {
           return (
             design && (
               <div key={uuid + index}>
-                <Stack style={{ minHeight: 200 }}>
+                <div className="flex flex-col gap-3 min-h-[200px]">
                   <Title order={3}>{design.name}</Title>
                   <Editable
                     template={design_template}
@@ -271,7 +271,7 @@ const TasksPage = () => {
                         )
                     }}
                   />{" "}
-                </Stack>
+                </div>
               </div>
             )
           )

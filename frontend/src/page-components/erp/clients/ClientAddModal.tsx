@@ -34,7 +34,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
       size="xl"
       title="Utwórz nowego klienta"
     >
-      <Stack>
+      <div className="flex flex-col gap-3">
         <EditableApiEntry
           label="Szablon"
           entryName="clients"
@@ -75,7 +75,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
           Utwórz klienta
         </Button>
         <Text color="red">{error}</Text>
-      </Stack>
+      </div>
     </Modal>
   )
 }

@@ -34,7 +34,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
       size="xl"
       title="Utwórz nowy wydatek"
     >
-      <Stack>
+      <div className="flex flex-col gap-3">
         <EditableApiEntry
           label="Szablon"
           entryName="expenses"
@@ -72,7 +72,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
           Utwórz wydatek
         </Button>
         <Text color="red">{error}</Text>
-      </Stack>
+      </div>
     </Modal>
   )
 }

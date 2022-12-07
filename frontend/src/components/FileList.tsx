@@ -4,7 +4,6 @@ import {
   Modal,
   useMantineTheme,
   Text,
-  Stack,
   Image,
   Button,
   Loader,
@@ -195,25 +194,11 @@ const FileList = ({
         </Dropzone>
       </Modal>
 
-      <Stack
+      <div
         ref={hoverdRef}
-        p={files.length > 0 || active ? "md" : "xs"}
-        sx={[
-          (theme) => ({
-            width: "100%",
-            position: "relative",
-            minHeight: 44,
-            border: "1px solid transparent",
-            "&:hover": {
-              border:
-                theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
-            },
-          }),
-          // SxBorder,
-          SxRadius,
-        ]}
+        className={`flex flex-col ${
+          files.length > 0 || active ? "p-md" : "p-xs"
+        } w-full relative min-h-[44] border border-solid border-transparent hover:border-gray-400 dark:hover:border-dark-500 rounded-sm`}
       >
         {files.length > 0
           ? files.map((file, index) => (
@@ -322,7 +307,7 @@ const FileList = ({
                 <Edit size={18} />
               </ActionIcon>
             )}
-      </Stack>
+      </div>
     </div>
   )
 }

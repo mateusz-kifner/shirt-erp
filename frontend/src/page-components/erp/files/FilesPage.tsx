@@ -37,7 +37,7 @@ const FilesPage = () => {
     <ResponsivePaper m="xl">
       {/* <FileList value={data}></FileList> */}
       <Input placeholder="Szukaj" rightSection={<Search />} radius="xl" />
-      <Stack p="xl">
+      <div className="flex flex-col gap-3 p-3">
         <SimpleGrid cols={Math.floor((width - 340) / 400)}>
           {data &&
             data.map((fileData: FileType, index: number) => {
@@ -50,7 +50,7 @@ const FilesPage = () => {
               )
             })}
         </SimpleGrid>
-      </Stack>
+      </div>
     </ResponsivePaper>
   )
 }

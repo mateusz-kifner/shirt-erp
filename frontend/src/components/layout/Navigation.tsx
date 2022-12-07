@@ -3,7 +3,6 @@ import {
   Box,
   Navbar,
   ScrollArea,
-  Stack,
   ActionIcon,
   useMantineTheme,
 } from "@mantine/core"
@@ -34,15 +33,13 @@ const Navigation = (props: NavigationProps) => {
       px="sm"
     >
       <ScrollArea>
-        <Stack
-          m={0}
-          py="md"
-          justify="space-between"
+        <div
+          className="flex flex-col gap-3 m-0 py-2 justify-between"
           style={{
             minHeight: "calc(100vh - var(--mantine-header-height))",
           }}
         >
-          <Stack>
+          <div className="flex flex-col gap-3">
             {navigationData.map(
               (val, index) =>
                 (!val?.debug || debug) && (
@@ -57,7 +54,7 @@ const Navigation = (props: NavigationProps) => {
                   />
                 )
             )}
-          </Stack>
+          </div>
           {biggerThanSM && (
             <Box
               sx={(theme) => ({
@@ -82,7 +79,7 @@ const Navigation = (props: NavigationProps) => {
               </Group>
             </Box>
           )}
-        </Stack>
+        </div>
       </ScrollArea>
     </Navbar>
   )

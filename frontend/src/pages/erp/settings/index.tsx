@@ -7,7 +7,6 @@ import {
   Modal,
   Paper,
   Select,
-  Stack,
   Text,
   TextInput,
 } from "@mantine/core"
@@ -102,7 +101,7 @@ const SettingsPage = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <Stack>
+        <div className="flex flex-col gap-3">
           <DisplayCell
             leftSection={<Bug />}
             rightSection={<Bug />}
@@ -111,7 +110,7 @@ const SettingsPage = () => {
             <div>test</div>
           </DisplayCell>
           <TextInput icon={<Bug />} label={"Test Label"} />
-        </Stack>
+        </div>
         {/* <Editable
           template={template}
           data={testData}
@@ -189,7 +188,7 @@ const SettingsPage = () => {
             Debug {debug ? "ON" : "OFF"}
           </Button>
           {debug && (
-            <Stack style={{ width: "100%" }}>
+            <div className="flex flex-col gap-3 w-full">
               <Button
                 style={{ width: "100%", color: "#fff" }}
                 onClick={() => {
@@ -221,7 +220,7 @@ const SettingsPage = () => {
                 Experimental Search {search ? "ON" : "OFF"}
               </Button>
               <Text>{i18n.language}</Text>
-            </Stack>
+            </div>
           )}
         </Group>
       </Paper>

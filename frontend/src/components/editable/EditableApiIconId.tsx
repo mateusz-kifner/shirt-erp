@@ -91,7 +91,7 @@ const EditableApiIconId = ({
           </Button>
         </SimpleGrid>
       </Modal>
-      <Stack>
+      <div className="flex flex-col gap-3">
         <Group>
           <Button
             variant="default"
@@ -103,7 +103,7 @@ const EditableApiIconId = ({
             <ApiIconSVG entryName={entryName} size={48} id={iconId} />
           </Button>
         </Group>
-      </Stack>
+      </div>
     </Input.Wrapper>
   )
 }

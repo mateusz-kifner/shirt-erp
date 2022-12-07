@@ -89,7 +89,7 @@ const Notifications = () => {
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown>
-        <Stack>
+        <div className="flex flex-col gap-3">
           <Group position="apart">
             <Title order={3}>
               <Bell size={18} /> Powiadomienia{" "}
@@ -131,7 +131,7 @@ const Notifications = () => {
           ) : (
             <Text size="sm">Brak powiadomień</Text>
           )}
-        </Stack>
+        </div>
       </Popover.Dropdown>
     </Popover>
   )
