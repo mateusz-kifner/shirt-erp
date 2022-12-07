@@ -91,7 +91,7 @@ const InputText = (props: InputTextProps) => {
           {label}
           {text.length > 0 && (
             <button
-              className="p-[2px] rounded-md inline-block translate-x-1 translate-y-1 mr-1 hover:bg-black hover:bg-opacity-10 dark:hover:bg-white dark:hover:bg-opacity-10"
+              className="btn btn-square p-[2px] mr-1"
               onClick={() => {
                 clipboard.copy(text)
                 showNotification({

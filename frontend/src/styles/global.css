@@ -22,6 +22,32 @@
       items-center 
       gap-1;
   }
+
+  .btn-circle {
+    @apply p-2 
+    rounded-full 
+    inline-block 
+    translate-x-1 
+    translate-y-1 
+    hover:bg-black 
+    hover:bg-opacity-10 
+    dark:hover:bg-white 
+    dark:hover:bg-opacity-10
+    min-h-0;
+  }
+
+  .btn-square {
+    @apply p-2 
+    rounded-md 
+    inline-block 
+    translate-x-1 
+    translate-y-1 
+    hover:bg-black 
+    hover:bg-opacity-10 
+    dark:hover:bg-white 
+    dark:hover:bg-opacity-10
+    min-h-0;
+  }
   .display-cell {
     @apply data-disabled:bg-transparent 
       dark:data-disabled:bg-transparent 
