@@ -1,4 +1,3 @@
-import { Popover, Portal } from "@mantine/core"
 import { useClipboard, useDebouncedValue, useElementSize } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
@@ -70,29 +69,15 @@ const InputDate = (props: InputDateProps) => {
     }
   }, [debouncedText])
 
-  useEffect(() => {}, [])
-
+  console.log(value)
   return (
-    <div
-      className="relative flex-grow"
-      onFocus={handleFocusForInnerElements(() => setOpened(true))}
-      onBlur={handleBlurForInnerElements(() => setOpened(false))}
-    >
-      {opened && !disabled && (
-        <Calendar
-          className={"absolute top-full mt-2 left-0 z-[120] rounded"}
-          onChange={(date: Date) => {
-            setText(dayjs(date).format("L").toString())
-          }}
-          value={date}
-        />
-      )}
+    <div className="relative flex-grow">
       {label && (
         <label
           htmlFor={"inputDate_" + uuid}
           className="text-sm dark:text-gray-400"
         >
-          {label}
+          {label}{" "}
           {date && (
             <button
               className="btn btn-square p-[2px] mr-1"
@@ -112,26 +97,41 @@ const InputDate = (props: InputDateProps) => {
         </label>
       )}
       <div
-        className="absolute top-1/2 left-1 -translate-y-1/2"
-        ref={leftSectionRef}
+        onFocus={handleFocusForInnerElements(() => setOpened(true))}
+        onBlur={handleBlurForInnerElements(() => setOpened(false))}
       >
-        {!!leftSection && leftSection}
-      </div>
-      <input
-        id={"inputDate_" + uuid}
-        ref={textAreaRef}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className={"w-full resize-none overflow-hidden display-cell"}
-        readOnly={disabled}
-        required={required}
-      />
+        {opened && !disabled && (
+          <Calendar
+            key={value}
+            className={"absolute top-full mt-2 left-0 z-[120] rounded"}
+            onChange={(date: Date) => {
+              setText(dayjs(date).format("L").toString())
+            }}
+            value={date}
+          />
+        )}
+        <div
+          className="absolute top-1/2 left-1 -translate-y-1/2"
+          ref={leftSectionRef}
+        >
+          {!!leftSection && leftSection}
+        </div>
+        <input
+          id={"inputDate_" + uuid}
+          ref={textAreaRef}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className={"w-full resize-none overflow-hidden display-cell"}
+          readOnly={disabled}
+          required={required}
+        />
 
-      <div
-        className="absolute top-1/2 right-1 -translate-y-1/2"
-        ref={rightSectionRef}
-      >
-        {!!rightSection && rightSection}
+        <div
+          className="absolute top-1/2 right-1 -translate-y-1/2"
+          ref={rightSectionRef}
+        >
+          {!!rightSection && rightSection}
+        </div>
       </div>
     </div>
   )

@@ -88,7 +88,7 @@ const InputText = (props: InputTextProps) => {
           htmlFor={"textarea_" + uuid}
           className="text-sm dark:text-gray-400"
         >
-          {label}
+          {label}{" "}
           {text.length > 0 && (
             <button
               className="btn btn-square p-[2px] mr-1"
