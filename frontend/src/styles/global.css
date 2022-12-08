@@ -61,6 +61,7 @@
       h-fit
       max-h-screen
       flex 
+      flex-row
       justify-center 
       items-center 
       gap-2
