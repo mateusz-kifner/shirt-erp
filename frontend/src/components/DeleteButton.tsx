@@ -1,21 +1,20 @@
-import {
-  Button,
-  Modal,
-  Text,
-  Group,
-  Sx,
-  ButtonProps,
-  ModalProps,
-} from "@mantine/core"
-import React, { useState, CSSProperties } from "react"
+import { Modal, Text, Group, ModalProps } from "@mantine/core"
+import React, { useState, DetailedHTMLProps, ButtonHTMLAttributes } from "react"
 // import { useTranslation } from "../../../i18n"
 import { TrashX } from "tabler-icons-react"
 import { useTranslation } from "../i18n"
+import Button from "./basic/Button"
 
 interface DeleteButtonProps {
   label: string
   onDelete: () => void
-  buttonProps?: ButtonProps
+  buttonProps?: Omit<
+    DetailedHTMLProps<
+      ButtonHTMLAttributes<HTMLButtonElement>,
+      HTMLButtonElement
+    >,
+    "color"
+  >
   modalProps?: ModalProps
 }
 
@@ -33,8 +32,8 @@ const DeleteButton = ({
     <>
       <Button
         color="red"
-        variant="subtle"
-        leftIcon={<TrashX size={18} />}
+        variant="outline"
+        leftSection={<TrashX size={18} />}
         onClick={() => setOpenedDelete(true)}
         className="erase_on_print"
         {...buttonProps}
@@ -51,14 +50,14 @@ const DeleteButton = ({
         centered
         {...modalProps}
       >
-        <Text color="red" mb="xl">
+        <span className="text-red-600 mb-8">
           {t("operation-not-reversible")}
-        </Text>
-        <Group position="apart" mt="xl">
+        </span>
+        <div className="flex flex-row justify-between mt-8">
           <Button
             color="red"
             variant="outline"
-            leftIcon={<TrashX size={18} />}
+            leftSection={<TrashX size={18} />}
             onClick={() => {
               onDelete()
               setOpenedDelete(false)
@@ -67,7 +66,7 @@ const DeleteButton = ({
             {t("delete", { entry: t(label as any) })}
           </Button>
           <Button onClick={() => setOpenedDelete(false)}>{t("cancel")}</Button>
-        </Group>
+        </div>
       </Modal>
     </>
   )

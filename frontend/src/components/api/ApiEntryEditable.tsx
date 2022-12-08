@@ -66,7 +66,7 @@ const ApiEntryEditable = <EntryType extends any>({
             <DeleteButton
               label={`${entryName}.singular`}
               onDelete={onDelete}
-              buttonProps={{ mt: "4rem" }}
+              buttonProps={{ style: { marginTop: "4rem" } }}
             />
           )}
         </>

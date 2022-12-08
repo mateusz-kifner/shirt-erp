@@ -307,7 +307,7 @@ const OrdersPage: NextPage = () => {
                         tables: data.tables.filter((val, i) => i !== index),
                       })
                     }
-                    buttonProps={{ mt: "4rem" }}
+                    buttonProps={{ style: { marginTop: "4rem" } }}
                   />
                 </div>
               )
@@ -346,7 +346,7 @@ const OrdersPage: NextPage = () => {
                         designs: data.designs.filter((val, i) => i !== index),
                       })
                     }
-                    buttonProps={{ mt: "4rem" }}
+                    buttonProps={{ style: { marginTop: "4rem" } }}
                   />
                 </div>
               )
