@@ -13,7 +13,7 @@ const FileDisplay = (props: FileDisplayProps) => {
   const { fileData, disabled, onPreview } = props
   console.log(fileData.id, fileData.token)
   return (
-    <Group>
+    <div className="flex flex-row gap-3">
       <div style={{ position: "relative" }}>
         <Image
           src={
@@ -56,19 +56,7 @@ const FileDisplay = (props: FileDisplayProps) => {
           withPlaceholder
           placeholder={<FileUnknown size={88} />}
         />
-        <Group
-          position="center"
-          align="center"
-          noWrap
-          sx={(theme) => ({
-            position: "absolute",
-            top: "50%",
-            left: 0,
-            width: "100%",
-            gap: theme.spacing.xs / 2,
-            transform: "translate(0,-50%)",
-          })}
-        >
+        <div className="flex flex-row gap-1 justify-between items-center flex-nowrap absolute top-1/2 left-0 w-full -translate-y-1/2">
           {typeof fileData.formats?.thumbnail?.url === "string" && (
             <>
               <ActionIcon
@@ -98,10 +86,10 @@ const FileDisplay = (props: FileDisplayProps) => {
               <TrashX />
             </ActionIcon>
           )}
-        </Group>
+        </div>
       </div>
       <Text pr="xl">{fileData.name}</Text>
-    </Group>
+    </div>
   )
 }
 

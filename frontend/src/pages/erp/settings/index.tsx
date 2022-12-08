@@ -57,13 +57,13 @@ interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
 const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
   ({ image, label, ...others }: ItemProps, ref) => (
     <div ref={ref} {...others}>
-      <Group noWrap>
+      <div className="flex flex-row gap-3 flex-nowrap">
         <Avatar src={image} />
 
         <div>
           <Text size="sm">{label}</Text>
         </div>
-      </Group>
+      </div>
     </div>
   )
 )
@@ -123,7 +123,7 @@ const SettingsPage = () => {
         /> */}
       </Modal>
       <Paper shadow="xs" p="xl" withBorder>
-        <Group>
+        <div className="flex flex-row gap-3">
           <Button
             style={{ width: "100%", color: "#fff" }}
             onClick={() => {
@@ -133,7 +133,7 @@ const SettingsPage = () => {
           >
             Wyloguj
           </Button>
-          <Group style={{ width: "100%" }}>
+          <div className="flex flex-row gap-3 w-full">
             <Text style={{ flexGrow: 1 }}>{t("lang")}</Text>
 
             <Select
@@ -157,7 +157,7 @@ const SettingsPage = () => {
               ]}
               itemComponent={SelectItem}
             />
-          </Group>
+          </div>
           <Button
             style={{ width: "100%", color: "#fff" }}
             onClick={() => toggleColorScheme()}
@@ -222,7 +222,7 @@ const SettingsPage = () => {
               <Text>{i18n.language}</Text>
             </div>
           )}
-        </Group>
+        </div>
       </Paper>
     </Container>
   )

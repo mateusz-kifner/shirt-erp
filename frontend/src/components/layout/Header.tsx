@@ -35,8 +35,8 @@ const Header = (props: HeaderProps) => {
       })}
     >
       <MediaQuery largerThan="md" styles={{ padding: "0 13px" }}>
-        <Group position="apart" align="center" style={{ height: "100%" }}>
-          <Group>
+        <div className="flex flex-row gap-3 justify-between items-center h-full">
+          <div className="flex flex-row gap-3">
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
                 opened={navigationCollapsed ?? false}
@@ -63,7 +63,7 @@ const Header = (props: HeaderProps) => {
                 />
               )}
             </MediaQuery>
-          </Group>
+          </div>
           {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
             <Autocomplete
               placeholder="Search"
@@ -117,7 +117,7 @@ const Header = (props: HeaderProps) => {
               })}
             />
           </MediaQuery> */}
-          <Group>
+          <div className="flex flex-row gap-3">
             {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}> */}
             <ActionIcon
               size="lg"
@@ -142,8 +142,8 @@ const Header = (props: HeaderProps) => {
             >
               <Settings />
             </ActionIcon>
-          </Group>
-        </Group>
+          </div>
+        </div>
       </MediaQuery>
     </MantineHeader>
   )

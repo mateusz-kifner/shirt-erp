@@ -1,5 +1,5 @@
 import { MantineTheme } from "@mantine/core"
-
+/// border-2 border-solid  border-gray-300 dark:border-dark-400
 const SxBorder = (theme: MantineTheme) => ({
   border:
     theme.colorScheme === "dark" ? "1px solid #2C2E33" : "1px solid #ced4da",

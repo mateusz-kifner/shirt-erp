@@ -292,7 +292,7 @@ const OrdersPage: NextPage = () => {
                       }}
                     />{" "}
                   </div>
-                  <Group></Group>
+                  <div className="flex flex-row gap-3"></div>
                   <DeleteButton
                     label="sheet"
                     onDelete={() =>
@@ -331,7 +331,7 @@ const OrdersPage: NextPage = () => {
                       }}
                     />{" "}
                   </div>
-                  <Group></Group>
+                  <div className="flex flex-row gap-3"></div>
                   <DeleteButton
                     label="design"
                     onDelete={() =>

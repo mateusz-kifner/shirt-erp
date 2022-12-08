@@ -114,9 +114,9 @@ const ApiList = <T extends any>({
   return (
     <div className="flex flex-col gap-3 ">
       <div className="flex flex-col gap-3">
-        <Group position="apart">
+        <div className="flex flex-row gap-3 justify-between">
           <Title order={2}>{label}</Title>
-          <Group spacing="xs">
+          <div className="flex flex-row gap-2">
             <ActionIcon
               size="lg"
               radius="xl"
@@ -135,10 +135,10 @@ const ApiList = <T extends any>({
                 <Plus />
               </ActionIcon>
             )}
-          </Group>
-        </Group>
-        <Group spacing="md" px="sm">
-          <Group>
+          </div>
+        </div>
+        <div className="flex flex-row gap-3 px-2">
+          <div className="flex flex-row gap-3">
             <ActionIcon
               size="lg"
               radius="xl"
@@ -147,7 +147,7 @@ const ApiList = <T extends any>({
             >
               {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
             </ActionIcon>
-          </Group>
+          </div>
           {/* <Autocomplete
             placeholder="Search"
             radius="xl"
@@ -168,7 +168,7 @@ const ApiList = <T extends any>({
             icon={<Search />}
             style={{ flexGrow: 1 }}
           />
-        </Group>
+        </div>
       </div>
       <div className="flex flex-col gap-3 relative ">
         <Box

@@ -90,11 +90,11 @@ const Notifications = () => {
       </Popover.Target>
       <Popover.Dropdown>
         <div className="flex flex-col gap-3">
-          <Group position="apart">
+          <div className="flex flex-row gap-3 justify-between">
             <Title order={3}>
               <Bell size={18} /> Powiadomienia{" "}
             </Title>
-          </Group>
+          </div>
 
           {activeOrders ? (
             data?.orders

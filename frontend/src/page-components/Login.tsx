@@ -61,9 +61,9 @@ const LoginModal = () => {
             mt="sm"
             {...form.getInputProps("password")}
           />
-          <Group position="right" mt="xl">
+          <div className="flex flex-row gap-3 justify-end mt-4">
             <Button type="submit">Zaloguj</Button>
-          </Group>
+          </div>
         </form>
       </Box>
     </Modal>

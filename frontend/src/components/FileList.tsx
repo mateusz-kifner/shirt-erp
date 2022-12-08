@@ -175,11 +175,7 @@ const FileList = ({
           style={{ minWidth: "100%" }}
           multiple={maxFileCount !== 1}
         >
-          <Group
-            position="center"
-            spacing="xl"
-            style={{ minHeight: 360, pointerEvents: "none" }}
-          >
+          <div className="flex flex-row gap-4 justify-center min-h-[360px] pointer-events-none">
             <ImageUploadIcon
               status={status}
               style={{ color: getIconColor(status, theme) }}
@@ -190,7 +186,7 @@ const FileList = ({
                 Wrzuć tu pliki do wysłania
               </Text>
             </div>
-          </Group>
+          </div>
         </Dropzone>
       </Modal>
 
@@ -202,8 +198,8 @@ const FileList = ({
       >
         {files.length > 0
           ? files.map((file, index) => (
-              <Group
-                pr={active ? undefined : 32}
+              <div
+                className={`flex flex-row gap-3 ${active ? "pr-0" : "pr-8"}`}
                 key={uuid + "_" + file.id + "_" + file.name}
               >
                 <FileListItem
@@ -255,7 +251,7 @@ const FileList = ({
                     </Menu.Dropdown>
                   </Menu>
                 )}
-              </Group>
+              </div>
             ))
           : !active && !uploading && <Text>⸺</Text>}
         {error && <Text color="red">{error}</Text>}
@@ -280,7 +276,7 @@ const FileList = ({
                 disabled={disabled || !!uploading}
               >
                 {uploading ? (
-                  <Group align="center" position="center">
+                  <div className="flex flex-row gap-3 items-center justify-center">
                     <Loader />
                     <Text>
                       {t("uploading")} {uploading}{" "}
@@ -288,7 +284,7 @@ const FileList = ({
                         ? t("files.singular")
                         : t("files.plural")}
                     </Text>
-                  </Group>
+                  </div>
                 ) : (
                   <Plus size={26} />
                 )}

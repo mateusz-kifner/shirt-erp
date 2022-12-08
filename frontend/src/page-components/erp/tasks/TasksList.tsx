@@ -83,9 +83,9 @@ const TasksList = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-3">
-        <Group position="apart">
+        <div className="flex flex-row gap-3 justify-between">
           <Title order={2}>{capitalize(t("tasks.plural"))}</Title>
-          <Group spacing="xs">
+          <div className="flex flex-row gap-2">
             <ActionIcon
               size="lg"
               radius="xl"
@@ -94,10 +94,10 @@ const TasksList = ({
             >
               <Refresh />
             </ActionIcon>
-          </Group>
-        </Group>
-        <Group spacing="md" px="sm">
-          {/* <Group>
+          </div>
+        </div>
+        <div className="flex flex-row gap-3 px-3">
+          {/* <div className="flex flex-row gap-3">
             <ActionIcon
               size="lg"
               radius="xl"
@@ -106,7 +106,7 @@ const TasksList = ({
             >
               {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
             </ActionIcon>
-          </Group> */}
+          </div> */}
 
           <TextInput
             defaultValue={""}
@@ -115,7 +115,7 @@ const TasksList = ({
             icon={<Search />}
             style={{ flexGrow: 1 }}
           />
-        </Group>
+        </div>
       </div>
       <List
         data={filteredOrders.filter(

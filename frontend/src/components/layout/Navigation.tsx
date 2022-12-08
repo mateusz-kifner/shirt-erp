@@ -66,7 +66,7 @@ const Navigation = (props: NavigationProps) => {
                 }`,
               })}
             >
-              <Group position="center">
+              <div className="flex flex-row gap-3 justify-between">
                 <ActionIcon
                   size="xl"
                   radius="xl"
@@ -76,7 +76,7 @@ const Navigation = (props: NavigationProps) => {
                 >
                   {navigationCollapsed ? <ChevronRight /> : <ChevronLeft />}
                 </ActionIcon>
-              </Group>
+              </div>
             </Box>
           )}
         </div>
