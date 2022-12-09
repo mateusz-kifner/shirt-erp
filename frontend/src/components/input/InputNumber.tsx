@@ -2,8 +2,8 @@ import { useClipboard, useDebouncedValue, useElementSize } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import {
   DetailedHTMLProps,
+  InputHTMLAttributes,
   ReactNode,
-  TextareaHTMLAttributes,
   useEffect,
   useId,
   useRef,
@@ -11,25 +11,27 @@ import {
 } from "react"
 import { Copy } from "tabler-icons-react"
 import preventLeave from "../../utils/preventLeave"
-import { truncString } from "../../utils/truncString"
 
-interface InputTextProps
+interface InputNumberProps
   extends DetailedHTMLProps<
-    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onSubmit">,
-    HTMLTextAreaElement
+    Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit">,
+    HTMLInputElement
   > {
   label?: string
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
+  value?: number
+  initialValue?: number
+  onSubmit?: (value: number | null) => void
   disabled?: boolean
   required?: boolean
-  maxLength?: number
   leftSection?: ReactNode
   rightSection?: ReactNode
+  increment?: number
+  fixed?: number
+  min?: number
+  max?: number
 }
 
-const InputText = (props: InputTextProps) => {
+const InputNumber = (props: InputNumberProps) => {
   const {
     label,
     value,
@@ -37,49 +39,57 @@ const InputText = (props: InputTextProps) => {
     onSubmit,
     disabled,
     required,
-    maxLength,
     leftSection,
     rightSection,
+    increment = 0.01,
+    fixed = 2,
+    min = Number.MIN_VALUE,
+    max = Number.MAX_VALUE,
     ...moreProps
   } = props
   const uuid = useId()
   const clipboard = useClipboard()
 
-  const [text, setText] = useState(value ?? initialValue ?? "")
+  const [text, setText] = useState<string>("")
   const [debouncedText, cancel] = useDebouncedValue(text, 1000)
 
   const { ref: leftSectionRef, width: leftSectionWidth } = useElementSize()
   const { ref: rightSectionRef, width: rightSectionWidth } = useElementSize()
-  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const inputNumberRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
-    setText(value ?? "")
-    textAreaRef.current && setTextAreaHeight(textAreaRef.current)
+    if (value !== undefined && parseFloat(text) - value < 0.000001) {
+      setText(value.toFixed(fixed))
+    }
+    // eslint-disable-next-line
   }, [value])
-
-  const setTextAreaHeight = (target: HTMLTextAreaElement) => {
-    target.style.height = "0"
-    target.style.height = target.scrollHeight + "px"
-  }
 
   useEffect(() => {
     // submit debouncedText
-    if (debouncedText !== value) {
-      onSubmit?.(debouncedText)
+    if (
+      !isNaN(parseFloat(debouncedText)) &&
+      parseFloat(debouncedText) > min &&
+      parseFloat(debouncedText) < max
+    ) {
+      debouncedText && onSubmit && onSubmit(parseFloat(debouncedText))
+      setError(false)
+    } else {
+      setError(true)
     }
     // eslint-disable-next-line
   }, [debouncedText])
 
-  useEffect(() => {
-    return () => {
-      // submit on leave
-      if (text !== value) {
-        onSubmit?.(text)
-      }
-      window.removeEventListener("beforeunload", preventLeave)
-    }
-    // eslint-disable-next-line
-  }, [])
+  // useEffect(() => {
+  //   return () => {
+  //     // submit on leave
+  //     if (text !== value) {
+  //       onSubmit?.(text)
+  //     }
+  //     window.removeEventListener("beforeunload", preventLeave)
+  //   }
+  //   // eslint-disable-next-line
+  // }, [])
 
   return (
     <div className="flex-grow">
@@ -89,7 +99,7 @@ const InputText = (props: InputTextProps) => {
           className="text-sm dark:text-gray-400"
         >
           {label}{" "}
-          {text.length > 0 && (
+          {text !== null && (
             <button
               className="btn btn-square p-[2px] mr-1"
               onClick={() => {
@@ -113,37 +123,19 @@ const InputText = (props: InputTextProps) => {
         >
           {!!leftSection && leftSection}
         </div>
-        <textarea
-          id={"textarea_" + uuid}
-          required={required}
-          readOnly={disabled}
-          ref={textAreaRef}
-          className={"w-full resize-none overflow-hidden display-cell"}
+        <input
+          ref={inputNumberRef}
+          type="number"
+          className={`w-full resize-none overflow-hidden display-cell ${
+            error ? "outline-red-600 dark:outline-red-600" : ""
+          }`}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           style={{
             paddingLeft: `calc(${leftSectionWidth}px + 0.5rem)`,
             paddingRight: `calc(${rightSectionWidth}px + 0.5rem)`,
           }}
           {...moreProps}
-          value={text}
-          onFocus={() => window.addEventListener("beforeunload", preventLeave)}
-          onBlur={() =>
-            window.removeEventListener("beforeunload", preventLeave)
-          }
-          onChange={(e) => {
-            if (!(maxLength && e.target.value.length > maxLength)) {
-              setText(e.target.value)
-              cancel()
-            }
-          }}
-          onKeyDown={(e) => {
-            console.log(e)
-            if (e.key == "Enter" && !e.shiftKey) {
-              ;(e.target as HTMLTextAreaElement).blur()
-              e.preventDefault()
-              return false
-            }
-          }}
-          onInput={(e) => setTextAreaHeight(e.target as HTMLTextAreaElement)}
         />
         <div
           className="absolute top-1/2 right-1 -translate-y-1/2"
@@ -156,4 +148,4 @@ const InputText = (props: InputTextProps) => {
   )
 }
 
-export default InputText
+export default InputNumber

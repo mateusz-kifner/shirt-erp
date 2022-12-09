@@ -1,6 +1,5 @@
 import { ComponentType, CSSProperties } from "react"
 import { Box, MantineTheme, Sx, Text } from "@mantine/core"
-import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
 import EditableRichText from "./EditableRichText"
 import EditableSecretText from "./EditableSecretText"
@@ -20,7 +19,6 @@ import { truncString } from "../../utils/truncString"
 import { makeDefaultListItem } from "../DefaultListItem"
 import ProductListItem from "../../page-components/erp/products/ProductListItem"
 import UserListItem from "../../page-components/erp/users/UserListItem"
-import EditableNumber from "./EditableNumber"
 import { Cash, Numbers } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
 import { SxBorder, SxRadius } from "../../styles/basic"
@@ -30,9 +28,9 @@ import OrderListItem from "../../page-components/erp/orders/OrderListItem"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 import InputText from "../input/InputText"
-import { omit } from "lodash"
 import InputDate from "../input/InputDate"
 import InputDateTime from "../input/InputDateTime"
+import InputNumber from "../input/InputNumber"
 
 const ApiProps: {
   [key: string]: {
@@ -91,15 +89,14 @@ const Fields: {
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
   number: {
-    component: EditableNumber,
-    props: { icon: <Numbers />, Icon: Numbers },
+    component: InputNumber,
+    props: { leftSection: <Numbers /> },
   },
   money: {
-    component: EditableNumber,
+    component: InputNumber,
     props: {
-      rightSection: <Text pr={44}>PLN</Text>,
-      icon: <Cash />,
-      Icon: Cash,
+      rightSection: <span className="mr-1">PLN</span>,
+      leftSection: <Cash />,
     },
   },
   datetime: { component: InputDateTime, props: {} },

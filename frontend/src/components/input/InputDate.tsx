@@ -56,20 +56,24 @@ const InputDate = (props: InputDateProps) => {
   const [debouncedText, cancel] = useDebouncedValue(text, 300)
   const { ref: leftSectionRef, width: leftSectionWidth } = useElementSize()
   const { ref: rightSectionRef, width: rightSectionWidth } = useElementSize()
-  const textAreaRef = useRef<HTMLInputElement>(null)
+  const inputDateRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
     const newDate = dayjs(debouncedText, dateFormat, i18next.language)
-    if (
-      newDate.toString() != "Invalid Date" &&
-      newDate.format("YYYY-MM-DD").toString() !=
+    if (newDate.toString() != "Invalid Date") {
+      if (
+        newDate.format("YYYY-MM-DD").toString() !=
         dayjs(value).format("YYYY-MM-DD").toString()
-    ) {
-      onSubmit?.(newDate.format("YYYY-MM-DD").toString())
+      ) {
+        onSubmit?.(newDate.format("YYYY-MM-DD").toString())
+      }
+      setError(false)
+    } else {
+      setError(true)
     }
   }, [debouncedText])
 
-  console.log(value)
   return (
     <div className="relative flex-grow">
       {label && (
@@ -118,10 +122,12 @@ const InputDate = (props: InputDateProps) => {
         </div>
         <input
           id={"inputDate_" + uuid}
-          ref={textAreaRef}
+          ref={inputDateRef}
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className={"w-full resize-none overflow-hidden display-cell"}
+          className={`w-full resize-none overflow-hidden display-cell ${
+            error ? "outline-red-600 dark:outline-red-600" : ""
+          }`}
           readOnly={disabled}
           required={required}
         />
