@@ -4,7 +4,7 @@
 
 @layer components {
   .btn {
-    @apply  px-4 text-white font-semibold rounded focus-visible:outline outline-offset-2 outline-sky-700 outline-2  border-none transform active:translate-y-0.5 min-h-[2.25rem] max-h-screen flex justify-center items-center;
+    @apply py-2 px-4 bg-primary-700 text-white font-semibold rounded focus-visible:outline outline-offset-2 outline-primary-700 outline-2 hover:bg-primary-900 border-none transform active:translate-y-0.5;
   }
 }
 

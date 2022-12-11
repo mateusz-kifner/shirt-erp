@@ -11,12 +11,9 @@ interface ButtonProps
 }
 
 const Button = (props: ButtonProps) => {
-  const { variant = "filled", children, color = "blue", ...moreProps } = props
+  const { variant = "filled", children, ...moreProps } = props
   return (
-    <button
-      className={`btn bg-${color}-600 hover:bg-${color}-700`}
-      {...moreProps}
-    >
+    <button className="btn" {...moreProps}>
       {children}
     </button>
   )
