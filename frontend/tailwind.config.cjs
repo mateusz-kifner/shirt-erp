@@ -199,7 +199,7 @@ module.exports = {
   safelist: [
     // button patters
     {
-      pattern: /(bg|text|border)-(.*)-(600|700)/,
+      pattern: /bg-(.*)-(600|700)/,
       variants: ["hover", "dark"],
     },
   ],

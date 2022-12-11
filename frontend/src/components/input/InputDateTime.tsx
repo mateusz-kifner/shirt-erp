@@ -1,8 +1,6 @@
-import { useClipboard } from "@mantine/hooks"
-import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
 import React from "react"
-import { Calendar, Clock, Copy } from "tabler-icons-react"
+import { Calendar, Clock } from "tabler-icons-react"
 import DisplayCell from "../basic/DisplayCell"
 
 // TODO: make it work
@@ -10,8 +8,8 @@ import DisplayCell from "../basic/DisplayCell"
 interface InputDateTimeProps {
   label?: string
   value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
+  initialValue?: Date
+  onSubmit?: (value: Date | null) => void
   disabled?: boolean
   required?: boolean
 }
@@ -26,33 +24,8 @@ const InputDateTime = (props: InputDateTimeProps) => {
     required,
     ...moreProps
   } = props
-  const clipboard = useClipboard()
-
   return (
-    <DisplayCell
-      label={
-        <>
-          {" "}
-          {label}{" "}
-          {dayjs(value).format("L LT").toString().length > 0 && (
-            <button
-              className="btn btn-square p-[2px] mr-1"
-              onClick={() => {
-                clipboard.copy(dayjs(value).format("L LT").toString())
-                showNotification({
-                  title: "Skopiowano do schowka",
-                  message: dayjs(value).format("L LT").toString(),
-                })
-              }}
-              tabIndex={-1}
-            >
-              <Copy size={16} />
-            </button>
-          )}
-        </>
-      }
-      disabled={true}
-    >
+    <DisplayCell label={label} disabled={true}>
       <div className="flex gap-1">
         <Calendar color="#adb5bd" size={18} />
         {value ? dayjs(value).format("L").toString() : "⸺"}

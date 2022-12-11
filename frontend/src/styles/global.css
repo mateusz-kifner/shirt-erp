@@ -27,6 +27,8 @@
     @apply p-2 
     rounded-full 
     inline-block 
+    translate-x-1 
+    translate-y-1 
     hover:bg-black 
     hover:bg-opacity-10 
     dark:hover:bg-white 
@@ -38,6 +40,8 @@
     @apply p-2 
     rounded-md 
     inline-block 
+    translate-x-1 
+    translate-y-1 
     hover:bg-black 
     hover:bg-opacity-10 
     dark:hover:bg-white 
