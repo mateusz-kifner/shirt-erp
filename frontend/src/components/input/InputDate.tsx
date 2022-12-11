@@ -16,14 +16,21 @@ import { Copy } from "tabler-icons-react"
 import i18n, { useTranslation } from "../../i18n"
 import { handleFocusForInnerElements } from "../../utils/handleFocusForInnerElements"
 import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
-import EditableInput from "../../types/EditableInput"
 
 interface InputDateProps
   extends DetailedHTMLProps<
-      Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit" | "value">,
-      HTMLInputElement
-    >,
-    EditableInput<string> {}
+    Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit">,
+    HTMLInputElement
+  > {
+  label?: string
+  value?: string
+  initialValue?: string
+  onSubmit?: (value: string | null) => void
+  disabled?: boolean
+  required?: boolean
+  leftSection?: ReactNode
+  rightSection?: ReactNode
+}
 
 const InputDate = (props: InputDateProps) => {
   const {
