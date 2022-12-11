@@ -1,13 +1,7 @@
 import { Input } from "@mantine/core"
+import EditableInput from "../../types/EditableInput"
 
-interface EditableJSONProps {
-  label?: string
-  value?: string
-  initialValue?: Date
-  onSubmit?: (value: Date | null) => void
-  disabled?: boolean
-  required?: boolean
-}
+interface EditableJSONProps extends EditableInput<string> {}
 
 const EditableJSON = ({ value, label }: EditableJSONProps) => {
   return (

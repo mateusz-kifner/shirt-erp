@@ -1,15 +1,10 @@
 import { CSSObject, Input } from "@mantine/core"
 import { useClipboard } from "@mantine/hooks"
 import { CSSProperties } from "react"
+import EditableInput from "../../types/EditableInput"
 import { FileType } from "../../types/FileType"
 
-interface EditableColorProps {
-  label?: string
-  value?: FileType
-  initialValue?: FileType
-  onSubmit?: (value: FileType | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableColorProps extends EditableInput<FileType> {
   style?: CSSProperties
   styles?: Partial<
     Record<"label" | "required" | "root" | "error" | "description", CSSObject>

@@ -38,6 +38,7 @@ import { useAuthContext } from "../../context/authContext"
 import { env } from "../../env/client.mjs"
 import { useTranslation } from "../../i18n"
 import { SxBackground } from "../../styles/basic"
+import EditableInput from "../../types/EditableInput"
 import { FileType } from "../../types/FileType"
 
 const colorPickerSwatches = [
@@ -116,13 +117,7 @@ export type DesignBackgroundsType = {
   }[]
 }[]
 
-interface EditableDesignProps {
-  label?: string
-  value?: any
-  initialValue?: any
-  onSubmit?: (value: any | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableDesignProps extends EditableInput<any> {
   files?: FileType[]
   backgrounds: DesignBackgroundsType
 }

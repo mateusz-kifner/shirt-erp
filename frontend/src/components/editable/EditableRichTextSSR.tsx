@@ -15,16 +15,10 @@ import Underline from "@tiptap/extension-underline"
 import TextAlign from "@tiptap/extension-text-align"
 import Superscript from "@tiptap/extension-superscript"
 import SubScript from "@tiptap/extension-subscript"
+import EditableInput from "../../types/EditableInput"
 const turndownService = new TurndownService()
 
-interface EditableRichTextProps {
-  label?: string
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
-  disabled?: boolean
-  required?: boolean
-}
+interface EditableRichTextProps extends EditableInput<string> {}
 
 const EditableRichText = ({
   label,

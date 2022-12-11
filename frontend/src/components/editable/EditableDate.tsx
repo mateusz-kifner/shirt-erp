@@ -13,8 +13,9 @@ import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, ArrowBackUp } from "tabler-icons-react"
 import dayjs from "dayjs"
 import DisplayCell from "../details/DisplayCell"
+import EditableInput from "../../types/EditableInput"
 
-interface EditableDateProps {
+interface EditableDateProps extends EditableInput<string> {
   label?: string
   value?: string
   initialValue?: string

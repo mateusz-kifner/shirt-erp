@@ -13,6 +13,7 @@ import {
   getRandomColorByNumber,
 } from "../../utils/getRandomColor"
 import { AABB2D } from "../../types/AABB"
+import EditableInput from "../../types/EditableInput"
 
 function expandAABB(aabb: AABB2D, row: number, col: number) {
   let new_aabb = { ...aabb }
@@ -31,13 +32,7 @@ function expandAABB(aabb: AABB2D, row: number, col: number) {
   return new_aabb
 }
 
-interface EditableTableProps {
-  label?: string
-  value?: Matrix<any>
-  initialValue?: Matrix<any>
-  onSubmit?: (value: Matrix<any> | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableTableProps extends EditableInput<Matrix<any>> {
   metadataIcons?: ComponentType[]
   metadataLabels?: string[]
   metadata: {

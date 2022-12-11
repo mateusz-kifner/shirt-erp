@@ -1,14 +1,9 @@
 import { Input } from "@mantine/core"
+import EditableInput from "../../types/EditableInput"
 import { FileType } from "../../types/FileType"
 import FileList from "../FileList"
 
-interface EditableFilesProps {
-  label?: string
-  value?: FileType[] | null
-  initialValue?: FileType[] | null
-  onSubmit?: (value: FileType[] | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableFilesProps extends EditableInput<FileType[]> {
   maxCount?: number
 }
 

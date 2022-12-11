@@ -4,14 +4,9 @@ import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
 import { Copy } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
+import EditableInput from "../../types/EditableInput"
 
-interface EditableEnumProps {
-  label?: string
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableEnumProps extends EditableInput<string> {
   enum_data: string[]
 }
 

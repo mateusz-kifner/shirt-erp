@@ -1,15 +1,10 @@
 import { CSSObject } from "@mantine/core"
 import { CSSProperties } from "react"
 import useStrapi from "../../hooks/useStrapi"
+import EditableInput from "../../types/EditableInput"
 import EditableApiEntry from "./EditableApiEntry"
 
-interface EditableApiEntryIdProps {
-  label?: string
-  value?: number
-  initialValue?: number
-  onSubmit?: (value: number | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableApiEntryIdProps extends EditableInput<number> {
   entryName: string
   Element: React.ElementType
   copyProvider?: (value: any | null) => string | undefined

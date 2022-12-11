@@ -26,14 +26,9 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { isEqual } from "lodash"
 import { useTranslation } from "../../i18n"
+import EditableInput from "../../types/EditableInput"
 
-interface EditableApiEntryProps {
-  label?: string
-  value?: any
-  initialValue?: any
-  onSubmit?: (value: any | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableApiEntryProps extends EditableInput<any> {
   entryName: string
   Element: React.ElementType
   copyProvider?: (value: any | null) => string | undefined

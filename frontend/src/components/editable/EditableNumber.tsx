@@ -18,25 +18,18 @@ import preventLeave from "../../utils/preventLeave"
 import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"
 import { number } from "zod"
+import EditableInput from "../../types/EditableInput"
 
 // FIXME: make DisplayCell accept icon as ReactNode
 
-interface EditableDateProps {
-  label?: string
-  value?: number
-  initialValue?: number
-  onSubmit?: (value: number | null) => void
-  disabled?: boolean
-  required?: boolean
-  icon?: ReactNode
-  rightSection?: ReactNode
+interface EditableNumberProps extends EditableInput<number> {
   increment?: number
   fixed?: number
   min?: number
   max?: number
 }
 
-const EditableDate = (props: EditableDateProps) => {
+const EditableNumber = (props: EditableNumberProps) => {
   const {
     label,
     value,
@@ -44,7 +37,7 @@ const EditableDate = (props: EditableDateProps) => {
     onSubmit,
     disabled,
     required,
-    icon,
+    leftSection,
     rightSection,
     increment = 0.01,
     fixed = 2,
@@ -108,7 +101,7 @@ const EditableDate = (props: EditableDateProps) => {
     // eslint-disable-next-line
   }, [value])
 
-  const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
+  const onKeyDownNumber = (e: React.KeyboardEvent<any>) => {
     if (active) {
       if (e.code == "Enter") {
         deactivate()
@@ -163,7 +156,7 @@ const EditableDate = (props: EditableDateProps) => {
           onChange={(e) => setText(e.target.value)}
           value={text}
           variant={active ? "filled" : "default"}
-          icon={icon}
+          icon={leftSection}
           // clearable={false}
           styles={(theme) => ({
             input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
@@ -172,12 +165,12 @@ const EditableDate = (props: EditableDateProps) => {
             },
           })}
           autoFocus
-          onKeyDown={onKeyDownDate}
+          onKeyDown={onKeyDownNumber}
           rightSection={rightSection}
         />
       ) : (
         <DisplayCell
-          icon={icon}
+          icon={leftSection}
           rightSection={rightSection}
           disabled={disabled}
           hovered={hovered}
@@ -228,4 +221,4 @@ const EditableDate = (props: EditableDateProps) => {
   )
 }
 
-export default EditableDate
+export default EditableNumber

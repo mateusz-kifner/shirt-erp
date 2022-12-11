@@ -14,6 +14,7 @@ import DisplayCell from "../details/DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
 import { isEqual } from "lodash"
+import EditableInput from "../../types/EditableInput"
 
 const provinces = [
   "dolnośląskie",
@@ -34,13 +35,9 @@ const provinces = [
   "zachodniopomorskie",
 ]
 
-interface EditableAddressProps {
+interface EditableAddressProps
+  extends Omit<EditableInput<AddressType>, "label"> {
   label?: AddressType & { name: string }
-  value?: AddressType
-  initialValue?: AddressType
-  onSubmit?: (value: AddressType | null) => void
-  disabled?: boolean
-  required?: boolean
   maxLength?: number
 }
 

@@ -18,20 +18,14 @@ import preventLeave from "../../utils/preventLeave"
 import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
 import DisplayCell from "../details/DisplayCell"
+import EditableInput from "../../types/EditableInput"
 
-interface EditableTextProps {
-  label?: string
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableTextProps extends EditableInput<string> {
   maxLength?: number
   style?: CSSProperties
   styles?: Partial<
     Record<"label" | "required" | "root" | "error" | "description", CSSObject>
   >
-  icon?: ReactNode
 }
 
 const EditableText = (props: EditableTextProps) => {

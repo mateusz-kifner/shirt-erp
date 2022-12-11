@@ -7,17 +7,11 @@ import { useEffect, useRef, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
 import { Calendar, Clock, Copy } from "tabler-icons-react"
+import EditableInput from "../../types/EditableInput"
 
 // TODO: make it editable
 
-interface EditableDateTimeProps {
-  label?: string
-  value?: string
-  initialValue?: Date
-  onSubmit?: (value: Date | null) => void
-  disabled?: boolean
-  required?: boolean
-}
+interface EditableDateTimeProps extends EditableInput<string> {}
 
 const EditableDateTime = (props: EditableDateTimeProps) => {
   const { label, value, initialValue, onSubmit, disabled, required } = props
@@ -53,7 +47,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prevDate) {
-        onSubmit && onSubmit(date)
+        onSubmit && onSubmit(date?.toISOString() ?? null)
         setPrevDate(date)
       }
       window.removeEventListener("beforeunload", preventLeave)

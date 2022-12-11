@@ -22,16 +22,14 @@ import {
 } from "tabler-icons-react"
 import { useHover, useListState } from "@mantine/hooks"
 import { omit } from "lodash"
+import EditableInput from "../../types/EditableInput"
 
 // fixme submit only on edit end
 
-interface EditableArrayProps {
-  label?: string
+interface EditableArrayProps
+  extends Omit<EditableInput<any[]>, "value" | "initialValue"> {
   value?: any[] | null
   initialValue?: any[] | null
-  onSubmit?: (value: any[] | null) => void
-  disabled?: boolean
-  required?: boolean
   maxCount?: number
   Element: ComponentType<any>
   elementProps: any
@@ -228,18 +226,19 @@ const EditableArray = (props: EditableArrayProps) => {
                         </ActionIcon>
                       </>
                     )}
-                    {organizingHandle === "drag and drop" && items.length > 1 && (
-                      <ActionIcon
-                        tabIndex={-1}
-                        // {...bind(index)}
-                        radius="xl"
-                        onClick={() => {}}
-                        disabled={disabled}
-                        style={{ touchAction: "none" }}
-                      >
-                        <GripVertical size={14} />
-                      </ActionIcon>
-                    )}
+                    {organizingHandle === "drag and drop" &&
+                      items.length > 1 && (
+                        <ActionIcon
+                          tabIndex={-1}
+                          // {...bind(index)}
+                          radius="xl"
+                          onClick={() => {}}
+                          disabled={disabled}
+                          style={{ touchAction: "none" }}
+                        >
+                          <GripVertical size={14} />
+                        </ActionIcon>
+                      )}
                     <Menu
                       withArrow
                       styles={(theme) => ({

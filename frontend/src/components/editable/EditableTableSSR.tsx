@@ -52,14 +52,9 @@ import DataEditorDisabled from "../spreadsheet/DataEditorDisabled"
 
 import { SxBackground } from "../../styles/basic"
 import { getRandomColorByNumber } from "../../utils/getRandomColor"
+import EditableInput from "../../types/EditableInput"
 
-interface EditableTableProps {
-  label?: string
-  value?: Matrix<any>
-  initialValue?: Matrix<any>
-  onSubmit?: (value: Matrix<any> | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableTableProps extends EditableInput<Matrix<any>> {
   metadataIcons?: ComponentType[]
   metadataLabels?: string[]
   metadata: {

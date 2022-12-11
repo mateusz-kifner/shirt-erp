@@ -2,15 +2,10 @@ import { Button, Group, Input, Modal, SimpleGrid, Stack } from "@mantine/core"
 import { useEffect, useId, useState } from "react"
 import { X } from "tabler-icons-react"
 import { useIconsContext } from "../../context/iconsContext"
+import EditableInput from "../../types/EditableInput"
 import ApiIconSVG from "../api/ApiIconSVG"
 
-interface EditableApiIconIdProps {
-  label?: string
-  value?: number
-  initialValue?: number
-  onSubmit?: (value: number | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableApiIconIdProps extends EditableInput<number> {
   entryName?: string
 }
 

@@ -13,6 +13,7 @@ import preventLeave from "../../utils/preventLeave"
 import { Copy, Edit } from "tabler-icons-react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import colorNames from "../../models/color-names.json"
+import EditableInput from "../../types/EditableInput"
 
 const colorNameKeys = Object.keys(colorNames)
 const colorNamesRGB = colorNameKeys.map((val) => [
@@ -53,13 +54,7 @@ export const getColorNameFromHex = (hex: string) => {
   return name
 }
 
-interface EditableColorProps {
-  label?: string
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableColorProps extends EditableInput<string> {
   style?: CSSProperties
   styles?: Partial<
     Record<"label" | "required" | "root" | "error" | "description", CSSObject>

@@ -2,17 +2,12 @@ import { Group, Switch, Text, Checkbox } from "@mantine/core"
 import { useHover } from "@mantine/hooks"
 
 import { useEffect, useState, useRef } from "react"
+import EditableInput from "../../types/EditableInput"
 
 // FIXME: respect disabled state
 // TODO: Remake this to respect height
 
-interface EditableBoolProps {
-  label?: string
-  value?: boolean
-  initialValue?: boolean
-  onSubmit?: (value: boolean) => void
-  disabled?: boolean
-  required?: boolean
+interface EditableBoolProps extends EditableInput<boolean> {
   checkbox?: boolean
   checkLabels: { checked: string; unchecked: string }
   stateLabels: { checked: string; unchecked: string }

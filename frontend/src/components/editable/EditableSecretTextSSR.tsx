@@ -13,11 +13,8 @@ import Underline from "@tiptap/extension-underline"
 import TextAlign from "@tiptap/extension-text-align"
 import Superscript from "@tiptap/extension-superscript"
 import SubScript from "@tiptap/extension-subscript"
-interface EditableSecretTextProps {
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
-  disabled?: boolean
+import EditableInput from "../../types/EditableInput"
+interface EditableSecretTextProps extends EditableInput<string> {
   maxLength?: number
 }
 
