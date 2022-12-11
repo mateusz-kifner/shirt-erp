@@ -1,6 +1,6 @@
 @authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjY5NjU4OTM4LCJleHAiOjE2NzIyNTA5Mzh9.0AEHrdZSHt7gX-yy-J1wybmm86yDYow6B37gbZ1-J1o
 
-@host=http://api_shirt.ct8.pl:80
+@host=http://localhost:1337
 ###
 
 POST {{host}}/api/auth/local
@@ -156,7 +156,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/order-archives
+GET {{host}}/api/order-archives/4
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -167,3 +167,16 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {"data":{"name":"test2"}}
+
+
+###
+
+GET  {{host}}/api/order-archives/unarchive/3
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+GET  {{host}}/api/order/archive/6
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
