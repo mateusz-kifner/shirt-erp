@@ -19,18 +19,11 @@ const Button = (props: ButtonProps) => {
     color = "blue",
     rightSection,
     leftSection,
-    className,
     ...moreProps
   } = props
   return (
     <button
-      className={`btn ${
-        variant === "filled" ? `bg-${color}-600 hover:bg-${color}-700` : ""
-      } ${
-        variant === "outline"
-          ? `border-2 border-solid text-${color}-600 border-${color}-600 hover:border-${color}-700 hover:bg-black dark:hover:bg-white hover:bg-opacity-10 dark:hover:bg-opacity-10`
-          : ""
-      } ${className}`}
+      className={`btn bg-${color}-600 hover:bg-${color}-700`}
       {...moreProps}
     >
       {!!leftSection && leftSection}
