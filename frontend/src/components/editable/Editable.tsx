@@ -4,6 +4,8 @@ import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
 import EditableRichText from "./EditableRichText"
 import EditableSecretText from "./EditableSecretText"
+import EditableDateTime from "./EditableDateTime"
+import EditableDate from "./EditableDate"
 import EditableBool from "./EditableBool"
 import EditableColor from "./EditableColor"
 import EditableEnum from "./EditableEnum"
@@ -32,7 +34,6 @@ import EditableTableView from "./EditableTableView"
 import InputText from "../input/InputText"
 import { omit } from "lodash"
 import InputDate from "../input/InputDate"
-import InputDateTime from "../input/InputDateTime"
 
 const ApiProps: {
   [key: string]: {
@@ -102,7 +103,7 @@ const Fields: {
       Icon: Cash,
     },
   },
-  datetime: { component: InputDateTime, props: {} },
+  datetime: { component: EditableDateTime, props: {} },
   date: { component: InputDate, props: {} },
   boolean: { component: EditableBool, props: {} },
   color: { component: EditableColor, props: {} },
