@@ -52,22 +52,17 @@ const InputDate = (props: InputDateProps) => {
   const [date, setDate] = useState<Date | null>(
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )
-  const [text, setText] = useState(dayjs(date).format("L").toString())
+  const [text, setText] = useState(date?.toString())
 
-  const [debouncedText, cancel] = useDebouncedValue(text, 300)
+  const [debouncedText, cancel] = useDebouncedValue(text, 1000)
   const { ref: leftSectionRef, width: leftSectionWidth } = useElementSize()
   const { ref: rightSectionRef, width: rightSectionWidth } = useElementSize()
   const textAreaRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    const newDate = dayjs(debouncedText, dateFormat, i18next.language)
-    if (
-      newDate.toString() != "Invalid Date" &&
-      newDate.format("YYYY-MM-DD").toString() !=
-        dayjs(value).format("YYYY-MM-DD").toString()
-    ) {
-      onSubmit?.(newDate.format("YYYY-MM-DD").toString())
-    }
+    const newDate = dayjs(debouncedText, dateFormat, i18next.language).toDate()
+    console.log(newDate)
+    // const dateString = dayjs(date).format("L").toString()
   }, [debouncedText])
 
   useEffect(() => {}, [])
@@ -78,12 +73,10 @@ const InputDate = (props: InputDateProps) => {
       onFocus={handleFocusForInnerElements(() => setOpened(true))}
       onBlur={handleBlurForInnerElements(() => setOpened(false))}
     >
-      {opened && !disabled && (
+      {opened && (
         <Calendar
           className={"absolute top-full mt-2 left-0 z-[120] rounded"}
-          onChange={(date: Date) => {
-            setText(dayjs(date).format("L").toString())
-          }}
+          onChange={(date: Date) => setText(dayjs(date).format("L").toString())}
           value={date}
         />
       )}

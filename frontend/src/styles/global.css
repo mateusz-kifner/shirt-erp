@@ -49,11 +49,12 @@
     min-h-0;
   }
   .display-cell {
-    @apply p-2 
+    @apply data-disabled:bg-transparent 
+      dark:data-disabled:bg-transparent 
+      p-2 
       rounded
       focus-visible:outline
       /* outline-offset-2 */
-      
       outline-sky-700
       outline-2
       min-h-[2.25rem]
@@ -76,13 +77,7 @@
       data-disabled:text-gray-500
       dark:data-disabled:text-gray-500
       read-only:bg-transparent
-      dark:read-only:bg-transparent
-      data-disabled:bg-transparent 
-      dark:data-disabled:bg-transparent 
-      read-only:outline-none
-      dark:read-only:outline-none
-      data-disabled:outline-none
-      dark:data-disabled:outline-none;
+      dark:read-only:bg-transparent;
   }
 
   .display-cell svg {
@@ -261,7 +256,7 @@ body {
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
-  @apply dark:bg-dark-700 dark:border dark:border-solid dark:border-dark-400 overflow-hidden;
+  @apply dark:bg-dark-800 dark:border dark:border-solid dark:border-dark-400 overflow-hidden;
 }
 
 .react-calendar--doubleView {
