@@ -63,8 +63,8 @@ export const NavButton = ({
       href={to}
       onClick={onClick}
     >
-      <div className="flex flex-row gap-3 justify-between flex-nowrap items-center">
-        <div className="flex flex-row gap-4 flex-nowrap items-center">
+      <Group position="apart" noWrap>
+        <Group spacing="xl" noWrap>
           {Icon ? (
             <ThemeIcon
               variant={gradient ? "gradient" : "filled"}
@@ -83,7 +83,7 @@ export const NavButton = ({
               {label}
             </Text>
           )}
-        </div>
+        </Group>
         {!small && (
           <ChevronRight
             style={{
@@ -91,7 +91,7 @@ export const NavButton = ({
             }}
           />
         )}
-      </div>
+      </Group>
     </UnstyledButton>
   )
 }

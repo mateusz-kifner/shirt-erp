@@ -50,8 +50,9 @@ const FileListItem = ({
             (value?.token && !value.public ? "?token=" + value?.token : ""))
       : undefined
   return (
-    <div
-      className="flex flex-row gap-3 overflow-hidden items-center radius border-2 border-solid  border-gray-300 dark:border-dark-400"
+    <Group
+      sx={[SxBorder, SxRadius, { overflow: "hidden" }]}
+      align="center"
       style={style}
     >
       <Box
@@ -171,7 +172,7 @@ const FileListItem = ({
       >
         <Download />
       </ActionIcon>
-    </div>
+    </Group>
   )
 }
 

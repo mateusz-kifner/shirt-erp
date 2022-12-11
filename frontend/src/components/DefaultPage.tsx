@@ -32,7 +32,16 @@ const DefaultPage = ({
   }, [params?.id])
 
   return (
-    <div className="flex flex-row gap-3 flex-nowrap items-start p-4 sm:0">
+    <Group
+      sx={(theme) => ({
+        flexWrap: "nowrap",
+        alignItems: "flex-start",
+        padding: theme.spacing.xl,
+        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+          padding: 0,
+        },
+      })}
+    >
       <ResponsivePaper>
         <ApiList
           ListItem={ListElem}
@@ -50,7 +59,7 @@ const DefaultPage = ({
       <ResponsivePaper style={{ flexGrow: 1 }}>
         <ApiEntryEditable template={template} entryName={entryName} id={id} />
       </ResponsivePaper>
-    </div>
+    </Group>
   )
 }
 

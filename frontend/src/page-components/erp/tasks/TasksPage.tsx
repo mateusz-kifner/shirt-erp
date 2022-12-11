@@ -204,14 +204,14 @@ const TasksPage = () => {
       />
       {id !== null ? (
         <div className="flex flex-col gap-3">
-          <div className="flex flex-row gap-3 justify-between">
+          <Group position="apart">
             <Title order={3}>{data?.name}</Title>
             <Link href={"/erp/orders/" + data?.id} passHref>
               <ActionIcon size="lg" radius="xl">
                 <ExternalLink />
               </ActionIcon>
             </Link>
-          </div>
+          </Group>
           <ApiEntryEditable template={template} entryName={"orders"} id={id} />
         </div>
       ) : (

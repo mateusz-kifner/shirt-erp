@@ -30,7 +30,17 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
   console.log(data)
   const isDangerous = id ? emailMessageHtmlAllowed.includes(id) : false
   return (
-    <div className="flex flex-row gap-3 flex-nowrap items-start p-4 max-w-full sm:p-0">
+    <Group
+      sx={(theme) => ({
+        flexWrap: "nowrap",
+        alignItems: "flex-start",
+        padding: theme.spacing.xl,
+        [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
+          padding: 0,
+        },
+        maxWidth: "100%",
+      })}
+    >
       {data && (
         <div className="flex flex-col max-w-[100%] gap-3">
           <div className="flex flex-row max-w-[100%] gap-3">
@@ -64,10 +74,10 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
             </Menu>
           </div>
 
-          <div className="flex flex-row gap-3">
+          <Group>
             {"Od: "}
             {data.from} {", Do: "} {data.to}
-          </div>
+          </Group>
           <TypographyStylesProvider>
             <div
               dangerouslySetInnerHTML={{
@@ -87,7 +97,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
           />
         </div>
       )}
-    </div>
+    </Group>
   )
 }
 

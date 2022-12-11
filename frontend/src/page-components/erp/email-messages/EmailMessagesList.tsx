@@ -104,9 +104,9 @@ const EmailMessagesList = <T extends any>({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3">
-        <div className="flex flex-row gap-3 justify-between">
+        <Group position="apart">
           <Title order={2}>{label}</Title>
-          <div className="flex flex-row gap-2">
+          <Group spacing="xs">
             <ActionIcon
               size="lg"
               radius="xl"
@@ -131,10 +131,10 @@ const EmailMessagesList = <T extends any>({
                 <Plus />
               </ActionIcon>
             )} */}
-          </div>
-        </div>
-        <div className="flex flex-row gap-3 px-2">
-          <div className="flex flex-row gap-3">
+          </Group>
+        </Group>
+        <Group spacing="md" px="sm">
+          <Group>
             <ActionIcon
               size="lg"
               radius="xl"
@@ -143,7 +143,7 @@ const EmailMessagesList = <T extends any>({
             >
               {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
             </ActionIcon>
-          </div>
+          </Group>
           {/* <Autocomplete
             placeholder="Search"
             radius="xl"
@@ -164,7 +164,7 @@ const EmailMessagesList = <T extends any>({
             icon={<Search />}
             style={{ flexGrow: 1 }}
           />
-        </div>
+        </Group>
       </div>
       <div className="flex flex-col gap-0">
         <Box
