@@ -24,7 +24,7 @@ const List = <T extends any>({
   const uuid = useId()
 
   return (
-    <div className="flex flex-col gap-3">
+    <Stack spacing={listSpacing}>
       {data &&
         data.map((val: any, index: number) => (
           <Box
@@ -52,7 +52,7 @@ const List = <T extends any>({
             />
           </Box>
         ))}
-    </div>
+    </Stack>
   )
 }
 

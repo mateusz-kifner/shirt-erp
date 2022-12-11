@@ -39,7 +39,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
       size="xl"
       title="Utwórz nowe zamówienie"
     >
-      <div className="flex flex-col gap-3">
+      <Stack>
         <EditableApiEntry
           label="Mail"
           entryName="email-client/messages"
@@ -109,7 +109,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           Utwórz zamówienie
         </Button>
         <Text color="red">{error}</Text>
-      </div>
+      </Stack>
     </Modal>
   )
 }

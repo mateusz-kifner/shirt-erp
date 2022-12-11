@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Paper, ScrollArea, Sx } from "@mantine/core"
+import { ActionIcon, Box, Paper, ScrollArea, Stack, Sx } from "@mantine/core"
 import { useFocusWithin } from "@mantine/hooks"
 import { forwardRef, ReactNode, SyntheticEvent, useState } from "react"
 import { PinnedOff, Pinned } from "tabler-icons-react"
@@ -69,8 +69,8 @@ const NavBar = ({
         withBorder
       >
         <ScrollArea type="scroll" style={{ minWidth: width }}>
-          <div
-            className="flex flex-col gap-0"
+          <Stack
+            spacing={0}
             //SCROLL AREA STYLES
             style={{
               minHeight: "calc(100vh - var(--mantine-header-height))",
@@ -97,7 +97,7 @@ const NavBar = ({
             >
               {pin ? <Pinned /> : <PinnedOff />}
             </ActionIcon>
-          </div>
+          </Stack>
         </ScrollArea>
       </Paper>
     </Box>

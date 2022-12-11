@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Group,
   Menu,
+  Stack,
   Title,
   TypographyStylesProvider,
 } from "@mantine/core"
@@ -42,8 +43,8 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
       })}
     >
       {data && (
-        <div className="flex flex-col max-w-[100%] gap-3">
-          <div className="flex flex-row max-w-[100%] gap-3">
+        <Stack maw="100%">
+          <Group maw="100%">
             <Title order={3} style={{ flexGrow: 1 }}>
               {data.subject}
             </Title>
@@ -72,7 +73,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
                 )}
               </Menu.Dropdown>
             </Menu>
-          </div>
+          </Group>
 
           <Group>
             {"Od: "}
@@ -95,7 +96,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
             }
             disabled={true}
           />
-        </div>
+        </Stack>
       )}
     </Group>
   )

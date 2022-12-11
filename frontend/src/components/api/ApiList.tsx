@@ -1,4 +1,5 @@
 import {
+  Stack,
   Title,
   Group,
   Autocomplete,
@@ -102,7 +103,6 @@ const ApiList = <T extends any>({
 
   useEffect(() => {
     refetch()
-    // eslint-disable-next-line
   }, [selectedId])
 
   const onChangeWithBlocking = (val: T) => {
@@ -112,8 +112,12 @@ const ApiList = <T extends any>({
   }
 
   return (
-    <div className="flex flex-col gap-3 ">
-      <div className="flex flex-col gap-3">
+    <Stack
+      spacing={spacing}
+      // {...bind()}
+      // style={{ touchAction: "none" }}
+    >
+      <Stack>
         <Group position="apart">
           <Title order={2}>{label}</Title>
           <Group spacing="xs">
@@ -169,8 +173,8 @@ const ApiList = <T extends any>({
             style={{ flexGrow: 1 }}
           />
         </Group>
-      </div>
-      <div className="flex flex-col gap-3 relative ">
+      </Stack>
+      <Stack spacing={0}>
         <Box
           style={{
             height: y > 100 ? 100 : y,
@@ -195,7 +199,7 @@ const ApiList = <T extends any>({
           listItemProps={listItemProps}
           listSpacing={listSpacing}
         />
-      </div>
+      </Stack>
       <Pagination
         total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
         initialPage={meta?.pagination?.page ? meta.pagination.page : 1}
@@ -204,7 +208,7 @@ const ApiList = <T extends any>({
         position="center"
         onChange={setPage}
       />
-    </div>
+    </Stack>
   )
 }
 

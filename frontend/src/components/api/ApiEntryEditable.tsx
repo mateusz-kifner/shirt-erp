@@ -1,4 +1,4 @@
-import { Text, ActionIcon } from "@mantine/core"
+import { Stack, Text, ActionIcon } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useState } from "react"
 import { Refresh } from "tabler-icons-react"
@@ -52,16 +52,16 @@ const ApiEntryEditable = <EntryType extends any>({
   }
 
   return (
-    <div className="flex flex-col gap-3 relative min-h-[200px]">
+    <Stack style={{ position: "relative", minHeight: 200 }}>
       {data && Object.keys(data).length > 0 ? (
         <>
-          <div className="flex flex-col gap-3 relative min-h-[200px]">
+          <Stack style={{ position: "relative", minHeight: 200 }}>
             <Editable
               template={template}
               data={data as any}
               onSubmit={apiUpdate}
             />
-          </div>
+          </Stack>
           {allowDelete && (
             <DeleteButton
               label={`${entryName}.singular`}
@@ -102,7 +102,7 @@ const ApiEntryEditable = <EntryType extends any>({
       >
         <Refresh />
       </ActionIcon>
-    </div>
+    </Stack>
   )
 }
 

@@ -21,7 +21,7 @@ import {
   Table,
   Vector,
 } from "tabler-icons-react"
-import { Group, Menu, Text } from "@mantine/core"
+import { Group, Menu, Overlay, Stack, Text } from "@mantine/core"
 import DeleteButton from "../../../components/DeleteButton"
 import { useTranslation } from "../../../i18n"
 import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
@@ -281,7 +281,7 @@ const OrdersPage: NextPage = () => {
             return (
               table && (
                 <div key={uuid + index}>
-                  <div className="flex flex-col gap-3 min-h-[200px]">
+                  <Stack style={{ minHeight: 200 }}>
                     <Editable
                       template={table_template}
                       data={table}
@@ -297,7 +297,7 @@ const OrdersPage: NextPage = () => {
                         )
                       }}
                     />{" "}
-                  </div>
+                  </Stack>
                   <Group></Group>
                   <DeleteButton
                     label="sheet"
@@ -320,7 +320,7 @@ const OrdersPage: NextPage = () => {
             return (
               design && (
                 <div key={uuid + index}>
-                  <div className="flex flex-col gap-3 min-h-[200px]">
+                  <Stack style={{ minHeight: 200 }}>
                     <Editable
                       template={design_template}
                       data={design}
@@ -336,7 +336,7 @@ const OrdersPage: NextPage = () => {
                         )
                       }}
                     />{" "}
-                  </div>
+                  </Stack>
                   <Group></Group>
                   <DeleteButton
                     label="design"

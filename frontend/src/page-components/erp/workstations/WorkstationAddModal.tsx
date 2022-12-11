@@ -36,7 +36,7 @@ const WorkstationAddModal = ({ opened, onClose }: WorkstationAddModalProps) => {
       size="xl"
       title="Utwórz nowe stanowisko"
     >
-      <div className="flex flex-col gap-3">
+      <Stack>
         <EditableApiEntry
           label="Szablon"
           entryName="workstations"
@@ -77,7 +77,7 @@ const WorkstationAddModal = ({ opened, onClose }: WorkstationAddModalProps) => {
           Utwórz stanowisko
         </Button>
         <Text color="red">{error}</Text>
-      </div>
+      </Stack>
     </Modal>
   )
 }

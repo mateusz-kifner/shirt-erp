@@ -1,4 +1,5 @@
 import {
+  Stack,
   Title,
   Group,
   ActionIcon,
@@ -81,8 +82,8 @@ const TasksList = ({
       ) ?? []
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-3">
+    <Stack spacing={spacing}>
+      <Stack>
         <Group position="apart">
           <Title order={2}>{capitalize(t("tasks.plural"))}</Title>
           <Group spacing="xs">
@@ -116,7 +117,7 @@ const TasksList = ({
             style={{ flexGrow: 1 }}
           />
         </Group>
-      </div>
+      </Stack>
       <List
         data={filteredOrders.filter(
           (_, index) =>
@@ -137,7 +138,7 @@ const TasksList = ({
         position="center"
         onChange={setPage}
       />
-    </div>
+    </Stack>
   )
 }
 

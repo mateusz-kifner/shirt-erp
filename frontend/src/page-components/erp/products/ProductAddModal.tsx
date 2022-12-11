@@ -34,7 +34,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
       size="xl"
       title="Utwórz nowy produkt"
     >
-      <div className="flex flex-col gap-3">
+      <Stack>
         <EditableApiEntry
           label="Szablon"
           entryName="products"
@@ -74,7 +74,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
           Utwórz produkt
         </Button>
         <Text color="red">{error}</Text>
-      </div>
+      </Stack>
     </Modal>
   )
 }

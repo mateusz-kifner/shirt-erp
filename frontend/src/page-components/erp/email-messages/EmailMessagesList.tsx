@@ -1,4 +1,5 @@
 import {
+  Stack,
   Title,
   Group,
   Autocomplete,
@@ -102,8 +103,12 @@ const EmailMessagesList = <T extends any>({
     : undefined
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-3">
+    <Stack
+      spacing="xl"
+      // {...bind()}
+      // style={{ touchAction: "none" }}
+    >
+      <Stack>
         <Group position="apart">
           <Title order={2}>{label}</Title>
           <Group spacing="xs">
@@ -165,8 +170,8 @@ const EmailMessagesList = <T extends any>({
             style={{ flexGrow: 1 }}
           />
         </Group>
-      </div>
-      <div className="flex flex-col gap-0">
+      </Stack>
+      <Stack spacing={0}>
         <Box
           style={{
             height: y > 100 ? 100 : y,
@@ -188,7 +193,7 @@ const EmailMessagesList = <T extends any>({
           onChange={onChangeWithBlocking}
           selectedId={selectedId}
         />
-      </div>
+      </Stack>
       <Pagination
         total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
         initialPage={meta?.pagination?.page ? meta.pagination.page : 1}
@@ -197,7 +202,7 @@ const EmailMessagesList = <T extends any>({
         position="center"
         onChange={setPage}
       />
-    </div>
+    </Stack>
   )
 }
 
