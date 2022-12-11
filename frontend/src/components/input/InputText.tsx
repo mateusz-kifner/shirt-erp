@@ -82,7 +82,7 @@ const InputText = (props: InputTextProps) => {
   }, [])
 
   return (
-    <div className="flex-grow">
+    <div className="relative flex-grow">
       {label && (
         <label
           htmlFor={"textarea_" + uuid}
@@ -106,51 +106,47 @@ const InputText = (props: InputTextProps) => {
           )}
         </label>
       )}
-      <div className="relative">
-        <div
-          className="absolute top-1/2 left-1 -translate-y-1/2"
-          ref={leftSectionRef}
-        >
-          {!!leftSection && leftSection}
-        </div>
-        <textarea
-          id={"textarea_" + uuid}
-          required={required}
-          readOnly={disabled}
-          ref={textAreaRef}
-          className={"w-full resize-none overflow-hidden display-cell"}
-          style={{
-            paddingLeft: `calc(${leftSectionWidth}px + 0.5rem)`,
-            paddingRight: `calc(${rightSectionWidth}px + 0.5rem)`,
-          }}
-          {...moreProps}
-          value={text}
-          onFocus={() => window.addEventListener("beforeunload", preventLeave)}
-          onBlur={() =>
-            window.removeEventListener("beforeunload", preventLeave)
+      <div
+        className="absolute top-1/2 left-1 -translate-y-1/2"
+        ref={leftSectionRef}
+      >
+        {!!leftSection && leftSection}
+      </div>
+      <textarea
+        id={"textarea_" + uuid}
+        required={required}
+        readOnly={disabled}
+        ref={textAreaRef}
+        className={"w-full resize-none overflow-hidden display-cell"}
+        style={{
+          paddingLeft: `calc(${leftSectionWidth}px + 0.5rem)`,
+          paddingRight: `calc(${rightSectionWidth}px + 0.5rem)`,
+        }}
+        {...moreProps}
+        value={text}
+        onFocus={() => window.addEventListener("beforeunload", preventLeave)}
+        onBlur={() => window.removeEventListener("beforeunload", preventLeave)}
+        onChange={(e) => {
+          if (!(maxLength && e.target.value.length > maxLength)) {
+            setText(e.target.value)
+            cancel()
           }
-          onChange={(e) => {
-            if (!(maxLength && e.target.value.length > maxLength)) {
-              setText(e.target.value)
-              cancel()
-            }
-          }}
-          onKeyDown={(e) => {
-            console.log(e)
-            if (e.key == "Enter" && !e.shiftKey) {
-              ;(e.target as HTMLTextAreaElement).blur()
-              e.preventDefault()
-              return false
-            }
-          }}
-          onInput={(e) => setTextAreaHeight(e.target as HTMLTextAreaElement)}
-        />
-        <div
-          className="absolute top-1/2 right-1 -translate-y-1/2"
-          ref={rightSectionRef}
-        >
-          {!!rightSection && rightSection}
-        </div>
+        }}
+        onKeyDown={(e) => {
+          console.log(e)
+          if (e.key == "Enter" && !e.shiftKey) {
+            ;(e.target as HTMLTextAreaElement).blur()
+            e.preventDefault()
+            return false
+          }
+        }}
+        onInput={(e) => setTextAreaHeight(e.target as HTMLTextAreaElement)}
+      />
+      <div
+        className="absolute top-1/2 right-1 -translate-y-1/2"
+        ref={rightSectionRef}
+      >
+        {!!rightSection && rightSection}
       </div>
     </div>
   )
