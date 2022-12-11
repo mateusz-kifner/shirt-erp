@@ -33,7 +33,6 @@ import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 import InputText from "../input/InputText"
 import { omit } from "lodash"
-import InputDate from "../input/InputDate"
 
 const ApiProps: {
   [key: string]: {
@@ -104,7 +103,7 @@ const Fields: {
     },
   },
   datetime: { component: EditableDateTime, props: {} },
-  date: { component: InputDate, props: {} },
+  date: { component: EditableDate, props: {} },
   boolean: { component: EditableBool, props: {} },
   color: { component: EditableColor, props: {} },
   enum: { component: EditableEnum, props: {} },
