@@ -33,9 +33,6 @@ interface EditableApiEntryProps extends EditableInput<any> {
   Element: React.ElementType
   copyProvider?: (value: any | null) => string | undefined
   style?: CSSProperties
-  styles?: Partial<
-    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
-  >
   withErase?: boolean
   listProps?: any
   linkEntry?: boolean
@@ -54,7 +51,6 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     Element,
     entryName,
     copyProvider = () => "",
-    styles,
     style,
     withErase = false,
     listProps,
@@ -138,7 +134,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
       labelElement="div"
       required={required}
       // style={{ position: "relative" }}
-      styles={{ ...styles, label: { ...styles?.label, width: "100%" } }}
+      styles={{ label: { width: "100%" } }}
       style={style}
     >
       <Modal

@@ -15,14 +15,7 @@ import dayjs from "dayjs"
 import DisplayCell from "../details/DisplayCell"
 import EditableInput from "../../types/EditableInput"
 
-interface EditableDateProps extends EditableInput<string> {
-  label?: string
-  value?: string
-  initialValue?: string
-  onSubmit?: (value: string | null) => void
-  disabled?: boolean
-  required?: boolean
-}
+interface EditableDateProps extends EditableInput<string> {}
 
 const EditableDate = ({
   label,

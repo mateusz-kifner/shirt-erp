@@ -1,7 +1,7 @@
 import { ClientType } from "../types/ClientType"
 import { OrderType } from "../types/OrderType"
 
-export default {
+const order_template = {
   id: { type: "id" },
 
   name: {
@@ -128,3 +128,5 @@ export default {
     disabled: true,
   },
 }
+
+export default order_template

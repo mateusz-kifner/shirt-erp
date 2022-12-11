@@ -6,22 +6,11 @@ import { FileType } from "../../types/FileType"
 
 interface EditableColorProps extends EditableInput<FileType> {
   style?: CSSProperties
-  styles?: Partial<
-    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
-  >
 }
 
 const EditableFile = (props: EditableColorProps) => {
-  const {
-    label,
-    value,
-    initialValue,
-    onSubmit,
-    disabled,
-    required,
-    style,
-    styles,
-  } = props
+  const { label, value, initialValue, onSubmit, disabled, required, style } =
+    props
 
   const clipboard = useClipboard()
 
@@ -58,7 +47,6 @@ const EditableFile = (props: EditableColorProps) => {
       labelElement="div"
       required={required}
       style={style}
-      styles={styles}
     >
       <div></div>
     </Input.Wrapper>

@@ -24,7 +24,6 @@ const EditableRichText = ({
   label,
   value,
   initialValue,
-
   onSubmit,
   disabled,
   required,

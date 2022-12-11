@@ -56,22 +56,11 @@ export const getColorNameFromHex = (hex: string) => {
 
 interface EditableColorProps extends EditableInput<string> {
   style?: CSSProperties
-  styles?: Partial<
-    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
-  >
 }
 
 const EditableColor = (props: EditableColorProps) => {
-  const {
-    label,
-    value,
-    initialValue,
-    onSubmit,
-    disabled,
-    required,
-    style,
-    styles,
-  } = props
+  const { label, value, initialValue, onSubmit, disabled, required, style } =
+    props
   const [color, setColor] = useState<string>(value ?? initialValue ?? "#ffffff")
   const [prevColor, setPrevColor] = useState(color)
   const [active, setActive] = useState<boolean>(false)
@@ -182,7 +171,6 @@ const EditableColor = (props: EditableColorProps) => {
       labelElement="div"
       required={required}
       style={style}
-      styles={styles}
       ref={refHover}
     >
       <div ref={ref} style={{ position: "relative" }}>

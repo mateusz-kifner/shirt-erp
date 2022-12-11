@@ -13,7 +13,7 @@ import {
   useMergedRef,
 } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import { useEffect, useState, CSSProperties, ReactNode, useRef } from "react"
+import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ArrowBackUp, Copy, Edit } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
@@ -23,9 +23,6 @@ import EditableInput from "../../types/EditableInput"
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number
   style?: CSSProperties
-  styles?: Partial<
-    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
-  >
 }
 
 const EditableText = (props: EditableTextProps) => {
@@ -38,7 +35,6 @@ const EditableText = (props: EditableTextProps) => {
     required,
     maxLength,
     style,
-    styles,
   } = props
 
   const [text, setText] = useState(value ?? initialValue ?? "")
@@ -135,7 +131,6 @@ const EditableText = (props: EditableTextProps) => {
       labelElement="div"
       required={required}
       style={style}
-      styles={styles}
       ref={wrapperRef}
     >
       <div style={{ position: "relative" }}>

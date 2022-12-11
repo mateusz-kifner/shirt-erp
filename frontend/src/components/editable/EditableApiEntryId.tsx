@@ -9,9 +9,6 @@ interface EditableApiEntryIdProps extends EditableInput<number> {
   Element: React.ElementType
   copyProvider?: (value: any | null) => string | undefined
   style?: CSSProperties
-  styles?: Partial<
-    Record<"label" | "required" | "root" | "error" | "description", CSSObject>
-  >
   withErase?: boolean
 }
 
@@ -26,7 +23,6 @@ const EditableApiEntryId = (props: EditableApiEntryIdProps) => {
     Element,
     entryName,
     copyProvider = () => "",
-    styles,
     style,
     withErase = false,
   } = props
