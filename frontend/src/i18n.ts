@@ -12,8 +12,8 @@ import "dayjs/locale/pl"
 import dayjs from "dayjs"
 import localizedFormat from "dayjs/plugin/localizedFormat"
 import relativeTime from "dayjs/plugin/relativeTime"
+
 import isToday from "dayjs/plugin/isToday"
-import customParseFormat from "dayjs/plugin/customParseFormat"
 
 export const defaultNS = "translation"
 export const resources = {
@@ -36,12 +36,10 @@ const i18n = i18next.use(initReactI18next).init({
 //wait for i18n initialization to get current locale
 i18n.then(() => {
   dayjs.locale(i18next.language)
-  console.log("locale: ", i18next.language)
 })
 dayjs.extend(localizedFormat)
 dayjs.extend(isToday)
 dayjs.extend(relativeTime)
-dayjs.extend(customParseFormat)
 
 export default i18n
 

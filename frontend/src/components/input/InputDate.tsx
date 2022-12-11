@@ -1,22 +1,14 @@
-import { Popover, Portal } from "@mantine/core"
 import { useClipboard, useDebouncedValue, useElementSize } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
-import i18next from "i18next"
-import Calendar from "react-calendar"
 import {
   DetailedHTMLProps,
   InputHTMLAttributes,
   ReactNode,
-  useEffect,
   useId,
-  useRef,
   useState,
 } from "react"
 import { Copy } from "tabler-icons-react"
-import i18n, { useTranslation } from "../../i18n"
-import { handleFocusForInnerElements } from "../../utils/handleFocusForInnerElements"
-import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
 
 interface InputDateProps
   extends DetailedHTMLProps<
@@ -46,40 +38,18 @@ const InputDate = (props: InputDateProps) => {
   } = props
   const uuid = useId()
   const clipboard = useClipboard()
-  const { t } = useTranslation()
-  const dateFormat = i18next.language === "pl" ? "DD.MM.YYYY" : "YYYY-MM-DD"
-  const [opened, setOpened] = useState<boolean>(false)
+
   const [date, setDate] = useState<Date | null>(
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )
   const [text, setText] = useState(date?.toString())
 
-  const [debouncedText, cancel] = useDebouncedValue(text, 1000)
+  const [debouncedDate, cancel] = useDebouncedValue(date, 1000)
   const { ref: leftSectionRef, width: leftSectionWidth } = useElementSize()
   const { ref: rightSectionRef, width: rightSectionWidth } = useElementSize()
-  const textAreaRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    const newDate = dayjs(debouncedText, dateFormat, i18next.language).toDate()
-    console.log(newDate)
-    // const dateString = dayjs(date).format("L").toString()
-  }, [debouncedText])
-
-  useEffect(() => {}, [])
 
   return (
-    <div
-      className="relative flex-grow"
-      onFocus={handleFocusForInnerElements(() => setOpened(true))}
-      onBlur={handleBlurForInnerElements(() => setOpened(false))}
-    >
-      {opened && (
-        <Calendar
-          className={"absolute top-full mt-2 left-0 z-[120] rounded"}
-          onChange={(date: Date) => setText(dayjs(date).format("L").toString())}
-          value={date}
-        />
-      )}
+    <div className="relative flex-grow">
       {label && (
         <label
           htmlFor={"inputDate_" + uuid}
@@ -93,7 +63,7 @@ const InputDate = (props: InputDateProps) => {
                 const dateString = dayjs(date).format("L").toString()
                 clipboard.copy(dateString)
                 showNotification({
-                  title: t("copy to clipboard"),
+                  title: "Skopiowano do schowka",
                   message: dateString,
                 })
               }}
@@ -111,13 +81,9 @@ const InputDate = (props: InputDateProps) => {
         {!!leftSection && leftSection}
       </div>
       <input
-        id={"inputDate_" + uuid}
-        ref={textAreaRef}
         value={text}
         onChange={(e) => setText(e.target.value)}
         className={"w-full resize-none overflow-hidden display-cell"}
-        readOnly={disabled}
-        required={required}
       />
 
       <div

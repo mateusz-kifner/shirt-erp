@@ -123,7 +123,7 @@ const SettingsPage = () => {
         /> */}
       </Modal>
       <Paper shadow="xs" p="xl" withBorder>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-row gap-3">
           <Button
             style={{ width: "100%", color: "#fff" }}
             onClick={() => {
