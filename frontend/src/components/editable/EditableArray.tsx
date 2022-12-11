@@ -15,6 +15,7 @@ import {
   ArrowUp,
   Dots,
   Edit,
+  EditOff,
   GripVertical,
   Plus,
   TrashX,
@@ -317,7 +318,7 @@ const EditableArray = (props: EditableArrayProps) => {
               disabled={disabled}
               tabIndex={-1}
             >
-              <X size={18} />
+              <EditOff size={18} />
             </ActionIcon>
           </Group>
         ) : (
