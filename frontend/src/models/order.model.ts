@@ -1,7 +1,7 @@
 import { ClientType } from "../types/ClientType"
 import { OrderType } from "../types/OrderType"
 
-const order_template = {
+export default {
   id: { type: "id" },
 
   name: {
@@ -9,7 +9,6 @@ const order_template = {
     type: "text",
     initialValue: "",
     required: true,
-    maxLength: 255,
   },
   status: {
     label: "Status",
@@ -129,5 +128,3 @@ const order_template = {
     disabled: true,
   },
 }
-
-export default order_template

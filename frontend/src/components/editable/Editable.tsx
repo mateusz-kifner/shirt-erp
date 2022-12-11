@@ -31,8 +31,6 @@ import EditableTable from "./EditableTable"
 import OrderListItem from "../../page-components/erp/orders/OrderListItem"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
-import InputText from "../input/InputText"
-import { omit } from "lodash"
 
 const ApiProps: {
   [key: string]: {
@@ -84,10 +82,7 @@ const Fields: {
     }
   }
 } = {
-  text: {
-    component: InputText,
-    props: {},
-  },
+  text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
   number: {
@@ -180,7 +175,7 @@ const Fields: {
         ...props,
         Element: Field,
         elementProps: {
-          ...props, //omit(props, ["arrayType", "linkEntry"]),
+          ...props,
           type: props.arrayType,
         },
       }

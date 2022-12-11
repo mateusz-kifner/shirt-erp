@@ -28,11 +28,10 @@
       p-2 
       rounded
       focus-visible:outline
-      /* outline-offset-2 */
+      outline-offset-2
       outline-sky-700
       outline-2
-      min-h-[2.25rem]
-      h-fit
+      min-h-[2.75rem]
       max-h-screen
       flex 
       justify-center 
@@ -48,9 +47,7 @@
       whitespace-pre-line
       leading-[1.55]
       data-disabled:text-gray-500
-      dark:data-disabled:text-gray-500
-      read-only:bg-transparent
-      dark:read-only:bg-transparent;
+      dark:data-disabled:text-gray-500;
   }
 
   .display-cell svg {
