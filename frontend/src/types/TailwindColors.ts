@@ -24,7 +24,4 @@ type defaultColorNames =
 
 type extendedColorNames = "primary" | "grape" | "dark"
 
-export type TailwindColorNames = Extract<
-  defaultColorNames | extendedColorNames,
-  any
->
+export type TailwindColorNames = defaultColorNames | extendedColorNames

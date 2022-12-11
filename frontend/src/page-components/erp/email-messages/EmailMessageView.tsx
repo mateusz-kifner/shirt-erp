@@ -39,12 +39,11 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
           padding: 0,
         },
-        maxWidth: "100%",
       })}
     >
       {data && (
-        <Stack maw="100%">
-          <Group maw="100%">
+        <Stack>
+          <Group>
             <Title order={3} style={{ flexGrow: 1 }}>
               {data.subject}
             </Title>
