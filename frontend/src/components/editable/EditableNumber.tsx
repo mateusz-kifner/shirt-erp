@@ -16,7 +16,7 @@ import { showNotification } from "@mantine/notifications"
 import React, { ReactNode, useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
-import DisplayCell from "../basic/DisplayCell"
+import DisplayCell from "../details/DisplayCell"
 import { number } from "zod"
 
 // FIXME: make DisplayCell accept icon as ReactNode
@@ -177,10 +177,10 @@ const EditableDate = (props: EditableDateProps) => {
         />
       ) : (
         <DisplayCell
-          leftSection={icon}
+          icon={icon}
           rightSection={rightSection}
           disabled={disabled}
-          // hovered={hovered}
+          hovered={hovered}
         >
           {text ? text : "⸺"}
         </DisplayCell>

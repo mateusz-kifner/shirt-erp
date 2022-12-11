@@ -9,7 +9,6 @@ import {
   Select,
   Stack,
   Text,
-  TextInput,
 } from "@mantine/core"
 import { Affiliate, Bug, Logout, MoonStars, Sun } from "tabler-icons-react"
 import template from "../../../models/test.model.json"
@@ -21,8 +20,7 @@ import { useAuthContext } from "../../../context/authContext"
 import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
-import Button from "../../../components/basic/Button"
-import DisplayCell from "../../../components/basic/DisplayCell"
+import Button from "../../../components/basic/Button/Button"
 
 const testData = {
   name: "string",
@@ -102,17 +100,7 @@ const SettingsPage = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <Stack>
-          <DisplayCell
-            leftSection={<Bug />}
-            rightSection={<Bug />}
-            label="Test Label"
-          >
-            <div>test</div>
-          </DisplayCell>
-          <TextInput icon={<Bug />} label={"Test Label"} />
-        </Stack>
-        {/* <Editable
+        <Editable
           template={template}
           data={testData}
           onSubmit={(key, val) => {
@@ -121,7 +109,7 @@ const SettingsPage = () => {
               message: key + ": " + JSON.stringify(val),
             })
           }}
-        /> */}
+        />
       </Modal>
       <Paper shadow="xs" p="xl" withBorder>
         <Group>
@@ -130,9 +118,11 @@ const SettingsPage = () => {
             onClick={() => {
               signOut()
             }}
-            leftSection={<Logout />}
           >
-            Wyloguj
+            <Group>
+              <Logout />
+              Wyloguj
+            </Group>
           </Button>
           <Group style={{ width: "100%" }}>
             <Text style={{ flexGrow: 1 }}>{t("lang")}</Text>
@@ -163,30 +153,41 @@ const SettingsPage = () => {
             style={{ width: "100%", color: "#fff" }}
             onClick={() => toggleColorScheme()}
             title="Toggle color scheme"
-            leftSection={colorScheme === "dark" ? <Sun /> : <MoonStars />}
           >
-            {colorScheme === "dark" ? "Jasna skórka" : "Ciemna skórka"}
+            <Group>
+              {colorScheme === "dark" ? (
+                <>
+                  <Sun size={18} />
+                  Jasna skórka
+                </>
+              ) : (
+                <>
+                  <MoonStars size={18} />
+                  Ciemna skórka
+                </>
+              )}
+            </Group>
           </Button>
-          <NextLink
-            href="/erp/workstations"
-            passHref
-            style={{ display: "contents" }}
+          <Button
+            style={{ width: "100%", color: "#fff" }}
+            // component={NextLink}
+            // href={"/erp/workstations"}
           >
-            <Button
-              style={{ width: "100%", color: "#fff" }}
-              leftSection={<Affiliate />}
-            >
+            <Group>
+              <Affiliate />
               Ustawienia Produkcji
-            </Button>
-          </NextLink>
+            </Group>
+          </Button>
           <Button
             style={{ width: "100%", color: "#fff" }}
             onClick={() => {
               toggleDebug()
             }}
-            leftSection={<Bug />}
           >
-            Debug {debug ? "ON" : "OFF"}
+            <Group>
+              <Bug />
+              Debug {debug ? "ON" : "OFF"}
+            </Group>
           </Button>
           {debug && (
             <Stack style={{ width: "100%" }}>
@@ -196,9 +197,11 @@ const SettingsPage = () => {
                   setTestFormVisible(true)
                 }}
                 color="yellow"
-                leftSection={<Logout />}
               >
-                Open Test
+                <Group>
+                  <Logout />
+                  Open Test
+                </Group>
               </Button>
               <Button
                 style={{ width: "100%", color: "#fff" }}
@@ -206,9 +209,11 @@ const SettingsPage = () => {
                   toggleAdvancedNavigation()
                 }}
                 color="red"
-                leftSection={<Bug />}
               >
-                Experimental Navigation {advancedNavigation ? "ON" : "OFF"}
+                <Group>
+                  <Bug />
+                  Experimental Navigation {advancedNavigation ? "ON" : "OFF"}
+                </Group>
               </Button>
               <Button
                 style={{ width: "100%", color: "#fff" }}
@@ -216,9 +221,11 @@ const SettingsPage = () => {
                   toggleSearch()
                 }}
                 color="red"
-                leftSection={<Bug />}
               >
-                Experimental Search {search ? "ON" : "OFF"}
+                <Group>
+                  <Bug />
+                  Experimental Search {search ? "ON" : "OFF"}
+                </Group>
               </Button>
               <Text>{i18n.language}</Text>
             </Stack>

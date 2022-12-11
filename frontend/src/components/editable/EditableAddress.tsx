@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
 import { BuildingCommunity, Copy, Edit, X } from "tabler-icons-react"
-import DisplayCell from "../basic/DisplayCell"
+import DisplayCell from "../details/DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
 import { isEqual } from "lodash"
@@ -231,9 +231,9 @@ const EditableAddress = ({
       ) : (
         <div style={{ position: "relative" }}>
           <DisplayCell
-            leftSection={<BuildingCommunity />}
+            icon={<BuildingCommunity />}
             disabled={disabled}
-            // hovered={hovered}
+            hovered={hovered}
           >
             {" "}
             {toString()}

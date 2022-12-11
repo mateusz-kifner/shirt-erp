@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
 import { Copy, Calendar, TrashX, Edit, ArrowBackUp } from "tabler-icons-react"
 import dayjs from "dayjs"
-import DisplayCell from "../basic/DisplayCell"
+import DisplayCell from "../details/DisplayCell"
 
 interface EditableDateProps {
   label?: string
@@ -167,9 +167,9 @@ const EditableDate = ({
         />
       ) : (
         <DisplayCell
-          leftSection={<Calendar size={18} />}
+          icon={<Calendar size={18} />}
           disabled={disabled}
-          // hovered={hovered}
+          hovered={hovered}
         >
           {date ? dayjs(date).format("L").toString() : "⸺"}
         </DisplayCell>
