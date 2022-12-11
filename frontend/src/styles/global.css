@@ -11,8 +11,10 @@ code {
     monospace;
 }
 
-html, body, #root {
-  min-height: 100%
+html,
+body,
+#root {
+  min-height: 100%;
 }
 
 html,
@@ -28,37 +30,36 @@ body {
 }
 
 @media print {
-  body, html{
-    background-color: #fff !important; 
-
+  body,
+  html {
+    background-color: #fff !important;
   }
 
-   * {
+  * {
     color: #000 !important;
-    background-color: transparent !important; 
+    background-color: transparent !important;
     box-shadow: none !important;
-
   }
 
   .mantine-Paper-root {
-    background-color: #fff !important; 
+    background-color: #fff !important;
     border-color: transparent !important;
     margin: 0 !important;
   }
 
-  .mantine-Header-root, .mantine-Navbar-root,.erase_on_print {
+  .mantine-Header-root,
+  .mantine-Navbar-root,
+  .erase_on_print {
     display: none !important;
   }
-  .mantine-AppShell-main{ 
+  .mantine-AppShell-main {
     padding: 0 !important;
   }
-  .Spreadsheet,.Spreadsheet__controls {
-    background-color: #fff !important; 
-
+  .Spreadsheet,
+  .Spreadsheet__controls {
+    background-color: #fff !important;
   }
-
 }
-
 
 /* Line numbers for Quill, works only on normal text */
 /* .ql-editor {
@@ -76,29 +77,36 @@ body {
   color: #888
 } */
 
-.plain-html .ql-align-center {text-align: center;}
-.plain-html .ql-align-right {text-align: end;}
-.plain-html .ql-align-left {text-align: start;}
-.plain-html blockquote {    color: #909296;
-  border-left: 4px solid #373A40;
+.plain-html .ql-align-center {
+  text-align: center;
+}
+.plain-html .ql-align-right {
+  text-align: end;
+}
+.plain-html .ql-align-left {
+  text-align: start;
+}
+.plain-html blockquote {
+  color: #909296;
+  border-left: 4px solid #373a40;
   margin-top: 0;
   margin-left: 0;
   margin-bottom: 12px;
-  padding-left: 16px;} 
+  padding-left: 16px;
+}
 
-  .plain-html a, .plain-html a:visited, .plain-html a:link {
+.plain-html a,
+.plain-html a:visited,
+.plain-html a:link {
   text-decoration: none;
   color: #4dabf7;
-
 }
 
 .plain-html a:hover {
   text-decoration: underline;
-
 }
 
-
-.test{
+.test {
   background-color: aqua;
   outline: 6px solid #000;
   position: relative;
@@ -108,261 +116,46 @@ body {
   content: "";
   height: 10px;
   width: 10px;
-  background-color: #373A40;
+  background-color: #373a40;
   position: absolute;
   top: 50%;
   right: 8px;
-  transform: translate(0,-50%);
+  transform: translate(0, -50%);
   border-radius: 100%;
 }
 
-.Spreadsheet__cell, .Spreadsheet__header{
+.Spreadsheet__cell,
+.Spreadsheet__header {
   min-width: 2.92em !important;
   position: relative;
 }
 
-.Spreadsheet__hovered:hover{
-  background-color: var(--outline-background-color,rgba(160, 195, 255, 0.2)) !important;
-
+.Spreadsheet__hovered:hover {
+  background-color: var(
+    --outline-background-color,
+    rgba(160, 195, 255, 0.2)
+  ) !important;
 }
 
-.Spreadsheet__cell_selected{
+.Spreadsheet__cell_selected {
   /* outline: 1px solid var(--outline-color,#4285f4) !important; */
-  background-color: var(--outline-background-color,rgba(160, 195, 255, 0.2)) !important;
+  background-color: var(
+    --outline-background-color,
+    rgba(160, 195, 255, 0.2)
+  ) !important;
 }
 
-.Spreadsheet__data-viewer{
+.Spreadsheet__data-viewer {
   width: 100%;
   display: inline-block;
 }
 
 .Spreadsheet__data-viewer--disabled {
-  background-color: var(--outline-background-color,rgba(160,160,160, 0.5)) !important;
+  background-color: var(
+    --outline-background-color,
+    rgba(160, 160, 160, 0.5)
+  ) !important;
 }
-
-.border-transparent { border-color: transparent}
-.border-black { border-color: rgb(0 0 0)}
-.border-white { border-color: rgb(255 255 255)}
-.border-slate-50 { border-color: rgb(248 250 252)}
-.border-slate-100 { border-color: rgb(241 245 249)}
-.border-slate-200 { border-color: rgb(226 232 240)}
-.border-slate-300 { border-color: rgb(203 213 225)}
-.border-slate-400 { border-color: rgb(148 163 184)}
-.border-slate-500 { border-color: rgb(100 116 139)}
-.border-slate-600 { border-color: rgb(71 85 105)}
-.border-slate-700 { border-color: rgb(51 65 85)}
-.border-slate-800 { border-color: rgb(30 41 59)}
-.border-slate-900 { border-color: rgb(15 23 42)}
-.border-gray-50 { border-color: rgb(249 250 251)}
-.border-gray-100 { border-color: rgb(243 244 246)}
-.border-gray-200 { border-color: rgb(229 231 235)}
-.border-gray-300 { border-color: rgb(209 213 219)}
-.border-gray-400 { border-color: rgb(156 163 175)}
-.border-gray-500 { border-color: rgb(107 114 128)}
-.border-gray-600 { border-color: rgb(75 85 99)}
-.border-gray-700 { border-color: rgb(55 65 81)}
-.border-gray-800 { border-color: rgb(31 41 55)}
-.border-gray-900 { border-color: rgb(17 24 39)}
-.border-zinc-50 { border-color: rgb(250 250 250)}
-.border-zinc-100 { border-color: rgb(244 244 245)}
-.border-zinc-200 { border-color: rgb(228 228 231)}
-.border-zinc-300 { border-color: rgb(212 212 216)}
-.border-zinc-400 { border-color: rgb(161 161 170)}
-.border-zinc-500 { border-color: rgb(113 113 122)}
-.border-zinc-600 { border-color: rgb(82 82 91)}
-.border-zinc-700 { border-color: rgb(63 63 70)}
-.border-zinc-800 { border-color: rgb(39 39 42)}
-.border-zinc-900 { border-color: rgb(24 24 27)}
-.border-neutral-50 { border-color: rgb(250 250 250)}
-.border-neutral-100 { border-color: rgb(245 245 245)}
-.border-neutral-200 { border-color: rgb(229 229 229)}
-.border-neutral-300 { border-color: rgb(212 212 212)}
-.border-neutral-400 { border-color: rgb(163 163 163)}
-.border-neutral-500 { border-color: rgb(115 115 115)}
-.border-neutral-600 { border-color: rgb(82 82 82)}
-.border-neutral-700 { border-color: rgb(64 64 64)}
-.border-neutral-800 { border-color: rgb(38 38 38)}
-.border-neutral-900 { border-color: rgb(23 23 23)}
-.border-stone-50 { border-color: rgb(250 250 249)}
-.border-stone-100 { border-color: rgb(245 245 244)}
-.border-stone-200 { border-color: rgb(231 229 228)}
-.border-stone-300 { border-color: rgb(214 211 209)}
-.border-stone-400 { border-color: rgb(168 162 158)}
-.border-stone-500 { border-color: rgb(120 113 108)}
-.border-stone-600 { border-color: rgb(87 83 78)}
-.border-stone-700 { border-color: rgb(68 64 60)}
-.border-stone-800 { border-color: rgb(41 37 36)}
-.border-stone-900 { border-color: rgb(28 25 23)}
-.border-red-50 { border-color: rgb(254 242 242)}
-.border-red-100 { border-color: rgb(254 226 226)}
-.border-red-200 { border-color: rgb(254 202 202)}
-.border-red-300 { border-color: rgb(252 165 165)}
-.border-red-400 { border-color: rgb(248 113 113)}
-.border-red-500 { border-color: rgb(239 68 68)}
-.border-red-600 { border-color: rgb(220 38 38)}
-.border-red-700 { border-color: rgb(185 28 28)}
-.border-red-800 { border-color: rgb(153 27 27)}
-.border-red-900 { border-color: rgb(127 29 29)}
-.border-orange-50 { border-color: rgb(255 247 237)}
-.border-orange-100 { border-color: rgb(255 237 213)}
-.border-orange-200 { border-color: rgb(254 215 170)}
-.border-orange-300 { border-color: rgb(253 186 116)}
-.border-orange-400 { border-color: rgb(251 146 60)}
-.border-orange-500 { border-color: rgb(249 115 22)}
-.border-orange-600 { border-color: rgb(234 88 12)}
-.border-orange-700 { border-color: rgb(194 65 12)}
-.border-orange-800 { border-color: rgb(154 52 18)}
-.border-orange-900 { border-color: rgb(124 45 18)}
-.border-amber-50 { border-color: rgb(255 251 235)}
-.border-amber-100 { border-color: rgb(254 243 199)}
-.border-amber-200 { border-color: rgb(253 230 138)}
-.border-amber-300 { border-color: rgb(252 211 77)}
-.border-amber-400 { border-color: rgb(251 191 36)}
-.border-amber-500 { border-color: rgb(245 158 11)}
-.border-amber-600 { border-color: rgb(217 119 6)}
-.border-amber-700 { border-color: rgb(180 83 9)}
-.border-amber-800 { border-color: rgb(146 64 14)}
-.border-amber-900 { border-color: rgb(120 53 15)}
-.border-yellow-50 { border-color: rgb(254 252 232)}
-.border-yellow-100 { border-color: rgb(254 249 195)}
-.border-yellow-200 { border-color: rgb(254 240 138)}
-.border-yellow-300 { border-color: rgb(253 224 71)}
-.border-yellow-400 { border-color: rgb(250 204 21)}
-.border-yellow-500 { border-color: rgb(234 179 8)}
-.border-yellow-600 { border-color: rgb(202 138 4)}
-.border-yellow-700 { border-color: rgb(161 98 7)}
-.border-yellow-800 { border-color: rgb(133 77 14)}
-.border-yellow-900 { border-color: rgb(113 63 18)}
-.border-lime-50 { border-color: rgb(247 254 231)}
-.border-lime-100 { border-color: rgb(236 252 203)}
-.border-lime-200 { border-color: rgb(217 249 157)}
-.border-lime-300 { border-color: rgb(190 242 100)}
-.border-lime-400 { border-color: rgb(163 230 53)}
-.border-lime-500 { border-color: rgb(132 204 22)}
-.border-lime-600 { border-color: rgb(101 163 13)}
-.border-lime-700 { border-color: rgb(77 124 15)}
-.border-lime-800 { border-color: rgb(63 98 18)}
-.border-lime-900 { border-color: rgb(54 83 20)}
-.border-green-50 { border-color: rgb(240 253 244)}
-.border-green-100 { border-color: rgb(220 252 231)}
-.border-green-200 { border-color: rgb(187 247 208)}
-.border-green-300 { border-color: rgb(134 239 172)}
-.border-green-400 { border-color: rgb(74 222 128)}
-.border-green-500 { border-color: rgb(34 197 94)}
-.border-green-600 { border-color: rgb(22 163 74)}
-.border-green-700 { border-color: rgb(21 128 61)}
-.border-green-800 { border-color: rgb(22 101 52)}
-.border-green-900 { border-color: rgb(20 83 45)}
-.border-emerald-50 { border-color: rgb(236 253 245)}
-.border-emerald-100 { border-color: rgb(209 250 229)}
-.border-emerald-200 { border-color: rgb(167 243 208)}
-.border-emerald-300 { border-color: rgb(110 231 183)}
-.border-emerald-400 { border-color: rgb(52 211 153)}
-.border-emerald-500 { border-color: rgb(16 185 129)}
-.border-emerald-600 { border-color: rgb(5 150 105)}
-.border-emerald-700 { border-color: rgb(4 120 87)}
-.border-emerald-800 { border-color: rgb(6 95 70)}
-.border-emerald-900 { border-color: rgb(6 78 59)}
-.border-teal-50 { border-color: rgb(240 253 250)}
-.border-teal-100 { border-color: rgb(204 251 241)}
-.border-teal-200 { border-color: rgb(153 246 228)}
-.border-teal-300 { border-color: rgb(94 234 212)}
-.border-teal-400 { border-color: rgb(45 212 191)}
-.border-teal-500 { border-color: rgb(20 184 166)}
-.border-teal-600 { border-color: rgb(13 148 136)}
-.border-teal-700 { border-color: rgb(15 118 110)}
-.border-teal-800 { border-color: rgb(17 94 89)}
-.border-teal-900 { border-color: rgb(19 78 74)}
-.border-cyan-50 { border-color: rgb(236 254 255)}
-.border-cyan-100 { border-color: rgb(207 250 254)}
-.border-cyan-200 { border-color: rgb(165 243 252)}
-.border-cyan-300 { border-color: rgb(103 232 249)}
-.border-cyan-400 { border-color: rgb(34 211 238)}
-.border-cyan-500 { border-color: rgb(6 182 212)}
-.border-cyan-600 { border-color: rgb(8 145 178)}
-.border-cyan-700 { border-color: rgb(14 116 144)}
-.border-cyan-800 { border-color: rgb(21 94 117)}
-.border-cyan-900 { border-color: rgb(22 78 99)}
-.border-sky-50 { border-color: rgb(240 249 255)}
-.border-sky-100 { border-color: rgb(224 242 254)}
-.border-sky-200 { border-color: rgb(186 230 253)}
-.border-sky-300 { border-color: rgb(125 211 252)}
-.border-sky-400 { border-color: rgb(56 189 248)}
-.border-sky-500 { border-color: rgb(14 165 233)}
-.border-sky-600 { border-color: rgb(2 132 199)}
-.border-sky-700 { border-color: rgb(3 105 161)}
-.border-sky-800 { border-color: rgb(7 89 133)}
-.border-sky-900 { border-color: rgb(12 74 110)}
-.border-blue-50 { border-color: rgb(239 246 255)}
-.border-blue-100 { border-color: rgb(219 234 254)}
-.border-blue-200 { border-color: rgb(191 219 254)}
-.border-blue-300 { border-color: rgb(147 197 253)}
-.border-blue-400 { border-color: rgb(96 165 250)}
-.border-blue-500 { border-color: rgb(59 130 246)}
-.border-blue-600 { border-color: rgb(37 99 235)}
-.border-blue-700 { border-color: rgb(29 78 216)}
-.border-blue-800 { border-color: rgb(30 64 175)}
-.border-blue-900 { border-color: rgb(30 58 138)}
-.border-indigo-50 { border-color: rgb(238 242 255)}
-.border-indigo-100 { border-color: rgb(224 231 255)}
-.border-indigo-200 { border-color: rgb(199 210 254)}
-.border-indigo-300 { border-color: rgb(165 180 252)}
-.border-indigo-400 { border-color: rgb(129 140 248)}
-.border-indigo-500 { border-color: rgb(99 102 241)}
-.border-indigo-600 { border-color: rgb(79 70 229)}
-.border-indigo-700 { border-color: rgb(67 56 202)}
-.border-indigo-800 { border-color: rgb(55 48 163)}
-.border-indigo-900 { border-color: rgb(49 46 129)}
-.border-violet-50 { border-color: rgb(245 243 255)}
-.border-violet-100 { border-color: rgb(237 233 254)}
-.border-violet-200 { border-color: rgb(221 214 254)}
-.border-violet-300 { border-color: rgb(196 181 253)}
-.border-violet-400 { border-color: rgb(167 139 250)}
-.border-violet-500 { border-color: rgb(139 92 246)}
-.border-violet-600 { border-color: rgb(124 58 237)}
-.border-violet-700 { border-color: rgb(109 40 217)}
-.border-violet-800 { border-color: rgb(91 33 182)}
-.border-violet-900 { border-color: rgb(76 29 149)}
-.border-purple-50 { border-color: rgb(250 245 255)}
-.border-purple-100 { border-color: rgb(243 232 255)}
-.border-purple-200 { border-color: rgb(233 213 255)}
-.border-purple-300 { border-color: rgb(216 180 254)}
-.border-purple-400 { border-color: rgb(192 132 252)}
-.border-purple-500 { border-color: rgb(168 85 247)}
-.border-purple-600 { border-color: rgb(147 51 234)}
-.border-purple-700 { border-color: rgb(126 34 206)}
-.border-purple-800 { border-color: rgb(107 33 168)}
-.border-purple-900 { border-color: rgb(88 28 135)}
-.border-fuchsia-50 { border-color: rgb(253 244 255)}
-.border-fuchsia-100 { border-color: rgb(250 232 255)}
-.border-fuchsia-200 { border-color: rgb(245 208 254)}
-.border-fuchsia-300 { border-color: rgb(240 171 252)}
-.border-fuchsia-400 { border-color: rgb(232 121 249)}
-.border-fuchsia-500 { border-color: rgb(217 70 239)}
-.border-fuchsia-600 { border-color: rgb(192 38 211)}
-.border-fuchsia-700 { border-color: rgb(162 28 175)}
-.border-fuchsia-800 { border-color: rgb(134 25 143)}
-.border-fuchsia-900 { border-color: rgb(112 26 117)}
-.border-pink-50 { border-color: rgb(253 242 248)}
-.border-pink-100 { border-color: rgb(252 231 243)}
-.border-pink-200 { border-color: rgb(251 207 232)}
-.border-pink-300 { border-color: rgb(249 168 212)}
-.border-pink-400 { border-color: rgb(244 114 182)}
-.border-pink-500 { border-color: rgb(236 72 153)}
-.border-pink-600 { border-color: rgb(219 39 119)}
-.border-pink-700 { border-color: rgb(190 24 93)}
-.border-pink-800 { border-color: rgb(157 23 77)}
-.border-pink-900 { border-color: rgb(131 24 67)}
-.border-rose-50 { border-color: rgb(255 241 242)}
-.border-rose-100 { border-color: rgb(255 228 230)}
-.border-rose-200 { border-color: rgb(254 205 211)}
-.border-rose-300 { border-color: rgb(253 164 175)}
-.border-rose-400 { border-color: rgb(251 113 133)}
-.border-rose-500 { border-color: rgb(244 63 94)}
-.border-rose-600 { border-color: rgb(225 29 72)}
-.border-rose-700 { border-color: rgb(190 18 60)}
-.border-rose-800 { border-color: rgb(159 18 57)}
-.border-rose-900 { border-color: rgb(136 19 55)}
 
 .Spreadsheet {
   height: 100%;

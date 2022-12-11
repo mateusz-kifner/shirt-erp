@@ -15,7 +15,7 @@ import {
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, ReactNode, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, Copy, DeviceFloppy, Edit, X } from "tabler-icons-react"
+import { ArrowBackUp, Copy, Edit } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
 import DisplayCell from "../details/DisplayCell"
 import EditableInput from "../../types/EditableInput"
@@ -212,17 +212,6 @@ const EditableText = (props: EditableTextProps) => {
                 <ArrowBackUp size={18} />
               </ActionIcon>
             </Tooltip>
-
-            {/* <ActionIcon
-              radius="xl"
-              onClick={() => {
-                setTimeout(() => setActive(false))
-              }}
-              disabled={disabled}
-              tabIndex={-1}
-            >
-              <DeviceFloppy size={18} />
-            </ActionIcon> */}
           </Group>
         )}
       </div>
