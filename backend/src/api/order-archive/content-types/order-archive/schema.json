@@ -4,8 +4,7 @@
   "info": {
     "singularName": "order-archive",
     "pluralName": "order-archives",
-    "displayName": "OrderArchive",
-    "description": ""
+    "displayName": "OrderArchive"
   },
   "options": {
     "draftAndPublish": false
@@ -14,76 +13,6 @@
   "attributes": {
     "name": {
       "type": "string"
-    },
-    "status": {
-      "type": "string"
-    },
-    "notes": {
-      "type": "text"
-    },
-    "secretNotes": {
-      "type": "text"
-    },
-    "price": {
-      "type": "decimal",
-      "min": 0
-    },
-    "isPricePaid": {
-      "type": "boolean",
-      "default": false
-    },
-    "advance": {
-      "type": "decimal",
-      "min": 0
-    },
-    "isAdvancePaid": {
-      "type": "boolean",
-      "default": false
-    },
-    "dateOfCompletion": {
-      "type": "date"
-    },
-    "files": {
-      "type": "media",
-      "multiple": true,
-      "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
-    },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "types.address"
-    },
-    "tables": {
-      "type": "json"
-    },
-    "designs": {
-      "type": "json"
-    },
-    "emailMessagesText": {
-      "type": "json"
-    },
-    "client": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::client.client",
-      "inversedBy": "order_archives"
-    },
-    "employees": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "order_archives"
-    },
-    "products": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::product.product"
     }
   }
 }

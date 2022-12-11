@@ -152,18 +152,3 @@ Authorization: Bearer {{authToken}}
 GET {{host}}/api/email-client/messages/refresh
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
-
-
-###
-
-GET {{host}}/api/order-archives
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-###
-
-POST {{host}}/api/order-archives
-Content-Type: application/json
-Authorization: Bearer {{authToken}}
-
-{"data":{"name":"test2"}}
