@@ -15,7 +15,7 @@
     "@strapi/strapi": "4.5.3",
     "imapflow": "^1.0.117",
     "lodash": "^4.17.21",
-    "mailparser": "^3.5.0",
+    "mailparser": "^3.6.0",
     "mime-types": "^2.1.35",
     "pg": "8.8.0",
     "strapi-plugin-fuzzy-search": "^1.10.2",
