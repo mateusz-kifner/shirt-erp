@@ -7,6 +7,7 @@ interface EditableInput<T> {
   onSubmit?: (value: T | null) => void
   disabled?: boolean
   required?: boolean
+  active?: boolean
   leftSection?: ReactNode
   rightSection?: ReactNode
 }
