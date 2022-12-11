@@ -50,9 +50,7 @@ const InputNumber = (props: InputNumberProps) => {
   const uuid = useId()
   const clipboard = useClipboard()
 
-  const [text, setText] = useState<string>(
-    value?.toFixed(fixed) ?? initialValue?.toFixed(fixed) ?? ""
-  )
+  const [text, setText] = useState<string>("")
   const [debouncedText, cancel] = useDebouncedValue(text, 1000)
 
   const { ref: leftSectionRef, width: leftSectionWidth } = useElementSize()
@@ -61,7 +59,7 @@ const InputNumber = (props: InputNumberProps) => {
   const [error, setError] = useState<boolean>(false)
 
   useEffect(() => {
-    if (value !== undefined && parseFloat(text) - value > 0.000001) {
+    if (value !== undefined && parseFloat(text) - value < 0.000001) {
       setText(value.toFixed(fixed))
     }
     // eslint-disable-next-line
@@ -69,22 +67,15 @@ const InputNumber = (props: InputNumberProps) => {
 
   useEffect(() => {
     // submit debouncedText
-    const debouncedTextAsNumber = parseFloat(debouncedText.replace(",", "."))
-    console.log(debouncedTextAsNumber)
     if (
-      value === undefined ||
-      (value !== undefined && debouncedTextAsNumber - value > 0.000001)
+      !isNaN(parseFloat(debouncedText)) &&
+      parseFloat(debouncedText) > min &&
+      parseFloat(debouncedText) < max
     ) {
-      if (
-        !isNaN(debouncedTextAsNumber) &&
-        debouncedTextAsNumber > min &&
-        debouncedTextAsNumber < max
-      ) {
-        debouncedText && onSubmit && onSubmit(debouncedTextAsNumber)
-        setError(false)
-      } else {
-        setError(true)
-      }
+      debouncedText && onSubmit && onSubmit(parseFloat(debouncedText))
+      setError(false)
+    } else {
+      setError(true)
     }
     // eslint-disable-next-line
   }, [debouncedText])
@@ -99,6 +90,7 @@ const InputNumber = (props: InputNumberProps) => {
   //   }
   //   // eslint-disable-next-line
   // }, [])
+
   return (
     <div className="flex-grow">
       {label && (
@@ -143,7 +135,6 @@ const InputNumber = (props: InputNumberProps) => {
             paddingLeft: `calc(${leftSectionWidth}px + 0.5rem)`,
             paddingRight: `calc(${rightSectionWidth}px + 0.5rem)`,
           }}
-          onKeyDown={() => cancel()}
           {...moreProps}
         />
         <div
