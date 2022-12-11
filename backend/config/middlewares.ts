@@ -15,17 +15,6 @@ module.exports = [
       },
     },
   },
-  // NOT working with ct8 nginx
-
-  // {
-  //   name: "strapi::cors",
-  //   config: {
-  //     origin: ["*"],
-  //     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
-  //     headers: ["Content-Type", "Authorization", "Origin", "Accept"],
-  //     keepHeaderOnError: true,
-  //   },
-  // },
   "strapi::cors",
   "strapi::poweredBy",
   "strapi::logger",
