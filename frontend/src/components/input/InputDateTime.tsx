@@ -1,19 +1,20 @@
 import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
-import React, { DetailedHTMLProps, InputHTMLAttributes } from "react"
+import React from "react"
 import { Calendar, Clock, Copy } from "tabler-icons-react"
-import EditableInput from "../../types/EditableInput"
 import DisplayCell from "../basic/DisplayCell"
 
 // TODO: make it work
 
-interface InputDateTimeProps
-  extends DetailedHTMLProps<
-      Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit" | "value">,
-      HTMLInputElement
-    >,
-    EditableInput<string> {}
+interface InputDateTimeProps {
+  label?: string
+  value?: string
+  initialValue?: string
+  onSubmit?: (value: string | null) => void
+  disabled?: boolean
+  required?: boolean
+}
 
 const InputDateTime = (props: InputDateTimeProps) => {
   const {

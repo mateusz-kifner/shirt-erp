@@ -2,6 +2,7 @@ import { useClipboard, useDebouncedValue, useElementSize } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import {
   DetailedHTMLProps,
+  ReactNode,
   TextareaHTMLAttributes,
   useEffect,
   useId,
@@ -9,16 +10,23 @@ import {
   useState,
 } from "react"
 import { Copy } from "tabler-icons-react"
-import EditableInput from "../../types/EditableInput"
 import preventLeave from "../../utils/preventLeave"
+import { truncString } from "../../utils/truncString"
 
 interface InputTextProps
   extends DetailedHTMLProps<
-      Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onSubmit" | "value">,
-      HTMLTextAreaElement
-    >,
-    EditableInput<string> {
+    Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onSubmit">,
+    HTMLTextAreaElement
+  > {
+  label?: string
+  value?: string
+  initialValue?: string
+  onSubmit?: (value: string | null) => void
+  disabled?: boolean
+  required?: boolean
   maxLength?: number
+  leftSection?: ReactNode
+  rightSection?: ReactNode
 }
 
 const InputText = (props: InputTextProps) => {

@@ -3,21 +3,28 @@ import { showNotification } from "@mantine/notifications"
 import {
   DetailedHTMLProps,
   InputHTMLAttributes,
+  ReactNode,
   useEffect,
   useId,
   useRef,
   useState,
 } from "react"
 import { Copy } from "tabler-icons-react"
-import EditableInput from "../../types/EditableInput"
 import preventLeave from "../../utils/preventLeave"
 
 interface InputNumberProps
   extends DetailedHTMLProps<
-      Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit" | "value">,
-      HTMLInputElement
-    >,
-    EditableInput<number> {
+    Omit<InputHTMLAttributes<HTMLInputElement>, "onSubmit">,
+    HTMLInputElement
+  > {
+  label?: string
+  value?: number
+  initialValue?: number
+  onSubmit?: (value: number | null) => void
+  disabled?: boolean
+  required?: boolean
+  leftSection?: ReactNode
+  rightSection?: ReactNode
   increment?: number
   fixed?: number
   min?: number
