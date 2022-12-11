@@ -1,34 +1,40 @@
 import { useEffect, useState } from "react"
 
 import ApiList from "../../../components/api/ApiList"
-import { makeDefaultListItem } from "../../../components/DefaultListItem"
+import OrderListItem from "../orders/OrderListItem"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
 import { capitalize } from "lodash"
 
-const entryName = "orders-archive"
+const entryName = "order-archives"
 
-const OrdersArchiveList = () => {
-  const [id, setId] = useState<number | null>(null)
+interface OrderListProps {
+  selectedId: number | null
+}
+
+const OrdersList = ({ selectedId }: OrderListProps) => {
   const router = useRouter()
   const { t } = useTranslation()
 
   return (
     <ApiList
-      ListItem={makeDefaultListItem("name")}
+      ListItem={OrderListItem}
       entryName={entryName}
       label={
         entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
       }
-      selectedId={id}
+      selectedId={selectedId}
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
       }}
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,
       }}
+      filterKeys={["name", "notes"]}
+      showAddButton
+      exclude={{ name: "Szablon" }}
     />
   )
 }
 
-export default OrdersArchiveList
+export default OrdersList
