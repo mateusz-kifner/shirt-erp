@@ -31,13 +31,13 @@ import designBackgrounds from "../orders/designBackgrounds"
 import { useRouter } from "next/router"
 import { Tab } from "../../../components/layout/MultiTabs"
 import { useMediaQuery } from "@mantine/hooks"
+import { useAuthContext } from "../../../context/authContext"
 
 const entryName = "order-archives"
 
 const OrdersPage: NextPage = () => {
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
-  )
+  const { isSmall, hasTouch } = useAuthContext()
+  const isMobile = hasTouch || isSmall
   const uuid = useId()
 
   const router = useRouter()

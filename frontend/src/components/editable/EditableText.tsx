@@ -1,11 +1,4 @@
-import {
-  ActionIcon,
-  CSSObject,
-  Group,
-  Input,
-  Textarea,
-  Tooltip,
-} from "@mantine/core"
+import { ActionIcon, Group, Input, Textarea, Tooltip } from "@mantine/core"
 import {
   useClickOutside,
   useClipboard,

@@ -41,9 +41,8 @@ const Workspace = ({
   leftMenuSection,
   rightMenuSection,
 }: WorkspaceProps) => {
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
-  )
+  const { isSmall, hasTouch } = useAuthContext()
+  const isMobile = hasTouch || isSmall
   const [menuPosition, setMenuPosition] = useState<[number, number]>([0, 0])
   const [menuOpened, setMenuOpen] = useState<boolean>(false)
   const uuid = useId()

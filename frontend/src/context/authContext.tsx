@@ -1,4 +1,5 @@
-import { useLocalStorage } from "@mantine/hooks"
+import { useMantineTheme } from "@mantine/core"
+import { useLocalStorage, useMediaQuery } from "@mantine/hooks"
 import axios from "axios"
 import {
   createContext,
@@ -22,7 +23,8 @@ interface AuthContextType {
   debug: boolean
   navigationCollapsed: boolean
   isAuthenticated: boolean
-
+  hasTouch: boolean
+  isSmall: boolean
   signIn: (loginData: LoginDataType) => void
   signOut: () => void
   toggleNavigationCollapsed: () => void
@@ -48,10 +50,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       key: "user-navigation-collapsed",
       defaultValue: false,
     })
+  const [secondNavigation, setSecondNavigation] = useLocalStorage<boolean>({
+    key: "user-navigation-second",
+    defaultValue: false,
+  })
   const [debug, setDebug] = useLocalStorage<boolean>({
     key: "user-debug",
     defaultValue: false,
   })
+  const theme = useMantineTheme()
+  const smallerThanSM = useMediaQuery(
+    `(max-width: ${theme.breakpoints.md}px)`,
+    true
+  )
+  const hasTouch = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)"
+  )
+
   useEffect(() => {
     if (jwt.length > 0) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + jwt
@@ -91,6 +106,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         debug,
         navigationCollapsed,
         isAuthenticated,
+        hasTouch,
+        isSmall: smallerThanSM,
         signIn,
         signOut,
         toggleNavigationCollapsed: () => setNavigationCollapsed((val) => !val),

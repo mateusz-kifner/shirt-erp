@@ -7,6 +7,9 @@ import {
   Tooltip,
   Text,
   ActionIcon,
+  Portal,
+  useMantineTheme,
+  Stack,
 } from "@mantine/core"
 import { useMediaQuery, useMergedRef, useResizeObserver } from "@mantine/hooks"
 import { max, omit } from "lodash"
@@ -154,11 +157,10 @@ const MultiTabs = (props: MultiTabsProps) => {
     leftSection,
     availableSpace,
   } = props
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
-  )
+  const theme = useMantineTheme()
+  const { hasTouch, isSmall, navigationCollapsed, setNavigationCollapsed } =
+    useAuthContext()
   const [tabsSizes, setTabsSizes] = useState<number[]>([])
-  const { navigationCollapsed } = useAuthContext()
   const uuid = useId()
   const [ref, rect] = useResizeObserver()
   const maxSize = tabsSizes.reduce((prev, next) => prev + next, 0)
@@ -173,52 +175,45 @@ const MultiTabs = (props: MultiTabsProps) => {
     setTabsSizes([])
   }, [childrenLabelsKey])
 
-  if (isMobile) {
+  if (isSmall || hasTouch) {
     return (
-      <Menu
-        position="bottom"
-        closeOnEscape={true}
-        closeOnItemClick={true}
-        closeOnClickOutside={true}
-        withArrow
-      >
-        <Menu.Target>
-          <ActionIcon
-            style={{
-              position: "fixed",
-              zIndex: 102,
-              top: 30,
-              left: "50%",
-              transform: "translate(-50%,-50%)",
-            }}
-            size="xl"
-            radius="xl"
-          >
-            <GridDots size={32} />
-          </ActionIcon>
-        </Menu.Target>
-        <Menu.Dropdown>
+      <Portal target="#SpecialMenu">
+        <Stack>
           {!!leftSection && leftSection}
           {childrenLabels.map((label, index) => {
             const Icon =
               childrenIcons?.[index] ??
               childrenIcons?.[childrenIcons.length - 1] ??
               AlertCircle
+
+            const color =
+              index !== undefined
+                ? simpleColors[index % simpleColors.length]
+                : undefined
             return (
-              <Menu.Item
+              <Button
                 key={uuid + "_" + index}
                 px="md"
-                icon={<Icon size={32} />}
-                onClick={() => onTabChange(index)}
+                leftIcon={<Icon size={32} />}
+                onClick={() => {
+                  onTabChange(index)
+                  setNavigationCollapsed(false)
+                }}
                 disabled={index === active}
+                variant="outline"
+                style={{
+                  borderColor: color,
+                  color: color,
+                }}
+                size="xl"
               >
                 <Text size="md">{label}</Text>
-              </Menu.Item>
+              </Button>
             )
           })}
           {!!rightSection && rightSection}
-        </Menu.Dropdown>
-      </Menu>
+        </Stack>
+      </Portal>
     )
   }
 

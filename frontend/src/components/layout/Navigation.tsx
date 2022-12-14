@@ -6,26 +6,40 @@ import {
   Stack,
   ActionIcon,
   useMantineTheme,
+  Button,
 } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import navigationData from "../../navigationData"
-import { ChevronRight, ChevronLeft } from "tabler-icons-react"
+import {
+  ChevronRight,
+  ChevronLeft,
+  Category,
+  ChartTreemap,
+} from "tabler-icons-react"
 import { NavButton } from "./NavButton"
 import { useAuthContext } from "../../context/authContext"
 import { useRouter } from "next/router"
+import { Children, ReactNode, useEffect, useState } from "react"
+import { has } from "lodash"
 
 interface NavigationProps {}
 
 const Navigation = (props: NavigationProps) => {
-  const { navigationCollapsed, toggleNavigationCollapsed, debug } =
-    useAuthContext()
-
+  const {
+    navigationCollapsed,
+    toggleNavigationCollapsed,
+    debug,
+    isSmall,
+    hasTouch,
+  } = useAuthContext()
   const router = useRouter()
   const theme = useMantineTheme()
   const biggerThanSM = useMediaQuery(
     `(min-width: ${theme.breakpoints.md}px)`,
     true
   )
+  const [activeTab, setActiveTab] = useState<number>(0)
+
   return (
     <Navbar
       hiddenBreakpoint="md"
@@ -33,6 +47,32 @@ const Navigation = (props: NavigationProps) => {
       width={{ base: "100%", md: navigationCollapsed ? 85 : 300 }}
       px="sm"
     >
+      {(hasTouch || isSmall) && (
+        <Stack py="md" align="center">
+          <Button.Group>
+            <Button
+              variant="default"
+              // style={{ flexGrow: 1 }}
+              onClick={() => setActiveTab(0)}
+              radius={999999}
+              disabled={activeTab === 0}
+              size="xl"
+            >
+              <Category />
+            </Button>
+            <Button
+              variant="default"
+              // style={{ flexGrow: 1 }}
+              onClick={() => setActiveTab(1)}
+              radius={999999}
+              disabled={activeTab === 1}
+              size="xl"
+            >
+              <ChartTreemap />
+            </Button>
+          </Button.Group>
+        </Stack>
+      )}
       <ScrollArea>
         <Stack
           m={0}
@@ -42,7 +82,12 @@ const Navigation = (props: NavigationProps) => {
             minHeight: "calc(100vh - var(--mantine-header-height))",
           }}
         >
-          <Stack>
+          <Stack
+            style={{
+              display:
+                (isSmall || hasTouch) && activeTab !== 0 ? "none" : undefined,
+            }}
+          >
             {navigationData.map(
               (val, index) =>
                 (!val?.debug || debug) && (
@@ -58,6 +103,12 @@ const Navigation = (props: NavigationProps) => {
                 )
             )}
           </Stack>
+          <Stack
+            id="SpecialMenu"
+            style={{
+              display: activeTab !== 1 ? "none" : undefined,
+            }}
+          ></Stack>
           {biggerThanSM && (
             <Box
               sx={(theme) => ({
