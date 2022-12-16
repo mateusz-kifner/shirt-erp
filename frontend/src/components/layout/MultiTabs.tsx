@@ -218,56 +218,52 @@ const MultiTabs = (props: MultiTabsProps) => {
   }
 
   return (
-    <Group
-      sx={(theme) => ({
-        position: "fixed",
-        top: 17.5,
-        zIndex: 102,
-        height: 38,
-        [`@media (max-width: ${theme.breakpoints.md}px)`]: {
-          left: 52,
-        },
-      })}
-      ref={ref}
-      style={{ width: availableSpace - 144 }}
-    >
-      <Button.Group>
-        {!!leftSection && leftSection}
-        {childrenLabels.map((label, index) => {
-          const isPinned = pinned?.includes(index)
+    <Portal target="#HeaderTabs">
+      <Group
+        ref={ref}
+        style={{
+          height: "var(--mantine-header-height)",
+          alignItems: "end",
+        }}
+      >
+        <Button.Group>
+          {!!leftSection && leftSection}
+          {childrenLabels.map((label, index) => {
+            const isPinned = pinned?.includes(index)
 
-          return (
-            <Tab
-              index={index}
-              key={uuid + "_" + index + "_" + childrenLabelsKey}
-              value={index}
-              Icon={
-                childrenIcons?.[index] ??
-                childrenIcons?.[childrenIcons.length - 1]
-              }
-              small={small}
-              setBigSize={(size) =>
-                setTabsSizes((val) => {
-                  let new_arr = [...val]
-                  new_arr[index] = size
-                  return new_arr
-                })
-              }
-              rightSection={isPinned ? <Pinned size={16} /> : undefined}
-              isActive={active === index || isPinned}
-              onClick={() => !isPinned && onTabChange(index)}
-              onContextMenu={(e: SyntheticEvent) => {
-                e.preventDefault()
-                onPin(index)
-              }}
-            >
-              {label}
-            </Tab>
-          )
-        })}
-        {!!rightSection && rightSection}
-      </Button.Group>
-    </Group>
+            return (
+              <Tab
+                index={index}
+                key={uuid + "_" + index + "_" + childrenLabelsKey}
+                value={index}
+                Icon={
+                  childrenIcons?.[index] ??
+                  childrenIcons?.[childrenIcons.length - 1]
+                }
+                small={small}
+                setBigSize={(size) =>
+                  setTabsSizes((val) => {
+                    let new_arr = [...val]
+                    new_arr[index] = size
+                    return new_arr
+                  })
+                }
+                rightSection={isPinned ? <Pinned size={16} /> : undefined}
+                isActive={active === index || isPinned}
+                onClick={() => !isPinned && onTabChange(index)}
+                onContextMenu={(e: SyntheticEvent) => {
+                  e.preventDefault()
+                  onPin(index)
+                }}
+              >
+                {label}
+              </Tab>
+            )
+          })}
+          {!!rightSection && rightSection}
+        </Button.Group>
+      </Group>
+    </Portal>
   )
 }
 

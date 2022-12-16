@@ -24,7 +24,6 @@ const Header = (props: HeaderProps) => {
   return (
     <MantineHeader
       height={60}
-      p="xs"
       styles={(theme) => ({
         root: {
           backgroundColor:
@@ -35,8 +34,8 @@ const Header = (props: HeaderProps) => {
       })}
     >
       <MediaQuery largerThan="md" styles={{ padding: "0 13px" }}>
-        <Group position="apart" align="center" style={{ height: "100%" }}>
-          <Group>
+        <Group position="apart" align="center" style={{ height: "100%" }} p={0}>
+          <Group style={{ width: navigationCollapsed ? 85 - 13 : 300 - 13 }}>
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
                 opened={navigationCollapsed ?? false}
@@ -64,61 +63,8 @@ const Header = (props: HeaderProps) => {
               )}
             </MediaQuery>
           </Group>
-          {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <Autocomplete
-              placeholder="Search"
-              radius="xl"
-              size="md"
-              disabled
-              icon={<Search />}
-              data={["test", "test2", "test3", "test4"]}
-              style={{
-                flexGrow: 1,
-                marginLeft: "10vw",
-                marginRight: "10vw",
-              }}
-              styles={(theme) => ({
-                root: {},
-                input: {
-                  backgroundColor:
-                    theme.colorScheme === "dark"
-                      ? undefined
-                      : theme.colors.dark[4],
-                  borderColor: "transparent",
-                  color: theme.colorScheme === "dark" ? undefined : "#fff",
-                  "&:disabled": {
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? undefined
-                        : theme.colors.dark[4],
-                    borderColor: "transparent",
-                  },
-                },
-                dropdown: {
-                  backgroundColor:
-                    theme.colorScheme === "dark"
-                      ? undefined
-                      : theme.colors.dark[4],
-
-                  borderColor:
-                    theme.colorScheme === "dark"
-                      ? undefined
-                      : theme.colors.dark[4],
-                },
-                item: {
-                  color: theme.colorScheme === "dark" ? undefined : "#fff",
-                  "&:hover": {
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? undefined
-                        : theme.colors.dark[3],
-                  },
-                },
-              })}
-            />
-          </MediaQuery> */}
+          <div id="HeaderTabs" style={{ flexGrow: 1, height: "100%" }}></div>
           <Group>
-            {/* <MediaQuery largerThan="sm" styles={{ display: "none" }}> */}
             <ActionIcon
               size="lg"
               radius="xl"
@@ -129,9 +75,7 @@ const Header = (props: HeaderProps) => {
             >
               <Search />
             </ActionIcon>
-            {/* </MediaQuery> */}
             <Notifications />
-
             <ActionIcon
               size="lg"
               radius="xl"
