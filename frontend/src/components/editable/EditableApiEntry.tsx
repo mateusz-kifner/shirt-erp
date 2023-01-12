@@ -10,10 +10,10 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core"
-import { useClipboard, useId } from "@mantine/hooks"
+import { useClipboard, useHover, useId } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { CSSProperties, useEffect, useMemo, useState } from "react"
-import { SxBorder, SxRadius } from "../../styles/basic"
+import { SxBackground, SxBorder, SxRadius } from "../../styles/basic"
 import {
   Copy,
   Dots,
@@ -121,13 +121,6 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 </Tooltip>
               )}
             </Group>
-            {!disabled && linkEntry && value?.id && (
-              <Link href={"/erp/" + entryName + "/" + value.id} passHref>
-                <ActionIcon size="xs" component="a" tabIndex={-1}>
-                  <ExternalLink />
-                </ActionIcon>
-              </Link>
-            )}
           </Group>
         ) : undefined
       }
@@ -184,12 +177,12 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               position: "relative",
               border: "1px solid transparent",
               "&:hover": {
-                border: disabled
-                  ? undefined
-                  : theme.colorScheme === "dark"
-                  ? "1px solid #2C2E33"
-                  : "1px solid #ced4da",
+                border:
+                  theme.colorScheme === "dark"
+                    ? "1px solid #2C2E33"
+                    : "1px solid #ced4da",
               },
+              overflow: "hidden",
             }),
           ]}
         >
@@ -198,18 +191,32 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
             value={apiEntry}
             disabled={disabled}
           />
-          {disabled && linkEntry && value?.id && (
+          {linkEntry && value?.id && (
             <Box
-              sx={(theme) => ({
-                position: "absolute",
-                top: "50%",
-                right: theme.spacing.sm,
-                transform: "translate(0,-50%)",
-              })}
+              sx={[
+                (theme) => ({
+                  position: "absolute",
+                  top: "50%",
+                  right: "-3rem",
+                  transform: "translate(0,-50%)",
+                }),
+              ]}
             >
               <Link href={"/erp/" + entryName + "/" + value.id} passHref>
-                <ActionIcon size="md" component="a" tabIndex={-1} radius="xl">
-                  <ExternalLink size={16} />
+                <ActionIcon
+                  size={100}
+                  component="a"
+                  tabIndex={-1}
+                  radius={99999}
+                  sx={(theme) => ({
+                    background:
+                      theme.colorScheme === "dark"
+                        ? theme.colors.dark[7]
+                        : theme.white,
+                  })}
+                >
+                  <ExternalLink size={18} />
+                  <div style={{ width: "2.4rem" }}></div>
                 </ActionIcon>
               </Link>
             </Box>
