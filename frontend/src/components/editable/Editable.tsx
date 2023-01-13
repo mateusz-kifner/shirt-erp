@@ -1,7 +1,14 @@
 import { ComponentType, CSSProperties } from "react"
 import { Box, MantineTheme, Sx, Text } from "@mantine/core"
-import EditableText from "./EditableText"
 import NotImplemented from "../NotImplemented"
+import { useId } from "@mantine/hooks"
+import { Cash, Numbers } from "tabler-icons-react"
+import { useAuthContext } from "../../context/authContext"
+import { SxBorder, SxRadius } from "../../styles/basic"
+import { truncString } from "../../utils/truncString"
+
+// Editable imports
+import EditableText from "./EditableText"
 import EditableRichText from "./EditableRichText"
 import EditableSecretText from "./EditableSecretText"
 import EditableDateTime from "./EditableDateTime"
@@ -16,28 +23,27 @@ import EditableFiles from "./EditableFiles"
 import EditableArray from "./EditableArray"
 import EditableApiEntry from "./EditableApiEntry"
 import EditableApiEntryId from "./EditableApiEntryId"
-import ClientListItem from "../../page-components/erp/clients/ClientListItem"
-import { useId } from "@mantine/hooks"
-import { truncString } from "../../utils/truncString"
-import { makeDefaultListItem } from "../DefaultListItem"
-import ProductListItem from "../../page-components/erp/products/ProductListItem"
-import UserListItem from "../../page-components/erp/users/UserListItem"
 import EditableNumber from "./EditableNumber"
-import { Cash, Numbers } from "tabler-icons-react"
-import { useAuthContext } from "../../context/authContext"
-import { SxBorder, SxRadius } from "../../styles/basic"
-import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
 import EditableTable from "./EditableTable"
-import OrderListItem from "../../page-components/erp/orders/OrderListItem"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 
-const ApiProps: {
+// List items imports
+import { makeDefaultListItem } from "../DefaultListItem"
+import ClientListItem from "../../page-components/erp/clients/ClientListItem"
+import ProductListItem from "../../page-components/erp/products/ProductListItem"
+import UserListItem from "../../page-components/erp/users/UserListItem"
+import OrderListItem from "../../page-components/erp/orders/OrderListItem"
+import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
+
+type ApiProps = {
   [key: string]: {
     ListItem: ComponentType<any>
     copyProvider: (val: any) => string | undefined
   }
-} = {
+}
+
+const ApiProps: ApiProps = {
   clients: {
     ListItem: ClientListItem,
     copyProvider: (value: any) =>
@@ -73,7 +79,7 @@ const ApiProps: {
   },
 }
 
-const Fields: {
+type Fields = {
   [key: string]: {
     component: ComponentType<any>
     props: { [index: string]: any }
@@ -81,7 +87,9 @@ const Fields: {
       [index: string]: any
     }
   }
-} = {
+}
+
+const Fields: Fields = {
   text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
