@@ -2,10 +2,8 @@ import { ComponentType, CSSProperties } from "react"
 import { Box, MantineTheme, Sx, Text } from "@mantine/core"
 import NotImplemented from "../NotImplemented"
 import { useId } from "@mantine/hooks"
-import { Cash, Numbers } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
 import { SxBorder, SxRadius } from "../../styles/basic"
-import { truncString } from "../../utils/truncString"
 
 // Editable imports
 import EditableText from "./EditableText"
@@ -28,58 +26,11 @@ import EditableTable from "./EditableTable"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 
-// List items imports
+import { Cash, Numbers } from "tabler-icons-react"
+import apiListItems from "./apiListItems"
 import { makeDefaultListItem } from "../DefaultListItem"
-import ClientListItem from "../../page-components/erp/clients/ClientListItem"
-import ProductListItem from "../../page-components/erp/products/ProductListItem"
-import UserListItem from "../../page-components/erp/users/UserListItem"
-import OrderListItem from "../../page-components/erp/orders/OrderListItem"
-import WorkstationListItem from "../../page-components/erp/workstations/WorkstationListItem"
 
-type ApiProps = {
-  [key: string]: {
-    ListItem: ComponentType<any>
-    copyProvider: (val: any) => string | undefined
-  }
-}
-
-const ApiProps: ApiProps = {
-  clients: {
-    ListItem: ClientListItem,
-    copyProvider: (value: any) =>
-      (value?.firstname && value.firstname?.length > 0) ||
-      (value?.lastname && value.lastname?.length > 0)
-        ? truncString(value.firstname + " " + value.lastname, 40)
-        : truncString(value?.username ? value.username : "", 40),
-  },
-  products: {
-    ListItem: ProductListItem,
-    copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : undefined,
-  },
-  users: {
-    ListItem: UserListItem,
-    copyProvider: (value: any) =>
-      value?.username ? truncString(value.username, 40) : undefined,
-  },
-  orders: {
-    ListItem: OrderListItem,
-    copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : undefined,
-  },
-  "orders-archive": {
-    ListItem: OrderListItem,
-    copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : undefined,
-  },
-  workstations: {
-    ListItem: WorkstationListItem,
-    copyProvider: (value: any) =>
-      value?.name ? truncString(value.name, 40) : undefined,
-  },
-}
-
-type Fields = {
+export type editableFields = {
   [key: string]: {
     component: ComponentType<any>
     props: { [index: string]: any }
@@ -89,7 +40,7 @@ type Fields = {
   }
 }
 
-const Fields: Fields = {
+const editableFields: editableFields = {
   text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
@@ -125,9 +76,9 @@ const Fields: Fields = {
     props: {},
     propsTransform: (props) => {
       let newProps = { ...props }
-      if (props.entryName in ApiProps) {
-        newProps["Element"] = ApiProps[props.entryName].ListItem
-        newProps["copyProvider"] = ApiProps[props.entryName].copyProvider
+      if (props.entryName in apiListItems) {
+        newProps["Element"] = apiListItems[props.entryName].ListItem
+        newProps["copyProvider"] = apiListItems[props.entryName].copyProvider
       } else {
         newProps["Element"] = makeDefaultListItem("name")
       }
@@ -139,9 +90,9 @@ const Fields: Fields = {
     props: {},
     propsTransform: (props) => {
       let newProps = { ...props }
-      if (props.entryName in ApiProps) {
-        newProps["Element"] = ApiProps[props.entryName].ListItem
-        newProps["copyProvider"] = ApiProps[props.entryName].copyProvider
+      if (props.entryName in apiListItems) {
+        newProps["Element"] = apiListItems[props.entryName].ListItem
+        newProps["copyProvider"] = apiListItems[props.entryName].copyProvider
       } else {
         newProps["Element"] = makeDefaultListItem("name")
       }
@@ -193,20 +144,12 @@ const Fields: Fields = {
 }
 
 function Field(props: any) {
-  let newProps = { ...Fields[props.type].props, ...props }
-  if (Fields[props.type].propsTransform) {
-    newProps = Fields[props.type]?.propsTransform?.(newProps)
+  let newProps = { ...editableFields[props.type].props, ...props }
+  if (editableFields[props.type].propsTransform) {
+    newProps = editableFields[props.type]?.propsTransform?.(newProps)
   }
-  const Component = Fields[props.type].component
+  const Component = editableFields[props.type].component
   return <Component {...newProps} />
-}
-
-interface EditableProps {
-  template: { [key: string]: any }
-  data: { [key: string]: any }
-  onSubmit?: (key: string, value: any, data: any) => void
-  refresh?: () => void
-  disabled?: boolean
 }
 
 function EditableWrapper(
@@ -217,6 +160,14 @@ function EditableWrapper(
       <Editable {...props} />
     </Box>
   )
+}
+
+interface EditableProps {
+  template: { [key: string]: any }
+  data: { [key: string]: any }
+  onSubmit?: (key: string, value: any, data: any) => void
+  refresh?: () => void
+  disabled?: boolean
 }
 
 function Editable({ template, data, onSubmit, disabled }: EditableProps) {
@@ -253,7 +204,7 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
           )
 
         const component_type = template[key].type
-        if (component_type in Fields) {
+        if (component_type in editableFields) {
           return (
             <Field
               disabled={disabled}
