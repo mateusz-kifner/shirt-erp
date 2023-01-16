@@ -6,7 +6,7 @@ const order_template = {
 
   name: {
     label: "Nazwa",
-    type: "text",
+    type: "title",
     initialValue: "",
     required: true,
   },

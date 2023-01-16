@@ -29,6 +29,7 @@ import EditableTableView from "./EditableTableView"
 import { Cash, Numbers } from "tabler-icons-react"
 import apiListItems from "./apiListItems"
 import { makeDefaultListItem } from "../DefaultListItem"
+import EditableTitle from "./EditableTitle"
 
 export type editableFields = {
   [key: string]: {
@@ -41,6 +42,7 @@ export type editableFields = {
 }
 
 const editableFields: editableFields = {
+  title: { component: EditableTitle, props: {} },
   text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
