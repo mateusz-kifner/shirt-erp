@@ -29,7 +29,6 @@ import EditableTableView from "./EditableTableView"
 import { Cash, Numbers } from "tabler-icons-react"
 import apiListItems from "./apiListItems"
 import { makeDefaultListItem } from "../DefaultListItem"
-import EditableTitle from "./EditableTitle"
 
 export type editableFields = {
   [key: string]: {

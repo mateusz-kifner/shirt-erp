@@ -15,9 +15,13 @@ export default function useStateWithHistory<T>(
     redo: () => void
     clear: () => void
     go: (index: number) => void
+    canUndo: boolean
+    canRedo: boolean
   }
 ] {
   // true Value
+  const [canUndo, setCanUndo] = useState<boolean>(false)
+  const [canRedo, setCanRedo] = useState<boolean>(false)
   const [value, setValue] = useState<T>(defaultValue)
   // history array
   const historyRef = useRef([value])
@@ -42,6 +46,8 @@ export default function useStateWithHistory<T>(
         historyRef.current.shift()
       }
       pointerRef.current = historyRef.current.length - 1
+      setCanRedo(pointerRef.current < historyRef.current.length - 1)
+      setCanUndo(pointerRef.current > 0)
     }
   }
 
@@ -53,18 +59,24 @@ export default function useStateWithHistory<T>(
     if (pointerRef.current <= 0) return
     pointerRef.current--
     setValue(historyRef.current[pointerRef.current])
+    setCanRedo(pointerRef.current < historyRef.current.length - 1)
+    setCanUndo(pointerRef.current > 0)
   }, [])
 
   const redo = useCallback(() => {
     if (pointerRef.current >= historyRef.current.length - 1) return
     pointerRef.current++
     setValue(historyRef.current[pointerRef.current])
+    setCanRedo(pointerRef.current < historyRef.current.length - 1)
+    setCanUndo(pointerRef.current > 0)
   }, [])
 
   const go = useCallback((index: number) => {
     if (index < 0 || index > historyRef.current.length - 1) return
     pointerRef.current = index
     setValue(historyRef.current[pointerRef.current])
+    setCanRedo(pointerRef.current < historyRef.current.length - 1)
+    setCanUndo(pointerRef.current > 0)
   }, [])
 
   const clear = useCallback(() => setValue(defaultValue), [])
@@ -80,6 +92,8 @@ export default function useStateWithHistory<T>(
       redo,
       go,
       clear,
+      canUndo,
+      canRedo,
     },
   ]
 }

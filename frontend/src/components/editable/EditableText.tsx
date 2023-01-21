@@ -40,16 +40,12 @@ const EditableText = (props: EditableTextProps) => {
     style,
   } = props
 
-  const {
-    state: text,
-    debouncedState: debouncedText,
-    set: setText,
-    undo,
-    redo,
-    canUndo,
-    canRedo,
-    clear,
-  } = useDebouncedHistoryState<string>(value ?? initialValue ?? "")
+  const [
+    text,
+    setText,
+    debouncedValue,
+    { undo, redo, clear, canUndo, canRedo },
+  ] = useDebouncedHistoryState<string>(value ?? initialValue ?? "")
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -167,7 +163,7 @@ const EditableText = (props: EditableTextProps) => {
                     : theme.colors.gray[0]
                   : "transparent",
               border:
-                active && focus
+                (active && focus) || hovered
                   ? theme.colorScheme === "dark"
                     ? "1px solid #2C2E33"
                     : "1px solid #ced4da"
@@ -180,9 +176,9 @@ const EditableText = (props: EditableTextProps) => {
                 borderColor:
                   theme.colorScheme === "dark"
                     ? theme.colors.dark[4]
-                    : theme.colors.gray[0],
+                    : theme.colors.gray[4],
               },
-              fontSize: "inherit ",
+              fontSize: "inherit",
             },
           })}
         />
