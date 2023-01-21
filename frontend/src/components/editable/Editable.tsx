@@ -42,7 +42,10 @@ export type editableFields = {
 }
 
 const editableFields: editableFields = {
-  title: { component: EditableTitle, props: {} },
+  title: {
+    component: EditableText,
+    props: { style: { fontSize: "1.4em" } },
+  },
   text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
@@ -168,11 +171,10 @@ interface EditableProps {
   template: { [key: string]: any }
   data: { [key: string]: any }
   onSubmit?: (key: string, value: any, data: any) => void
-  refresh?: () => void
-  disabled?: boolean
+  active?: boolean
 }
 
-function Editable({ template, data, onSubmit, disabled }: EditableProps) {
+function Editable({ template, data, onSubmit, active }: EditableProps) {
   const { debug } = useAuthContext()
   const uuid = useId()
   return (
@@ -209,7 +211,7 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
         if (component_type in editableFields) {
           return (
             <Field
-              disabled={disabled}
+              active={active}
               value={data[key]}
               object_key={key}
               {...template[key]}

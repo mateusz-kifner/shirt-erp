@@ -1,15 +1,15 @@
 import { useCallback, useRef, useState } from "react"
 
-export default function useStateWithHistory(
-  defaultValue: any,
+export default function useStateWithHistory<T>(
+  defaultValue: T,
   { capacity = 10 } = {}
 ) {
-  const [value, setValue] = useState<any>(defaultValue)
+  const [value, setValue] = useState<T>(defaultValue)
   const historyRef = useRef([value])
   const pointerRef = useRef(0)
 
   const set = useCallback(
-    (v: any) => {
+    (v: T) => {
       const resolvedValue = typeof v === "function" ? v(value) : v
       if (historyRef.current[pointerRef.current] !== resolvedValue) {
         if (pointerRef.current < historyRef.current.length - 1) {

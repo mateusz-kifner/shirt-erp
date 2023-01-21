@@ -5,7 +5,6 @@ const order_template = {
   id: { type: "id" },
 
   name: {
-    label: "Nazwa",
     type: "title",
     initialValue: "",
     required: true,

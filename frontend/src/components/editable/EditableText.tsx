@@ -1,4 +1,12 @@
-import { ActionIcon, Group, Input, Textarea, Tooltip } from "@mantine/core"
+import {
+  ActionIcon,
+  Box,
+  Group,
+  Input,
+  Paper,
+  Textarea,
+  Tooltip,
+} from "@mantine/core"
 import {
   useClickOutside,
   useClipboard,
@@ -8,10 +16,11 @@ import {
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, Copy, Edit } from "tabler-icons-react"
+import { ArrowBackUp, ArrowForwardUp, Copy, Edit } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
-import DisplayCell from "../details/DisplayCell"
 import EditableInput from "../../types/EditableInput"
+import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
+import useDebouncedHistoryState from "../../hooks/useDebouncedHistoryState"
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number
@@ -27,15 +36,24 @@ const EditableText = (props: EditableTextProps) => {
     disabled,
     required,
     maxLength,
+    active,
     style,
   } = props
 
-  const [text, setText] = useState(value ?? initialValue ?? "")
-  const [prevText, setPrevText] = useState(text)
-  const [active, setActive] = useState<boolean>(false)
+  const {
+    state: text,
+    debouncedState: debouncedText,
+    set: setText,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    clear,
+  } = useDebouncedHistoryState<string>(value ?? initialValue ?? "")
+  const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const textRef = useRef<HTMLTextAreaElement>(null)
-  const clickOutsideRef = useClickOutside(() => setActive(false))
+  const clickOutsideRef = useClickOutside(() => {})
   const { hovered, ref } = useHover()
   const { hovered: hovered2, ref: hoveredRef2 } = useHover<HTMLButtonElement>()
   const { t } = useTranslation()
@@ -48,10 +66,10 @@ const EditableText = (props: EditableTextProps) => {
         (textRef.current.selectionStart = textRef.current.value.length)
       textRef.current && textRef.current.focus()
     } else {
-      if (text !== prevText) {
-        onSubmit && onSubmit(text)
-        setPrevText(text)
-      }
+      // if (text !== prevText) {
+      //   onSubmit && onSubmit(text)
+      //   setPrevText(text)
+      // }
       window.removeEventListener("beforeunload", preventLeave)
     }
     // eslint-disable-next-line
@@ -66,7 +84,7 @@ const EditableText = (props: EditableTextProps) => {
   useEffect(() => {
     const new_value = value ?? ""
     setText(new_value)
-    setPrevText(new_value)
+    // setPrevText(new_value)
   }, [value])
 
   const onChangeTextarea = (e: React.ChangeEvent<any>) => {
@@ -76,17 +94,17 @@ const EditableText = (props: EditableTextProps) => {
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
     if (active) {
       if (e.code == "Enter" && !e.shiftKey) {
-        setActive(false)
+        // setActive(false)
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        setText(prevText)
-        setActive(false)
+        // setText(prevText)
+        // setActive(false)
         e.preventDefault()
       }
     } else {
       if (e.code == "Enter") {
-        !disabled && setActive(true)
+        // !disabled && setActive(true)
         e.preventDefault()
       }
     }
@@ -125,82 +143,112 @@ const EditableText = (props: EditableTextProps) => {
       required={required}
       style={style}
       ref={wrapperRef}
+      onFocus={() => setFocus(true)}
+      onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
       <div style={{ position: "relative" }}>
-        {active ? (
-          <Textarea
-            ref={textRef}
-            autosize
-            autoFocus
-            minRows={1}
-            value={text}
-            onChange={onChangeTextarea}
-            onKeyDown={onKeyDownTextarea}
-            // onBlur={() => setActive(false)}
-            // readOnly={!active}
-            maxLength={maxLength ?? 255}
-            styles={(theme) => ({
-              input: {
-                paddingRight: 40,
-                backgroundColor: active
+        <Textarea
+          ref={textRef}
+          autosize
+          autoFocus
+          minRows={1}
+          value={text}
+          onChange={onChangeTextarea}
+          onKeyDown={onKeyDownTextarea}
+          readOnly={!(active && focus)}
+          maxLength={maxLength ?? 255}
+          styles={(theme) => ({
+            input: {
+              paddingRight: 40,
+              backgroundColor:
+                active && focus
                   ? theme.colorScheme === "dark"
                     ? theme.colors.dark[6]
                     : theme.colors.gray[0]
                   : "transparent",
+              border:
+                active && focus
+                  ? theme.colorScheme === "dark"
+                    ? "1px solid #2C2E33"
+                    : "1px solid #ced4da"
+                  : "1px solid transparent",
+
+              outline: "none",
+              "&:focus": {
+                outline: "none",
+
+                borderColor:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[4]
+                    : theme.colors.gray[0],
+              },
+              fontSize: "inherit ",
+            },
+          })}
+        />
+
+        {active && focus && (
+          <div
+            style={{
+              position: "absolute",
+              top: "calc(100% + 8px)",
+              left: 16,
+              zIndex: 1,
+            }}
+          >
+            <Box
+              sx={(theme) => ({
+                position: "absolute",
+                top: -2,
+                left: "50%",
+                zIndex: 1,
+                width: 8,
+                height: 8,
+                backgroundColor:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[6]
+                    : theme.colors.gray[0],
 
                 border:
                   theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da",
-              },
-            })}
-          />
-        ) : (
-          <DisplayCell disabled={disabled} hovered={hovered}>
-            {text ? text : "⸺"}
-          </DisplayCell>
-        )}
-
-        {!active ? (
-          hovered && (
-            <ActionIcon
-              // ref={hoveredRef2}
-              radius="xl"
-              style={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-              }}
-              onClick={() => setActive(true)}
-              disabled={disabled}
-              tabIndex={-1}
+                    ? `1px solid ${theme.colors.dark[4]}`
+                    : `1px solid ${theme.colors.gray[0]}`,
+                borderLeft: "none",
+                borderBottom: "none",
+                transformOrigin: "bottom left",
+                transform: "rotate(-45deg)",
+                borderRadius: 1,
+              })}
+            ></Box>
+            <Paper
+              withBorder
+              radius="md"
+              sx={(theme) => ({
+                backgroundColor:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[6]
+                    : theme.colors.gray[0],
+              })}
             >
-              <Edit size={18} />
-            </ActionIcon>
-          )
-        ) : (
-          <Group
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            spacing={4}
-          >
-            <Tooltip label="Undo" openDelay={500}>
-              <ActionIcon
-                radius="xl"
-                onClick={() => {
-                  setText(prevText)
-                  setTimeout(() => setActive(false))
-                }}
-                disabled={disabled}
-                tabIndex={-1}
-              >
-                <ArrowBackUp size={18} />
-              </ActionIcon>
-            </Tooltip>
-          </Group>
+              <Group p={4} spacing={4}>
+                <ActionIcon
+                  onClick={() => undo()}
+                  radius="md"
+                  disabled={!canUndo}
+                >
+                  <ArrowBackUp />
+                </ActionIcon>
+
+                <ActionIcon
+                  onClick={() => redo()}
+                  radius="md"
+                  disabled={!canRedo}
+                >
+                  <ArrowForwardUp />
+                </ActionIcon>
+              </Group>
+            </Paper>
+          </div>
         )}
       </div>
     </Input.Wrapper>

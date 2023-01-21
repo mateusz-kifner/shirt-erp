@@ -1,7 +1,7 @@
 import { Stack, Text, ActionIcon } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { Refresh } from "tabler-icons-react"
+import { Lock, LockOpen, Refresh } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
 import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
@@ -30,6 +30,8 @@ const ApiEntryEditable = <EntryType extends any>({
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle")
+
+  const [active, setActive] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -60,6 +62,7 @@ const ApiEntryEditable = <EntryType extends any>({
               template={template}
               data={data as any}
               onSubmit={apiUpdate}
+              active={active}
             />
           </Stack>
           {allowDelete && (
@@ -91,16 +94,33 @@ const ApiEntryEditable = <EntryType extends any>({
         }}
       />
       <ActionIcon
-        onClick={() => refetch()}
-        radius="xl"
-        sx={(theme) => ({
-          position: "absolute",
-          top: 0,
-          right: 0,
-        })}
-        size="xs"
+        onClick={() => {
+          setActive((val) => !val)
+        }}
+        size="md"
+        radius={9999}
+        style={{
+          position: "fixed",
+          top: "calc(var(--mantine-header-height, 0px) + 38px)",
+          right: 4,
+        }}
+        variant="default"
       >
-        <Refresh />
+        {active ? <LockOpen size={20} /> : <Lock size={20} />}
+      </ActionIcon>
+
+      <ActionIcon
+        onClick={() => refetch()}
+        size="md"
+        radius={9999}
+        style={{
+          position: "fixed",
+          top: "calc(var(--mantine-header-height, 0px) + 80px)",
+          right: 4,
+        }}
+        variant="default"
+      >
+        <Refresh size={20} />
       </ActionIcon>
     </Stack>
   )
