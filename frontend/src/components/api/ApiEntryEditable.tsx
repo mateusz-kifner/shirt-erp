@@ -97,16 +97,28 @@ const ApiEntryEditable = <EntryType extends any>({
         onClick={() => {
           setActive((val) => !val)
         }}
-        size="md"
+        size="xl"
         radius={9999}
-        style={{
+        sx={{
           position: "fixed",
           top: "calc(var(--mantine-header-height, 0px) + 38px)",
-          right: 4,
+          right: -6,
+          transition: "transform 200ms ease-in-out",
+          "&:hover": {
+            transform: "translate(-10px, 0)",
+          },
+          "&:after": {
+            content: "''",
+            position: "absolute",
+            top: 0,
+            right: -100,
+            bottom: 0,
+            width: 100,
+          },
         }}
         variant="default"
       >
-        {active ? <LockOpen size={20} /> : <Lock size={20} />}
+        {active ? <LockOpen size={28} /> : <Lock size={28} />}
       </ActionIcon>
 
       <ActionIcon
@@ -115,7 +127,7 @@ const ApiEntryEditable = <EntryType extends any>({
         radius={9999}
         style={{
           position: "fixed",
-          top: "calc(var(--mantine-header-height, 0px) + 80px)",
+          top: "calc(var(--mantine-header-height, 0px) + 92px)",
           right: 4,
         }}
         variant="default"
