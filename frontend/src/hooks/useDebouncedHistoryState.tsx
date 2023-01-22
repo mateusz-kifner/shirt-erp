@@ -1,7 +1,7 @@
 import { useDebouncedValue } from "@mantine/hooks"
 import { useCallback, useEffect, useRef, useState } from "react"
 
-export default function useStateWithHistory<T>(
+export default function useDebouncedStateWithHistory<T>(
   defaultValue: T,
   { capacity = 10, wait = 200, leading = false } = {}
 ): [
