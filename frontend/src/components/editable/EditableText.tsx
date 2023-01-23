@@ -56,20 +56,22 @@ const EditableText = (props: EditableTextProps) => {
   const wrapperRef = useMergedRef(clickOutsideRef, ref)
 
   useEffect(() => {
-    if (active) {
+    if (focus) {
       window.addEventListener("beforeunload", preventLeave)
       textRef.current &&
         (textRef.current.selectionStart = textRef.current.value.length)
       textRef.current && textRef.current.focus()
     } else {
-      // if (text !== prevText) {
-      //   onSubmit && onSubmit(text)
-      //   setPrevText(text)
-      // }
       window.removeEventListener("beforeunload", preventLeave)
     }
     // eslint-disable-next-line
-  }, [active])
+  }, [focus])
+
+  useEffect(() => {
+    if (debouncedValue !== value) {
+      onSubmit?.(debouncedValue)
+    }
+  }, [debouncedValue])
 
   useEffect(() => {
     return () => {
@@ -88,19 +90,12 @@ const EditableText = (props: EditableTextProps) => {
   }
 
   const onKeyDownTextarea = (e: React.KeyboardEvent<any>) => {
-    if (active) {
-      if (e.code == "Enter" && !e.shiftKey) {
-        // setActive(false)
+    if (focus) {
+      if (e.code === "Enter" && !e.shiftKey) {
         e.preventDefault()
       }
-      if (e.code == "Escape") {
-        // setText(prevText)
-        // setActive(false)
-        e.preventDefault()
-      }
-    } else {
-      if (e.code == "Enter") {
-        // !disabled && setActive(true)
+      if (e.code === "Escape" || e.code === "Enter") {
+        setFocus(false)
         e.preventDefault()
       }
     }
@@ -141,6 +136,7 @@ const EditableText = (props: EditableTextProps) => {
       ref={wrapperRef}
       onFocus={() => setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
+      onClick={() => setFocus(true)}
     >
       <div style={{ position: "relative" }}>
         <Textarea

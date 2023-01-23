@@ -28,7 +28,6 @@ export default function useDebouncedStateWithHistory<T>(
   // history pointer
   const pointerRef = useRef(0)
   const [debounced, cancel] = useDebouncedValue(value, wait, { leading })
-  console.table(historyRef.current)
 
   const set = (v: React.SetStateAction<T>) => {
     cancel()
