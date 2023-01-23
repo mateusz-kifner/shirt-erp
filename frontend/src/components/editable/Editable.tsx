@@ -26,7 +26,7 @@ import EditableTable from "./EditableTable"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 
-import { Cash, Numbers } from "tabler-icons-react"
+import { Calendar, Cash, Numbers } from "tabler-icons-react"
 import apiListItems from "./apiListItems"
 import { makeDefaultListItem } from "../DefaultListItem"
 
@@ -61,7 +61,10 @@ const editableFields: editableFields = {
     },
   },
   datetime: { component: EditableDateTime, props: {} },
-  date: { component: EditableDate, props: {} },
+  date: {
+    component: EditableDate,
+    props: { leftSection: <Calendar size={18} /> },
+  },
   boolean: { component: EditableBool, props: {} },
   color: { component: EditableColor, props: {} },
   enum: { component: EditableEnum, props: {} },

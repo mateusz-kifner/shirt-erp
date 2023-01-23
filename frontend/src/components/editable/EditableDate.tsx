@@ -1,68 +1,59 @@
-import { ActionIcon, Group, Input, Text, useMantineTheme } from "@mantine/core"
+import { ActionIcon, Input, useMantineTheme } from "@mantine/core"
 import { DatePicker } from "@mantine/dates"
-import {
-  useClickOutside,
-  useClipboard,
-  useHover,
-  useMediaQuery,
-  useMergedRef,
-} from "@mantine/hooks"
+import { useClipboard, useHover, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Calendar, TrashX, Edit, ArrowBackUp } from "tabler-icons-react"
+import { Copy } from "tabler-icons-react"
 import dayjs from "dayjs"
-import DisplayCell from "../details/DisplayCell"
 import EditableInput from "../../types/EditableInput"
+import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
 
 interface EditableDateProps extends EditableInput<string> {}
 
-const EditableDate = ({
-  label,
-  value,
-  initialValue,
+const EditableDate = (props: EditableDateProps) => {
+  const {
+    label,
+    value,
+    initialValue,
+    onSubmit,
+    disabled,
+    required,
+    active,
+    rightSection,
+    leftSection,
+  } = props
 
-  onSubmit,
-  disabled,
-  required,
-}: EditableDateProps) => {
   const [date, setDate] = useState<Date | null>(
     value ? new Date(value) : initialValue ? new Date(initialValue) : null
   )
-  const [prev, setPrev] = useState<Date | null>(date)
-  const [lock, setLock] = useState<boolean>(false)
-  const [active, setActive] = useState<boolean>(false)
+  const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const dateRef = useRef<HTMLInputElement>(null)
   const theme = useMantineTheme()
   const isMobile = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)"
   )
-  const activate = () => {
-    setActive(true)
-  }
-  const deactivate = () => {
-    !lock && setActive(false)
-  }
-
-  const ref = useClickOutside(deactivate)
-  const { hovered, ref: ref2 } = useHover()
-  const mergedRef = useMergedRef(ref, ref2)
+  const { hovered, ref } = useHover()
 
   useEffect(() => {
-    if (active) {
+    if (focus) {
       window.addEventListener("beforeunload", preventLeave)
       // dateRef.current &&(dateRef.current.selectionStart = dateRef.current.value.length)
       // dateRef.current && dateRef.current.focus()
     } else {
-      if (date !== prev) {
+      const valueAsDate = value
+        ? new Date(value)
+        : initialValue
+        ? new Date(initialValue)
+        : null
+      if (date !== valueAsDate) {
         date ? onSubmit?.(dayjs(date).format("YYYY-MM-DD")) : onSubmit?.(null)
-        setPrev(date)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
     // eslint-disable-next-line
-  }, [active])
+  }, [focus])
 
   useEffect(() => {
     return () => {
@@ -73,22 +64,7 @@ const EditableDate = ({
   useEffect(() => {
     const new_value = value ? dayjs(value).toDate() : null
     setDate(new_value)
-    setPrev(new_value)
   }, [value])
-
-  const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
-    if (active) {
-      if (e.code == "Enter") {
-        deactivate()
-        e.preventDefault()
-      }
-      if (e.code == "Escape") {
-        setDate(prev)
-        deactivate()
-        e.preventDefault()
-      }
-    }
-  }
 
   return (
     <Input.Wrapper
@@ -123,115 +99,64 @@ const EditableDate = ({
       labelElement="div"
       required={required}
       style={{ position: "relative" }}
-      ref={mergedRef}
+      ref={ref}
+      onClick={() => setFocus(true)}
+      onFocus={() => setFocus(true)}
+      onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      {/* <div > */}
-      {active ? (
-        <DatePicker
-          ref={dateRef}
-          onChange={setDate}
-          value={date}
-          variant={active ? "filled" : "default"}
-          icon={<Calendar size={18} />}
-          clearable={false}
-          styles={(theme) => ({
-            input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
-            defaultVariant: {
-              backgroundColor: active ? "initial" : "transparent",
-            },
-          })}
-          dayStyle={(date, modifiers) => ({
+      <DatePicker
+        ref={dateRef}
+        onChange={setDate}
+        value={date}
+        styles={(theme) => ({
+          input: {
+            padding: "1px 16px",
+            lineHeight: 1.55,
+            height: 44,
             backgroundColor:
-              dayjs(date).isToday() && !modifiers.selected
-                ? theme.colors[theme.primaryColor][6] + "33"
-                : undefined,
-          })}
-          allowFreeInput={!isMobile}
-          onDropdownOpen={activate}
-          onDropdownClose={() => {
-            setLock(false)
-          }}
-          dateParser={(value) => {
-            return dayjs(value, "L").toDate()
-          }}
-          dropdownType={isMobile ? "modal" : "popover"}
-          withinPortal={false}
-          autoFocus
-          onKeyDown={onKeyDownDate}
-        />
-      ) : (
-        <DisplayCell
-          icon={<Calendar size={18} />}
-          disabled={disabled}
-          hovered={hovered}
-        >
-          {date ? dayjs(date).format("L").toString() : "⸺"}
-        </DisplayCell>
-      )}
-
-      {!active ? (
-        hovered && (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              bottom: 8,
-            }}
-            onClick={activate}
-            disabled={disabled}
-          >
-            <Edit size={18} />
-          </ActionIcon>
-        )
-      ) : (
-        <Group
-          spacing={0}
-          style={{
-            position: "absolute",
-            right: 8,
-            bottom: 8,
-          }}
-        >
-          <ActionIcon
-            radius="xl"
-            style={{
-              width: "auto",
-              paddingLeft: 8,
-              paddingRight: 8,
-            }}
-            onClick={() => {
-              setDate(dayjs().toDate())
-              deactivate()
-            }}
-            disabled={disabled}
-          >
-            Dziś
-          </ActionIcon>
-          <ActionIcon
-            radius="xl"
-            onClick={() => {
-              setDate(null)
-              deactivate()
-            }}
-            disabled={disabled}
-          >
-            <TrashX size={18} />
-          </ActionIcon>
-          <ActionIcon
-            radius="xl"
-            onClick={() => {
-              setDate(prev)
-              deactivate()
-            }}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <ArrowBackUp size={18} />
-          </ActionIcon>
-        </Group>
-      )}
-      {/* </div> */}
+              active && focus
+                ? theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0]
+                : "transparent",
+            border:
+              (active && focus) || hovered
+                ? theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da"
+                : "1px solid transparent",
+            "&:focus": {
+              borderColor:
+                active && focus
+                  ? undefined
+                  : theme.colorScheme === "dark"
+                  ? theme.colors.dark[5]
+                  : theme.colors.gray[4],
+            },
+          },
+          defaultVariant: {
+            backgroundColor: active ? "initial" : "transparent",
+          },
+        })}
+        dayStyle={(date, modifiers) => ({
+          backgroundColor:
+            dayjs(date).isToday() && !modifiers.selected
+              ? theme.colors[theme.primaryColor][6] + "33"
+              : undefined,
+        })}
+        // allowFreeInput={!isMobile} // this is not working with custom locale
+        onDropdownOpen={() => setFocus(true)}
+        onDropdownClose={() => setFocus(false)}
+        dateParser={(value) => {
+          return dayjs(value, "L").toDate()
+        }}
+        dropdownType={isMobile ? "modal" : "popover"}
+        withinPortal={false}
+        autoFocus
+        readOnly={!(active && focus)}
+        icon={leftSection}
+        rightSection={rightSection}
+      />
     </Input.Wrapper>
   )
 }
