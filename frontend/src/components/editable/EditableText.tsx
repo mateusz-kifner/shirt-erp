@@ -172,11 +172,12 @@ const EditableText = (props: EditableTextProps) => {
               outline: "none",
               "&:focus": {
                 outline: "none",
-
                 borderColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[4]
-                    : theme.colors.gray[4],
+                  (active && focus) || hovered
+                    ? theme.colorScheme === "dark"
+                      ? theme.colors.dark[4]
+                      : theme.colors.gray[4]
+                    : "transparent",
               },
               fontSize: "inherit",
             },
