@@ -1,16 +1,15 @@
 import { Group, Switch, Text, Checkbox } from "@mantine/core"
 import { useHover } from "@mantine/hooks"
-
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import EditableInput from "../../types/EditableInput"
 
 // FIXME: respect disabled state
-// TODO: Remake this to respect height
 
 interface EditableBoolProps extends EditableInput<boolean> {
   checkbox?: boolean
   checkLabels: { checked: string; unchecked: string }
   stateLabels: { checked: string; unchecked: string }
+  stateColors: { checked: string; unchecked: string }
 }
 
 const EditableBool = (props: EditableBoolProps) => {
@@ -24,6 +23,7 @@ const EditableBool = (props: EditableBoolProps) => {
     checkbox,
     checkLabels = { checked: undefined, unchecked: undefined },
     stateLabels = { checked: "Tak", unchecked: "Nie" },
+    stateColors = { checked: "#2f9e44", unchecked: "#e03131" },
     rightSection,
     leftSection,
   } = props
@@ -70,6 +70,13 @@ const EditableBool = (props: EditableBoolProps) => {
             checked={bool}
             onLabel={checkLabels.checked}
             offLabel={checkLabels.unchecked}
+            styles={(theme) => ({
+              track: {
+                backgroundColor: bool
+                  ? stateColors.checked + "!important"
+                  : stateColors.unchecked,
+              },
+            })}
           />
         )
       ) : (
@@ -78,10 +85,6 @@ const EditableBool = (props: EditableBoolProps) => {
           sx={(theme) => ({
             position: "relative",
             padding: "1px 0.5em",
-            // border:
-            // theme.colorScheme === "dark"
-            //   ? "1px solid #2C2E33"
-            //   : "1px solid #ced4da",
             borderRadius: theme.radius.sm,
             "&:after": {
               content: "''",
