@@ -1,12 +1,4 @@
-import {
-  ActionIcon,
-  Box,
-  Group,
-  Input,
-  Paper,
-  Textarea,
-  Tooltip,
-} from "@mantine/core"
+import { ActionIcon, Box, Group, Input, Paper, Textarea } from "@mantine/core"
 import {
   useClickOutside,
   useClipboard,
@@ -16,7 +8,7 @@ import {
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, ArrowForwardUp, Copy, Edit } from "tabler-icons-react"
+import { ArrowBackUp, ArrowForwardUp, Copy } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
 import EditableInput from "../../types/EditableInput"
 import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
@@ -51,7 +43,6 @@ const EditableText = (props: EditableTextProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const clickOutsideRef = useClickOutside(() => {})
   const { hovered, ref } = useHover()
-  const { hovered: hovered2, ref: hoveredRef2 } = useHover<HTMLButtonElement>()
   const { t } = useTranslation()
   const wrapperRef = useMergedRef(clickOutsideRef, ref)
 

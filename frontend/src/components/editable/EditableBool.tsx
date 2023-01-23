@@ -43,58 +43,58 @@ const EditableBool = (props: EditableBoolProps) => {
   }, [bool])
 
   return (
-    <Group ref={ref} align="center">
-      <Text
-        style={{
-          wordBreak: "break-word",
-          whiteSpace: "pre-line",
-          lineHeight: 1.55,
-        }}
-      >
-        {label}
-        <div
-          style={{
-            display: "inline-block",
-            paddingLeft: "12px",
+    <Group
+      ref={ref}
+      align="center"
+      style={{ minHeight: "2em", marginBottom: "1em" }}
+    >
+      <Text>{label}</Text>
+      {active ? (
+        checkbox ? (
+          <Checkbox
+            onChange={(e) => {
+              setDirty(true)
+              setBool(e.target.checked)
+            }}
+            checked={bool}
+          />
+        ) : (
+          <Switch
+            onChange={(e) => {
+              setDirty(true)
+              setBool(e.target.checked)
+            }}
+            checked={bool}
+            onLabel={checkLabels.checked}
+            offLabel={checkLabels.unchecked}
+          />
+        )
+      ) : (
+        <Text
+          weight={700}
+          sx={(theme) => ({
             position: "relative",
-          }}
+            padding: "1px 0.5em",
+            border:
+              theme.colorScheme === "dark"
+                ? "1px solid #2C2E33"
+                : "1px solid #ced4da",
+            borderRadius: theme.radius.sm,
+            "&:after": {
+              content: "''",
+              position: "absolute",
+              bottom: 0,
+              left: "10%",
+              width: "80%",
+              boxShadow: bool
+                ? "0px -2px 3px 1px #0a0"
+                : "0px -2px 3px 1px #f00",
+            },
+          })}
         >
-          {active ? (
-            checkbox ? (
-              <Checkbox
-                onChange={(e) => {
-                  setDirty(true)
-                  setBool(e.target.checked)
-                }}
-                checked={bool}
-                style={{
-                  position: "absolute",
-                  bottom: -4,
-                }}
-              />
-            ) : (
-              <Switch
-                onChange={(e) => {
-                  setDirty(true)
-                  setBool(e.target.checked)
-                }}
-                checked={bool}
-                onLabel={checkLabels.checked}
-                offLabel={checkLabels.unchecked}
-                style={{
-                  display: "inline-block",
-                  top: -12,
-                  position: "relative",
-                }}
-              />
-            )
-          ) : (
-            <Text weight={700} style={{ minHeight: 37 }}>
-              {bool ? stateLabels.checked : stateLabels.unchecked}
-            </Text>
-          )}
-        </div>
-      </Text>
+          {bool ? stateLabels.checked : stateLabels.unchecked}
+        </Text>
+      )}
     </Group>
   )
 }
