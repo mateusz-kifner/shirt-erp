@@ -1,10 +1,5 @@
 import { ActionIcon, Box, Group, Input, Paper, Textarea } from "@mantine/core"
-import {
-  useClickOutside,
-  useClipboard,
-  useHover,
-  useMergedRef,
-} from "@mantine/hooks"
+import { useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
@@ -30,6 +25,8 @@ const EditableText = (props: EditableTextProps) => {
     maxLength,
     active,
     style,
+    leftSection,
+    rightSection,
   } = props
 
   const [
@@ -41,10 +38,8 @@ const EditableText = (props: EditableTextProps) => {
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const textRef = useRef<HTMLTextAreaElement>(null)
-  const clickOutsideRef = useClickOutside(() => {})
   const { hovered, ref } = useHover()
   const { t } = useTranslation()
-  const wrapperRef = useMergedRef(clickOutsideRef, ref)
 
   useEffect(() => {
     if (focus) {
@@ -86,8 +81,8 @@ const EditableText = (props: EditableTextProps) => {
         e.preventDefault()
       }
       if (e.code === "Escape" || e.code === "Enter") {
-        setFocus(false)
         e.preventDefault()
+        setFocus(false)
       }
     }
   }
@@ -124,14 +119,16 @@ const EditableText = (props: EditableTextProps) => {
       labelElement="div"
       required={required}
       style={style}
-      ref={wrapperRef}
+      ref={ref}
+      onClick={() => setFocus(true)}
       onFocus={() => setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
-      onClick={() => setFocus(true)}
     >
       <div style={{ position: "relative" }}>
         <Textarea
           ref={textRef}
+          rightSection={rightSection}
+          icon={leftSection}
           autosize
           autoFocus
           minRows={1}
@@ -156,15 +153,13 @@ const EditableText = (props: EditableTextProps) => {
                     : "1px solid #ced4da"
                   : "1px solid transparent",
 
-              outline: "none",
               "&:focus": {
-                outline: "none",
                 borderColor:
-                  (active && focus) || hovered
-                    ? theme.colorScheme === "dark"
-                      ? theme.colors.dark[4]
-                      : theme.colors.gray[4]
-                    : "transparent",
+                  active && focus
+                    ? undefined
+                    : theme.colorScheme === "dark"
+                    ? theme.colors.dark[5]
+                    : theme.colors.gray[4],
               },
               fontSize: "inherit",
             },

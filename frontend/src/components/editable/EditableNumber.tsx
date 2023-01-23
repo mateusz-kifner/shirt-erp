@@ -1,24 +1,12 @@
-import {
-  ActionIcon,
-  Group,
-  Input,
-  TextInput,
-  useMantineTheme,
-} from "@mantine/core"
-import {
-  useClickOutside,
-  useClipboard,
-  useHover,
-  useMediaQuery,
-  useMergedRef,
-} from "@mantine/hooks"
+import { ActionIcon, Group, Input, Paper, TextInput, Box } from "@mantine/core"
+import { useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
-import React, { ReactNode, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, Copy, Edit, X } from "tabler-icons-react"
-import DisplayCell from "../details/DisplayCell"
-import { number } from "zod"
+import { ArrowBackUp, ArrowForwardUp, Copy } from "tabler-icons-react"
 import EditableInput from "../../types/EditableInput"
+import useDebouncedHistoryState from "../../hooks/useDebouncedHistoryState"
+import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
 
 // FIXME: make DisplayCell accept icon as ReactNode
 
@@ -37,6 +25,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     onSubmit,
     disabled,
     required,
+    active,
     leftSection,
     rightSection,
     increment = 0.01,
@@ -44,48 +33,46 @@ const EditableNumber = (props: EditableNumberProps) => {
     min = Number.MIN_VALUE,
     max = Number.MAX_VALUE,
   } = props
-  const [text, setText] = useState<string>(
-    value ? value.toString() : initialValue ? initialValue.toString() : "0.00"
-  )
-  const [prev, setPrev] = useState<string>(text)
-  const [lock, setLock] = useState<boolean>(false)
-  const [active, setActive] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
+  const [text, setText, debouncedValue, { undo, redo, canUndo, canRedo }] =
+    useDebouncedHistoryState<string>(
+      value ? value.toString() : initialValue ? initialValue.toString() : "0.00"
+    )
+  const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const numberRef = useRef<HTMLInputElement>(null)
-  const theme = useMantineTheme()
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
-  )
-
-  const { hovered, ref: refHover } = useHover()
-
-  const activate = () => {
-    setActive(true)
-  }
-  const deactivate = () => {
-    !lock && setActive(false)
-  }
-
-  const ref = useClickOutside(deactivate)
-  const mergedRef = useMergedRef(refHover, ref)
+  const { hovered, ref } = useHover()
 
   useEffect(() => {
-    if (active) {
+    if (focus) {
       window.addEventListener("beforeunload", preventLeave)
     } else {
-      if (text !== prev && !isNaN(parseFloat(text))) {
-        if (parseFloat(text) > min && parseFloat(text) < max) {
-          text && onSubmit && onSubmit(parseFloat(text))
-          setPrev(text)
-          setText(parseFloat(text).toFixed(fixed))
-        } else {
-          setText(prev)
-        }
-      }
       window.removeEventListener("beforeunload", preventLeave)
     }
     // eslint-disable-next-line
-  }, [active])
+  }, [focus])
+
+  useEffect(() => {
+    if (
+      (value !== undefined ? parseFloat(value?.toFixed(fixed)) : 0) !==
+        parseFloat(debouncedValue) &&
+      !isNaN(parseFloat(debouncedValue))
+    ) {
+      if (parseFloat(debouncedValue) < min) {
+        debouncedValue !== undefined && onSubmit?.(min)
+        setText(min.toFixed(fixed))
+        setError(true)
+      } else if (parseFloat(debouncedValue) > max) {
+        debouncedValue !== undefined && onSubmit?.(max)
+        setText(max.toFixed(fixed))
+        setError(true)
+      } else {
+        debouncedValue !== undefined &&
+          onSubmit?.(parseFloat(parseFloat(debouncedValue).toFixed(2)))
+        setError(false)
+      }
+    }
+  }, [debouncedValue])
 
   useEffect(() => {
     return () => {
@@ -97,20 +84,25 @@ const EditableNumber = (props: EditableNumberProps) => {
     const new_value =
       value && !isNaN(value) ? value.toFixed(fixed) : (0.0).toFixed(fixed)
     setText(new_value)
-    setPrev(new_value)
     // eslint-disable-next-line
   }, [value])
 
   const onKeyDownNumber = (e: React.KeyboardEvent<any>) => {
     if (active) {
-      if (e.code == "Enter") {
-        deactivate()
+      let multiplier = 1
+      if (e.code === "Enter" || e.code === "Escape") {
         e.preventDefault()
+        setFocus(false)
       }
-      if (e.code == "Escape") {
-        setText(prev)
-        deactivate()
+      if (e.altKey) multiplier *= 0.1
+      if (e.shiftKey) multiplier *= 10
+      if (e.code === "ArrowUp") {
         e.preventDefault()
+        setText((parseFloat(text) + increment * multiplier).toFixed(fixed))
+      }
+      if (e.code === "ArrowDown") {
+        e.preventDefault()
+        setText((parseFloat(text) - increment * multiplier).toFixed(fixed))
       }
     }
   }
@@ -147,76 +139,118 @@ const EditableNumber = (props: EditableNumberProps) => {
       labelElement="div"
       required={required}
       style={{ position: "relative" }}
-      ref={mergedRef}
+      ref={ref}
+      onClick={() => setFocus(true)}
+      onFocus={() => setFocus(true)}
+      onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      {/* <div > */}
-      {active ? (
-        <TextInput
-          ref={numberRef}
-          onChange={(e) => setText(e.target.value)}
-          value={text}
-          variant={active ? "filled" : "default"}
-          icon={leftSection}
-          // clearable={false}
-          styles={(theme) => ({
-            input: { padding: "1px 16px", lineHeight: 1.55, height: 44 },
-            defaultVariant: {
-              backgroundColor: active ? "initial" : "transparent",
+      <TextInput
+        readOnly={!(active && focus)}
+        ref={numberRef}
+        onChange={(e) => setText(e.target.value)}
+        value={text}
+        variant={active ? "filled" : "default"}
+        styles={(theme) => ({
+          input: {
+            padding: "1px 16px",
+            lineHeight: 1.55,
+            height: 44,
+            backgroundColor:
+              active && focus
+                ? theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0]
+                : "transparent",
+            border:
+              (active && focus) || hovered
+                ? theme.colorScheme === "dark"
+                  ? "1px solid #2C2E33"
+                  : "1px solid #ced4da"
+                : "1px solid transparent",
+            "&:focus": {
+              borderColor:
+                active && focus
+                  ? error
+                    ? "red"
+                    : undefined
+                  : theme.colorScheme === "dark"
+                  ? theme.colors.dark[5]
+                  : theme.colors.gray[4],
             },
-          })}
-          autoFocus
-          onKeyDown={onKeyDownNumber}
-          rightSection={rightSection}
-        />
-      ) : (
-        <DisplayCell
-          icon={leftSection}
-          rightSection={rightSection}
-          disabled={disabled}
-          hovered={hovered}
-        >
-          {text ? text : "⸺"}
-        </DisplayCell>
-      )}
+          },
+          defaultVariant: {
+            backgroundColor: active ? "initial" : "transparent",
+          },
+        })}
+        autoFocus
+        onKeyDown={onKeyDownNumber}
+        icon={leftSection}
+        rightSection={rightSection}
+      />
 
-      {!active ? (
-        hovered && (
-          <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              bottom: 8,
-            }}
-            onClick={activate}
-            disabled={disabled}
-          >
-            <Edit size={18} />
-          </ActionIcon>
-        )
-      ) : (
-        <Group
-          spacing={0}
+      {active && focus && (
+        <div
           style={{
             position: "absolute",
-            right: 8,
-            bottom: 8,
+            top: "calc(100% + 8px)",
+            left: 16,
+            zIndex: 1,
           }}
         >
-          <ActionIcon
-            radius="xl"
-            onClick={() => {
-              setText(prev)
-              deactivate()
-            }}
-            disabled={disabled}
-            tabIndex={-1}
+          <Box
+            sx={(theme) => ({
+              position: "absolute",
+              top: -2,
+              left: "50%",
+              zIndex: 1,
+              width: 8,
+              height: 8,
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+
+              border:
+                theme.colorScheme === "dark"
+                  ? `1px solid ${theme.colors.dark[4]}`
+                  : `1px solid ${theme.colors.gray[0]}`,
+              borderLeft: "none",
+              borderBottom: "none",
+              transformOrigin: "bottom left",
+              transform: "rotate(-45deg)",
+              borderRadius: 1,
+            })}
+          ></Box>
+          <Paper
+            withBorder
+            radius="md"
+            sx={(theme) => ({
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+            })}
           >
-            <ArrowBackUp size={18} />
-          </ActionIcon>
-        </Group>
+            <Group p={4} spacing={4}>
+              <ActionIcon
+                onClick={() => undo()}
+                radius="md"
+                disabled={!canUndo}
+              >
+                <ArrowBackUp />
+              </ActionIcon>
+
+              <ActionIcon
+                onClick={() => redo()}
+                radius="md"
+                disabled={!canRedo}
+              >
+                <ArrowForwardUp />
+              </ActionIcon>
+            </Group>
+          </Paper>
+        </div>
       )}
-      {/* </div> */}
     </Input.Wrapper>
   )
 }

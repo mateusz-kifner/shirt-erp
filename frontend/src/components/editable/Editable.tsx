@@ -50,14 +50,14 @@ const editableFields: editableFields = {
   secrettext: { component: EditableSecretText, props: {} },
   number: {
     component: EditableNumber,
-    props: { icon: <Numbers size={18} />, Icon: Numbers },
+    props: { leftSection: <Numbers size={18} /> },
   },
   money: {
     component: EditableNumber,
     props: {
-      rightSection: <Text pr={80}>PLN</Text>,
-      icon: <Cash size={18} />,
-      Icon: Cash,
+      rightSection: <Text pr="sm">PLN</Text>,
+      leftSection: <Cash size={18} />,
+      increment: 1,
     },
   },
   datetime: { component: EditableDateTime, props: {} },

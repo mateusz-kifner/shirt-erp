@@ -24,6 +24,8 @@ const EditableBool = (props: EditableBoolProps) => {
     checkbox,
     checkLabels = { checked: undefined, unchecked: undefined },
     stateLabels = { checked: "Tak", unchecked: "Nie" },
+    rightSection,
+    leftSection,
   } = props
   const [bool, setBool] = useState<boolean>(value ?? initialValue ?? false)
   const [dirty, setDirty] = useState<boolean>(false)
@@ -48,6 +50,7 @@ const EditableBool = (props: EditableBoolProps) => {
       align="center"
       style={{ minHeight: "2em", marginBottom: "1em" }}
     >
+      {!!leftSection && leftSection}
       <Text>{label}</Text>
       {active ? (
         checkbox ? (
@@ -75,10 +78,10 @@ const EditableBool = (props: EditableBoolProps) => {
           sx={(theme) => ({
             position: "relative",
             padding: "1px 0.5em",
-            border:
-              theme.colorScheme === "dark"
-                ? "1px solid #2C2E33"
-                : "1px solid #ced4da",
+            // border:
+            // theme.colorScheme === "dark"
+            //   ? "1px solid #2C2E33"
+            //   : "1px solid #ced4da",
             borderRadius: theme.radius.sm,
             "&:after": {
               content: "''",
@@ -95,6 +98,7 @@ const EditableBool = (props: EditableBoolProps) => {
           {bool ? stateLabels.checked : stateLabels.unchecked}
         </Text>
       )}
+      {!!rightSection && rightSection}
     </Group>
   )
 }
