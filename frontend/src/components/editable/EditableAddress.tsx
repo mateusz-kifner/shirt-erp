@@ -1,20 +1,16 @@
-import { ActionIcon, Group, Input, Stack, Text, Textarea } from "@mantine/core"
-import {
-  useClickOutside,
-  useClipboard,
-  useHover,
-  useMergedRef,
-} from "@mantine/hooks"
+import { ActionIcon, Group, Input, Stack } from "@mantine/core"
+import { useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
-import { BuildingCommunity, Copy, Edit, X } from "tabler-icons-react"
+import { Copy } from "tabler-icons-react"
 import DisplayCell from "../details/DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
 import { isEqual } from "lodash"
 import EditableInput from "../../types/EditableInput"
+import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
 
 const provinces = [
   "dolnośląskie",
@@ -41,16 +37,19 @@ interface EditableAddressProps
   maxLength?: number
 }
 
-const EditableAddress = ({
-  label,
-  value,
-  initialValue,
-
-  onSubmit,
-  disabled,
-  required,
-  maxLength,
-}: EditableAddressProps) => {
+const EditableAddress = (props: EditableAddressProps) => {
+  const {
+    label,
+    value,
+    initialValue,
+    active,
+    onSubmit,
+    disabled,
+    required,
+    maxLength,
+    leftSection,
+    rightSection,
+  } = props
   const [address, setAddress] = useState<AddressType>(
     value
       ? value
@@ -66,28 +65,37 @@ const EditableAddress = ({
           postCode: "",
         }
   )
-  const [prevAddress, setPrevAddress] = useState(address)
-  const [active, setActive] = useState<boolean>(false)
+  const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
-  const ref = useClickOutside(() => setActive(false))
-  const { hovered, ref: refHover } = useHover()
-  const mergedRef = useMergedRef(refHover, ref)
+  const { hovered, ref } = useHover()
 
   const setAddressField = (key: string, val: string) => {
     const new_address = { ...address, [key]: val }
+    const prevAddress = value
+      ? value
+      : initialValue
+      ? initialValue
+      : {
+          streetName: "",
+          streetNumber: "",
+          apartmentNumber: "",
+          secondLine: "",
+          city: "",
+          province: "",
+          postCode: "",
+        }
     if (!isEqual(prevAddress, new_address)) {
-      onSubmit && onSubmit(new_address)
+      onSubmit?.(new_address)
       setAddress(new_address)
-      setPrevAddress({ ...new_address })
     }
   }
 
   useEffect(() => {
-    if (active) {
-      setPrevAddress({ ...address })
+    if (focus) {
+      // setPrevAddress({ ...address })
     }
     // eslint-disable-next-line
-  }, [active])
+  }, [focus])
 
   useEffect(() => {
     if (value && !isEqual(address, value)) {
@@ -121,7 +129,7 @@ const EditableAddress = ({
 
   return (
     <Input.Wrapper
-      ref={mergedRef}
+      ref={ref}
       label={
         <>
           {label?.name}
@@ -150,14 +158,19 @@ const EditableAddress = ({
       }
       labelElement="div"
       required={required}
+      onClick={() => setFocus(true)}
+      onFocus={() => setFocus(true)}
+      onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      {active ? (
+      {active && focus ? (
         <Stack
           style={{ position: "relative" }}
           sx={[SxBorder, SxRadius]}
           p="md"
+          tabIndex={999999999} // ensure that focus can be captured on element
         >
           <EditableText
+            active={true}
             label={label?.streetName ?? undefined}
             value={value?.streetName ?? ""}
             onSubmit={(value) =>
@@ -166,6 +179,7 @@ const EditableAddress = ({
           />
           <Group grow={true}>
             <EditableText
+              active={true}
               label={label?.streetNumber ?? undefined}
               value={value?.streetNumber ?? ""}
               onSubmit={(value) =>
@@ -174,6 +188,7 @@ const EditableAddress = ({
               style={{ flexGrow: 1 }}
             />
             <EditableText
+              active={true}
               label={label?.apartmentNumber ?? undefined}
               value={value?.apartmentNumber ?? ""}
               onSubmit={(value) =>
@@ -183,6 +198,7 @@ const EditableAddress = ({
             />
           </Group>
           <EditableText
+            active={true}
             label={label?.secondLine ?? undefined}
             value={value?.secondLine ?? ""}
             onSubmit={(value) =>
@@ -190,6 +206,7 @@ const EditableAddress = ({
             }
           />
           <EditableText
+            active={true}
             label={label?.postCode ?? undefined}
             value={value?.postCode ?? ""}
             onSubmit={(value) =>
@@ -197,6 +214,7 @@ const EditableAddress = ({
             }
           />
           <EditableText
+            active={true}
             label={label?.city ?? undefined}
             value={value?.city ?? ""}
             onSubmit={(value) =>
@@ -204,6 +222,7 @@ const EditableAddress = ({
             }
           />
           <EditableEnum
+            active={true}
             label={label?.province ?? undefined}
             value={value?.province ?? ""}
             onSubmit={(value) =>
@@ -211,46 +230,17 @@ const EditableAddress = ({
             }
             enum_data={provinces}
           />
-          {/* <ActionIcon
-            radius="xl"
-            style={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-            }}
-            onClick={() => setActive(false)}
-            disabled={disabled}
-            tabIndex={-1}
-          >
-            <ArrowBackUp size={18} />
-          </ActionIcon> */}
         </Stack>
       ) : (
-        <div style={{ position: "relative" }}>
-          <DisplayCell
-            icon={<BuildingCommunity />}
-            disabled={disabled}
-            hovered={hovered}
-          >
-            {" "}
-            {toString()}
-          </DisplayCell>
-          {hovered && (
-            <ActionIcon
-              radius="xl"
-              style={{
-                position: "absolute",
-                right: 8,
-                top: 8,
-              }}
-              onClick={() => setActive(true)}
-              disabled={disabled}
-              tabIndex={-1}
-            >
-              <Edit size={18} />
-            </ActionIcon>
-          )}
-        </div>
+        <DisplayCell
+          icon={leftSection}
+          disabled={disabled}
+          hovered={hovered}
+          rightSection={rightSection}
+        >
+          {" "}
+          {toString()}
+        </DisplayCell>
       )}
     </Input.Wrapper>
   )

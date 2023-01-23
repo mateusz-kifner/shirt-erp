@@ -47,6 +47,7 @@
       "streetName": "Ulica",
       "streetNumber": "Nr. bloku",
       "apartmentNumber": "Nr. mieszkania",
+      "secondLine": "Dodatkowe dane adresata",
       "city": "Miasto",
       "province": "Województwo",
       "postCode": "Kod pocztowy",
@@ -57,6 +58,7 @@
       "streetName": "",
       "streetNumber": "",
       "apartmentNumber": "",
+      "secondLine": "",
       "city": "",
       "province": "",
       "postCode": ""

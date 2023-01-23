@@ -26,7 +26,7 @@ import EditableTable from "./EditableTable"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 
-import { Calendar, Cash, Numbers } from "tabler-icons-react"
+import { BuildingCommunity, Calendar, Cash, Numbers } from "tabler-icons-react"
 import apiListItems from "./apiListItems"
 import { makeDefaultListItem } from "../DefaultListItem"
 
@@ -70,7 +70,10 @@ const editableFields: editableFields = {
   enum: { component: EditableEnum, props: {} },
   json: { component: EditableJSON, props: {} },
   iconId: { component: EditableApiIconId, props: {} },
-  address: { component: EditableAddress, props: {} },
+  address: {
+    component: EditableAddress,
+    props: { leftSection: <BuildingCommunity size={18} /> },
+  },
   file: { component: EditableFiles, props: { maxCount: 1 } },
   image: { component: EditableFiles, props: { maxCount: 1 } },
   files: { component: EditableFiles, props: {} },

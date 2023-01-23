@@ -34,7 +34,9 @@ const EditableText = (props: EditableTextProps) => {
     setText,
     debouncedValue,
     { undo, redo, clear, canUndo, canRedo },
-  ] = useDebouncedHistoryState<string>(value ?? initialValue ?? "")
+  ] = useDebouncedHistoryState<string>(value ?? initialValue ?? "", {
+    wait: 5000,
+  })
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -48,6 +50,9 @@ const EditableText = (props: EditableTextProps) => {
         (textRef.current.selectionStart = textRef.current.value.length)
       textRef.current && textRef.current.focus()
     } else {
+      if (text !== value) {
+        onSubmit?.(text)
+      }
       window.removeEventListener("beforeunload", preventLeave)
     }
     // eslint-disable-next-line
@@ -61,6 +66,9 @@ const EditableText = (props: EditableTextProps) => {
 
   useEffect(() => {
     return () => {
+      if (text !== value) {
+        onSubmit?.(text)
+      }
       window.removeEventListener("beforeunload", preventLeave)
     }
   }, [])
