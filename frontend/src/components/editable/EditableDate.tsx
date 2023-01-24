@@ -47,8 +47,14 @@ const EditableDate = (props: EditableDateProps) => {
         : initialValue
         ? new Date(initialValue)
         : null
-      if (date !== valueAsDate) {
-        date ? onSubmit?.(dayjs(date).format("YYYY-MM-DD")) : onSubmit?.(null)
+      const dateAsString = dayjs(date).format("YYYY-MM-DD")
+      if (
+        date !== null &&
+        dateAsString !== dayjs(valueAsDate).format("YYYY-MM-DD")
+      ) {
+        onSubmit?.(dateAsString)
+      } else if (date == null) {
+        onSubmit?.(null)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
@@ -100,9 +106,9 @@ const EditableDate = (props: EditableDateProps) => {
       required={required}
       style={{ position: "relative" }}
       ref={ref}
-      onClick={() => setFocus(true)}
-      onFocus={() => setFocus(true)}
-      onBlur={handleBlurForInnerElements(() => setFocus(false))}
+      // onClick={() => setFocus(true)}
+      // onFocus={() => setFocus(true)}
+      // onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
       <DatePicker
         ref={dateRef}
