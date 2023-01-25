@@ -8,7 +8,7 @@ import {
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, ArrowForwardUp, Copy, Edit } from "tabler-icons-react"
+import { Copy } from "tabler-icons-react"
 import DOMPurify from "dompurify"
 import TurndownService from "turndown"
 import { SxRadius } from "../../styles/basic"
@@ -21,8 +21,7 @@ import TextAlign from "@tiptap/extension-text-align"
 import Superscript from "@tiptap/extension-superscript"
 import SubScript from "@tiptap/extension-subscript"
 import EditableInput from "../../types/EditableInput"
-import useDebouncedHistoryState from "../../hooks/useDebouncedHistoryState"
-import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
+
 const turndownService = new TurndownService()
 
 interface EditableRichTextProps extends EditableInput<string> {}

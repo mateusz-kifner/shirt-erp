@@ -113,7 +113,7 @@ const ApiEntryEditable = <EntryType extends any>({
             top: 0,
             right: -100,
             bottom: 0,
-            width: 100,
+            width: 122,
           },
         }}
         variant="default"

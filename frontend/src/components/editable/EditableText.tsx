@@ -35,7 +35,7 @@ const EditableText = (props: EditableTextProps) => {
     debouncedValue,
     { undo, redo, clear, canUndo, canRedo },
   ] = useDebouncedHistoryState<string>(value ?? initialValue ?? "", {
-    wait: 5000,
+    wait: 2000,
   })
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()

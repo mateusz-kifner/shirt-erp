@@ -89,10 +89,10 @@
     "label": "Edytowano",
     "type": "datetime",
     "disabled": true
-  },
-  "secretNotes": {
-    "label": "Sekretne Notatki",
-    "type": "secrettext",
-    "initialValue": ""
   }
+  // "secretNotes": {
+  //   "label": "Sekretne Notatki",
+  //   "type": "secrettext",
+  //   "initialValue": ""
+  // }
 }

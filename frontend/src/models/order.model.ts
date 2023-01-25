@@ -44,11 +44,11 @@ const order_template = {
     label: "Data ukończenia",
     type: "date",
   },
-  secretNotes: {
-    label: "Sekretne notatki",
-    type: "secrettext",
-    initialValue: "",
-  },
+  // secretNotes: {
+  //   label: "Sekretne notatki",
+  //   type: "secrettext",
+  //   initialValue: "",
+  // },
   files: {
     label: "Pliki",
     type: "files",

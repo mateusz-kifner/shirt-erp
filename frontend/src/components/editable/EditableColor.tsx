@@ -1,16 +1,9 @@
-import {
-  ActionIcon,
-  ColorInput,
-  Group,
-  Input,
-  Text,
-  CSSObject,
-} from "@mantine/core"
+import { ActionIcon, ColorInput, Group, Input, Text } from "@mantine/core"
 import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useMemo } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, Edit } from "tabler-icons-react"
+import { Copy, X } from "tabler-icons-react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import colorNames from "../../models/color-names.json"
 import EditableInput from "../../types/EditableInput"
@@ -59,22 +52,34 @@ interface EditableColorProps extends EditableInput<string> {
 }
 
 const EditableColor = (props: EditableColorProps) => {
-  const { label, value, initialValue, onSubmit, disabled, required, style } =
-    props
-  const [color, setColor] = useState<string>(value ?? initialValue ?? "#ffffff")
-  const [prevColor, setPrevColor] = useState(color)
-  const [active, setActive] = useState<boolean>(false)
-  const ref = useClickOutside(() => setActive(false))
+  const {
+    label,
+    value,
+    initialValue,
+    onSubmit,
+    disabled,
+    required,
+    active,
+    style,
+  } = props
+  const [color, setColor] = useState<string | null>(
+    value ?? initialValue ?? null
+  )
+  const [focus, setFocus] = useState<boolean>(false)
+  const ref = useClickOutside(() => setFocus(false))
   const clipboard = useClipboard()
   const { hovered, ref: refHover } = useHover()
 
-  const colorName = useMemo(() => getColorNameFromHex(color), [color])
+  const colorName = useMemo(
+    () => (color !== null ? getColorNameFromHex(color) : ""),
+    [color]
+  )
 
   useEffect(() => {
-    if (active) {
+    if (focus) {
       window.addEventListener("beforeunload", preventLeave)
     } else {
-      if (color !== value) {
+      if (color !== value && color !== null) {
         let hex = ""
         if (color.length === 3 && color[0] !== "#") {
           hex =
@@ -104,14 +109,13 @@ const EditableColor = (props: EditableColorProps) => {
         }
         if (!isNaN(parseInt(hex.substring(1), 16))) {
           onSubmit && onSubmit(hex)
-          setPrevColor(hex)
           setColor(hex)
         }
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
     // eslint-disable-next-line
-  }, [active])
+  }, [focus])
 
   useEffect(() => {
     return () => {
@@ -122,19 +126,18 @@ const EditableColor = (props: EditableColorProps) => {
   useEffect(() => {
     if (value) {
       setColor(value)
-      setPrevColor(value)
     }
   }, [value])
 
   const onKeyDown = (e: React.KeyboardEvent<any>) => {
     if (active) {
       if (e.code == "Enter") {
-        setActive(false)
+        // setActive(false)
         e.preventDefault()
       }
       if (e.code == "Escape") {
-        setColor(prevColor)
-        setActive(false)
+        // setColor(prevColor)
+        // setActive(false)
         e.preventDefault()
       }
     }
@@ -172,9 +175,11 @@ const EditableColor = (props: EditableColorProps) => {
       required={required}
       style={style}
       ref={refHover}
+      onClick={() => setFocus(true)}
+      onFocus={() => setFocus(true)}
     >
       <div ref={ref} style={{ position: "relative" }}>
-        {active ? (
+        {active && focus ? (
           <Group grow>
             <ColorInput
               swatchesPerRow={7}
@@ -244,7 +249,7 @@ const EditableColor = (props: EditableColorProps) => {
                 "#fab005",
                 "#fd7e14",
               ]}
-              value={color}
+              value={color ?? "#ffffff"}
               onChange={(new_hex) => {
                 setColor(new_hex)
               }}
@@ -253,57 +258,46 @@ const EditableColor = (props: EditableColorProps) => {
               styles={{ input: { minHeight: 44 } }}
               withinPortal={false}
               onKeyDown={onKeyDown}
+              autoFocus
+              withPicker={true}
             />
           </Group>
         ) : (
-          <>
-            <Text
-              sx={[
-                SxBorder,
-                (theme) => ({
-                  width: "100%",
+          <Text
+            sx={[
+              SxBorder,
+              (theme) => ({
+                width: "100%",
 
-                  fontSize: theme.fontSizes.sm,
-                  wordBreak: "break-word",
-                  whiteSpace: "pre-line",
-                  padding: "10px 16px",
-                  paddingRight: 32,
-                  minHeight: 36,
-                  lineHeight: 1.55,
-                  paddingLeft: 36,
-                  borderColor: colorName === "Nieznany" ? "#f00" : undefined,
-                  "&:before": {
-                    content: "''",
-                    position: "absolute",
-                    height: 24,
-                    width: 24,
-                    top: 9,
-                    left: 6,
-                    backgroundColor: color ?? undefined,
-                    borderRadius: "100%",
-                    border:
-                      theme.colorScheme === "dark"
-                        ? "1px solid #2C2E33"
-                        : "1px solid #ced4da",
-                  },
-                }),
-                SxRadius,
-              ]}
-            >
-              {colorName}
-            </Text>
-
-            {hovered && (
-              <ActionIcon
-                radius="xl"
-                style={{ position: "absolute", right: 8, top: 8 }}
-                onClick={() => setActive(true)}
-                disabled={disabled}
-              >
-                <Edit size={18} />
-              </ActionIcon>
-            )}
-          </>
+                fontSize: theme.fontSizes.sm,
+                wordBreak: "break-word",
+                whiteSpace: "pre-line",
+                padding: "10px 16px",
+                paddingRight: 32,
+                minHeight: 36,
+                lineHeight: 1.55,
+                paddingLeft: 36,
+                borderColor: colorName === "Nieznany" ? "#f00" : undefined,
+                "&:before": {
+                  content: "''",
+                  position: "absolute",
+                  height: 24,
+                  width: 24,
+                  top: 9,
+                  left: 6,
+                  backgroundColor: color ?? undefined,
+                  borderRadius: "100%",
+                  border:
+                    theme.colorScheme === "dark"
+                      ? "1px solid #2C2E33"
+                      : "1px solid #ced4da",
+                },
+              }),
+              SxRadius,
+            ]}
+          >
+            {colorName || "⸺"}
+          </Text>
         )}
       </div>
     </Input.Wrapper>
