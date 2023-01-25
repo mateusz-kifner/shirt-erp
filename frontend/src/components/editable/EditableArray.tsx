@@ -64,15 +64,22 @@ const EditableArray = (props: EditableArrayProps) => {
   }, [value])
 
   useEffect(() => {
-    if (active && items[items.length - 1] !== null) {
+    // console.log("items append")
+    if (
+      active &&
+      (items.length === 0 || (items.length && !!items[items.length - 1]))
+    ) {
       handlers.append(null)
-      // console.log("items append")
     }
-    if (!active && items.includes(null)) {
-      handlers.filter((val) => val !== null)
+    // console.log(
+    //   items.some((item) => !item),
+    //   items
+    // )
+    if (!active && items.some((item) => !item)) {
+      handlers.filter((val) => !!val)
       console.log("items filter")
     }
-    console.log("items active")
+    // console.log("items active")
   }, [items, active])
 
   return (

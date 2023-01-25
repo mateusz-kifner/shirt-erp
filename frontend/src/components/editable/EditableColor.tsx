@@ -47,6 +47,23 @@ export const getColorNameFromHex = (hex: string) => {
   return name
 }
 
+function convertTo6DigitColorCode(color: string) {
+  let hex = ""
+  if (color.length === 3 && color[0] !== "#") {
+    hex = "#" + color[0] + color[0] + color[1] + color[1] + color[2] + color[2]
+  }
+  if (color.length === 4 && color[0] === "#") {
+    hex = "#" + color[1] + color[1] + color[2] + color[2] + color[3] + color[3]
+  }
+  if (color.length === 6 && color[0] !== "#") {
+    hex = "#" + color
+  }
+  if (color.length === 7 && color[0] === "#") {
+    hex = color
+  }
+  return hex
+}
+
 interface EditableColorProps extends EditableInput<string> {
   style?: CSSProperties
 }
@@ -79,36 +96,15 @@ const EditableColor = (props: EditableColorProps) => {
     if (focus) {
       window.addEventListener("beforeunload", preventLeave)
     } else {
-      if (color !== value && color !== null) {
-        let hex = ""
-        if (color.length === 3 && color[0] !== "#") {
-          hex =
-            "#" +
-            color[0] +
-            color[0] +
-            color[1] +
-            color[1] +
-            color[2] +
-            color[2]
+      if (color !== value) {
+        if (!color || color === null) {
+          onSubmit?.(null)
+          setColor(null)
+          return
         }
-        if (color.length === 4 && color[0] === "#") {
-          hex =
-            "#" +
-            color[1] +
-            color[1] +
-            color[2] +
-            color[2] +
-            color[3] +
-            color[3]
-        }
-        if (color.length === 6 && color[0] !== "#") {
-          hex = "#" + color
-        }
-        if (color.length === 7 && color[0] === "#") {
-          hex = color
-        }
+        let hex = convertTo6DigitColorCode(color)
         if (!isNaN(parseInt(hex.substring(1), 16))) {
-          onSubmit && onSubmit(hex)
+          onSubmit?.(hex)
           setColor(hex)
         }
       }
@@ -126,6 +122,8 @@ const EditableColor = (props: EditableColorProps) => {
   useEffect(() => {
     if (value) {
       setColor(value)
+    } else {
+      setColor("")
     }
   }, [value])
 
