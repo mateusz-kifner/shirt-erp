@@ -128,14 +128,9 @@ const EditableColor = (props: EditableColorProps) => {
   }, [value])
 
   const onKeyDown = (e: React.KeyboardEvent<any>) => {
-    if (active) {
-      if (e.code == "Enter") {
-        // setActive(false)
-        e.preventDefault()
-      }
-      if (e.code == "Escape") {
-        // setColor(prevColor)
-        // setActive(false)
+    if (focus) {
+      if (e.code == "Enter" || e.code == "Escape") {
+        setFocus(false)
         e.preventDefault()
       }
     }
@@ -178,88 +173,86 @@ const EditableColor = (props: EditableColorProps) => {
     >
       <div ref={ref} style={{ position: "relative" }}>
         {active && focus ? (
-          <Group grow>
-            <ColorInput
-              swatchesPerRow={7}
-              format="hex"
-              swatches={[
-                "#000e1c",
-                "#ce102c",
-                "#002a3a",
-                "#194E90",
-                "#7E7B50",
-                "#007398",
-                "#AC9768",
-                "#3B8DDF",
-                "#DB5204",
-                "#294634",
-                "#845D32",
-                "#512B3A",
-                "#5D3225",
-                "#A8353A",
-                "#343E48",
-                "#B42574",
-                "#303030",
-                "#D0E1D9",
-                "#018657",
-                "#4F4A34",
-                "#77BC21",
-                "#D5BA8D",
-                "#C3A0D8",
-                "#F0E87D",
-                "#FF681F",
-                "#FFA401",
-                "#F8DBE0",
-                "#ECED6E",
-                "#2F1A45",
-                "#AF0061",
-                "#E2B87E",
-                "#97D5EA",
-                "#FFCD0E",
-                "#FF8041",
-                "#00A6B6",
-                "#F52837",
-                "#888A8E",
-                "#F54D80",
-                "#42201F",
-                "#F6DC6D",
-                "#FFBFA1",
-                "#FFB1C1",
-                "#BADCE6",
-                "#FFB81E",
-                "#96E3C1",
-                "#c19473",
-                "#426D8C",
-                "#555555",
-                "#ffffff",
-                "#25262b",
-                "#868e96",
-                "#fa5252",
-                "#e64980",
-                "#be4bdb",
-                "#7950f2",
-                "#4c6ef5",
-                "#228be6",
-                "#15aabf",
-                "#12b886",
-                "#40c057",
-                "#82c91e",
-                "#fab005",
-                "#fd7e14",
-              ]}
-              value={color ?? "#ffffff"}
-              onChange={(new_hex) => {
-                setColor(new_hex)
-              }}
-              disabled={disabled}
-              required={required}
-              styles={{ input: { minHeight: 44 } }}
-              withinPortal={false}
-              onKeyDown={onKeyDown}
-              autoFocus
-              withPicker={true}
-            />
-          </Group>
+          <ColorInput
+            swatchesPerRow={7}
+            format="hex"
+            swatches={[
+              "#000e1c",
+              "#ce102c",
+              "#002a3a",
+              "#194E90",
+              "#7E7B50",
+              "#007398",
+              "#AC9768",
+              "#3B8DDF",
+              "#DB5204",
+              "#294634",
+              "#845D32",
+              "#512B3A",
+              "#5D3225",
+              "#A8353A",
+              "#343E48",
+              "#B42574",
+              "#303030",
+              "#D0E1D9",
+              "#018657",
+              "#4F4A34",
+              "#77BC21",
+              "#D5BA8D",
+              "#C3A0D8",
+              "#F0E87D",
+              "#FF681F",
+              "#FFA401",
+              "#F8DBE0",
+              "#ECED6E",
+              "#2F1A45",
+              "#AF0061",
+              "#E2B87E",
+              "#97D5EA",
+              "#FFCD0E",
+              "#FF8041",
+              "#00A6B6",
+              "#F52837",
+              "#888A8E",
+              "#F54D80",
+              "#42201F",
+              "#F6DC6D",
+              "#FFBFA1",
+              "#FFB1C1",
+              "#BADCE6",
+              "#FFB81E",
+              "#96E3C1",
+              "#c19473",
+              "#426D8C",
+              "#555555",
+              "#ffffff",
+              "#25262b",
+              "#868e96",
+              "#fa5252",
+              "#e64980",
+              "#be4bdb",
+              "#7950f2",
+              "#4c6ef5",
+              "#228be6",
+              "#15aabf",
+              "#12b886",
+              "#40c057",
+              "#82c91e",
+              "#fab005",
+              "#fd7e14",
+            ]}
+            value={color ?? "#ffffff"}
+            onChange={(new_hex) => {
+              setColor(new_hex)
+            }}
+            disabled={disabled}
+            required={required}
+            styles={{ input: { minHeight: 44 } }}
+            withinPortal={false}
+            onKeyDown={onKeyDown}
+            autoFocus
+            withPicker={true}
+          />
         ) : (
           <Text
             sx={[
@@ -272,10 +265,9 @@ const EditableColor = (props: EditableColorProps) => {
                 whiteSpace: "pre-line",
                 padding: "10px 16px",
                 paddingRight: 32,
-                minHeight: 36,
+                minHeight: 44,
                 lineHeight: 1.55,
                 paddingLeft: 36,
-                borderColor: colorName === "Nieznany" ? "#f00" : undefined,
                 "&:before": {
                   content: "''",
                   position: "absolute",
@@ -289,6 +281,22 @@ const EditableColor = (props: EditableColorProps) => {
                     theme.colorScheme === "dark"
                       ? "1px solid #2C2E33"
                       : "1px solid #ced4da",
+                },
+                border:
+                  (active && focus) || hovered
+                    ? theme.colorScheme === "dark"
+                      ? "1px solid #2C2E33"
+                      : "1px solid #ced4da"
+                    : "1px solid transparent",
+                borderColor: colorName === "Nieznany" ? "#f00" : undefined,
+
+                "&:focus": {
+                  borderColor:
+                    active && focus
+                      ? undefined
+                      : theme.colorScheme === "dark"
+                      ? theme.colors.dark[5]
+                      : theme.colors.gray[4],
                 },
               }),
               SxRadius,

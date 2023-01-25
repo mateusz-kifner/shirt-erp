@@ -87,9 +87,6 @@ const EditableText = (props: EditableTextProps) => {
     if (focus) {
       if (e.code === "Enter" && !e.shiftKey) {
         e.preventDefault()
-      }
-      if (e.code === "Escape" || e.code === "Enter") {
-        e.preventDefault()
         setFocus(false)
       }
     }
@@ -145,6 +142,7 @@ const EditableText = (props: EditableTextProps) => {
           onKeyDown={onKeyDownTextarea}
           readOnly={!(active && focus)}
           maxLength={maxLength ?? 255}
+          // placeholder="⸺"
           styles={(theme) => ({
             input: {
               paddingRight: 40,
@@ -155,7 +153,7 @@ const EditableText = (props: EditableTextProps) => {
                     : theme.colors.gray[0]
                   : "transparent",
               border:
-                (active && focus) || hovered
+                (active && focus) || hovered || text.length === 0
                   ? theme.colorScheme === "dark"
                     ? "1px solid #2C2E33"
                     : "1px solid #ced4da"
