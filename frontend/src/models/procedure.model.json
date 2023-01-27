@@ -2,17 +2,17 @@
   "id": { "type": "id" },
 
   "name": {
-    "label": "Nazwa",
-    "type": "text",
-
+    "type": "title",
     "initialValue": "",
     "required": true
   },
+
   "description": {
     "label": "Opis",
     "type": "text",
     "initialValue": ""
   },
+
   "workstations": {
     "label": "Stanowiska",
     "type": "array",
@@ -20,11 +20,13 @@
     "entryName": "workstations",
     "organizingHandle": "arrows"
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",

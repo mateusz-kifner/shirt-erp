@@ -8,114 +8,22 @@ import {
   ExternalLink,
   List,
   Notebook,
-  Robot,
   RulerMeasure,
   Table,
   Vector,
 } from "tabler-icons-react"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
-import DeleteButton from "../../../components/DeleteButton"
 import Editable from "../../../components/editable/Editable"
-import { getColorNameFromHex } from "../../../components/editable/EditableColor"
 import Workspace from "../../../components/layout/Workspace"
-import NotImplemented from "../../../components/NotImplemented"
-import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
 import verifyMetadata from "../../../components/spreadsheet/verifyMetadata"
 import useStrapi from "../../../hooks/useStrapi"
 import useStarpiUser from "../../../hooks/useStrapiUser"
 import { useTranslation } from "../../../i18n"
 import { OrderType } from "../../../types/OrderType"
-import { getQueryAsIntOrNull, setQuery } from "../../../utils/nextQueryUtils"
+import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import designBackgrounds from "../orders/designBackgrounds"
 import TasksList from "./TasksList"
-
-const template = {
-  status: {
-    label: "Status",
-    type: "enum",
-    initialValue: "planned",
-    enum_data: [
-      "planned",
-      "accepted",
-      "in production",
-      "wrapped",
-      "sent",
-      "rejected",
-      "archived",
-    ],
-  },
-  notes: {
-    label: "Notatki",
-    type: "richtext",
-    initialValue: "",
-  },
-  price: {
-    label: "Cena",
-    type: "money",
-    initialValue: 0,
-    disabled: true,
-  },
-  isPricePaid: {
-    label: "Cena zapłacona",
-    type: "boolean",
-    initialValue: false,
-    children: { checked: "Tak", unchecked: "Nie" },
-    disabled: true,
-  },
-  dateOfCompletion: {
-    label: "Data ukończenia",
-    type: "date",
-    disabled: true,
-  },
-  secretNotes: {
-    label: "Sekretne notatki",
-    type: "secrettext",
-    initialValue: "",
-  },
-  files: {
-    label: "Pliki",
-    type: "files",
-    initialValue: [],
-    disabled: true,
-  },
-  client: {
-    label: "Klient",
-    type: "apiEntry",
-    entryName: "clients",
-    linkEntry: true,
-    disabled: true,
-  },
-  address: {
-    label: {
-      streetName: "Ulica",
-      streetNumber: "Nr. bloku",
-      apartmentNumber: "Nr. mieszkania",
-      city: "Miasto",
-      province: "Województwo",
-      postCode: "Kod pocztowy",
-      name: "Adres",
-    },
-    type: "address",
-    initialValue: {
-      streetName: "",
-      streetNumber: "",
-      apartmentNumber: "",
-      city: "",
-      province: "pomorskie",
-      postCode: "",
-    },
-    disabled: true,
-  },
-  products: {
-    label: "Produkty",
-    type: "array",
-    arrayType: "apiEntry",
-    entryName: "products",
-    // organizingHandle: "arrows",
-    linkEntry: true,
-    disabled: true,
-  },
-}
+import template from "../../../models/order.model"
 
 // Complex query https://youtu.be/JaM2rExmmqs?t=640
 const TasksPage = () => {
@@ -203,16 +111,39 @@ const TasksPage = () => {
         }}
       />
       {id !== null ? (
-        <Stack>
-          <Group position="apart">
-            <Title order={3}>{data?.name}</Title>
-            <Link href={"/erp/orders/" + data?.id} passHref>
-              <ActionIcon size="lg" radius="xl">
-                <ExternalLink />
-              </ActionIcon>
-            </Link>
-          </Group>
-          <ApiEntryEditable template={template} entryName={"orders"} id={id} />
+        <Stack style={{ position: "relative" }}>
+          <ApiEntryEditable
+            template={template}
+            entryName={"orders"}
+            id={id}
+            disabled={true}
+          />
+          <Link href={"/erp/orders/" + data?.id} passHref>
+            <ActionIcon
+              size="xl"
+              radius={9999}
+              sx={{
+                position: "fixed",
+                top: "calc(var(--mantine-header-height, 0px) + 38px)",
+                right: -6,
+                transition: "transform 200ms ease-in-out",
+                "&:hover": {
+                  transform: "translate(-10px, 0)",
+                },
+                "&:after": {
+                  content: "''",
+                  position: "absolute",
+                  top: 0,
+                  right: -100,
+                  bottom: 0,
+                  width: 122,
+                },
+              }}
+              variant="default"
+            >
+              <ExternalLink />
+            </ActionIcon>
+          </Link>
         </Stack>
       ) : (
         <Text align="center">{t("no data")}</Text>

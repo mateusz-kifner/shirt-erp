@@ -2,15 +2,16 @@
   "id": { "type": "id" },
 
   "username": {
-    "label": "Nazwa użytkownika",
-    "type": "text",
+    "type": "title",
     "disabled": true
   },
+
   "email": {
     "label": "Email",
     "type": "text",
     "disabled": true
   },
+
   "provider": {
     "label": "Auth",
     "type": "text",
@@ -28,16 +29,19 @@
     "type": "boolean",
     "disabled": true
   },
+
   "displayName": {
     "label": "Nazwa wyświetlana",
     "type": "text",
     "disabled": true
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",

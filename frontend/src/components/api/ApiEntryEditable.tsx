@@ -12,13 +12,15 @@ interface ApiEntryEditableProps<EntryType = any> {
   entryName: string
   id: number | null
   allowDelete?: boolean
+  disabled?: boolean
 }
 
 const ApiEntryEditable = <EntryType extends any>({
   template,
   entryName,
   id,
-  allowDelete,
+  allowDelete = false,
+  disabled = false,
 }: ApiEntryEditableProps<EntryType>) => {
   const { data, update, remove, refetch } = useStrapi<EntryType>(
     entryName,
@@ -93,33 +95,35 @@ const ApiEntryEditable = <EntryType extends any>({
           right: 8,
         }}
       />
-      <ActionIcon
-        onClick={() => {
-          setActive((val) => !val)
-        }}
-        size="xl"
-        radius={9999}
-        sx={{
-          position: "fixed",
-          top: "calc(var(--mantine-header-height, 0px) + 38px)",
-          right: -6,
-          transition: "transform 200ms ease-in-out",
-          "&:hover": {
-            transform: "translate(-10px, 0)",
-          },
-          "&:after": {
-            content: "''",
-            position: "absolute",
-            top: 0,
-            right: -100,
-            bottom: 0,
-            width: 122,
-          },
-        }}
-        variant="default"
-      >
-        {active ? <LockOpen size={28} /> : <Lock size={28} />}
-      </ActionIcon>
+      {!disabled && (
+        <ActionIcon
+          onClick={() => {
+            setActive((val) => !val)
+          }}
+          size="xl"
+          radius={9999}
+          sx={{
+            position: "fixed",
+            top: "calc(var(--mantine-header-height, 0px) + 38px)",
+            right: -6,
+            transition: "transform 200ms ease-in-out",
+            "&:hover": {
+              transform: "translate(-10px, 0)",
+            },
+            "&:after": {
+              content: "''",
+              position: "absolute",
+              top: 0,
+              right: -100,
+              bottom: 0,
+              width: 122,
+            },
+          }}
+          variant="default"
+        >
+          {active ? <LockOpen size={28} /> : <Lock size={28} />}
+        </ActionIcon>
+      )}
 
       <ActionIcon
         onClick={() => refetch()}

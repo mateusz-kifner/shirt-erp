@@ -1,47 +1,48 @@
 {
   "id": { "type": "id" },
-  "username": {
-    "label": "Nazwa użytkownika",
-    "type": "text",
 
+  "username": {
+    "type": "title",
     "initialValue": "",
     "required": true
   },
+
   "firstname": {
     "label": "Imię",
     "type": "text",
-
     "initialValue": ""
   },
+
   "lastname": {
     "label": "Nazwisko",
     "type": "text",
     "initialValue": ""
   },
+
   "notes": {
     "label": "Notatki",
     "type": "richtext",
     "initialValue": ""
   },
+
   "email": {
     "label": "Email",
     "type": "text",
-
     "initialValue": ""
   },
+
   "phoneNumber": {
     "label": "Telefon",
     "type": "text",
-
     "initialValue": ""
   },
 
   "companyName": {
     "label": "Nazwa firmy",
     "type": "text",
-
     "initialValue": ""
   },
+
   "address": {
     "label": {
       "streetName": "Ulica",
@@ -64,6 +65,7 @@
       "postCode": ""
     }
   },
+
   "orders": {
     "label": "Zamówienia",
     "type": "array",
@@ -85,14 +87,10 @@
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",
     "disabled": true
   }
-  // "secretNotes": {
-  //   "label": "Sekretne Notatki",
-  //   "type": "secrettext",
-  //   "initialValue": ""
-  // }
 }

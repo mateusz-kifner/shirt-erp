@@ -2,37 +2,42 @@
   "id": { "type": "id" },
 
   "name": {
-    "label": "Nazwa",
-    "type": "text",
+    "type": "title",
     "initialValue": "",
     "required": true
   },
+
   "description": {
     "label": "Opis",
     "type": "text",
     "initialValue": ""
   },
+
   "iconId": {
     "label": "Ikona",
     "type": "iconId",
     "entryName": "workstations"
   },
+
   "nextWorkstations": {
     "label": "Następne stanowiska",
     "type": "array",
     "arrayType": "apiEntry",
     "entryName": "workstations"
   },
+
   "pluginConfig": {
     "label": "Wtyczki",
     "type": "array",
     "arrayType": "text"
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",

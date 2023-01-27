@@ -2,15 +2,16 @@
   "id": { "type": "id" },
 
   "name": {
-    "label": "Nazwa",
-    "type": "text",
+    "type": "title",
     "initialValue": "",
     "required": true
   },
+
   "price": {
     "label": "Cena",
     "type": "money"
   },
+
   "items": {
     "label": "Produkty",
     "type": "array",
@@ -20,6 +21,7 @@
       "name": {
         "type": "text"
       },
+
       "count": {
         "type": "number",
         "min": 0,
@@ -28,11 +30,13 @@
       }
     }
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",

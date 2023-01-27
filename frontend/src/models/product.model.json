@@ -2,11 +2,11 @@
   "id": { "type": "id" },
 
   "name": {
-    "label": "Nazwa",
-    "type": "text",
+    "type": "title",
     "initialValue": "",
     "required": true
   },
+
   "category": {
     "label": "Kategoria",
     "type": "enum",
@@ -21,22 +21,26 @@
       "inne"
     ]
   },
+
   "description": {
     "label": "Opis",
     "type": "richtext",
     "initialValue": "",
     "maxLength": 4095
   },
+
   "iconId": {
     "label": "Ikona",
     "type": "iconId",
     "entryName": "productCategories"
   },
+
   "previewImages": {
     "label": "Zdjęcia",
     "type": "files",
     "maxFileCount": 10
   },
+
   "variants": {
     "type": "group",
     "style": { "border": "none", "padding": 0, "flexWrap": "wrap" },
@@ -47,6 +51,7 @@
         "arrayType": "color",
         "style": { "minWidth": 220 }
       },
+
       "sizes": {
         "label": "Rozmiary",
         "type": "array",
@@ -55,11 +60,13 @@
       }
     }
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",

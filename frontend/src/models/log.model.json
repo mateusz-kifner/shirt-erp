@@ -6,26 +6,31 @@
     "type": "text",
     "disabled": true
   },
+
   "type": {
     "label": "type",
     "type": "text",
     "disabled": true
   },
+
   "data": {
     "label": "data",
     "type": "json",
     "disabled": true
   },
+
   "userId": {
     "label": "userId",
     "type": "text",
     "disabled": true
   },
+
   "createdAt": {
     "label": "Utworzono",
     "type": "datetime",
     "disabled": true
   },
+
   "updatedAt": {
     "label": "Edytowano",
     "type": "datetime",
