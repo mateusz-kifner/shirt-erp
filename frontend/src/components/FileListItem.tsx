@@ -7,8 +7,10 @@ import {
   useMantineTheme,
   Tooltip,
   CSSObject,
+  Portal,
 } from "@mantine/core"
-import React, { CSSProperties } from "react"
+import { useClickOutside } from "@mantine/hooks"
+import React, { CSSProperties, ReactNode, useState } from "react"
 import { Download, Eye, FileUnknown, TrashX } from "tabler-icons-react"
 import { env } from "../env/client.mjs"
 import { useTranslation } from "../i18n"
@@ -26,6 +28,7 @@ interface FileListItemProps {
     height?: number | null
   ) => void
   style?: CSSProperties
+  menuNode: ReactNode
 }
 
 const FileListItem = ({
@@ -35,9 +38,18 @@ const FileListItem = ({
   disabled,
   onPreview,
   style,
+  menuNode,
 }: FileListItemProps) => {
   const { t } = useTranslation()
   const theme = useMantineTheme()
+  const [menuData, setMenuData] = useState<{
+    opened: boolean
+    x: number
+    y: number
+  }>({ opened: false, x: 0, y: 0 })
+  const clickOutsideRef = useClickOutside(() => {
+    setMenuData({ opened: false, x: 0, y: 0 })
+  })
 
   const preview =
     value.mime?.startsWith("image") &&
@@ -49,11 +61,17 @@ const FileListItem = ({
           : value.url +
             (value?.token && !value.public ? "?token=" + value?.token : ""))
       : undefined
+
+  const onContextMenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.preventDefault()
+    setMenuData({ opened: true, x: e.pageX, y: e.pageY })
+  }
   return (
     <Group
-      sx={[SxBorder, SxRadius, { overflow: "hidden" }]}
+      sx={[SxBorder, SxRadius, { overflow: "hidden", position: "relative" }]}
       align="center"
       style={style}
+      onContextMenu={onContextMenu}
     >
       <Box
         sx={{
@@ -133,6 +151,7 @@ const FileListItem = ({
                   ? theme.colors.gray[4]
                   : theme.colors.gray[8]
               }
+              size={26}
             />
           </ActionIcon>
         )}
@@ -159,7 +178,9 @@ const FileListItem = ({
           {value?.name}
         </Text>
       </Tooltip>
+
       <ActionIcon
+        size={120}
         component="a"
         href={
           env.NEXT_PUBLIC_SERVER_API_URL +
@@ -168,10 +189,34 @@ const FileListItem = ({
           (value?.token && !value.public ? "?token=" + value?.token : "")
         }
         download
-        mr="sm"
+        tabIndex={-1}
+        radius={99999}
+        sx={(theme) => ({
+          background:
+            theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+          position: "absolute",
+          top: "50%",
+          right: "-3rem",
+          transform: "translate(0,-50%)",
+        })}
       >
-        <Download />
+        <Download size={26} />
+        <div style={{ width: "2.4rem" }}></div>
       </ActionIcon>
+
+      <Portal>
+        <div
+          style={{
+            display: menuData.opened ? "block" : "none",
+            position: "absolute",
+            top: menuData.y,
+            left: menuData.x,
+          }}
+          ref={clickOutsideRef}
+        >
+          {menuNode}
+        </div>
+      </Portal>
     </Group>
   )
 }

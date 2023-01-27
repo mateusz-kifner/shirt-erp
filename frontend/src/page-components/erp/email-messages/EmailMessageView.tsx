@@ -8,10 +8,10 @@ import {
 } from "@mantine/core"
 import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
-import FileList from "../../../components/FileList"
 import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { useEmailContext } from "../../../context/emailContext"
+import EditableFiles from "../../../components/editable/EditableFiles"
 
 const entryName = "email-client/messages"
 interface EmailMessagesViewProps {
@@ -87,13 +87,14 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
               }}
             ></div>
           </TypographyStylesProvider>
-          <FileList
+          <EditableFiles
             value={
               data?.attachments && Array.isArray(data?.attachments)
                 ? data.attachments
                 : []
             }
             disabled={true}
+            active={false}
           />
         </Stack>
       )}

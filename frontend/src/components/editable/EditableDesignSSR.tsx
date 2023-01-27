@@ -29,9 +29,9 @@ import {
   GardenCart,
   GridPattern,
   ScreenShare,
-  Square1,
-  Square2,
-  Square3,
+  SquareNumber1,
+  SquareNumber2,
+  SquareNumber3,
   Wallpaper,
 } from "tabler-icons-react"
 import { useAuthContext } from "../../context/authContext"
@@ -139,7 +139,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     ...externalBackgrounds,
     {
       name: "empty x1",
-      icon: Square1,
+      icon: SquareNumber1,
       images: [
         {
           name: "empty1",
@@ -148,7 +148,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x2",
-      icon: Square2,
+      icon: SquareNumber2,
       images: [
         {
           name: "empty1",
@@ -160,7 +160,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x3",
-      icon: Square3,
+      icon: SquareNumber3,
       images: [
         {
           name: "empty1",
