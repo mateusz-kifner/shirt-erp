@@ -30,8 +30,8 @@ const EditableNumber = (props: EditableNumberProps) => {
     rightSection,
     increment = 0.01,
     fixed = 2,
-    min = Number.MIN_VALUE,
-    max = Number.MAX_VALUE,
+    min = -100_000_000_000,
+    max = 100_000_000_000,
   } = props
   const [error, setError] = useState<boolean>(false)
   const [text, setText, debouncedValue, { undo, redo, canUndo, canRedo }] =
@@ -58,14 +58,17 @@ const EditableNumber = (props: EditableNumberProps) => {
         parseFloat(debouncedValue) &&
       !isNaN(parseFloat(debouncedValue))
     ) {
+      console.log(parseFloat(debouncedValue))
       if (parseFloat(debouncedValue) < min) {
         debouncedValue !== undefined && onSubmit?.(min)
         setText(min.toFixed(fixed))
         setError(true)
+        console.log(" err 1", min, parseFloat(debouncedValue) < min)
       } else if (parseFloat(debouncedValue) > max) {
         debouncedValue !== undefined && onSubmit?.(max)
         setText(max.toFixed(fixed))
         setError(true)
+        console.log(" err 2")
       } else {
         debouncedValue !== undefined &&
           onSubmit?.(parseFloat(parseFloat(debouncedValue).toFixed(2)))
