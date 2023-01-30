@@ -102,6 +102,7 @@ const order_template = {
       province: "pomorskie",
       postCode: "",
     },
+    allowClear: true,
   },
   products: {
     label: "Produkty",
@@ -110,6 +111,7 @@ const order_template = {
     entryName: "products",
     // organizingHandle: "arrows",
     linkEntry: true,
+    allowClear: true,
   },
 
   employees: {
@@ -117,6 +119,7 @@ const order_template = {
     type: "array",
     arrayType: "apiEntry",
     entryName: "users",
+    allowClear: true,
   },
   createdAt: {
     label: "Utworzono",

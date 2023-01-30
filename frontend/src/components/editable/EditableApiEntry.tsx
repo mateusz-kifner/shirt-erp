@@ -47,6 +47,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     initialValue,
     onSubmit,
     disabled,
+    active,
     required,
     Element,
     entryName,
@@ -189,7 +190,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
           <Element
             onChange={() => setOpened(true)}
             value={apiEntry}
-            disabled={disabled}
+            disabled={!active || disabled}
           />
           {linkEntry && value?.id && (
             <Box

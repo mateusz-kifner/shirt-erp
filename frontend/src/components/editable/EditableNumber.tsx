@@ -58,17 +58,14 @@ const EditableNumber = (props: EditableNumberProps) => {
         parseFloat(debouncedValue) &&
       !isNaN(parseFloat(debouncedValue))
     ) {
-      console.log(parseFloat(debouncedValue))
       if (parseFloat(debouncedValue) < min) {
         debouncedValue !== undefined && onSubmit?.(min)
         setText(min.toFixed(fixed))
         setError(true)
-        console.log(" err 1", min, parseFloat(debouncedValue) < min)
       } else if (parseFloat(debouncedValue) > max) {
         debouncedValue !== undefined && onSubmit?.(max)
         setText(max.toFixed(fixed))
         setError(true)
-        console.log(" err 2")
       } else {
         debouncedValue !== undefined &&
           onSubmit?.(parseFloat(parseFloat(debouncedValue).toFixed(2)))

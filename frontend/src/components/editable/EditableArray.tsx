@@ -140,8 +140,7 @@ const EditableArray = (props: EditableArrayProps) => {
                     {...omit(elementProps, ["label"])}
                     value={val}
                     onSubmit={(itemValue: any) => {
-                      console.log("array", itemValue)
-                      itemValue && handlers.setItem(index, itemValue)
+                      handlers.setItem(index, itemValue)
                     }}
                     disabled={!active}
                     linkEntry={linkEntry ? !active : false}
