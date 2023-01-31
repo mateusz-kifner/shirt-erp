@@ -2,12 +2,10 @@ import {
   Stack,
   Title,
   Group,
-  Autocomplete,
   ActionIcon,
   Pagination,
   Box,
   useMantineTheme,
-  MantineNumberSize,
   TextInput,
   Loader,
 } from "@mantine/core"
@@ -30,7 +28,7 @@ import { useTranslation } from "../../../i18n"
 import EmailMessageListItem from "./EmailMessageListItem"
 import axios from "axios"
 
-const entryName = "email-client/messages"
+const entryName = "email-messages"
 
 interface EmailMessagesListProps<T = any> {
   selectedId: number | null
@@ -119,7 +117,7 @@ const EmailMessagesList = <T extends any>({
               onClick={() => {
                 refetch()
                 axios
-                  .get("/email-client/messages/refresh")
+                  .get(`/api/${entryName}/refresh`)
                   .then((res) => console.log(res.data))
                   .catch((err) => console.log(err))
               }}

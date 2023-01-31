@@ -15,7 +15,7 @@ import EditableFiles from "../../../components/editable/EditableFiles"
 import DeleteButton from "../../../components/DeleteButton"
 import { useRouter } from "next/router"
 
-const entryName = "email-client/messages"
+const entryName = "email-messages"
 interface EmailMessagesViewProps {
   id: number | null
 }
@@ -102,8 +102,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
           <DeleteButton
             label="mail"
             onDelete={() =>
-              id &&
-              remove(id).then(() => router.push("/erp/email-client/messages"))
+              id && remove(id).then(() => router.push("/erp/" + entryName))
             }
           />
         </Stack>
