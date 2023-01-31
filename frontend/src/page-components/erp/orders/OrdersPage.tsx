@@ -32,7 +32,6 @@ import verifyMetadata from "../../../components/spreadsheet/verifyMetadata"
 import designBackgrounds from "./designBackgrounds"
 import { useRouter } from "next/router"
 import { Tab } from "../../../components/layout/MultiTabs"
-import { useMediaQuery } from "@mantine/hooks"
 import { useAuthContext } from "../../../context/authContext"
 
 const entryName = "orders"

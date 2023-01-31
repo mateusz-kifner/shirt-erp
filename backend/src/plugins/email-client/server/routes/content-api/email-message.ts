@@ -16,21 +16,19 @@ export default [
     path: "/messages/:id",
     handler: "email-message.findOne",
   },
-
-  // {
-  //   method: "POST",
-  //   path: "/mail-messages",
-  //   handler: "email-message.create",
-  //   config: {
-  //     prefix: "api",
-  //   },
-  // },
-  // {
-  //   method: "PUT",
-  //   path: "/mail-messages/:id",
-  //   handler: "email-message.update",
-  //   config: {
-  //     prefix: "api",
-  //   },
-  // },
+  {
+    method: "DELETE",
+    path: "/messages",
+    handler: "email-message.delete",
+  },
+  {
+    method: "POST",
+    path: "/messages",
+    handler: "email-message.create",
+  },
+  {
+    method: "PUT",
+    path: "/messages/:id",
+    handler: "email-message.update",
+  },
 ];
