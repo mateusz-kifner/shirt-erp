@@ -15,6 +15,7 @@ import {
   Check,
   ColorSwatch,
   List,
+  Mail,
   Notebook,
   Plus,
   Robot,
@@ -22,7 +23,7 @@ import {
   Table,
   Vector,
 } from "tabler-icons-react"
-import { Group, Menu, Overlay, Stack, Text } from "@mantine/core"
+import { Group, Menu, Stack, Text } from "@mantine/core"
 import DeleteButton from "../../../components/DeleteButton"
 import { useTranslation } from "../../../i18n"
 import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
@@ -53,6 +54,7 @@ const OrdersPage: NextPage = () => {
   const childrenIcons = [
     List,
     Notebook,
+    Mail,
     ...((data && data?.tables && data?.tables.map(() => Table)) ?? []),
     Vector,
   ]
@@ -61,6 +63,7 @@ const OrdersPage: NextPage = () => {
     ? [
         "Lista zamówień",
         "Właściwości",
+        "E-maile",
         ...(data && Array.isArray(data?.tables)
           ? data.tables.map((table, index) => table.name)
           : []),
@@ -268,6 +271,16 @@ const OrdersPage: NextPage = () => {
           id={id}
           allowDelete
         />
+
+        <div>
+          {data && Array.isArray(data?.emailMessagesText) ? (
+            data.emailMessagesText.map((val, index) => (
+              <div key={uuid + "_mail_" + index}>{val.text}</div>
+            ))
+          ) : (
+            <Text>Brak e-maili</Text>
+          )}
+        </div>
         {data &&
           Array.isArray(data?.tables) &&
           data.tables.map((table, index) => {

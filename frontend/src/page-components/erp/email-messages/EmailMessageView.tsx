@@ -12,6 +12,7 @@ import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { useEmailContext } from "../../../context/emailContext"
 import EditableFiles from "../../../components/editable/EditableFiles"
+import DeleteButton from "../../../components/DeleteButton"
 
 const entryName = "email-client/messages"
 interface EmailMessagesViewProps {
@@ -25,7 +26,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
     emailMessageEnableHtml,
   } = useEmailContext()
 
-  const { data } = useStrapi<EmailMessageType>(entryName, id, {
+  const { data, remove } = useStrapi<EmailMessageType>(entryName, id, {
     query: "populate=*",
   })
   console.log(data)
@@ -96,6 +97,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
             disabled={true}
             active={false}
           />
+          <DeleteButton label="mail" onDelete={() => id && remove(id)} />
         </Stack>
       )}
     </Group>
