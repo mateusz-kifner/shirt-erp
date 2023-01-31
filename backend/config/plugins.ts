@@ -2,17 +2,11 @@ module.exports = ({ env }) => ({
   upload: {
     config: {
       providerOptions: {
-        sizeLimit: 4 * 1024 * 1024 * 1024 // 4GB
-      }
-    }
-  },
-  "email-client": {
-    enabled: true,
-    resolve: "./src/plugins/email-client",
-    config: {
-      refreshMinWaitTime: 20,
+        sizeLimit: 4 * 1024 * 1024 * 1024, // 4GB
+      },
     },
   },
+
   transformer: {
     enabled: true,
     config: {

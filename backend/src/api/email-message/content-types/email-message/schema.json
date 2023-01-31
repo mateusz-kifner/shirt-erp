@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "email_messages",
+  "info": {
+    "singularName": "email-message",
+    "pluralName": "email-messages",
+    "displayName": "Email Message"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "subject": {
+      "type": "string",
+      "configurable": false,
+      "default": ""
+    },
+    "from": {
+      "type": "string",
+      "configurable": false,
+      "default": ""
+    },
+    "to": {
+      "type": "string",
+      "configurable": false,
+      "default": ""
+    },
+    "date": {
+      "type": "datetime",
+      "configurable": false
+    },
+    "html": {
+      "type": "text",
+      "configurable": false,
+
+      "default": ""
+    },
+    "text": {
+      "type": "text",
+      "configurable": false,
+      "default": ""
+    },
+    "messageId": {
+      "type": "string",
+      "configurable": false
+    },
+    "headerLines": {
+      "type": "json",
+      "configurable": false
+    },
+    "textAsHtml": {
+      "type": "text",
+      "configurable": false,
+      "default": ""
+    },
+    "attachments": {
+      "type": "media",
+      "multiple": true,
+      "configurable": false,
+      "required": false,
+      "allowedTypes": ["images", "files", "videos", "audios"]
+    },
+    "nextMessageId": {
+      "type": "integer",
+      "configurable": false
+    }
+  }
+}
