@@ -18,7 +18,7 @@ export default [
   },
   {
     method: "DELETE",
-    path: "/messages",
+    path: "/messages/:id",
     handler: "email-message.delete",
   },
   {

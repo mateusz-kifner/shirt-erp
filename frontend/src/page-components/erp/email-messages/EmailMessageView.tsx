@@ -8,11 +8,12 @@ import {
 } from "@mantine/core"
 import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
-import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
+import { Dots, Radioactive, RadioactiveOff, Router } from "tabler-icons-react"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { useEmailContext } from "../../../context/emailContext"
 import EditableFiles from "../../../components/editable/EditableFiles"
 import DeleteButton from "../../../components/DeleteButton"
+import { useRouter } from "next/router"
 
 const entryName = "email-client/messages"
 interface EmailMessagesViewProps {
@@ -29,6 +30,7 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
   const { data, remove } = useStrapi<EmailMessageType>(entryName, id, {
     query: "populate=*",
   })
+  const router = useRouter()
   console.log(data)
   const isDangerous = id ? emailMessageHtmlAllowed.includes(id) : false
   return (
@@ -97,7 +99,13 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
             disabled={true}
             active={false}
           />
-          <DeleteButton label="mail" onDelete={() => id && remove(id)} />
+          <DeleteButton
+            label="mail"
+            onDelete={() =>
+              id &&
+              remove(id).then(() => router.push("/erp/email-client/messages"))
+            }
+          />
         </Stack>
       )}
     </Group>
