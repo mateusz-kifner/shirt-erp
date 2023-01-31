@@ -117,7 +117,7 @@ const EmailMessagesList = <T extends any>({
               onClick={() => {
                 refetch()
                 axios
-                  .get(`/api/${entryName}/refresh`)
+                  .get(`/${entryName}/refresh`)
                   .then((res) => console.log(res.data))
                   .catch((err) => console.log(err))
               }}
