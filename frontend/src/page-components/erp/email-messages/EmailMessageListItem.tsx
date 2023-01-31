@@ -38,7 +38,7 @@ const EmailMessageListItem = ({
               },
             }}
           >
-            {value.subject?.substring(0, 2).toUpperCase()}
+            {value.from?.substring(0, 2).toUpperCase()}
           </Avatar>
         )
       }

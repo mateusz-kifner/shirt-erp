@@ -46,12 +46,14 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
+          active={true}
         />
         <EditableText
           label="Nazwa"
           onSubmit={setExpenseName}
           value={expenseName}
           required
+          active={true}
         />
 
         <Button

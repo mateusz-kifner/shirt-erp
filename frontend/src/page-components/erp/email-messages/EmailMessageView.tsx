@@ -8,7 +8,7 @@ import {
 } from "@mantine/core"
 import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
-import { Dots, Radioactive, RadioactiveOff, Router } from "tabler-icons-react"
+import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { useEmailContext } from "../../../context/emailContext"
 import EditableFiles from "../../../components/editable/EditableFiles"

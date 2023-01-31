@@ -173,6 +173,8 @@ export default factories.createCoreController(
                 }),
                 {}
               );
+              console.log(headerLines.references);
+
               const references =
                 headerLines.references && headerLines.references.length > 0
                   ? headerLines.references
@@ -182,14 +184,19 @@ export default factories.createCoreController(
                       .map((val) => val.trim())
                       .reverse()
                   : [];
+              console.log(references);
+
               let mails = [];
               for (let ref of references) {
+                console.log(ref);
                 let mess = await strapi.services[
                   "plugin::email-client.email-message"
                 ].find({
                   filters: { messageId: { $eq: ref } },
                   populate: "*",
                 });
+                console.log(mess);
+
                 if (mess.results.length > 0) {
                   mails.push(mess.results[0]);
                 }
