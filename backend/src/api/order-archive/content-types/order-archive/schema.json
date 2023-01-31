@@ -47,12 +47,7 @@
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "address": {
       "type": "component",
@@ -78,7 +73,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "order_archives"
+      "mappedBy": "order_archives"
     },
     "products": {
       "type": "relation",
