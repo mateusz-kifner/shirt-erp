@@ -149,7 +149,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-GET {{host}}/api/email-client/messages/refresh
+GET {{host}}/api/email-messages/refresh
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 

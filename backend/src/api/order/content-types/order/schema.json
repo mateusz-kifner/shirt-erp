@@ -84,6 +84,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::product.product"
+    },
+    "emailMessages": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::email-message.email-message",
+      "inversedBy": "orders"
     }
   }
 }

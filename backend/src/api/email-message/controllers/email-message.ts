@@ -7,7 +7,8 @@ import { Readable } from "stream";
 
 const FLAG = "ShirtERP";
 const autoReferenceEmailTime = 3 * 24 * 60 * 60;
-const refreshMinWaitTime = 5 * 60;
+// const refreshMinWaitTime = 5 * 60;
+const refreshMinWaitTime = 10;
 
 const logDebug = (obj) => {
   return;
@@ -204,7 +205,9 @@ export default factories.createCoreController(
               let id = null;
               let time = Number.MAX_SAFE_INTEGER;
               let orderIds: number[] = [];
+
               for (let mail of mails) {
+                console.log(mail);
                 const autoReferenceTime: number = Math.trunc(
                   (current_mail_date - new Date(mail.date).getTime()) / 60000.0
                 );

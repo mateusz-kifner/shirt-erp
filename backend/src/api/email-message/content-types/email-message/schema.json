@@ -33,7 +33,6 @@
     "html": {
       "type": "text",
       "configurable": false,
-
       "default": ""
     },
     "text": {
@@ -59,11 +58,22 @@
       "multiple": true,
       "configurable": false,
       "required": false,
-      "allowedTypes": ["images", "files", "videos", "audios"]
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     },
     "nextMessageId": {
       "type": "integer",
       "configurable": false
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order.order",
+      "mappedBy": "emailMessages"
     }
   }
 }

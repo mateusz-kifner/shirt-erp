@@ -42,7 +42,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
       <Stack>
         <EditableApiEntry
           label="Mail"
-          entryName="email-client/messages"
+          entryName="email-messages"
           Element={EmailMessageListItem}
           onSubmit={(mail) => {
             setMail(mail)
