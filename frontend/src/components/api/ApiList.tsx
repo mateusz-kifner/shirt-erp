@@ -33,6 +33,7 @@ interface ApiListProps<T = any> {
   spacing?: MantineNumberSize
   withSeparators?: boolean
   onChange?: (val: T) => void
+  onRefresh?: () => void
   listItemProps?: { linkTo: (val: T) => string } | any
   selectedId?: number | null
   filterKeys?: string[]
@@ -50,6 +51,7 @@ const ApiList = <T extends any>({
   spacing = "xl",
   withSeparators = false,
   onChange = (val: T) => {},
+  onRefresh = () => {},
   listItemProps = {},
   selectedId,
   filterKeys,
@@ -125,7 +127,10 @@ const ApiList = <T extends any>({
               size="lg"
               radius="xl"
               variant="default"
-              onClick={() => refetch()}
+              onClick={() => {
+                refetch()
+                onRefresh?.()
+              }}
             >
               <Refresh />
             </ActionIcon>

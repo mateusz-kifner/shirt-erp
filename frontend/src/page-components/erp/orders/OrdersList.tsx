@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
-
 import ApiList from "../../../components/api/ApiList"
 import OrderListItem from "./OrderListItem"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
 import { capitalize } from "lodash"
+import axios from "axios"
 
 const entryName = "orders"
 
@@ -27,6 +26,12 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       selectedId={selectedId}
       onChange={(val: any) => {
         router.push("/erp/" + entryName + "/" + val.id)
+      }}
+      onRefresh={() => {
+        axios
+          .get("/email-messages/refresh")
+          .then((res) => console.log(res.data))
+          .catch((err) => console.log(err))
       }}
       listItemProps={{
         linkTo: (val: any) => "/erp/" + entryName + "/" + val.id,

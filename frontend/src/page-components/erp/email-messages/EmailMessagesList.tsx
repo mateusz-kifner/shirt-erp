@@ -49,7 +49,7 @@ const EmailMessagesList = <T extends any>({
   const { data, meta, refetch, status } = useStrapiList<T[]>(
     entryName,
     page,
-    ["subject", "from", "text", "to"],
+    ["date", "subject", "from", "text", "to"],
     debouncedQuery,
     sortOrder,
     {}

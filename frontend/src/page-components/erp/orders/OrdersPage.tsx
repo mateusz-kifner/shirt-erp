@@ -33,6 +33,7 @@ import designBackgrounds from "./designBackgrounds"
 import { useRouter } from "next/router"
 import { Tab } from "../../../components/layout/MultiTabs"
 import { useAuthContext } from "../../../context/authContext"
+import OrderMessagesView from "./OrderMessagesView"
 
 const entryName = "orders"
 
@@ -270,16 +271,8 @@ const OrdersPage: NextPage = () => {
           id={id}
           allowDelete
         />
+        <OrderMessagesView order={data} />
 
-        <div>
-          {data && Array.isArray(data?.emailMessagesText) ? (
-            data.emailMessagesText.map((val, index) => (
-              <div key={uuid + "_mail_" + index}>{val.text}</div>
-            ))
-          ) : (
-            <Text>Brak e-maili</Text>
-          )}
-        </div>
         {data &&
           Array.isArray(data?.tables) &&
           data.tables.map((table, index) => {

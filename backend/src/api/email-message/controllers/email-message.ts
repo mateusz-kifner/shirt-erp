@@ -237,11 +237,12 @@ export default factories.createCoreController(
                 }
               );
               if (id !== null) {
-                await strapi.services[
+                const updateData = await strapi.services[
                   "api::email-message.email-message"
                 ].update(id, {
                   data: { nextMessageId: createdMail.id },
                 });
+                strapi.log.debug(updateData);
               }
               strapi.log.debug(
                 JSON.stringify(

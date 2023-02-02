@@ -1,10 +1,11 @@
 import { Stack, Text, ActionIcon } from "@mantine/core"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useId, useState } from "react"
 import { Lock, LockOpen, Refresh } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
 import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
+import FloatingActions from "../FloatingActions"
 import ApiStatusIndicator from "./ApiStatusIndicator"
 
 interface ApiEntryEditableProps<EntryType = any> {
@@ -22,6 +23,7 @@ const ApiEntryEditable = <EntryType extends any>({
   allowDelete = false,
   disabled = false,
 }: ApiEntryEditableProps<EntryType>) => {
+  const uuid = useId()
   const { data, update, remove, refetch } = useStrapi<EntryType>(
     entryName,
     id,
@@ -95,49 +97,15 @@ const ApiEntryEditable = <EntryType extends any>({
           right: 8,
         }}
       />
-      {!disabled && (
-        <ActionIcon
-          onClick={() => {
-            setActive((val) => !val)
-          }}
-          size="xl"
-          radius={9999}
-          sx={{
-            position: "fixed",
-            top: "calc(var(--mantine-header-height, 0px) + 38px)",
-            right: -6,
-            transition: "transform 200ms ease-in-out",
-            "&:hover": {
-              transform: "translate(-10px, 0)",
-            },
-            "&:after": {
-              content: "''",
-              position: "absolute",
-              top: 0,
-              right: -100,
-              bottom: 0,
-              width: 122,
-            },
-          }}
-          variant="default"
-        >
-          {active ? <LockOpen size={28} /> : <Lock size={28} />}
-        </ActionIcon>
-      )}
-
-      <ActionIcon
-        onClick={() => refetch()}
-        size="md"
-        radius={9999}
-        style={{
-          position: "fixed",
-          top: "calc(var(--mantine-header-height, 0px) + 92px)",
-          right: 4,
-        }}
-        variant="default"
-      >
-        <Refresh size={20} />
-      </ActionIcon>
+      <FloatingActions
+        actions={[() => setActive((val) => !val), () => refetch()]}
+        actionIcons={[
+          active ? <LockOpen size={28} /> : <Lock size={28} />,
+          <Refresh size={20} key={uuid + "_icon2"} />,
+        ]}
+        actionsVisible={[!disabled, !disabled]}
+        // style={{ zIndex: 0 }}
+      />
     </Stack>
   )
 }
