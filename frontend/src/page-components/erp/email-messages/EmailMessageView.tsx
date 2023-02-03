@@ -29,6 +29,13 @@ const template = {
     entryName: "orders",
     linkEntry: true,
   },
+  nextMessageId: {
+    label: "Następna wiadomość",
+    type: "apiEntryId",
+    entryName: "email-messages",
+    linkEntry: true,
+    allowClear: true,
+  },
 }
 
 const entryName = "email-messages"
