@@ -14,6 +14,7 @@ interface ApiEntryEditableProps<EntryType = any> {
   id: number | null
   allowDelete?: boolean
   disabled?: boolean
+  forceActive?: boolean
 }
 
 const ApiEntryEditable = <EntryType extends any>({
@@ -22,6 +23,7 @@ const ApiEntryEditable = <EntryType extends any>({
   id,
   allowDelete = false,
   disabled = false,
+  forceActive = false,
 }: ApiEntryEditableProps<EntryType>) => {
   const uuid = useId()
   const { data, update, remove, refetch } = useStrapi<EntryType>(
@@ -35,7 +37,7 @@ const ApiEntryEditable = <EntryType extends any>({
     "loading" | "idle" | "error" | "success"
   >("idle")
 
-  const [active, setActive] = useState<boolean>(false)
+  const [active, setActive] = useState<boolean>(forceActive)
 
   const router = useRouter()
 
@@ -98,11 +100,19 @@ const ApiEntryEditable = <EntryType extends any>({
         }}
       />
       <FloatingActions
-        actions={[() => setActive((val) => !val), () => refetch()]}
-        actionIcons={[
-          active ? <LockOpen size={28} /> : <Lock size={28} />,
-          <Refresh size={20} key={uuid + "_icon2"} />,
-        ]}
+        actions={
+          forceActive
+            ? [() => refetch()]
+            : [() => setActive((val) => !val), () => refetch()]
+        }
+        actionIcons={
+          forceActive
+            ? [<Refresh size={20} key={uuid + "_icon2"} />]
+            : [
+                active ? <LockOpen size={28} /> : <Lock size={28} />,
+                <Refresh size={20} key={uuid + "_icon2"} />,
+              ]
+        }
         actionsVisible={[!disabled, !disabled]}
         // style={{ zIndex: 0 }}
       />

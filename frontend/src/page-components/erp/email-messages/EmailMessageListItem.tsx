@@ -1,4 +1,4 @@
-import { Avatar, NavLink } from "@mantine/core"
+import { Avatar, NavLink, Tooltip } from "@mantine/core"
 import dayjs from "dayjs"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { getRandomColorByString } from "../../../utils/getRandomColor"
@@ -17,38 +17,63 @@ const EmailMessageListItem = ({
   active,
   disabled,
 }: EmailMessageListItemProps) => {
+  const short_message = value?.text
+    ?.split("\n")
+    ?.filter((line) => line.indexOf(">") != 0 && line.length > 0)
+    ?.join("\n")
   return (
-    <NavLink
-      disabled={disabled}
-      onClick={() => onChange?.(value)}
+    <Tooltip
+      multiline
+      openDelay={200}
+      label={
+        short_message
+          ? truncString(short_message, 500) +
+            (short_message.length > 500 ? "..." : "")
+          : ""
+      }
+      position="right"
       styles={{
-        description: {
+        tooltip: {
           whiteSpace: "pre-wrap",
         },
       }}
-      icon={
-        value && (
-          <Avatar
-            radius="xl"
-            styles={{
-              placeholder: {
-                background: `radial-gradient(circle, transparent 64%, ${getRandomColorByString(
-                  value.from
-                )}  66%)`,
-              },
-            }}
-          >
-            {value.from?.substring(0, 2).toUpperCase()}
-          </Avatar>
-        )
-      }
-      label={value ? value.subject && truncString(value.subject, 40) : "⸺"}
-      description={
-        (value?.from ?? "") +
-        (value?.date ? "\n" + dayjs(value?.date).format("LT L").toString() : "")
-      }
-      active={active}
-    />
+      withArrow
+      withinPortal
+    >
+      <NavLink
+        disabled={disabled}
+        onClick={() => onChange?.(value)}
+        styles={{
+          description: {
+            whiteSpace: "pre-wrap",
+          },
+        }}
+        icon={
+          value && (
+            <Avatar
+              radius="xl"
+              styles={{
+                placeholder: {
+                  background: `radial-gradient(circle, transparent 64%, ${getRandomColorByString(
+                    value.from
+                  )}  66%)`,
+                },
+              }}
+            >
+              {value.from?.substring(0, 2).toUpperCase()}
+            </Avatar>
+          )
+        }
+        label={value ? value.subject && truncString(value.subject, 40) : "⸺"}
+        description={
+          (value?.from ?? "") +
+          (value?.date
+            ? "\n" + dayjs(value?.date).format("LT L").toString()
+            : "")
+        }
+        active={active}
+      />
+    </Tooltip>
   )
 }
 

@@ -2,6 +2,7 @@ import { ComponentType } from "react"
 
 // List items imports
 import ClientListItem from "../../page-components/erp/clients/ClientListItem"
+import EmailMessageListItem from "../../page-components/erp/email-messages/EmailMessageListItem"
 import OrderListItem from "../../page-components/erp/orders/OrderListItem"
 import ProductListItem from "../../page-components/erp/products/ProductListItem"
 import UserListItem from "../../page-components/erp/users/UserListItem"
@@ -49,6 +50,11 @@ const apiListItems: apiListItems = {
     ListItem: WorkstationListItem,
     copyProvider: (value: any) =>
       value?.name ? truncString(value.name, 40) : undefined,
+  },
+  "email-messages": {
+    ListItem: EmailMessageListItem,
+    copyProvider: (value: any) =>
+      value?.subject ? truncString(value.subject, 40) : undefined,
   },
 }
 
