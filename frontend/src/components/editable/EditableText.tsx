@@ -12,6 +12,7 @@ import useDebouncedHistoryState from "../../hooks/useDebouncedHistoryState"
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number
   style?: CSSProperties
+  enableHistory?: boolean
 }
 
 const EditableText = (props: EditableTextProps) => {
@@ -27,6 +28,7 @@ const EditableText = (props: EditableTextProps) => {
     style,
     leftSection,
     rightSection,
+    enableHistory,
   } = props
 
   const [
@@ -172,7 +174,7 @@ const EditableText = (props: EditableTextProps) => {
           })}
         />
 
-        {active && focus && (
+        {active && focus && !!enableHistory && (
           <div
             style={{
               position: "absolute",

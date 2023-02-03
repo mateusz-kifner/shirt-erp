@@ -43,9 +43,9 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   )
 
   return (
-    <Stack style={{ position: "relative" }}>
+    <Stack style={{ position: "relative", minHeight: 200 }}>
       <Accordion defaultValue={"email0"} variant="separated">
-        {emailMessagesSorted ? (
+        {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
           emailMessagesSorted.map((val, index, arr) => (
             <Accordion.Item
               value={"email" + index}
