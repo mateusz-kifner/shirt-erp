@@ -45,7 +45,7 @@ const OrdersPage: NextPage = () => {
 
   const router = useRouter()
   const id = getQueryAsIntOrNull(router, "id")
-  const { data, update } = useStrapi<OrderType>(entryName, id, {
+  const { data, update, refetch } = useStrapi<OrderType>(entryName, id, {
     query: "populate=*",
   })
   const [status, setStatus] = useState<
@@ -271,7 +271,7 @@ const OrdersPage: NextPage = () => {
           id={id}
           allowDelete
         />
-        <OrderMessagesView order={data} />
+        <OrderMessagesView order={data} refetch={refetch} />
 
         {data &&
           Array.isArray(data?.tables) &&

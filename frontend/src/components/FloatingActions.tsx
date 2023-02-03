@@ -51,7 +51,10 @@ const FloatingActions = (props: FloatingActionsProps) => {
                   top: 0,
                   right: 0,
                   bottom: 0,
-                  width: "50%",
+                  width: "70%",
+                },
+                "&:hover:after": {
+                  transform: "translate(10px, 0)",
                 },
               }}
               variant="default"

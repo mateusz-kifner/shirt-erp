@@ -34,7 +34,12 @@ const Header = (props: HeaderProps) => {
       })}
     >
       <MediaQuery largerThan="md" styles={{ padding: "0 13px" }}>
-        <Group position="apart" align="center" style={{ height: "100%" }} p={0}>
+        <Group
+          position="apart"
+          align="center"
+          style={{ height: "100%", flexWrap: "nowrap" }}
+          p={0}
+        >
           <Group style={{ width: navigationCollapsed ? 85 - 13 : 300 - 13 }}>
             <MediaQuery largerThan="md" styles={{ display: "none" }}>
               <Burger
@@ -64,7 +69,7 @@ const Header = (props: HeaderProps) => {
             </MediaQuery>
           </Group>
           <div id="HeaderTabs" style={{ flexGrow: 1, height: "100%" }}></div>
-          <Group>
+          <Group style={{ minWidth: "160px" }} position="right">
             <ActionIcon
               size="lg"
               radius="xl"
