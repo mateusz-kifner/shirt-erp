@@ -1,6 +1,5 @@
 import {
   Button,
-  ColorInput,
   ColorPicker,
   Group,
   Input,
@@ -12,6 +11,7 @@ import {
   Title,
   Tooltip,
   useMantineTheme,
+  Text,
 } from "@mantine/core"
 import { useListState } from "@mantine/hooks"
 import { SVG } from "@svgdotjs/svg.js"
@@ -216,6 +216,9 @@ const EditableDesign = (props: EditableDesignProps) => {
           <Group p={60}>
             <GardenCart size={32} />
             <Title order={3}>Design niedostępny</Title>
+          </Group>
+          <Group pl={60}>
+            <Text>W trakcie tworzenia</Text>
           </Group>
         </Overlay>
       )}
