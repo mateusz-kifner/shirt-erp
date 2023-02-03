@@ -1,10 +1,19 @@
-import { Box, Button, Group, Input, Stack } from "@mantine/core"
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Group,
+  Input,
+  Menu,
+  Stack,
+} from "@mantine/core"
 import { ComponentType, useEffect, useId, useState } from "react"
 import { SxRadius } from "../../styles/basic"
 import isArrayEqual from "../../utils/isArrayEqual"
 import { useHover, useListState } from "@mantine/hooks"
 import { omit } from "lodash"
 import EditableInput from "../../types/EditableInput"
+import { Dots, Plus, TrashX } from "tabler-icons-react"
 
 // fixme submit only on edit end
 
@@ -63,24 +72,24 @@ const EditableArray = (props: EditableArrayProps) => {
     // eslint-disable-next-line
   }, [value])
 
-  useEffect(() => {
-    // console.log("items append")
-    if (
-      active &&
-      (items.length === 0 || (items.length && !!items[items.length - 1]))
-    ) {
-      handlers.append(null)
-    }
-    // console.log(
-    //   items.some((item) => !item),
-    //   items
-    // )
-    if (!active && items.some((item) => !item)) {
-      handlers.filter((val) => !!val)
-      console.log("items filter")
-    }
-    // console.log("items active")
-  }, [items, active])
+  // useEffect(() => {
+  //   // console.log("items append")
+  //   if (
+  //     active &&
+  //     (items.length === 0 || (items.length && !!items[items.length - 1]))
+  //   ) {
+  //     handlers.append(null)
+  //   }
+  //   // console.log(
+  //   //   items.some((item) => !item),
+  //   //   items
+  //   // )
+  //   if (!active && items.some((item) => !item)) {
+  //     handlers.filter((val) => !!val)
+  //     console.log("items filter")
+  //   }
+  //   // console.log("items active")
+  // }, [items, active])
 
   return (
     <Input.Wrapper
@@ -146,10 +155,67 @@ const EditableArray = (props: EditableArrayProps) => {
                     linkEntry={linkEntry ? !active : false}
                   />
                 </Box>
+                {active && (
+                  <Menu
+                    withArrow
+                    styles={(theme) => ({
+                      dropdown: {
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white,
+                      },
+                      arrow: {
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white,
+                      },
+                    })}
+                    position="bottom-end"
+                    arrowOffset={10}
+                    offset={2}
+                  >
+                    <Menu.Target>
+                      <ActionIcon tabIndex={-1} radius="xl">
+                        <Dots size={14} />
+                      </ActionIcon>
+                    </Menu.Target>
+
+                    <Menu.Dropdown>
+                      <Menu.Item
+                        icon={<TrashX size={14} />}
+                        onClick={() => {
+                          console.log(index)
+                          handlers.remove(index)
+                          // setItems((val) => val.filter((_, i) => i !== index))
+                        }}
+                        color="red"
+                      >
+                        Delete
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                )}
               </Group>
             )
           })}
         </Stack>
+        {active && (
+          <Button
+            variant="light"
+            onClick={
+              () => handlers.append(null)
+              //  setItems((val) => [...val, null])
+            }
+            disabled={
+              disabled || (maxCount ? maxCount <= items.length : undefined)
+            }
+            style={{ flexGrow: 1 }}
+          >
+            <Plus />
+          </Button>
+        )}
       </Stack>
     </Input.Wrapper>
   )

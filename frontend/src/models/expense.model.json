@@ -24,7 +24,10 @@
 
       "count": {
         "type": "number",
+        "leftSection": "x",
         "min": 0,
+        "initialValue": 1,
+
         "increment": 1,
         "fixed": 0
       }

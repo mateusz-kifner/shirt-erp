@@ -15,6 +15,7 @@ interface EditableNumberProps extends EditableInput<number> {
   fixed?: number
   min?: number
   max?: number
+  enableHistory?: boolean
 }
 
 const EditableNumber = (props: EditableNumberProps) => {
@@ -32,6 +33,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     fixed = 2,
     min = -100_000_000_000,
     max = 100_000_000_000,
+    enableHistory,
   } = props
   const [error, setError] = useState<boolean>(false)
   const [text, setText, debouncedValue, { undo, redo, canUndo, canRedo }] =
@@ -55,21 +57,24 @@ const EditableNumber = (props: EditableNumberProps) => {
   useEffect(() => {
     if (
       (value !== undefined ? parseFloat(value?.toFixed(fixed)) : 0) !==
-        parseFloat(debouncedValue) &&
-      !isNaN(parseFloat(debouncedValue))
+      parseFloat(debouncedValue)
     ) {
-      if (parseFloat(debouncedValue) < min) {
-        debouncedValue !== undefined && onSubmit?.(min)
-        setText(min.toFixed(fixed))
-        setError(true)
-      } else if (parseFloat(debouncedValue) > max) {
-        debouncedValue !== undefined && onSubmit?.(max)
-        setText(max.toFixed(fixed))
-        setError(true)
+      if (!isNaN(parseFloat(debouncedValue))) {
+        if (parseFloat(debouncedValue) < min) {
+          debouncedValue !== undefined && onSubmit?.(min)
+          setText(min.toFixed(fixed))
+          setError(true)
+        } else if (parseFloat(debouncedValue) > max) {
+          debouncedValue !== undefined && onSubmit?.(max)
+          setText(max.toFixed(fixed))
+          setError(true)
+        } else {
+          debouncedValue !== undefined &&
+            onSubmit?.(parseFloat(parseFloat(debouncedValue).toFixed(2)))
+          setError(false)
+        }
       } else {
-        debouncedValue !== undefined &&
-          onSubmit?.(parseFloat(parseFloat(debouncedValue).toFixed(2)))
-        setError(false)
+        setError(true)
       }
     }
   }, [debouncedValue])
@@ -188,7 +193,7 @@ const EditableNumber = (props: EditableNumberProps) => {
         rightSection={rightSection}
       />
 
-      {active && focus && (
+      {active && focus && enableHistory && (
         <div
           style={{
             position: "absolute",
