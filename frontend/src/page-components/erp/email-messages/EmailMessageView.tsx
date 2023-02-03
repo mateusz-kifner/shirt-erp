@@ -14,6 +14,22 @@ import { useEmailContext } from "../../../context/emailContext"
 import EditableFiles from "../../../components/editable/EditableFiles"
 import DeleteButton from "../../../components/DeleteButton"
 import { useRouter } from "next/router"
+import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
+
+const template = {
+  attachments: {
+    label: "Pliki",
+    type: "files",
+    initialValue: [],
+  },
+  orders: {
+    label: "Zamówienia",
+    type: "array",
+    arrayType: "apiEntry",
+    entryName: "orders",
+    linkEntry: true,
+  },
+}
 
 const entryName = "email-messages"
 interface EmailMessagesViewProps {
@@ -42,10 +58,11 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
         [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
           padding: 0,
         },
+        flexGrow: 1,
       })}
     >
       {data && (
-        <Stack>
+        <Stack style={{ flexGrow: 1 }}>
           <Group>
             <Title order={3} style={{ flexGrow: 1 }}>
               {data.subject}
@@ -90,14 +107,12 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
               }}
             ></div>
           </TypographyStylesProvider>
-          <EditableFiles
-            value={
-              data?.attachments && Array.isArray(data?.attachments)
-                ? data.attachments
-                : []
-            }
+
+          <ApiEntryEditable
             disabled={true}
-            active={false}
+            template={template}
+            entryName={"email-messages"}
+            id={id}
           />
           <DeleteButton
             label="mail"

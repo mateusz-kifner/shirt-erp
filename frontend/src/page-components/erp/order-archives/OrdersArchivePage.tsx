@@ -21,7 +21,7 @@ import {
   Table,
   Vector,
 } from "tabler-icons-react"
-import { Group, Menu, Overlay, Stack, Text } from "@mantine/core"
+import { Button, Group, Menu, Overlay, Stack, Text } from "@mantine/core"
 import DeleteButton from "../../../components/DeleteButton"
 import { useTranslation } from "../../../i18n"
 import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
@@ -32,6 +32,7 @@ import { useRouter } from "next/router"
 import { Tab } from "../../../components/layout/MultiTabs"
 import { useMediaQuery } from "@mantine/hooks"
 import { useAuthContext } from "../../../context/authContext"
+import axios from "axios"
 
 const entryName = "order-archives"
 
@@ -267,13 +268,31 @@ const OrdersPage: NextPage = () => {
         }
       >
         <OrdersList selectedId={id} />
-
-        <ApiEntryEditable
-          template={template}
-          entryName={entryName}
-          id={id}
-          allowDelete
-        />
+        <Stack>
+          <ApiEntryEditable
+            template={template}
+            entryName={entryName}
+            id={id}
+            allowDelete
+          />
+          {!!id && (
+            <Button
+              style={{ position: "relative", bottom: "96px" }}
+              onClick={() =>
+                axios
+                  .get("/order-archives/unarchive/" + id)
+                  .then((res) => {
+                    router.push(`/erp/order-archives`)
+                  })
+                  .catch((err) => console.log(err))
+              }
+              variant={"light"}
+              color="orange"
+            >
+              {t("unarchive")}
+            </Button>
+          )}
+        </Stack>
         {data &&
           Array.isArray(data?.tables) &&
           data.tables.map((table, index) => {

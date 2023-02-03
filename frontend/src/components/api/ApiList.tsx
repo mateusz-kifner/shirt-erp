@@ -11,7 +11,7 @@ import {
   TextInput,
   Loader,
 } from "@mantine/core"
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import {
   Plus,
   Refresh,
@@ -28,7 +28,7 @@ import List from "../List"
 interface ApiListProps<T = any> {
   entryName: string
   ListItem: React.ElementType
-  label?: string
+  label?: string | ReactNode
   listSpacing?: MantineNumberSize
   spacing?: MantineNumberSize
   withSeparators?: boolean
@@ -41,6 +41,7 @@ interface ApiListProps<T = any> {
   onAddElement?: () => void
   defaultSearch?: string
   showAddButton?: boolean
+  buttonSection?: ReactNode
 }
 
 const ApiList = <T extends any>({
@@ -59,6 +60,7 @@ const ApiList = <T extends any>({
   onAddElement,
   defaultSearch,
   showAddButton,
+  buttonSection,
 }: ApiListProps<T>) => {
   // const [{ x }, api] = useSpring(() => ({ x: 0 }))
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
@@ -123,6 +125,7 @@ const ApiList = <T extends any>({
         <Group position="apart">
           <Title order={2}>{label}</Title>
           <Group spacing="xs">
+            {!!buttonSection && buttonSection}
             <ActionIcon
               size="lg"
               radius="xl"

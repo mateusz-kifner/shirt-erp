@@ -4,6 +4,9 @@ import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
 import { capitalize } from "lodash"
 import axios from "axios"
+import { ActionIcon } from "@mantine/core"
+import { Archive } from "tabler-icons-react"
+import Link from "next/link"
 
 const entryName = "orders"
 
@@ -40,6 +43,13 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       onAddElement={onAddElement}
       showAddButton
       exclude={{ name: "Szablon" }}
+      buttonSection={
+        <Link href={"/erp/order-archives"} passHref>
+          <ActionIcon size="lg" radius="xl" variant="default">
+            <Archive />
+          </ActionIcon>
+        </Link>
+      }
     />
   )
 }

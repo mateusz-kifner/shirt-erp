@@ -23,7 +23,7 @@ import {
   Table,
   Vector,
 } from "tabler-icons-react"
-import { Group, Menu, Stack, Text } from "@mantine/core"
+import { Button, Group, Menu, Stack, Text } from "@mantine/core"
 import DeleteButton from "../../../components/DeleteButton"
 import { useTranslation } from "../../../i18n"
 import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
@@ -34,6 +34,7 @@ import { useRouter } from "next/router"
 import { Tab } from "../../../components/layout/MultiTabs"
 import { useAuthContext } from "../../../context/authContext"
 import OrderMessagesView from "./OrderMessagesView"
+import axios from "axios"
 
 const entryName = "orders"
 
@@ -265,12 +266,31 @@ const OrdersPage: NextPage = () => {
           onAddElement={() => setOpenAddModal(true)}
         />
 
-        <ApiEntryEditable
-          template={template}
-          entryName={"orders"}
-          id={id}
-          allowDelete
-        />
+        <Stack>
+          <ApiEntryEditable
+            template={template}
+            entryName={"orders"}
+            id={id}
+            allowDelete
+          />
+          {!!id && (
+            <Button
+              style={{ position: "relative", bottom: "96px" }}
+              onClick={() =>
+                axios
+                  .get("/order/archive/" + id)
+                  .then((res) => {
+                    router.push(`/erp/orders`)
+                  })
+                  .catch((err) => console.log(err))
+              }
+              variant={"light"}
+              color="orange"
+            >
+              {t("archive")}
+            </Button>
+          )}
+        </Stack>
         <OrderMessagesView order={data} refetch={refetch} />
 
         {data &&

@@ -5,6 +5,7 @@ import OrderListItem from "../orders/OrderListItem"
 import { useRouter } from "next/router"
 import { useTranslation } from "../../../i18n"
 import { capitalize } from "lodash"
+import { Box } from "@mantine/core"
 
 const entryName = "order-archives"
 
@@ -21,7 +22,14 @@ const OrdersList = ({ selectedId }: OrderListProps) => {
       ListItem={OrderListItem}
       entryName={entryName}
       label={
-        entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined
+        <Box
+          sx={(theme) => ({
+            backgroundColor: theme.colors.orange[7] + "22",
+            borderRadius: 2,
+          })}
+        >
+          {entryName ? capitalize(t(`${entryName}.plural` as any)) : undefined}
+        </Box>
       }
       selectedId={selectedId}
       onChange={(val: any) => {

@@ -82,5 +82,7 @@
   "background color": "kolor tła",
   "grid": "siatka",
   "uploading": "wysyłam",
-  "no data": "Brak danych"
+  "no data": "Brak danych",
+  "archive": "Archiwizuj",
+  "unarchive": "Odarchiwizuj"
 }

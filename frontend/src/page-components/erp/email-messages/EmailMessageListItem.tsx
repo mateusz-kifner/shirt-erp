@@ -1,4 +1,4 @@
-import { Avatar, NavLink, Tooltip } from "@mantine/core"
+import { Avatar, Indicator, NavLink, Tooltip } from "@mantine/core"
 import dayjs from "dayjs"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { getRandomColorByString } from "../../../utils/getRandomColor"
@@ -29,7 +29,7 @@ const EmailMessageListItem = ({
         short_message
           ? truncString(short_message, 500) +
             (short_message.length > 500 ? "..." : "")
-          : ""
+          : " --- "
       }
       position="right"
       styles={{
@@ -43,25 +43,49 @@ const EmailMessageListItem = ({
       <NavLink
         disabled={disabled}
         onClick={() => onChange?.(value)}
-        styles={{
+        styles={(theme) => ({
+          root: {
+            borderRadius: 2,
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderColor: dayjs(value?.date).isToday()
+              ? theme.colors.yellow[7] + "88"
+              : "transparent",
+          },
           description: {
             whiteSpace: "pre-wrap",
           },
-        }}
+        })}
         icon={
           value && (
-            <Avatar
-              radius="xl"
+            <Indicator
+              position="bottom-end"
+              disabled={value?.orders?.length === 0}
+              label={value?.orders?.length}
+              showZero={false}
+              size={18}
+              dot={false}
+              color="indigo"
               styles={{
-                placeholder: {
-                  background: `radial-gradient(circle, transparent 64%, ${getRandomColorByString(
-                    value.from
-                  )}  66%)`,
+                indicator: {
+                  textAlign: "center",
+                  lineHeight: 1.55,
                 },
               }}
             >
-              {value.from?.substring(0, 2).toUpperCase()}
-            </Avatar>
+              <Avatar
+                radius="xl"
+                styles={{
+                  placeholder: {
+                    background: `radial-gradient(circle, transparent 64%, ${getRandomColorByString(
+                      value.from
+                    )}  66%)`,
+                  },
+                }}
+              >
+                {value.from?.substring(0, 2).toUpperCase()}
+              </Avatar>
+            </Indicator>
           )
         }
         label={value ? value.subject && truncString(value.subject, 40) : "⸺"}

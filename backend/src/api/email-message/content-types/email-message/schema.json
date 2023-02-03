@@ -74,6 +74,12 @@
       "relation": "manyToMany",
       "target": "api::order.order",
       "mappedBy": "emailMessages"
+    },
+    "orderArchives": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::order-archive.order-archive",
+      "mappedBy": "emailMessages"
     }
   }
 }
