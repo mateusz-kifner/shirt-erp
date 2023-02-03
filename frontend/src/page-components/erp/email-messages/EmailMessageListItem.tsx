@@ -48,9 +48,10 @@ const EmailMessageListItem = ({
             borderRadius: 2,
             borderStyle: "solid",
             borderWidth: 1,
-            borderColor: dayjs(value?.date).isToday()
-              ? theme.colors.yellow[7] + "88"
-              : "transparent",
+            borderColor:
+              value?.date && dayjs(value?.date).isToday()
+                ? theme.colors.yellow[7] + "88"
+                : "transparent",
           },
           description: {
             whiteSpace: "pre-wrap",

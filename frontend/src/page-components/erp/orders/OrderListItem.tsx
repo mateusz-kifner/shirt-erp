@@ -1,7 +1,10 @@
 import { Avatar, Indicator, NavLink } from "@mantine/core"
 import { OrderType } from "../../../types/OrderType"
 import { truncString } from "../../../utils/truncString"
-import { getRandomColorByNumber } from "../../../utils/getRandomColor"
+import {
+  getRandomColorByNumber,
+  getRandomColorByString,
+} from "../../../utils/getRandomColor"
 import dayjs from "dayjs"
 import { CalendarTime } from "tabler-icons-react"
 import { useTranslation } from "../../../i18n"
@@ -55,9 +58,13 @@ const OrderListItem = ({
             radius="xl"
             styles={{
               placeholder: {
-                background: `radial-gradient(circle, transparent 64%, ${getRandomColorByNumber(
-                  value.id
-                )}  66%)`,
+                background: `radial-gradient(circle, transparent 64%, ${
+                  value?.client?.firstname || value?.client?.lastname
+                    ? getRandomColorByString(
+                        "" + value?.client?.firstname + value?.client?.lastname
+                      )
+                    : "#333"
+                }  66%)`,
               },
             }}
           >
@@ -68,7 +75,10 @@ const OrderListItem = ({
       label={value ? value?.name && truncString(value.name, 20) : "⸺"}
       description={
         (value?.status ? truncString(t(value.status), 20) + " | " : "") +
-        dateDisplay
+        dateDisplay +
+        (value.client?.firstname || value.client?.lastname ? " | " : "") +
+        (value.client?.firstname ? value.client?.firstname + " " : "") +
+        (value.client?.lastname ?? "")
       }
       onClick={() => onChange?.(value)}
       active={active}

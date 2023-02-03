@@ -173,7 +173,7 @@ const SettingsPage = () => {
               )}
             </Group>
           </Button>
-          <Button
+          {/* <Button
             style={{ width: "100%", color: "#fff" }}
             component={NextLink}
             href={"/erp/workstations"}
@@ -182,7 +182,7 @@ const SettingsPage = () => {
               <Affiliate />
               Ustawienia Produkcji
             </Group>
-          </Button>
+          </Button> */}
           <Button
             style={{ width: "100%", color: "#fff" }}
             onClick={() => {
