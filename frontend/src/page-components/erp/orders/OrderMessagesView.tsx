@@ -9,7 +9,6 @@ import dayjs from "dayjs"
 
 const template = {
   emailMessages: {
-    label: "E-maile",
     type: "array",
     arrayType: "apiEntry",
     entryName: "email-messages",
@@ -34,7 +33,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
     () =>
       (order &&
         order.emailMessages &&
-        Array.isArray(order?.emailMessagesText) &&
+        Array.isArray(order?.emailMessages) &&
         order.emailMessages.sort((a, b) =>
           dayjs(b.date).diff(dayjs(a.date))
         )) ||
@@ -43,7 +42,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   )
 
   return (
-    <Stack style={{ position: "relative", minHeight: 200 }}>
+    <Stack style={{ position: "relative" }}>
       <Accordion defaultValue={"email0"} variant="separated">
         {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
           emailMessagesSorted.map((val, index, arr) => (
