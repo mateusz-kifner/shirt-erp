@@ -302,6 +302,7 @@ const OrdersPage: NextPage = () => {
                 <div key={uuid + index}>
                   <Stack style={{ minHeight: 200 }}>
                     <Editable
+                      active={true}
                       template={table_template}
                       data={table}
                       onSubmit={(key, value) => {
