@@ -121,6 +121,15 @@ const order_template = {
     entryName: "users",
     allowClear: true,
   },
+  workTime: {
+    label: "Całkowity czas pracy",
+    type: "number",
+    initialValue: 0,
+    min: 0,
+
+    increment: 1,
+    fixed: 0,
+  },
   createdAt: {
     label: "Utworzono",
     type: "datetime",

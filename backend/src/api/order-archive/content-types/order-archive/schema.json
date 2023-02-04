@@ -90,6 +90,10 @@
       "relation": "manyToMany",
       "target": "api::email-message.email-message",
       "inversedBy": "orderArchives"
+    },
+    "workTime": {
+      "type": "decimal",
+      "default": 0
     }
   }
 }

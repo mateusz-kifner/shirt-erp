@@ -24,6 +24,7 @@ export interface OrderType {
   tables: { name: string; table: (any | null)[][] }[]
   designs: { name: string; design: any }[]
   employees: Partial<UserType>[]
+  workTime: number
   emailMessages: Partial<EmailMessageType>[]
   emailMessagesText: Partial<EmailMessageType>[]
   createdAt: Date
