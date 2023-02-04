@@ -76,9 +76,9 @@ const OrderListItem = ({
       description={
         (value?.status ? truncString(t(value.status), 20) + " | " : "") +
         dateDisplay +
-        (value.client?.firstname || value.client?.lastname ? " | " : "") +
-        (value.client?.firstname ? value.client?.firstname + " " : "") +
-        (value.client?.lastname ?? "")
+        (value?.client?.firstname || value?.client?.lastname ? " | " : "") +
+        (value?.client?.firstname ? value?.client?.firstname + " " : "") +
+        (value?.client?.lastname ?? "")
       }
       onClick={() => onChange?.(value)}
       active={active}
@@ -87,9 +87,7 @@ const OrderListItem = ({
           value?.status === "rejected" ||
           value?.status === "archived" ||
           value?.status === "sent"
-        ) &&
-        timeLeft !== null &&
-        timeLeft > -1 ? (
+        ) && timeLeft !== null ? (
           <CalendarTime size={18} stroke={color} />
         ) : undefined
       }

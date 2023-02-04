@@ -57,7 +57,7 @@ const EditableTableView = (props: EditableTableProps) => {
   const theme = useMantineTheme()
   const darkTheme = theme.colorScheme === "dark"
 
-  const meta_id = Object.values(metadata)[0].id
+  const meta_id = Object.values(metadata)[0]?.id
 
   // FIXME: make memo refresh after changes to table
   const verify = useMemo(
