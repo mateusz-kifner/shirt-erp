@@ -365,7 +365,6 @@ const EditableTable = (props: EditableTableProps) => {
                 </Stack>
               </Portal>
             )}
-
             {/*Row Menu*/}
             {openedRow && (
               <Portal>
@@ -407,7 +406,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("add-column-left")}
+                      {t("add-row-top")}
                     </Button>
                     <Button
                       variant="default"
@@ -425,7 +424,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("add-column-right")}
+                      {t("add-row-down")}
                     </Button>
                     <Divider />
                     <Button
@@ -445,7 +444,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("remove-column")}
+                      {t("remove-row")}
                     </Button>
                   </Button.Group>
                 </Stack>
@@ -533,7 +532,6 @@ const EditableTable = (props: EditableTableProps) => {
                   <Divider orientation="vertical" />
                 </div>
               ))}
-
             <Tooltip label={t("clear") as string}>
               <Button
                 variant="default"
