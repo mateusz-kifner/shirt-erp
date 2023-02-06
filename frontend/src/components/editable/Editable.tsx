@@ -8,7 +8,6 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 // Editable imports
 import EditableText from "./EditableText"
 import EditableRichText from "./EditableRichText"
-import EditableSecretText from "./EditableSecretText"
 import EditableDateTime from "./EditableDateTime"
 import EditableDate from "./EditableDate"
 import EditableBool from "./EditableBool"
@@ -46,7 +45,6 @@ const editableFields: editableFields = {
   },
   text: { component: EditableText, props: {} },
   richtext: { component: EditableRichText, props: {} },
-  secrettext: { component: EditableSecretText, props: {} },
   number: {
     component: EditableText,
     props: { leftSection: <Numbers size={18} /> },
