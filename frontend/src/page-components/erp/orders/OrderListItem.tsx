@@ -59,10 +59,8 @@ const OrderListItem = ({
             styles={{
               placeholder: {
                 background: `radial-gradient(circle, transparent 64%, ${
-                  value?.client?.firstname || value?.client?.lastname
-                    ? getRandomColorByString(
-                        "" + value?.client?.firstname + value?.client?.lastname
-                      )
+                  value?.client?.id
+                    ? getRandomColorByNumber(value?.client?.id)
                     : "#333"
                 }  66%)`,
               },
