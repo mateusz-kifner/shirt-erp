@@ -21,7 +21,6 @@ import EditableFiles from "./EditableFiles"
 import EditableArray from "./EditableArray"
 import EditableApiEntry from "./EditableApiEntry"
 import EditableApiEntryId from "./EditableApiEntryId"
-import EditableNumber from "./EditableNumber"
 import EditableTable from "./EditableTable"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
@@ -49,15 +48,14 @@ const editableFields: editableFields = {
   richtext: { component: EditableRichText, props: {} },
   secrettext: { component: EditableSecretText, props: {} },
   number: {
-    component: EditableNumber,
+    component: EditableText,
     props: { leftSection: <Numbers size={18} /> },
   },
   money: {
-    component: EditableNumber,
+    component: EditableText,
     props: {
       rightSection: <Text pr="sm">PLN</Text>,
       leftSection: <Cash size={18} />,
-      increment: 1,
     },
   },
   datetime: { component: EditableDateTime, props: {} },

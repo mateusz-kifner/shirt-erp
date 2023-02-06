@@ -25,16 +25,14 @@
       "type": "text"
     },
     "price": {
-      "type": "decimal",
-      "min": 0
+      "type": "string"
     },
     "isPricePaid": {
       "type": "boolean",
       "default": false
     },
     "advance": {
-      "type": "decimal",
-      "min": 0
+      "type": "string"
     },
     "isAdvancePaid": {
       "type": "boolean",
@@ -47,12 +45,7 @@
       "type": "media",
       "multiple": true,
       "required": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
+      "allowedTypes": ["images", "files", "videos", "audios"]
     },
     "address": {
       "type": "component",
