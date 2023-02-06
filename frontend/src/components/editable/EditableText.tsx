@@ -1,18 +1,16 @@
-import { ActionIcon, Box, Group, Input, Paper, Textarea } from "@mantine/core"
-import { useClipboard, useHover } from "@mantine/hooks"
+import { ActionIcon, Input, Textarea } from "@mantine/core"
+import { useClipboard, useHover, usePrevious } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { ArrowBackUp, ArrowForwardUp, Copy } from "tabler-icons-react"
+import { Copy } from "tabler-icons-react"
 import { useTranslation } from "../../i18n"
 import EditableInput from "../../types/EditableInput"
 import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
-import useDebouncedHistoryState from "../../hooks/useDebouncedHistoryState"
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number
   style?: CSSProperties
-  enableHistory?: boolean
 }
 
 const EditableText = (props: EditableTextProps) => {
@@ -28,17 +26,9 @@ const EditableText = (props: EditableTextProps) => {
     style,
     leftSection,
     rightSection,
-    enableHistory,
   } = props
 
-  const [
-    text,
-    setText,
-    debouncedValue,
-    { undo, redo, clear, canUndo, canRedo },
-  ] = useDebouncedHistoryState<string>(value ?? initialValue ?? "", {
-    wait: 2000,
-  })
+  const [text, setText] = useState<string>(value ?? initialValue ?? "")
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
   const textRef = useRef<HTMLTextAreaElement>(null)
@@ -61,24 +51,18 @@ const EditableText = (props: EditableTextProps) => {
   }, [focus])
 
   useEffect(() => {
-    if (debouncedValue !== value) {
-      onSubmit?.(debouncedValue)
-    }
-  }, [debouncedValue])
-
-  useEffect(() => {
     return () => {
       if (text !== value) {
         onSubmit?.(text)
       }
       window.removeEventListener("beforeunload", preventLeave)
     }
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     const new_value = value ?? ""
     setText(new_value)
-    // setPrevText(new_value)
   }, [value])
 
   const onChangeTextarea = (e: React.ChangeEvent<any>) => {
@@ -173,70 +157,6 @@ const EditableText = (props: EditableTextProps) => {
             },
           })}
         />
-
-        {active && focus && !!enableHistory && (
-          <div
-            style={{
-              position: "absolute",
-              top: "calc(100% + 8px)",
-              left: 16,
-              zIndex: 1,
-            }}
-          >
-            <Box
-              sx={(theme) => ({
-                position: "absolute",
-                top: -2,
-                left: "50%",
-                zIndex: 1,
-                width: 8,
-                height: 8,
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[6]
-                    : theme.colors.gray[0],
-
-                border:
-                  theme.colorScheme === "dark"
-                    ? `1px solid ${theme.colors.dark[4]}`
-                    : `1px solid ${theme.colors.gray[0]}`,
-                borderLeft: "none",
-                borderBottom: "none",
-                transformOrigin: "bottom left",
-                transform: "rotate(-45deg)",
-                borderRadius: 1,
-              })}
-            ></Box>
-            <Paper
-              withBorder
-              radius="md"
-              sx={(theme) => ({
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[6]
-                    : theme.colors.gray[0],
-              })}
-            >
-              <Group p={4} spacing={4}>
-                <ActionIcon
-                  onClick={() => undo()}
-                  radius="md"
-                  disabled={!canUndo}
-                >
-                  <ArrowBackUp />
-                </ActionIcon>
-
-                <ActionIcon
-                  onClick={() => redo()}
-                  radius="md"
-                  disabled={!canRedo}
-                >
-                  <ArrowForwardUp />
-                </ActionIcon>
-              </Group>
-            </Paper>
-          </div>
-        )}
       </div>
     </Input.Wrapper>
   )
