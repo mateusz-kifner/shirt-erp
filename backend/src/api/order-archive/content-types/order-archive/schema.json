@@ -21,9 +21,7 @@
     "notes": {
       "type": "text"
     },
-    "secretNotes": {
-      "type": "text"
-    },
+
     "price": {
       "type": "string"
     },

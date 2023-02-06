@@ -41,10 +41,7 @@
       "type": "text",
       "default": ""
     },
-    "secretNotes": {
-      "type": "text",
-      "default": ""
-    },
+
     "address": {
       "type": "component",
       "repeatable": false,

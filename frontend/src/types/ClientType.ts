@@ -10,7 +10,6 @@ export interface ClientType {
   phoneNumber: string | null
   companyName: string | null
   notes: string | null
-  secretNotes: string | null
   orders: OrderType[]
   address: Partial<AddressType> | null
   createdAt: Date
