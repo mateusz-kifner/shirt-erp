@@ -75,16 +75,14 @@ const EditableTableView = (props: EditableTableProps) => {
       ? expandAABB(boundingBox, metaIdPosition?.row, metaIdPosition?.column)
       : null
 
-  if (verify === null || verify[1].startsWith("error")) {
-    return <Text color="red">{verify?.[1] ?? ""}</Text>
-  }
+  const is_error = verify === null || verify[1].startsWith("error")
 
   const onCellClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     row: number,
     col: number
   ) => {
-    if (!value) return
+    if (value === undefined) return
     const ctrl = e.ctrlKey
     let new_data: UniversalMatrix = [
       ...value.map((val) => [
@@ -139,12 +137,9 @@ const EditableTableView = (props: EditableTableProps) => {
                   rowIndex <= expandedBoundingBox.maxY &&
                   colIndex >= expandedBoundingBox.minX &&
                   colIndex <= expandedBoundingBox.maxX
-                if (!inAABB) return null
                 const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
                 // TODO: make this use products
                 const color = getColorByName(val?.value)
-                // console.log(getColorByName(val?.value), val?.value)
-
                 return (
                   <td
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
@@ -184,7 +179,13 @@ const EditableTableView = (props: EditableTableProps) => {
                       />
                     )}
 
-                    {isNumeric(val?.value) ? (
+                    {(inAABB &&
+                      !val.metaId &&
+                      val?.value !== undefined &&
+                      val?.value?.length > 0) ||
+                    (!inAABB &&
+                      val?.value !== undefined &&
+                      val?.value?.length > 0) ? (
                       <UnstyledButton
                         sx={(theme) => ({
                           width: "100%",
@@ -238,6 +239,7 @@ const EditableTableView = (props: EditableTableProps) => {
           height: 12,
         }}
       ></div>
+      {is_error && <Text color="red">{verify?.[1] ?? ""}</Text>}
     </ScrollArea>
   )
 }

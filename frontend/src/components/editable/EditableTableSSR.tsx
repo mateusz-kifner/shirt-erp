@@ -424,7 +424,7 @@ const EditableTable = (props: EditableTableProps) => {
                         setOpenedRow(false)
                       }}
                     >
-                      {t("add-row-down")}
+                      {t("add-row-bottom")}
                     </Button>
                     <Divider />
                     <Button
