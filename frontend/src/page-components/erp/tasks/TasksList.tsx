@@ -70,7 +70,6 @@ const TasksList = ({
             value.name?.includes(query)) ||
           value.status?.includes(query) ||
           value.notes?.includes(query) ||
-          value.secretNotes?.includes(query) ||
           value.address?.streetName?.includes(query) ||
           value.client?.firstname?.includes(query) ||
           value.client?.lastname?.includes(query)
