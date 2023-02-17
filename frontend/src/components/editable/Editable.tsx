@@ -172,10 +172,9 @@ interface EditableProps {
   template: { [key: string]: any }
   data: { [key: string]: any }
   onSubmit?: (key: string, value: any, data: any) => void
-  active?: boolean
 }
 
-function Editable({ template, data, onSubmit, active }: EditableProps) {
+function Editable({ template, data, onSubmit }: EditableProps) {
   const { debug } = useAuthContext()
   const uuid = useId()
   return (
@@ -212,7 +211,6 @@ function Editable({ template, data, onSubmit, active }: EditableProps) {
         if (component_type in editableFields) {
           return (
             <Field
-              active={active}
               value={data[key]}
               object_key={key}
               {...template[key]}
