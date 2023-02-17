@@ -30,7 +30,6 @@ const EditableRichText = ({
   label,
   value,
   initialValue,
-  active,
   onSubmit,
   disabled,
   required,
@@ -145,7 +144,7 @@ const EditableRichText = ({
       onFocus={() => setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      {active && focus ? (
+      {focus ? (
         <RichTextEditor editor={editor}>
           <RichTextEditor.Toolbar sticky tabIndex={999999999}>
             <RichTextEditor.ControlsGroup>

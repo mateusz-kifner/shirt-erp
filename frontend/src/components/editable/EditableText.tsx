@@ -22,7 +22,6 @@ const EditableText = (props: EditableTextProps) => {
     disabled,
     required,
     maxLength,
-    active,
     style,
     leftSection,
     rightSection,
@@ -126,32 +125,30 @@ const EditableText = (props: EditableTextProps) => {
           value={text}
           onChange={onChangeTextarea}
           onKeyDown={onKeyDownTextarea}
-          readOnly={!(active && focus)}
+          readOnly={!focus}
           maxLength={maxLength ?? 255}
           // placeholder="⸺"
           styles={(theme) => ({
             input: {
               paddingRight: 40,
-              backgroundColor:
-                active && focus
-                  ? theme.colorScheme === "dark"
-                    ? theme.colors.dark[6]
-                    : theme.colors.gray[0]
-                  : "transparent",
+              backgroundColor: focus
+                ? theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0]
+                : "transparent",
               border:
-                (active && focus) || hovered || text.length === 0
+                focus || hovered || text.length === 0
                   ? theme.colorScheme === "dark"
                     ? "1px solid #2C2E33"
                     : "1px solid #ced4da"
                   : "1px solid transparent",
 
               "&:focus": {
-                borderColor:
-                  active && focus
-                    ? undefined
-                    : theme.colorScheme === "dark"
-                    ? theme.colors.dark[5]
-                    : theme.colors.gray[4],
+                borderColor: focus
+                  ? undefined
+                  : theme.colorScheme === "dark"
+                  ? theme.colors.dark[5]
+                  : theme.colors.gray[4],
               },
               fontSize: "inherit",
             },

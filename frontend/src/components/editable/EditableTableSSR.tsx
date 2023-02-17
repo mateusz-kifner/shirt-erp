@@ -1,7 +1,6 @@
 import {
   Button,
   Group,
-  Menu,
   Stack,
   Text,
   Tooltip,
