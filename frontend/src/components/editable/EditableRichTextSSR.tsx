@@ -139,8 +139,8 @@ const EditableRichText = ({
       labelElement="div"
       required={required}
       ref={mergedRef}
-      onClick={() => setFocus(true)}
-      onFocus={() => setFocus(true)}
+      onClick={() => !disabled && setFocus(true)}
+      onFocus={() => !disabled && setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
       {focus ? (
@@ -203,7 +203,7 @@ const EditableRichText = ({
                 lineHeight: text.trimStart().startsWith("<") ? undefined : 1.55,
                 border: hovered
                   ? disabled
-                    ? undefined
+                    ? "1px solid transparent"
                     : theme.colorScheme === "dark"
                     ? "1px solid #2C2E33"
                     : "1px solid #ced4da"

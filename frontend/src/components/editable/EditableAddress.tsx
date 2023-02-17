@@ -157,8 +157,8 @@ const EditableAddress = (props: EditableAddressProps) => {
       }
       labelElement="div"
       required={required}
-      onClick={() => setFocus(true)}
-      onFocus={() => setFocus(true)}
+      onClick={() => !disabled && setFocus(true)}
+      onFocus={() => !disabled && setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
       {focus ? (

@@ -153,65 +153,66 @@ const EditableArray = (props: EditableArrayProps) => {
                     linkEntry={linkEntry}
                   />
                 </Box>
+                {!disabled && (
+                  <Menu
+                    withArrow
+                    styles={(theme) => ({
+                      dropdown: {
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white,
+                      },
+                      arrow: {
+                        backgroundColor:
+                          theme.colorScheme === "dark"
+                            ? theme.colors.dark[7]
+                            : theme.white,
+                      },
+                    })}
+                    position="bottom-end"
+                    arrowOffset={10}
+                    offset={2}
+                  >
+                    <Menu.Target>
+                      <ActionIcon tabIndex={-1} radius="xl">
+                        <Dots size={14} />
+                      </ActionIcon>
+                    </Menu.Target>
 
-                <Menu
-                  withArrow
-                  styles={(theme) => ({
-                    dropdown: {
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white,
-                    },
-                    arrow: {
-                      backgroundColor:
-                        theme.colorScheme === "dark"
-                          ? theme.colors.dark[7]
-                          : theme.white,
-                    },
-                  })}
-                  position="bottom-end"
-                  arrowOffset={10}
-                  offset={2}
-                >
-                  <Menu.Target>
-                    <ActionIcon tabIndex={-1} radius="xl">
-                      <Dots size={14} />
-                    </ActionIcon>
-                  </Menu.Target>
-
-                  <Menu.Dropdown>
-                    <Menu.Item
-                      icon={<TrashX size={14} />}
-                      onClick={() => {
-                        console.log(index)
-                        handlers.remove(index)
-                        // setItems((val) => val.filter((_, i) => i !== index))
-                      }}
-                      color="red"
-                    >
-                      Delete
-                    </Menu.Item>
-                  </Menu.Dropdown>
-                </Menu>
+                    <Menu.Dropdown>
+                      <Menu.Item
+                        icon={<TrashX size={14} />}
+                        onClick={() => {
+                          console.log(index)
+                          handlers.remove(index)
+                          // setItems((val) => val.filter((_, i) => i !== index))
+                        }}
+                        color="red"
+                      >
+                        Delete
+                      </Menu.Item>
+                    </Menu.Dropdown>
+                  </Menu>
+                )}
               </Group>
             )
           })}
         </Stack>
 
-        <Button
-          variant="light"
-          onClick={
-            () => handlers.append(null)
-            //  setItems((val) => [...val, null])
-          }
-          disabled={
-            disabled || (maxCount ? maxCount <= items.length : undefined)
-          }
-          style={{ flexGrow: 1 }}
-        >
-          <Plus />
-        </Button>
+        {!disabled && (
+          <Button
+            variant="light"
+            onClick={
+              () => handlers.append(null)
+              //  setItems((val) => [...val, null])
+            }
+            disabled={maxCount ? maxCount <= items.length : undefined}
+            style={{ flexGrow: 1 }}
+          >
+            <Plus />
+          </Button>
+        )}
       </Stack>
     </Input.Wrapper>
   )

@@ -76,7 +76,7 @@ const EditableFiles = (props: EditableFilesProps) => {
   const [previewWidth, setPreviewWidth] = useState<number | null | undefined>(
     null
   )
-  const refClickOutside = useClickOutside(() => setFocus(true))
+  const refClickOutside = useClickOutside(() => setFocus(false))
   const { hovered, ref: hoverdRef } = useHover()
 
   const onUploadMany = (new_files: File[]) => {
@@ -141,8 +141,8 @@ const EditableFiles = (props: EditableFilesProps) => {
     <Input.Wrapper
       label={label && label.length > 0 ? label : undefined}
       required={required}
-      onClick={() => setFocus(true)}
-      onFocus={() => setFocus(true)}
+      onClick={() => !disabled && setFocus(true)}
+      onFocus={() => !disabled && setFocus(true)}
       ref={refClickOutside}
     >
       <div tabIndex={100000}>
@@ -197,39 +197,41 @@ const EditableFiles = (props: EditableFilesProps) => {
                     }}
                     style={{ flexGrow: 1 }}
                     menuNode={
-                      <Menu
-                        styles={(theme) => ({
-                          dropdown: {
-                            // marginTop: 4,
-                            // marginLeft: -8,
-                            backgroundColor:
-                              theme.colorScheme === "dark"
-                                ? theme.colors.dark[7]
-                                : theme.white,
-                          },
-                          arrow: {
-                            backgroundColor:
-                              theme.colorScheme === "dark"
-                                ? theme.colors.dark[7]
-                                : theme.white,
-                          },
-                        })}
-                        position="bottom-start"
-                        offset={4}
-                        opened={true}
-                      >
-                        <Menu.Dropdown>
-                          <Menu.Item
-                            icon={<TrashX size={14} />}
-                            onClick={() => {
-                              file.id && onDelete(file.id)
-                            }}
-                            color="red"
-                          >
-                            Delete
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
+                      !disabled && (
+                        <Menu
+                          styles={(theme) => ({
+                            dropdown: {
+                              // marginTop: 4,
+                              // marginLeft: -8,
+                              backgroundColor:
+                                theme.colorScheme === "dark"
+                                  ? theme.colors.dark[7]
+                                  : theme.white,
+                            },
+                            arrow: {
+                              backgroundColor:
+                                theme.colorScheme === "dark"
+                                  ? theme.colors.dark[7]
+                                  : theme.white,
+                            },
+                          })}
+                          position="bottom-start"
+                          offset={4}
+                          opened={true}
+                        >
+                          <Menu.Dropdown>
+                            <Menu.Item
+                              icon={<TrashX size={14} />}
+                              onClick={() => {
+                                file.id && onDelete(file.id)
+                              }}
+                              color="red"
+                            >
+                              Delete
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      )
                     }
                   />
                 </Group>

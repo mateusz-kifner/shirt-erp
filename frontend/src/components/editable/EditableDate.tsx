@@ -148,7 +148,7 @@ const EditableDate = (props: EditableDateProps) => {
               : undefined,
         })}
         // allowFreeInput={!isMobile} // this is not working with custom locale
-        onDropdownOpen={() => setFocus(true)}
+        onDropdownOpen={() => !disabled && setFocus(true)}
         onDropdownClose={() => setFocus(false)}
         dateParser={(value) => {
           return dayjs(value, "L").toDate()

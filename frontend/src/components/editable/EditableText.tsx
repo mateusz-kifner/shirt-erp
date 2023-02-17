@@ -26,7 +26,6 @@ const EditableText = (props: EditableTextProps) => {
     leftSection,
     rightSection,
   } = props
-  console.log(props)
   const [text, setText] = useState<string>(value ?? initialValue ?? "")
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
