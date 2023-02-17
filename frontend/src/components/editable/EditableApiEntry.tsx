@@ -2,7 +2,6 @@ import {
   ActionIcon,
   Box,
   Button,
-  CSSObject,
   Group,
   Input,
   Menu,
@@ -10,10 +9,10 @@ import {
   Text,
   Tooltip,
 } from "@mantine/core"
-import { useClipboard, useHover, useId } from "@mantine/hooks"
+import { useClipboard, useId } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { CSSProperties, useEffect, useMemo, useState } from "react"
-import { SxBackground, SxBorder, SxRadius } from "../../styles/basic"
+import { SxRadius } from "../../styles/basic"
 import {
   Copy,
   Dots,
@@ -47,7 +46,6 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     initialValue,
     onSubmit,
     disabled,
-    active,
     required,
     Element,
     entryName,
@@ -190,7 +188,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
           <Element
             onChange={() => setOpened(true)}
             value={apiEntry}
-            disabled={!active || disabled}
+            disabled={disabled}
           />
           {linkEntry && value?.id && (
             <Box
