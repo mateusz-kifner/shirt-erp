@@ -39,7 +39,6 @@ const EditableArray = (props: EditableArrayProps) => {
     onSubmit,
     disabled,
     required,
-    active,
     maxCount,
     Element,
     elementProps,
@@ -129,17 +128,16 @@ const EditableArray = (props: EditableArrayProps) => {
           mt="sm"
           mb="xl"
         >
-          {items.length == 0 && !active && "⸺"}
+          {items.length == 0 && "⸺"}
           {items.map((val, index) => {
             return (
               <Group spacing="xs" key={uuid + index}>
                 <Box
                   sx={(theme) => ({
-                    backgroundColor: active
-                      ? theme.colorScheme === "dark"
+                    backgroundColor:
+                      theme.colorScheme === "dark"
                         ? theme.colors.dark[7]
-                        : theme.white
-                      : undefined,
+                        : theme.white,
                     flexGrow: 1,
                     // paddingRight: active ? undefined : 32,
                     borderRadius: theme.radius.sm,
@@ -151,71 +149,69 @@ const EditableArray = (props: EditableArrayProps) => {
                     onSubmit={(itemValue: any) => {
                       handlers.setItem(index, itemValue)
                     }}
-                    disabled={!active}
-                    linkEntry={linkEntry ? !active : false}
+                    disabled={disabled}
+                    linkEntry={linkEntry}
                   />
                 </Box>
-                {active && (
-                  <Menu
-                    withArrow
-                    styles={(theme) => ({
-                      dropdown: {
-                        backgroundColor:
-                          theme.colorScheme === "dark"
-                            ? theme.colors.dark[7]
-                            : theme.white,
-                      },
-                      arrow: {
-                        backgroundColor:
-                          theme.colorScheme === "dark"
-                            ? theme.colors.dark[7]
-                            : theme.white,
-                      },
-                    })}
-                    position="bottom-end"
-                    arrowOffset={10}
-                    offset={2}
-                  >
-                    <Menu.Target>
-                      <ActionIcon tabIndex={-1} radius="xl">
-                        <Dots size={14} />
-                      </ActionIcon>
-                    </Menu.Target>
 
-                    <Menu.Dropdown>
-                      <Menu.Item
-                        icon={<TrashX size={14} />}
-                        onClick={() => {
-                          console.log(index)
-                          handlers.remove(index)
-                          // setItems((val) => val.filter((_, i) => i !== index))
-                        }}
-                        color="red"
-                      >
-                        Delete
-                      </Menu.Item>
-                    </Menu.Dropdown>
-                  </Menu>
-                )}
+                <Menu
+                  withArrow
+                  styles={(theme) => ({
+                    dropdown: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[7]
+                          : theme.white,
+                    },
+                    arrow: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[7]
+                          : theme.white,
+                    },
+                  })}
+                  position="bottom-end"
+                  arrowOffset={10}
+                  offset={2}
+                >
+                  <Menu.Target>
+                    <ActionIcon tabIndex={-1} radius="xl">
+                      <Dots size={14} />
+                    </ActionIcon>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Item
+                      icon={<TrashX size={14} />}
+                      onClick={() => {
+                        console.log(index)
+                        handlers.remove(index)
+                        // setItems((val) => val.filter((_, i) => i !== index))
+                      }}
+                      color="red"
+                    >
+                      Delete
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
               </Group>
             )
           })}
         </Stack>
-        {active && (
-          <Button
-            variant="light"
-            onClick={
-              () => handlers.append(null)
-              //  setItems((val) => [...val, null])
-            }
-            disabled={
-              disabled || (maxCount ? maxCount <= items.length : undefined)
-            }
-            style={{ flexGrow: 1 }}
-          >
-            <Plus />
-          </Button>
-        )}
+
+        <Button
+          variant="light"
+          onClick={
+            () => handlers.append(null)
+            //  setItems((val) => [...val, null])
+          }
+          disabled={
+            disabled || (maxCount ? maxCount <= items.length : undefined)
+          }
+          style={{ flexGrow: 1 }}
+        >
+          <Plus />
+        </Button>
       </Stack>
     </Input.Wrapper>
   )

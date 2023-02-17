@@ -69,16 +69,8 @@ interface EditableColorProps extends EditableInput<string> {
 }
 
 const EditableColor = (props: EditableColorProps) => {
-  const {
-    label,
-    value,
-    initialValue,
-    onSubmit,
-    disabled,
-    required,
-    active,
-    style,
-  } = props
+  const { label, value, initialValue, onSubmit, disabled, required, style } =
+    props
   const [color, setColor] = useState<string | null>(
     value ?? initialValue ?? null
   )
@@ -172,7 +164,7 @@ const EditableColor = (props: EditableColorProps) => {
       onFocus={() => setFocus(true)}
     >
       <div ref={ref} style={{ position: "relative" }}>
-        {active && focus ? (
+        {focus ? (
           <ColorInput
             swatchesPerRow={7}
             format="hex"
@@ -283,7 +275,7 @@ const EditableColor = (props: EditableColorProps) => {
                       : "1px solid #ced4da",
                 },
                 border:
-                  (active && focus) || hovered
+                  focus || hovered
                     ? theme.colorScheme === "dark"
                       ? "1px solid #2C2E33"
                       : "1px solid #ced4da"
@@ -291,12 +283,11 @@ const EditableColor = (props: EditableColorProps) => {
                 borderColor: colorName === "Nieznany" ? "#f00" : undefined,
 
                 "&:focus": {
-                  borderColor:
-                    active && focus
-                      ? undefined
-                      : theme.colorScheme === "dark"
-                      ? theme.colors.dark[5]
-                      : theme.colors.gray[4],
+                  borderColor: focus
+                    ? undefined
+                    : theme.colorScheme === "dark"
+                    ? theme.colors.dark[5]
+                    : theme.colors.gray[4],
                 },
               }),
               SxRadius,
