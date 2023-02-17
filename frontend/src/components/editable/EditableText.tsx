@@ -1,5 +1,5 @@
 import { ActionIcon, Input, Textarea } from "@mantine/core"
-import { useClipboard, useHover, usePrevious } from "@mantine/hooks"
+import { useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
@@ -110,8 +110,8 @@ const EditableText = (props: EditableTextProps) => {
       required={required}
       style={style}
       ref={ref}
-      onClick={() => setFocus(true)}
-      onFocus={() => setFocus(true)}
+      onClick={() => !disabled && setFocus(true)}
+      onFocus={() => !disabled && setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
       <div style={{ position: "relative" }}>
@@ -120,7 +120,6 @@ const EditableText = (props: EditableTextProps) => {
           rightSection={rightSection}
           icon={leftSection}
           autosize
-          autoFocus
           minRows={1}
           value={text}
           onChange={onChangeTextarea}
@@ -128,6 +127,7 @@ const EditableText = (props: EditableTextProps) => {
           readOnly={!focus}
           maxLength={maxLength ?? 255}
           // placeholder="⸺"
+          disabled={disabled}
           styles={(theme) => ({
             input: {
               paddingRight: 40,

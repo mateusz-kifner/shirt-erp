@@ -53,7 +53,6 @@ const EditableRichText = ({
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-    autofocus: "start",
 
     content: text,
     onUpdate: ({ editor }) => {

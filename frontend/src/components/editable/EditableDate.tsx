@@ -155,7 +155,6 @@ const EditableDate = (props: EditableDateProps) => {
         }}
         dropdownType={isMobile ? "modal" : "popover"}
         withinPortal={false}
-        autoFocus
         readOnly={!focus}
         icon={leftSection}
         rightSection={rightSection}

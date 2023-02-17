@@ -242,7 +242,6 @@ const EditableColor = (props: EditableColorProps) => {
             styles={{ input: { minHeight: 44 } }}
             withinPortal={false}
             onKeyDown={onKeyDown}
-            autoFocus
             withPicker={true}
           />
         ) : (
