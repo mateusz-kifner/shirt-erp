@@ -5,7 +5,6 @@ import { Refresh } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
 import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
-import FloatingActions from "../FloatingActions"
 import ApiStatusIndicator from "./ApiStatusIndicator"
 
 interface ApiEntryEditableProps<EntryType = any> {
@@ -95,10 +94,29 @@ const ApiEntryEditable = <EntryType extends any>({
           right: 8,
         }}
       />
-      <FloatingActions
-        actions={[() => refetch()]}
-        actionIcons={[<Refresh size={20} key={uuid + "_icon2"} />]}
-      />
+      {id !== null && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+          }}
+        >
+          <ActionIcon
+            onClick={() => refetch()}
+            size="md"
+            radius={9999}
+            style={{
+              position: "fixed",
+              marginTop: 16 + 38,
+              marginLeft: 8,
+            }}
+            variant="default"
+          >
+            <Refresh size={20} />
+          </ActionIcon>
+        </div>
+      )}
     </Stack>
   )
 }
