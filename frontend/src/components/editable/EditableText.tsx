@@ -26,7 +26,7 @@ const EditableText = (props: EditableTextProps) => {
     leftSection,
     rightSection,
   } = props
-
+  console.log(props)
   const [text, setText] = useState<string>(value ?? initialValue ?? "")
   const [focus, setFocus] = useState<boolean>(false)
   const clipboard = useClipboard()
@@ -127,7 +127,7 @@ const EditableText = (props: EditableTextProps) => {
           readOnly={!focus}
           maxLength={maxLength ?? 255}
           // placeholder="⸺"
-          disabled={disabled}
+          // disabled={disabled}
           styles={(theme) => ({
             input: {
               paddingRight: 40,

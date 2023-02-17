@@ -64,6 +64,7 @@ const ApiEntryEditable = <EntryType extends any>({
               template={template}
               data={data as any}
               onSubmit={apiUpdate}
+              disabled={disabled}
             />
           </Stack>
           {allowDelete && (

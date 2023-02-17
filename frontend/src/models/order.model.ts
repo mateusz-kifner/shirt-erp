@@ -22,6 +22,7 @@ const order_template = {
       "rejected",
       "archived",
     ],
+    disabled: false,
   },
   notes: {
     label: "Notatki",
