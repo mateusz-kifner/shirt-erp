@@ -19,7 +19,6 @@ const EditableDate = (props: EditableDateProps) => {
     onSubmit,
     disabled,
     required,
-    active,
     rightSection,
     leftSection,
   } = props
@@ -119,29 +118,27 @@ const EditableDate = (props: EditableDateProps) => {
             padding: "1px 16px",
             lineHeight: 1.55,
             height: 44,
-            backgroundColor:
-              active && focus
-                ? theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0]
-                : "transparent",
+            backgroundColor: focus
+              ? theme.colorScheme === "dark"
+                ? theme.colors.dark[6]
+                : theme.colors.gray[0]
+              : "transparent",
             border:
-              (active && focus) || hovered
+              focus || hovered
                 ? theme.colorScheme === "dark"
                   ? "1px solid #2C2E33"
                   : "1px solid #ced4da"
                 : "1px solid transparent",
             "&:focus": {
-              borderColor:
-                active && focus
-                  ? undefined
-                  : theme.colorScheme === "dark"
-                  ? theme.colors.dark[5]
-                  : theme.colors.gray[4],
+              borderColor: focus
+                ? undefined
+                : theme.colorScheme === "dark"
+                ? theme.colors.dark[5]
+                : theme.colors.gray[4],
             },
           },
           defaultVariant: {
-            backgroundColor: active ? "initial" : "transparent",
+            backgroundColor: "initial",
           },
         })}
         dayStyle={(date, modifiers) => ({
@@ -159,7 +156,7 @@ const EditableDate = (props: EditableDateProps) => {
         dropdownType={isMobile ? "modal" : "popover"}
         withinPortal={false}
         autoFocus
-        readOnly={!(active && focus)}
+        readOnly={!focus}
         icon={leftSection}
         rightSection={rightSection}
       />

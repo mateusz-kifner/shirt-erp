@@ -9,23 +9,12 @@ import {
   Text,
   Stack,
   Image,
-  Button,
-  Loader,
   Menu,
-  ActionIcon,
 } from "@mantine/core"
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
 import { useEffect, useId, useState } from "react"
-import {
-  Photo,
-  Upload,
-  X,
-  Plus,
-  Dots,
-  TrashX,
-  Settings,
-} from "tabler-icons-react"
+import { Photo, Upload, X, TrashX } from "tabler-icons-react"
 import { env } from "../../env/client.mjs"
 import TablerIconType from "../../types/TablerIconType"
 import { SxRadius } from "../../styles/basic"
@@ -73,7 +62,6 @@ const EditableFiles = (props: EditableFilesProps) => {
     value,
     initialValue,
     disabled,
-    active = false,
     maxCount = 128,
   } = props
   const { t } = useTranslation()
@@ -246,7 +234,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                   />
                 </Group>
               ))
-            : !active && !uploading && <Text>⸺</Text>}
+            : !uploading && <Text>⸺</Text>}
           {error && <Text color="red">{error}</Text>}
           {/* {(active && focus) ||
             (!!uploading && (
@@ -283,7 +271,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                 )}
               </Button>
             ))} */}
-          {active && focus && (
+          {focus && (
             <Dropzone
               onDrop={(files) => {
                 onUploadMany(files)

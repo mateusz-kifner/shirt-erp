@@ -14,7 +14,6 @@ const EditableEnum = ({
   label,
   value,
   initialValue,
-
   onSubmit,
   disabled,
   required,
