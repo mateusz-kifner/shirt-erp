@@ -5,7 +5,7 @@ import { ImapFlow } from "imapflow";
 import { simpleParser } from "mailparser";
 import { Readable } from "stream";
 
-const FLAG = "ShirtERP";
+const FLAG = "$ShirtERP";
 const autoReferenceEmailTime = 3 * 24 * 60 * 60;
 // const refreshMinWaitTime = 5 * 60;
 const refreshMinWaitTime = 10;
@@ -28,6 +28,12 @@ const logError = (obj) => {
 };
 
 let last_update = Math.floor(Date.now() / 1000);
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
 
 export default factories.createCoreController(
   "api::email-message.email-message",
@@ -83,21 +89,34 @@ export default factories.createCoreController(
             },
           });
           await client.connect();
-          let lock = await client.getMailboxLock("INBOX");
+         
+            let lock = await client.getMailboxLock("INBOX");
+
           try {
-            let list = await client.search({
-              unKeyword: FLAG,
-            });
-            list.length > 0 &&
-              strapi.log.debug("new mails found: [ " + list.join(",") + " ]");
-            await client.messageFlagsAdd(list, [FLAG]);
+            console.log()
+            //let res = await client.messageFlagsAdd("1:10",[FLAG])
+           //let res = await client.messageFlagsAdd("*", ["\\Seen"]);
+            let lastMsg = await client.fetchOne("*",{uid:true,flags:true})
+            console.log(lastMsg)
+            // let list = await client.search({
+            //   unKeyword: FLAG,
+            // });
+            // console.log(list)
+            // list.length > 0 &&
+            //   strapi.log.debug("new mails found: [ " + list.join(",") + " ]");
+            // console.log(list)
+            //   await client.messageFlagsAdd(list, [FLAG]);
+
           } finally {
             // Make sure lock is released, otherwise next `getMailboxLock()` never returns
             lock.release();
           }
+         
+
+        
           // log out and close connection
           await client.logout();
-        };
+        }
 
         const getMails = async ({ host, port, secure, user, password }) => {
           const client = await new ImapFlow({
@@ -129,11 +148,11 @@ export default factories.createCoreController(
             // list subjects for all messages
             // uid value is always included in FETCH response, envelope strings are in unicode.
             list = await client.search({
-              unKeyword: FLAG,
+              seen: false,
             });
             list.length > 0 &&
               strapi.log.debug("new mails found: [ " + list.join(",") + " ]");
-            await client.messageFlagsAdd(list, [FLAG]);
+            await client.messageFlagsAdd(list, ["\\Seen"]);
             // console.log(list.join(","));
             for (let mail_index of list) {
               let { content } = await client.download(mail_index);
@@ -273,14 +292,13 @@ export default factories.createCoreController(
         console.log(auth);
         let email_count = 0;
         if (auth.length > 0) {
-          // if (auth?.initialized !== true) {
-          //   for (let emailAuth of auth.auth) {
-          //     await setFlagShirtERP({ ...emailAuth });
-          //   }
-          //   await strapi.service("api::email-auth.email-auth").createOrUpdate({
-          //     data: { initialized: true },
-          //   });
-          // }
+          
+            // for (let emailAuth of auth) {
+              
+            //   await setFlagShirtERP({ ...emailAuth });
+            // }
+           
+          
           for (let emailAuth of auth) {
             console.log(emailAuth);
             email_count += await getMails({ ...emailAuth }).catch((err) =>

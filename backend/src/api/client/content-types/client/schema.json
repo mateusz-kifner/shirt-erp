@@ -19,23 +19,18 @@
     },
     "firstname": {
       "type": "string",
-      "default": "",
-      "test": "dadad"
     },
     "lastname": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "email": {
-      "type": "email"
+      "type": "string"
     },
     "phoneNumber": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "companyName": {
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "notes": {
       "type": "text",
@@ -59,5 +54,6 @@
       "target": "api::order-archive.order-archive",
       "mappedBy": "client"
     }
+   
   }
 }
