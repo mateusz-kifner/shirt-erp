@@ -42,7 +42,6 @@ const EditableAddress = (props: EditableAddressProps) => {
     label,
     value,
     initialValue,
-    active,
     onSubmit,
     disabled,
     required,
@@ -162,7 +161,7 @@ const EditableAddress = (props: EditableAddressProps) => {
       onFocus={() => setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      {active && focus ? (
+      {focus ? (
         <Stack
           style={{ position: "relative" }}
           sx={[SxBorder, SxRadius]}
@@ -170,7 +169,6 @@ const EditableAddress = (props: EditableAddressProps) => {
           tabIndex={999999999} // ensure that focus can be captured on element
         >
           <EditableText
-            active={true}
             label={label?.streetName ?? undefined}
             value={value?.streetName ?? ""}
             onSubmit={(value) =>
@@ -179,7 +177,6 @@ const EditableAddress = (props: EditableAddressProps) => {
           />
           <Group grow={true}>
             <EditableText
-              active={true}
               label={label?.streetNumber ?? undefined}
               value={value?.streetNumber ?? ""}
               onSubmit={(value) =>
@@ -188,7 +185,6 @@ const EditableAddress = (props: EditableAddressProps) => {
               style={{ flexGrow: 1 }}
             />
             <EditableText
-              active={true}
               label={label?.apartmentNumber ?? undefined}
               value={value?.apartmentNumber ?? ""}
               onSubmit={(value) =>
@@ -198,7 +194,6 @@ const EditableAddress = (props: EditableAddressProps) => {
             />
           </Group>
           <EditableText
-            active={true}
             label={label?.secondLine ?? undefined}
             value={value?.secondLine ?? ""}
             onSubmit={(value) =>
@@ -206,7 +201,6 @@ const EditableAddress = (props: EditableAddressProps) => {
             }
           />
           <EditableText
-            active={true}
             label={label?.postCode ?? undefined}
             value={value?.postCode ?? ""}
             onSubmit={(value) =>
@@ -214,7 +208,6 @@ const EditableAddress = (props: EditableAddressProps) => {
             }
           />
           <EditableText
-            active={true}
             label={label?.city ?? undefined}
             value={value?.city ?? ""}
             onSubmit={(value) =>
@@ -222,7 +215,6 @@ const EditableAddress = (props: EditableAddressProps) => {
             }
           />
           <EditableEnum
-            active={true}
             label={label?.province ?? undefined}
             value={value?.province ?? ""}
             onSubmit={(value) =>

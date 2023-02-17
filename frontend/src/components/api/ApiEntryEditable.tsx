@@ -1,7 +1,7 @@
 import { Stack, Text, ActionIcon } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useId, useState } from "react"
-import { Lock, LockOpen, Refresh } from "tabler-icons-react"
+import { Refresh } from "tabler-icons-react"
 import useStrapi from "../../hooks/useStrapi"
 import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
@@ -14,7 +14,6 @@ interface ApiEntryEditableProps<EntryType = any> {
   id: number | null
   allowDelete?: boolean
   disabled?: boolean
-  forceActive?: boolean
 }
 
 const ApiEntryEditable = <EntryType extends any>({
@@ -23,7 +22,6 @@ const ApiEntryEditable = <EntryType extends any>({
   id,
   allowDelete = false,
   disabled = false,
-  forceActive = false,
 }: ApiEntryEditableProps<EntryType>) => {
   const uuid = useId()
   const { data, update, remove, refetch } = useStrapi<EntryType>(
@@ -36,8 +34,6 @@ const ApiEntryEditable = <EntryType extends any>({
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle")
-
-  const [active, setActive] = useState<boolean>(forceActive)
 
   const router = useRouter()
 
@@ -68,7 +64,6 @@ const ApiEntryEditable = <EntryType extends any>({
               template={template}
               data={data as any}
               onSubmit={apiUpdate}
-              active={active}
             />
           </Stack>
           {allowDelete && (
@@ -100,21 +95,8 @@ const ApiEntryEditable = <EntryType extends any>({
         }}
       />
       <FloatingActions
-        actions={
-          forceActive
-            ? [() => refetch()]
-            : [() => setActive((val) => !val), () => refetch()]
-        }
-        actionIcons={
-          forceActive
-            ? [<Refresh size={20} key={uuid + "_icon2"} />]
-            : [
-                active ? <LockOpen size={28} /> : <Lock size={28} />,
-                <Refresh size={20} key={uuid + "_icon2"} />,
-              ]
-        }
-        actionsVisible={[!disabled, !disabled]}
-        // style={{ zIndex: 0 }}
+        actions={[() => refetch()]}
+        actionIcons={[<Refresh size={20} key={uuid + "_icon2"} />]}
       />
     </Stack>
   )

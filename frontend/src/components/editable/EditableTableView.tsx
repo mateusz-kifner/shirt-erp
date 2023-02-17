@@ -180,7 +180,7 @@ const EditableTableView = (props: EditableTableProps) => {
                     )}
 
                     {(inAABB &&
-                      !val.metaId &&
+                      !val?.metaId &&
                       val?.value !== undefined &&
                       val?.value?.length > 0) ||
                     (!inAABB &&
