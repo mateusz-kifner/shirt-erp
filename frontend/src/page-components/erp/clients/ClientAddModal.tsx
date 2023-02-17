@@ -46,14 +46,14 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
-          active={true}
+       
         />
         <EditableText
           label="Nazwa użytkownika"
           onSubmit={setClientName}
           value={clientName}
           required
-          active={true}
+      
         />
 
         <Button

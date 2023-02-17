@@ -72,7 +72,6 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
           template={template}
           entryName={"orders"}
           id={order?.id ?? null}
-          forceActive
         />
       </Modal>
       {/* <Editable active={active} template={template} data={order ?? {}} /> */}

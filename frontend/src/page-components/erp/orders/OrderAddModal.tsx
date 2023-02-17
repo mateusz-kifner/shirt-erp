@@ -50,7 +50,6 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           }}
           value={mail}
           withErase
-          active={true}
         />
         <EditableApiEntry
           label="Szablon"
@@ -63,14 +62,12 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
-          active={true}
         />
         <EditableText
           label="Nazwa"
           onSubmit={setOrderName}
           value={orderName}
           required
-          active={true}
         />
 
         <Button

@@ -107,7 +107,6 @@ const SettingsPage = () => {
         <Editable
           template={template}
           data={testData}
-          active={active}
           onSubmit={(key, val) => {
             console.log("Sublmit", key, " ", val)
             showNotification({

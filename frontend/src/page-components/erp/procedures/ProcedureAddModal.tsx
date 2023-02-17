@@ -45,14 +45,12 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
-          active={true}
         />
         <EditableText
           label="Nazwa"
           onSubmit={setProcedureName}
           value={procedureName}
           required
-          active={true}
         />
 
         <Button

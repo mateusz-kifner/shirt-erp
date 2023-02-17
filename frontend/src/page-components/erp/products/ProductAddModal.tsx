@@ -46,14 +46,12 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
-          active={true}
         />
         <EditableText
           label="Nazwa"
           onSubmit={setProductName}
           value={productName}
           required
-          active={true}
         />
 
         <Button

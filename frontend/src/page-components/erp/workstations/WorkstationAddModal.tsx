@@ -48,14 +48,12 @@ const WorkstationAddModal = ({ opened, onClose }: WorkstationAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
-          active={true}
         />
         <EditableText
           label="Nazwa"
           onSubmit={setWorkstationName}
           value={workstationName}
           required
-          active={true}
         />
 
         <Button
