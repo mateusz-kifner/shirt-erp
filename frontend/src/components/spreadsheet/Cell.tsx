@@ -13,7 +13,7 @@ import type { FC, ComponentType } from "react"
 import type { CellBase, CellComponentProps } from "react-spreadsheet"
 import { merge } from "lodash"
 import { getRandomColorByNumber } from "../../utils/getRandomColor"
-import { Check, X } from "tabler-icons-react"
+import { IconCheck, IconX } from "@tabler/icons-react"
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -122,9 +122,12 @@ export const Cell = ({
       )}
       {data?.active &&
         (data.active === data.value ? (
-          <Check size={12} style={{ position: "absolute", top: 0, left: 0 }} />
+          <IconCheck
+            size={12}
+            style={{ position: "absolute", top: 0, left: 0 }}
+          />
         ) : (
-          <X size={12} style={{ position: "absolute", top: 0, left: 0 }} />
+          <IconX size={12} style={{ position: "absolute", top: 0, left: 0 }} />
         ))}
       <DataViewer
         row={row}

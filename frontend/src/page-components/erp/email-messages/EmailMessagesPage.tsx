@@ -1,6 +1,6 @@
 import { List } from "@mantine/core"
 import { useRouter } from "next/router"
-import { Mail } from "tabler-icons-react"
+import { IconMail } from "@tabler/icons-react"
 import Workspace from "../../../components/layout/Workspace"
 import { EmailProvider } from "../../../context/emailContext"
 import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
@@ -18,7 +18,7 @@ const EmailMessagesPage = () => {
     <EmailProvider>
       <Workspace
         childrenLabels={id ? ["Lista email", "Treść"] : ["Lista email"]}
-        childrenIcons={[List, Mail]}
+        childrenIcons={[List, IconMail]}
         defaultActive={id ? 1 : 0}
       >
         <EmailMessagesList selectedId={id} />

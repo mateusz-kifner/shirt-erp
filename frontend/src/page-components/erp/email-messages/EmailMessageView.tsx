@@ -8,10 +8,13 @@ import {
 } from "@mantine/core"
 import useStrapi from "../../../hooks/useStrapi"
 import DOMPurify from "dompurify"
-import { Dots, Radioactive, RadioactiveOff } from "tabler-icons-react"
+import {
+  IconDots,
+  IconRadioactive,
+  IconRadioactiveOff,
+} from "@tabler/icons-react"
 import { EmailMessageType } from "../../../types/EmailMessageType"
 import { useEmailContext } from "../../../context/emailContext"
-import EditableFiles from "../../../components/editable/EditableFiles"
 import DeleteButton from "../../../components/DeleteButton"
 import { useRouter } from "next/router"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
@@ -54,7 +57,6 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
     query: "populate=*",
   })
   const router = useRouter()
-  console.log(data)
   const isDangerous = id ? emailMessageHtmlAllowed.includes(id) : false
   return (
     <Group
@@ -77,20 +79,20 @@ const EmailMessagesView = ({ id }: EmailMessagesViewProps) => {
             <Menu withArrow>
               <Menu.Target>
                 <ActionIcon tabIndex={-1}>
-                  <Dots size={14} />
+                  <IconDots size={14} />
                 </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
                 {isDangerous ? (
                   <Menu.Item
-                    icon={<RadioactiveOff />}
+                    icon={<IconRadioactiveOff />}
                     onClick={() => id && emailMessageDisableHtml(id)}
                   >
                     Ukryj HTML
                   </Menu.Item>
                 ) : (
                   <Menu.Item
-                    icon={<Radioactive />}
+                    icon={<IconRadioactive />}
                     color="red"
                     onClick={() => id && emailMessageEnableHtml(id)}
                   >

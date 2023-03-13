@@ -6,7 +6,7 @@ import {
   getRandomColorByString,
 } from "../../../utils/getRandomColor"
 import dayjs from "dayjs"
-import { CalendarTime } from "tabler-icons-react"
+import { IconCalendarTime } from "@tabler/icons-react"
 import { useTranslation } from "../../../i18n"
 
 interface OrderListItemProps {
@@ -86,7 +86,7 @@ const OrderListItem = ({
           value?.status === "archived" ||
           value?.status === "sent"
         ) && timeLeft !== null ? (
-          <CalendarTime size={18} stroke={color} />
+          <IconCalendarTime size={18} stroke={color} />
         ) : undefined
       }
     />

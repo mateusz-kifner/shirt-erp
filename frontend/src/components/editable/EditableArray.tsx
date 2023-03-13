@@ -13,7 +13,7 @@ import isArrayEqual from "../../utils/isArrayEqual"
 import { useHover, useListState } from "@mantine/hooks"
 import { omit } from "lodash"
 import EditableInput from "../../types/EditableInput"
-import { Dots, Plus, TrashX } from "tabler-icons-react"
+import { IconDots, IconPlus, IconTrashX } from "@tabler/icons-react"
 
 // fixme submit only on edit end
 
@@ -176,13 +176,13 @@ const EditableArray = (props: EditableArrayProps) => {
                   >
                     <Menu.Target>
                       <ActionIcon tabIndex={-1} radius="xl">
-                        <Dots size={14} />
+                        <IconDots size={14} />
                       </ActionIcon>
                     </Menu.Target>
 
                     <Menu.Dropdown>
                       <Menu.Item
-                        icon={<TrashX size={14} />}
+                        icon={<IconTrashX size={14} />}
                         onClick={() => {
                           console.log(index)
                           handlers.remove(index)
@@ -210,7 +210,7 @@ const EditableArray = (props: EditableArrayProps) => {
             disabled={maxCount ? maxCount <= items.length : undefined}
             style={{ flexGrow: 1 }}
           >
-            <Plus />
+            <IconPlus />
           </Button>
         )}
       </Stack>

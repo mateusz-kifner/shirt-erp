@@ -7,7 +7,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ClientsList from "./ClientList"
 import ClientAddModal from "./ClientAddModal"
 import { useState } from "react"
-import { List, Notebook } from "tabler-icons-react"
+import { IconList, IconNotebook } from "@tabler/icons-react"
 import { useMediaQuery } from "@mantine/hooks"
 
 const entryName = "clients"
@@ -26,7 +26,7 @@ const ClientsPage = () => {
         childrenLabels={
           id ? ["Lista klientów", "Właściwości"] : ["Lista klientów"]
         }
-        childrenIcons={[List, Notebook]}
+        childrenIcons={[IconList, IconNotebook]}
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
       >

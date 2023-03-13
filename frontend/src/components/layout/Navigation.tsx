@@ -11,11 +11,11 @@ import {
 import { useMediaQuery } from "@mantine/hooks"
 import navigationData from "../../navigationData"
 import {
-  ChevronRight,
-  ChevronLeft,
-  Category,
-  ChartTreemap,
-} from "tabler-icons-react"
+  IconChevronRight,
+  IconChevronLeft,
+  IconCategory,
+  IconChartTreemap,
+} from "@tabler/icons-react"
 import { NavButton } from "./NavButton"
 import { useAuthContext } from "../../context/authContext"
 import { useRouter } from "next/router"
@@ -58,7 +58,7 @@ const Navigation = (props: NavigationProps) => {
               disabled={activeTab === 0}
               size="xl"
             >
-              <Category />
+              <IconCategory />
             </Button>
             <Button
               variant="default"
@@ -68,7 +68,7 @@ const Navigation = (props: NavigationProps) => {
               disabled={activeTab === 1}
               size="xl"
             >
-              <ChartTreemap />
+              <IconChartTreemap />
             </Button>
           </Button.Group>
         </Stack>
@@ -128,7 +128,11 @@ const Navigation = (props: NavigationProps) => {
                     toggleNavigationCollapsed()
                   }}
                 >
-                  {navigationCollapsed ? <ChevronRight /> : <ChevronLeft />}
+                  {navigationCollapsed ? (
+                    <IconChevronRight />
+                  ) : (
+                    <IconChevronLeft />
+                  )}
                 </ActionIcon>
               </Group>
             </Box>

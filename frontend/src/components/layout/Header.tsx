@@ -7,7 +7,7 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 import { useSpotlight } from "@mantine/spotlight"
-import { Search, Settings } from "tabler-icons-react"
+import { IconSearch, IconSettings } from "@tabler/icons-react"
 import { NextLink } from "@mantine/next"
 import { useAuthContext } from "../../context/authContext"
 import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
@@ -78,7 +78,7 @@ const Header = (props: HeaderProps) => {
               onClick={spotlight.openSpotlight}
               disabled={!search}
             >
-              <Search />
+              <IconSearch />
             </ActionIcon>
             <Notifications />
             <ActionIcon
@@ -89,7 +89,7 @@ const Header = (props: HeaderProps) => {
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}
             >
-              <Settings />
+              <IconSettings />
             </ActionIcon>
           </Group>
         </Group>

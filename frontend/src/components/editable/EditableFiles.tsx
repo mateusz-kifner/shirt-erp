@@ -14,7 +14,7 @@ import {
 import { Dropzone } from "@mantine/dropzone"
 import axios, { AxiosError } from "axios"
 import { useEffect, useId, useState } from "react"
-import { Photo, Upload, X, TrashX } from "tabler-icons-react"
+import { IconPhoto, IconUpload, IconX, IconTrashX } from "@tabler/icons-react"
 import { env } from "../../env/client.mjs"
 import TablerIconType from "../../types/TablerIconType"
 import { SxRadius } from "../../styles/basic"
@@ -40,14 +40,14 @@ function ImageUploadIcon({
   ...props
 }: React.ComponentProps<TablerIconType> & { status: any }) {
   if (status.accepted) {
-    return <Upload {...props} />
+    return <IconUpload {...props} />
   }
 
   if (status.rejected) {
-    return <X {...props} />
+    return <IconX {...props} />
   }
 
-  return <Photo {...props} />
+  return <IconPhoto {...props} />
 }
 
 interface EditableFilesProps extends EditableInput<FileType[]> {
@@ -221,7 +221,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                         >
                           <Menu.Dropdown>
                             <Menu.Item
-                              icon={<TrashX size={14} />}
+                              icon={<IconTrashX size={14} />}
                               onClick={() => {
                                 file.id && onDelete(file.id)
                               }}

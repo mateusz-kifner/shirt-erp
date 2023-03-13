@@ -14,12 +14,12 @@ import { showNotification } from "@mantine/notifications"
 import { CSSProperties, useEffect, useMemo, useState } from "react"
 import { SxRadius } from "../../styles/basic"
 import {
-  Copy,
-  Dots,
-  ExternalLink,
-  QuestionMark,
-  TrashX,
-} from "tabler-icons-react"
+  IconCopy,
+  IconDots,
+  IconExternalLink,
+  IconQuestionMark,
+  IconTrashX,
+} from "@tabler/icons-react"
 import ApiList from "../api/ApiList"
 import { useRouter } from "next/router"
 import Link from "next/link"
@@ -103,7 +103,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                   }}
                   tabIndex={-1}
                 >
-                  <Copy size={16} />
+                  <IconCopy size={16} />
                 </ActionIcon>
               )}
 
@@ -115,7 +115,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                   width={220}
                 >
                   <ActionIcon variant="transparent" tabIndex={-1}>
-                    <QuestionMark size={16} />
+                    <IconQuestionMark size={16} />
                   </ActionIcon>
                 </Tooltip>
               )}
@@ -142,7 +142,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               color="red"
               variant="subtle"
               size="sm"
-              leftIcon={<TrashX />}
+              leftIcon={<IconTrashX />}
               radius="xl"
             >
               {t("clear")}
@@ -214,7 +214,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                         : theme.white,
                   })}
                 >
-                  <ExternalLink size={18} />
+                  <IconExternalLink size={18} />
                   <div style={{ width: "2.4rem" }}></div>
                 </ActionIcon>
               </Link>
@@ -232,13 +232,13 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                     transform: "translate(0,-50%)",
                   }}
                 >
-                  <Dots size={14} />
+                  <IconDots size={14} />
                 </ActionIcon>
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item
                   color="red"
-                  icon={<TrashX size={14} />}
+                  icon={<IconTrashX size={14} />}
                   onClick={() => setApiEntry(null)}
                 >
                   Delete
@@ -255,7 +255,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
             //   onClick={() => setApiEntry(null)}
             //   radius="xl"
             // >
-            //   <TrashX size={18} />
+            //   <IconTrashX size={18} />
             // </ActionIcon>
           )}
         </Box>

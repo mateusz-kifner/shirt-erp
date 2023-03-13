@@ -1,9 +1,7 @@
 module.exports = ({ env }) => ({
   upload: {
     config: {
-      providerOptions: {
-        sizeLimit: 4 * 1024 * 1024 * 1024, // 4GB
-      },
+      sizeLimit: 4 * 1024 * 1024 * 1024, // 4GB
     },
   },
 

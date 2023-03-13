@@ -24,7 +24,12 @@ import EditableTable from "./EditableTable"
 import EditableDesign from "./EditableDesign"
 import EditableTableView from "./EditableTableView"
 
-import { BuildingCommunity, Calendar, Cash, Numbers } from "tabler-icons-react"
+import {
+  IconBuildingCommunity,
+  IconCalendar,
+  IconCash,
+  IconNumbers,
+} from "@tabler/icons-react"
 import apiListItems from "./apiListItems"
 import { makeDefaultListItem } from "../DefaultListItem"
 
@@ -47,19 +52,19 @@ const editableFields: editableFields = {
   richtext: { component: EditableRichText, props: {} },
   number: {
     component: EditableText,
-    props: { leftSection: <Numbers size={18} /> },
+    props: { leftSection: <IconNumbers size={18} /> },
   },
   money: {
     component: EditableText,
     props: {
       rightSection: <Text pr="sm">PLN</Text>,
-      leftSection: <Cash size={18} />,
+      leftSection: <IconCash size={18} />,
     },
   },
   datetime: { component: EditableDateTime, props: {} },
   date: {
     component: EditableDate,
-    props: { leftSection: <Calendar size={18} /> },
+    props: { leftSection: <IconCalendar size={18} /> },
   },
   boolean: { component: EditableBool, props: {} },
   color: { component: EditableColor, props: {} },
@@ -68,7 +73,7 @@ const editableFields: editableFields = {
   iconId: { component: EditableApiIconId, props: {} },
   address: {
     component: EditableAddress,
-    props: { leftSection: <BuildingCommunity size={18} /> },
+    props: { leftSection: <IconBuildingCommunity size={18} /> },
   },
   file: { component: EditableFiles, props: { maxCount: 1 } },
   image: { component: EditableFiles, props: { maxCount: 1 } },

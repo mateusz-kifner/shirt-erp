@@ -11,16 +11,16 @@ import useStrapi from "../../../hooks/useStrapi"
 import { OrderType } from "../../../types/OrderType"
 import Editable from "../../../components/editable/Editable"
 import {
-  Check,
-  ColorSwatch,
-  List,
-  Notebook,
-  Plus,
-  Robot,
-  RulerMeasure,
-  Table,
-  Vector,
-} from "tabler-icons-react"
+  IconCheck,
+  IconColorSwatch,
+  IconList,
+  IconNotebook,
+  IconPlus,
+  IconRobot,
+  IconRulerMeasure,
+  IconTable,
+  IconVector,
+} from "@tabler/icons-react"
 import { Button, Group, Menu, Overlay, Stack, Text } from "@mantine/core"
 import DeleteButton from "../../../components/DeleteButton"
 import { useTranslation } from "../../../i18n"
@@ -50,10 +50,10 @@ const OrdersPage: NextPage = () => {
     "loading" | "idle" | "error" | "success"
   >("idle")
   const childrenIcons = [
-    List,
-    Notebook,
-    ...((data && data?.tables && data?.tables.map(() => Table)) ?? []),
-    Vector,
+    IconList,
+    IconNotebook,
+    ...((data && data?.tables && data?.tables.map(() => IconTable)) ?? []),
+    IconVector,
   ]
 
   const childrenLabels = id
@@ -98,7 +98,7 @@ const OrdersPage: NextPage = () => {
     },
     table: {
       type: "table",
-      metadataIcons: [ColorSwatch, RulerMeasure],
+      metadataIcons: [IconColorSwatch, IconRulerMeasure],
       metadataLabels: ["Kolor", "Rozmiar"],
       metadata,
       metadataActions: [
@@ -170,7 +170,7 @@ const OrdersPage: NextPage = () => {
         verifyMetadata,
       ],
       metadataActionLabels: ["Auto uzupełnij", "Sprawdź poprawność pól"],
-      metadataActionIcons: [Robot, Check],
+      metadataActionIcons: [IconRobot, IconCheck],
     },
   }
 
@@ -222,7 +222,7 @@ const OrdersPage: NextPage = () => {
   }
 
   const addElementLabels = ["sheet", "design"]
-  const addElementIcons = [Table, Vector]
+  const addElementIcons = [IconTable, IconVector]
 
   return (
     <>
@@ -234,7 +234,7 @@ const OrdersPage: NextPage = () => {
             <Menu position="bottom" withArrow withinPortal>
               <Menu.Target>
                 <Tab
-                  Icon={Plus}
+                  Icon={IconPlus}
                   value={childrenLabels.length}
                   p="xs"
                   variant="outline"
@@ -251,7 +251,7 @@ const OrdersPage: NextPage = () => {
                 {addElementLabels.map((label, index) => {
                   const Icon = addElementIcons?.[index]
                     ? addElementIcons[index]
-                    : Plus
+                    : IconPlus
                   return (
                     <Menu.Item
                       key={uuid + "_menu_" + index}

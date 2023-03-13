@@ -8,7 +8,12 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import ProceduresList from "./ProceduresList"
 import { Tabs, TabsValue } from "@mantine/core"
-import { Affiliate, List, Notebook, Robot } from "tabler-icons-react"
+import {
+  IconAffiliate,
+  IconList,
+  IconNotebook,
+  IconRobot,
+} from "@tabler/icons-react"
 import ProcedureAddModal from "./ProcedureAddModal"
 
 const entryName = "procedures"
@@ -41,10 +46,10 @@ const ProceduresPage = () => {
         })}
       >
         <Tabs.List>
-          <Tabs.Tab icon={<Robot size={14} />} value="workstations">
+          <Tabs.Tab icon={<IconRobot size={14} />} value="workstations">
             Stanowiska pracy
           </Tabs.Tab>
-          <Tabs.Tab icon={<Affiliate size={14} />} value="procedures">
+          <Tabs.Tab icon={<IconAffiliate size={14} />} value="procedures">
             Procedury
           </Tabs.Tab>
         </Tabs.List>
@@ -53,7 +58,7 @@ const ProceduresPage = () => {
         childrenLabels={
           id ? ["Lista procedur", "Właściwości"] : ["Lista procedur"]
         }
-        childrenIcons={[List, Notebook]}
+        childrenIcons={[IconList, IconNotebook]}
       >
         <ProceduresList
           selectedId={id}

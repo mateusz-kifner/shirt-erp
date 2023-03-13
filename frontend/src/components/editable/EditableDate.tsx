@@ -4,7 +4,7 @@ import { useClipboard, useHover, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useRef, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy } from "tabler-icons-react"
+import { IconCopy } from "@tabler/icons-react"
 import dayjs from "dayjs"
 import EditableInput from "../../types/EditableInput"
 import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
@@ -95,7 +95,7 @@ const EditableDate = (props: EditableDateProps) => {
                 }}
                 tabIndex={-1}
               >
-                <Copy size={16} />
+                <IconCopy size={16} />
               </ActionIcon>
             )}
           </>

@@ -7,7 +7,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ProductList from "./ProductsList"
 import ProductAddModal from "./ProductAddModal"
 import { useState } from "react"
-import { List, Notebook } from "tabler-icons-react"
+import { IconList, IconNotebook } from "@tabler/icons-react"
 
 const entryName = "products"
 
@@ -24,7 +24,7 @@ const ProductPage = () => {
         childrenLabels={
           id ? ["Lista produktów", "Właściwości"] : ["Lista produktów"]
         }
-        childrenIcons={[List, Notebook]}
+        childrenIcons={[IconList, IconNotebook]}
       >
         <ProductList
           selectedId={id}

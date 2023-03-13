@@ -3,15 +3,15 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useId, useState } from "react"
 import {
-  Check,
-  ColorSwatch,
-  ExternalLink,
-  List,
-  Notebook,
-  RulerMeasure,
-  Table,
-  Vector,
-} from "tabler-icons-react"
+  IconCheck,
+  IconColorSwatch,
+  IconExternalLink,
+  IconList,
+  IconNotebook,
+  IconRulerMeasure,
+  IconTable,
+  IconVector,
+} from "@tabler/icons-react"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import Editable from "../../../components/editable/Editable"
 import Workspace from "../../../components/layout/Workspace"
@@ -45,10 +45,10 @@ const TasksPage = () => {
   >("idle")
 
   const childrenIcons = [
-    List,
-    Notebook,
-    ...((data && data?.tables && data?.tables.map(() => Table)) ?? []),
-    Vector,
+    IconList,
+    IconNotebook,
+    ...((data && data?.tables && data?.tables.map(() => IconTable)) ?? []),
+    IconVector,
   ]
 
   const childrenLabels = id
@@ -95,12 +95,12 @@ const TasksPage = () => {
   const table_template = {
     table: {
       type: "tableView",
-      metadataIcons: [ColorSwatch, RulerMeasure],
+      metadataIcons: [IconColorSwatch, IconRulerMeasure],
       metadataLabels: ["Kolor", "Rozmiar"],
       metadata,
       metadataActions: [verifyMetadata],
       metadataActionLabels: ["Sprawdź poprawność pól"],
-      metadataActionIcons: [Check],
+      metadataActionIcons: [IconCheck],
     },
   }
   return (
@@ -141,7 +141,7 @@ const TasksPage = () => {
               }}
               variant="default"
             >
-              <ExternalLink />
+              <IconExternalLink />
             </ActionIcon>
           </Link>
         </Stack>

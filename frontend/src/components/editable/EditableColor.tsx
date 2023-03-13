@@ -3,7 +3,7 @@ import { useClickOutside, useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useMemo } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy, X } from "tabler-icons-react"
+import { IconCopy, IconX } from "@tabler/icons-react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import colorNames from "../../models/color-names.json"
 import EditableInput from "../../types/EditableInput"
@@ -150,7 +150,7 @@ const EditableColor = (props: EditableColorProps) => {
                 }}
                 tabIndex={-1}
               >
-                <Copy size={16} />
+                <IconCopy size={16} />
               </ActionIcon>
             )}
           </>

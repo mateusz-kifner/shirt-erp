@@ -9,7 +9,7 @@ import {
 } from "@mantine/core"
 import React, { useState, CSSProperties } from "react"
 // import { useTranslation } from "../../../i18n"
-import { TrashX } from "tabler-icons-react"
+import { IconTrashX } from "@tabler/icons-react"
 import { useTranslation } from "../i18n"
 
 interface DeleteButtonProps {
@@ -34,7 +34,7 @@ const DeleteButton = ({
       <Button
         color="red"
         variant="subtle"
-        leftIcon={<TrashX size={18} />}
+        leftIcon={<IconTrashX size={18} />}
         onClick={() => setOpenedDelete(true)}
         className="erase_on_print"
         {...buttonProps}
@@ -58,7 +58,7 @@ const DeleteButton = ({
           <Button
             color="red"
             variant="outline"
-            leftIcon={<TrashX size={18} />}
+            leftIcon={<IconTrashX size={18} />}
             onClick={() => {
               onDelete()
               setOpenedDelete(false)

@@ -6,7 +6,7 @@ import dayjs from "dayjs"
 import { useEffect, useRef, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import preventLeave from "../../utils/preventLeave"
-import { Calendar, Clock, Copy } from "tabler-icons-react"
+import { IconCalendar, IconClock, IconCopy } from "@tabler/icons-react"
 import EditableInput from "../../types/EditableInput"
 
 // TODO: make it editable
@@ -105,7 +105,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
                 }}
                 tabIndex={-1}
               >
-                <Copy size={16} />
+                <IconCopy size={16} />
               </ActionIcon>
             )}
           </>
@@ -160,9 +160,9 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
             SxRadius,
           ]}
         >
-          <Calendar color="#adb5bd" size={18} />
+          <IconCalendar color="#adb5bd" size={18} />
           {date ? dayjs(date).format("L").toString() : "⸺"}
-          <Clock color="#adb5bd" size={18} style={{ marginLeft: 16 }} />
+          <IconClock color="#adb5bd" size={18} style={{ marginLeft: 16 }} />
           {date ? dayjs(date).format("LT").toString() : "⸺"}
         </Group>
       )}

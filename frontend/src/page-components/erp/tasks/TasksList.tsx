@@ -13,11 +13,11 @@ import { t } from "i18next"
 import { capitalize } from "lodash"
 import { useEffect, useState } from "react"
 import {
-  Refresh,
-  Search,
-  SortAscending,
-  SortDescending,
-} from "tabler-icons-react"
+  IconRefresh,
+  IconSearch,
+  IconSortAscending,
+  IconSortDescending,
+} from "@tabler/icons-react"
 import List from "../../../components/List"
 import useStarpiUser from "../../../hooks/useStrapiUser"
 import { useTranslation } from "../../../i18n"
@@ -92,7 +92,7 @@ const TasksList = ({
               variant="default"
               onClick={() => refetch()}
             >
-              <Refresh />
+              <IconRefresh />
             </ActionIcon>
           </Group>
         </Group>
@@ -104,7 +104,7 @@ const TasksList = ({
               variant="default"
               onClick={() => toggleSortOrder()}
             >
-              {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
+              {sortOrder === "asc" ? <IconSortAscending /> : <IconSortDescending />}
             </ActionIcon>
           </Group> */}
 
@@ -112,7 +112,7 @@ const TasksList = ({
             defaultValue={""}
             onChange={(value) => setQuery(value.target.value)}
             radius="xl"
-            icon={<Search />}
+            icon={<IconSearch />}
             style={{ flexGrow: 1 }}
           />
         </Group>

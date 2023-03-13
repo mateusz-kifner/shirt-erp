@@ -1,7 +1,7 @@
 import { ActionIcon, Modal, TypographyStylesProvider } from "@mantine/core"
 import { useLocalStorage } from "@mantine/hooks"
 import React, { useId } from "react"
-import { QuestionMark } from "tabler-icons-react"
+import { IconQuestionMark } from "@tabler/icons-react"
 import { env } from "../env/client.mjs"
 import Markdown from "./details/Markdown"
 
@@ -24,7 +24,7 @@ const EnvMessage = () => {
         gradient={{ from: "red", to: "orange" }}
         onClick={() => setEnvMessageOpen(true)}
       >
-        <QuestionMark size={32} />
+        <IconQuestionMark size={32} />
       </ActionIcon>
       <Modal
         opened={envMessageOpen}

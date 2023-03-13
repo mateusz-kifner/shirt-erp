@@ -1,6 +1,6 @@
 import { Button, Group, Input, Modal, SimpleGrid, Stack } from "@mantine/core"
 import { useEffect, useId, useState } from "react"
-import { X } from "tabler-icons-react"
+import { IconX } from "@tabler/icons-react"
 import { useIconsContext } from "../../context/iconsContext"
 import EditableInput from "../../types/EditableInput"
 import ApiIconSVG from "../api/ApiIconSVG"
@@ -82,7 +82,7 @@ const EditableApiIconId = ({
             }}
             key={uuid + "null"}
           >
-            <X size={96} />
+            <IconX size={96} />
           </Button>
         </SimpleGrid>
       </Modal>

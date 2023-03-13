@@ -5,7 +5,7 @@ import { useTranslation } from "../../../i18n"
 import { capitalize } from "lodash"
 import axios from "axios"
 import { ActionIcon } from "@mantine/core"
-import { Archive } from "tabler-icons-react"
+import { IconArchive } from "@tabler/icons-react"
 import Link from "next/link"
 
 const entryName = "orders"
@@ -46,7 +46,7 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
       buttonSection={
         <Link href={"/erp/order-archives"} passHref>
           <ActionIcon size="lg" radius="xl" variant="default">
-            <Archive />
+            <IconArchive />
           </ActionIcon>
         </Link>
       }

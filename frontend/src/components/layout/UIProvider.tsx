@@ -4,7 +4,7 @@ import {
   MantineProvider,
 } from "@mantine/core"
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks"
-import { NotificationsProvider } from "@mantine/notifications"
+import { Notifications } from "@mantine/notifications"
 import React, { ReactNode } from "react"
 import Spotlight from "../../context/Spotlight"
 import EnvMessage from "../EnvMessage"
@@ -32,7 +32,6 @@ const UIProvider = ({ children }: { children: ReactNode }) => {
         theme={{
           colorScheme: colorScheme,
           datesLocale: "pl",
-          dateFormat: "DD.MM.YYYY",
 
           components: {
             Paper: {
@@ -92,13 +91,12 @@ const UIProvider = ({ children }: { children: ReactNode }) => {
         //   // // }),
         // }}
       >
-        <NotificationsProvider>
-          <Spotlight>
-            {children}
-            <WelcomeMessage />
-            <EnvMessage />
-          </Spotlight>
-        </NotificationsProvider>
+        <Notifications />
+        <Spotlight>
+          {children}
+          <WelcomeMessage />
+          <EnvMessage />
+        </Spotlight>
       </MantineProvider>
     </ColorSchemeProvider>
   )

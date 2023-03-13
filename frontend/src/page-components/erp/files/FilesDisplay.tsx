@@ -1,5 +1,5 @@
 import { ActionIcon, Group, Image, Text } from "@mantine/core"
-import { Eye, FileUnknown, TrashX } from "tabler-icons-react"
+import { IconEye, IconFileUnknown, IconTrashX } from "@tabler/icons-react"
 import { env } from "../../../env/client.mjs"
 import { FileType } from "../../../types/FileType"
 
@@ -54,7 +54,7 @@ const FileDisplay = (props: FileDisplayProps) => {
             },
           })}
           withPlaceholder
-          placeholder={<FileUnknown size={88} />}
+          placeholder={<IconFileUnknown size={88} />}
         />
         <Group
           position="center"
@@ -76,7 +76,7 @@ const FileDisplay = (props: FileDisplayProps) => {
                   fileData?.url && onPreview && onPreview(fileData.url)
                 }}
               >
-                <Eye />
+                <IconEye />
               </ActionIcon>
 
               <div
@@ -95,7 +95,7 @@ const FileDisplay = (props: FileDisplayProps) => {
                 // onRemove(index)
               }
             >
-              <TrashX />
+              <IconTrashX />
             </ActionIcon>
           )}
         </Group>

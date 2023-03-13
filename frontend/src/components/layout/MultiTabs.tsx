@@ -24,7 +24,7 @@ import React, {
   ReactNode,
   forwardRef,
 } from "react"
-import { GridDots, Pinned, Plus, AlertCircle } from "tabler-icons-react"
+import { IconPinned, IconAlertCircle } from "@tabler/icons-react"
 import { SxBorder } from "../../styles/basic"
 import {
   simpleColors,
@@ -184,7 +184,7 @@ const MultiTabs = (props: MultiTabsProps) => {
             const Icon =
               childrenIcons?.[index] ??
               childrenIcons?.[childrenIcons.length - 1] ??
-              AlertCircle
+              IconAlertCircle
 
             const color =
               index !== undefined
@@ -248,7 +248,7 @@ const MultiTabs = (props: MultiTabsProps) => {
                     return new_arr
                   })
                 }
-                rightSection={isPinned ? <Pinned size={16} /> : undefined}
+                rightSection={isPinned ? <IconPinned size={16} /> : undefined}
                 isActive={active === index || isPinned}
                 onClick={() => !isPinned && onTabChange(index)}
                 onContextMenu={(e: SyntheticEvent) => {

@@ -12,7 +12,7 @@ import { useLocalStorage } from "@mantine/hooks"
 import dayjs from "dayjs"
 import { useRouter } from "next/router"
 import React, { useEffect, useId, useState } from "react"
-import { Bell } from "tabler-icons-react"
+import { IconBell } from "@tabler/icons-react"
 import { useAuthContext } from "../context/authContext"
 import useStarpiUser from "../hooks/useStrapiUser"
 import OrderListItem from "../page-components/erp/orders/OrderListItem"
@@ -84,7 +84,7 @@ const Notifications = () => {
             color="blue"
             disabled={activeOrders == 0}
           >
-            <Bell />
+            <IconBell />
           </Indicator>
         </ActionIcon>
       </Popover.Target>
@@ -92,7 +92,7 @@ const Notifications = () => {
         <Stack>
           <Group position="apart">
             <Title order={3}>
-              <Bell size={18} /> Powiadomienia{" "}
+              <IconBell size={18} /> Powiadomienia{" "}
             </Title>
           </Group>
 

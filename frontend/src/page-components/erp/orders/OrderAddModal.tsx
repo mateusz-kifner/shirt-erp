@@ -2,7 +2,7 @@ import { Button, Modal, Stack, Text } from "@mantine/core"
 import dayjs from "dayjs"
 import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
-import { Plus } from "tabler-icons-react"
+import { IconPlus } from "@tabler/icons-react"
 import { makeDefaultListItem } from "../../../components/DefaultListItem"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
 import EditableText from "../../../components/editable/EditableText"
@@ -103,7 +103,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
               })
               .catch(() => setError("Zamówienie o takiej nazwie istnieje."))
           }}
-          leftIcon={<Plus />}
+          leftIcon={<IconPlus />}
           loading={status === "loading"}
         >
           Utwórz zamówienie

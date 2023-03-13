@@ -16,7 +16,7 @@ import {
   Search,
   SortAscending,
   SortDescending,
-} from "tabler-icons-react"
+} from "@tabler/icons-react"
 import useStrapiList from "../../../hooks/useStrapiList"
 
 import { useGesture } from "@use-gesture/react"

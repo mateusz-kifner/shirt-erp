@@ -20,7 +20,7 @@ import React, {
 import { useTranslation } from "../../i18n"
 
 // Icons
-import { ScreenShare, Trash } from "tabler-icons-react"
+import { IconScreenShare, IconTrash } from "@tabler/icons-react"
 import TableCenterIcon from "../icons/TableCenterIcon"
 import TableEdgeIcon from "../icons/TableEdgeIcon"
 
@@ -542,7 +542,7 @@ const EditableTable = (props: EditableTableProps) => {
                   setStatusText("Usunięto metadane")
                 }}
               >
-                <Trash />
+                <IconTrash />
               </Button>
             </Tooltip>
           </Group>
@@ -556,7 +556,7 @@ const EditableTable = (props: EditableTableProps) => {
                   setFullscreen((fullscreen) => !fullscreen)
                 }}
               >
-                <ScreenShare />
+                <IconScreenShare />
               </Button>
             </Tooltip>
           </Group>

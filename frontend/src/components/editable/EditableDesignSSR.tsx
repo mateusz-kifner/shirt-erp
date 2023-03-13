@@ -24,16 +24,16 @@ import React, {
   useState,
 } from "react"
 import {
-  Category,
-  ColorSwatch,
-  GardenCart,
-  GridPattern,
-  ScreenShare,
-  SquareNumber1,
-  SquareNumber2,
-  SquareNumber3,
-  Wallpaper,
-} from "tabler-icons-react"
+  IconCategory,
+  IconColorSwatch,
+  IconGardenCart,
+  IconGridPattern,
+  IconScreenShare,
+  IconSquareNumber1,
+  IconSquareNumber2,
+  IconSquareNumber3,
+  IconWallpaper,
+} from "@tabler/icons-react"
 import { useAuthContext } from "../../context/authContext"
 import { env } from "../../env/client.mjs"
 import { useTranslation } from "../../i18n"
@@ -139,7 +139,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     ...externalBackgrounds,
     {
       name: "empty x1",
-      icon: SquareNumber1,
+      icon: IconSquareNumber1,
       images: [
         {
           name: "empty1",
@@ -148,7 +148,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x2",
-      icon: SquareNumber2,
+      icon: IconSquareNumber2,
       images: [
         {
           name: "empty1",
@@ -160,7 +160,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x3",
-      icon: SquareNumber3,
+      icon: IconSquareNumber3,
       images: [
         {
           name: "empty1",
@@ -214,7 +214,7 @@ const EditableDesign = (props: EditableDesignProps) => {
       {!debug && (
         <Overlay color="#333" opacity={0.9} style={{ zIndex: 40 }}>
           <Group p={60}>
-            <GardenCart size={32} />
+            <IconGardenCart size={32} />
             <Title order={3}>Design niedostępny</Title>
           </Group>
           <Group pl={60}>
@@ -257,14 +257,14 @@ const EditableDesign = (props: EditableDesignProps) => {
                   size="xs"
                   onClick={() => setShowGrid((val) => !val)}
                 >
-                  <GridPattern />
+                  <IconGridPattern />
                 </Button>
               </Tooltip>
               <Menu withinPortal>
                 <Menu.Target>
                   <Tooltip label={t("item")} m={0} withinPortal openDelay={500}>
                     <Button variant="default" p={0} size="xs">
-                      <Category />
+                      <IconCategory />
                     </Button>
                   </Tooltip>
                 </Menu.Target>
@@ -292,7 +292,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     openDelay={500}
                   >
                     <Button variant="default" p={0} size="xs">
-                      <Wallpaper fill={backgroundColor} />
+                      <IconWallpaper fill={backgroundColor} />
                     </Button>
                   </Tooltip>
                 </Popover.Target>
@@ -320,7 +320,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     openDelay={500}
                   >
                     <Button variant="default" p={0} size="xs">
-                      <ColorSwatch fill={itemColor} />
+                      <IconColorSwatch fill={itemColor} />
                     </Button>
                   </Tooltip>
                 </Popover.Target>
@@ -350,7 +350,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                   setFullscreen((fullscreen) => !fullscreen)
                 }}
               >
-                <ScreenShare />
+                <IconScreenShare />
               </Button>
             </Tooltip>
           </Group>

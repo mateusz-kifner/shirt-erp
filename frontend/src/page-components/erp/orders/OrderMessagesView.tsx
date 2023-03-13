@@ -2,7 +2,7 @@ import React, { useId, useMemo, useState } from "react"
 import { OrderType } from "../../../types/OrderType"
 import { Accordion, Modal, Stack, Text, Title } from "@mantine/core"
 import axios from "axios"
-import { Refresh, Edit } from "tabler-icons-react"
+import { IconRefresh, IconEdit } from "@tabler/icons-react"
 import FloatingActions from "../../../components/FloatingActions"
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 import dayjs from "dayjs"
@@ -88,8 +88,8 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
           },
         ]}
         actionIcons={[
-          <Edit size={28} key={uuid + "_icon1"} />,
-          <Refresh size={20} key={uuid + "_icon2"} />,
+          <IconEdit size={28} key={uuid + "_icon1"} />,
+          <IconRefresh size={20} key={uuid + "_icon2"} />,
         ]}
       />
     </Stack>

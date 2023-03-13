@@ -1,7 +1,7 @@
 import { SpotlightProvider } from "@mantine/spotlight"
 import type { SpotlightAction } from "@mantine/spotlight"
 import { ReactNode, useState } from "react"
-import { Search } from "tabler-icons-react"
+import { IconSearch } from "@tabler/icons-react"
 import axios from "axios"
 import { useQuery } from "react-query"
 import { useDebouncedValue } from "@mantine/hooks"
@@ -87,7 +87,7 @@ const Spotlight = ({ children }: SpotlightProps) => {
   return (
     <SpotlightProvider
       actions={actions}
-      searchIcon={<Search size={18} />}
+      searchIcon={<IconSearch size={18} />}
       searchPlaceholder="Szukaj..."
       shortcut="ctrl + s"
       nothingFoundMessage={

@@ -11,7 +11,7 @@ import {
 } from "@mantine/core"
 import { useClickOutside } from "@mantine/hooks"
 import React, { CSSProperties, ReactNode, useState } from "react"
-import { Download, Eye, FileUnknown, TrashX } from "tabler-icons-react"
+import { IconDownload, IconEye, IconFileUnknown } from "@tabler/icons-react"
 import { env } from "../env/client.mjs"
 import { useTranslation } from "../i18n"
 import { SxBorder, SxRadius } from "../styles/basic"
@@ -105,7 +105,7 @@ const FileListItem = ({
           })}
           withPlaceholder
           placeholder={
-            <FileUnknown
+            <IconFileUnknown
               size={88}
               color={
                 theme.colorScheme === "dark"
@@ -145,7 +145,7 @@ const FileListItem = ({
                 )
             }}
           >
-            <Eye
+            <IconEye
               color={
                 theme.colorScheme === "dark"
                   ? theme.colors.gray[4]
@@ -200,7 +200,7 @@ const FileListItem = ({
           transform: "translate(0,-50%)",
         })}
       >
-        <Download size={26} />
+        <IconDownload size={26} />
         <div style={{ width: "2.4rem" }}></div>
       </ActionIcon>
 

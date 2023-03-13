@@ -1,10 +1,10 @@
-import { Shirt } from "tabler-icons-react"
+import { IconShirt } from "@tabler/icons-react"
 import { DesignBackgroundsType } from "../../../components/editable/EditableDesignSSR"
 
 const designBackgrounds: DesignBackgroundsType = [
   {
     name: "Koszulka SVG",
-    icon: Shirt,
+    icon: IconShirt,
     images: [
       {
         name: "Przód",
@@ -36,7 +36,7 @@ const designBackgrounds: DesignBackgroundsType = [
   },
   {
     name: "Koszulka",
-    icon: Shirt,
+    icon: IconShirt,
     images: [
       {
         name: "Przód",

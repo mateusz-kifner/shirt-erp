@@ -7,7 +7,7 @@ import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
 import ExpenseList from "./ExpensesList"
 import ExpenseAddModal from "./ExpenseAddModal"
 import { useState } from "react"
-import { Notebook, List } from "tabler-icons-react"
+import { IconNotebook, IconList } from "@tabler/icons-react"
 
 const entryName = "expenses"
 
@@ -24,7 +24,7 @@ const ExpensePage = () => {
         childrenLabels={
           id ? ["Lista wydatków", "Właściwości"] : ["Lista wydatków"]
         }
-        childrenIcons={[List, Notebook]}
+        childrenIcons={[IconList, IconNotebook]}
       >
         <ExpenseList
           selectedId={id}

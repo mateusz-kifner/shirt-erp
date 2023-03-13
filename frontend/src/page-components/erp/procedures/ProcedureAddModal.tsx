@@ -1,7 +1,7 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
 import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
-import { Plus } from "tabler-icons-react"
+import { IconPlus } from "@tabler/icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
 import EditableText from "../../../components/editable/EditableText"
 import useStrapi from "../../../hooks/useStrapi"
@@ -67,7 +67,7 @@ const ProcedureAddModal = ({ opened, onClose }: ProcedureAddModalProps) => {
               .catch(() => setError("Procedura o takiej nazwie istnieje."))
             console.log(new_procedure)
           }}
-          leftIcon={<Plus />}
+          leftIcon={<IconPlus />}
           loading={status === "loading"}
         >
           Utwórz procedure

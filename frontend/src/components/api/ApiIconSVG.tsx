@@ -1,4 +1,4 @@
-import { X } from "tabler-icons-react"
+import { IconX } from "@tabler/icons-react"
 import SVG from "react-inlinesvg"
 import { env } from "../../env/client.mjs"
 import { useMantineTheme } from "@mantine/core"
@@ -46,11 +46,11 @@ const ApiIconSVG = ({
           width={new_size}
           height={new_size}
           onError={(error) => console.log(error.message)}
-          loader={<X color={new_color} size={new_size} />}
+          loader={<IconX color={new_color} size={new_size} />}
           fetchOptions={{ headers: { Authorization: "Bearer " + jwt } }}
         />
       ) : (
-        !noError && <X color={new_color} size={new_size} />
+        !noError && <IconX color={new_color} size={new_size} />
       )}
     </>
   )

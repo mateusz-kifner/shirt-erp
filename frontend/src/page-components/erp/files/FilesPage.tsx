@@ -3,7 +3,7 @@ import { Input, SimpleGrid, Stack } from "@mantine/core"
 import { FileType } from "../../../types/FileType"
 import axios from "axios"
 import { useQuery } from "react-query"
-import { Search } from "tabler-icons-react"
+import { IconSearch } from "@tabler/icons-react"
 import ResponsivePaper from "../../../components/ResponsivePaper"
 import FileDisplay from "./FilesDisplay"
 import { useViewportSize } from "@mantine/hooks"
@@ -36,7 +36,7 @@ const FilesPage = () => {
   return (
     <ResponsivePaper m="xl">
       {/* <FileList value={data}></FileList> */}
-      <Input placeholder="Szukaj" rightSection={<Search />} radius="xl" />
+      <Input placeholder="Szukaj" rightSection={<IconSearch />} radius="xl" />
       <Stack p="xl">
         <SimpleGrid cols={Math.floor((width - 340) / 400)}>
           {data &&

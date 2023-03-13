@@ -11,7 +11,13 @@ import {
   Stack,
   Text,
 } from "@mantine/core"
-import { Affiliate, Bug, Logout, MoonStars, Sun } from "tabler-icons-react"
+import {
+  IconAffiliate,
+  IconBug,
+  IconLogout,
+  IconMoonStars,
+  IconSun,
+} from "@tabler/icons-react"
 import template from "../../../models/test.model.json"
 import Editable from "../../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
@@ -124,7 +130,7 @@ const SettingsPage = () => {
             }}
           >
             <Group>
-              <Logout />
+              <IconLogout />
               Wyloguj
             </Group>
           </Button>
@@ -161,12 +167,12 @@ const SettingsPage = () => {
             <Group>
               {colorScheme === "dark" ? (
                 <>
-                  <Sun size={18} />
+                  <IconSun size={18} />
                   Jasna skórka
                 </>
               ) : (
                 <>
-                  <MoonStars size={18} />
+                  <IconMoonStars size={18} />
                   Ciemna skórka
                 </>
               )}
@@ -178,7 +184,7 @@ const SettingsPage = () => {
             href={"/erp/workstations"}
           >
             <Group>
-              <Affiliate />
+              <IconAffiliate />
               Ustawienia Produkcji
             </Group>
           </Button> */}
@@ -189,7 +195,7 @@ const SettingsPage = () => {
             }}
           >
             <Group>
-              <Bug />
+              <IconBug />
               Debug {debug ? "ON" : "OFF"}
             </Group>
           </Button>
@@ -203,7 +209,7 @@ const SettingsPage = () => {
                 color="yellow"
               >
                 <Group>
-                  <Logout />
+                  <IconLogout />
                   Open Test
                 </Group>
               </Button>
@@ -215,7 +221,7 @@ const SettingsPage = () => {
                 color="red"
               >
                 <Group>
-                  <Bug />
+                  <IconBug />
                   Experimental Navigation {advancedNavigation ? "ON" : "OFF"}
                 </Group>
               </Button>
@@ -227,7 +233,7 @@ const SettingsPage = () => {
                 color="red"
               >
                 <Group>
-                  <Bug />
+                  <IconBug />
                   Experimental Search {search ? "ON" : "OFF"}
                 </Group>
               </Button>

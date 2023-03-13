@@ -4,7 +4,7 @@ import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
 import { SxBorder, SxRadius } from "../../styles/basic"
 import { AddressType } from "../../types/AddressType"
-import { Copy } from "tabler-icons-react"
+import { IconCopy } from "@tabler/icons-react"
 import DisplayCell from "../details/DisplayCell"
 import EditableEnum from "./EditableEnum"
 import EditableText from "./EditableText"
@@ -150,7 +150,7 @@ const EditableAddress = (props: EditableAddressProps) => {
               }}
               tabIndex={-1}
             >
-              <Copy size={16} />
+              <IconCopy size={16} />
             </ActionIcon>
           }
         </>

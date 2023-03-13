@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Paper, ScrollArea, Stack, Sx } from "@mantine/core"
 import { useFocusWithin } from "@mantine/hooks"
 import { forwardRef, ReactNode, SyntheticEvent, useState } from "react"
-import { PinnedOff, Pinned } from "tabler-icons-react"
+import { IconPinnedOff, IconPinned } from "@tabler/icons-react"
 
 interface NavBarProps {
   children: ReactNode
@@ -95,7 +95,7 @@ const NavBar = ({
               }}
               color={independent ? "blue" : undefined}
             >
-              {pin ? <Pinned /> : <PinnedOff />}
+              {pin ? <IconPinned /> : <IconPinnedOff />}
             </ActionIcon>
           </Stack>
         </ScrollArea>

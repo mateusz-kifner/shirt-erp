@@ -1,7 +1,7 @@
 import { Stack, Text, ActionIcon } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useId, useState } from "react"
-import { Refresh } from "tabler-icons-react"
+import { IconRefresh } from "@tabler/icons-react"
 import useStrapi from "../../hooks/useStrapi"
 import DeleteButton from "../DeleteButton"
 import Editable from "../editable/Editable"
@@ -113,7 +113,7 @@ const ApiEntryEditable = <EntryType extends any>({
             }}
             variant="default"
           >
-            <Refresh size={20} />
+            <IconRefresh size={20} />
           </ActionIcon>
         </div>
       )}

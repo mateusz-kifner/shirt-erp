@@ -3,7 +3,7 @@ import { useClipboard, useHover } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState, CSSProperties, useRef } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy } from "tabler-icons-react"
+import { IconCopy } from "@tabler/icons-react"
 import { useTranslation } from "../../i18n"
 import EditableInput from "../../types/EditableInput"
 import { handleBlurForInnerElements } from "../../utils/handleBlurForInnerElements"
@@ -99,7 +99,7 @@ const EditableText = (props: EditableTextProps) => {
                 }}
                 tabIndex={-1}
               >
-                <Copy size={16} />
+                <IconCopy size={16} />
               </ActionIcon>
             )}
           </>

@@ -1,6 +1,6 @@
 import { Loader, MantineSize, ThemeIcon, useMantineTheme } from "@mantine/core"
 import React, { CSSProperties } from "react"
-import { Check, X } from "tabler-icons-react"
+import { IconCheck, IconX } from "@tabler/icons-react"
 const sizes = {
   xs: 30,
   sm: 36,
@@ -33,8 +33,10 @@ const ApiStatusIndicator = ({
           : "#00000000"
       }
     >
-      {status === "success" && <Check size={theme.fn.size({ size, sizes })} />}
-      {status === "error" && <X size={theme.fn.size({ size, sizes })} />}
+      {status === "success" && (
+        <IconCheck size={theme.fn.size({ size, sizes })} />
+      )}
+      {status === "error" && <IconX size={theme.fn.size({ size, sizes })} />}
       {status === "loading" && <Loader />}
     </ThemeIcon>
   )

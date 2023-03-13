@@ -1,7 +1,7 @@
 import { Button, Modal, Stack, Text } from "@mantine/core"
 import { omit } from "lodash"
 import React, { useEffect, useState } from "react"
-import { Plus } from "tabler-icons-react"
+import { IconPlus } from "@tabler/icons-react"
 import EditableApiEntry from "../../../components/editable/EditableApiEntry"
 import EditableText from "../../../components/editable/EditableText"
 import useStrapi from "../../../hooks/useStrapi"
@@ -46,14 +46,12 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
           value={template}
           withErase
           listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
-       
         />
         <EditableText
           label="Nazwa użytkownika"
           onSubmit={setClientName}
           value={clientName}
           required
-      
         />
 
         <Button
@@ -71,7 +69,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
               .then((data) => onClose(data?.data?.id))
               .catch(() => setError("Klient o takiej nazwie istnieje."))
           }}
-          leftIcon={<Plus />}
+          leftIcon={<IconPlus />}
           loading={status === "loading"}
         >
           Utwórz klienta

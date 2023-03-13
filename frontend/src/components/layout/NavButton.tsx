@@ -10,7 +10,7 @@ import {
   Avatar,
   MantineNumberSize,
 } from "@mantine/core"
-import { ChevronRight } from "tabler-icons-react"
+import { IconChevronRight } from "@tabler/icons-react"
 import { NextLink } from "@mantine/next"
 
 interface NavButtonProps {
@@ -85,7 +85,7 @@ export const NavButton = ({
           )}
         </Group>
         {!small && (
-          <ChevronRight
+          <IconChevronRight
             style={{
               transform: active ? "translate(2px,0)" : "translate(-2px,0)",
             }}

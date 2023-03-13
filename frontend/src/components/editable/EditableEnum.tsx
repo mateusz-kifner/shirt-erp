@@ -2,7 +2,7 @@ import { ActionIcon, Input, Select } from "@mantine/core"
 import { useClipboard } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
-import { Copy } from "tabler-icons-react"
+import { IconCopy } from "@tabler/icons-react"
 import { useTranslation } from "../../i18n"
 import EditableInput from "../../types/EditableInput"
 
@@ -56,7 +56,7 @@ const EditableEnum = ({
               }}
               tabIndex={-1}
             >
-              <Copy size={16} />
+              <IconCopy size={16} />
             </ActionIcon>
           </>
         ) : undefined

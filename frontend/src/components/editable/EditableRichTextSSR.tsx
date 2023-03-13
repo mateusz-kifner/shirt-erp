@@ -8,7 +8,7 @@ import {
 import { showNotification } from "@mantine/notifications"
 import { useEffect, useState } from "react"
 import preventLeave from "../../utils/preventLeave"
-import { Copy } from "tabler-icons-react"
+import { IconCopy } from "@tabler/icons-react"
 import DOMPurify from "dompurify"
 import TurndownService from "turndown"
 import { SxRadius } from "../../styles/basic"
@@ -130,7 +130,7 @@ const EditableRichText = ({
                 }}
                 tabIndex={-1}
               >
-                <Copy size={16} />
+                <IconCopy size={16} />
               </ActionIcon>
             )}
           </>
