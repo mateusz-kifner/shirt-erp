@@ -22,7 +22,7 @@ import template from "../../../models/test.model.json"
 import Editable from "../../../components/editable/Editable"
 import { showNotification } from "@mantine/notifications"
 import { useLocalStorage, useColorScheme } from "@mantine/hooks"
-import { NextLink } from "@mantine/next"
+import Link from "next/link"
 import { useAuthContext } from "../../../context/authContext"
 import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
 import { useRouter } from "next/router"
@@ -180,7 +180,7 @@ const SettingsPage = () => {
           </Button>
           {/* <Button
             style={{ width: "100%", color: "#fff" }}
-            component={NextLink}
+            component={Link}
             href={"/erp/workstations"}
           >
             <Group>

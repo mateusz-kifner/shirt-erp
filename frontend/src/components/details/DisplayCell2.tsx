@@ -1,7 +1,6 @@
 import {
   Box,
   createStyles,
-  InputVariant,
   MantineNumberSize,
   MantineSize,
   Sx,
@@ -31,7 +30,7 @@ const useStyles = createStyles(
     }: {
       radius: MantineNumberSize
       size: MantineSize
-      variant: InputVariant
+      variant: string
       rightSectionWidth: number
       withRightSection: boolean
       iconWidth: number
@@ -41,11 +40,11 @@ const useStyles = createStyles(
     const sizeStyles =
       variant === "default" || variant === "filled"
         ? {
-            minHeight: theme.fn.size({ size, sizes }),
-            paddingLeft: theme.fn.size({ size, sizes }) / 3,
+            minHeight: theme.fontSizes[size ?? "md"],
+            paddingLeft: `calc( ${theme.fontSizes[size ?? "md"]} / 3)`,
             paddingRight: withRightSection
               ? rightSectionWidth
-              : theme.fn.size({ size, sizes }) / 3,
+              : `calc( ${theme.fontSizes[size ?? "md"]} / 3)`,
             borderRadius: theme.fn.radius(radius),
           }
         : null
@@ -60,13 +59,13 @@ const useStyles = createStyles(
           ? {}
           : {
               ...theme.fn.fontStyles(),
-              height: theme.fn.size({ size, sizes }),
+              height: theme.fontSizes[size],
               WebkitTapHighlightColor: "transparent",
-              lineHeight: `${theme.fn.size({ size, sizes }) - 2}px`,
+              lineHeight: `calc(${theme.fontSizes[size]} - 2px)`,
               appearance: "none",
               resize: "none",
               boxSizing: "border-box",
-              fontSize: theme.fn.size({ size, sizes: theme.fontSizes }),
+              fontSize: theme.fontSizes[size],
               width: "100%",
               color:
                 theme.colorScheme === "dark"
@@ -170,9 +169,7 @@ const useStyles = createStyles(
 
       withIcon: {
         paddingLeft:
-          typeof iconWidth === "number"
-            ? iconWidth
-            : theme.fn.size({ size, sizes }),
+          typeof iconWidth === "number" ? iconWidth : theme.fontSizes[size],
       },
 
       invalid: {
@@ -210,9 +207,7 @@ const useStyles = createStyles(
         alignItems: "center",
         justifyContent: "center",
         width:
-          typeof iconWidth === "number"
-            ? iconWidth
-            : theme.fn.size({ size, sizes }),
+          typeof iconWidth === "number" ? iconWidth : theme.fontSizes[size],
         color:
           theme.colorScheme === "dark"
             ? theme.colors.dark[2]
@@ -240,7 +235,7 @@ interface DisplayCellProps {
   rightSectionWidth?: number
   rightSectionProps?: React.ComponentPropsWithoutRef<"div">
   radius?: MantineNumberSize
-  variant?: InputVariant
+  variant?: string
   size?: MantineSize
   className?: string
   sx?: Sx

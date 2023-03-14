@@ -1,13 +1,7 @@
 import { Loader, MantineSize, ThemeIcon, useMantineTheme } from "@mantine/core"
 import React, { CSSProperties } from "react"
 import { IconCheck, IconX } from "@tabler/icons-react"
-const sizes = {
-  xs: 30,
-  sm: 36,
-  md: 42,
-  lg: 50,
-  xl: 60,
-}
+
 interface ApiStatusIndicatorProps {
   status: "loading" | "idle" | "error" | "success"
   style: CSSProperties
@@ -34,9 +28,9 @@ const ApiStatusIndicator = ({
       }
     >
       {status === "success" && (
-        <IconCheck size={theme.fn.size({ size, sizes })} />
+        <IconCheck size={theme.fontSizes[size ?? "md"]} />
       )}
-      {status === "error" && <IconX size={theme.fn.size({ size, sizes })} />}
+      {status === "error" && <IconX size={theme.fontSizes[size ?? "md"]} />}
       {status === "loading" && <Loader />}
     </ThemeIcon>
   )

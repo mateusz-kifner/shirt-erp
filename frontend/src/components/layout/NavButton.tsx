@@ -11,7 +11,7 @@ import {
   MantineNumberSize,
 } from "@mantine/core"
 import { IconChevronRight } from "@tabler/icons-react"
-import { NextLink } from "@mantine/next"
+import Link from "next/link"
 
 interface NavButtonProps {
   label: string
@@ -59,7 +59,7 @@ export const NavButton = ({
               : theme.colors.gray[0],
         },
       })}
-      component={NextLink}
+      component={Link}
       href={to}
       onClick={onClick}
     >

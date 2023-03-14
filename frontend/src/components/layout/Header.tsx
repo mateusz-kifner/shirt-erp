@@ -8,10 +8,10 @@ import {
 } from "@mantine/core"
 import { useSpotlight } from "@mantine/spotlight"
 import { IconSearch, IconSettings } from "@tabler/icons-react"
-import { NextLink } from "@mantine/next"
 import { useAuthContext } from "../../context/authContext"
 import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
 import Notifications from "../Notifications"
+import Link from "next/link"
 
 interface HeaderProps {}
 
@@ -84,7 +84,7 @@ const Header = (props: HeaderProps) => {
             <ActionIcon
               size="lg"
               radius="xl"
-              component={NextLink}
+              component={Link}
               href="/erp/settings"
               color={theme.colorScheme === "dark" ? "gray" : "dark"}
               variant={theme.colorScheme === "dark" ? "default" : "filled"}

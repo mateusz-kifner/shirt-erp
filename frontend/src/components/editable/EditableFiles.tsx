@@ -150,10 +150,7 @@ const EditableFiles = (props: EditableFilesProps) => {
           opened={previewOpened}
           onClose={() => setPreviewOpened(false)}
           styles={{
-            modal: {
-              maxWidth: "80vw",
-              width: previewWidth ?? undefined,
-            },
+            body: { maxWidth: "80vw", width: previewWidth ?? undefined },
           }}
         >
           <Image src={preview} alt="" />

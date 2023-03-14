@@ -131,7 +131,7 @@ const TasksList = ({
       />
       <Pagination
         total={Math.ceil(filteredOrders.length / pageSize)}
-        initialPage={1}
+        defaultValue={1}
         size="lg"
         radius="xl"
         position="center"

@@ -13,11 +13,11 @@ import {
 } from "@mantine/core"
 import { ReactNode, useEffect, useState } from "react"
 import {
-  Plus,
-  Refresh,
-  Search,
-  SortAscending,
-  SortDescending,
+  IconPlus,
+  IconRefresh,
+  IconSearch,
+  IconSortAscending,
+  IconSortDescending,
 } from "@tabler/icons-react"
 import useStrapiList from "../../hooks/useStrapiList"
 
@@ -135,7 +135,7 @@ const ApiList = <T extends any>({
                 onRefresh?.()
               }}
             >
-              <Refresh />
+              <IconRefresh />
             </ActionIcon>
             {showAddButton && (
               <ActionIcon
@@ -144,7 +144,7 @@ const ApiList = <T extends any>({
                 variant="default"
                 onClick={onAddElement}
               >
-                <Plus />
+                <IconPlus />
               </ActionIcon>
             )}
           </Group>
@@ -157,11 +157,15 @@ const ApiList = <T extends any>({
               variant="default"
               onClick={() => toggleSortOrder()}
             >
-              {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
+              {sortOrder === "asc" ? (
+                <IconSortAscending />
+              ) : (
+                <IconSortDescending />
+              )}
             </ActionIcon>
           </Group>
           {/* <Autocomplete
-            placeholder="Search"
+            placeholder="Icon"
             radius="xl"
             // size="md"
             icon={<Search />}
@@ -177,7 +181,7 @@ const ApiList = <T extends any>({
             defaultValue={defaultSearch}
             onChange={(value) => setQuery(value.target.value)}
             radius="xl"
-            icon={<Search />}
+            icon={<IconSearch />}
             style={{ flexGrow: 1 }}
           />
         </Group>
@@ -210,7 +214,7 @@ const ApiList = <T extends any>({
       </Stack>
       <Pagination
         total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
-        initialPage={meta?.pagination?.page ? meta.pagination.page : 1}
+        defaultValue={meta?.pagination?.page ? meta.pagination.page : 1}
         size="lg"
         radius="xl"
         position="center"

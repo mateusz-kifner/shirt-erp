@@ -5,13 +5,6 @@ import { SxBorder, SxRadius } from "../../styles/basic"
 // FIXME: make DisplayCell icon respect position
 // FIXME: replace it with "mantine" DisplayCell
 
-const sizes = {
-  xs: 30,
-  sm: 36,
-  md: 42,
-  lg: 50,
-  xl: 60,
-}
 interface DisplayCellProps {
   icon?: ReactNode
   iconWidth?: number
@@ -83,7 +76,7 @@ const DisplayCell = (props: DisplayCellProps) => {
             width:
               typeof iconWidth === "number"
                 ? iconWidth
-                : theme.fn.size({ size: size ?? 42, sizes }),
+                : theme.fontSizes[size ?? "md"],
             color:
               theme.colorScheme === "dark"
                 ? theme.colors.dark[2]

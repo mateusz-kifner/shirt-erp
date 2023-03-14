@@ -65,7 +65,7 @@ const FileDisplay = (props: FileDisplayProps) => {
             top: "50%",
             left: 0,
             width: "100%",
-            gap: theme.spacing.xs / 2,
+            gap: `calc(${theme.spacing.xs} / 2)`,
             transform: "translate(0,-50%)",
           })}
         >
