@@ -63,9 +63,7 @@ const EmailMessageListItem = ({
               position="bottom-end"
               disabled={value?.orders?.length === 0}
               label={value?.orders?.length}
-              showZero={false}
               size={18}
-              dot={false}
               color="indigo"
               styles={{
                 indicator: {

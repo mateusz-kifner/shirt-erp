@@ -11,11 +11,11 @@ import {
 } from "@mantine/core"
 import { useEffect, useState } from "react"
 import {
-  Plus,
-  Refresh,
-  Search,
-  SortAscending,
-  SortDescending,
+  IconPlus,
+  IconRefresh,
+  IconSearch,
+  IconSortAscending,
+  IconSortDescending,
 } from "@tabler/icons-react"
 import useStrapiList from "../../../hooks/useStrapiList"
 
@@ -122,7 +122,7 @@ const EmailMessagesList = <T extends any>({
                   .catch((err) => console.log(err))
               }}
             >
-              <Refresh />
+              <IconRefresh />
             </ActionIcon>
             {/* {showAddButton && (
               <ActionIcon
@@ -144,7 +144,7 @@ const EmailMessagesList = <T extends any>({
               variant="default"
               onClick={() => toggleSortOrder()}
             >
-              {sortOrder === "asc" ? <SortAscending /> : <SortDescending />}
+              {sortOrder === "asc" ? <IconSortAscending /> : <IconSortDescending />}
             </ActionIcon>
           </Group>
           {/* <Autocomplete
@@ -164,7 +164,7 @@ const EmailMessagesList = <T extends any>({
             defaultValue={""}
             onChange={(value) => setQuery(value.target.value)}
             radius="xl"
-            icon={<Search />}
+            icon={<IconSearch />}
             style={{ flexGrow: 1 }}
           />
         </Group>
@@ -194,7 +194,7 @@ const EmailMessagesList = <T extends any>({
       </Stack>
       <Pagination
         total={meta?.pagination?.pageCount ? meta.pagination.pageCount : 1}
-        initialPage={meta?.pagination?.page ? meta.pagination.page : 1}
+        defaultValue={meta?.pagination?.page ? meta.pagination.page : 1}
         size="lg"
         radius="xl"
         position="center"
