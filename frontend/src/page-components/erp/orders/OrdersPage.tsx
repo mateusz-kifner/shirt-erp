@@ -87,7 +87,7 @@ const OrdersPage: NextPage = () => {
 
   const { t } = useTranslation()
   const metadata = data
-    ? data.products.reduce(
+    ? data.products?.reduce(
         (prev, next) => ({
           ...prev,
           [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },

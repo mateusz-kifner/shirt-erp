@@ -1,5 +1,4 @@
 import { Group, Input, useMantineTheme, Text, ActionIcon } from "@mantine/core"
-import { DatePicker, TimeInput } from "@mantine/dates"
 import { useClickOutside, useClipboard, useMediaQuery } from "@mantine/hooks"
 import { showNotification } from "@mantine/notifications"
 import dayjs from "dayjs"
@@ -117,28 +116,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       ref={ref}
     >
       {active ? (
-        <Group grow>
-          <DatePicker
-            // {...new_props}
-            // placeholder={placeholder ? placeholder : "---"}
-            onChange={(val) => {
-              val && setDate(val)
-            }}
-            value={date}
-          />
-          <TimeInput
-            // {...new_props}
-            onChange={(val) => {
-              val && setDate(val)
-            }}
-            value={date}
-            styles={{
-              timeInput: { opacity: 1 },
-              input: { opacity: 1 },
-              wrapper: { opacity: "1 !important" },
-            }}
-          />
-        </Group>
+        <Group grow>{/* TODO */}</Group>
       ) : (
         <Group
           spacing="xs"

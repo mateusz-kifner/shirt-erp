@@ -32,7 +32,6 @@ const EditableText = (props: EditableTextProps) => {
   const textRef = useRef<HTMLTextAreaElement>(null)
   const { hovered, ref } = useHover()
   const { t } = useTranslation()
-
   useEffect(() => {
     if (focus) {
       window.addEventListener("beforeunload", preventLeave)
@@ -40,7 +39,7 @@ const EditableText = (props: EditableTextProps) => {
         (textRef.current.selectionStart = textRef.current.value.length)
       textRef.current && textRef.current.focus()
     } else {
-      if (text !== value) {
+      if (text !== (value ?? "")) {
         onSubmit?.(text)
       }
       window.removeEventListener("beforeunload", preventLeave)
@@ -50,7 +49,7 @@ const EditableText = (props: EditableTextProps) => {
 
   useEffect(() => {
     return () => {
-      if (text !== value) {
+      if (text !== (value ?? "")) {
         onSubmit?.(text)
       }
       window.removeEventListener("beforeunload", preventLeave)

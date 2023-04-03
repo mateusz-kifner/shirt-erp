@@ -98,7 +98,6 @@ const SettingsPage = () => {
 
   const [previewOpened, setPreviewOpened] = useState<boolean>(false)
   const [preview, setPreview] = useState<string>("")
-  const [active, setActive] = useState<boolean>(false)
 
   return (
     <Container size="xs" px="xs" my="xl">
@@ -107,9 +106,6 @@ const SettingsPage = () => {
         onClose={() => setTestFormVisible(false)}
         size="xl"
       >
-        <Button onClick={() => setActive((val) => !val)}>
-          {active ? "unlocked" : "locked"}
-        </Button>
         <Editable
           template={template}
           data={testData}
