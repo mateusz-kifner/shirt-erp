@@ -7,15 +7,9 @@
     "build": "next build",
     "prod": "next start",
     "lint": "next lint",
-    "build-prod": "next build",
-    "develop:backend": "yarn --cwd backend develop",
-    "develop:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend develop",
-    "prod:backend": "yarn --cwd backend prod",
-    "prod:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend prod",
-    "install": "yarn --cwd backend install && yarn --cwd frontend install && yarn --cwd backend build",
     "enable_hidden_windows": "yarn add node-hide-console-window",
     "prod_hidden": "node ./hide_cmd.js && yarn prod",
-    "clean": "rm -dr node_modules && rm -dr frontend/node_modules && rm -dr backend/node_modules",
+    "clean": "rm -dr node_modules",
     "node_version": "node --version"
   },
   "dependencies": {
