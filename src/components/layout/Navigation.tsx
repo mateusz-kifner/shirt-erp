@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import NavButton from "@/components/layout/NavButton";
 import { useUserContext } from "@/context/userContext";
-import navigationData from "@/navigationData";
+import navigationData from "./navigationData";
 
 function Navigation() {
   const router = useRouter();
