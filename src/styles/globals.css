@@ -1,73 +1,127 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+html,
+body {
+  @apply preload bg-gray-200 text-stone-950 dark:bg-stone-950 dark:text-stone-200;
+  scrollbar-width: thin;
+  scrollbar-color: #a8a29e #e5e7eb;
+}
+
+body,
+.dark body {
+  overflow-y: scroll;
+}
+
+html.dark,
+.dark body {
+  scrollbar-width: thin;
+  scrollbar-color: #44403c #0c0a09;
+}
+
+.preload * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* ::-webkit-scrollbar:hover {
+  width: auto;
+  height: auto;
+} */
+
+body::-webkit-scrollbar {
+  background-color: #e5e7eb;
+}
+
+.dark body::-webkit-scrollbar {
+  background-color: #0c0a09;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #a8a29e;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #44403c;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
- 
+
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
- 
+
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
- 
+
     --card: 0 0% 100%;
     --card-foreground: 20 14.3% 4.1%;
- 
+
     --border: 20 5.9% 90%;
     --input: 20 5.9% 90%;
- 
+
     --primary: 24 9.8% 10%;
     --primary-foreground: 60 9.1% 97.8%;
- 
+
     --secondary: 60 4.8% 95.9%;
     --secondary-foreground: 24 9.8% 10%;
- 
+
     --accent: 60 4.8% 95.9%;
     --accent-foreground: 24 9.8% 10%;
- 
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 60 9.1% 97.8%;
- 
+
     --ring: 24 5.4% 63.9%;
- 
+
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
- 
+
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
- 
+
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
- 
+
     --card: 20 14.3% 4.1%;
     --card-foreground: 60 9.1% 97.8%;
- 
+
     --border: 12 6.5% 15.1%;
     --input: 12 6.5% 15.1%;
- 
+
     --primary: 60 9.1% 97.8%;
     --primary-foreground: 24 9.8% 10%;
- 
+
     --secondary: 12 6.5% 15.1%;
     --secondary-foreground: 60 9.1% 97.8%;
- 
+
     --accent: 12 6.5% 15.1%;
     --accent-foreground: 60 9.1% 97.8%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
- 
+
     --ring: 12 6.5% 15.1%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
@@ -75,4 +129,402 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .button {
+    @apply inline-flex
+      h-10 
+      select-none 
+      items-center 
+      justify-center
+      gap-3 rounded-md 
+      px-4 py-0 
+      font-semibold  
+      no-underline 
+      outline-offset-4
+      transition-all 
+      duration-75 
+      focus-visible:outline-sky-600 
+      disabled:pointer-events-none 
+      disabled:bg-gray-700;
+  }
+
+  .button-primary {
+    @apply bg-blue-600
+      stroke-gray-200 
+      text-gray-200
+      hover:bg-blue-700
+      active:hover:translate-y-0.5
+      active:focus:translate-y-0.5;
+  }
+
+  .button-outline {
+    @apply border 
+    border-solid 
+    border-gray-400 
+    stroke-stone-600  
+    text-stone-600
+    hover:bg-gray-200
+    dark:border-stone-600
+  dark:stroke-gray-200
+    dark:text-gray-200
+    dark:hover:bg-neutral-700;
+  }
+
+  .action-button-group > .action-button {
+    @apply rounded-none;
+  }
+
+  .action-button-group > .action-button {
+    @apply rounded-none
+    border-b
+    border-l
+    border-r-0
+    border-t
+    border-solid
+    border-stone-400
+    first:rounded-l-md
+    last:rounded-r-md
+    last:border-r
+    dark:border-stone-600;
+  }
+
+  .action-button {
+    @apply animate-pop
+      inline-flex
+      h-8
+      w-8
+      select-none 
+      items-center
+      justify-center
+      gap-3
+      rounded-md 
+      border-2
+      border-solid
+      border-transparent
+      font-semibold
+      uppercase
+      text-stone-800 
+      no-underline
+      outline-none
+      outline-offset-4
+      transition-all
+      hover:bg-gray-200
+      focus-visible:border-sky-600
+      active:border-blue-600
+      active:hover:translate-y-0.5
+      active:focus:translate-y-0.5
+      disabled:animate-none
+      disabled:opacity-30
+      disabled:outline-none
+      disabled:hover:bg-transparent 
+      dark:border-solid  
+      dark:border-transparent 
+      dark:text-stone-200
+      dark:outline-none 
+      dark:hover:bg-neutral-700
+      dark:focus-visible:border-sky-600
+      dark:active:border-blue-600
+      dark:disabled:animate-none
+      dark:disabled:opacity-30
+      dark:disabled:outline-none
+      dark:disabled:hover:bg-transparent
+      dark:disabled:active:hover:scale-100
+      dark:disabled:active:focus:scale-100;
+  }
+}
+
+/* react-calendar styles */
+
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.125em;
+}
+
+.react-calendar--doubleView {
+  width: 700px;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer {
+  display: flex;
+  margin: -0.5em;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer > * {
+  width: 50%;
+  margin: 0.5em;
+}
+
+.react-calendar,
+.react-calendar *,
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.react-calendar button {
+  margin: 0;
+  border: 0;
+  outline: none;
+}
+
+.react-calendar button:enabled:hover {
+  cursor: pointer;
+}
+
+.react-calendar__navigation {
+  display: flex;
+  height: 44px;
+  margin-bottom: 1em;
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: none;
+}
+
+.react-calendar__navigation button:disabled {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark .react-calendar__navigation button:disabled {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark .react-calendar__navigation button:enabled:hover,
+.dark .react-calendar__navigation button:enabled:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.75em;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  padding: 0.5em;
+}
+
+.react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none !important;
+}
+
+.react-calendar__month-view__weekNumbers .react-calendar__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: #b91c1c;
+}
+
+.dark .react-calendar__month-view__days__day--weekend {
+  color: #ef4444;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  color: #757575;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+  padding: 1em 0.5em;
+}
+
+.react-calendar__tile {
+  max-width: 100%;
+  padding: 10px 6.6667px;
+  background: none;
+  text-align: center;
+  line-height: 16px;
+  transition: all 50ms;
+}
+
+.react-calendar__tile:disabled {
+  background-color: #f0f0f0;
+}
+.dark .react-calendar__tile:disabled {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark .react-calendar__tile:enabled:hover,
+.dark .react-calendar__tile:enabled:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.react-calendar__tile--now {
+  background: #ffff76;
+}
+.dark .react-calendar__tile--now {
+  background: #a16207;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark .react-calendar__tile--now:enabled:hover,
+.dark .react-calendar__tile--now:enabled:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.react-calendar__tile--hasActive {
+  background: #76baff;
+}
+
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #a9d4ff;
+}
+
+.react-calendar__tile--active {
+  background: #006edc;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #1087ff;
+}
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark .react-calendar--selectRange .react-calendar__tile--hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark .react-calendar__tile--active:enabled:hover,
+.dark .react-calendar__tile--active:enabled:focus {
+  background: #1087ff;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltip-text {
+  visibility: hidden;
+  text-align: center;
+  padding: 5px 8px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 100;
+  white-space: nowrap;
+  word-break: keep-all;
+  transition: opacity 150ms ease-in-out 400ms, visibility 0ms 400ms;
+  opacity: 0;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip .tooltip-text-right {
+  top: -5px;
+  left: 105%;
+}
+
+.tooltip .tooltip-text-left {
+  top: -5px;
+  right: 105%;
+}
+
+.tooltip .tooltip-text-top-start {
+  bottom: 100%;
+  left: 0;
+}
+.tooltip .tooltip-text-top-center {
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.tooltip .tooltip-text-top-end {
+  bottom: 100%;
+  right: 0;
+}
+
+.tooltip .tooltip-text-bottom-start {
+  top: 100%;
+  left: 0;
+}
+
+.tooltip .tooltip-text-bottom-center {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.tooltip .tooltip-text-bottom-end {
+  top: 100%;
+  right: 0;
+}
+
+.editor > h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.editor > h2 {
+  font-size: 1.75em;
+  font-weight: bold;
+}
+
+.editor > h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.editor > h4 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.editor > h5 {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.editor > h6 {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.plain-html a,
+.plain-html a:visited,
+.plain-html a:link {
+  text-decoration: none;
+  color: #4dabf7;
+}
+
+.plain-html a:hover {
+  text-decoration: underline;
 }
