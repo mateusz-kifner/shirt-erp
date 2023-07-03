@@ -1,63 +1,190 @@
-import { ComponentType, CSSProperties } from "react"
-import { Box, MantineTheme, Sx, Text } from "@mantine/core"
-import NotImplemented from "../NotImplemented"
-import { useId } from "@mantine/hooks"
-import { useAuthContext } from "../../context/authContext"
-import { SxBorder, SxRadius } from "../../styles/basic"
+import type { ComponentType, CSSProperties } from "react";
 
-// Editable imports
-import EditableText from "./EditableText"
-import EditableRichText from "./EditableRichText"
-import EditableDateTime from "./EditableDateTime"
-import EditableDate from "./EditableDate"
-import EditableBool from "./EditableBool"
-import EditableColor from "./EditableColor"
-import EditableEnum from "./EditableEnum"
-import EditableJSON from "./EditableJSON"
-import EditableApiIconId from "./EditableApiIconId"
-import EditableAddress from "./EditableAddress"
-import EditableFiles from "./EditableFiles"
-import EditableArray from "./EditableArray"
-import EditableApiEntry from "./EditableApiEntry"
-import EditableApiEntryId from "./EditableApiEntryId"
-import EditableTable from "./EditableTable"
-import EditableDesign from "./EditableDesign"
-import EditableTableView from "./EditableTableView"
-
+import { useId } from "@mantine/hooks";
 import {
   IconBuildingCommunity,
   IconCalendar,
   IconCash,
   IconNumbers,
-} from "@tabler/icons-react"
-import apiListItems from "./apiListItems"
-import { makeDefaultListItem } from "../DefaultListItem"
+} from "@tabler/icons-react";
+
+// Editable imports
+import EditableAddress from "@/components/editable/EditableAddress";
+import EditableApiEntry from "@/components/editable/EditableApiEntry";
+import EditableApiEntryId from "@/components/editable/EditableApiEntryId";
+import EditableApiIconId from "@/components/editable/EditableApiIconId";
+import EditableArray from "@/components/editable/EditableArray";
+import EditableColor from "@/components/editable/EditableColor";
+import EditableDate from "@/components/editable/EditableDate";
+import EditableDateTime from "@/components/editable/EditableDateTime";
+import EditableEnum from "@/components/editable/EditableEnum";
+import EditableFiles from "@/components/editable/EditableFiles";
+import EditableJSON from "@/components/editable/EditableJSON";
+import EditableRichText from "@/components/editable/EditableRichText";
+import EditableSwitch from "@/components/editable/EditableSwitch";
+import EditableText from "@/components/editable/EditableText";
+
+import apiListItems from "@/components/editable/apiListItems";
+import NotImplemented from "@/components/NotImplemented";
+import { useUserContext } from "@/context/userContext";
+import { makeDefaultListItem } from "../DefaultListItemWithValue";
+import EditableNumber from "./EditableNumber";
+import EditableShortText from "./EditableShortText";
+
+interface BaseTemplateType<TName, TValue = string> {
+  label: string;
+  type: TName;
+  initialValue?: TValue;
+  required?: boolean;
+  disabled?: boolean;
+  helpTooltip?: string;
+}
+
+type TemplateStringType = BaseTemplateType<"text" | "title" | "richtext"> & {
+  maxLength: number;
+};
+
+type TemplateDateType = BaseTemplateType<"datetime" | "date">;
+
+type TemplateNumberType = BaseTemplateType<"number", number> & {
+  min: number;
+  increment: number;
+  fixed: number;
+};
+
+type TemplateArrayType = BaseTemplateType<"array", any[]> & {
+  arrayType: "title" | "text" | "apiEntry" | "datetime" | "date";
+};
+
+type TemplateApiEntryType = BaseTemplateType<"apiEntry", any> & {
+  entryName: string;
+  linkEntry?: boolean;
+  allowClear?: boolean;
+  onSubmitTrigger?: (
+    key: string,
+    entryData: any, // Data of this entry
+    inputData: any, // Additional data
+    onSubmit: (key: string, value: any, data: any) => void
+  ) => void;
+};
+
+type TemplateAddressType = {
+  type: "address";
+  label: {
+    streetName: string;
+    streetNumber: string;
+    apartmentNumber: string;
+    secondLine: string;
+    city: string;
+    province: string;
+    postCode: string;
+    name: string;
+  };
+  initialValue: {
+    streetName: string;
+    streetNumber: string;
+    apartmentNumber: string;
+    secondLine: string;
+    city: string;
+    province: string;
+    postCode: string;
+  };
+  allowClear?: boolean;
+};
+
+type TemplateFilesType = BaseTemplateType<"files", any[]> & {
+  maxFileCount: number;
+};
+
+type TemplateEnumType = BaseTemplateType<"enum", string> & {
+  enum_data: string[];
+};
+
+type TemplateBooleanType = BaseTemplateType<"boolean", boolean> & {
+  children: { checked: string; unchecked: string };
+};
+
+type TemplateIdType = { type: "id" };
+
+type TemplateType =
+  | TemplateStringType
+  | TemplateNumberType
+  | TemplateDateType
+  | TemplateEnumType
+  | TemplateAddressType
+  | TemplateApiEntryType
+  | TemplateBooleanType
+  | TemplateApiEntryType
+  | TemplateArrayType
+  | TemplateFilesType
+  | TemplateIdType;
+
+type DataType =
+  | (TemplateStringType & { value: string })
+  | (TemplateNumberType & { value: number })
+  | (TemplateDateType & { value: string })
+  | (TemplateEnumType & { value: string })
+  | (TemplateAddressType & {
+      value: {
+        streetName: string;
+        streetNumber: string;
+        apartmentNumber: string;
+        secondLine: string;
+        city: string;
+        province: string;
+        postCode: string;
+      };
+    })
+  | (TemplateApiEntryType & { value: any })
+  | (TemplateBooleanType & { value: boolean })
+  | (TemplateArrayType & { value: any[] })
+  | (TemplateFilesType & { value: any[] });
+
+type TemplateSimpleTypePropertyType =
+  | "title"
+  | "text"
+  | "apiEntry"
+  | "datetime"
+  | "date"
+  | "richtext"
+  | "number"
+  | "enum"
+  | "files";
+
+type TemplateTypePropertyType = Extract<
+  TemplateSimpleTypePropertyType | "array" | "group",
+  string
+>;
 
 export type editableFields = {
   [key: string]: {
-    component: ComponentType<any>
-    props: { [index: string]: any }
+    component: ComponentType<any>;
+    props: { [index: string]: any };
     propsTransform?: (props: { [index: string]: any }) => {
-      [index: string]: any
-    }
-  }
-}
+      [index: string]: any;
+    };
+  };
+};
 
 const editableFields: editableFields = {
   title: {
-    component: EditableText,
+    component: EditableShortText,
     props: { style: { fontSize: "1.4em" } },
   },
   text: { component: EditableText, props: {} },
+  numberText: {
+    component: EditableShortText,
+    props: { leftSection: <IconNumbers size={18} /> },
+  },
   richtext: { component: EditableRichText, props: {} },
   number: {
-    component: EditableText,
+    component: EditableNumber,
     props: { leftSection: <IconNumbers size={18} /> },
   },
   money: {
-    component: EditableText,
+    component: EditableShortText,
     props: {
-      rightSection: <Text pr="sm">PLN</Text>,
+      rightSection: <div className="pr-2">PLN</div>,
       leftSection: <IconCash size={18} />,
     },
   },
@@ -66,7 +193,7 @@ const editableFields: editableFields = {
     component: EditableDate,
     props: { leftSection: <IconCalendar size={18} /> },
   },
-  boolean: { component: EditableBool, props: {} },
+  switch: { component: EditableSwitch, props: {} },
   color: { component: EditableColor, props: {} },
   enum: { component: EditableEnum, props: {} },
   json: { component: EditableJSON, props: {} },
@@ -78,119 +205,131 @@ const editableFields: editableFields = {
   file: { component: EditableFiles, props: { maxCount: 1 } },
   image: { component: EditableFiles, props: { maxCount: 1 } },
   files: { component: EditableFiles, props: {} },
-  table: { component: EditableTable, props: {} },
-  tableView: { component: EditableTableView, props: {} },
-  design: { component: EditableDesign, props: {} },
-  designView: { component: EditableDesign, props: {} },
   apiEntry: {
     component: EditableApiEntry,
     props: {},
     propsTransform: (props) => {
-      let newProps = { ...props }
+      const newProps = { ...props };
       if (props.entryName in apiListItems) {
-        newProps["Element"] = apiListItems[props.entryName].ListItem
-        newProps["copyProvider"] = apiListItems[props.entryName].copyProvider
+        newProps["Element"] =
+          apiListItems[props.entryName as keyof typeof apiListItems].ListItem;
+        newProps["copyProvider"] =
+          apiListItems[
+            props.entryName as keyof typeof apiListItems
+          ].copyProvider;
       } else {
-        newProps["Element"] = makeDefaultListItem("name")
+        newProps["Element"] = makeDefaultListItem("name");
       }
-      return newProps
+      return newProps;
     },
   },
   apiEntryId: {
     component: EditableApiEntryId,
     props: {},
     propsTransform: (props) => {
-      let newProps = { ...props }
+      const newProps = { ...props };
       if (props.entryName in apiListItems) {
-        newProps["Element"] = apiListItems[props.entryName].ListItem
-        newProps["copyProvider"] = apiListItems[props.entryName].copyProvider
+        newProps["Element"] =
+          apiListItems[props.entryName as keyof typeof apiListItems].ListItem;
+        newProps["copyProvider"] =
+          apiListItems[
+            props.entryName as keyof typeof apiListItems
+          ].copyProvider;
       } else {
-        newProps["Element"] = makeDefaultListItem("name")
+        newProps["Element"] = makeDefaultListItem("name");
       }
-      return newProps
+      return newProps;
     },
   },
   group: {
     component: EditableWrapper,
     props: {
-      sx: [
-        SxBorder,
-        SxRadius,
-        (theme: MantineTheme) => ({
-          padding: theme.spacing.xs,
-          display: "flex",
-          gap: theme.spacing.xs,
-          "&>*": { flex: "1" },
-        }),
-      ],
+      // sx: [
+      //   SxBorder,
+      //   SxRadius,
+      //   (theme: MantineTheme) => ({
+      //     padding: theme.spacing.xs,
+      //     display: "flex",
+      //     gap: theme.spacing.xs,
+      //     "&>*": { flex: "1" },
+      //   }),
+      // ],
     },
     propsTransform: (props) => {
-      let newProps = {
+      const newProps = {
         ...props,
         data: props.value ?? {},
         onSubmit: (key: string, value: any, data: any) => {
-          console.log("group submit", key, value, data)
-          props.onSubmit({ ...data, [key]: value })
+          console.log("group submit", key, value, data);
+          props.onSubmit({ ...data, [key]: value });
         },
-      }
+      };
 
-      return newProps
+      return newProps;
     },
   },
   array: {
     component: EditableArray,
     props: {},
     propsTransform: (props) => {
-      let newProps = {
+      const newProps = {
         ...props,
         Element: Field,
         elementProps: {
           ...props,
           type: props.arrayType,
         },
-      }
-      return newProps
+      };
+      return newProps;
     },
   },
-}
+};
 
-function Field(props: any) {
-  let newProps = { ...editableFields[props.type].props, ...props }
-  if (editableFields[props.type].propsTransform) {
-    newProps = editableFields[props.type]?.propsTransform?.(newProps)
+function Field(props: { [index: string]: any }) {
+  let newProps = {
+    ...editableFields[props.type as keyof typeof editableFields]!.props,
+    ...props,
+  };
+  if (
+    editableFields[props.type as keyof typeof editableFields]!.propsTransform
+  ) {
+    newProps =
+      editableFields[props.type as keyof typeof editableFields]!
+        .propsTransform!(newProps);
   }
-  const Component = editableFields[props.type].component
-  return <Component {...newProps} />
+  const Component =
+    editableFields[props.type as keyof typeof editableFields]!.component;
+  return <Component {...newProps} type={undefined} />;
 }
 
 function EditableWrapper(
-  props: EditableProps & { style?: CSSProperties; sx?: Sx | (Sx | undefined)[] }
+  props: EditableProps & { style?: CSSProperties; className: string }
 ) {
   return (
-    <Box style={props.style} sx={props.sx}>
+    <div style={props.style} className={props.className}>
       <Editable {...props} />
-    </Box>
-  )
+    </div>
+  );
 }
 
 interface EditableProps {
-  template: { [key: string]: any }
-  data: { [key: string]: any }
-  onSubmit?: (key: string, value: any, data: any) => void
-  disabled?: boolean
+  template: { [key: string]: any };
+  data: { [key: string]: any };
+  onSubmit?: (key: string, value: any, data: any) => void;
+  disabled?: boolean;
 }
 
 function Editable({ template, data, onSubmit, disabled }: EditableProps) {
-  const { debug } = useAuthContext()
-  const uuid = useId()
+  const { debug } = useUserContext();
+  const uuid = useId();
   return (
     <>
       {Object.keys(template).map((key) => {
         if (debug && key === "id")
-          return <Text key={uuid + key}>ID: {data[key]}</Text>
+          return <div key={uuid + key}>ID: {data[key]}</div>;
 
         const onSubmitEntry = (value: any) => {
-          onSubmit?.(key, value, data)
+          onSubmit?.(key, value, data);
           onSubmit &&
             template[key].onSubmitTrigger &&
             template[key].onSubmitTrigger(
@@ -198,10 +337,10 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
               value,
               data,
               (key: string, value: any, data: any) => {
-                onSubmit(key, value, data)
+                onSubmit(key, value, data);
               }
-            )
-        }
+            );
+        };
 
         if (debug && !(key in template))
           return (
@@ -211,9 +350,9 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
               value={data[key]}
               key={uuid + key}
             />
-          )
+          );
 
-        const component_type = template[key].type
+        const component_type = template[key].type;
         if (component_type in editableFields) {
           return (
             <Field
@@ -224,7 +363,7 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
               onSubmit={onSubmitEntry}
               key={uuid + key}
             />
-          )
+          );
         }
         if (debug) {
           return (
@@ -235,12 +374,12 @@ function Editable({ template, data, onSubmit, disabled }: EditableProps) {
               template={template[key]}
               key={uuid + key}
             />
-          )
+          );
         }
-        return null
+        return null;
       })}
     </>
-  )
+  );
 }
 
-export default Editable
+export default Editable;

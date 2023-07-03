@@ -1,12 +1,14 @@
-import { Button, Group, Input, Modal, SimpleGrid, Stack } from "@mantine/core"
-import { useEffect, useId, useState } from "react"
-import { IconX } from "@tabler/icons-react"
-import { useIconsContext } from "../../context/iconsContext"
-import EditableInput from "../../types/EditableInput"
-import ApiIconSVG from "../api/ApiIconSVG"
+import { useEffect, useId, useState } from "react";
+
+import { IconX } from "@tabler/icons-react";
+
+import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
+
+import type EditableInput from "@/types/EditableInput";
 
 interface EditableApiIconIdProps extends EditableInput<number> {
-  entryName?: string
+  entryName?: string;
 }
 
 const EditableApiIconId = ({
@@ -18,43 +20,40 @@ const EditableApiIconId = ({
   required,
   entryName,
 }: EditableApiIconIdProps) => {
-  const [opened, setOpened] = useState(false)
+  const [open, setOpened] = useState(false);
   const [iconId, setIconId] = useState<number | null>(
     value ?? initialValue ?? null
-  )
-  const { iconsData } = useIconsContext()
-  const uuid = useId()
+  );
+  // const { iconsData } = useIconsContext()
+  const uuid = useId();
 
   useEffect(() => {
-    value && setIconId(value)
-  }, [value])
+    value && setIconId(value);
+  }, [value]);
 
-  if (!entryName) return null
+  if (!entryName) return null;
 
   return (
-    <Input.Wrapper
-      label={label && label.length > 0 ? label : undefined}
-      required={required}
-    >
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Wybierz ikonę"
-        centered
-      >
-        <SimpleGrid cols={3}>
-          {iconsData &&
+    <div className="flex-grow">
+      {label && (
+        <label
+          htmlFor={"textarea_" + uuid}
+          className="
+          text-sm
+          dark:text-stone-300"
+        >
+          <div className="flex items-center py-1">{label}</div>
+        </label>
+      )}
+
+      <Modal open={open} onClose={() => setOpened(false)} title="Wybierz ikonę">
+        <div className="grid grid-cols-3 gap-4">
+          {/* {iconsData &&
             iconsData[entryName as keyof typeof iconsData].map(
               (val: { id: number }) => (
                 <Button
-                  variant="default"
-                  styles={{
-                    root: {
-                      width: 120,
-                      height: 120,
-                    },
-                  }}
-                  px="xs"
+                className="w-32 h-32"
+
                   onClick={() => {
                     onSubmit && onSubmit(val.id)
                     setIconId(val.id)
@@ -62,45 +61,32 @@ const EditableApiIconId = ({
                   }}
                   key={uuid + val.id}
                 >
-                  <ApiIconSVG entryName={entryName} id={val.id} size={96} />
+                  <ApiIconSVG entryName={entryName} id={val.id} size={96} /> 
                 </Button>
               )
-            )}
+            )} */}
           <Button
-            variant="default"
-            styles={{
-              root: {
-                width: 120,
-                height: 120,
-              },
-            }}
-            px="xs"
+            className="h-32 w-32"
             onClick={() => {
-              onSubmit && onSubmit(null)
-              setIconId(null)
-              setOpened(false)
+              onSubmit && onSubmit(null);
+              setIconId(null);
+              setOpened(false);
             }}
             key={uuid + "null"}
           >
             <IconX size={96} />
           </Button>
-        </SimpleGrid>
+        </div>
       </Modal>
-      <Stack>
-        <Group>
-          <Button
-            variant="default"
-            size="xl"
-            px="xs"
-            onClick={() => setOpened(true)}
-            disabled={disabled}
-          >
-            <ApiIconSVG entryName={entryName} size={48} id={iconId} />
+      <div className="flex flex-col gap-2">
+        <div className="flex  gap-2">
+          <Button onClick={() => setOpened(true)} disabled={disabled}>
+            {/* <ApiIconSVG entryName={entryName} size={48} id={iconId} /> */}
           </Button>
-        </Group>
-      </Stack>
-    </Input.Wrapper>
-  )
-}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default EditableApiIconId
+export default EditableApiIconId;

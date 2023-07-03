@@ -1,79 +1,76 @@
-import { ActionIcon, Input, Select } from "@mantine/core"
-import { useClipboard } from "@mantine/hooks"
-import { showNotification } from "@mantine/notifications"
-import { useEffect, useState } from "react"
-import { IconCopy } from "@tabler/icons-react"
-import { useTranslation } from "../../i18n"
-import EditableInput from "../../types/EditableInput"
+import InputLabel from "@/components/input/InputLabel";
 
-interface EditableEnumProps extends EditableInput<string> {
-  enum_data: string[]
+import useTranslation from "@/hooks/useTranslation";
+import type EditableInput from "@/types/EditableInput";
+import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
+import Select from "../ui/Select";
+
+// EditableInput<T> {
+//   label?: string;
+//   value?: T;
+//   initialValue?: T;
+//   onSubmit?: (value: T | null) => void | boolean;
+//   disabled?: boolean;
+//   required?: boolean;
+//   leftSection?: ReactNode;
+//   rightSection?: ReactNode;
+//   className?: string;
+// }
+
+//  RadixSelectProps {
+//   children?: React.ReactNode;
+//   value?: string;
+//   defaultValue?: string;
+//   onValueChange?(value: string): void;
+//   open?: boolean;
+//   defaultOpen?: boolean;
+//   onOpenChange?(open: boolean): void;
+//   dir?: Direction;
+//   name?: string;
+//   autoComplete?: string;
+//   disabled?: boolean;
+//   required?: boolean;
+// }
+
+interface EditableEnumProps extends EditableInput<string>, RadixSelectProps {
+  enum_data: string[];
+  collapse?: boolean;
 }
 
 const EditableEnum = ({
+  enum_data,
   label,
   value,
   initialValue,
   onSubmit,
   disabled,
   required,
-  enum_data,
+  collapse = false,
+  ...moreProps
 }: EditableEnumProps) => {
-  const [data, setData] = useState(value ?? initialValue ?? "")
-  const clipboard = useClipboard()
-  const { t } = useTranslation()
-
-  useEffect(() => {
-    if (value) {
-      setData(value)
-      // setPrevData(value)
-    }
-  }, [value])
-
-  const onChangeData = (value: string) => {
-    setData(value)
-    onSubmit && onSubmit(value)
-  }
+  const t = useTranslation();
 
   return (
-    <Input.Wrapper
-      label={
-        label && label.length > 0 ? (
-          <>
-            {label}
-            <ActionIcon
-              size="xs"
-              style={{
-                display: "inline-block",
-                transform: "translate(4px, 4px)",
-              }}
-              onClick={() => {
-                clipboard.copy(value)
-                showNotification({
-                  title: "Skopiowano do schowka",
-                  message: value,
-                })
-              }}
-              tabIndex={-1}
-            >
-              <IconCopy size={16} />
-            </ActionIcon>
-          </>
-        ) : undefined
-      }
-      labelElement="div"
-      required={required}
-    >
-      <div style={{ position: "relative" }}>
-        <Select
-          data={enum_data.map((value) => ({ value, label: t(value) }))}
-          value={data}
-          onChange={onChangeData}
-          disabled={disabled}
-        />
-      </div>
-    </Input.Wrapper>
-  )
-}
+    <div className={`flex flex-grow  ${collapse ? "gap-3 pt-3" : "flex-col"}`}>
+      <InputLabel
+        label={label}
+        copyValue={t[value as keyof typeof t] as string}
+        required={required}
+      />
 
-export default EditableEnum
+      <Select
+        data={enum_data}
+        value={value}
+        onValueChange={(value) => {
+          onSubmit?.(value);
+          console.log(value);
+        }}
+        defaultValue={initialValue}
+        disabled={disabled}
+        {...moreProps}
+      />
+    </div>
+  );
+};
+
+export default EditableEnum;

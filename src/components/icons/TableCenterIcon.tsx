@@ -1,5 +1,3 @@
-import React from "react"
-
 function TableCenterIcon({
   size = 24,
   color = "currentColor",
@@ -38,7 +36,7 @@ function TableCenterIcon({
       <line x1={10} y1={4.2} x2={10} y2={19.8} />
       <line x1={14} y1={4.2} x2={14} y2={19.8} />
     </svg>
-  )
+  );
 }
 
-export default TableCenterIcon
+export default TableCenterIcon;

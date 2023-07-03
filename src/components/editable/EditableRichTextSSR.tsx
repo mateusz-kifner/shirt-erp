@@ -1,29 +1,223 @@
-import { ActionIcon, Box, Input, TypographyStylesProvider } from "@mantine/core"
+import { ReactNode, useEffect, useId, useState } from "react";
+
+import { useClickOutside } from "@mantine/hooks";
+import { EditorContent, useEditor } from "@tiptap/react";
+import DOMPurify from "dompurify";
+import TurndownService from "turndown";
+
+import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import StarterKit from "@tiptap/starter-kit";
+
+import preventLeave from "@/utils/preventLeave";
+
+import type EditableInput from "@/types/EditableInput";
+import * as RadixToolbar from "@radix-ui/react-toolbar";
 import {
-  useClickOutside,
-  useClipboard,
-  useHover,
-  useMergedRef,
-} from "@mantine/hooks"
-import { showNotification } from "@mantine/notifications"
-import { useEffect, useState } from "react"
-import preventLeave from "../../utils/preventLeave"
-import { IconCopy } from "@tabler/icons-react"
-import DOMPurify from "dompurify"
-import TurndownService from "turndown"
-import { SxRadius } from "../../styles/basic"
-import { RichTextEditor, Link } from "@mantine/tiptap"
-import { useEditor } from "@tiptap/react"
-import Highlight from "@tiptap/extension-highlight"
-import StarterKit from "@tiptap/starter-kit"
-import Underline from "@tiptap/extension-underline"
-import TextAlign from "@tiptap/extension-text-align"
-import Superscript from "@tiptap/extension-superscript"
-import SubScript from "@tiptap/extension-subscript"
-import EditableInput from "../../types/EditableInput"
+  IconAlignCenter,
+  IconAlignJustified,
+  IconAlignLeft,
+  IconAlignRight,
+  IconBold,
+  IconClearFormatting,
+  IconH1,
+  IconH2,
+  IconH3,
+  IconH4,
+  IconH5,
+  IconH6,
+  IconHighlight,
+  IconItalic,
+  IconList,
+  IconListNumbers,
+  IconStrikethrough,
+  IconSubscript,
+  IconSuperscript,
+  IconUnderline,
+} from "@tabler/icons-react";
+import InputLabel from "../input/InputLabel";
+import DisplayCellExpanding from "../ui/DisplayCellExpanding";
 
-const turndownService = new TurndownService()
+const controls: (
+  | {
+      label: string;
+      icon: ReactNode;
+      isActive?: { name: string; [key: string]: any };
+      operation: { name: string; [key: string]: any };
+    }
+  | {
+      label: string;
+      icon: ReactNode;
+      isActive?: { name: string; [key: string]: any };
+      operation: { name: string; [key: string]: any };
+    }[]
+)[] = [
+  {
+    label: "clearFormattingControlLabel",
+    icon: <IconClearFormatting stroke={1.5} size={18} />,
+    operation: { name: "unsetAllMarks" },
+  },
+  [
+    {
+      label: "boldControlLabel",
+      icon: <IconBold stroke={1.5} size={18} />,
+      isActive: { name: "bold" },
+      operation: { name: "toggleBold" },
+    },
+    {
+      label: "italicControlLabel",
+      icon: <IconItalic stroke={1.5} size={18} />,
+      isActive: { name: "italic" },
+      operation: { name: "toggleItalic" },
+    },
+    {
+      label: "underlineControlLabel",
+      icon: <IconUnderline stroke={1.5} size={18} />,
+      isActive: { name: "underline" },
+      operation: { name: "toggleUnderline" },
+    },
+    {
+      label: "strikeControlLabel",
+      icon: <IconStrikethrough stroke={1.5} size={18} />,
+      isActive: { name: "strike" },
+      operation: { name: "toggleStrike" },
+    },
+    {
+      label: "subscriptControlLabel",
+      icon: <IconSubscript stroke={1.5} size={18} />,
+      isActive: { name: "subscript" },
+      operation: { name: "toggleSubscript" },
+    },
+    {
+      label: "superscriptControlLabel",
+      icon: <IconSuperscript stroke={1.5} size={18} />,
+      isActive: { name: "superscript" },
+      operation: { name: "toggleSuperscript" },
+    },
+    {
+      label: "highlightControlLabel",
+      icon: <IconHighlight stroke={1.5} size={18} />,
+      isActive: { name: "highlight" },
+      operation: { name: "toggleHighlight" },
+    },
+  ],
+  [
+    {
+      label: "alignLeftControlLabel",
+      icon: <IconAlignLeft stroke={1.5} size={18} />,
+      operation: { name: "setTextAlign", attributes: "left" },
+    },
+    {
+      label: "alignCenterControlLabel",
+      icon: <IconAlignCenter stroke={1.5} size={18} />,
+      operation: { name: "setTextAlign", attributes: "center" },
+    },
+    {
+      label: "alignRightControlLabel",
+      icon: <IconAlignRight stroke={1.5} size={18} />,
+      operation: { name: "setTextAlign", attributes: "right" },
+    },
+    {
+      label: "alignJustifyControlLabel",
+      icon: <IconAlignJustified stroke={1.5} size={18} />,
+      operation: { name: "setTextAlign", attributes: "justify" },
+    },
+  ],
+  // {
+  //   label: "unlinkControlLabel",
+  //   icon: <IconUnlink stroke={1.5} size={18} />,
+  //   operation: { name: "unsetLink" },
+  // },
+  [
+    {
+      label: "bulletListControlLabel",
+      icon: <IconList stroke={1.5} size={18} />,
+      isActive: { name: "bulletList" },
+      operation: { name: "toggleBulletList" },
+    },
+    {
+      label: "orderedListControlLabel",
+      icon: <IconListNumbers stroke={1.5} size={18} />,
+      isActive: { name: "orderedList" },
+      operation: { name: "toggleOrderedList" },
+    },
+  ],
+  [
+    {
+      label: "h1ControlLabel",
+      icon: <IconH1 stroke={1.5} size={18} />,
+      isActive: { name: "heading", attributes: { level: 1 } },
+      operation: { name: "toggleHeading", attributes: { level: 1 } },
+    },
+    {
+      label: "h2ControlLabel",
+      icon: <IconH2 stroke={1.5} size={18} />,
+      isActive: { name: "heading", attributes: { level: 2 } },
+      operation: { name: "toggleHeading", attributes: { level: 2 } },
+    },
+    {
+      label: "h3ControlLabel",
+      icon: <IconH3 stroke={1.5} size={18} />,
+      isActive: { name: "heading", attributes: { level: 3 } },
+      operation: { name: "toggleHeading", attributes: { level: 3 } },
+    },
+    {
+      label: "h4ControlLabel",
+      icon: <IconH4 stroke={1.5} size={18} />,
+      isActive: { name: "heading", attributes: { level: 4 } },
+      operation: { name: "toggleHeading", attributes: { level: 4 } },
+    },
+    {
+      label: "h5ControlLabel",
+      icon: <IconH5 stroke={1.5} size={18} />,
+      isActive: { name: "heading", attributes: { level: 5 } },
+      operation: { name: "toggleHeading", attributes: { level: 5 } },
+    },
+    {
+      label: "h6ControlLabel",
+      icon: <IconH6 stroke={1.5} size={18} />,
+      isActive: { name: "heading", attributes: { level: 6 } },
+      operation: { name: "toggleHeading", attributes: { level: 6 } },
+    },
+  ],
+  // {
+  //   label: "blockquoteControlLabel",
+  //   icon: <IconBlockquote stroke={1.5} size={18} />,
+  //   isActive: { name: "blockquote" },
+  //   operation: { name: "toggleBlockquote" },
+  // },
+  // {
+  //   label: "codeControlLabel",
+  //   icon: <IconCode stroke={1.5} size={18} />,
+  //   isActive: { name: "code" },
+  //   operation: { name: "toggleCode" },
+  // },
+  // {
+  //   label: "codeBlockControlLabel",
+  //   icon: <IconCode stroke={1.5} size={18} />,
+  //   isActive: { name: "codeBlock" },
+  //   operation: { name: "toggleCodeBlock" },
+  // },
 
+  // {
+  //   label: "hrControlLabel",
+  //   icon: <IconLineDashed stroke={1.5} size={18} />,
+  //   operation: { name: "setHorizontalRule" },
+  // },
+  // {
+  //   label: "unsetColorControlLabel",
+  //   icon: <IconCircleOff stroke={1.5} size={18} />,
+  //   operation: { name: "unsetColor" },
+  // },
+];
+
+const turndownService = new TurndownService();
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableRichTextProps extends EditableInput<string> {}
 
 const EditableRichText = ({
@@ -33,192 +227,201 @@ const EditableRichText = ({
   onSubmit,
   disabled,
   required,
+  leftSection,
+  rightSection,
 }: EditableRichTextProps) => {
+  const uuid = useId();
   const [text, setText] = useState<string>(
     value
       ? DOMPurify.sanitize(value)
       : initialValue
       ? DOMPurify.sanitize(initialValue)
       : ""
-  )
+  );
 
-  const [focus, setFocus] = useState<boolean>(false)
+  const [focus, setFocus] = useState<boolean>(false);
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
       Link,
       Superscript,
-      SubScript,
+      Subscript,
       Highlight,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
     ],
-
+    editorProps: {
+      attributes: {
+        class:
+          "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-2 focus:outline-none editor",
+      },
+    },
     content: text,
     onUpdate: ({ editor }) => {
-      setText(editor.getHTML())
+      setText(editor.getHTML());
     },
-  })
-  const clickOutsideRef = useClickOutside(() => setFocus(false))
-  // const richTextEditorRef = useRef<Editor>(null)
-  const clipboard = useClipboard()
-  const { hovered, ref: hoverRef } = useHover()
-  const mergedRef = useMergedRef(clickOutsideRef, hoverRef)
+  });
+  const clickOutsideRef = useClickOutside<HTMLDivElement>(() =>
+    setFocus(false)
+  );
 
   useEffect(() => {
     if (focus) {
-      window.addEventListener("beforeunload", preventLeave)
-      // setTimeout(() => {
-      //   richTextEditorRef.current?.editor?.focus()
-      //   richTextEditorRef.current?.editor?.setSelection(
-      //     richTextEditorRef.current?.editor?.getLength(),
-      //     0
-      //   )
-      // })
+      window.addEventListener("beforeunload", preventLeave);
     } else {
       //prevent excessive updates
       if (text != value && text != "") {
-        onSubmit?.(text)
+        onSubmit?.(text);
       }
-      window.removeEventListener("beforeunload", preventLeave)
+      window.removeEventListener("beforeunload", preventLeave);
     }
     // eslint-disable-next-line
-  }, [focus])
+  }, [focus]);
 
   useEffect(() => {
     return () => {
-      window.removeEventListener("beforeunload", preventLeave)
-    }
-  }, [])
+      window.removeEventListener("beforeunload", preventLeave);
+    };
+  }, []);
 
   useEffect(() => {
     if (value) {
-      const cleanValue = DOMPurify.sanitize(value)
-      setText(cleanValue)
+      const cleanValue = DOMPurify.sanitize(value);
+      setText(cleanValue);
     }
-  }, [value])
+  }, [value]);
+
+  const plainText = unescape(
+    turndownService.turndown(
+      text
+        .replace(/h[0-9]>/g, "div>")
+        .replace(/<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g, "")
+    )
+  );
 
   return (
-    <Input.Wrapper
-      label={
-        label && label.length > 0 ? (
-          <>
-            {label}
-            {text.length > 0 && text !== "<p><br></p>" && (
-              <ActionIcon
-                size="xs"
-                style={{
-                  display: "inline-block",
-                  transform: "translate(4px, 4px)",
-                }}
-                onClick={() => {
-                  const plainText = unescape(
-                    turndownService.turndown(
-                      text
-                        .replace(/h[0-9]>/g, "div>")
-                        .replace(
-                          /<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g,
-                          ""
-                        )
-                    )
-                  )
-                  clipboard.copy(plainText)
-                  showNotification({
-                    title: "Skopiowano do schowka",
-                    message: plainText,
-                  })
-                }}
-                tabIndex={-1}
-              >
-                <IconCopy size={16} />
-              </ActionIcon>
-            )}
-          </>
-        ) : undefined
-      }
-      labelElement="div"
-      required={required}
-      ref={mergedRef}
+    <div
+      ref={clickOutsideRef}
       onClick={() => !disabled && setFocus(true)}
       onFocus={() => !disabled && setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      {focus ? (
-        <RichTextEditor editor={editor}>
-          <RichTextEditor.Toolbar sticky tabIndex={999999999}>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.Underline />
-              <RichTextEditor.Strikethrough />
-              <RichTextEditor.ClearFormatting />
-              <RichTextEditor.Highlight />
-              <RichTextEditor.Code />
-            </RichTextEditor.ControlsGroup>
+      <InputLabel
+        label={label}
+        copyValue={plainText.length > 0 ? plainText : ""}
+        required={required}
+      />
+      <DisplayCellExpanding
+        leftSection={!focus && leftSection}
+        rightSection={!focus && rightSection}
+        className="py-2.5"
+      >
+        {focus ? (
+          <div className="flex flex-grow flex-col">
+            <RadixToolbar.Root
+              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-stone-400 p-2 dark:border-stone-600 "
+              aria-label="Formatting options"
+            >
+              {controls.map((value, index) => {
+                if (Array.isArray(value)) {
+                  return (
+                    <div
+                      className="action-button-group"
+                      key={`${uuid}${index}:group`}
+                    >
+                      {value.map((value, index2) => (
+                        <RadixToolbar.Button
+                          key={`${uuid}${index}:${index2}:group`}
+                          className={`action-button  ${
+                            //@ts-ignore
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                            (
+                              value.isActive?.name
+                                ? editor?.isActive(
+                                    value.isActive.name,
+                                    value.isActive.attributes
+                                  )
+                                : false
+                            )
+                              ? "bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-20"
+                              : ""
+                          }`}
+                          onClick={() =>
+                            //@ts-ignore
+                            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                            editor
+                              ?.chain()
+                              .focus()
+                              [value.operation.name](value.operation.attributes)
+                              .run()
+                          }
+                          title={value.label}
+                        >
+                          {value.icon}
+                        </RadixToolbar.Button>
+                      ))}
+                    </div>
+                  );
+                } else {
+                  return (
+                    <RadixToolbar.Button
+                      key={`${uuid}${index}:item`}
+                      className={`action-button border border-solid border-stone-400 dark:border-stone-600 ${
+                        //@ts-ignore
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                        (
+                          value.isActive?.name
+                            ? editor?.isActive(
+                                value.isActive.name,
+                                value.isActive.attributes
+                              )
+                            : false
+                        )
+                          ? "bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-20"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        //@ts-ignore
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                        editor
+                          ?.chain()
+                          .focus()
+                          [value.operation.name](value.operation.attributes)
+                          .run()
+                      }
+                      title={value.label}
+                    >
+                      {value.icon}
+                    </RadixToolbar.Button>
+                  );
+                }
+              })}
+            </RadixToolbar.Root>
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.H1 />
-              <RichTextEditor.H2 />
-              <RichTextEditor.H3 />
-              <RichTextEditor.H4 />
-            </RichTextEditor.ControlsGroup>
-            {/* disabled because of bug in peer deps*/}
-            {/* <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Blockquote />
-              <RichTextEditor.Hr />
-              <RichTextEditor.BulletList />
-              <RichTextEditor.OrderedList />
-              <RichTextEditor.Subscript />
-              <RichTextEditor.Superscript />
-            </RichTextEditor.ControlsGroup> */}
-            {/* disabled due to focus loss */}
-            {/* <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup> */}
+            <EditorContent editor={editor} />
+          </div>
+        ) : (
+          <div
+            className={`plain-html editor w-full ${
+              text.length === 0 ||
+              text === "<p></p>" ||
+              text === "<p></p><p></p>"
+                ? "text-gray-400 dark:text-stone-600"
+                : ""
+            }`}
+            dangerouslySetInnerHTML={{
+              __html:
+                text.length === 0 ||
+                text === "<p></p>" ||
+                text === "<p></p><p></p>"
+                  ? "⸺"
+                  : text,
+            }}
+          ></div>
+        )}
+      </DisplayCellExpanding>
+    </div>
+  );
+};
 
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignJustify />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
-          </RichTextEditor.Toolbar>
-
-          <RichTextEditor.Content />
-        </RichTextEditor>
-      ) : (
-        <TypographyStylesProvider>
-          <Box
-            sx={[
-              (theme) => ({
-                width: "100%",
-
-                fontSize: theme.fontSizes.sm,
-                minHeight: 36,
-                wordBreak: "break-word",
-                whiteSpace: "pre-line",
-                padding: "10px 16px",
-                paddingRight: 32,
-                lineHeight: text.trimStart().startsWith("<") ? undefined : 1.55,
-                border: hovered
-                  ? disabled
-                    ? "1px solid transparent"
-                    : theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da"
-                  : "1px solid transparent",
-              }),
-              // SxBorder,
-              SxRadius,
-            ]}
-            className="plain-html"
-            dangerouslySetInnerHTML={{ __html: text || "⸺" }}
-          ></Box>
-        </TypographyStylesProvider>
-      )}
-    </Input.Wrapper>
-  )
-}
-
-export default EditableRichText
+export default EditableRichText;

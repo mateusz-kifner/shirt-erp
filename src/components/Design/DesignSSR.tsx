@@ -1,28 +1,9 @@
-import {
-  Button,
-  ColorPicker,
-  Group,
-  Input,
-  Menu,
-  Overlay,
-  Popover,
-  Stack,
-  TextInput,
-  Title,
-  Tooltip,
-  useMantineTheme,
-  Text,
-} from "@mantine/core"
-import { useListState } from "@mantine/hooks"
-import { SVG } from "@svgdotjs/svg.js"
-import React, {
-  ComponentType,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { useAuthContext } from "@/context/authContext";
+import { env } from "@/env.mjs";
+import type EditableInput from "@/types/EditableInput";
+import { type FileType } from "@/types/FileType";
+import { useListState } from "@mantine/hooks";
+import { SVG } from "@svgdotjs/svg.js";
 import {
   IconCategory,
   IconColorSwatch,
@@ -33,13 +14,15 @@ import {
   IconSquareNumber2,
   IconSquareNumber3,
   IconWallpaper,
-} from "@tabler/icons-react"
-import { useAuthContext } from "../../context/authContext"
-import { env } from "../../env/client.mjs"
-import { useTranslation } from "../../i18n"
-import { SxBackground } from "../../styles/basic"
-import EditableInput from "../../types/EditableInput"
-import { FileType } from "../../types/FileType"
+} from "@tabler/icons-react";
+import {
+  ComponentType,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -105,21 +88,21 @@ const colorPickerSwatches = [
   "#82c91e",
   "#fab005",
   "#fd7e14",
-]
+];
 
 export type DesignBackgroundsType = {
-  name: string
-  icon: ComponentType<any & { size?: number }>
+  name: string;
+  icon: ComponentType<any & { size?: number }>;
   images: {
-    name: string
-    image?: Partial<FileType>
-    mask?: Partial<FileType>
-  }[]
-}[]
+    name: string;
+    image?: Partial<FileType>;
+    mask?: Partial<FileType>;
+  }[];
+}[];
 
 interface EditableDesignProps extends EditableInput<any> {
-  files?: FileType[]
-  backgrounds: DesignBackgroundsType
+  files?: FileType[];
+  backgrounds: DesignBackgroundsType;
 }
 
 const EditableDesign = (props: EditableDesignProps) => {
@@ -132,9 +115,9 @@ const EditableDesign = (props: EditableDesignProps) => {
     required,
     files,
     backgrounds: externalBackgrounds,
-  } = props
-  const { t } = useTranslation()
-  const { debug } = useAuthContext()
+  } = props;
+  const { t } = useTranslation();
+  const { debug } = useAuthContext();
   const backgrounds: DesignBackgroundsType = [
     ...externalBackgrounds,
     {
@@ -173,31 +156,31 @@ const EditableDesign = (props: EditableDesignProps) => {
         },
       ],
     },
-  ]
-  const uuid = useId()
-  const SVGWrapperRefElement = useRef<HTMLDivElement>(null)
-  const SVGContainer = useMemo(() => SVG(), [])
-  const [fullscreen, setFullscreen] = useState<boolean>(false)
-  const [showGrid, setShowGrid] = useState<boolean>(true)
-  const [backgroundColor, setBackgroundColor] = useState<string>("#eeeeee")
-  const [itemColor, setItemColor] = useState<string>("#222222")
-  const [backgroundId, setBackgroundId] = useState<number>(0)
-  const [backgroundImageId, setBackgroundImageId] = useState<number>(0)
+  ];
+  const uuid = useId();
+  const SVGWrapperRefElement = useRef<HTMLDivElement>(null);
+  const SVGContainer = useMemo(() => SVG(), []);
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
+  const [showGrid, setShowGrid] = useState<boolean>(true);
+  const [backgroundColor, setBackgroundColor] = useState<string>("#eeeeee");
+  const [itemColor, setItemColor] = useState<string>("#222222");
+  const [backgroundId, setBackgroundId] = useState<number>(0);
+  const [backgroundImageId, setBackgroundImageId] = useState<number>(0);
 
-  const theme = useMantineTheme()
+  const theme = useMantineTheme();
 
-  const [images, imagesHandlers] = useListState<FileType>([])
+  const [images, imagesHandlers] = useListState<FileType>([]);
 
   const backgroundImage =
-    backgrounds[backgroundId].images[backgroundImageId].image
+    backgrounds[backgroundId].images[backgroundImageId].image;
 
   const draw = () => {
-    SVGContainer.add(SVG().rect(100, 100).fill("#f06"))
-  }
+    SVGContainer.add(SVG().rect(100, 100).fill("#f06"));
+  };
 
   const clear = () => {
-    SVGContainer.clear()
-  }
+    SVGContainer.clear();
+  };
 
   useEffect(() => {
     if (
@@ -205,9 +188,9 @@ const EditableDesign = (props: EditableDesignProps) => {
       SVGWrapperRefElement?.current &&
       SVGWrapperRefElement?.current?.children.length < 1
     ) {
-      SVGContainer.addTo(SVGWrapperRefElement?.current)
+      SVGContainer.addTo(SVGWrapperRefElement?.current);
     }
-  }, [SVGWrapperRefElement, SVGContainer])
+  }, [SVGWrapperRefElement, SVGContainer]);
 
   return (
     <Input.Wrapper label={label} style={!debug ? { position: "relative" } : {}}>
@@ -270,7 +253,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                 </Menu.Target>
                 <Menu.Dropdown>
                   {backgrounds.map((value, index) => {
-                    const Icon = value.icon
+                    const Icon = value.icon;
                     return (
                       <Menu.Item
                         key={uuid + "itemsMenu" + index}
@@ -279,7 +262,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                       >
                         {value.name}
                       </Menu.Item>
-                    )
+                    );
                   })}
                 </Menu.Dropdown>
               </Menu>{" "}
@@ -347,7 +330,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                 p={0}
                 size="xs"
                 onClick={() => {
-                  setFullscreen((fullscreen) => !fullscreen)
+                  setFullscreen((fullscreen) => !fullscreen);
                 }}
               >
                 <IconScreenShare />
@@ -359,10 +342,10 @@ const EditableDesign = (props: EditableDesignProps) => {
         <Group>
           {backgrounds[backgroundId].images.map(
             ({ image, mask }, bgImageIndex) => {
-              const width = image?.width ?? 800
-              const height = image?.height ?? 800
-              const maskUrl = "" + env.NEXT_PUBLIC_SERVER_API_URL + mask?.url
-              const imageUrl = "" + env.NEXT_PUBLIC_SERVER_API_URL + image?.url
+              const width = image?.width ?? 800;
+              const height = image?.height ?? 800;
+              const maskUrl = "" + env.NEXT_PUBLIC_SERVER_API_URL + mask?.url;
+              const imageUrl = "" + env.NEXT_PUBLIC_SERVER_API_URL + image?.url;
               return (
                 <div
                   key={uuid + "bg" + bgImageIndex}
@@ -451,13 +434,13 @@ const EditableDesign = (props: EditableDesignProps) => {
                     ></img>
                   ))}
                 </div>
-              )
+              );
             }
           )}
         </Group>
       </Stack>
     </Input.Wrapper>
-  )
-}
+  );
+};
 
-export default EditableDesign
+export default EditableDesign;

@@ -1,5 +1,3 @@
-import React from "react"
-
 function TableEdgeIcon({
   size = 24,
   color = "currentColor",
@@ -36,7 +34,7 @@ function TableEdgeIcon({
       <line x1={10} y1={4.2} x2={10} y2={19.8} />
       <line x1={14} y1={4.2} x2={14} y2={19.8} />
     </svg>
-  )
+  );
 }
 
-export default TableEdgeIcon
+export default TableEdgeIcon;

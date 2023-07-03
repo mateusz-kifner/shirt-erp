@@ -1,63 +1,59 @@
-import React, { ComponentType, useId, useMemo } from "react"
-import { CellBase, Matrix } from "react-spreadsheet"
-import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData"
-import {
-  ScrollArea,
-  useMantineTheme,
-  Text,
-  UnstyledButton,
-} from "@mantine/core"
-import isNumeric from "../../utils/isNumeric"
+import React, { ComponentType, useId, useMemo } from "react";
+
+import { CellBase, Matrix } from "react-spreadsheet";
+import { AABB2D } from "../../types/AABB";
 import {
   getColorByName,
   getRandomColorByNumber,
-} from "../../utils/getRandomColor"
-import { AABB2D } from "../../types/AABB"
-import EditableInput from "../../types/EditableInput"
+} from "../../utils/getRandomColor";
+import isNumeric from "../../utils/isNumeric";
+import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData";
+
+import type EditableInput from "../../types/EditableInput";
 
 function expandAABB(aabb: AABB2D, row: number, col: number) {
-  let new_aabb = { ...aabb }
+  let new_aabb = { ...aabb };
   if (row === aabb.minX - 1) {
-    new_aabb.minX -= 1
+    new_aabb.minX -= 1;
   }
   if (col === aabb.minY - 1) {
-    new_aabb.minY -= 1
+    new_aabb.minY -= 1;
   }
   if (row === aabb.maxX + 1) {
-    new_aabb.maxX += 1
+    new_aabb.maxX += 1;
   }
   if (col === aabb.maxY + 1) {
-    new_aabb.maxY += 1
+    new_aabb.maxY += 1;
   }
-  return new_aabb
+  return new_aabb;
 }
 
 interface EditableTableProps extends EditableInput<Matrix<any>> {
-  metadataIcons?: ComponentType[]
-  metadataLabels?: string[]
+  metadataIcons?: ComponentType[];
+  metadataLabels?: string[];
   metadata: {
     [key: string]: {
-      id: number
-      [key: string]: any
-    }
-  }
+      id: number;
+      [key: string]: any;
+    };
+  };
   metadataActions: ((
     table: UniversalMatrix,
     metaId: number
   ) =>
     | [UniversalMatrix, string]
-    | [UniversalMatrix, string, AABB2D, { row: number; column: number }])[]
-  metadataActionIcons: ComponentType[]
-  metadataActionLabels?: string[]
+    | [UniversalMatrix, string, AABB2D, { row: number; column: number }])[];
+  metadataActionIcons: ComponentType[];
+  metadataActionLabels?: string[];
 }
 
 const EditableTableView = (props: EditableTableProps) => {
-  const { value, metadataIcons, metadataActions, metadata, onSubmit } = props
-  const uuid = useId()
-  const theme = useMantineTheme()
-  const darkTheme = theme.colorScheme === "dark"
+  const { value, metadataIcons, metadataActions, metadata, onSubmit } = props;
+  const uuid = useId();
+  const theme = useMantineTheme();
+  const darkTheme = theme.colorScheme === "dark";
 
-  const meta_id = Object.values(metadata)[0]?.id
+  const meta_id = Object.values(metadata)[0]?.id;
 
   // FIXME: make memo refresh after changes to table
   const verify = useMemo(
@@ -67,23 +63,23 @@ const EditableTableView = (props: EditableTableProps) => {
         : null,
     //eslint-disable-next-line
     [metadata, value]
-  )
-  const boundingBox = verify && verify?.length > 1 ? verify[2] : null
-  const metaIdPosition = verify && verify?.length > 1 ? verify[3] : null
+  );
+  const boundingBox = verify && verify?.length > 1 ? verify[2] : null;
+  const metaIdPosition = verify && verify?.length > 1 ? verify[3] : null;
   const expandedBoundingBox =
     boundingBox && metaIdPosition
       ? expandAABB(boundingBox, metaIdPosition?.row, metaIdPosition?.column)
-      : null
+      : null;
 
-  const is_error = verify === null || verify[1].startsWith("error")
+  const is_error = verify === null || verify[1].startsWith("error");
 
   const onCellClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     row: number,
     col: number
   ) => {
-    if (value === undefined) return
-    const ctrl = e.ctrlKey
+    if (value === undefined) return;
+    const ctrl = e.ctrlKey;
     let new_data: UniversalMatrix = [
       ...value.map((val) => [
         ...val.map((val2) =>
@@ -94,9 +90,9 @@ const EditableTableView = (props: EditableTableProps) => {
             : undefined
         ),
       ]),
-    ]
+    ];
     if (ctrl) {
-      console.log("TODO: special action TableView")
+      console.log("TODO: special action TableView");
     } else {
       if (
         new_data[row][col] !== undefined &&
@@ -105,16 +101,16 @@ const EditableTableView = (props: EditableTableProps) => {
         new_data[row][col] = {
           ...(new_data[row][col] as CellBase<any>),
           active: undefined,
-        }
+        };
       } else {
         new_data[row][col] = {
           ...(new_data[row][col] as CellBase<any>),
           active: new_data[row][col]?.value as any,
-        }
+        };
       }
     }
-    onSubmit?.(new_data)
-  }
+    onSubmit?.(new_data);
+  };
 
   return (
     <ScrollArea type="auto">
@@ -136,10 +132,10 @@ const EditableTableView = (props: EditableTableProps) => {
                   rowIndex >= expandedBoundingBox.minY &&
                   rowIndex <= expandedBoundingBox.maxY &&
                   colIndex >= expandedBoundingBox.minX &&
-                  colIndex <= expandedBoundingBox.maxX
-                const Icon = metadataIcons?.[val?.metaPropertyId ?? -1]
+                  colIndex <= expandedBoundingBox.maxX;
+                const Icon = metadataIcons?.[val?.metaPropertyId ?? -1];
                 // TODO: make this use products
-                const color = getColorByName(val?.value)
+                const color = getColorByName(val?.value);
                 return (
                   <td
                     key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
@@ -228,7 +224,7 @@ const EditableTableView = (props: EditableTableProps) => {
                       ></div>
                     )}
                   </td>
-                )
+                );
               })}
             </tr>
           ))}
@@ -241,7 +237,7 @@ const EditableTableView = (props: EditableTableProps) => {
       ></div>
       {is_error && <Text color="red">{verify?.[1] ?? ""}</Text>}
     </ScrollArea>
-  )
-}
+  );
+};
 
-export default EditableTableView
+export default EditableTableView;

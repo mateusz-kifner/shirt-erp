@@ -1,22 +1,24 @@
-import { useState } from "react"
-import { CellBase, Matrix, Point } from "react-spreadsheet"
+import { useState } from "react";
+import { type CellBase, type Matrix, type Point } from "react-spreadsheet";
 
-export type UniversalCell = CellBase & { [key: string]: any }
+export type UniversalCell = CellBase & { [key: string]: any };
 
-export type UniversalMatrix = Matrix<UniversalCell>
+export type UniversalMatrix = Matrix<UniversalCell>;
 
 export interface UseSpreadSheetDataHandlers {
-  setData: React.Dispatch<React.SetStateAction<UniversalMatrix>>
-  addColumn: (column: number) => void
-  removeColumn: (column: number) => void
-  addRow: (row: number) => void
-  removeRow: (row: number) => void
-  setMetadata: (selection: Point[], metadata: { [key: string]: any }) => void
-  clearMetadata: (selection: Point[]) => void
-  clearAllMetadata: () => void
+  setData: React.Dispatch<React.SetStateAction<UniversalMatrix>>;
+  addColumn: (column: number) => void;
+  removeColumn: (column: number) => void;
+  addRow: (row: number) => void;
+  removeRow: (row: number) => void;
+  setMetadata: (selection: Point[], metadata: { [key: string]: any }) => void;
+  clearMetadata: (selection: Point[]) => void;
+  clearAllMetadata: () => void;
 }
 
-export type UseSpreadSheetData = [UniversalMatrix, UseSpreadSheetDataHandlers]
+export type UseSpreadSheetData = [UniversalMatrix, UseSpreadSheetDataHandlers];
+
+// rebuild metadata controls
 
 export function useSpreadSheetData(
   initialValue: UniversalMatrix = [
@@ -24,7 +26,7 @@ export function useSpreadSheetData(
     [undefined, undefined],
   ]
 ): UseSpreadSheetData {
-  const [data, setData] = useState<UniversalMatrix>(initialValue)
+  const [data, setData] = useState<UniversalMatrix>(initialValue);
 
   const addColumn = (column: number) => {
     setData((data) => [
@@ -33,36 +35,36 @@ export function useSpreadSheetData(
         undefined,
         ...val.slice(column),
       ]),
-    ])
-  }
+    ]);
+  };
 
   const removeRow = (row: number) => {
     if (data.length > 2) {
-      setData((data) => data.filter((_, index) => row !== index))
+      setData((data) => data.filter((_, index) => row !== index));
     }
-  }
+  };
 
   const addRow = (row: number) => {
     setData((data) => [
       ...data.slice(0, row),
-      data[0].map(() => undefined),
+      data[0]!.map(() => undefined),
       ...data.slice(row),
-    ])
-  }
+    ]);
+  };
 
   const removeColumn = (column: number) => {
-    if (data[0].length > 2) {
+    if (data[0]!.length > 2) {
       setData((data) =>
         data.map((val) => val.filter((_, index) => column !== index))
-      )
+      );
     }
-  }
+  };
 
   const setMetadata = (
     selection: Point[],
     metadata: { [key: string]: any }
   ) => {
-    let new_data: UniversalMatrix = [
+    const new_data: UniversalMatrix = [
       ...data.map((val) => [
         ...val.map((val2) =>
           val2
@@ -72,19 +74,19 @@ export function useSpreadSheetData(
             : undefined
         ),
       ]),
-    ]
+    ];
 
-    for (let point of selection) {
-      new_data[point.row][point.column] = {
-        ...(new_data[point.row][point.column] as UniversalCell),
+    for (const point of selection) {
+      new_data[point.row]![point.column] = {
+        ...(new_data[point.row]![point.column] as UniversalCell),
         ...metadata,
-      }
+      };
     }
-    setData(new_data)
-  }
+    setData(new_data);
+  };
 
   const clearMetadata = (selection: Point[]) => {
-    let new_data: UniversalMatrix = [
+    const new_data: UniversalMatrix = [
       ...data.map((val) => [
         ...val.map((val2) =>
           val2
@@ -94,20 +96,20 @@ export function useSpreadSheetData(
             : undefined
         ),
       ]),
-    ]
+    ];
 
-    for (let point of selection) {
-      new_data[point.row][point.column] = new_data[point.row][point.column]
+    for (const point of selection) {
+      new_data[point.row]![point.column] = new_data[point.row]![point.column]
         ? {
-            value: (new_data[point.row][point.column] as any).value ?? "",
+            value: (new_data[point.row]![point.column] as any).value ?? "",
           }
-        : undefined
+        : undefined;
     }
-    setData(new_data)
-  }
+    setData(new_data);
+  };
 
   const clearAllMetadata = () => {
-    let new_data: UniversalMatrix = [
+    const new_data: UniversalMatrix = [
       ...data.map((val) => [
         ...val.map((val2) =>
           val2
@@ -117,9 +119,9 @@ export function useSpreadSheetData(
             : undefined
         ),
       ]),
-    ]
-    setData(new_data)
-  }
+    ];
+    setData(new_data);
+  };
 
   return [
     data,
@@ -133,5 +135,5 @@ export function useSpreadSheetData(
       clearMetadata,
       clearAllMetadata,
     },
-  ]
+  ];
 }

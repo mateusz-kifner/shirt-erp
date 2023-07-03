@@ -1,33 +1,28 @@
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Group,
-  Input,
-  Menu,
-  Stack,
-} from "@mantine/core"
-import { ComponentType, useEffect, useId, useState } from "react"
-import { SxRadius } from "../../styles/basic"
-import isArrayEqual from "../../utils/isArrayEqual"
-import { useHover, useListState } from "@mantine/hooks"
-import { omit } from "lodash"
-import EditableInput from "../../types/EditableInput"
-import { IconDots, IconPlus, IconTrashX } from "@tabler/icons-react"
+import { useEffect, useId, useState, type ComponentType } from "react";
+
+import { useListState } from "@mantine/hooks";
+import { IconPlus, IconTrashX } from "@tabler/icons-react";
+import { isEqual, omit } from "lodash";
+
+import Button from "@/components/ui/Button";
+
+import type EditableInput from "@/types/EditableInput";
+import * as RadixContextMenu from "@radix-ui/react-context-menu";
+import InputLabel from "../input/InputLabel";
 
 // fixme submit only on edit end
 
 interface EditableArrayProps
   extends Omit<EditableInput<any[]>, "value" | "initialValue"> {
-  value?: any[] | null
-  initialValue?: any[] | null
-  newItemValue?: any
-  maxCount?: number
-  Element: ComponentType<any>
-  elementProps: any
-  organizingHandle: "none" | "arrows" | "drag and drop"
-  linkEntry: boolean
-  unique: boolean
+  value?: any[] | null;
+  initialValue?: any[] | null;
+  newItemValue?: any;
+  maxCount?: number;
+  Element: ComponentType<any>;
+  elementProps: any;
+  organizingHandle: "none" | "arrows" | "drag and drop";
+  linkEntry: boolean;
+  unique: boolean;
 }
 
 const EditableArray = (props: EditableArrayProps) => {
@@ -45,31 +40,31 @@ const EditableArray = (props: EditableArrayProps) => {
     organizingHandle = "none",
     linkEntry = false,
     unique = true,
-  } = props
-  const [items, handlers] = useListState<any>(value ?? initialValue ?? [])
-  const [prev, setPrev] = useState<any[]>(items)
-  const uuid = useId()
-  const { hovered, ref } = useHover()
+  } = props;
+  const [items, handlers] = useListState<any>(value ?? initialValue ?? []);
+  // const [focus, setFocus] = useState<boolean>(false);
+  const [prev, setPrev] = useState<any[]>(items);
+  const uuid = useId();
 
   useEffect(() => {
-    const filtered_items = items.filter((val) => !!val)
+    const filtered_items = items.filter((val) => !!val);
     if (
-      isArrayEqual(
+      isEqual(
         filtered_items,
         prev.filter((val) => !!val)
       )
     )
-      return
-    onSubmit?.(filtered_items)
+      return;
+    onSubmit?.(filtered_items);
     // eslint-disable-next-line
-  }, [items])
+  }, [items]);
 
   useEffect(() => {
-    if (value === undefined || value === null) return
-    handlers.setState(value)
-    setPrev(value)
+    if (value === undefined || value === null) return;
+    handlers.setState(value);
+    setPrev(value);
     // eslint-disable-next-line
-  }, [value])
+  }, [value]);
 
   // useEffect(() => {
   //   // console.log("items append")
@@ -91,131 +86,66 @@ const EditableArray = (props: EditableArrayProps) => {
   // }, [items, active])
 
   return (
-    <Input.Wrapper
-      label={label}
-      required={required}
-      ref={ref}
-      // sx={(theme) => ({ // style for touch reorder
-      //   touchAction: "none",
-      //   "& *": {
-      //     touchAction: "none",
-      //   },
-      // })}
+    <div
+      className="flex-grow"
+      // onClick={() => !disabled && setFocus(true)}
+      // onFocus={() => !disabled && setFocus(true)}
+      // onBlur={handleBlurForInnerElements(() => setFocus(false))}
+      // tabIndex={999999}
     >
-      <Stack
-        sx={[
-          (theme) => ({
-            // padding: theme.spacing.sm,
-            position: "relative",
-            minHeight: 44,
+      <InputLabel label={label} />
 
-            // borderWidth: 1,
-            // borderStyle: "solid",
-            // borderColor: active ? "#1971c2" : "transparent",
-            // "&:hover": {
-            //   border:
-            //     theme.colorScheme === "dark"
-            //       ? "1px solid #2C2E33"
-            //       : "1px solid #ced4da",
-            // },
-          }),
-          // SxBorder,
-          // SxRadius,
-        ]}
-      >
-        <Stack
-          // ref={ref2}
-          mt="sm"
-          mb="xl"
-        >
-          {items.length == 0 && "⸺"}
+      <div className="flex min-h-[2.75rem] flex-col gap-2">
+        <div className=" flex flex-col gap-2">
+          {/* {items.length == 0 && "⸺"} */}
           {items.map((val, index) => {
             return (
-              <Group spacing="xs" key={uuid + index}>
-                <Box
-                  sx={(theme) => ({
-                    backgroundColor:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[7]
-                        : theme.white,
-                    flexGrow: 1,
-                    // paddingRight: active ? undefined : 32,
-                    borderRadius: theme.radius.sm,
-                  })}
-                >
+              <RadixContextMenu.Root key={uuid + index}>
+                <RadixContextMenu.Trigger className="flex-grow rounded-sm bg-stone-200 dark:bg-stone-800">
                   <Element
                     {...omit(elementProps, ["label"])}
                     value={val}
                     onSubmit={(itemValue: any) => {
-                      handlers.setItem(index, itemValue)
+                      handlers.setItem(index, itemValue);
                     }}
                     disabled={disabled}
                     linkEntry={linkEntry}
                   />
-                </Box>
-                {!disabled && (
-                  <Menu
-                    withArrow
-                    styles={(theme) => ({
-                      dropdown: {
-                        backgroundColor:
-                          theme.colorScheme === "dark"
-                            ? theme.colors.dark[7]
-                            : theme.white,
-                      },
-                      arrow: {
-                        backgroundColor:
-                          theme.colorScheme === "dark"
-                            ? theme.colors.dark[7]
-                            : theme.white,
-                      },
-                    })}
-                    position="bottom-end"
-                    arrowOffset={10}
-                    offset={2}
-                  >
-                    <Menu.Target>
-                      <ActionIcon tabIndex={-1} radius="xl">
-                        <IconDots size={14} />
-                      </ActionIcon>
-                    </Menu.Target>
-
-                    <Menu.Dropdown>
-                      <Menu.Item
-                        icon={<IconTrashX size={14} />}
-                        onClick={() => {
-                          console.log(index)
-                          handlers.remove(index)
-                          // setItems((val) => val.filter((_, i) => i !== index))
-                        }}
-                        color="red"
-                      >
-                        Delete
-                      </Menu.Item>
-                    </Menu.Dropdown>
-                  </Menu>
-                )}
-              </Group>
-            )
+                </RadixContextMenu.Trigger>
+                <RadixContextMenu.Portal>
+                  <RadixContextMenu.Content className="flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950">
+                    <RadixContextMenu.Item
+                      className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600"
+                      onClick={() => {
+                        handlers.remove(index);
+                      }}
+                    >
+                      <IconTrashX /> Delete
+                    </RadixContextMenu.Item>
+                  </RadixContextMenu.Content>
+                </RadixContextMenu.Portal>
+              </RadixContextMenu.Root>
+            );
           })}
-        </Stack>
+        </div>
 
         {!disabled && (
           <Button
-            variant="light"
+            variant="outline"
+            className=""
             onClick={
               () => handlers.append(null)
               //  setItems((val) => [...val, null])
             }
             disabled={maxCount ? maxCount <= items.length : undefined}
-            style={{ flexGrow: 1 }}
+            // style={{ flexGrow: 1 }}
           >
             <IconPlus />
           </Button>
         )}
-      </Stack>
-    </Input.Wrapper>
-  )
-}
+      </div>
+    </div>
+  );
+};
 
-export default EditableArray
+export default EditableArray;

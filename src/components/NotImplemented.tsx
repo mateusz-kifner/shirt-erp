@@ -1,5 +1,3 @@
-import { Title } from "@mantine/core"
-
 const NotImplemented = (props: any) => {
   return (
     <div
@@ -10,9 +8,10 @@ const NotImplemented = (props: any) => {
         padding: 4,
       }}
     >
-      <Title order={5}>
+      <h5>
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands */}
         Not implemented {props?.message ? " - " + props.message : ""}{" "}
-      </Title>
+      </h5>
       <code
         style={{
           overflow: "hidden",
@@ -25,7 +24,7 @@ const NotImplemented = (props: any) => {
         {JSON.stringify(props, null, 2)}
       </code>
     </div>
-  )
-}
+  );
+};
 
-export default NotImplemented
+export default NotImplemented;

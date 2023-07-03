@@ -1,42 +1,29 @@
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Group,
-  Input,
-  Menu,
-  Modal,
-  Text,
-  Tooltip,
-} from "@mantine/core"
-import { useClipboard, useId } from "@mantine/hooks"
-import { showNotification } from "@mantine/notifications"
-import { CSSProperties, useEffect, useMemo, useState } from "react"
-import { SxRadius } from "../../styles/basic"
-import {
-  IconCopy,
-  IconDots,
-  IconExternalLink,
-  IconQuestionMark,
-  IconTrashX,
-} from "@tabler/icons-react"
-import ApiList from "../api/ApiList"
-import { useRouter } from "next/router"
-import Link from "next/link"
-import { isEqual } from "lodash"
-import { useTranslation } from "../../i18n"
-import EditableInput from "../../types/EditableInput"
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
+
+import { useId } from "@mantine/hooks";
+import { IconExternalLink, IconTrashX } from "@tabler/icons-react";
+import { capitalize, isEqual } from "lodash";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import Button from "@/components/ui/Button";
+import Modal from "@/components/ui/Modal";
+import useTranslation from "@/hooks/useTranslation";
+
+import type EditableInput from "@/types/EditableInput";
+import ApiList from "../ApiList";
+import InputLabel from "../input/InputLabel";
 
 interface EditableApiEntryProps extends EditableInput<any> {
-  entryName: string
-  Element: React.ElementType
-  copyProvider?: (value: any | null) => string | undefined
-  style?: CSSProperties
-  withErase?: boolean
-  listProps?: any
-  linkEntry?: boolean
-  helpTooltip?: string
-  allowClear?: boolean
+  entryName: string;
+  Element: React.ElementType;
+  copyProvider?: (value: any | null) => string | undefined;
+  style?: CSSProperties;
+  withErase?: boolean;
+  listProps?: any;
+  linkEntry?: boolean;
+  helpTooltip?: string;
+  allowClear?: boolean;
 }
 
 const EditableApiEntry = (props: EditableApiEntryProps) => {
@@ -53,219 +40,125 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     style,
     withErase = false,
     listProps,
-    linkEntry = false,
+    linkEntry = true,
     helpTooltip,
     allowClear = false,
-  } = props
+  } = props;
 
-  const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null)
-  const [prev, setPrev] = useState<any>(apiEntry)
-  const [opened, setOpened] = useState<boolean>(false)
-  const uuid = useId()
-  const clipboard = useClipboard()
+  const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null);
+  const [prev, setPrev] = useState<any>(apiEntry);
+  const [open, setOpen] = useState<boolean>(false);
+  const uuid = useId();
   // eslint-disable-next-line
-  const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry])
-  const router = useRouter()
-  const { t } = useTranslation()
+  const copyValue = useMemo(() => copyProvider(apiEntry), [apiEntry]);
+  const router = useRouter();
+  const t = useTranslation();
 
   useEffect(() => {
-    setApiEntry(value)
-    setPrev(value)
-  }, [value])
+    setApiEntry(value);
+    setPrev(value);
+  }, [value]);
 
   useEffect(() => {
-    if (isEqual(apiEntry, prev)) return
-    onSubmit?.(apiEntry)
-    setPrev(apiEntry)
+    if (isEqual(apiEntry, prev)) return;
+    onSubmit?.(apiEntry);
+    setPrev(apiEntry);
     // eslint-disable-next-line
-  }, [apiEntry])
+  }, [apiEntry]);
 
   return (
-    <Input.Wrapper
-      label={
-        label && label.length > 0 ? (
-          <Group position="apart" spacing={0} style={{ width: "100%" }}>
-            <Group spacing={0}>
-              {label}
-              {apiEntry && copyValue && (
-                <ActionIcon
-                  size="xs"
-                  style={{
-                    display: "inline-block",
-                    transform: "translate(4px,0)",
-                  }}
-                  onClick={() => {
-                    clipboard.copy(copyValue)
-                    showNotification({
-                      title: "Skopiowano do schowka",
-                      message: copyValue,
-                    })
-                  }}
-                  tabIndex={-1}
-                >
-                  <IconCopy size={16} />
-                </ActionIcon>
-              )}
+    <div>
+      <InputLabel
+        label={label}
+        copyValue={apiEntry && copyValue ? copyValue : ""}
+        required={required}
+        helpTooltip={helpTooltip}
+      />
 
-              {helpTooltip && (
-                <Tooltip
-                  label={helpTooltip}
-                  openDelay={1000}
-                  multiline
-                  width={220}
-                >
-                  <ActionIcon variant="transparent" tabIndex={-1}>
-                    <IconQuestionMark size={16} />
-                  </ActionIcon>
-                </Tooltip>
-              )}
-            </Group>
-          </Group>
-        ) : undefined
-      }
-      labelElement="div"
-      required={required}
-      // style={{ position: "relative" }}
-      styles={{ label: { width: "100%" } }}
-      style={style}
-    >
       <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title={
-          allowClear ? (
+        open={open}
+        onClose={() => setOpen(false)}
+        contentProps={{
+          className: "w-[30rem] max-w-screen min-h-[50rem] max-h-screen",
+        }}
+      >
+        <div className="h-8">
+          {allowClear ? (
             <Button
               onClick={() => {
-                setOpened(false)
-                onSubmit?.(null)
+                setOpen(false);
+                onSubmit?.(null);
               }}
-              color="red"
-              variant="subtle"
-              size="sm"
-              leftIcon={<IconTrashX />}
-              radius="xl"
+              leftSection={<IconTrashX size={12} />}
+              className="h-8 p-3 text-xs"
             >
-              {t("clear")}
+              {t.clear}
             </Button>
-          ) : undefined
-        }
-      >
+          ) : undefined}
+        </div>
         {entryName ? (
           <ApiList
             entryName={entryName ?? ""}
             ListItem={Element}
-            label={label}
+            label={
+              entryName
+                ? capitalize(
+                    (
+                      t[entryName as keyof typeof t] as {
+                        singular: string;
+                        plural: string;
+                      }
+                    )?.plural
+                  )
+                : undefined
+            }
             onChange={(value) => {
-              setOpened(false)
-              setApiEntry(value)
+              setOpen(false);
+              setApiEntry(value);
             }}
+            excludeKey="name"
+            excludeValue="Szablon"
             {...listProps}
           />
         ) : (
-          <Text color="red">
+          <div className="text-red-500">
             Entry Name not valid or element was not defined in mapping
-          </Text>
+          </div>
         )}
       </Modal>
       {entryName ? (
-        <Box
+        <div
           key={uuid}
-          sx={[
-            SxRadius,
-            (theme) => ({
-              position: "relative",
-              border: "1px solid transparent",
-              "&:hover": {
-                border:
-                  theme.colorScheme === "dark"
-                    ? "1px solid #2C2E33"
-                    : "1px solid #ced4da",
-              },
-              overflow: "hidden",
-            }),
-          ]}
+          className={` relative flex overflow-hidden rounded border border-solid border-transparent ${
+            open
+              ? "border-sky-600 dark:border-sky-600"
+              : "border-gray-400 dark:border-stone-600"
+          }`}
         >
           <Element
-            onChange={() => setOpened(true)}
+            onChange={() => setOpen(true)}
             value={apiEntry}
             disabled={disabled}
           />
-          {linkEntry && value?.id && (
-            <Box
-              sx={[
-                (theme) => ({
-                  position: "absolute",
-                  top: "50%",
-                  right: "-3rem",
-                  transform: "translate(0,-50%)",
-                }),
-              ]}
-            >
-              <Link href={"/erp/" + entryName + "/" + value.id} passHref>
-                <ActionIcon
-                  size={100}
-                  component="a"
-                  tabIndex={-1}
-                  radius={99999}
-                  sx={(theme) => ({
-                    background:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[7]
-                        : theme.white,
-                  })}
-                >
-                  <IconExternalLink size={18} />
-                  <div style={{ width: "2.4rem" }}></div>
-                </ActionIcon>
+          {linkEntry && value && value?.id && (
+            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+              <Link
+                href={`/erp/${entryName}/${value?.id as string}`}
+                className="action-button"
+                tabIndex={-1}
+              >
+                <IconExternalLink size={18} />
               </Link>
-            </Box>
+            </div>
           )}
-          {apiEntry && withErase && (
-            <Menu withArrow>
-              <Menu.Target>
-                <ActionIcon
-                  tabIndex={-1}
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: 8,
-                    transform: "translate(0,-50%)",
-                  }}
-                >
-                  <IconDots size={14} />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item
-                  color="red"
-                  icon={<IconTrashX size={14} />}
-                  onClick={() => setApiEntry(null)}
-                >
-                  Delete
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-            // <ActionIcon
-            //   style={{
-            //     position: "absolute",
-            //     top: "50%",
-            //     right: 8,
-            //     transform: "translate(0,-50%)",
-            //   }}
-            //   onClick={() => setApiEntry(null)}
-            //   radius="xl"
-            // >
-            //   <IconTrashX size={18} />
-            // </ActionIcon>
-          )}
-        </Box>
+        </div>
       ) : (
-        <Text color="red">
+        <div className="text-red-500">
           Entry Name not valid or element was not defined in mapping
-        </Text>
+        </div>
       )}
-    </Input.Wrapper>
-  )
-}
+    </div>
+  );
+};
 
-export default EditableApiEntry
+export default EditableApiEntry;
