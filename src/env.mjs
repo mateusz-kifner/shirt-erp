@@ -19,6 +19,7 @@ export const env = createEnv({
    */
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "test", "production"]),
+    NEXT_PUBLIC_START_MESSAGE: z.string().optional(),
   },
 
   /**
@@ -30,6 +31,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     SECRET_COOKIE_PASSWORD: process.env.SECRET_COOKIE_PASSWORD,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_START_MESSAGE: process.env.NEXT_PUBLIC_START_MESSAGE,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
