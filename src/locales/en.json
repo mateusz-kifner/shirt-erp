@@ -1,0 +1,106 @@
+{
+  "language": "Language",
+  "delete": "Delete",
+  "operation_not_reversible": "Operation not reversible",
+  "add_row_top": "Add row top",
+  "add_row_bottom": "Add row bottom",
+  "add_column_left": "Add column left",
+  "add_column_right": "Add column right",
+  "remove_column": "Remove column",
+  "remove_row": "Remove row",
+  "cancel": "Cancel",
+  "sign_in": "Sign In",
+  "sign_out": "Sign Out",
+  "light_theme": "Light theme",
+  "dark_theme": "Dark theme",
+  "client": {
+    "singular": "client",
+    "plural": "clients"
+  },
+  "product": {
+    "singular": "product",
+    "plural": "products"
+  },
+  "order": {
+    "singular": "order",
+    "plural": "orders"
+  },
+  "email-message": {
+    "singular": "email",
+    "plural": "emails"
+  },
+  "task": {
+    "singular": "task",
+    "plural": "tasks"
+  },
+  "expense": {
+    "singular": "expense",
+    "plural": "expenses"
+  },
+  "log": {
+    "singular": "log",
+    "plural": "logs"
+  },
+  "order archive": {
+    "singular": "archived order",
+    "plural": "archived orders"
+  },
+  "workstation": {
+    "singular": "workstation",
+    "plural": "workstations"
+  },
+  "procedure": {
+    "singular": "procedure",
+    "plural": "procedures"
+  },
+  "file": {
+    "singular": "file",
+    "plural": "files"
+  },
+  "setting": {
+    "singular": "setting",
+    "plural": "settings"
+  },
+  "user": {
+    "singular": "employee",
+    "plural": "employees"
+  },
+  "close": "Close",
+  "clear": "Clear",
+  "fullscreen": "Fullscreen",
+  "sheet": "Sheet",
+  "design": "Design",
+  "add": "Add",
+  "today": "Today",
+  "planned": "Planned",
+  "accepted": "Accepted",
+  "in_production": "In production",
+  "wrapped": "Wrapped",
+  "sent": "Sent",
+  "rejected": "Rejected",
+  "archived": "Archived",
+  "color": "Color",
+  "item": "Item",
+  "item_color": "Item color",
+  "background_color": "Background color",
+  "grid": "Grid",
+  "uploading": "Uploading",
+  "add_files": "Add files",
+  "drop_files_here": "Drop files here",
+  "no_data": "No data",
+  "archive": "Archive",
+  "unarchive": "Unarchive",
+  "search": "Search",
+  "username": "Username",
+  "password": "Password",
+  "error_sign_in": "Username or password is incorrect!!!",
+  "copy_to_clipboard": "Copy to clipboard",
+  "pl": "Polski",
+  "en": "English",
+  "color_palette": "Color palette",
+  "color_without_alpha": "Color without alpha channel",
+  "color_with_alpha": "Color value",
+  "hide": "Hide",
+  "show": "show",
+  "zoom": "Zoom"
+}

@@ -1,0 +1,106 @@
+{
+  "language": "Język",
+  "delete": "Usuń",
+  "operation_not_reversible": "Operacja jest nieodwracalna !!!",
+  "add_row_top": "Dodaj wiersz powyżej",
+  "add_row_bottom": "Dodaj wiersz poniżej",
+  "add_column_left": "Dodaj kolumnę po lewej",
+  "add_column_right": "Dodaj kolumnę po prawej",
+  "remove_column": "Usuń kolumnę",
+  "remove_row": "Usuń wiersz",
+  "cancel": "Anuluj",
+  "sign_in": "Zaloguj",
+  "sign_out": "Wyloguj",
+  "light_theme": "Jasna skórka",
+  "dark_theme": "Ciemna skórka",
+  "client": {
+    "singular": "klient",
+    "plural": "klienci"
+  },
+  "product": {
+    "singular": "produkt",
+    "plural": "produkty"
+  },
+  "order": {
+    "singular": "zamówienie",
+    "plural": "zamówienia"
+  },
+  "email-message": {
+    "singular": "email",
+    "plural": "emalie"
+  },
+  "task": {
+    "singular": "zadanie",
+    "plural": "zadania"
+  },
+  "expense": {
+    "singular": "wydatek",
+    "plural": "wydatki"
+  },
+  "log": {
+    "singular": "log",
+    "plural": "logi"
+  },
+  "order archive": {
+    "singular": "zamówienie archiwalne",
+    "plural": "zamówienia archiwalne"
+  },
+  "workstation": {
+    "singular": "stanowisko pracy",
+    "plural": "stanowiska pracy"
+  },
+  "procedure": {
+    "singular": "procedura",
+    "plural": "procedury"
+  },
+  "file": {
+    "singular": "plik",
+    "plural": "pliki"
+  },
+  "setting": {
+    "singular": "ustawienie",
+    "plural": "ustawienia"
+  },
+  "user": {
+    "singular": "pracownik",
+    "plural": "pracownicy"
+  },
+  "close": "Zamknij",
+  "clear": "Wyczyść",
+  "fullscreen": "Pełny ekran",
+  "sheet": "Arkusz",
+  "design": "Design",
+  "add": "Dodaj",
+  "today": "dziś",
+  "planned": "planowane",
+  "accepted": "zaakceptowane",
+  "in_production": "w produkcji",
+  "wrapped": "zapakowane",
+  "sent": "wysłane",
+  "rejected": "odrzucone",
+  "archived": "archiwizowane",
+  "color": "kolor",
+  "item": "przedmiot",
+  "item_color": "kolor przedmiotu",
+  "background_color": "kolor tła",
+  "grid": "siatka",
+  "uploading": "wysyłam",
+  "add_files": "Dodaj pliki",
+  "drop_files_here": "Wrzuć tu pliki",
+  "no_data": "Brak danych",
+  "archive": "Archiwizuj",
+  "unarchive": "Odarchiwizuj",
+  "search": "Szukaj",
+  "username": "Login",
+  "password": "Hasło",
+  "error_sign_in": "Niepoprawny login lub hasło!!!",
+  "copy_to_clipboard": "Kopiuj do schowka",
+  "pl": "Polski",
+  "en": "English",
+  "color_palette": "Paleta kolorów",
+  "color_without_alpha": "Kolor bez kanału alpha",
+  "color_with_alpha": "Wartość koloru",
+  "hide": "Ukryj",
+  "show": "Pokaż",
+  "zoom": "Powiększenie"
+}
