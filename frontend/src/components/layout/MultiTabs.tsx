@@ -24,8 +24,11 @@ import React, {
   ReactNode,
   forwardRef,
 } from "react"
-import { IconPinned, IconAlertCircle } from "@tabler/icons-react"
-import { SxBorder } from "../../styles/basic"
+import {
+  IconPinned,
+  IconAlertCircle,
+  TablerIconsProps,
+} from "@tabler/icons-react"
 import {
   simpleColors,
   getRandomColorByString,
@@ -46,7 +49,7 @@ export interface TabProps
   rightSection?: React.ReactNode
 
   /** Section of content displayed before label */
-  Icon?: React.ComponentType<any & { size?: number }>
+  Icon?: (props: TablerIconsProps) => JSX.Element
 
   /** Key of theme.colors */
   color?: MantineColor
@@ -137,7 +140,7 @@ interface MultiTabsProps {
   onPin: (pinned: number) => void
 
   childrenLabels: string[]
-  childrenIcons: ComponentType<any & { size?: number }>[]
+  childrenIcons: ((props: TablerIconsProps) => JSX.Element)[]
 
   leftSection?: ReactNode
   rightSection?: ReactNode

@@ -8,13 +8,12 @@
     "build": "strapi build",
     "build-prod": "cross-env NODE_ENV=production yarn build",
     "prod": "cross-env NODE_ENV=production yarn start",
-
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.7.1",
-    "@strapi/plugin-users-permissions": "4.7.1",
-    "@strapi/strapi": "4.7.1",
+    "@strapi/plugin-i18n": "4.3.x",
+    "@strapi/plugin-users-permissions": "4.3.x",
+    "@strapi/strapi": "4.3.x",
     "imapflow": "^1.0.121",
     "lodash": "^4.17.21",
     "mailparser": "^3.6.4",
