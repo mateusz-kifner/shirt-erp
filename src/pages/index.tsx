@@ -1,14 +1,17 @@
-import { useRouter } from "next/router"
-import React, { useEffect } from "react"
+import { useEffect } from "react";
+
+import { useRouter } from "next/router";
 
 const Main = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
-    router.push("/erp/tasks")
-  })
+    void router.push("/erp/tasks");
+  });
 
-  return <div>Redirecting</div>
-}
+  return (
+    <div className="flex justify-center pt-10 font-bold">Redirecting...</div>
+  );
+};
 
-export default Main
+export default Main;

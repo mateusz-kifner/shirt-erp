@@ -1,245 +1,215 @@
-import { forwardRef, useState } from "react"
+import { useEffect, useState } from "react";
+
 import {
-  Avatar,
-  Button,
-  ColorScheme,
-  Container,
-  Group,
-  Modal,
-  Paper,
-  Select,
-  Stack,
-  Text,
-} from "@mantine/core"
-import {
-  IconAffiliate,
   IconBug,
   IconLogout,
   IconMoonStars,
   IconSun,
-} from "@tabler/icons-react"
-import template from "../../../models/test.model.json"
-import Editable from "../../../components/editable/Editable"
-import { showNotification } from "@mantine/notifications"
-import { useLocalStorage, useColorScheme } from "@mantine/hooks"
-import Link from "next/link"
-import { useAuthContext } from "../../../context/authContext"
-import { useExperimentalFuturesContext } from "../../../context/experimentalFuturesContext"
-import { useRouter } from "next/router"
-import { useTranslation } from "../../../i18n"
+  IconUserCircle,
+} from "@tabler/icons-react";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import { withIronSessionSsr } from "iron-session/next";
+import { useRouter } from "next/router";
+import SuperJSON from "superjson";
+
+import Editable from "@/components/editable/Editable";
+import Button from "@/components/ui/Button";
+import Select from "@/components/ui/Select";
+import { useUserContext } from "@/context/userContext";
+import { useLoaded } from "@/hooks/useLoaded";
+import { toast } from "@/hooks/useToast";
+import useTranslation from "@/hooks/useTranslation";
+import { sessionOptions } from "@/lib/session";
+import { appRouter } from "@/server/api/root";
+import { prisma } from "@/server/db";
+import template from "@/templates/test.template";
+import { api } from "@/utils/api";
+import { useLocalStorage } from "@mantine/hooks";
 
 const testData = {
   name: "string",
-  bool: true,
-  switch: false,
+  // bool: true,
+  // switch: false,
   category: "option 1",
   color: "#ff0000",
   date: "2021-11-05T12:24:05.097Z",
   datetime: "2021-11-05T12:24:05.097Z",
   product: null,
   client: null,
-  productComponent: null,
-  productComponents: [],
-  image: null,
-  file: null,
-  files: null,
-  workstations: null,
-  employee: null,
-  employees: null,
-  submit: null,
+  // productComponent: null,
+  // productComponents: [],
+  // image: null,
+  // file: null,
+  // files: null,
+  // workstations: null,
+  // employee: null,
+  // employees: null,
+  // submit: null,
 
-  group: { name: "test", color: "#ff0000" },
-  group2: { name: "test", color: "#ff0000" },
-  group3: { name: {}, color: "#ff0000" },
-  group_of_arrays: { arrayText: [], arrayText2: [] },
-}
+  // group: { name: "test", color: "#ff0000" },
+  // group2: { name: "test", color: "#ff0000" },
+  // group3: { name: {}, color: "#ff0000" },
+  // group_of_arrays: { arrayText: [], arrayText2: [] },
+};
 
-interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
-  image: string
-  label: string
-}
+export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+  const user = req.session.user;
 
-const SelectItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ image, label, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
-      <Group noWrap>
-        <Avatar src={image} />
-
-        <div>
-          <Text size="sm">{label}</Text>
-        </div>
-      </Group>
-    </div>
-  )
-)
-
-SelectItem.displayName = "SelectItem"
-
-const SettingsPage = () => {
-  const { debug, toggleDebug, signOut } = useAuthContext()
-  const router = useRouter()
-  const { toggleSearch, toggleAdvancedNavigation, search, advancedNavigation } =
-    useExperimentalFuturesContext()
-  const [testFormVisible, setTestFormVisible] = useState(false)
-  const preferredColorScheme = useColorScheme()
-
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: preferredColorScheme,
-  })
-
-  const { t, i18n } = useTranslation()
-  const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
-
-  const handleLocaleChange = (value: string) => {
-    i18n.changeLanguage(value)
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
   }
 
-  const [previewOpened, setPreviewOpened] = useState<boolean>(false)
-  const [preview, setPreview] = useState<string>("")
+  const ssg = createServerSideHelpers({
+    router: appRouter,
+    ctx: { prisma, session: req.session },
+    transformer: SuperJSON,
+  });
+
+  await ssg.session.user.prefetch();
+
+  return {
+    props: { trpcState: ssg.dehydrate() },
+  };
+}, sessionOptions);
+
+function Settings() {
+  const router = useRouter();
+  const loaded = useLoaded();
+  const { locale } = router;
+  const { data } = api.session.user.useQuery();
+  const logout = api.session.logout.useMutation({
+    onSuccess() {
+      void router.push("/profile");
+    },
+    onError(err) {
+      console.log(err.message);
+    },
+  });
+  const t = useTranslation();
+  const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
+  const [testFormOpen, setTestFormOpen] = useState<boolean>(false);
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
+  const [val, setVal] = useState<any>(null);
+  const [testColor, setTestColor] = useState<string>("#fff");
+  const [testValue, setTestValue] = useState<any>(testData);
+  const [testDate, setTestDate] = useState<string | null>(
+    "2021-11-05T12:24:05.097Z"
+  );
+  const { mutate } = api.client.create.useMutation();
+  const [remSize, setRemSize] = useLocalStorage({
+    key: "remSize",
+    defaultValue: 10,
+  });
+
+  useEffect(() => {
+    if (loaded) {
+      const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
+      html.style.fontSize = "" + remSize + "px";
+    }
+  }, [remSize]);
+
+  if (!data?.user) return null;
+  const user = data.user;
+
+  const changeLocale = (value: string) => {
+    router.push("", "", { locale: value }).catch((e) => {
+      throw e;
+    });
+  };
 
   return (
-    <Container size="xs" px="xs" my="xl">
-      <Modal
-        opened={testFormVisible}
-        onClose={() => setTestFormVisible(false)}
-        size="xl"
-      >
-        <Editable
-          template={template}
-          data={testData}
-          onSubmit={(key, val) => {
-            console.log("Sublmit", key, " ", val)
-            showNotification({
-              message: key + ": " + JSON.stringify(val),
-            })
-          }}
-        />
-      </Modal>
-      <Paper shadow="xs" p="xl" withBorder>
-        <Group>
-          <Button
-            style={{ width: "100%", color: "#fff" }}
-            onClick={() => {
-              signOut()
-            }}
-          >
-            <Group>
-              <IconLogout />
-              Wyloguj
-            </Group>
+    <div className="flex w-full flex-row items-start justify-center pb-12 pt-28 font-sans dark:text-gray-200">
+      <div className="card mx-auto w-[36rem] bg-white shadow-xl dark:bg-stone-800">
+        <IconUserCircle className="mx-auto -mt-20 h-32 w-32 rounded-full border-8 border-white bg-gray-200 stroke-slate-900 dark:border-stone-800  dark:bg-stone-800  dark:stroke-gray-200 " />
+        <div className="mt-2 text-center text-3xl font-medium">
+          {user?.name}
+        </div>
+        <hr className="mt-8 dark:border-stone-600 " />
+        <div className="flex flex-col gap-3 p-4 ">
+          <Button onClick={() => logout.mutate()} leftSection={<IconLogout />}>
+            {t.sign_out}
           </Button>
-          <Group style={{ width: "100%" }}>
-            <Text style={{ flexGrow: 1 }}>{t("lang")}</Text>
-
+          <div className="flex flex-grow items-center gap-2">
+            <span className="flex-grow">{t.zoom}</span>
+            <Button onClick={() => setRemSize(12)} className="w-12">
+              -2
+            </Button>
+            <Button onClick={() => setRemSize(14)} className="w-12">
+              -1
+            </Button>
+            <Button onClick={() => setRemSize(16)} className="w-12">
+              0
+            </Button>
+            <Button onClick={() => setRemSize(18)} className="w-12">
+              1
+            </Button>
+            <Button onClick={() => setRemSize(20)} className="w-12">
+              2
+            </Button>
+          </div>
+          <div className="flex items-center justify-stretch">
+            <span className="w-1/2">{t.language}</span>
             <Select
-              disabled={!debug}
-              icon={<Avatar src={`/assets/${i18n.language}.svg`} />}
-              iconWidth={50}
-              onChange={handleLocaleChange}
-              value={i18n.language}
-              data={[
-                {
-                  value: "en",
-                  label: "English",
-
-                  image: "/assets/en.svg",
-                },
-                {
-                  value: "pl",
-                  label: "Polski",
-                  image: "/assets/pl.svg",
-                },
-              ]}
-              itemComponent={SelectItem}
+              data={["pl", "en"]}
+              defaultValue={locale ?? "pl"}
+              onValueChange={changeLocale}
             />
-          </Group>
+          </div>
           <Button
-            style={{ width: "100%", color: "#fff" }}
-            onClick={() => toggleColorScheme()}
-            title="Toggle color scheme"
+            onClick={toggleTheme}
+            leftSection={theme === 1 ? <IconSun /> : <IconMoonStars />}
           >
-            <Group>
-              {colorScheme === "dark" ? (
-                <>
-                  <IconSun size={18} />
-                  Jasna skórka
-                </>
-              ) : (
-                <>
-                  <IconMoonStars size={18} />
-                  Ciemna skórka
-                </>
-              )}
-            </Group>
+            {theme === 1 ? t.light_theme : t.dark_theme}
           </Button>
-          {/* <Button
-            style={{ width: "100%", color: "#fff" }}
-            component={Link}
-            href={"/erp/workstations"}
-          >
-            <Group>
-              <IconAffiliate />
-              Ustawienia Produkcji
-            </Group>
-          </Button> */}
           <Button
-            style={{ width: "100%", color: "#fff" }}
             onClick={() => {
-              toggleDebug()
+              toggleDebug();
             }}
+            leftSection={<IconBug />}
           >
-            <Group>
-              <IconBug />
-              Debug {debug ? "ON" : "OFF"}
-            </Group>
+            Debug {debug ? "ON" : "OFF"}
           </Button>
           {debug && (
-            <Stack style={{ width: "100%" }}>
+            <>
               <Button
-                style={{ width: "100%", color: "#fff" }}
                 onClick={() => {
-                  setTestFormVisible(true)
+                  setTestFormOpen(true);
                 }}
-                color="yellow"
+                leftSection={<IconBug />}
               >
-                <Group>
-                  <IconLogout />
-                  Open Test
-                </Group>
+                Open Test Form
               </Button>
+
               <Button
-                style={{ width: "100%", color: "#fff" }}
                 onClick={() => {
-                  toggleAdvancedNavigation()
+                  /**/
+                  toast({ title: "test" });
                 }}
-                color="red"
+                leftSection={<IconBug />}
               >
-                <Group>
-                  <IconBug />
-                  Experimental Navigation {advancedNavigation ? "ON" : "OFF"}
-                </Group>
+                show info
               </Button>
-              <Button
-                style={{ width: "100%", color: "#fff" }}
-                onClick={() => {
-                  toggleSearch()
-                }}
-                color="red"
-              >
-                <Group>
-                  <IconBug />
-                  Experimental Search {search ? "ON" : "OFF"}
-                </Group>
-              </Button>
-              <Text>{i18n.language}</Text>
-            </Stack>
+            </>
           )}
-        </Group>
-      </Paper>
-    </Container>
-  )
+          <Editable
+            data={testValue}
+            template={template}
+            onSubmit={(key, value) => {
+              // @ts-ignore
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+              setTestValue((val) => ({ ...val, [key]: value }));
+              console.log(key, value);
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default SettingsPage
+export default Settings;

@@ -1,101 +1,100 @@
+import { useUserContext } from "@/context/userContext";
+import { useElementSize } from "@mantine/hooks";
 import {
-  MediaQuery,
-  Group,
-  Burger,
-  ActionIcon,
-  Header as MantineHeader,
-  useMantineTheme,
-} from "@mantine/core"
-import { useSpotlight } from "@mantine/spotlight"
-import { IconSearch, IconSettings } from "@tabler/icons-react"
-import { useAuthContext } from "../../context/authContext"
-import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
-import Notifications from "../Notifications"
-import Link from "next/link"
+  IconBell,
+  IconMessage,
+  IconSearch,
+  IconSettings,
+} from "@tabler/icons-react";
+import Link from "next/link";
 
-interface HeaderProps {}
+const Header = () => {
+  const { ref, width: actionButtonsWidth } = useElementSize();
 
-const Header = (props: HeaderProps) => {
-  const { toggleNavigationCollapsed, navigationCollapsed } = useAuthContext()
-  const { search } = useExperimentalFuturesContext()
-  const theme = useMantineTheme()
-  const spotlight = useSpotlight()
+  const { navigationCollapsed } = useUserContext();
 
   return (
-    <MantineHeader
-      height={60}
-      styles={(theme) => ({
-        root: {
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[7]
-              : theme.colors.dark[5],
-        },
-      })}
-    >
-      <MediaQuery largerThan="md" styles={{ padding: "0 13px" }}>
-        <Group
-          position="apart"
-          align="center"
-          style={{ height: "100%", flexWrap: "nowrap" }}
-          p={0}
+    <div className="fixed left-0 top-0 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 px-4">
+      <div className="flex h-full flex-nowrap items-center justify-between">
+        {navigationCollapsed ? (
+          // eslint-disable-next-line
+          <img
+            src="/assets/logo_micro.png"
+            alt="Shirt Dip ERP"
+            className="h-10"
+          />
+        ) : (
+          // eslint-disable-next-line
+          <img
+            src="/assets/logo_small.png"
+            alt="Shirt Dip ERP"
+            className="h-10"
+          />
+        )}
+      </div>
+      <div
+        id="HeaderTabs"
+        className={`absolute left-0 top-0 h-14  transition-all ${
+          navigationCollapsed ? "ml-20" : "ml-64"
+        }`}
+        style={{
+          width: `calc(100% - ${actionButtonsWidth}px - 1rem - ${
+            navigationCollapsed ? "5rem" : "16rem"
+          })`,
+        }}
+      ></div>
+      <div className="flex justify-end gap-3" ref={ref}>
+        <button
+          className="border-1 animate-pop inline-flex h-9
+            w-9 items-center justify-center 
+            rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
+            hover:bg-stone-950
+            active:hover:scale-95 active:hover:animate-none 
+            active:focus:scale-95 active:focus:animate-none
+            disabled:pointer-events-none disabled:bg-stone-700"
         >
-          <Group style={{ width: navigationCollapsed ? 85 - 13 : 300 - 13 }}>
-            <MediaQuery largerThan="md" styles={{ display: "none" }}>
-              <Burger
-                opened={navigationCollapsed ?? false}
-                onClick={() => toggleNavigationCollapsed()}
-                size="sm"
-                color={theme.colors.gray[4]}
-                mr="sm"
-              />
-            </MediaQuery>
-            <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-              {navigationCollapsed ? (
-                // eslint-disable-next-line
-                <img
-                  src="/assets/logo_micro.png"
-                  alt="Shirt Dip ERP"
-                  height={40}
-                />
-              ) : (
-                // eslint-disable-next-line
-                <img
-                  src="/assets/logo_small.png"
-                  alt="Shirt Dip ERP"
-                  height={40}
-                />
-              )}
-            </MediaQuery>
-          </Group>
-          <div id="HeaderTabs" style={{ flexGrow: 1, height: "100%" }}></div>
-          <Group style={{ minWidth: "160px" }} position="right">
-            <ActionIcon
-              size="lg"
-              radius="xl"
-              color={theme.colorScheme === "dark" ? "gray" : "dark"}
-              variant={theme.colorScheme === "dark" ? "default" : "filled"}
-              onClick={spotlight.openSpotlight}
-              disabled={!search}
-            >
-              <IconSearch />
-            </ActionIcon>
-            <Notifications />
-            <ActionIcon
-              size="lg"
-              radius="xl"
-              component={Link}
-              href="/erp/settings"
-              color={theme.colorScheme === "dark" ? "gray" : "dark"}
-              variant={theme.colorScheme === "dark" ? "default" : "filled"}
-            >
-              <IconSettings />
-            </ActionIcon>
-          </Group>
-        </Group>
-      </MediaQuery>
-    </MantineHeader>
-  )
-}
+          <IconSearch className="stroke-gray-200" />
+        </button>
+        <button
+          className="border-1 animate-pop inline-flex h-9
+            w-9 items-center justify-center 
+            rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
+            hover:bg-stone-950
+            active:hover:scale-95 active:hover:animate-none 
+            active:focus:scale-95 active:focus:animate-none
+            disabled:pointer-events-none disabled:bg-stone-700"
+          disabled
+        >
+          <IconMessage className="stroke-gray-200" />
+        </button>
+        <button
+          className="border-1 animate-pop inline-flex h-9
+            w-9 items-center justify-center 
+            rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
+            hover:bg-stone-950
+            active:hover:scale-95 active:hover:animate-none 
+            active:focus:scale-95 active:focus:animate-none
+            disabled:pointer-events-none disabled:bg-stone-700"
+          disabled
+        >
+          <IconBell className="stroke-gray-200" />
+        </button>
 
-export default Header
+        <Link
+          href={"/erp/settings"}
+          className="border-1 animate-pop inline-flex h-9
+            w-9 items-center justify-center 
+            rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
+            hover:bg-stone-950
+            active:hover:scale-95 active:hover:animate-none 
+            active:focus:scale-95 active:focus:animate-none
+            disabled:pointer-events-none disabled:bg-stone-700"
+        >
+          <IconSettings className="stroke-gray-200" />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default Header;

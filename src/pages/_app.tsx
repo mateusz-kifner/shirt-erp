@@ -1,110 +1,102 @@
-import { AppProps } from "next/app"
-import Head from "next/head"
-import "../styles/global.css"
-import React from "react"
-import AppLayout from "../components/layout/AppLayout"
-import { QueryClient, QueryClientProvider } from "react-query"
-import Logger from "js-logger"
-import axios from "axios"
-import { ReactQueryDevtools } from "react-query/devtools"
-import { showNotification } from "@mantine/notifications"
-import UIProvider from "../components/layout/UIProvider"
-import { AuthProvider } from "../context/authContext"
-import { IconsProvider } from "../context/iconsContext"
-import { ExperimentalFuturesProvider } from "../context/experimentalFuturesContext"
-import { env } from "../env/client.mjs"
-import "../i18n"
+import { type AppType } from "next/app";
 
-axios.defaults.baseURL = env.NEXT_PUBLIC_SERVER_API_URL + "/api"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Logger from "js-logger";
+import Head from "next/head";
 
-const queryClient = new QueryClient()
+import ErrorBoundary from "@/components/ErrorBoundary";
+import AppLayout from "@/components/layout/AppLayout";
+import { UserContextProvider } from "@/context/userContext";
+import { env } from "@/env.mjs";
+import { api } from "@/utils/api";
+import { TooltipProvider as RadixTooltipProvider } from "@radix-ui/react-tooltip";
+
+import "@/styles/globals.css";
+
+// dayjs imports
+import dayjs from "dayjs";
+import "dayjs/locale/pl";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+import { Toaster } from "@/components/ui/Toaster";
+import { toast } from "@/hooks/useToast";
+import isToday from "dayjs/plugin/isToday";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+dayjs.extend(localizedFormat);
+dayjs.extend(isToday);
+dayjs.extend(relativeTime);
+dayjs.extend(customParseFormat);
+
+// TODO: refactor logger
 
 Logger.setHandler(function (messages, context) {
-  const savedValue = localStorage.getItem("user-data")
-  console.log(messages[0]?.message ?? "Nieznany błąd", messages[0])
+  console.log(messages);
+  const savedValue = localStorage.getItem("user-data"); // TODO: log user id here
+  console.log(messages[0]?.message ?? "Nieznany błąd", messages[0]);
   if (context.level === Logger.ERROR)
-    showNotification({
-      title: "Błąd",
-      message:
-        messages[0]?.message ??
-        "Nieznany błąd: sprawdź szczegóły w logu servera",
-      color: "red",
-    })
-  if (context.level === Logger.WARN)
-    showNotification({
-      title: "Ostrzeżenie",
-      message:
-        messages[0]?.message ??
-        "Nieznany błąd: sprawdź szczegóły w logu servera",
-      color: "yellow",
-    })
+    if (context.level === Logger.WARN)
+      toast({
+        title: "Błąd",
+        description:
+          messages[0]?.message ??
+          "Nieznany błąd: sprawdź szczegóły w logu serwera",
+      });
   if (typeof messages[0] === "string") {
-    axios.post("/logs", {
-      message: messages[0],
-      type: context.level.name,
-      userId: savedValue && savedValue?.length > 0 ? savedValue : null,
-    })
+    toast({
+      title: "Ostrzeżenie",
+      // description:
+      //   messages[0].message ??
+      //   "Nieznany błąd: sprawdź szczegóły w logu serwera",
+    });
+    // axios.post("/logs", {
+    //   message: messages[0],
+    //   type: context.level.name,
+    //   userId: savedValue && savedValue?.length > 0 ? savedValue : null,
+    // });
   } else {
-    axios.post("/logs", {
-      message: messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
-      data: messages[0],
-      type: context.level.name,
-      userId: savedValue && savedValue?.length > 0 ? savedValue : null,
-    })
+    // axios.post("/logs", {
+    //   message: messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
+    //   data: messages[0],
+    //   type: context.level.name,
+    //   userId: savedValue && savedValue?.length > 0 ? savedValue : null,
+    // });
   }
-})
+});
 
 Logger.setLevel(
   env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN
-)
+);
 
-export default function App(props: AppProps) {
-  const { Component, pageProps } = props
+const App: AppType = ({ Component, pageProps }) => {
+  const router = useRouter();
+  dayjs.locale(router.locale);
+
+  useEffect(() => {
+    const remSize = localStorage.getItem("remSize");
+    const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
+    html.style.fontSize = `${remSize}px`;
+  }, []);
 
   return (
-    <>
-      <Head>
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-        <meta name="theme-color" content="#1f1f1f" />
-        <meta name="robots" content="noindex,nofollow" />
-        <meta name="description" content="ShirtERP system" />
-        <link
-          rel="apple-touch-icon"
-          sizes="192x192"
-          href="/shirterp-192x192.png"
-        />
-
-        <link
-          rel="manifest"
-          href="/manifest.webmanifest"
-          crossOrigin="use-credentials"
-        />
-
-        <title>ShirtERP</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <IconsProvider>
-            <ExperimentalFuturesProvider>
-              <UIProvider>
-                <AppLayout>
-                  <Component {...pageProps} />
-                </AppLayout>
-              </UIProvider>
-            </ExperimentalFuturesProvider>
-          </IconsProvider>
-        </AuthProvider>
+    <UserContextProvider>
+      <RadixTooltipProvider>
+        <AppLayout>
+          <Head>
+            <title>ShirtERP</title>
+          </Head>
+          <ErrorBoundary fallback={<h1>Application crashed</h1>}>
+            <Component {...pageProps} />
+          </ErrorBoundary>
+        </AppLayout>
+        <Toaster />
         <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </>
-  )
-}
+      </RadixTooltipProvider>
+    </UserContextProvider>
+  );
+};
+
+export default api.withTRPC(App);

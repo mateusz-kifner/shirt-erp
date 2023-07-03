@@ -1,38 +1,40 @@
-import { AppShell, MantineTheme } from "@mantine/core"
-import { ReactNode } from "react"
+import { useEffect, type PropsWithChildren } from "react";
 
-import Navigation from "./Navigation"
-import Header from "./Header"
-import AdvancedNavigation from "./AdvancedNavigation"
-import { useAuthContext } from "../../context/authContext"
-import { useExperimentalFuturesContext } from "../../context/experimentalFuturesContext"
-import Login from "../../page-components/Login"
+import Header from "@/components/layout/Header";
+import Navigation from "@/components/layout/Navigation";
+import { useUserContext } from "@/context/userContext";
 
-const AppLayout = ({ children }: { children: ReactNode }) => {
-  const { isAuthenticated } = useAuthContext()
-  const { advancedNavigation } = useExperimentalFuturesContext()
+function Layout({ children }: PropsWithChildren) {
+  const { navigationCollapsed } = useUserContext();
+
+  useEffect(() => {
+    // initialize theme
+    const theme = localStorage.getItem("user-theme");
+    const htmlElement = document.querySelector("html") as HTMLHtmlElement;
+    htmlElement.classList.add(theme === "0" ? "light" : "dark");
+
+    // enable transitions after page load
+    const timeout = setTimeout(() => {
+      const bodyElement = document.querySelector("body") as HTMLBodyElement;
+      bodyElement.classList.remove("preload");
+    }, 200);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
-    <AppShell
-      style={{ height: "100%" }}
-      padding={0}
-      navbarOffsetBreakpoint="md"
-      fixed
-      header={<Header />}
-      navbar={advancedNavigation ? <AdvancedNavigation /> : <Navigation />}
-      styles={(theme: MantineTheme) => ({
-        main: {
-          backgroundColor:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors[theme.primaryColor][0],
-          overflowX: "hidden",
-        },
-      })}
-    >
-      {isAuthenticated ? children : <Login />}
-    </AppShell>
-  )
+    <div>
+      <main
+        className={`${
+          navigationCollapsed ? "pl-20" : "pl-64"
+        } min-h-screen pt-14 transition-all`}
+      >
+        {children}
+      </main>
+      <Navigation />
+      <Header />
+    </div>
+  );
 }
 
-export default AppLayout
+export default Layout;

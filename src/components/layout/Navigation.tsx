@@ -1,146 +1,60 @@
-import {
-  Group,
-  Box,
-  Navbar,
-  ScrollArea,
-  Stack,
-  ActionIcon,
-  useMantineTheme,
-  Button,
-} from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
-import navigationData from "../../navigationData"
-import {
-  IconChevronRight,
-  IconChevronLeft,
-  IconCategory,
-  IconChartTreemap,
-} from "@tabler/icons-react"
-import { NavButton } from "./NavButton"
-import { useAuthContext } from "../../context/authContext"
-import { useRouter } from "next/router"
-import { Children, ReactNode, useEffect, useState } from "react"
-import { has } from "lodash"
+import { useState } from "react";
 
-interface NavigationProps {}
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 
-const Navigation = (props: NavigationProps) => {
-  const {
-    navigationCollapsed,
-    toggleNavigationCollapsed,
-    debug,
-    isSmall,
-    hasTouch,
-  } = useAuthContext()
-  const router = useRouter()
-  const theme = useMantineTheme()
-  const biggerThanSM = useMediaQuery(
-    `(min-width: ${theme.breakpoints.md}px)`,
-    true
-  )
-  const [activeTab, setActiveTab] = useState<number>(0)
+import NavButton from "@/components/layout/NavButton";
+import { useUserContext } from "@/context/userContext";
+import navigationData from "@/navigationData";
+
+function Navigation() {
+  const router = useRouter();
+  const { navigationCollapsed, toggleNavigationCollapsed, debug } =
+    useUserContext();
+
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
 
   return (
-    <Navbar
-      hiddenBreakpoint="md"
-      hidden={!navigationCollapsed}
-      width={{ base: "100%", md: navigationCollapsed ? 85 : 300 }}
-      px="sm"
+    <div
+      className={`fixed left-0 top-14 flex h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)]  flex-col justify-between  border-r-[1px] border-stone-400 bg-white  px-3 py-1 transition-all dark:border-stone-600 dark:bg-stone-900 ${
+        navigationCollapsed ? "w-20" : "w-64"
+      }`}
     >
-      {(hasTouch || isSmall) && (
-        <Stack py="md" align="center">
-          <Button.Group>
-            <Button
-              variant="default"
-              // style={{ flexGrow: 1 }}
-              onClick={() => setActiveTab(0)}
-              radius={999999}
-              disabled={activeTab === 0}
-              size="xl"
-            >
-              <IconCategory />
-            </Button>
-            <Button
-              variant="default"
-              // style={{ flexGrow: 1 }}
-              onClick={() => setActiveTab(1)}
-              radius={999999}
-              disabled={activeTab === 1}
-              size="xl"
-            >
-              <IconChartTreemap />
-            </Button>
-          </Button.Group>
-        </Stack>
-      )}
-      <ScrollArea>
-        <Stack
-          m={0}
-          py="md"
-          justify="space-between"
-          style={{
-            minHeight: "calc(100vh - var(--mantine-header-height))",
+      <div className="scrollbar scrollbar-track-transparent scrollbar-thumb-blue-500 scrollbar-corner-transparent  scrollbar-thumb-rounded-full scrollbar-w-2 overflow-y-auto overflow-x-hidden transition-all ">
+        <div className="flex flex-col gap-2 py-3">
+          {navigationData.map(
+            (val) =>
+              (!val?.debug || debug) && (
+                <NavButton
+                  {...val}
+                  key={"navbar_" + val.label}
+                  // onClick={(e: any) => {
+                  //   !biggerThanSM && toggleNavigationCollapsed()
+                  // }}
+                  small={navigationCollapsed}
+                  active={val.entryName === router.pathname.split("/")[2]}
+                />
+              )
+          )}
+        </div>
+      </div>
+      <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
+        <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
+        <button
+          className=" flex h-12 w-12 items-center justify-center rounded-full transition-all before:absolute before:bottom-2 before:left-0 before:h-12 before:w-full  hover:bg-black hover:bg-opacity-25"
+          onClick={() => {
+            toggleNavigationCollapsed();
           }}
         >
-          <Stack
-            style={{
-              display:
-                (isSmall || hasTouch) && activeTab !== 0 ? "none" : undefined,
-            }}
-          >
-            {navigationData.map(
-              (val, index) =>
-                (!val?.debug || debug) && (
-                  <NavButton
-                    {...val}
-                    key={"navbar_" + val.label}
-                    onClick={(e: any) => {
-                      !biggerThanSM && toggleNavigationCollapsed()
-                    }}
-                    small={navigationCollapsed && biggerThanSM}
-                    active={val.entryName === router.pathname.split("/")[2]}
-                  />
-                )
-            )}
-          </Stack>
-          <Stack
-            id="SpecialMenu"
-            style={{
-              display: activeTab !== 1 ? "none" : undefined,
-            }}
-          ></Stack>
-          {biggerThanSM && (
-            <Box
-              sx={(theme) => ({
-                paddingTop: theme.spacing.md,
-                borderTop: `1px solid ${
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[4]
-                    : theme.colors.gray[2]
-                }`,
-              })}
-            >
-              <Group position="center">
-                <ActionIcon
-                  size="xl"
-                  radius="xl"
-                  onClick={() => {
-                    toggleNavigationCollapsed()
-                  }}
-                >
-                  {navigationCollapsed ? (
-                    <IconChevronRight />
-                  ) : (
-                    <IconChevronLeft />
-                  )}
-                </ActionIcon>
-              </Group>
-            </Box>
+          {navigationCollapsed ? (
+            <IconChevronRight className="stroke-stone-600 dark:stroke-gray-200" />
+          ) : (
+            <IconChevronLeft className="stroke-stone-600 dark:stroke-gray-200" />
           )}
-        </Stack>
-      </ScrollArea>
-    </Navbar>
-  )
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default Navigation
+export default Navigation;
