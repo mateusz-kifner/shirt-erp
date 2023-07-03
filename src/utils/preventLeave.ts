@@ -1,6 +1,6 @@
 const preventLeave = (e: BeforeUnloadEvent) => {
-  e.preventDefault()
-  e.returnValue = true
-}
+  e.preventDefault();
+  e.returnValue = true;
+};
 
-export default preventLeave
+export default preventLeave;

@@ -1,12 +1,13 @@
-import simpleHash from "./simpleHash"
-import colorNames from "../models/color-names.json"
-import { startCase, toLower } from "lodash"
+import { startCase, toLower } from "lodash";
 
-const colorNamesValues = Object.values(colorNames)
-const colorNamesKeys = Object.keys(colorNames)
+import colorNames from "./color-names.json";
+import simpleHash from "./simpleHash";
+
+const colorNamesValues = Object.values(colorNames);
+const colorNamesKeys = Object.keys(colorNames);
 
 function toTitleCase(str: string) {
-  return startCase(toLower(str))
+  return startCase(toLower(str));
 }
 
 export const simpleColors = [
@@ -20,17 +21,20 @@ export const simpleColors = [
   "#5F3DC4",
   "#A61E4D",
   "#862E9C",
-]
+];
 
 export function getRandomColorByNumber(num?: number | null) {
-  return simpleColors[(num ?? 0) % simpleColors.length]
+  return simpleColors[(num ?? 0) % simpleColors.length] as string;
 }
 
 export function getRandomColorByString(str?: string | null) {
-  return simpleColors[Math.abs(simpleHash("" + str)) % simpleColors.length]
+  return simpleColors[
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    Math.abs(simpleHash("" + str)) % simpleColors.length
+  ] as string;
 }
 
 export function getColorByName(name: string) {
-  const index = colorNamesValues.indexOf(toTitleCase(name))
-  return index !== -1 ? colorNamesKeys[index] : null
+  const index = colorNamesValues.indexOf(toTitleCase(name));
+  return index !== -1 ? (colorNamesKeys[index] as string) : null;
 }

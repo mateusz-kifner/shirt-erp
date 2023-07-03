@@ -1,6 +1,7 @@
-// import { message } from "antd"
-import Logger from "js-logger"
-import { showNotification } from "@mantine/notifications"
+import { toast } from "@/hooks/useToast";
+import Logger from "js-logger";
+
+// import { showNotification } from "@/lib/notifications";
 
 /**
  * Higher order function that logs status on execution
@@ -14,14 +15,21 @@ const notify = (
   return (...args: any[]) => {
     // Exclue error and warn, because Logger is handling display of errors
     // ;(status == "info" || status == "success") && message[status](msg)
-    ;(status == "info" || status == "success") &&
-      localStorage.getItem("user-debug") === "true" &&
-      showNotification({ title: status, message: msg, color: "green" })
-    if (status == "success") status = "info"
-    Logger[status]({ ...args, message: msg })
+    if (
+      (status == "info" || status == "success") &&
+      localStorage.getItem("user-debug") === "true"
+    ) {
+      toast({
+        title: status,
+        description: msg,
+      });
+    }
+    if (status == "success") status = "info";
+    Logger[status]({ ...args, message: msg });
 
-    if (fn) return fn(...args)
-  }
-}
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    if (fn) return fn(...args);
+  };
+};
 
-export default notify
+export default notify;
