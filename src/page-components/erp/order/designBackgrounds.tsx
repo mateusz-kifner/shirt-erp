@@ -1,5 +1,5 @@
-import { IconShirt } from "@tabler/icons-react"
-import { DesignBackgroundsType } from "../../../components/editable/EditableDesignSSR"
+import { type DesignBackgroundsType } from "@/components/Design/DesignSSR";
+import { IconShirt } from "@tabler/icons-react";
 
 const designBackgrounds: DesignBackgroundsType = [
   {
@@ -66,6 +66,6 @@ const designBackgrounds: DesignBackgroundsType = [
       },
     ],
   },
-]
+];
 
-export default designBackgrounds
+export default designBackgrounds;
