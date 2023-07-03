@@ -1,5 +1,5 @@
-import { sessionOptions } from "@/lib/session";
 import { prisma } from "@/server/db";
+import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import { type Prisma } from "@prisma/client";

@@ -79,8 +79,8 @@ import { getIronSession } from "iron-session";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { sessionOptions } from "@/lib/session";
 import { prisma } from "@/server/db";
+import { sessionOptions } from "@/server/session";
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
