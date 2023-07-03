@@ -1,5 +1,6 @@
-import { ClientType } from "../types/ClientType"
-import { OrderType } from "../types/OrderType"
+import { clientListSearchParams } from "@/page-components/erp/client/ClientList";
+import { ClientType } from "@/schema/clientSchema";
+import { OrderType } from "@/schema/orderSchema";
 
 const order_template = {
   id: { type: "id" },
@@ -33,11 +34,11 @@ const order_template = {
     label: "Cena",
     type: "money",
 
-    initialValue: 0,
+    initialValue: "0",
   },
   isPricePaid: {
     label: "Cena zapłacona",
-    type: "boolean",
+    type: "switch",
     initialValue: false,
     children: { checked: "Tak", unchecked: "Nie" },
   },
@@ -53,11 +54,12 @@ const order_template = {
   client: {
     label: "Klient",
     type: "apiEntry",
-    entryName: "clients",
+    entryName: "client",
     linkEntry: true,
     helpTooltip:
       "Jeśli adres jest całkowicie pusty to ustawienie Klienta spowoduje automatyczne wypełnienie adresu.",
     allowClear: true,
+    listProps: clientListSearchParams,
     onSubmitTrigger: (
       key: string,
       client: ClientType,
@@ -66,14 +68,14 @@ const order_template = {
     ) => {
       if (
         data.address === null ||
-        (!data.address.streetName &&
-          !data.address.streetNumber &&
-          !data.address.apartmentNumber &&
-          !data.address.postCode &&
-          !data.address.city &&
-          !data.address.secondLine)
+        (!data?.address?.streetName &&
+          !data?.address?.streetNumber &&
+          !data?.address?.apartmentNumber &&
+          !data?.address?.postCode &&
+          !data?.address?.city &&
+          !data?.address?.secondLine)
       ) {
-        onSubmit?.("address", { ...client.address, id: undefined })
+        onSubmit?.("address", { ...client.address, id: undefined });
       }
     },
   },
@@ -104,7 +106,7 @@ const order_template = {
     label: "Produkty",
     type: "array",
     arrayType: "apiEntry",
-    entryName: "products",
+    entryName: "product",
     // organizingHandle: "arrows",
     linkEntry: true,
     allowClear: true,
@@ -114,7 +116,7 @@ const order_template = {
     label: "Pracownicy",
     type: "array",
     arrayType: "apiEntry",
-    entryName: "users",
+    entryName: "user",
     allowClear: true,
   },
   workTime: {
@@ -130,12 +132,15 @@ const order_template = {
     label: "Utworzono",
     type: "datetime",
     disabled: true,
+    collapse: true,
   },
+
   updatedAt: {
     label: "Edytowano",
     type: "datetime",
     disabled: true,
+    collapse: true,
   },
-}
+};
 
-export default order_template
+export default order_template;
