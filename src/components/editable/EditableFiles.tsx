@@ -6,14 +6,14 @@ import {
   type DragEvent,
 } from "react";
 
-import { IconPlus, IconTrashX, IconUpload } from "@tabler/icons-react";
+import { IconUpload, PlusIcon, Trash2Icon } from "lucide-react";
 
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import { type FileType } from "@/schema/fileSchema";
 import type EditableInput from "@/types/EditableInput";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
-import { IconLoader2 } from "@tabler/icons-react";
+import { IconLoader2 } from "lucide-react";
 import FileListItem from "../FileListItem";
 import InputLabel from "../input/InputLabel";
 import Modal from "../ui/Modal";
@@ -207,7 +207,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                           <IconArrowDown /> Down
                         </RadixContextMenu.Item> */}
                         <RadixContextMenu.Item className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600">
-                          <IconTrashX /> Delete
+                          <Trash2Icon /> Delete
                         </RadixContextMenu.Item>
                       </>
                     )
@@ -245,7 +245,7 @@ const EditableFiles = (props: EditableFilesProps) => {
               {uploading ? (
                 <IconLoader2 className="animate-spin" />
               ) : (
-                <IconPlus />
+                <PlusIcon />
               )}
               {uploading ? t.uploading : t.add_files}
             </label>

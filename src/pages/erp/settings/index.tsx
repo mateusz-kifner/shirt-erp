@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
-import {
-  IconBug,
-  IconLogout,
-  IconMoonStars,
-  IconSun,
-  IconUserCircle,
-} from "@tabler/icons-react";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { withIronSessionSsr } from "iron-session/next";
+import {
+  BugIcon,
+  LogOutIcon,
+  MoonStarIcon,
+  SunIcon,
+  UserCircleIcon,
+} from "lucide-react";
 import { useRouter } from "next/router";
 import SuperJSON from "superjson";
 
@@ -125,13 +125,13 @@ function Settings() {
   return (
     <div className="flex w-full flex-row items-start justify-center pb-12 pt-28 font-sans dark:text-gray-200">
       <div className="card mx-auto w-[36rem] bg-white shadow-xl dark:bg-stone-800">
-        <IconUserCircle className="mx-auto -mt-20 h-32 w-32 rounded-full border-8 border-white bg-gray-200 stroke-slate-900 dark:border-stone-800  dark:bg-stone-800  dark:stroke-gray-200 " />
+        <UserCircleIcon className="mx-auto -mt-20 h-32 w-32 rounded-full border-8 border-white bg-gray-200 stroke-slate-900 dark:border-stone-800  dark:bg-stone-800  dark:stroke-gray-200 " />
         <div className="mt-2 text-center text-3xl font-medium">
           {user?.name}
         </div>
         <hr className="mt-8 dark:border-stone-600 " />
         <div className="flex flex-col gap-3 p-4 ">
-          <Button onClick={() => logout.mutate()} leftSection={<IconLogout />}>
+          <Button onClick={() => logout.mutate()} leftSection={<LogOutIcon />}>
             {t.sign_out}
           </Button>
           <div className="flex flex-grow items-center gap-2">
@@ -162,7 +162,7 @@ function Settings() {
           </div>
           <Button
             onClick={toggleTheme}
-            leftSection={theme === 1 ? <IconSun /> : <IconMoonStars />}
+            leftSection={theme === 1 ? <SunIcon /> : <MoonStarIcon />}
           >
             {theme === 1 ? t.light_theme : t.dark_theme}
           </Button>
@@ -170,7 +170,7 @@ function Settings() {
             onClick={() => {
               toggleDebug();
             }}
-            leftSection={<IconBug />}
+            leftSection={<BugIcon />}
           >
             Debug {debug ? "ON" : "OFF"}
           </Button>
@@ -180,7 +180,7 @@ function Settings() {
                 onClick={() => {
                   setTestFormOpen(true);
                 }}
-                leftSection={<IconBug />}
+                leftSection={<BugIcon />}
               >
                 Open Test Form
               </Button>
@@ -190,7 +190,7 @@ function Settings() {
                   /**/
                   toast({ title: "test" });
                 }}
-                leftSection={<IconBug />}
+                leftSection={<BugIcon />}
               >
                 show info
               </Button>

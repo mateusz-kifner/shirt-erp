@@ -1,18 +1,16 @@
-import { ActionIcon, Modal, TypographyStylesProvider } from "@mantine/core"
-import { useLocalStorage } from "@mantine/hooks"
-import React, { useId } from "react"
-import { IconQuestionMark } from "@tabler/icons-react"
-import { env } from "../env/client.mjs"
-import Markdown from "./details/Markdown"
+import { useLocalStorage } from "@mantine/hooks";
+import { HelpCircleIcon } from "lucide-react";
+import { env } from "../env.mjs";
+import Markdown from "./details/Markdown";
 
 const EnvMessage = () => {
-  const message = env.NEXT_PUBLIC_START_MESSAGE
+  const message = env.NEXT_PUBLIC_START_MESSAGE;
   const [envMessageOpen, setEnvMessageOpen] = useLocalStorage({
     key: "env-message",
     defaultValue: true,
-  })
+  });
 
-  if (!message) return null
+  if (!message) return null;
 
   return (
     <>
@@ -24,12 +22,12 @@ const EnvMessage = () => {
         gradient={{ from: "red", to: "orange" }}
         onClick={() => setEnvMessageOpen(true)}
       >
-        <IconQuestionMark size={32} />
+        <HelpCircleIcon size={32} />
       </ActionIcon>
       <Modal
         opened={envMessageOpen}
         onClose={() => {
-          setEnvMessageOpen(false)
+          setEnvMessageOpen(false);
         }}
         size="xl"
       >
@@ -38,7 +36,7 @@ const EnvMessage = () => {
         </TypographyStylesProvider>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default EnvMessage
+export default EnvMessage;

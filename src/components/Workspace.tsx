@@ -1,7 +1,6 @@
 import { Children, useId, type ReactNode } from "react";
 
 import { useElementSize } from "@mantine/hooks";
-import { type Icon as TablerIcon } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -10,6 +9,7 @@ import { useUserContext } from "@/context/userContext";
 import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { type LucideIcon } from "lucide-react";
 
 // import MultiTabs from "./MultiTabs"
 
@@ -17,7 +17,7 @@ interface WorkspaceProps {
   cacheKey: string;
   childrenWrapperProps?: any[];
   childrenLabels?: string[];
-  childrenIcons?: TablerIcon[];
+  childrenIcons?: LucideIcon[];
   children?: ReactNode;
   defaultActive?: number;
   defaultPinned?: number[];

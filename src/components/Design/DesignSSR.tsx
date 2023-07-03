@@ -5,16 +5,13 @@ import { type FileType } from "@/types/FileType";
 import { useListState } from "@mantine/hooks";
 import { SVG } from "@svgdotjs/svg.js";
 import {
-  IconCategory,
-  IconColorSwatch,
-  IconGardenCart,
-  IconGridPattern,
-  IconScreenShare,
-  IconSquareNumber1,
-  IconSquareNumber2,
-  IconSquareNumber3,
-  IconWallpaper,
-} from "@tabler/icons-react";
+  ComponentIcon,
+  ConstructionIcon,
+  FrameIcon,
+  PaletteIcon,
+  ScreenShareIcon,
+  WallpaperIcon,
+} from "lucide-react";
 import {
   ComponentType,
   useEffect,
@@ -122,7 +119,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     ...externalBackgrounds,
     {
       name: "empty x1",
-      icon: IconSquareNumber1,
+      icon: <div>1</div>,
       images: [
         {
           name: "empty1",
@@ -131,7 +128,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x2",
-      icon: IconSquareNumber2,
+      icon: <div>2</div>,
       images: [
         {
           name: "empty1",
@@ -143,7 +140,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x3",
-      icon: IconSquareNumber3,
+      icon: <div>3</div>,
       images: [
         {
           name: "empty1",
@@ -197,7 +194,7 @@ const EditableDesign = (props: EditableDesignProps) => {
       {!debug && (
         <Overlay color="#333" opacity={0.9} style={{ zIndex: 40 }}>
           <Group p={60}>
-            <IconGardenCart size={32} />
+            <ConstructionIcon size={32} />
             <Title order={3}>Design niedostępny</Title>
           </Group>
           <Group pl={60}>
@@ -240,14 +237,14 @@ const EditableDesign = (props: EditableDesignProps) => {
                   size="xs"
                   onClick={() => setShowGrid((val) => !val)}
                 >
-                  <IconGridPattern />
+                  <FrameIcon />
                 </Button>
               </Tooltip>
               <Menu withinPortal>
                 <Menu.Target>
                   <Tooltip label={t("item")} m={0} withinPortal openDelay={500}>
                     <Button variant="default" p={0} size="xs">
-                      <IconCategory />
+                      <ComponentIcon />
                     </Button>
                   </Tooltip>
                 </Menu.Target>
@@ -275,7 +272,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     openDelay={500}
                   >
                     <Button variant="default" p={0} size="xs">
-                      <IconWallpaper fill={backgroundColor} />
+                      <WallpaperIcon fill={backgroundColor} />
                     </Button>
                   </Tooltip>
                 </Popover.Target>
@@ -303,7 +300,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     openDelay={500}
                   >
                     <Button variant="default" p={0} size="xs">
-                      <IconColorSwatch fill={itemColor} />
+                      <PaletteIcon fill={itemColor} />
                     </Button>
                   </Tooltip>
                 </Popover.Target>
@@ -333,7 +330,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                   setFullscreen((fullscreen) => !fullscreen);
                 }}
               >
-                <IconScreenShare />
+                <ScreenShareIcon />
               </Button>
             </Tooltip>
           </Group>

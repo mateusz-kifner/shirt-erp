@@ -2,8 +2,8 @@ import { DefaultListItem } from "@/components/DefaultListItem";
 import useTranslation from "@/hooks/useTranslation";
 import { type OrderType } from "@/schema/orderSchema";
 import { truncString } from "@/utils/truncString";
-import { IconCalendarTime } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { IconCalendarTime } from "lucide-react";
 
 interface OrderListItemProps {
   onChange?: (item: Partial<OrderType>) => void;

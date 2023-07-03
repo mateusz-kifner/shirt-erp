@@ -1,4 +1,4 @@
-import { IconNote, IconNoteOff } from "@tabler/icons-react";
+import { IconNote, IconNoteOff } from "lucide-react";
 import { useId, useState } from "react";
 import ActionButton from "../ui/ActionButton";
 import ScrollArea from "../ui/ScrollArea";

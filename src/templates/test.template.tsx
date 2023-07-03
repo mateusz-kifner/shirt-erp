@@ -1,4 +1,4 @@
-import { IconBug } from "@tabler/icons-react";
+import { BugIcon } from "lucide-react";
 
 const testTemplate = {
   id: { type: "id" },
@@ -7,20 +7,20 @@ const testTemplate = {
     label: "Napis",
     type: "text",
     initialValue: "test",
-    leftSection: <IconBug />,
-    rightSection: <IconBug />,
+    leftSection: <BugIcon />,
+    rightSection: <BugIcon />,
   },
   number: {
     label: "number",
     type: "number",
-    leftSection: <IconBug />,
-    rightSection: <IconBug />,
+    leftSection: <BugIcon />,
+    rightSection: <BugIcon />,
   },
   money: {
     label: "money",
     type: "money",
-    leftSection: <IconBug />,
-    rightSection: <IconBug />,
+    leftSection: <BugIcon />,
+    rightSection: <BugIcon />,
   },
 
   // bool: {

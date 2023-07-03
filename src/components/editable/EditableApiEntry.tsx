@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
-import { IconExternalLink, IconTrashX } from "@tabler/icons-react";
 import { capitalize, isEqual } from "lodash";
+import { IconExternalLink, Trash2Icon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -89,7 +89,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 setOpen(false);
                 onSubmit?.(null);
               }}
-              leftSection={<IconTrashX size={12} />}
+              leftSection={<Trash2Icon size={12} />}
               className="h-8 p-3 text-xs"
             >
               {t.clear}

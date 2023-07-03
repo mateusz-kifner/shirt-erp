@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { IconPlus } from "@tabler/icons-react";
+import { PlusIcon } from "lucide-react";
 import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
@@ -87,7 +87,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           }}
           className="mt-4"
         >
-          <IconPlus />
+          <PlusIcon />
           Utwórz zamówienie
         </Button>
         <div className="text-red-600">{error}</div>

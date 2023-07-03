@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/router";
 
 import NavButton from "@/components/layout/NavButton";
@@ -47,9 +47,9 @@ function Navigation() {
           }}
         >
           {navigationCollapsed ? (
-            <IconChevronRight className="stroke-stone-600 dark:stroke-gray-200" />
+            <ChevronRightIcon className="stroke-stone-600 dark:stroke-gray-200" />
           ) : (
-            <IconChevronLeft className="stroke-stone-600 dark:stroke-gray-200" />
+            <ChevronLeftIcon className="stroke-stone-600 dark:stroke-gray-200" />
           )}
         </button>
       </div>

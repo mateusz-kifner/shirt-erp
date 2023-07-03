@@ -1,22 +1,15 @@
-import {
-  Button,
-  Modal,
-  Text,
-  Group,
-  Sx,
-  ButtonProps,
-  ModalProps,
-} from "@mantine/core"
-import React, { useState, CSSProperties } from "react"
+import { useState } from "react";
 // import { useTranslation } from "../../../i18n"
-import { IconTrashX } from "@tabler/icons-react"
-import { useTranslation } from "../i18n"
+import useTranslation from "@/hooks/useTranslation";
+import { Trash2Icon } from "lucide-react";
+import { Button } from "./ui/Button";
+import { Dialog, DialogTitle } from "./ui/Dialog";
 
 interface DeleteButtonProps {
-  label: string
-  onDelete: () => void
-  buttonProps?: ButtonProps
-  modalProps?: ModalProps
+  label: string;
+  onDelete: () => void;
+  buttonProps?: any;
+  modalProps?: any;
 }
 
 const DeleteButton = ({
@@ -25,52 +18,46 @@ const DeleteButton = ({
   buttonProps,
   modalProps,
 }: DeleteButtonProps) => {
-  const [openedDelete, setOpenedDelete] = useState<boolean>(false)
+  const [openedDelete, setOpenedDelete] = useState<boolean>(false);
 
-  const { t } = useTranslation()
+  const t = useTranslation();
 
   return (
     <>
       <Button
         color="red"
         variant="subtle"
-        leftIcon={<IconTrashX size={18} />}
+        leftIcon={<Trash2Icon size={18} />}
         onClick={() => setOpenedDelete(true)}
         className="erase_on_print"
         {...buttonProps}
       >
-        {t("delete", {
-          entry: t(label as any),
-        })}
+        {t.delete}
       </Button>
 
-      <Modal
+      <Dialog
         opened={openedDelete}
         onClose={() => setOpenedDelete(false)}
-        title={t("delete", { entry: t(label as any) })}
+        title={t.delete}
         centered
         {...modalProps}
       >
-        <Text color="red" mb="xl">
-          {t("operation-not-reversible")}
-        </Text>
-        <Group position="apart" mt="xl">
+        <DialogTitle>{t.operation_not_reversible}</DialogTitle>
+        <div className="mt-8 flex flex-col justify-between gap-2">
           <Button
-            color="red"
-            variant="outline"
-            leftIcon={<IconTrashX size={18} />}
             onClick={() => {
-              onDelete()
-              setOpenedDelete(false)
+              onDelete();
+              setOpenedDelete(false);
             }}
           >
-            {t("delete", { entry: t(label as any) })}
+            <Trash2Icon size={18} />
+            {t.delete}
           </Button>
-          <Button onClick={() => setOpenedDelete(false)}>{t("cancel")}</Button>
-        </Group>
-      </Modal>
+          <Button onClick={() => setOpenedDelete(false)}>{t.cancel}</Button>
+        </div>
+      </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default DeleteButton
+export default DeleteButton;

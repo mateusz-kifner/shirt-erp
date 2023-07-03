@@ -6,8 +6,8 @@ import {
   useId,
   useMediaQuery,
 } from "@mantine/hooks";
-import { IconCalendar, IconClock } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { IconCalendar, IconClock } from "lucide-react";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";

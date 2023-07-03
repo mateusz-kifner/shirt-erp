@@ -1,41 +1,40 @@
 import {
-  Title,
-  Text,
-  Stack,
   ActionIcon,
-  Popover,
-  useMantineTheme,
   Group,
   Indicator,
-} from "@mantine/core"
-import { useLocalStorage } from "@mantine/hooks"
-import dayjs from "dayjs"
-import { useRouter } from "next/router"
-import React, { useEffect, useId, useState } from "react"
-import { IconBell } from "@tabler/icons-react"
-import { useAuthContext } from "../context/authContext"
-import useStarpiUser from "../hooks/useStrapiUser"
-import OrderListItem from "../page-components/erp/orders/OrderListItem"
+  Popover,
+  Stack,
+  Text,
+  Title,
+  useMantineTheme,
+} from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import { useEffect, useId, useState } from "react";
+import { useAuthContext } from "../context/authContext";
+import useStarpiUser from "../hooks/useStrapiUser";
+import OrderListItem from "../page-components/erp/orders/OrderListItem";
 
 const Notifications = () => {
-  const { isAuthenticated } = useAuthContext()
-  const [opened, setOpened] = useState<boolean>()
+  const { isAuthenticated } = useAuthContext();
+  const [opened, setOpened] = useState<boolean>();
   const [prevActiveOrders, setPrevActiveOrders] = useLocalStorage<number>({
     key: "prevActiveOrders",
     defaultValue: 0,
-  })
-  const uuid = useId()
-  const todayDate = dayjs().format("YYYY-MM-DD")
-  const theme = useMantineTheme()
+  });
+  const uuid = useId();
+  const todayDate = dayjs().format("YYYY-MM-DD");
+  const theme = useMantineTheme();
   const { data, refetch } = useStarpiUser({
     queryOptions: { enabled: isAuthenticated },
-  })
-  const router = useRouter()
+  });
+  const router = useRouter();
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {
         const timeLeft = val?.dateOfCompletion
           ? dayjs(val?.dateOfCompletion).diff(todayDate, "day")
-          : null
+          : null;
         return (
           !(
             val?.status === "rejected" ||
@@ -45,18 +44,18 @@ const Notifications = () => {
           timeLeft !== null &&
           timeLeft < 7 &&
           timeLeft > -1
-        )
+        );
       }).length
-    : 0
+    : 0;
 
   useEffect(() => {
     if (prevActiveOrders < activeOrders) {
-      const audio = new Audio("/notification.ogg")
-      audio.loop = false
-      audio.play().catch(() => {})
+      const audio = new Audio("/notification.ogg");
+      audio.loop = false;
+      audio.play().catch(() => {});
     }
-    setPrevActiveOrders(activeOrders)
-  }, [activeOrders])
+    setPrevActiveOrders(activeOrders);
+  }, [activeOrders]);
   return (
     <Popover
       width={400}
@@ -75,8 +74,8 @@ const Notifications = () => {
           color={theme.colorScheme === "dark" ? "gray" : "dark"}
           variant={theme.colorScheme === "dark" ? "default" : "filled"}
           onClick={() => {
-            refetch()
-            setOpened((val) => !val)
+            refetch();
+            setOpened((val) => !val);
           }}
         >
           <Indicator
@@ -104,7 +103,7 @@ const Notifications = () => {
               .map((val, index) => {
                 const timeLeft = val?.dateOfCompletion
                   ? dayjs(val?.dateOfCompletion).diff(todayDate, "day")
-                  : null
+                  : null;
                 if (
                   !(
                     val?.status === "rejected" ||
@@ -119,14 +118,14 @@ const Notifications = () => {
                     <OrderListItem
                       value={val}
                       onChange={(val) => {
-                        router.push("/erp/tasks/" + val.id)
-                        setOpened(false)
+                        router.push("/erp/tasks/" + val.id);
+                        setOpened(false);
                       }}
                       key={uuid + index}
                     />
-                  )
+                  );
                 }
-                return null
+                return null;
               })
           ) : (
             <Text size="sm">Brak powiadomień</Text>
@@ -134,7 +133,7 @@ const Notifications = () => {
         </Stack>
       </Popover.Dropdown>
     </Popover>
-  )
-}
+  );
+};
 
-export default Notifications
+export default Notifications;

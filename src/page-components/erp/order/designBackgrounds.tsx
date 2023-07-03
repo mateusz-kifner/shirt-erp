@@ -1,10 +1,10 @@
 import { type DesignBackgroundsType } from "@/components/Design/DesignSSR";
-import { IconShirt } from "@tabler/icons-react";
+import { ShirtIcon } from "lucide-react";
 
 const designBackgrounds: DesignBackgroundsType = [
   {
     name: "Koszulka SVG",
-    icon: IconShirt,
+    icon: ShirtIcon,
     images: [
       {
         name: "Przód",
@@ -36,7 +36,7 @@ const designBackgrounds: DesignBackgroundsType = [
   },
   {
     name: "Koszulka",
-    icon: IconShirt,
+    icon: ShirtIcon,
     images: [
       {
         name: "Przód",

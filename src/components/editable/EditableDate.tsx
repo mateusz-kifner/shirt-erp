@@ -1,8 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 
 import { useDebouncedValue } from "@mantine/hooks";
-import { IconCalendar } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { IconCalendar } from "lucide-react";
 import { useRouter } from "next/router";
 import Calendar from "react-calendar";
 

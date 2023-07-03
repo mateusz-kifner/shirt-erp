@@ -15,31 +15,31 @@ import StarterKit from "@tiptap/starter-kit";
 
 import preventLeave from "@/utils/preventLeave";
 
+import InputLabel from "@/components/input/InputLabel";
 import type EditableInput from "@/types/EditableInput";
 import * as RadixToolbar from "@radix-ui/react-toolbar";
 import {
-  IconAlignCenter,
-  IconAlignJustified,
-  IconAlignLeft,
-  IconAlignRight,
-  IconBold,
-  IconClearFormatting,
-  IconH1,
-  IconH2,
-  IconH3,
-  IconH4,
-  IconH5,
-  IconH6,
-  IconHighlight,
-  IconItalic,
-  IconList,
-  IconListNumbers,
-  IconStrikethrough,
-  IconSubscript,
-  IconSuperscript,
-  IconUnderline,
-} from "@tabler/icons-react";
-import InputLabel from "../input/InputLabel";
+  AlignCenterIcon,
+  AlignJustifyIcon,
+  AlignLeftIcon,
+  AlignRightIcon,
+  BoldIcon,
+  Heading1Icon,
+  Heading2Icon,
+  Heading3Icon,
+  Heading4Icon,
+  Heading5Icon,
+  Heading6Icon,
+  HighlighterIcon,
+  ItalicIcon,
+  ListIcon,
+  ListOrderedIcon,
+  RemoveFormattingIcon,
+  StrikethroughIcon,
+  SubscriptIcon,
+  SuperscriptIcon,
+  UnderlineIcon,
+} from "lucide-react";
 import DisplayCellExpanding from "../ui/DisplayCellExpanding";
 
 const controls: (
@@ -58,49 +58,49 @@ const controls: (
 )[] = [
   {
     label: "clearFormattingControlLabel",
-    icon: <IconClearFormatting stroke={1.5} size={18} />,
+    icon: <RemoveFormattingIcon strokeWidth={1.5} size={18} />,
     operation: { name: "unsetAllMarks" },
   },
   [
     {
       label: "boldControlLabel",
-      icon: <IconBold stroke={1.5} size={18} />,
+      icon: <BoldIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "bold" },
       operation: { name: "toggleBold" },
     },
     {
       label: "italicControlLabel",
-      icon: <IconItalic stroke={1.5} size={18} />,
+      icon: <ItalicIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "italic" },
       operation: { name: "toggleItalic" },
     },
     {
       label: "underlineControlLabel",
-      icon: <IconUnderline stroke={1.5} size={18} />,
+      icon: <UnderlineIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "underline" },
       operation: { name: "toggleUnderline" },
     },
     {
       label: "strikeControlLabel",
-      icon: <IconStrikethrough stroke={1.5} size={18} />,
+      icon: <StrikethroughIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "strike" },
       operation: { name: "toggleStrike" },
     },
     {
       label: "subscriptControlLabel",
-      icon: <IconSubscript stroke={1.5} size={18} />,
+      icon: <SubscriptIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "subscript" },
       operation: { name: "toggleSubscript" },
     },
     {
       label: "superscriptControlLabel",
-      icon: <IconSuperscript stroke={1.5} size={18} />,
+      icon: <SuperscriptIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "superscript" },
       operation: { name: "toggleSuperscript" },
     },
     {
       label: "highlightControlLabel",
-      icon: <IconHighlight stroke={1.5} size={18} />,
+      icon: <HighlighterIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "highlight" },
       operation: { name: "toggleHighlight" },
     },
@@ -108,40 +108,40 @@ const controls: (
   [
     {
       label: "alignLeftControlLabel",
-      icon: <IconAlignLeft stroke={1.5} size={18} />,
+      icon: <AlignLeftIcon strokeWidth={1.5} size={18} />,
       operation: { name: "setTextAlign", attributes: "left" },
     },
     {
       label: "alignCenterControlLabel",
-      icon: <IconAlignCenter stroke={1.5} size={18} />,
+      icon: <AlignCenterIcon strokeWidth={1.5} size={18} />,
       operation: { name: "setTextAlign", attributes: "center" },
     },
     {
       label: "alignRightControlLabel",
-      icon: <IconAlignRight stroke={1.5} size={18} />,
+      icon: <AlignRightIcon strokeWidth={1.5} size={18} />,
       operation: { name: "setTextAlign", attributes: "right" },
     },
     {
       label: "alignJustifyControlLabel",
-      icon: <IconAlignJustified stroke={1.5} size={18} />,
+      icon: <AlignJustifyIcon strokeWidth={1.5} size={18} />,
       operation: { name: "setTextAlign", attributes: "justify" },
     },
   ],
   // {
   //   label: "unlinkControlLabel",
-  //   icon: <IconUnlink stroke={1.5} size={18} />,
+  //   icon: <UnlinkIcon strokeWidth={1.5} size={18} />,
   //   operation: { name: "unsetLink" },
   // },
   [
     {
       label: "bulletListControlLabel",
-      icon: <IconList stroke={1.5} size={18} />,
+      icon: <ListIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "bulletList" },
       operation: { name: "toggleBulletList" },
     },
     {
       label: "orderedListControlLabel",
-      icon: <IconListNumbers stroke={1.5} size={18} />,
+      icon: <ListOrderedIcon strokeWidth={1.5} size={18} />,
       isActive: { name: "orderedList" },
       operation: { name: "toggleOrderedList" },
     },
@@ -149,68 +149,68 @@ const controls: (
   [
     {
       label: "h1ControlLabel",
-      icon: <IconH1 stroke={1.5} size={18} />,
+      icon: <Heading1Icon strokeWidth={1.5} size={18} />,
       isActive: { name: "heading", attributes: { level: 1 } },
       operation: { name: "toggleHeading", attributes: { level: 1 } },
     },
     {
       label: "h2ControlLabel",
-      icon: <IconH2 stroke={1.5} size={18} />,
+      icon: <Heading2Icon strokeWidth={1.5} size={18} />,
       isActive: { name: "heading", attributes: { level: 2 } },
       operation: { name: "toggleHeading", attributes: { level: 2 } },
     },
     {
       label: "h3ControlLabel",
-      icon: <IconH3 stroke={1.5} size={18} />,
+      icon: <Heading3Icon strokeWidth={1.5} size={18} />,
       isActive: { name: "heading", attributes: { level: 3 } },
       operation: { name: "toggleHeading", attributes: { level: 3 } },
     },
     {
       label: "h4ControlLabel",
-      icon: <IconH4 stroke={1.5} size={18} />,
+      icon: <Heading4Icon strokeWidth={1.5} size={18} />,
       isActive: { name: "heading", attributes: { level: 4 } },
       operation: { name: "toggleHeading", attributes: { level: 4 } },
     },
     {
       label: "h5ControlLabel",
-      icon: <IconH5 stroke={1.5} size={18} />,
+      icon: <Heading5Icon strokeWidth={1.5} size={18} />,
       isActive: { name: "heading", attributes: { level: 5 } },
       operation: { name: "toggleHeading", attributes: { level: 5 } },
     },
     {
       label: "h6ControlLabel",
-      icon: <IconH6 stroke={1.5} size={18} />,
+      icon: <Heading6Icon strokeWidth={1.5} size={18} />,
       isActive: { name: "heading", attributes: { level: 6 } },
       operation: { name: "toggleHeading", attributes: { level: 6 } },
     },
   ],
   // {
   //   label: "blockquoteControlLabel",
-  //   icon: <IconBlockquote stroke={1.5} size={18} />,
+  //   icon: <BlockquoteIcon strokeWidth={1.5} size={18} />,
   //   isActive: { name: "blockquote" },
   //   operation: { name: "toggleBlockquote" },
   // },
   // {
   //   label: "codeControlLabel",
-  //   icon: <IconCode stroke={1.5} size={18} />,
+  //   icon: <CodeIcon strokeWidth={1.5} size={18} />,
   //   isActive: { name: "code" },
   //   operation: { name: "toggleCode" },
   // },
   // {
   //   label: "codeBlockControlLabel",
-  //   icon: <IconCode stroke={1.5} size={18} />,
+  //   icon: <CodeIcon strokeWidth={1.5} size={18} />,
   //   isActive: { name: "codeBlock" },
   //   operation: { name: "toggleCodeBlock" },
   // },
 
   // {
   //   label: "hrControlLabel",
-  //   icon: <IconLineDashed stroke={1.5} size={18} />,
+  //   icon: <LineDashedIcon strokeWidth={1.5} size={18} />,
   //   operation: { name: "setHorizontalRule" },
   // },
   // {
   //   label: "unsetColorControlLabel",
-  //   icon: <IconCircleOff stroke={1.5} size={18} />,
+  //   icon: <CircleOffIcon strokeWidth={1.5} size={18} />,
   //   operation: { name: "unsetColor" },
   // },
 ];

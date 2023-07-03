@@ -2,11 +2,11 @@ import { useEffect, useState, type ReactNode } from "react";
 
 import { useDebouncedValue, useToggle } from "@mantine/hooks";
 import {
-  IconPlus,
-  IconRefresh,
-  IconSortAscending,
-  IconSortDescending,
-} from "@tabler/icons-react";
+  ArrowDownAZ,
+  ArrowUpAZ,
+  PlusIcon,
+  RefreshCcwIcon,
+} from "lucide-react";
 
 import List from "@/components/List";
 import ActionButton from "@/components/ui/ActionButton";
@@ -109,7 +109,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
                 onRefresh?.();
               }}
             >
-              <IconRefresh />
+              <RefreshCcwIcon />
             </ActionButton>
             {showAddButton && (
               <ActionButton
@@ -125,7 +125,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
                   "
                 onClick={onAddElement}
               >
-                <IconPlus />
+                <PlusIcon />
               </ActionButton>
             )}
           </div>
@@ -146,9 +146,9 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
               onClick={() => toggleSortOrder()}
             >
               {sortOrder === "asc" ? (
-                <IconSortAscending />
+                <ArrowDownAZ />
               ) : (
-                <IconSortDescending />
+                <ArrowUpAZ />
               )}
             </ActionButton>
           </div>

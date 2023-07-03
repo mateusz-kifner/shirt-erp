@@ -1,11 +1,11 @@
-import React, { useId, useMemo, useState } from "react"
-import { OrderType } from "../../../types/OrderType"
-import { Accordion, Modal, Stack, Text, Title } from "@mantine/core"
-import axios from "axios"
-import { IconRefresh, IconEdit } from "@tabler/icons-react"
-import FloatingActions from "../../../components/FloatingActions"
-import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
-import dayjs from "dayjs"
+import { Accordion, Modal, Stack, Text, Title } from "@mantine/core";
+import axios from "axios";
+import dayjs from "dayjs";
+import { EditIcon, RefreshCwIcon } from "lucide-react";
+import { useId, useMemo, useState } from "react";
+import FloatingActions from "../../../components/FloatingActions";
+import ApiEntryEditable from "../../../components/api/ApiEntryEditable";
+import { OrderType } from "../../../types/OrderType";
 
 const template = {
   emailMessages: {
@@ -15,19 +15,19 @@ const template = {
     linkEntry: true,
     allowClear: true,
   },
-}
+};
 
 interface OrderMessagesViewProps {
-  order?: Partial<OrderType>
-  refetch?: () => void
+  order?: Partial<OrderType>;
+  refetch?: () => void;
 }
 
 const OrderMessagesView = (props: OrderMessagesViewProps) => {
-  const { order, refetch } = props
-  const uuid = useId()
+  const { order, refetch } = props;
+  const uuid = useId();
 
-  const [active, setActive] = useState<boolean>(false)
-  const [opened, setOpened] = useState<boolean>(false)
+  const [active, setActive] = useState<boolean>(false);
+  const [opened, setOpened] = useState<boolean>(false);
 
   const emailMessagesSorted = useMemo(
     () =>
@@ -39,7 +39,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
         )) ||
       null,
     [order?.emailMessages]
-  )
+  );
 
   return (
     <Stack style={{ position: "relative" }}>
@@ -83,17 +83,17 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
             axios
               .get("/email-messages/refresh")
               .then((res) => console.log(res.data))
-              .catch((err) => console.log(err))
-            refetch?.()
+              .catch((err) => console.log(err));
+            refetch?.();
           },
         ]}
         actionIcons={[
-          <IconEdit size={28} key={uuid + "_icon1"} />,
-          <IconRefresh size={20} key={uuid + "_icon2"} />,
+          <EditIcon size={28} key={uuid + "_icon1"} />,
+          <RefreshCwIcon size={20} key={uuid + "_icon2"} />,
         ]}
       />
     </Stack>
-  )
-}
+  );
+};
 
-export default OrderMessagesView
+export default OrderMessagesView;

@@ -15,7 +15,7 @@ import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Workspace from "@/components/Workspace";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconList, IconMail, IconNotebook } from "@tabler/icons-react";
+import { BookOpenIcon, ListIcon } from "lucide-react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import OrderAddModal from "./OrderAddModal";
@@ -56,9 +56,9 @@ const OrdersPage: NextPage = () => {
     "loading" | "idle" | "error" | "success"
   >("idle");
   const childrenIcons = [
-    IconList,
-    IconNotebook,
-    IconMail,
+    ListIcon,
+    BookOpenIcon,
+    MailIcon,
     // ...((data && data?.tables && data?.tables.map(() => IconTable)) ?? []),
     // IconVector,
   ];
@@ -227,7 +227,7 @@ const OrdersPage: NextPage = () => {
         childrenLabels={
           id ? ["Lista klientów", "Właściwości"] : ["Lista klientów"]
         }
-        childrenIcons={[IconList, IconNotebook]}
+        childrenIcons={[ListIcon, BookOpenIcon]}
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
       >
@@ -248,7 +248,7 @@ const OrdersPage: NextPage = () => {
             <Menu position="bottom" withArrow withinPortal>
               <Menu.Target>
                 <Tab
-                  Icon={IconPlus}
+                  Icon={PlusIcon}
                   value={childrenLabels.length}
                   p="xs"
                   variant="outline"
@@ -265,7 +265,7 @@ const OrdersPage: NextPage = () => {
                 {addElementLabels.map((label, index) => {
                   const Icon = addElementIcons?.[index]
                     ? addElementIcons[index]
-                    : IconPlus
+                    : PlusIcon
                   return (
                     <Menu.Item
                       key={uuid + "_menu_" + index}

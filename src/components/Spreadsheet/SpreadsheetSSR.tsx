@@ -1,7 +1,7 @@
 import React, { useId, useMemo, useState, type ComponentType } from "react";
 
 // Icons
-import { IconScreenShare, IconTrash } from "@tabler/icons-react";
+import { ScreenShareIcon, TrashIcon } from "lucide-react";
 
 // Spreadsheet Imports
 import type {
@@ -476,7 +476,7 @@ const EditableTable = (props: EditableTableProps) => {
                 setStatusText("Usunięto metadane");
               }}
             >
-              <IconTrash />
+              <TrashIcon />
             </Button>
           </Tooltip>
         </div>
@@ -487,7 +487,7 @@ const EditableTable = (props: EditableTableProps) => {
                 setFullscreen((fullscreen) => !fullscreen);
               }}
             >
-              <IconScreenShare />
+              <ScreenShareIcon />
             </Button>
           </Tooltip>
         </div>

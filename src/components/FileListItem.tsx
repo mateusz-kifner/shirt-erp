@@ -1,7 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import { type FileType } from "@/schema/fileSchema";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
-import { IconDownload, IconEye } from "@tabler/icons-react";
+import { DownloadIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 import ActionButton from "./ui/ActionButton";
@@ -45,7 +45,7 @@ const FileListItem = (props: FileListItemProps) => {
         style={style}
         className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600"
       >
-        <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden  child-hover:visible">
+        <div className="child-hover:visible relative h-[100px] w-[100px] min-w-[100px]  overflow-hidden">
           <img
             src={preview ?? "/assets/unknown_file.svg"}
             alt=""
@@ -70,7 +70,7 @@ const FileListItem = (props: FileListItemProps) => {
                   );
               }}
             >
-              <IconEye
+              <EyeIcon
                 className="text-stone-300 dark:text-stone-600"
                 size={26}
               />
@@ -120,7 +120,7 @@ const FileListItem = (props: FileListItemProps) => {
             dark:hover:bg-stone-800
             "
         >
-          <IconDownload size={26} />
+          <DownloadIcon size={26} />
           <div style={{ width: "2.4rem" }}></div>
         </Link>
 

@@ -1,11 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import equalHSV from "@/utils/equalHSV";
 import { useEyeDropper } from "@mantine/hooks";
-import {
-  IconChevronDown,
-  IconChevronUp,
-  IconColorPicker,
-} from "@tabler/icons-react";
+import { IconChevronDown, IconChevronUp, IconColorPicker } from "lucide-react";
 import { useEffect, useState } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
 import ActionButton from "../ui/ActionButton";

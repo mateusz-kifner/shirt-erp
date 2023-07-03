@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from "react";
 
-import { IconX } from "@tabler/icons-react";
+import { IconX } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";

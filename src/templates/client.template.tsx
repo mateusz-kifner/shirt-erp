@@ -1,11 +1,11 @@
 import {
-  IconAddressBook,
-  IconBuildingFactory2,
-  IconMail,
-  IconNote,
-  IconPhone,
-  IconUser,
-} from "@tabler/icons-react";
+  FactoryIcon,
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
+  StickyNoteIcon,
+  UserIcon,
+} from "lucide-react";
 
 const clientTemplate = {
   id: { type: "id" },
@@ -20,42 +20,42 @@ const clientTemplate = {
     label: "Imię",
     type: "text",
     initialValue: "",
-    leftSection: <IconUser />,
+    leftSection: <UserIcon />,
   },
 
   lastname: {
     label: "Nazwisko",
     type: "text",
     initialValue: "",
-    leftSection: <IconUser />,
+    leftSection: <UserIcon />,
   },
 
   notes: {
     label: "Notatki",
     type: "richtext",
     initialValue: "",
-    leftSection: <IconNote />,
+    leftSection: <StickyNoteIcon />,
   },
 
   email: {
     label: "Email",
     type: "text",
     initialValue: "",
-    leftSection: <IconMail />,
+    leftSection: <MailIcon />,
   },
 
   phoneNumber: {
     label: "Telefon",
     type: "text",
     initialValue: "",
-    leftSection: <IconPhone />,
+    leftSection: <PhoneIcon />,
   },
 
   companyName: {
     label: "Nazwa firmy",
     type: "text",
     initialValue: "",
-    leftSection: <IconBuildingFactory2 />,
+    leftSection: <FactoryIcon />,
   },
 
   address: {
@@ -79,7 +79,7 @@ const clientTemplate = {
       province: "",
       postCode: "",
     },
-    leftSection: <IconAddressBook />,
+    leftSection: <MapPinIcon />,
   },
 
   orders: {

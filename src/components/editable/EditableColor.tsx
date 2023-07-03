@@ -14,7 +14,7 @@ import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
 import equalHSV from "@/utils/equalHSV";
-import { IconColorPicker } from "@tabler/icons-react";
+import { IconColorPicker } from "lucide-react";
 import tinycolor, { ColorFormats } from "tinycolor2";
 import InputColor from "../ColorPicker/InputColor";
 import InputLabel from "../input/InputLabel";
