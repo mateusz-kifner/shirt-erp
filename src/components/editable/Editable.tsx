@@ -169,11 +169,13 @@ const editableFields: editableFields = {
   text: { component: EditableText, props: {} },
   numberText: {
     component: EditableShortText,
-    props: { leftSection: <IconNumbers size={18} /> },
+    props: {},
+    // props: { leftSection: <IconNumbers size={18} /> },
   },
   richtext: { component: EditableRichText, props: {} },
   number: {
     component: EditableNumber,
+    props: {},
     // props: { leftSection: <IconNumbers size={18} /> },
   },
   money: {

@@ -17,7 +17,6 @@ import preventLeave from "@/utils/preventLeave";
 
 import InputLabel from "@/components/input/InputLabel";
 import type EditableInput from "@/types/EditableInput";
-import * as RadixToolbar from "@radix-ui/react-toolbar";
 import {
   AlignCenterIcon,
   AlignJustifyIcon,
@@ -318,7 +317,7 @@ const EditableRichText = ({
       >
         {focus ? (
           <div className="flex flex-grow flex-col">
-            <RadixToolbar.Root
+            <div
               className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-stone-400 p-2 dark:border-stone-600 "
               aria-label="Formatting options"
             >
@@ -330,7 +329,7 @@ const EditableRichText = ({
                       key={`${uuid}${index}:group`}
                     >
                       {value.map((value, index2) => (
-                        <RadixToolbar.Button
+                        <ActionButton
                           key={`${uuid}${index}:${index2}:group`}
                           className={`action-button  ${
                             //@ts-ignore
@@ -358,13 +357,13 @@ const EditableRichText = ({
                           title={value.label}
                         >
                           {value.icon}
-                        </RadixToolbar.Button>
+                        </ActionButton>
                       ))}
                     </div>
                   );
                 } else {
                   return (
-                    <RadixToolbar.Button
+                    <ActionButton
                       key={`${uuid}${index}:item`}
                       className={`action-button border border-solid border-stone-400 dark:border-stone-600 ${
                         //@ts-ignore
@@ -392,11 +391,11 @@ const EditableRichText = ({
                       title={value.label}
                     >
                       {value.icon}
-                    </RadixToolbar.Button>
+                    </ActionButton>
                   );
                 }
               })}
-            </RadixToolbar.Root>
+            </div>
 
             <EditorContent editor={editor} />
           </div>

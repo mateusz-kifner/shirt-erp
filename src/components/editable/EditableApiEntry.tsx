@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
 import { capitalize, isEqual } from "lodash";
-import { IconExternalLink, Trash2Icon } from "lucide-react";
+import { ExternalLinkIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -89,7 +89,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 setOpen(false);
                 onSubmit?.(null);
               }}
-              leftSection={<Trash2Icon size={12} />}
+              leftSection={<TrashIcon size={12} />}
               className="h-8 p-3 text-xs"
             >
               {t.clear}
@@ -147,7 +147,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 className="action-button"
                 tabIndex={-1}
               >
-                <IconExternalLink size={18} />
+                <ExternalLinkIcon size={18} />
               </Link>
             </div>
           )}

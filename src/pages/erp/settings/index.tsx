@@ -14,7 +14,7 @@ import SuperJSON from "superjson";
 
 import Editable from "@/components/editable/Editable";
 import Button from "@/components/ui/Button";
-import Select from "@/components/ui/Select";
+import { Select } from "@/components/ui/Select";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
 import { toast } from "@/hooks/useToast";
