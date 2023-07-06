@@ -28,8 +28,8 @@ import { getRandomColorByNumber } from "../../utils/getRandomColor";
 import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "../../types/EditableInput";
 import Button from "../ui/Button";
-import ScrollArea from "../ui/ScrollArea";
-import Tooltip from "../ui/Tooltip";
+import { ScrollArea } from "../ui/ScrollArea";
+import SimpleTooltip from "../ui/SimpleTooltip";
 
 interface EditableTableProps extends EditableInput<Matrix<any>> {
   metadataIcons?: ComponentType[];
@@ -413,7 +413,7 @@ const EditableTable = (props: EditableTableProps) => {
               <div key={uuid + "_" + bgIndex}>
                 {metadataIcons &&
                   metadataIcons.map((Icon, index) => (
-                    <Tooltip
+                    <SimpleTooltip
                       tooltip={metadataLabels?.[index]}
                       key={uuid + "_" + bgIndex + "_" + index}
                       // openDelay={500}
@@ -434,12 +434,12 @@ const EditableTable = (props: EditableTableProps) => {
                       >
                         {Icon && <Icon />}
                       </Button>
-                    </Tooltip>
+                    </SimpleTooltip>
                   ))}
 
                 {metadataActionIcons &&
                   metadataActionIcons.map((Icon, index) => (
-                    <Tooltip
+                    <SimpleTooltip
                       tooltip={metadataActionLabels?.[index]}
                       key={uuid + "_" + bgIndex + "_action_" + index}
                       // openDelay={500}
@@ -462,11 +462,11 @@ const EditableTable = (props: EditableTableProps) => {
                       >
                         {Icon && <Icon />}
                       </Button>
-                    </Tooltip>
+                    </SimpleTooltip>
                   ))}
               </div>
             ))}
-          <Tooltip tooltip={t.clear}>
+          <SimpleTooltip tooltip={t.clear}>
             <Button
               onClick={() => {
                 clearMetadataOnSelection();
@@ -476,10 +476,10 @@ const EditableTable = (props: EditableTableProps) => {
             >
               <TrashIcon />
             </Button>
-          </Tooltip>
+          </SimpleTooltip>
         </div>
         <div className="flex items-end">
-          <Tooltip tooltip={t.fullscreen}>
+          <SimpleTooltip tooltip={t.fullscreen}>
             <Button
               onClick={() => {
                 setFullscreen((fullscreen) => !fullscreen);
@@ -487,7 +487,7 @@ const EditableTable = (props: EditableTableProps) => {
             >
               <ScreenShareIcon />
             </Button>
-          </Tooltip>
+          </SimpleTooltip>
         </div>
       </div>
       <ScrollArea>

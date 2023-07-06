@@ -1,23 +1,15 @@
-import {
-  ActionIcon,
-  Group,
-  Indicator,
-  Popover,
-  Stack,
-  Text,
-  Title,
-  useMantineTheme,
-} from "@mantine/core";
+import OrderListItem from "@/page-components/erp/order/OrderListItem";
+import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
 import dayjs from "dayjs";
+import { BellIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
-import { useAuthContext } from "../context/authContext";
-import useStarpiUser from "../hooks/useStrapiUser";
-import OrderListItem from "../page-components/erp/orders/OrderListItem";
+import ActionButton from "./ui/ActionButton";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover";
 
 const Notifications = () => {
-  const { isAuthenticated } = useAuthContext();
+  // const { isAuthenticated } = useAuthContext();
   const [opened, setOpened] = useState<boolean>();
   const [prevActiveOrders, setPrevActiveOrders] = useLocalStorage<number>({
     key: "prevActiveOrders",
@@ -25,11 +17,10 @@ const Notifications = () => {
   });
   const uuid = useId();
   const todayDate = dayjs().format("YYYY-MM-DD");
-  const theme = useMantineTheme();
-  const { data, refetch } = useStarpiUser({
-    queryOptions: { enabled: isAuthenticated },
-  });
   const router = useRouter();
+  const {data} = api.session.me.useQuery()
+  
+
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {
         const timeLeft = val?.dateOfCompletion
@@ -58,42 +49,38 @@ const Notifications = () => {
   }, [activeOrders]);
   return (
     <Popover
-      width={400}
-      position="bottom-end"
-      arrowOffset={12}
-      offset={4}
-      withArrow
-      shadow="md"
-      opened={opened}
-      onChange={setOpened}
+      // width={400}
+      // position="bottom-end"
+      // arrowOffset={12}
+      // offset={4}
+      // withArrow
+      // shadow="md"
+      // open={opened}
+      // onChange={setOpened}
     >
-      <Popover.Target>
-        <ActionIcon
-          size="lg"
-          radius="xl"
-          color={theme.colorScheme === "dark" ? "gray" : "dark"}
-          variant={theme.colorScheme === "dark" ? "default" : "filled"}
+      <PopoverTrigger>
+        <ActionButton
           onClick={() => {
-            refetch();
+            // refetch();
             setOpened((val) => !val);
           }}
         >
-          <Indicator
+          {/* <Indicator
             position="bottom-end"
             color="blue"
             disabled={activeOrders == 0}
-          >
-            <IconBell />
-          </Indicator>
-        </ActionIcon>
-      </Popover.Target>
-      <Popover.Dropdown>
-        <Stack>
-          <Group position="apart">
-            <Title order={3}>
-              <IconBell size={18} /> Powiadomienia{" "}
-            </Title>
-          </Group>
+          > */}
+            <BellIcon />
+          {/* </Indicator> */}
+        </ActionButton>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between">
+            <h1>
+              <BellIcon size={18} /> Powiadomienia{" "}
+            </h1>
+          </div>
 
           {activeOrders ? (
             data?.orders
@@ -128,10 +115,10 @@ const Notifications = () => {
                 return null;
               })
           ) : (
-            <Text size="sm">Brak powiadomień</Text>
+            <div>Brak powiadomień</div>
           )}
-        </Stack>
-      </Popover.Dropdown>
+        </div>
+      </PopoverContent>
     </Popover>
   );
 };

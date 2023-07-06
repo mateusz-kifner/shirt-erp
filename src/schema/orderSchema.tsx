@@ -11,7 +11,7 @@ export const orderSchema = z.object({
   status: z.string().max(255).nullable().optional(),
   notes: z.string().nullable().optional(),
   price: z.string().max(255).nullable().optional(),
-  isPricePaid: z.boolean().default(false),
+  isPricePaid: z.boolean().default(false).nullable().optional(),
   dateOfCompletion: z.date().nullable().optional(),
   spreadsheets: z.array(spreadsheetSchema).nullable().optional(),
   designs: z.array(designSchema).nullable().optional(),

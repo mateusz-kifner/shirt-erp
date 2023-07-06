@@ -3,7 +3,6 @@ import InputLabel from "@/components/input/InputLabel";
 import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/types/EditableInput";
 import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
-import Select from "../ui/Select";
 
 // EditableInput<T> {
 //   label?: string;
@@ -56,7 +55,7 @@ const EditableEnum = ({
         required={required}
       />
 
-      <Select
+      {/* <Select
         data={enum_data}
         value={value}
         onValueChange={(value) => {
@@ -65,7 +64,7 @@ const EditableEnum = ({
         }}
         disabled={disabled}
         {...moreProps}
-      />
+      /> */}
     </div>
   );
 };

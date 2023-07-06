@@ -11,6 +11,11 @@ import { prisma } from "@/server/db";
 
 const userSchemaWithoutId = userSchema.omit({ id: true });
 
+export const userIncludeAll = {
+  userPermissions:true,
+  orders:true
+};
+
 export const userRouter = createTRPCRouter({
   // getAll: createProcedureGetAll("user"),
   getById: privilegedProcedure.input(z.number()).query(async ({ input }) => {

@@ -2,14 +2,10 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { useDebouncedValue } from "@mantine/hooks";
 import dayjs from "dayjs";
-import { CalendarIcon } from "lucide-react";
 import { useRouter } from "next/router";
-import Calendar from "react-calendar";
 
 import InputLabel from "@/components/input/InputLabel";
-import ActionButton from "@/components/ui/ActionButton";
 import DisplayCell from "@/components/ui/DisplayCell";
-import Popover from "@/components/ui/Popover";
 
 import type EditableInput from "@/types/EditableInput";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
@@ -88,34 +84,34 @@ const EditableDate = (props: InputDateProps) => {
         className={"px-2"}
         error={error}
         leftSection={leftSection}
-        rightSection={
-          <Popover
-            onOpenChange={setCalendarOpened}
-            trigger={
-              !!rightSection ? (
-                rightSection
-              ) : (
-                <div className="flex items-center justify-center">
-                  <ActionButton>
-                    <CalendarIcon size={18} />
-                  </ActionButton>
-                </div>
-              )
-            }
-            contentProps={{ align: "end", sideOffset: 13 }}
-          >
-            <Calendar
-              className={"z-[1000] w-96 rounded p-2"}
-              onChange={(date) => {
-                setText(
-                  dayjs(date as Date)
-                    .format("L")
-                    .toString()
-                );
-              }}
-              value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
-            />
-          </Popover>
+        rightSection={<></>
+        //   <Popover
+        //     onOpenChange={setCalendarOpened}
+        //     trigger={
+        //       !!rightSection ? (
+        //         rightSection
+        //       ) : (
+        //         <div className="flex items-center justify-center">
+        //           <ActionButton>
+        //             <CalendarIcon size={18} />
+        //           </ActionButton>
+        //         </div>
+        //       )
+        //     }
+        //     contentProps={{ align: "end", sideOffset: 13 }}
+        //   >
+        //     <Calendar
+        //       className={"z-[1000] w-96 rounded p-2"}
+        //       onChange={(date) => {
+        //         setText(
+        //           dayjs(date as Date)
+        //             .format("L")
+        //             .toString()
+        //         );
+        //       }}
+        //       value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
+        //     />
+        //   </Popover>
         }
         focus={focus || calendarOpened}
       >

@@ -1,13 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
-import _ from "lodash";
+import _, { omit } from "lodash";
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { authenticatedProcedure, createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
+import { userIncludeAll } from "./user";
 
 export const sessionRouter = createTRPCRouter({
-  user: publicProcedure.query(({ ctx }) => {
+  status: publicProcedure.query(({ ctx }) => {
     if (ctx.session?.user && ctx.session.isLoggedIn) {
       return {
         user: ctx.session.user,
@@ -19,6 +20,10 @@ export const sessionRouter = createTRPCRouter({
         isLoggedIn: false,
       };
     }
+  }),
+  me: authenticatedProcedure.query( async ({ ctx }) => {
+    const data = await prisma.user.findUnique({where:{id:ctx.session?.user?.id},include:userIncludeAll})
+    return omit(data,["password"])
   }),
   login: publicProcedure
     .input(

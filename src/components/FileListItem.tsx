@@ -5,7 +5,7 @@ import { DownloadIcon, EyeIcon } from "lucide-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 import ActionButton from "./ui/ActionButton";
-import Tooltip from "./ui/Tooltip";
+import SimpleTooltip from "./ui/SimpleTooltip";
 
 interface FileListItemProps {
   onChange?: (file: Partial<FileType>) => void;
@@ -77,22 +77,22 @@ const FileListItem = (props: FileListItemProps) => {
             </ActionButton>
           )}
         </div>
-        <Tooltip
+        <SimpleTooltip
           tooltip={value?.originalFilename}
-          delayDuration={1000}
+          // delayDuration={1000}
           // multiline
           // width={400}
           // style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
           // withArrow
           // openDelay={500}
-          disabled={
-            !!(value?.originalFilename && value?.originalFilename?.length < 40)
-          }
+          // disabled={
+          //   !!(value?.originalFilename && value?.originalFilename?.length < 40)
+          // }
         >
           <div className="max-w-[calc(100% - 180px)] max-h-[90px] flex-grow break-words pr-2">
             {value?.originalFilename}
           </div>
-        </Tooltip>
+        </SimpleTooltip>
 
         <Link
           href={`/api/files/${value?.filename}${

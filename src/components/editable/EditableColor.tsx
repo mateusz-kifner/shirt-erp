@@ -14,13 +14,9 @@ import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
 import equalHSV from "@/utils/equalHSV";
-import { PaletteIcon } from "lucide-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
-import InputColor from "../ColorPicker/InputColor";
 import InputLabel from "../input/InputLabel";
-import ActionButton from "../ui/ActionButton";
 import DisplayCell from "../ui/DisplayCell";
-import Popover from "../ui/Popover";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
 
@@ -184,30 +180,30 @@ const EditableColor = (props: EditableColorProps) => {
             ></div>
           )
         }
-        rightSection={
-          <Popover
-            onOpenChange={onLoseFocus}
-            modal={false}
-            trigger={
-              !!rightSection ? (
-                rightSection
-              ) : (
-                <div className="flex h-11 items-center justify-center">
-                  <ActionButton className="border-none">
-                    <PaletteIcon />
-                  </ActionButton>
-                </div>
-              )
-            }
-            contentProps={{
-              align: "end",
-              sideOffset: 5,
-              className:
-                "pb-3 overflow-hidden rounded bg-stone-200 shadow data-[state=open]:animate-show dark:bg-stone-950",
-            }}
-          >
-            <InputColor value={color} onChange={setColorViaHSVObj} />
-          </Popover>
+        rightSection={<></>
+          // <Popover
+          //   onOpenChange={onLoseFocus}
+          //   modal={false}
+          //   trigger={
+          //     !!rightSection ? (
+          //       rightSection
+          //     ) : (
+          //       <div className="flex h-11 items-center justify-center">
+          //         <ActionButton className="border-none">
+          //           <PaletteIcon />
+          //         </ActionButton>
+          //       </div>
+          //     )
+          //   }
+          //   contentProps={{
+          //     align: "end",
+          //     sideOffset: 5,
+          //     className:
+          //       "pb-3 overflow-hidden rounded bg-stone-200 shadow data-[state=open]:animate-show dark:bg-stone-950",
+          //   }}
+          // >
+          //   <InputColor value={color} onChange={setColorViaHSVObj} />
+          // </Popover>
         }
         focus={focus}
       >
