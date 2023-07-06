@@ -1,4 +1,4 @@
-{
+const productTemplate = {
   "id": { "type": "id" },
 
   "name": {
@@ -32,7 +32,16 @@
   "iconId": {
     "label": "Ikona",
     "type": "iconId",
-    "entryName": "productCategories"
+    "icons": [
+      <img src="http://localhost:3000/assets/icons/product/tshirt.svg" alt="t-shirt" />,
+      <img src="http://localhost:3000/assets/icons/product/sweatshirt.svg" alt="sweatshirt" />,
+      <img src="http://localhost:3000/assets/icons/product/scarf.svg" alt="scarf" />,
+      <img src="http://localhost:3000/assets/icons/product/mug.svg" alt="mug" />,
+      <img src="http://localhost:3000/assets/icons/product/mitten.svg" alt="mitten" />,
+      <img src="http://localhost:3000/assets/icons/product/cap.svg" alt="cap" />,
+      <img src="http://localhost:3000/assets/icons/product/boot.svg" alt="boot" />,
+      <img src="http://localhost:3000/assets/icons/product/bag2.svg" alt="bag" />,
+    ]    
   },
 
   "previewImages": {
@@ -69,3 +78,5 @@
     "collapse": true
   }
 }
+
+export default productTemplate

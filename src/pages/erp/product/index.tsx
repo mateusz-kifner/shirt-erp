@@ -8,7 +8,7 @@ import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Workspace from "@/components/Workspace";
 import ProductAddModal from "@/page-components/erp/product/ProductAddModal";
 import ProductsList from "@/page-components/erp/product/ProductList";
-import template from "@/templates/product.template.json";
+import template from "@/templates/product.template";
 import { getQueryAsIntOrNull } from "@/utils/query";
 
 const entryName = "product";

@@ -1,6 +1,6 @@
-import { useId, useState } from "react";
+import { ReactNode, useId, useState } from "react";
 
-import { XIcon, type LucideIcon } from "lucide-react";
+import { XIcon } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -9,8 +9,7 @@ import type EditableInput from "@/types/EditableInput";
 import { Label } from "../ui/Label";
 
 interface EditableApiIconIdProps extends EditableInput<number> {
-  entryName?: string;
-  icons?: LucideIcon[];
+  icons?: ReactNode[];
 }
 
 const EditableApiIconId = ({
@@ -23,7 +22,9 @@ const EditableApiIconId = ({
 }: EditableApiIconIdProps) => {
   const [open, setOpened] = useState(false);
   const uuid = useId();
-  const Icon = !!value ? icons[value] : null;
+  const icon = value!== undefined ? icons[value] : null;
+
+  console.log(value,icons)
 
   return (
     <div className="flex-grow">
@@ -31,7 +32,7 @@ const EditableApiIconId = ({
 
       <Modal open={open} onClose={() => setOpened(false)} title="Wybierz ikonę">
         <div className="grid grid-cols-3 gap-4">
-          {icons.map((Icon, index) => (
+          {icons.map((icon, index) => (
             <Button
               className="h-32 w-32"
               onClick={() => {
@@ -40,7 +41,7 @@ const EditableApiIconId = ({
               }}
               key={`${uuid}${index}`}
             >
-              <Icon size={96} />
+              {icon}
             </Button>
           ))}
           <Button
@@ -56,11 +57,9 @@ const EditableApiIconId = ({
         </div>
       </Modal>
       <div className="flex flex-col gap-2">
-        <div className="flex  gap-2">
-          <Button onClick={() => setOpened(true)} disabled={disabled}>
-            {!!Icon && <Icon size={48} />}
+          <Button className=" h-32 w-32" onClick={() => setOpened(true)} disabled={disabled}>
+            {icon}
           </Button>
-        </div>
       </div>
     </div>
   );

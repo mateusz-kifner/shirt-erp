@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
 
-import template from "@/templates/order.model";
+import template from "@/templates/order.template";
 // import * as XLSX from "xlsx"
 // import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
 // import Workspace from "../../../components/layout/Workspace"
