@@ -2,7 +2,7 @@ import { useState } from "react";
 // import { useTranslation } from "../../../i18n"
 import useTranslation from "@/hooks/useTranslation";
 import { Trash2Icon } from "lucide-react";
-import { Button } from "./ui/Button";
+import Button from "./ui/Button";
 import { Dialog, DialogTitle } from "./ui/Dialog";
 
 interface DeleteButtonProps {

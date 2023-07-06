@@ -1,10 +1,11 @@
-import { IconNote, IconNoteOff } from "lucide-react";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useId, useState } from "react";
 import ActionButton from "../ui/ActionButton";
-import ScrollArea from "../ui/ScrollArea";
+import { ScrollArea } from "../ui/ScrollArea";
 import SimpleTooltip from "../ui/SimpleTooltip";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
+// Fix: Scroll maybe??? broken
 
 interface ColorSwatchesProps {
   colors: { [key: string]: { [key: string]: string } };
@@ -37,7 +38,7 @@ function ColorSwatches(props: ColorSwatchesProps) {
             "
           onClick={() => setDisableColorTooltip(!disableColorTooltip)}
         >
-          {disableColorTooltip ? <IconNoteOff /> : <IconNote />}
+          {disableColorTooltip ? <EyeOffIcon /> : <EyeIcon />}
         </ActionButton>
         {Object.keys(colors).map((key, index) => (
           <div key={`${key}_${index}_${uuid}`} className="flex flex-col gap-2">

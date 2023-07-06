@@ -1,7 +1,9 @@
 import { useLocalStorage } from "@mantine/hooks";
 import { HelpCircleIcon } from "lucide-react";
 import { env } from "../env.mjs";
-import Markdown from "./details/Markdown";
+// import Markdown from "./details/Markdown";
+import ActionButton from "./ui/ActionButton";
+import Modal from "./ui/Modal";
 
 const EnvMessage = () => {
   const message = env.NEXT_PUBLIC_START_MESSAGE;
@@ -14,26 +16,20 @@ const EnvMessage = () => {
 
   return (
     <>
-      <ActionIcon
+      <ActionButton
         style={{ position: "fixed", right: 8, bottom: 8, zIndex: 999999 }}
-        size="xl"
-        radius="xl"
-        variant="gradient"
-        gradient={{ from: "red", to: "orange" }}
         onClick={() => setEnvMessageOpen(true)}
       >
         <HelpCircleIcon size={32} />
-      </ActionIcon>
+      </ActionButton>
       <Modal
-        opened={envMessageOpen}
+        open={envMessageOpen}
         onClose={() => {
           setEnvMessageOpen(false);
         }}
-        size="xl"
       >
-        <TypographyStylesProvider>
-          <Markdown value={message.split("\\n").join("\n") ?? ""} />
-        </TypographyStylesProvider>
+        {/* <Markdown value={message.split("\\n").join("\n") ?? ""} /> */}
+        {message.split("\\n").join("\n") ?? ""}
       </Modal>
     </>
   );

@@ -13,7 +13,6 @@ import { omit } from "lodash";
 import { PinIcon, type LucideIcon } from "lucide-react";
 
 import Portal from "@/components/Portal";
-import Tooltip from "@/components/ui/Tooltip";
 import { useUserContext } from "@/context/userContext";
 import { simpleColors } from "@/utils/getRandomColor";
 
@@ -66,9 +65,9 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         : undefined;
 
     return (
-      <Tooltip tooltip={!!small && children} withinPortal position="bottom">
-        <button
-          className={`
+      // <Tooltip tooltip={!!small && children} withinPortal position="bottom">
+      <button
+        className={`
             inline-flex
             h-10
             select-none 
@@ -104,31 +103,31 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             ${isActive ? "bg-transparent" : "bg-stone-800"}
             ${isActive ? "border-b-2" : "border-b"}
             `}
-          ref={groupRef}
-          onClick={onClick}
-          onContextMenu={onContextMenu}
-          style={{
-            borderBottomColor: isActive ? color : undefined,
-          }}
-          {...omit(props, [
-            "isActive",
-            "setBigSize",
-            "small",
-            "rightSection",
-            "Icon",
-            "children",
-          ])}
-        >
-          {hasIcon &&
-            (isActive && color ? (
-              <Icon size={16} color={color} />
-            ) : (
-              <Icon size={16} />
-            ))}
-          {!small && children}
-          {hasRightSection && rightSection}
-        </button>
-      </Tooltip>
+        ref={groupRef}
+        onClick={onClick}
+        onContextMenu={onContextMenu}
+        style={{
+          borderBottomColor: isActive ? color : undefined,
+        }}
+        {...omit(props, [
+          "isActive",
+          "setBigSize",
+          "small",
+          "rightSection",
+          "Icon",
+          "children",
+        ])}
+      >
+        {hasIcon &&
+          (isActive && color ? (
+            <Icon size={16} color={color} />
+          ) : (
+            <Icon size={16} />
+          ))}
+        {!small && children}
+        {hasRightSection && rightSection}
+      </button>
+      // </Tooltip>
     );
   }
 );

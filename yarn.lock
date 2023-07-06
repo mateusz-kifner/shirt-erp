@@ -1443,6 +1443,13 @@
   resolved "https://registry.yarnpkg.com/@types/array.prototype.flatmap/-/array.prototype.flatmap-1.2.2.tgz#9041c2dc907d583ffb80b8882a782b42436d57c1"
   integrity sha512-dto5M/8GxPzjaScvQeft2IG0EkoZZfPg2+1noM2BWiU1VR2zsGHf76LonTOnLQKDuJlKDLzKaru4b+5Sci0Yhg==
 
+"@types/bcrypt@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/bcrypt/-/bcrypt-5.0.0.tgz#a835afa2882d165aff5690893db314eaa98b9f20"
+  integrity sha512-agtcFKaruL8TmcvqbndlqHPSJgsolhf/qPWchFlgnW1gECTN/nKbFcoFnvKAQRFfKbh+BO6A3SWdJu9t+xF3Lw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/body-parser@*":
   version "1.19.2"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.2.tgz#aea2059e28b7658639081347ac4fab3de166e6f0"

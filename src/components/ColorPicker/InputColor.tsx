@@ -1,7 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import equalHSV from "@/utils/equalHSV";
 import { useEyeDropper } from "@mantine/hooks";
-import { IconChevronDown, IconChevronUp, IconColorPicker } from "lucide-react";
+import { ChevronDownIcon, ChevronUpIcon, PaletteIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
 import ActionButton from "../ui/ActionButton";
@@ -294,7 +294,7 @@ function InputColor(props: InputColorProps) {
                 }}
                 disabled={!supported || disabled}
               >
-                <IconColorPicker />
+                <PaletteIcon />
               </ActionButton>
             </div>
           </div>
@@ -362,7 +362,7 @@ function InputColor(props: InputColorProps) {
           disabled={disabled}
         >
           {t.color_palette}
-          {openPalette ? <IconChevronDown /> : <IconChevronUp />}
+          {openPalette ? <ChevronDownIcon /> : <ChevronUpIcon />}
         </button>
         {(swatchesLoaded || openPalette) && (
           <ColorSwatches

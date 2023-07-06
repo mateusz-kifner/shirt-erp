@@ -3,7 +3,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { type OrderType } from "@/schema/orderSchema";
 import { truncString } from "@/utils/truncString";
 import dayjs from "dayjs";
-import { IconCalendarTime } from "lucide-react";
+import { CalendarDaysIcon } from "lucide-react";
 
 interface OrderListItemProps {
   onChange?: (item: Partial<OrderType>) => void;
@@ -63,7 +63,7 @@ const OrderListItem = (props: OrderListItemProps) => {
           value?.status === "archived" ||
           value?.status === "sent"
         ) && timeLeft !== null ? (
-          <IconCalendarTime size={18} stroke={color} />
+          <CalendarDaysIcon size={18} stroke={color} />
         ) : undefined
       }
       {...props}

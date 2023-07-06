@@ -78,6 +78,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/eslint": "^8.40.2",
     "@types/formidable": "^3.4.0",
     "@types/node": "^18.16.19",
