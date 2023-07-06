@@ -3,14 +3,12 @@
 
   "name": {
     "type": "title",
-    "initialValue": "",
     "required": true
   },
 
   "description": {
     "label": "Opis",
-    "type": "text",
-    "initialValue": ""
+    "type": "text"
   },
 
   "workstations": {

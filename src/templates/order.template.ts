@@ -7,13 +7,11 @@ const order_template = {
 
   name: {
     type: "title",
-    initialValue: "",
     required: true,
   },
   status: {
     label: "Status",
     type: "enum",
-    initialValue: "planned",
     enum_data: [
       "planned",
       "accepted",
@@ -28,18 +26,14 @@ const order_template = {
   notes: {
     label: "Notatki",
     type: "richtext",
-    initialValue: "",
   },
   price: {
     label: "Cena",
     type: "money",
-
-    initialValue: "0",
-  },
+    },
   isPricePaid: {
     label: "Cena zapłacona",
     type: "switch",
-    initialValue: false,
     children: { checked: "Tak", unchecked: "Nie" },
   },
   dateOfCompletion: {
@@ -49,7 +43,6 @@ const order_template = {
   files: {
     label: "Pliki",
     type: "files",
-    initialValue: [],
   },
   client: {
     label: "Klient",
@@ -91,15 +84,7 @@ const order_template = {
       name: "Adres",
     },
     type: "address",
-    initialValue: {
-      streetName: "",
-      streetNumber: "",
-      apartmentNumber: "",
-      secondLine: "",
-      city: "",
-      province: "pomorskie",
-      postCode: "",
-    },
+    
     allowClear: true,
   },
   products: {
@@ -122,9 +107,7 @@ const order_template = {
   workTime: {
     label: "Całkowity czas pracy",
     type: "number",
-    initialValue: 0,
     min: 0,
-
     increment: 1,
     fixed: 0,
   },

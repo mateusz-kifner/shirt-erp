@@ -3,14 +3,12 @@ const productTemplate = {
 
   "name": {
     "type": "title",
-    "initialValue": "",
     "required": true
   },
 
   "category": {
     "label": "Kategoria",
     "type": "enum",
-    "initialValue": "koszulka",
     "enum_data": [
       "koszulka",
       "bluza",
@@ -25,7 +23,6 @@ const productTemplate = {
   "description": {
     "label": "Opis",
     "type": "richtext",
-    "initialValue": "",
     "maxLength": 4095
   },
 

@@ -24,8 +24,6 @@ const EditableApiIconId = ({
   const uuid = useId();
   const icon = value!== undefined ? icons[value] : null;
 
-  console.log(value,icons)
-
   return (
     <div className="flex-grow">
       <Label />

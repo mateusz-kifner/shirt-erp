@@ -6,7 +6,6 @@ const testTemplate = {
   name: {
     label: "Napis",
     type: "text",
-    initialValue: "test",
     leftSection: <BugIcon />,
     rightSection: <BugIcon />,
   },
@@ -37,7 +36,6 @@ const testTemplate = {
   category: {
     label: "Enum",
     type: "enum",
-    initialValue: "option 1",
     enum_data: ["option 1", "option 2", "option 3"],
     collapce: true,
   },

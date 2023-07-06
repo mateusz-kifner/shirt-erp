@@ -12,49 +12,42 @@ const clientTemplate = {
 
   username: {
     type: "title",
-    initialValue: "",
     required: true,
   },
 
   firstname: {
     label: "Imię",
     type: "text",
-    initialValue: "",
     leftSection: <UserIcon />,
   },
 
   lastname: {
     label: "Nazwisko",
     type: "text",
-    initialValue: "",
     leftSection: <UserIcon />,
   },
 
   notes: {
     label: "Notatki",
     type: "richtext",
-    initialValue: "",
     leftSection: <StickyNoteIcon />,
   },
 
   email: {
     label: "Email",
     type: "text",
-    initialValue: "",
     leftSection: <MailIcon />,
   },
 
   phoneNumber: {
     label: "Telefon",
     type: "text",
-    initialValue: "",
     leftSection: <PhoneIcon />,
   },
 
   companyName: {
     label: "Nazwa firmy",
     type: "text",
-    initialValue: "",
     leftSection: <FactoryIcon />,
   },
 
@@ -70,15 +63,6 @@ const clientTemplate = {
       name: "Address",
     },
     type: "address",
-    initialValue: {
-      streetName: "",
-      streetNumber: "",
-      apartmentNumber: "",
-      secondLine: "",
-      city: "",
-      province: "",
-      postCode: "",
-    },
     leftSection: <MapPinIcon />,
   },
 
