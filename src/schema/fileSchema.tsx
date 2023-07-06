@@ -3,7 +3,6 @@ import { z } from "zod";
 export const fileSchema = z.object({
   id: z.number(),
   size: z.number(),
-  filepath: z.string().max(2048),
   originalFilename: z.string().max(1024).nullable().optional(),
   filename: z.string().max(1024).nullable().optional(),
   newFilename: z.string().max(1024).nullable().optional(),
@@ -18,4 +17,4 @@ export const fileSchema = z.object({
   updatedById: z.number().nullable().optional(),
 });
 
-export type FileType = z.infer<typeof fileSchema>;
+export type FileType = z.infer<typeof fileSchema> & { url:string };

@@ -1,25 +1,35 @@
-import { useAuthContext } from "@/context/authContext";
-import { env } from "@/env.mjs";
+import { useUserContext } from "@/context/userContext";
+import useTranslation from "@/hooks/useTranslation";
+import { type FileType } from "@/schema/fileSchema";
 import type EditableInput from "@/types/EditableInput";
-import { type FileType } from "@/types/FileType";
 import { useListState } from "@mantine/hooks";
 import { SVG } from "@svgdotjs/svg.js";
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/DropdownMenu";
+
 import {
   ComponentIcon,
-  ConstructionIcon,
+  Dice1Icon,
+  Dice2Icon,
+  Dice3Icon,
   FrameIcon,
   PaletteIcon,
   ScreenShareIcon,
-  WallpaperIcon,
+  WallpaperIcon
 } from "lucide-react";
 import {
-  ComponentType,
   useEffect,
   useId,
   useMemo,
   useRef,
   useState,
+  type ComponentType,
 } from "react";
+import Button from "../ui/Button";
+import { Input } from "../ui/Input";
+import { Label } from "../ui/Label";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
+import SimpleTooltip from "../ui/SimpleTooltip";
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -112,13 +122,13 @@ const EditableDesign = (props: EditableDesignProps) => {
     files,
     backgrounds: externalBackgrounds,
   } = props;
-  const { t } = useTranslation();
-  const { debug } = useAuthContext();
+  const t = useTranslation();
+  const { debug } = useUserContext();
   const backgrounds: DesignBackgroundsType = [
     ...externalBackgrounds,
     {
       name: "empty x1",
-      icon: <div>1</div>,
+      icon: Dice1Icon,
       images: [
         {
           name: "empty1",
@@ -127,7 +137,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x2",
-      icon: <div>2</div>,
+      icon: Dice2Icon,
       images: [
         {
           name: "empty1",
@@ -139,7 +149,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x3",
-      icon: <div>3</div>,
+      icon: Dice3Icon,
       images: [
         {
           name: "empty1",
@@ -163,12 +173,10 @@ const EditableDesign = (props: EditableDesignProps) => {
   const [backgroundId, setBackgroundId] = useState<number>(0);
   const [backgroundImageId, setBackgroundImageId] = useState<number>(0);
 
-  const theme = useMantineTheme();
 
   const [images, imagesHandlers] = useListState<FileType>([]);
 
-  const backgroundImage =
-    backgrounds[backgroundId].images[backgroundImageId].image;
+  const backgroundImage = backgrounds?.[backgroundId]?.images?.[backgroundImageId]?.image
 
   const draw = () => {
     SVGContainer.add(SVG().rect(100, 100).fill("#f06"));
@@ -189,159 +197,122 @@ const EditableDesign = (props: EditableDesignProps) => {
   }, [SVGWrapperRefElement, SVGContainer]);
 
   return (
-    <Input.Wrapper label={label} style={!debug ? { position: "relative" } : {}}>
-      {!debug && (
-        <Overlay color="#333" opacity={0.9} style={{ zIndex: 40 }}>
-          <Group p={60}>
-            <ConstructionIcon size={32} />
-            <Title order={3}>Design niedostępny</Title>
-          </Group>
-          <Group pl={60}>
-            <Text>W trakcie tworzenia</Text>
-          </Group>
-        </Overlay>
-      )}
-      <Stack
-        spacing={0}
-        style={
-          fullscreen
-            ? {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 9999,
-                height: "200vh",
-                backgroundColor: theme.colorScheme === "dark" ? "#000" : "#fff",
-                overflow: "hidden",
-              }
-            : { height: "100%" }
-        }
+    <>
+    <Label />
+      <div
+        className={fullscreen?"dark:bg-black bg-white absolute inset-0 z-[99999] h-[200vh] overflow-hidden" : "h-full"}
       >
-        <Group
-          py="xs"
-          align="end"
-          position="apart"
-          sx={fullscreen ? SxBackground : undefined}
+        <div
+          // py="xs"
+          // align="end"
+          // position="apart"
+          // sx={fullscreen ? SxBackground : undefined}
           style={{ display: disabled ? "none" : undefined }}
-          className="Spreadsheet__controls"
+          className="Spreadsheet__controls py-4 flex items-end "
         >
-          <div></div>
-          <Group p={0} align="end">
-            <Button.Group p={0}>
-              <Tooltip label={t("grid")} m={0} withinPortal openDelay={500}>
+          <div className="flex gap-2 items-end">
+              <SimpleTooltip tooltip={t.grid}>
                 <Button
-                  variant="default"
-                  p={0}
-                  size="xs"
                   onClick={() => setShowGrid((val) => !val)}
                 >
                   <FrameIcon />
                 </Button>
-              </Tooltip>
-              <Menu withinPortal>
-                <Menu.Target>
-                  <Tooltip label={t("item")} m={0} withinPortal openDelay={500}>
-                    <Button variant="default" p={0} size="xs">
+              </SimpleTooltip>
+              <DropdownMenu>
+                
+                <DropdownMenuTrigger>
+                  <SimpleTooltip tooltip={t.item}>
+                    <Button>
                       <ComponentIcon />
                     </Button>
-                  </Tooltip>
-                </Menu.Target>
-                <Menu.Dropdown>
+                  </SimpleTooltip>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
                   {backgrounds.map((value, index) => {
                     const Icon = value.icon;
                     return (
-                      <Menu.Item
-                        key={uuid + "itemsMenu" + index}
-                        icon={<Icon />}
+                      <DropdownMenuItem
+                        key={`${uuid}itemsMenu:${index}`}
+                        // icon={<Icon />}
                         onClick={() => setBackgroundId(index)}
                       >
+                        <Icon/>
                         {value.name}
-                      </Menu.Item>
+                      </DropdownMenuItem>
                     );
                   })}
-                </Menu.Dropdown>
-              </Menu>{" "}
-              <Popover position="bottom" withArrow shadow="md" withinPortal>
-                <Popover.Target>
-                  <Tooltip
-                    label={t("background color")}
-                    m={0}
-                    withinPortal
-                    openDelay={500}
+                </DropdownMenuContent>
+              </DropdownMenu>{" "}
+              <Popover>
+                <PopoverTrigger>
+                  <SimpleTooltip
+                    tooltip={t.background_color}
                   >
-                    <Button variant="default" p={0} size="xs">
+                    <Button>
                       <WallpaperIcon fill={backgroundColor} />
                     </Button>
-                  </Tooltip>
-                </Popover.Target>
-                <Popover.Dropdown>
-                  {t("background color")}
-                  <ColorPicker
+                  </SimpleTooltip>
+                </PopoverTrigger>
+                <PopoverContent>
+                  {t.background_color}
+                  {/* <ColorPicker
                     swatchesPerRow={7}
                     format="rgba"
                     swatches={colorPickerSwatches}
                     value={backgroundColor}
                     onChange={setBackgroundColor}
-                  />
-                  <TextInput
+                  /> */}
+                  <Input
                     value={backgroundColor}
                     onChange={(e) => setBackgroundColor(e.target.value)}
                   />
-                </Popover.Dropdown>
+                </PopoverContent>
               </Popover>
-              <Popover position="bottom" withArrow shadow="md" withinPortal>
-                <Popover.Target>
-                  <Tooltip
-                    label={t("item color")}
-                    m={0}
-                    withinPortal
-                    openDelay={500}
+              <Popover>
+                <PopoverTrigger>
+                  <SimpleTooltip
+                    tooltip={t.item_color}
                   >
-                    <Button variant="default" p={0} size="xs">
+                    <Button>
                       <PaletteIcon fill={itemColor} />
                     </Button>
-                  </Tooltip>
-                </Popover.Target>
-                <Popover.Dropdown>
-                  {t("item color")}
-                  <ColorPicker
+                  </SimpleTooltip>
+                </PopoverTrigger>
+                <PopoverContent>
+                  {t.item_color}
+                  {/* <ColorPicker
                     swatchesPerRow={7}
                     format="rgba"
                     swatches={colorPickerSwatches}
                     value={itemColor}
                     onChange={setItemColor}
-                  />
-                  <TextInput
+                  /> */}
+                  <Input
                     value={itemColor}
                     onChange={(e) => setItemColor(e.target.value)}
                   />
-                </Popover.Dropdown>
+                </PopoverContent>
               </Popover>
-            </Button.Group>
 
-            <Tooltip label={t("fullscreen") as string}>
+            <SimpleTooltip tooltip={t.fullscreen}>
               <Button
-                variant="default"
-                p={0}
-                size="xs"
                 onClick={() => {
                   setFullscreen((fullscreen) => !fullscreen);
                 }}
               >
                 <ScreenShareIcon />
               </Button>
-            </Tooltip>
-          </Group>
-        </Group>
+            </SimpleTooltip>
+          </div>
+        </div>
 
-        <Group>
-          {backgrounds[backgroundId].images.map(
+        <div className="flex gap-2">
+          {backgrounds?.[backgroundId]?.images.map(
             ({ image, mask }, bgImageIndex) => {
               const width = image?.width ?? 800;
               const height = image?.height ?? 800;
-              const maskUrl = "" + env.NEXT_PUBLIC_SERVER_API_URL + mask?.url;
-              const imageUrl = "" + env.NEXT_PUBLIC_SERVER_API_URL + image?.url;
+              const maskUrl =  mask?.url;
+              const imageUrl = image?.url;
               return (
                 <div
                   key={uuid + "bg" + bgImageIndex}
@@ -352,10 +323,9 @@ const EditableDesign = (props: EditableDesignProps) => {
                   }}
                 >
                   <div
+                    className="absolute top-0 left-0"
+
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
                       backgroundColor: backgroundColor,
                       width: width,
                       height: height,
@@ -364,10 +334,8 @@ const EditableDesign = (props: EditableDesignProps) => {
                   ></div>
 
                   <div
+                    className="absolute top-0 left-0"
                     style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
                       backgroundImage: image?.url
                         ? `url('${imageUrl}')`
                         : undefined,
@@ -377,10 +345,8 @@ const EditableDesign = (props: EditableDesignProps) => {
                     }}
                   >
                     <div
+                    className="absolute top-0 left-0 w-full h-full"
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
                         maskImage: mask?.url ? `url('${maskUrl}')` : undefined,
                         maskSize: `${width}px ${height}px`,
                         WebkitMaskSize: `${width}px ${height}px`,
@@ -389,23 +355,15 @@ const EditableDesign = (props: EditableDesignProps) => {
                           : undefined,
 
                         backgroundColor: mask?.url ? itemColor : undefined,
-                        width: "100%",
-                        height: "100%",
                         mixBlendMode: "multiply",
                       }}
                     ></div>
                   </div>
                   {showGrid && (
                     <div
+                    className="absolute top-0 left-0 "
                       style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        backgroundImage: `url('${
-                          "" +
-                          env.NEXT_PUBLIC_SERVER_API_URL +
-                          "/assets/grid.svg"
-                        }')`,
+                        backgroundImage: `url('/assets/grid.svg')`,
                         width: width,
                         height: height,
                         backgroundSize: `${width / 2}px ${height / 2}px`,
@@ -415,27 +373,18 @@ const EditableDesign = (props: EditableDesignProps) => {
 
                   {images.map((imageData, index) => (
                     <img
-                      style={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                      }}
+                      className="absolute top-0 left-0"
                       key={uuid + "bg" + bgImageIndex + "image" + index}
-                      src={
-                        env.NEXT_PUBLIC_SERVER_API_URL +
-                        imageData.url +
-                        "?token=" +
-                        imageData.token
-                      }
-                    ></img>
+                      src={`${imageData?.url}?token=${imageData.token}`}
+                    />
                   ))}
                 </div>
               );
             }
           )}
-        </Group>
-      </Stack>
-    </Input.Wrapper>
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -40,7 +40,6 @@ const EditableAddress = (props: EditableAddressProps) => {
   const {
     label,
     value,
-
     onSubmit,
     disabled,
     required,
