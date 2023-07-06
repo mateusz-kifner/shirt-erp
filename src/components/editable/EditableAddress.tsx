@@ -9,7 +9,6 @@ import EditableText from "@/components/editable/EditableText";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { type AddressType } from "@/schema/addressSchema";
 import type EditableInput from "@/types/EditableInput";
-import { TypeAddress } from "@prisma/client";
 import InputLabel from "../input/InputLabel";
 
 const provinces = [
@@ -41,7 +40,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   const {
     label,
     value,
-    initialValue,
+
     onSubmit,
     disabled,
     required,
@@ -49,9 +48,7 @@ const EditableAddress = (props: EditableAddressProps) => {
     leftSection,
     rightSection,
   } = props;
-  const [address, setAddress] = useState<AddressType>(
-    value ? value : initialValue ? initialValue : undefined
-  );
+  const [address, setAddress] = useState<AddressType>(value);
   const [focus, setFocus] = useState<boolean>(false);
 
   const ref = useClickOutside(() => setFocus(false));
@@ -61,8 +58,8 @@ const EditableAddress = (props: EditableAddressProps) => {
   });
 
   const setAddressField = (key: string, val: string) => {
-    const new_address = { ...address, [key]: val } as TypeAddress;
-    const prevAddress = value ?? initialValue;
+    const new_address = { ...address, [key]: val } as AddressType;
+    const prevAddress = value;
 
     if (!isEqual(prevAddress, new_address)) {
       onSubmit?.(new_address);

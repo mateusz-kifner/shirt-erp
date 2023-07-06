@@ -39,6 +39,7 @@ import {
   SuperscriptIcon,
   UnderlineIcon,
 } from "lucide-react";
+import ActionButton from "../ui/ActionButton";
 import DisplayCellExpanding from "../ui/DisplayCellExpanding";
 
 const controls: (
@@ -222,7 +223,6 @@ interface EditableRichTextProps extends EditableInput<string> {}
 const EditableRichText = ({
   label,
   value,
-  initialValue,
   onSubmit,
   disabled,
   required,
@@ -231,11 +231,7 @@ const EditableRichText = ({
 }: EditableRichTextProps) => {
   const uuid = useId();
   const [text, setText] = useState<string>(
-    value
-      ? DOMPurify.sanitize(value)
-      : initialValue
-      ? DOMPurify.sanitize(initialValue)
-      : ""
+    value ? DOMPurify.sanitize(value) : ""
   );
 
   const [focus, setFocus] = useState<boolean>(false);

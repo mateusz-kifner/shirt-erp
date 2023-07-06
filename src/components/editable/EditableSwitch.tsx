@@ -10,7 +10,6 @@ import type EditableInput from "@/types/EditableInput";
 // EditableInput<T> {
 //   label?: string;
 //   value?: T;
-//   initialValue?: T;
 //   onSubmit?: (value: T | null) => void | boolean;
 //   disabled?: boolean;
 //   required?: boolean;
@@ -29,7 +28,6 @@ const EditableBool = (props: EditableBoolProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -41,7 +39,7 @@ const EditableBool = (props: EditableBoolProps) => {
   } = props;
 
   // const switchRef = useRef(null);
-  const [bool, setBool] = useState<boolean>(value ?? initialValue ?? false);
+  const [bool, setBool] = useState<boolean>(value ?? false);
   const [dirty, setDirty] = useState<boolean>(false);
   const { hovered, ref } = useHover();
 

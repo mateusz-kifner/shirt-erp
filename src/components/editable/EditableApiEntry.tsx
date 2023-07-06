@@ -30,7 +30,6 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -45,7 +44,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     allowClear = false,
   } = props;
 
-  const [apiEntry, setApiEntry] = useState<any>(value ?? initialValue ?? null);
+  const [apiEntry, setApiEntry] = useState<any>(value);
   const [prev, setPrev] = useState<any>(apiEntry);
   const [open, setOpen] = useState<boolean>(false);
   const uuid = useId();

@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { useDebouncedValue } from "@mantine/hooks";
 import dayjs from "dayjs";
-import { IconCalendar } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import Calendar from "react-calendar";
 
@@ -23,7 +23,6 @@ const EditableDate = (props: InputDateProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -34,7 +33,7 @@ const EditableDate = (props: InputDateProps) => {
   const router = useRouter();
   const [focus, setFocus] = useState<boolean>(false);
   const dateFormat = router.locale === "pl" ? "DD.MM.YYYY" : "YYYY-MM-DD";
-  const dateFromValue = dayjs(value ?? initialValue ?? null);
+  const dateFromValue = dayjs(value ?? null);
   const [text, setText] = useState(
     dateFromValue.isValid() ? dateFromValue.format("L").toString() : ""
   );
@@ -98,7 +97,7 @@ const EditableDate = (props: InputDateProps) => {
               ) : (
                 <div className="flex items-center justify-center">
                   <ActionButton>
-                    <IconCalendar size={18} />
+                    <CalendarIcon size={18} />
                   </ActionButton>
                 </div>
               )

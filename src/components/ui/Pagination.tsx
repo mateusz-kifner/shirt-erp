@@ -1,7 +1,11 @@
 import { useId } from "react";
 
 import { usePagination } from "@mantine/hooks";
-import { ChevronLeftIcon, ChevronRightIcon, DotsIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  MoreVerticalIcon,
+} from "lucide-react";
 
 interface PaginationProps {
   siblings?: number;
@@ -42,7 +46,7 @@ function Pagination({
       {range.map((page, index) => {
         if (page === "dots") {
           return (
-            <DotsIcon
+            <MoreVerticalIcon
               key={`${uuid}_${index}`}
               className="text-stone-500 dark:text-stone-200"
               size={16}

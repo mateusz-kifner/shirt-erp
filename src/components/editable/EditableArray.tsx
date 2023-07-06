@@ -12,10 +12,8 @@ import InputLabel from "../input/InputLabel";
 
 // fixme submit only on edit end
 
-interface EditableArrayProps
-  extends Omit<EditableInput<any[]>, "value" | "initialValue"> {
+interface EditableArrayProps extends Omit<EditableInput<any[]>, "value"> {
   value?: any[] | null;
-  initialValue?: any[] | null;
   newItemValue?: any;
   maxCount?: number;
   Element: ComponentType<any>;
@@ -29,7 +27,6 @@ const EditableArray = (props: EditableArrayProps) => {
   const {
     label,
     value,
-    initialValue,
     newItemValue,
     onSubmit,
     disabled,
@@ -41,7 +38,7 @@ const EditableArray = (props: EditableArrayProps) => {
     linkEntry = false,
     unique = true,
   } = props;
-  const [items, handlers] = useListState<any>(value ?? initialValue ?? []);
+  const [items, handlers] = useListState<any>(value ?? []);
   // const [focus, setFocus] = useState<boolean>(false);
   const [prev, setPrev] = useState<any[]>(items);
   const uuid = useId();

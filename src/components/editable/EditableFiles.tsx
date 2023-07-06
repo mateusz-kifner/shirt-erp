@@ -6,14 +6,13 @@ import {
   type DragEvent,
 } from "react";
 
-import { IconUpload, PlusIcon, Trash2Icon } from "lucide-react";
+import { Loader2Icon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
 
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import { type FileType } from "@/schema/fileSchema";
 import type EditableInput from "@/types/EditableInput";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
-import { IconLoader2 } from "lucide-react";
 import FileListItem from "../FileListItem";
 import InputLabel from "../input/InputLabel";
 import Modal from "../ui/Modal";
@@ -25,18 +24,10 @@ interface EditableFilesProps extends EditableInput<FileType[]> {
 }
 
 const EditableFiles = (props: EditableFilesProps) => {
-  const {
-    label,
-    required,
-    onSubmit,
-    value,
-    initialValue,
-    disabled,
-    maxCount = 128,
-  } = props;
+  const { label, required, onSubmit, value, disabled, maxCount = 128 } = props;
   const t = useTranslation();
   const uuid = useId();
-  const [files, setFiles] = useState<FileType[]>(value ?? initialValue ?? []);
+  const [files, setFiles] = useState<FileType[]>(value ?? []);
   const [error, setError] = useState<string | undefined>();
   const [uploading, setUploading] = useState<number>(0);
   const [previewOpened, setPreviewOpened] = useState<boolean>(false);
@@ -222,7 +213,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                 >
                   {dragActive ? (
                     <>
-                      <IconUpload size={44} />
+                      <UploadIcon size={44} />
                       {t.drop_files_here}
                     </>
                   ) : (
@@ -243,7 +234,7 @@ const EditableFiles = (props: EditableFilesProps) => {
               "
             >
               {uploading ? (
-                <IconLoader2 className="animate-spin" />
+                <Loader2Icon className="animate-spin" />
               ) : (
                 <PlusIcon />
               )}

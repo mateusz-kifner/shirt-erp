@@ -14,8 +14,8 @@ import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
 import equalHSV from "@/utils/equalHSV";
-import { IconColorPicker } from "lucide-react";
-import tinycolor, { ColorFormats } from "tinycolor2";
+import { PaletteIcon } from "lucide-react";
+import tinycolor, { type ColorFormats } from "tinycolor2";
 import InputColor from "../ColorPicker/InputColor";
 import InputLabel from "../input/InputLabel";
 import ActionButton from "../ui/ActionButton";
@@ -71,7 +71,6 @@ const EditableColor = (props: EditableColorProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -81,11 +80,7 @@ const EditableColor = (props: EditableColorProps) => {
   } = props;
   const uuid = useId();
   const [colorText, setColorText] = useState<string | null>(
-    !!value && value.length > 3
-      ? value
-      : !!initialValue && initialValue.length > 3
-      ? initialValue
-      : ""
+    !!value && value.length > 3 ? value : null
   );
 
   const ref = useClickOutside(() => setFocus(false));
@@ -199,7 +194,7 @@ const EditableColor = (props: EditableColorProps) => {
               ) : (
                 <div className="flex h-11 items-center justify-center">
                   <ActionButton className="border-none">
-                    <IconColorPicker />
+                    <PaletteIcon />
                   </ActionButton>
                 </div>
               )

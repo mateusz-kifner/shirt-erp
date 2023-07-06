@@ -20,7 +20,6 @@ const EditableNumber = (props: EditableNumberProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -32,9 +31,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     ...moreProps
   } = props;
   const uuid = useId();
-  const [text, setText] = useState<string>(
-    value?.toString() ?? initialValue?.toString() ?? ""
-  );
+  const [text, setText] = useState<string>(value?.toString() ?? "");
   const [focus, setFocus] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
 

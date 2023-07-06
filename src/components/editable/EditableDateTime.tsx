@@ -7,7 +7,7 @@ import {
   useMediaQuery,
 } from "@mantine/hooks";
 import dayjs from "dayjs";
-import { IconCalendar, IconClock } from "lucide-react";
+import { CalendarIcon, ClockIcon } from "lucide-react";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
@@ -27,7 +27,6 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -38,9 +37,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
   // delete new_label
   // delete new_value
   const uuid = useId();
-  const [date, setDate] = useState<Date | null>(
-    value ? new Date(value) : initialValue ? new Date(initialValue) : null
-  );
+  const [date, setDate] = useState<Date | null>(value ? new Date(value) : null);
   const [prevDate, setPrevDate] = useState<Date | null>(date);
   const [lock, setLock] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
@@ -111,7 +108,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
         copyValue={dayjs(date).format("L LT").toString()}
       />
       <DisplayCell
-        leftSection={<IconCalendar size={18} />}
+        leftSection={<CalendarIcon size={18} />}
         className="border-none"
       >
         {active ? (
@@ -119,7 +116,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
         ) : (
           <div className="flex gap-2">
             {date ? dayjs(date).format("L").toString() : "⸺"}
-            <IconClock
+            <ClockIcon
               className="text-gray-400 dark:text-stone-600"
               size={18}
             />

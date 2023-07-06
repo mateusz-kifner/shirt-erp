@@ -1,6 +1,6 @@
 import { clientListSearchParams } from "@/page-components/erp/client/ClientList";
-import { ClientType } from "@/schema/clientSchema";
-import { OrderType } from "@/schema/orderSchema";
+import { type ClientType } from "@/schema/clientSchema";
+import { type OrderType } from "@/schema/orderSchema";
 
 const order_template = {
   id: { type: "id" },

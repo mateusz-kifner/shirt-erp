@@ -16,7 +16,6 @@ const EditableShortText = (props: EditableShortTextProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -28,7 +27,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
     ...moreProps
   } = props;
   const uuid = useId();
-  const [text, setText] = useState<string>(value ?? initialValue ?? "");
+  const [text, setText] = useState<string>(value ?? "");
   const [focus, setFocus] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
 

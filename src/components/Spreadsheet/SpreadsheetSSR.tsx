@@ -52,7 +52,6 @@ const EditableTable = (props: EditableTableProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,
@@ -84,11 +83,10 @@ const EditableTable = (props: EditableTableProps) => {
       setMetadata,
     },
   ] = useSpreadSheetData(
-    value ??
-      initialValue ?? [
-        [undefined, undefined],
-        [undefined, undefined],
-      ]
+    value ?? [
+      [undefined, undefined],
+      [undefined, undefined],
+    ]
   );
   const [selection, setSelection] = useState<Point[]>([]);
   const [updateCount, setUpdateCount] = useState<number>(0);

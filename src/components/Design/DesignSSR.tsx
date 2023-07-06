@@ -106,7 +106,6 @@ const EditableDesign = (props: EditableDesignProps) => {
   const {
     label,
     value,
-    initialValue,
     onSubmit,
     disabled,
     required,

@@ -1,13 +1,12 @@
-import { useId, type ButtonHTMLAttributes, type ComponentType } from "react";
-
-import type TablerIconType from "@/types/TablerIconType";
+import { type LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { useId, type ButtonHTMLAttributes, type ComponentType } from "react";
 
 interface NavButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   small?: boolean;
   label: string;
-  Icon: TablerIconType;
+  Icon: LucideIcon;
   href: string;
   entryName: string;
   gradient?: { from: string; to: string; deg: number };

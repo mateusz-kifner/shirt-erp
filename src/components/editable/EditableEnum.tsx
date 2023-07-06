@@ -8,7 +8,6 @@ import Select from "../ui/Select";
 // EditableInput<T> {
 //   label?: string;
 //   value?: T;
-//   initialValue?: T;
 //   onSubmit?: (value: T | null) => void | boolean;
 //   disabled?: boolean;
 //   required?: boolean;
@@ -41,7 +40,6 @@ const EditableEnum = ({
   enum_data,
   label,
   value,
-  initialValue,
   onSubmit,
   disabled,
   required,
@@ -65,7 +63,6 @@ const EditableEnum = ({
           onSubmit?.(value);
           console.log(value);
         }}
-        defaultValue={initialValue}
         disabled={disabled}
         {...moreProps}
       />

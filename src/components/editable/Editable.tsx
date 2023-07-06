@@ -29,7 +29,6 @@ import EditableShortText from "./EditableShortText";
 interface BaseTemplateType<TName, TValue = string> {
   label: string;
   type: TName;
-  initialValue?: TValue;
   required?: boolean;
   disabled?: boolean;
   helpTooltip?: string;
@@ -74,15 +73,6 @@ type TemplateAddressType = {
     province: string;
     postCode: string;
     name: string;
-  };
-  initialValue: {
-    streetName: string;
-    streetNumber: string;
-    apartmentNumber: string;
-    secondLine: string;
-    city: string;
-    province: string;
-    postCode: string;
   };
   allowClear?: boolean;
 };
