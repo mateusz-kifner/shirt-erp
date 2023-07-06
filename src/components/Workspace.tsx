@@ -55,7 +55,7 @@ const Workspace = ({
     [key: string]: { active?: number; pinned: number[] };
   }>("pinned_" + cacheKey, {});
 
-  const tabState = tabStateArray[cacheKey] ?? {
+  const tabState = tabStateArray?.[cacheKey] ?? {
     active: defaultActive,
     pinned: defaultPinned,
   };

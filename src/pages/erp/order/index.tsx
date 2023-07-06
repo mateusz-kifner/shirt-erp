@@ -13,13 +13,13 @@ import template from "@/templates/order.model";
 // import Editable from "../../../components/editable/Editable"
 import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Workspace from "@/components/Workspace";
+import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
+import OrderList from "@/page-components/erp/order/OrderList";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { useMediaQuery } from "@mantine/hooks";
-import { BookOpenIcon, ListIcon } from "lucide-react";
+import { BookOpenIcon, ListIcon, MailIcon } from "lucide-react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import OrderAddModal from "./OrderAddModal";
-import OrderList from "./OrderList";
 // import { Button, Group, Menu, Stack, Text } from "@mantine/core"
 // import DeleteButton from "../../../components/DeleteButton"
 // import { useTranslation } from "../../../i18n"

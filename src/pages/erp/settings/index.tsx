@@ -14,7 +14,6 @@ import SuperJSON from "superjson";
 
 import Editable from "@/components/editable/Editable";
 import Button from "@/components/ui/Button";
-import { Select } from "@/components/ui/Select";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
 import { toast } from "@/hooks/useToast";
@@ -70,7 +69,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
     transformer: SuperJSON,
   });
 
-  await ssg.session.user.prefetch();
+  await ssg.session.me.prefetch();
 
   return {
     props: { trpcState: ssg.dehydrate() },
@@ -81,7 +80,7 @@ function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
   const { locale } = router;
-  const { data } = api.session.user.useQuery();
+  const { data:userData } = api.session.me.useQuery();
   const logout = api.session.logout.useMutation({
     onSuccess() {
       void router.push("/profile");
@@ -113,9 +112,7 @@ function Settings() {
     }
   }, [remSize]);
 
-  if (!data?.user) return null;
-  const user = data.user;
-
+  if (!userData) return null;
   const changeLocale = (value: string) => {
     router.push("", "", { locale: value }).catch((e) => {
       throw e;
@@ -127,7 +124,7 @@ function Settings() {
       <div className="card mx-auto w-[36rem] bg-white shadow-xl dark:bg-stone-800">
         <UserCircleIcon className="mx-auto -mt-20 h-32 w-32 rounded-full border-8 border-white bg-gray-200 stroke-slate-900 dark:border-stone-800  dark:bg-stone-800  dark:stroke-gray-200 " />
         <div className="mt-2 text-center text-3xl font-medium">
-          {user?.name}
+          {userData?.name}
         </div>
         <hr className="mt-8 dark:border-stone-600 " />
         <div className="flex flex-col gap-3 p-4 ">
@@ -154,11 +151,11 @@ function Settings() {
           </div>
           <div className="flex items-center justify-stretch">
             <span className="w-1/2">{t.language}</span>
-            <Select
+            {/* <Select
               data={["pl", "en"]}
               defaultValue={locale ?? "pl"}
               onValueChange={changeLocale}
-            />
+            /> */}
           </div>
           <Button
             onClick={toggleTheme}
