@@ -2,10 +2,10 @@ import { useId } from "react";
 
 import { usePagination } from "@mantine/hooks";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MoreVerticalIcon,
-} from "lucide-react";
+  IconChevronLeft,
+  IconChevronRight,
+  IconDots,
+} from "@tabler/icons-react";
 
 interface PaginationProps {
   siblings?: number;
@@ -39,14 +39,14 @@ function Pagination({
         onClick={() => setPage(active - 1)}
         disabled={active === 1}
       >
-        <ChevronLeftIcon />
+        <IconChevronLeft />
         <span className="sr-only">Previous</span>
       </button>
 
       {range.map((page, index) => {
         if (page === "dots") {
           return (
-            <MoreVerticalIcon
+            <IconDots
               key={`${uuid}_${index}`}
               className="text-stone-500 dark:text-stone-200"
               size={16}
@@ -80,7 +80,7 @@ function Pagination({
         disabled={active === totalPages}
       >
         <span className="sr-only">Next</span>
-        <ChevronRightIcon />
+        <IconChevronRight />
       </button>
     </nav>
   );

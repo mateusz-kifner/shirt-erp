@@ -1,4 +1,4 @@
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { IconNote, IconNoteOff } from "@tabler/icons-react";
 import { useId, useState } from "react";
 import ActionButton from "../ui/ActionButton";
 import { ScrollArea } from "../ui/ScrollArea";
@@ -38,7 +38,7 @@ function ColorSwatches(props: ColorSwatchesProps) {
             "
           onClick={() => setDisableColorTooltip(!disableColorTooltip)}
         >
-          {disableColorTooltip ? <EyeOffIcon /> : <EyeIcon />}
+          {disableColorTooltip ? <IconNoteOff /> : <IconNote />}
         </ActionButton>
         {Object.keys(colors).map((key, index) => (
           <div key={`${key}_${index}_${uuid}`} className="flex flex-col gap-2">

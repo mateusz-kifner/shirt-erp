@@ -8,8 +8,8 @@ import MultiTabs from "@/components/MultiTabs";
 import { useUserContext } from "@/context/userContext";
 import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
+import TablerIconType from "@/types/TablerIconType";
 import { getQueryAsIntOrNull } from "@/utils/query";
-import { type LucideIcon } from "lucide-react";
 
 // import MultiTabs from "./MultiTabs"
 
@@ -17,7 +17,7 @@ interface WorkspaceProps {
   cacheKey: string;
   childrenWrapperProps?: any[];
   childrenLabels?: string[];
-  childrenIcons?: LucideIcon[];
+  childrenIcons?: TablerIconType[];
   children?: ReactNode;
   defaultActive?: number;
   defaultPinned?: number[];

@@ -1,20 +1,21 @@
 import type { ComponentType } from "react";
 
 import {
-  BellIcon,
-  CrownIcon,
-  FileIcon,
-  ListChecksIcon,
-  LucideIcon,
-  MailIcon,
-  ShirtIcon,
-  ShoppingCartIcon,
-  UserIcon,
-} from "lucide-react";
+  IconBell,
+  IconChecklist,
+  IconCrown,
+  IconFile,
+  IconMail,
+  IconShirt,
+  IconShoppingCart,
+  IconUser,
+} from "@tabler/icons-react";
+
+import type TablerIconType from "@/types/TablerIconType";
 
 const navigationData: {
   label: string;
-  Icon: LucideIcon;
+  Icon: TablerIconType;
   href: string;
   entryName: string;
   gradient?: { from: string; to: string; deg: number };
@@ -23,70 +24,70 @@ const navigationData: {
 }[] = [
   {
     label: "Zadania",
-    Icon: ListChecksIcon,
+    Icon: IconChecklist,
     href: "/erp/task",
     entryName: "task",
     gradient: { from: "#099268", to: "#66A80F", deg: 105 },
   },
   {
     label: "Zamówienia",
-    Icon: CrownIcon,
+    Icon: IconCrown,
     href: "/erp/order",
     entryName: "order",
     gradient: { from: "#3B5BDB", to: "#0C8599", deg: 105 },
   },
   {
     label: "Produkty",
-    Icon: ShirtIcon,
+    Icon: IconShirt,
     href: "/erp/product",
     entryName: "product",
     gradient: { from: "#9C36B5", to: "#E03131", deg: 105 },
   },
   {
     label: "Klienci",
-    Icon: UserIcon,
+    Icon: IconUser,
     href: "/erp/client",
     entryName: "client",
     gradient: { from: "#E8590C", to: "#F08C00", deg: 105 },
   },
   {
     label: "Wydatki",
-    Icon: ShoppingCartIcon,
+    Icon: IconShoppingCart,
     href: "/erp/expense",
     entryName: "expense",
     gradient: { from: "#E03131", to: "#E8590C", deg: 105 },
   },
   {
     label: "Maile",
-    Icon: MailIcon,
+    Icon: IconMail,
     href: "/erp/email-message",
     entryName: "email",
     gradient: { from: "#3B5BDB", to: "#099268", deg: 105 },
   },
   {
     label: "Logi",
-    Icon: BellIcon,
+    Icon: IconBell,
     href: "/erp/log",
     entryName: "log",
     debug: true,
   },
   {
     label: "Zamówienia archiwalne",
-    Icon: BellIcon,
+    Icon: IconBell,
     href: "/erp/order-archive",
     entryName: "orders-archive",
     debug: true,
   },
   {
     label: "Pracownicy",
-    Icon: BellIcon,
+    Icon: IconBell,
     href: "/erp/user",
     entryName: "user",
     debug: true,
   },
   {
     label: "Pliki",
-    Icon: FileIcon,
+    Icon: IconFile,
     href: "/erp/file",
     entryName: "upload/file",
     gradient: { from: "#2F9E44", to: "#66A80F", deg: 105 },

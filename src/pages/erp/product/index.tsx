@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useMediaQuery } from "@mantine/hooks";
-import { BookOpenIcon, ListIcon } from "lucide-react";
+import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import ApiEntryEditable from "@/components/ApiEntryEditable";
@@ -28,7 +28,7 @@ const ProductsPage = () => {
         childrenLabels={
           id ? ["Lista produktów", "Właściwości"] : ["Lista produktów"]
         }
-        childrenIcons={[ListIcon, BookOpenIcon]}
+        childrenIcons={[IconList, IconNotebook]}
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
       >

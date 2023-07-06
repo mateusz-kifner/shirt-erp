@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import { useTranslation } from "../../../i18n"
 import useTranslation from "@/hooks/useTranslation";
-import { Trash2Icon } from "lucide-react";
+import { IconTrashX } from "@tabler/icons-react";
 import Button from "./ui/Button";
 import { Dialog, DialogTitle } from "./ui/Dialog";
 
@@ -27,7 +27,7 @@ const DeleteButton = ({
       <Button
         color="red"
         variant="subtle"
-        leftIcon={<Trash2Icon size={18} />}
+        leftIcon={<IconTrashX size={18} />}
         onClick={() => setOpenedDelete(true)}
         className="erase_on_print"
         {...buttonProps}
@@ -50,7 +50,7 @@ const DeleteButton = ({
               setOpenedDelete(false);
             }}
           >
-            <Trash2Icon size={18} />
+            <IconTrashX size={18} />
             {t.delete}
           </Button>
           <Button onClick={() => setOpenedDelete(false)}>{t.cancel}</Button>

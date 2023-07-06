@@ -6,8 +6,8 @@ import {
   useId,
   useMediaQuery,
 } from "@mantine/hooks";
+import { IconCalendar, IconClock } from "@tabler/icons-react";
 import dayjs from "dayjs";
-import { CalendarIcon, ClockIcon } from "lucide-react";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
@@ -108,7 +108,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
         copyValue={dayjs(date).format("L LT").toString()}
       />
       <DisplayCell
-        leftSection={<CalendarIcon size={18} />}
+        leftSection={<IconCalendar size={18} />}
         className="border-none"
       >
         {active ? (
@@ -116,7 +116,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
         ) : (
           <div className="flex gap-2">
             {date ? dayjs(date).format("L").toString() : "⸺"}
-            <ClockIcon
+            <IconClock
               className="text-gray-400 dark:text-stone-600"
               size={18}
             />

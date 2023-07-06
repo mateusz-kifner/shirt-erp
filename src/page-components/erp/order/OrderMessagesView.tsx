@@ -1,7 +1,7 @@
 import { Accordion, Modal, Stack, Text, Title } from "@mantine/core";
+import { IconEdit, IconRefresh } from "@tabler/icons-react";
 import axios from "axios";
 import dayjs from "dayjs";
-import { EditIcon, RefreshCwIcon } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 import FloatingActions from "../../../components/FloatingActions";
 import ApiEntryEditable from "../../../components/api/ApiEntryEditable";
@@ -88,8 +88,8 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
           },
         ]}
         actionIcons={[
-          <EditIcon size={28} key={uuid + "_icon1"} />,
-          <RefreshCwIcon size={20} key={uuid + "_icon2"} />,
+          <IconEdit size={28} key={uuid + "_icon1"} />,
+          <IconRefresh size={20} key={uuid + "_icon2"} />,
         ]}
       />
     </Stack>

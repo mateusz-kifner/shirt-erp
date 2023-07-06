@@ -8,15 +8,15 @@ import { SVG } from "@svgdotjs/svg.js";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/DropdownMenu";
 
 import {
-  ComponentIcon,
-  Dice1Icon,
-  Dice2Icon,
-  Dice3Icon,
-  FrameIcon,
-  PaletteIcon,
-  ScreenShareIcon,
-  WallpaperIcon
-} from "lucide-react";
+  IconCategory,
+  IconColorSwatch,
+  IconGridPattern,
+  IconScreenShare,
+  IconSquareNumber1,
+  IconSquareNumber2,
+  IconSquareNumber3,
+  IconWallpaper
+} from "@tabler/icons-react";
 import {
   useEffect,
   useId,
@@ -128,7 +128,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     ...externalBackgrounds,
     {
       name: "empty x1",
-      icon: Dice1Icon,
+      icon: IconSquareNumber1,
       images: [
         {
           name: "empty1",
@@ -137,7 +137,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x2",
-      icon: Dice2Icon,
+      icon: IconSquareNumber2,
       images: [
         {
           name: "empty1",
@@ -149,7 +149,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     },
     {
       name: "empty x3",
-      icon: Dice3Icon,
+      icon: IconSquareNumber3,
       images: [
         {
           name: "empty1",
@@ -215,7 +215,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                 <Button
                   onClick={() => setShowGrid((val) => !val)}
                 >
-                  <FrameIcon />
+                  <IconGridPattern />
                 </Button>
               </SimpleTooltip>
               <DropdownMenu>
@@ -223,7 +223,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                 <DropdownMenuTrigger>
                   <SimpleTooltip tooltip={t.item}>
                     <Button>
-                      <ComponentIcon />
+                      <IconCategory />
                     </Button>
                   </SimpleTooltip>
                 </DropdownMenuTrigger>
@@ -249,7 +249,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     tooltip={t.background_color}
                   >
                     <Button>
-                      <WallpaperIcon fill={backgroundColor} />
+                      <IconWallpaper fill={backgroundColor} />
                     </Button>
                   </SimpleTooltip>
                 </PopoverTrigger>
@@ -274,7 +274,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     tooltip={t.item_color}
                   >
                     <Button>
-                      <PaletteIcon fill={itemColor} />
+                      <IconColorSwatch fill={itemColor} />
                     </Button>
                   </SimpleTooltip>
                 </PopoverTrigger>
@@ -300,7 +300,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                   setFullscreen((fullscreen) => !fullscreen);
                 }}
               >
-                <ScreenShareIcon />
+                <IconScreenShare />
               </Button>
             </SimpleTooltip>
           </div>

@@ -1,4 +1,4 @@
-import { BugIcon } from "lucide-react";
+import { BugIcon } from "@tabler/icons-react";
 
 const testTemplate = {
   id: { type: "id" },

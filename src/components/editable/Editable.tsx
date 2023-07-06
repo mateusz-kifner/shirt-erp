@@ -1,7 +1,7 @@
 import type { ComponentType, CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
-import { BanknoteIcon, CalendarIcon, MapPinIcon } from "lucide-react";
+import { IconBuildingCommunity, IconCalendar, IconCash, IconNumbers } from "@tabler/icons-react";
 
 // Editable imports
 import EditableAddress from "@/components/editable/EditableAddress";
@@ -159,26 +159,24 @@ const editableFields: editableFields = {
   text: { component: EditableText, props: {} },
   numberText: {
     component: EditableShortText,
-    props: {},
-    // props: { leftSection: <IconNumbers size={18} /> },
+    props: { leftSection: <IconNumbers size={18} /> },
   },
   richtext: { component: EditableRichText, props: {} },
   number: {
     component: EditableNumber,
-    props: {},
-    // props: { leftSection: <IconNumbers size={18} /> },
+    props: { leftSection: <IconNumbers size={18} /> },
   },
   money: {
     component: EditableShortText,
     props: {
       rightSection: <div className="pr-2">PLN</div>,
-      leftSection: <BanknoteIcon size={18} />,
+      leftSection: <IconCash size={18} />,
     },
   },
   datetime: { component: EditableDateTime, props: {} },
   date: {
     component: EditableDate,
-    props: { leftSection: <CalendarIcon size={18} /> },
+    props: { leftSection: <IconCalendar size={18} /> },
   },
   switch: { component: EditableSwitch, props: {} },
   color: { component: EditableColor, props: {} },
@@ -187,7 +185,7 @@ const editableFields: editableFields = {
   iconId: { component: EditableApiIconId, props: {} },
   address: {
     component: EditableAddress,
-    props: { leftSection: <MapPinIcon size={18} /> },
+    props: { leftSection: <IconBuildingCommunity size={18} /> },
   },
   file: { component: EditableFiles, props: { maxCount: 1 } },
   image: { component: EditableFiles, props: { maxCount: 1 } },

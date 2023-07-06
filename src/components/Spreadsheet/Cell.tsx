@@ -9,8 +9,8 @@ import {
 } from "react";
 import { Dimensions, Point } from "react-spreadsheet";
 
+import { IconCheck, IconX } from "@tabler/icons-react";
 import { merge } from "lodash";
-import { CheckIcon, XIcon } from "lucide-react";
 import type { ComponentType, FC } from "react";
 import type { CellBase, CellComponentProps } from "react-spreadsheet";
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
@@ -122,12 +122,12 @@ export const Cell = ({
       )}
       {data?.active &&
         (data.active === data.value ? (
-          <CheckIcon
+          <IconCheck
             size={12}
             style={{ position: "absolute", top: 0, left: 0 }}
           />
         ) : (
-          <XIcon size={12} style={{ position: "absolute", top: 0, left: 0 }} />
+          <IconX size={12} style={{ position: "absolute", top: 0, left: 0 }} />
         ))}
       <DataViewer
         row={row}

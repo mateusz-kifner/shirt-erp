@@ -1,6 +1,6 @@
 import { ReactNode, useId, useState } from "react";
 
-import { XIcon } from "lucide-react";
+import { IconX } from "@tabler/icons-react";
 
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
@@ -50,7 +50,7 @@ const EditableApiIconId = ({
             }}
             key={uuid + "null"}
           >
-            <XIcon size={96} />
+            <IconX size={96} />
           </Button>
         </div>
       </Modal>

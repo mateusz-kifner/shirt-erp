@@ -1,8 +1,8 @@
 import { useEffect, useId, useState, type ComponentType } from "react";
 
 import { useListState } from "@mantine/hooks";
+import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import { isEqual, omit } from "lodash";
-import { PlusIcon, Trash2Icon } from "lucide-react";
 
 import Button from "@/components/ui/Button";
 
@@ -117,7 +117,7 @@ const EditableArray = (props: EditableArrayProps) => {
                         handlers.remove(index);
                       }}
                     >
-                      <Trash2Icon /> Delete
+                      <IconTrashX /> Delete
                     </RadixContextMenu.Item>
                   </RadixContextMenu.Content>
                 </RadixContextMenu.Portal>
@@ -137,7 +137,7 @@ const EditableArray = (props: EditableArrayProps) => {
             disabled={maxCount ? maxCount <= items.length : undefined}
             // style={{ flexGrow: 1 }}
           >
-            <PlusIcon />
+            <IconPlus />
           </Button>
         )}
       </div>

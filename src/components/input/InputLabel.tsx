@@ -1,7 +1,7 @@
 import { type LabelHTMLAttributes, type ReactNode } from "react";
 
 import { useClipboard } from "@mantine/hooks";
-import { CopyIcon, HelpCircleIcon } from "lucide-react";
+import { IconCopy, IconQuestionMark } from "@tabler/icons-react";
 
 import { useToast } from "@/hooks/useToast";
 import ActionButton from "../ui/ActionButton";
@@ -47,7 +47,7 @@ function InputLabel(props: InputLabelProps) {
             }}
             tabIndex={-1}
           >
-            <CopyIcon size={16} />
+            <IconCopy size={16} />
           </ActionButton>
         )}
         {helpTooltip && helpTooltip.length > 0 && (
@@ -57,7 +57,7 @@ function InputLabel(props: InputLabelProps) {
             classNameTooltip="w-80 whitespace-normal dark:whitespace-normal"
             delay="delay-700"
           >
-            <HelpCircleIcon size={16} />
+            <IconQuestionMark size={16} />
           </SimpleTooltip>
         )}
       </div>

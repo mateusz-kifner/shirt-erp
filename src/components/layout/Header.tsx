@@ -1,11 +1,11 @@
 import { useUserContext } from "@/context/userContext";
 import { useElementSize } from "@mantine/hooks";
 import {
-  BellIcon,
-  MessageCircleIcon,
-  SearchIcon,
-  SettingsIcon,
-} from "lucide-react";
+  IconBell,
+  IconMessage2,
+  IconSearch,
+  IconSettings,
+} from "@tabler/icons-react";
 import Link from "next/link";
 
 const Header = () => {
@@ -53,7 +53,7 @@ const Header = () => {
             active:focus:scale-95 active:focus:animate-none
             disabled:pointer-events-none disabled:bg-stone-700"
         >
-          <SearchIcon className="stroke-gray-200" />
+          <IconSearch className="stroke-gray-200" />
         </button>
         <button
           className="border-1 animate-pop inline-flex h-9
@@ -65,7 +65,7 @@ const Header = () => {
             disabled:pointer-events-none disabled:bg-stone-700"
           disabled
         >
-          <MessageCircleIcon className="stroke-gray-200" />
+          <IconMessage2 className="stroke-gray-200" />
         </button>
         <button
           className="border-1 animate-pop inline-flex h-9
@@ -77,7 +77,7 @@ const Header = () => {
             disabled:pointer-events-none disabled:bg-stone-700"
           disabled
         >
-          <BellIcon className="stroke-gray-200" />
+          <IconBell className="stroke-gray-200" />
         </button>
 
         <Link
@@ -90,7 +90,7 @@ const Header = () => {
             active:focus:scale-95 active:focus:animate-none
             disabled:pointer-events-none disabled:bg-stone-700"
         >
-          <SettingsIcon className="stroke-gray-200" />
+          <IconSettings className="stroke-gray-200" />
         </Link>
       </div>
     </div>

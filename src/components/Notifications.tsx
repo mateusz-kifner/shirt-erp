@@ -1,8 +1,8 @@
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
+import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
-import { BellIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import ActionButton from "./ui/ActionButton";
@@ -70,7 +70,7 @@ const Notifications = () => {
             color="blue"
             disabled={activeOrders == 0}
           > */}
-            <BellIcon />
+            <IconBell />
           {/* </Indicator> */}
         </ActionButton>
       </PopoverTrigger>
@@ -78,7 +78,7 @@ const Notifications = () => {
         <div className="flex flex-col gap-2">
           <div className="flex justify-between">
             <h1>
-              <BellIcon size={18} /> Powiadomienia{" "}
+              <IconBell size={18} /> Powiadomienia{" "}
             </h1>
           </div>
 

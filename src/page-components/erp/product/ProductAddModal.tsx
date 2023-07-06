@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { PlusIcon } from "lucide-react";
+import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
@@ -82,7 +82,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
           }}
           className="mt-4"
         >
-          <PlusIcon />
+          <IconPlus />
           Utwórz produkt
         </Button>
         <div className="text-red-600">{error}</div>

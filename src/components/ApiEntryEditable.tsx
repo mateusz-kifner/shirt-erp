@@ -1,6 +1,6 @@
 import { useLoaded } from "@/hooks/useLoaded";
 import { api } from "@/utils/api";
-import { RefreshCwIcon } from "lucide-react";
+import { IconRefresh } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useId, useState } from "react";
 import Editable from "./editable/Editable";
@@ -118,7 +118,7 @@ const ApiEntryEditable = <EntryType,>({
             });
           }}
         >
-          <RefreshCwIcon size={24} />
+          <IconRefresh size={24} />
         </ActionButton>
       )}
     </div>

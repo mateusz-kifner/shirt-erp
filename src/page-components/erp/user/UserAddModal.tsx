@@ -76,7 +76,7 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
           }}
           className="mt-4"
         >
-          <PlusIcon />
+          <IconPlus />
           Utwórz klienta
         </Button> */}
         <div className="text-red-600">{error}</div>

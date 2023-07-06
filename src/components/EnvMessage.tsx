@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@mantine/hooks";
-import { HelpCircleIcon } from "lucide-react";
+import { IconQuestionMark } from "@tabler/icons-react";
 import { env } from "../env.mjs";
 // import Markdown from "./details/Markdown";
 import ActionButton from "./ui/ActionButton";
@@ -20,7 +20,7 @@ const EnvMessage = () => {
         style={{ position: "fixed", right: 8, bottom: 8, zIndex: 999999 }}
         onClick={() => setEnvMessageOpen(true)}
       >
-        <HelpCircleIcon size={32} />
+        <IconQuestionMark size={32} />
       </ActionButton>
       <Modal
         open={envMessageOpen}

@@ -9,11 +9,12 @@ import {
 } from "react";
 
 import { useMergedRef, useResizeObserver } from "@mantine/hooks";
+import { IconPinned } from "@tabler/icons-react";
 import { omit } from "lodash";
-import { PinIcon, type LucideIcon } from "lucide-react";
 
 import Portal from "@/components/Portal";
 import { useUserContext } from "@/context/userContext";
+import TablerIconType from "@/types/TablerIconType";
 import { simpleColors } from "@/utils/getRandomColor";
 
 export interface TabProps extends ComponentPropsWithoutRef<"button"> {
@@ -27,7 +28,7 @@ export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   rightSection?: React.ReactNode;
 
   /** Section of content displayed before label */
-  Icon?: LucideIcon;
+  Icon?: TablerIconType;
 
   small?: boolean;
   setBigSize?: (size: number) => void;
@@ -142,7 +143,7 @@ interface MultiTabsProps {
   onPin: (pinned: number) => void;
 
   childrenLabels: string[];
-  childrenIcons: LucideIcon[];
+  childrenIcons: TablerIconType[];
 
   leftSection?: ReactNode;
   rightSection?: ReactNode;
@@ -250,7 +251,7 @@ const MultiTabs = (props: MultiTabsProps) => {
                   !!rightSection ? (
                     rightSection
                   ) : isPinned ? (
-                    <PinIcon size={16} />
+                    <IconPinned size={16} />
                   ) : undefined
                 }
                 isActive={active === index || isPinned}

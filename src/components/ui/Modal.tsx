@@ -1,7 +1,7 @@
 import { useLoaded } from "@/hooks/useLoaded";
 import * as RadixDialog from "@radix-ui/react-dialog";
+import { IconX } from "@tabler/icons-react";
 import { omit } from "lodash";
-import { XIcon } from "lucide-react";
 import { type ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import ActionButton from "./ActionButton";
@@ -74,7 +74,7 @@ function Modal(props: ModalProps) {
               className="absolute right-3 top-3 rounded-full p-1"
             >
               <ActionButton aria-label="Close">
-                <XIcon />
+                <IconX />
               </ActionButton>
             </RadixDialog.Close>
           )}

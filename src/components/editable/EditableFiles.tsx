@@ -6,7 +6,7 @@ import {
   type DragEvent,
 } from "react";
 
-import { Loader2Icon, PlusIcon, Trash2Icon, UploadIcon } from "lucide-react";
+import { IconLoader2, IconPlus, IconTrashX, IconUpload } from "@tabler/icons-react";
 
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
@@ -198,7 +198,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                           <IconArrowDown /> Down
                         </RadixContextMenu.Item> */}
                         <RadixContextMenu.Item className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600">
-                          <Trash2Icon /> Delete
+                          <IconTrashX /> Delete
                         </RadixContextMenu.Item>
                       </>
                     )
@@ -213,7 +213,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                 >
                   {dragActive ? (
                     <>
-                      <UploadIcon size={44} />
+                      <IconUpload size={44} />
                       {t.drop_files_here}
                     </>
                   ) : (
@@ -234,9 +234,9 @@ const EditableFiles = (props: EditableFilesProps) => {
               "
             >
               {uploading ? (
-                <Loader2Icon className="animate-spin" />
+                <IconLoader2 className="animate-spin" />
               ) : (
-                <PlusIcon />
+                <IconPlus />
               )}
               {uploading ? t.uploading : t.add_files}
             </label>
