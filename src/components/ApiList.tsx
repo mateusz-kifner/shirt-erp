@@ -9,10 +9,10 @@ import {
 } from "@tabler/icons-react";
 
 import List from "@/components/List";
-import ActionButton from "@/components/ui/ActionButton";
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
+import Button from "./ui/Button";
 
 interface ApiListProps<T = any> {
   entryName: string;
@@ -94,7 +94,8 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
           <h2 className="text-2xl font-bold">{label}</h2>
           <div className="flex gap-2">
             {!!buttonSection && buttonSection}
-            <ActionButton
+            <Button 
+            size="icon"
               className="
                   h-9
                   w-9
@@ -110,9 +111,9 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
               }}
             >
               <IconRefresh />
-            </ActionButton>
+            </Button>
             {showAddButton && (
-              <ActionButton
+              <Button size="icon"
                 className="
                     h-9
                     w-9
@@ -126,13 +127,13 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
                 onClick={onAddElement}
               >
                 <IconPlus />
-              </ActionButton>
+              </Button>
             )}
           </div>
         </div>
         <div className="flex gap-3 px-2.5">
           <div className="flex ">
-            <ActionButton
+            <Button size="icon"
               className="
                   h-9
                   w-9
@@ -150,7 +151,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
               ) : (
                 <IconSortAscending />
               )}
-            </ActionButton>
+            </Button>
           </div>
           <input
             className="

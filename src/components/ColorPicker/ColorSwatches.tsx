@@ -1,6 +1,6 @@
 import { IconNote, IconNoteOff } from "@tabler/icons-react";
 import { useId, useState } from "react";
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
 import SimpleTooltip from "../ui/SimpleTooltip";
 
@@ -28,7 +28,7 @@ function ColorSwatches(props: ColorSwatchesProps) {
   return (
     <ScrollArea className={`relative ${className ?? ""}`}>
       <div className="relative flex w-fit flex-col gap-4">
-        <ActionButton
+        <Button size="icon"
           className="absolute
             right-4
             top-0 
@@ -39,7 +39,7 @@ function ColorSwatches(props: ColorSwatchesProps) {
           onClick={() => setDisableColorTooltip(!disableColorTooltip)}
         >
           {disableColorTooltip ? <IconNoteOff /> : <IconNote />}
-        </ActionButton>
+        </Button>
         {Object.keys(colors).map((key, index) => (
           <div key={`${key}_${index}_${uuid}`} className="flex flex-col gap-2">
             {!key.startsWith("_") && <span className="pl-2">{key}</span>}

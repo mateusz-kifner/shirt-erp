@@ -4,7 +4,7 @@ import { useEyeDropper } from "@mantine/hooks";
 import { IconChevronDown, IconChevronUp, IconColorSwatch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import AlphaSlider from "./AlphaSlider";
 import ColorArea from "./ColorArea";
 import ColorSwatches from "./ColorSwatches";
@@ -287,7 +287,7 @@ function InputColor(props: InputColorProps) {
                 />
               </label>
 
-              <ActionButton
+              <Button size="icon"
                 className="self-end"
                 onClick={() => {
                   pickColor().catch((e) => console.log(e));
@@ -295,7 +295,7 @@ function InputColor(props: InputColorProps) {
                 disabled={!supported || disabled}
               >
                 <IconColorSwatch />
-              </ActionButton>
+              </Button>
             </div>
           </div>
         </div>

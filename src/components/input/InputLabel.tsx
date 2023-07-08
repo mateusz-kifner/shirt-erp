@@ -4,7 +4,7 @@ import { useClipboard } from "@mantine/hooks";
 import { IconCopy, IconQuestionMark } from "@tabler/icons-react";
 
 import { useToast } from "@/hooks/useToast";
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import SimpleTooltip from "../ui/SimpleTooltip";
 
 //  LabelHTMLAttributes {
@@ -36,7 +36,7 @@ function InputLabel(props: InputLabelProps) {
         {label}
         {required && <span className="text-red-600">*</span>}
         {copyValue && copyValue.length > 0 && (
-          <ActionButton
+          <Button size="icon"
             className="ml-1 h-5 w-5"
             onClick={() => {
               clipboard.copy(copyValue);
@@ -48,7 +48,7 @@ function InputLabel(props: InputLabelProps) {
             tabIndex={-1}
           >
             <IconCopy size={16} />
-          </ActionButton>
+          </Button>
         )}
         {helpTooltip && helpTooltip.length > 0 && (
           <SimpleTooltip

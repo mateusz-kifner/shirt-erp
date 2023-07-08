@@ -39,7 +39,7 @@ import {
   IconSuperscript,
   IconUnderline,
 } from "@tabler/icons-react";
-import ActionButton from "../ui/ActionButton";
+import Button from "../ui/Button";
 import DisplayCellExpanding from "../ui/DisplayCellExpanding";
 
 const controls: (
@@ -325,7 +325,7 @@ const EditableRichText = ({
                       key={`${uuid}${index}:group`}
                     >
                       {value.map((value, index2) => (
-                        <ActionButton
+                        <Button size="icon"
                           key={`${uuid}${index}:${index2}:group`}
                           className={`action-button  ${
                             //@ts-ignore
@@ -353,13 +353,13 @@ const EditableRichText = ({
                           title={value.label}
                         >
                           {value.icon}
-                        </ActionButton>
+                        </Button>
                       ))}
                     </div>
                   );
                 } else {
                   return (
-                    <ActionButton
+                    <Button size="icon"
                       key={`${uuid}${index}:item`}
                       className={`action-button border border-solid border-stone-400 dark:border-stone-600 ${
                         //@ts-ignore
@@ -387,7 +387,7 @@ const EditableRichText = ({
                       title={value.label}
                     >
                       {value.icon}
-                    </ActionButton>
+                    </Button>
                   );
                 }
               })}

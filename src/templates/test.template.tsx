@@ -1,4 +1,4 @@
-import { BugIcon } from "@tabler/icons-react";
+import { IconBug } from "@tabler/icons-react";
 
 const testTemplate = {
   id: { type: "id" },
@@ -6,20 +6,20 @@ const testTemplate = {
   name: {
     label: "Napis",
     type: "text",
-    leftSection: <BugIcon />,
-    rightSection: <BugIcon />,
+    leftSection: <IconBug />,
+    rightSection: <IconBug />,
   },
   number: {
     label: "number",
     type: "number",
-    leftSection: <BugIcon />,
-    rightSection: <BugIcon />,
+    leftSection: <IconBug />,
+    rightSection: <IconBug />,
   },
   money: {
     label: "money",
     type: "money",
-    leftSection: <BugIcon />,
-    rightSection: <BugIcon />,
+    leftSection: <IconBug />,
+    rightSection: <IconBug />,
   },
 
   // bool: {

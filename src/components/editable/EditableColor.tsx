@@ -1,10 +1,10 @@
 import {
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
+    useEffect,
+    useId,
+    useMemo,
+    useRef,
+    useState,
+    type CSSProperties,
 } from "react";
 
 import { useClickOutside } from "@mantine/hooks";
@@ -189,9 +189,9 @@ const EditableColor = (props: EditableColorProps) => {
           //       rightSection
           //     ) : (
           //       <div className="flex h-11 items-center justify-center">
-          //         <ActionButton className="border-none">
+          //         <Button size="icon" className="border-none">
           //           <PaletteIcon />
-          //         </ActionButton>
+          //         </Button>
           //       </div>
           //     )
           //   }

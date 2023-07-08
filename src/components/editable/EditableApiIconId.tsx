@@ -22,7 +22,7 @@ const EditableApiIconId = ({
 }: EditableApiIconIdProps) => {
   const [open, setOpened] = useState(false);
   const uuid = useId();
-  const icon = value!== undefined ? icons[value] : null;
+  // const icon = value!== undefined ? icons[value] : null;
 
   return (
     <div className="flex-grow">
@@ -39,7 +39,7 @@ const EditableApiIconId = ({
               }}
               key={`${uuid}${index}`}
             >
-              {icon}
+              {/* {icon} */}
             </Button>
           ))}
           <Button
@@ -56,7 +56,7 @@ const EditableApiIconId = ({
       </Modal>
       <div className="flex flex-col gap-2">
           <Button className=" h-32 w-32" onClick={() => setOpened(true)} disabled={disabled}>
-            {icon}
+            {/* {icon} */}
           </Button>
       </div>
     </div>

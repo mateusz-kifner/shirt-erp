@@ -4,7 +4,8 @@ import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
-import ActionButton from "./ui/ActionButton";
+
+import Button from "./ui/Button";
 import SimpleTooltip from "./ui/SimpleTooltip";
 
 interface FileListItemProps {
@@ -55,7 +56,7 @@ const FileListItem = (props: FileListItemProps) => {
           />
 
           {preview && onPreview && (
-            <ActionButton
+            <Button size="icon"
               className="absolute left-0 top-0 z-50 h-full w-full hover:bg-black hover:bg-opacity-20"
               onClick={() => {
                 value?.filename &&
@@ -74,7 +75,7 @@ const FileListItem = (props: FileListItemProps) => {
                 className="text-stone-300 dark:text-stone-600"
                 size={26}
               />
-            </ActionButton>
+            </Button>
           )}
         </div>
         <SimpleTooltip

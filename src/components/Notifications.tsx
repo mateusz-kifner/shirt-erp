@@ -5,7 +5,8 @@ import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
-import ActionButton from "./ui/ActionButton";
+
+import Button from "./ui/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover";
 
 const Notifications = () => {
@@ -59,7 +60,7 @@ const Notifications = () => {
       // onChange={setOpened}
     >
       <PopoverTrigger>
-        <ActionButton
+        <Button size="icon"
           onClick={() => {
             // refetch();
             setOpened((val) => !val);
@@ -72,7 +73,7 @@ const Notifications = () => {
           > */}
             <IconBell />
           {/* </Indicator> */}
-        </ActionButton>
+        </Button>
       </PopoverTrigger>
       <PopoverContent>
         <div className="flex flex-col gap-2">

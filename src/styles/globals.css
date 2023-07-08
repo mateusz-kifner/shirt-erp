@@ -73,7 +73,7 @@ body::-webkit-scrollbar {
     --border: 20 5.9% 90%;
     --input: 20 5.9% 90%;
 
-    --primary: 24 9.8% 10%;
+    --primary: 221 83% 53%;
     --primary-foreground: 60 9.1% 97.8%;
 
     --secondary: 60 4.8% 95.9%;
@@ -106,8 +106,8 @@ body::-webkit-scrollbar {
     --border: 12 6.5% 15.1%;
     --input: 12 6.5% 15.1%;
 
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 60 9.1% 97.8%;
 
     --secondary: 12 6.5% 15.1%;
     --secondary-foreground: 60 9.1% 97.8%;

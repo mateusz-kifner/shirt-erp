@@ -2,7 +2,8 @@ import { useLocalStorage } from "@mantine/hooks";
 import { IconQuestionMark } from "@tabler/icons-react";
 import { env } from "../env.mjs";
 // import Markdown from "./details/Markdown";
-import ActionButton from "./ui/ActionButton";
+
+import Button from "./ui/Button";
 import Modal from "./ui/Modal";
 
 const EnvMessage = () => {
@@ -16,12 +17,12 @@ const EnvMessage = () => {
 
   return (
     <>
-      <ActionButton
+      <Button size="icon"
         style={{ position: "fixed", right: 8, bottom: 8, zIndex: 999999 }}
         onClick={() => setEnvMessageOpen(true)}
       >
         <IconQuestionMark size={32} />
-      </ActionButton>
+      </Button>
       <Modal
         open={envMessageOpen}
         onClose={() => {

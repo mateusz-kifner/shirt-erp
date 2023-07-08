@@ -8,7 +8,8 @@ const buttonVariants = cva(`inline-flex
     select-none 
     items-center 
     justify-center
-    gap-3 rounded-md 
+    gap-3
+    rounded-md 
     font-semibold  
     no-underline 
     outline-offset-4
@@ -20,7 +21,7 @@ const buttonVariants = cva(`inline-flex
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/80",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
