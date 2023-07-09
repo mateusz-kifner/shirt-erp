@@ -73,7 +73,7 @@ function Modal(props: ModalProps) {
               asChild
               className="absolute right-3 top-3 rounded-full p-1"
             >
-              <Button size="icon" aria-label="Close">
+              <Button size="icon" variant="outline" aria-label="Close">
                 <IconX />
               </Button>
             </RadixDialog.Close>
@@ -132,7 +132,7 @@ export default Modal;
 //           <Dialog.Panel className="absolute left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 transform  rounded-sm bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-stone-800">
 //             <div className="mb-2 flex items-center justify-between ">
 //               {title}
-//               <Button size="icon"
+//               <Button size="icon" variant="outline"
 //                 onClick={() => onClose()}
 //                 className=" h-8 w-8 rounded-md border-none border-transparent p-1 text-stone-800 dark:text-stone-200"
 //               >

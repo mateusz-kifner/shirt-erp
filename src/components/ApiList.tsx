@@ -5,7 +5,7 @@ import {
   IconPlus,
   IconRefresh,
   IconSortAscending,
-  IconSortDescending
+  IconSortDescending,
 } from "@tabler/icons-react";
 
 import List from "@/components/List";
@@ -94,8 +94,9 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
           <h2 className="text-2xl font-bold">{label}</h2>
           <div className="flex gap-2">
             {!!buttonSection && buttonSection}
-            <Button 
-            size="icon"
+            <Button
+              size="icon"
+              variant="outline"
               className="
                   h-9
                   w-9
@@ -113,7 +114,9 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
               <IconRefresh />
             </Button>
             {showAddButton && (
-              <Button size="icon"
+              <Button
+                size="icon"
+                variant="outline"
                 className="
                     h-9
                     w-9
@@ -133,7 +136,9 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
         </div>
         <div className="flex gap-3 px-2.5">
           <div className="flex ">
-            <Button size="icon"
+            <Button
+              size="icon"
+              variant="outline"
               className="
                   h-9
                   w-9

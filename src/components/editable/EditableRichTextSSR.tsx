@@ -325,7 +325,9 @@ const EditableRichText = ({
                       key={`${uuid}${index}:group`}
                     >
                       {value.map((value, index2) => (
-                        <Button size="icon"
+                        <Button
+                          size="icon"
+                          variant="outline"
                           key={`${uuid}${index}:${index2}:group`}
                           className={`action-button  ${
                             //@ts-ignore
@@ -359,7 +361,9 @@ const EditableRichText = ({
                   );
                 } else {
                   return (
-                    <Button size="icon"
+                    <Button
+                      size="icon"
+                      variant="outline"
                       key={`${uuid}${index}:item`}
                       className={`action-button border border-solid border-stone-400 dark:border-stone-600 ${
                         //@ts-ignore

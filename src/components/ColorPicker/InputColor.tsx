@@ -1,7 +1,11 @@
 import useTranslation from "@/hooks/useTranslation";
 import equalHSV from "@/utils/equalHSV";
 import { useEyeDropper } from "@mantine/hooks";
-import { IconChevronDown, IconChevronUp, IconColorSwatch } from "@tabler/icons-react";
+import {
+  IconChevronDown,
+  IconChevronUp,
+  IconColorSwatch,
+} from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
 import Button from "../ui/Button";
@@ -287,7 +291,9 @@ function InputColor(props: InputColorProps) {
                 />
               </label>
 
-              <Button size="icon"
+              <Button
+                size="icon"
+                variant="outline"
                 className="self-end"
                 onClick={() => {
                   pickColor().catch((e) => console.log(e));

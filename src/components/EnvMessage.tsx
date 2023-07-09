@@ -17,7 +17,9 @@ const EnvMessage = () => {
 
   return (
     <>
-      <Button size="icon"
+      <Button
+        size="icon"
+        variant="outline"
         style={{ position: "fixed", right: 8, bottom: 8, zIndex: 999999 }}
         onClick={() => setEnvMessageOpen(true)}
       >

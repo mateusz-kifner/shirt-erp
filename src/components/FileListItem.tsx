@@ -46,7 +46,7 @@ const FileListItem = (props: FileListItemProps) => {
         style={style}
         className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600"
       >
-        <div className="child-hover:visible relative h-[100px] w-[100px] min-w-[100px]  overflow-hidden">
+        <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden  child-hover:visible">
           <img
             src={preview ?? "/assets/unknown_file.svg"}
             alt=""
@@ -56,7 +56,9 @@ const FileListItem = (props: FileListItemProps) => {
           />
 
           {preview && onPreview && (
-            <Button size="icon"
+            <Button
+              size="icon"
+              variant="outline"
               className="absolute left-0 top-0 z-50 h-full w-full hover:bg-black hover:bg-opacity-20"
               onClick={() => {
                 value?.filename &&

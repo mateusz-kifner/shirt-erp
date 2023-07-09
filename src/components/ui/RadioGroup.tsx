@@ -1,8 +1,9 @@
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { IconCircle } from "@tabler/icons-react";
-import * as React from "react";
+import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
+import * as React from "react"
 
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils/cn"
+import { IconCircle } from "@tabler/icons-react"
+
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
@@ -14,9 +15,9 @@ const RadioGroup = React.forwardRef<
       {...props}
       ref={ref}
     />
-  );
-});
-RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
+  )
+})
+RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
@@ -26,7 +27,7 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        "aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+        "aspect-square h-4 w-4 rounded-full border border-stone-200 border-stone-900 text-stone-900 ring-offset-white focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-stone-800 dark:border-stone-50 dark:text-stone-50 dark:ring-offset-stone-950 dark:focus-visible:ring-stone-800",
         className
       )}
       {...props}
@@ -35,8 +36,8 @@ const RadioGroupItem = React.forwardRef<
         <IconCircle className="h-2.5 w-2.5 fill-current text-current" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
-  );
-});
-RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
+  )
+})
+RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
-export { RadioGroup, RadioGroupItem };
+export { RadioGroup, RadioGroupItem }

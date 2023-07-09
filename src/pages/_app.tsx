@@ -1,5 +1,7 @@
 import { type AppType } from "next/app";
 
+import "@total-typescript/ts-reset";
+
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Logger from "js-logger";
 import Head from "next/head";

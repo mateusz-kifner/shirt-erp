@@ -84,34 +84,35 @@ const EditableDate = (props: InputDateProps) => {
         className={"px-2"}
         error={error}
         leftSection={leftSection}
-        rightSection={<></>
-        //   <Popover
-        //     onOpenChange={setCalendarOpened}
-        //     trigger={
-        //       !!rightSection ? (
-        //         rightSection
-        //       ) : (
-        //         <div className="flex items-center justify-center">
-        //           <Button size="icon">
-        //             <CalendarIcon size={18} />
-        //           </Button>
-        //         </div>
-        //       )
-        //     }
-        //     contentProps={{ align: "end", sideOffset: 13 }}
-        //   >
-        //     <Calendar
-        //       className={"z-[1000] w-96 rounded p-2"}
-        //       onChange={(date) => {
-        //         setText(
-        //           dayjs(date as Date)
-        //             .format("L")
-        //             .toString()
-        //         );
-        //       }}
-        //       value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
-        //     />
-        //   </Popover>
+        rightSection={
+          <></>
+          //   <Popover
+          //     onOpenChange={setCalendarOpened}
+          //     trigger={
+          //       !!rightSection ? (
+          //         rightSection
+          //       ) : (
+          //         <div className="flex items-center justify-center">
+          //           <Button size="icon"  variant="outline">
+          //             <CalendarIcon size={18} />
+          //           </Button>
+          //         </div>
+          //       )
+          //     }
+          //     contentProps={{ align: "end", sideOffset: 13 }}
+          //   >
+          //     <Calendar
+          //       className={"z-[1000] w-96 rounded p-2"}
+          //       onChange={(date) => {
+          //         setText(
+          //           dayjs(date as Date)
+          //             .format("L")
+          //             .toString()
+          //         );
+          //       }}
+          //       value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
+          //     />
+          //   </Popover>
         }
         focus={focus || calendarOpened}
       >

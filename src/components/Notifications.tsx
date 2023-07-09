@@ -19,8 +19,7 @@ const Notifications = () => {
   const uuid = useId();
   const todayDate = dayjs().format("YYYY-MM-DD");
   const router = useRouter();
-  const {data} = api.session.me.useQuery()
-  
+  const { data } = api.session.me.useQuery();
 
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {
@@ -50,17 +49,19 @@ const Notifications = () => {
   }, [activeOrders]);
   return (
     <Popover
-      // width={400}
-      // position="bottom-end"
-      // arrowOffset={12}
-      // offset={4}
-      // withArrow
-      // shadow="md"
-      // open={opened}
-      // onChange={setOpened}
+    // width={400}
+    // position="bottom-end"
+    // arrowOffset={12}
+    // offset={4}
+    // withArrow
+    // shadow="md"
+    // open={opened}
+    // onChange={setOpened}
     >
       <PopoverTrigger>
-        <Button size="icon"
+        <Button
+          size="icon"
+          variant="outline"
           onClick={() => {
             // refetch();
             setOpened((val) => !val);
@@ -71,7 +72,7 @@ const Notifications = () => {
             color="blue"
             disabled={activeOrders == 0}
           > */}
-            <IconBell />
+          <IconBell />
           {/* </Indicator> */}
         </Button>
       </PopoverTrigger>

@@ -1,10 +1,10 @@
 import {
-    useEffect,
-    useId,
-    useMemo,
-    useRef,
-    useState,
-    type CSSProperties,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
 } from "react";
 
 import { useClickOutside } from "@mantine/hooks";
@@ -180,7 +180,8 @@ const EditableColor = (props: EditableColorProps) => {
             ></div>
           )
         }
-        rightSection={<></>
+        rightSection={
+          <></>
           // <Popover
           //   onOpenChange={onLoseFocus}
           //   modal={false}
@@ -189,7 +190,7 @@ const EditableColor = (props: EditableColorProps) => {
           //       rightSection
           //     ) : (
           //       <div className="flex h-11 items-center justify-center">
-          //         <Button size="icon" className="border-none">
+          //         <Button size="icon"  variant="outline" className="border-none">
           //           <PaletteIcon />
           //         </Button>
           //       </div>

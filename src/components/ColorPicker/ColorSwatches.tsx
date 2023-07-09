@@ -28,7 +28,9 @@ function ColorSwatches(props: ColorSwatchesProps) {
   return (
     <ScrollArea className={`relative ${className ?? ""}`}>
       <div className="relative flex w-fit flex-col gap-4">
-        <Button size="icon"
+        <Button
+          size="icon"
+          variant="outline"
           className="absolute
             right-4
             top-0 

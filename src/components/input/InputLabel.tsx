@@ -36,7 +36,9 @@ function InputLabel(props: InputLabelProps) {
         {label}
         {required && <span className="text-red-600">*</span>}
         {copyValue && copyValue.length > 0 && (
-          <Button size="icon"
+          <Button
+            size="icon"
+            variant="ghost"
             className="ml-1 h-5 w-5"
             onClick={() => {
               clipboard.copy(copyValue);
