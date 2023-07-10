@@ -42,6 +42,8 @@ import {
 import Button from "../ui/Button";
 import DisplayCellExpanding from "../ui/DisplayCellExpanding";
 
+// TODO: refactor buttons rendering
+
 const controls: (
   | {
       label: string;
@@ -314,22 +316,19 @@ const EditableRichText = ({
         {focus ? (
           <div className="flex flex-grow flex-col">
             <div
-              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-stone-400 p-2 dark:border-stone-600 "
+              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-stone-400 px-2 pb-2 dark:border-stone-600 "
               aria-label="Formatting options"
             >
               {controls.map((value, index) => {
                 if (Array.isArray(value)) {
                   return (
-                    <div
-                      className="action-button-group"
-                      key={`${uuid}${index}:group`}
-                    >
+                    <div key={`${uuid}${index}:group`}>
                       {value.map((value, index2) => (
                         <Button
                           size="icon"
                           variant="outline"
                           key={`${uuid}${index}:${index2}:group`}
-                          className={`action-button  ${
+                          className={`h-8 w-8 rounded-none border-l-0 first:rounded-l first:border-l last:rounded-r ${
                             //@ts-ignore
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                             (
@@ -365,7 +364,7 @@ const EditableRichText = ({
                       size="icon"
                       variant="outline"
                       key={`${uuid}${index}:item`}
-                      className={`action-button border border-solid border-stone-400 dark:border-stone-600 ${
+                      className={`h-8 w-8 ${
                         //@ts-ignore
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                         (

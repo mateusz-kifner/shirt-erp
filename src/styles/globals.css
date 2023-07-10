@@ -57,54 +57,9 @@ body::-webkit-scrollbar {
   background: #e7e5e4;
 }
 
-@layer components {
-  .button {
-    @apply inline-flex
-      h-10 
-      select-none 
-      items-center 
-      justify-center
-      gap-3 rounded-md 
-      px-4 py-0 
-      font-semibold  
-      no-underline 
-      outline-offset-4
-      transition-all 
-      duration-75 
-      focus-visible:outline-sky-600 
-      disabled:pointer-events-none 
-      disabled:bg-gray-700;
-  }
-
-  .button-primary {
-    @apply bg-blue-600
-      stroke-gray-200 
-      text-gray-200
-      hover:bg-blue-700
-      active:hover:translate-y-0.5
-      active:focus:translate-y-0.5;
-  }
-
-  .button-outline {
-    @apply border 
-    border-solid 
-    border-gray-400 
-    stroke-stone-600  
-    text-stone-600
-    hover:bg-gray-200
-    dark:border-stone-600
-    dark:stroke-gray-200
-    dark:text-gray-200
-    dark:hover:bg-neutral-700;
-  }
-
-  .action-button-group > .action-button {
-    @apply rounded-none;
-  }
-
-  .action-button-group > .action-button {
-    @apply rounded-none
-    border-b
+/* @layer components {
+  .button-group > * {
+    @apply border-b
     border-l
     border-r-0
     border-t
@@ -115,51 +70,7 @@ body::-webkit-scrollbar {
     last:border-r
     dark:border-stone-600;
   }
-
-  .action-button {
-    @apply inline-flex
-      h-8
-      w-8
-      animate-pop
-      select-none 
-      items-center
-      justify-center
-      gap-3
-      rounded-md 
-      border-2
-      border-solid
-      border-transparent
-      font-semibold
-      uppercase
-      text-stone-800 
-      no-underline
-      outline-none
-      outline-offset-4
-      transition-all
-      hover:bg-gray-200
-      focus-visible:border-sky-600
-      active:border-blue-600
-      active:hover:translate-y-0.5
-      active:focus:translate-y-0.5
-      disabled:animate-none
-      disabled:opacity-30
-      disabled:outline-none
-      disabled:hover:bg-transparent 
-      dark:border-solid  
-      dark:border-transparent 
-      dark:text-stone-200
-      dark:outline-none 
-      dark:hover:bg-neutral-700
-      dark:focus-visible:border-sky-600
-      dark:active:border-blue-600
-      dark:disabled:animate-none
-      dark:disabled:opacity-30
-      dark:disabled:outline-none
-      dark:disabled:hover:bg-transparent
-      dark:disabled:active:hover:scale-100
-      dark:disabled:active:focus:scale-100;
-  }
-}
+} */
 
 /* react-calendar styles */
 

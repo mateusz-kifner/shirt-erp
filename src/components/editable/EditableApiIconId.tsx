@@ -26,7 +26,7 @@ const EditableApiIconId = ({
 
   return (
     <div className="flex-grow">
-      <Label />
+      <Label>{label}</Label>
 
       <Modal open={open} onClose={() => setOpened(false)} title="Wybierz ikonę">
         <div className="grid grid-cols-3 gap-4">
