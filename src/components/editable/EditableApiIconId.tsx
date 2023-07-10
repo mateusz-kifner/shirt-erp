@@ -22,7 +22,7 @@ const EditableApiIconId = ({
 }: EditableApiIconIdProps) => {
   const [open, setOpened] = useState(false);
   const uuid = useId();
-  // const icon = value!== undefined ? icons[value] : null;
+  const icon = value !== undefined ? icons[value] : null;
 
   return (
     <div className="flex-grow">
@@ -32,6 +32,7 @@ const EditableApiIconId = ({
         <div className="grid grid-cols-3 gap-4">
           {icons.map((icon, index) => (
             <Button
+              variant="outline"
               className="h-32 w-32"
               onClick={() => {
                 onSubmit && onSubmit(index);
@@ -39,11 +40,14 @@ const EditableApiIconId = ({
               }}
               key={`${uuid}${index}`}
             >
-              {/* {icon} */}
+              <div className="flex h-full w-full items-center justify-center dark:invert">
+                {!!icon && icon}
+              </div>
             </Button>
           ))}
           <Button
             className="h-32 w-32"
+            variant="outline"
             onClick={() => {
               onSubmit && onSubmit(null);
               setOpened(false);
@@ -55,9 +59,16 @@ const EditableApiIconId = ({
         </div>
       </Modal>
       <div className="flex flex-col gap-2">
-          <Button className=" h-32 w-32" onClick={() => setOpened(true)} disabled={disabled}>
-            {/* {icon} */}
-          </Button>
+        <Button
+          className=" h-32 w-32"
+          variant="outline"
+          onClick={() => setOpened(true)}
+          disabled={disabled}
+        >
+          <div className="flex h-full w-full items-center justify-center dark:invert">
+            {!!icon && icon}
+          </div>
+        </Button>
       </div>
     </div>
   );
