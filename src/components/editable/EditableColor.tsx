@@ -14,9 +14,13 @@ import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
 import equalHSV from "@/utils/equalHSV";
+import { IconColorSwatch } from "@tabler/icons-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
+import InputColor from "../ColorPicker/InputColor";
 import InputLabel from "../input/InputLabel";
+import Button from "../ui/Button";
 import DisplayCell from "../ui/DisplayCell";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
 
@@ -181,30 +185,30 @@ const EditableColor = (props: EditableColorProps) => {
           )
         }
         rightSection={
-          <></>
-          // <Popover
-          //   onOpenChange={onLoseFocus}
-          //   modal={false}
-          //   trigger={
-          //     !!rightSection ? (
-          //       rightSection
-          //     ) : (
-          //       <div className="flex h-11 items-center justify-center">
-          //         <Button size="icon"  variant="outline" className="border-none">
-          //           <PaletteIcon />
-          //         </Button>
-          //       </div>
-          //     )
-          //   }
-          //   contentProps={{
-          //     align: "end",
-          //     sideOffset: 5,
-          //     className:
-          //       "pb-3 overflow-hidden rounded bg-stone-200 shadow data-[state=open]:animate-show dark:bg-stone-950",
-          //   }}
-          // >
-          //   <InputColor value={color} onChange={setColorViaHSVObj} />
-          // </Popover>
+          <Popover onOpenChange={onLoseFocus} modal={true}>
+            <PopoverTrigger>
+              {!!rightSection ? (
+                rightSection
+              ) : (
+                <div className="flex h-11 items-center justify-center">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 text-stone-900 dark:text-stone-200 "
+                  >
+                    <IconColorSwatch />
+                  </Button>
+                </div>
+              )}
+            </PopoverTrigger>
+            <PopoverContent
+              align="end"
+              sideOffset={5}
+              className="w-[420px] overflow-hidden rounded border-gray-400 bg-stone-200 pb-3 shadow data-[state=open]:animate-show dark:border-sky-600 dark:bg-stone-800"
+            >
+              <InputColor value={color} onChange={setColorViaHSVObj} />
+            </PopoverContent>
+          </Popover>
         }
         focus={focus}
       >

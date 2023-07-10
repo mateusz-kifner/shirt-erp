@@ -30,11 +30,13 @@ function ColorSwatches(props: ColorSwatchesProps) {
       <div className="relative flex w-fit flex-col gap-4">
         <Button
           size="icon"
-          variant="outline"
+          variant="ghost"
           className="absolute
             right-4
             top-0 
-            border-none p-0
+            h-6 w-6
+            border-none
+            p-0
             hover:bg-transparent
             dark:hover:bg-transparent
             "

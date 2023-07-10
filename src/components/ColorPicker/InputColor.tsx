@@ -4,7 +4,7 @@ import { useEyeDropper } from "@mantine/hooks";
 import {
   IconChevronDown,
   IconChevronUp,
-  IconColorSwatch,
+  IconColorPicker,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
@@ -300,7 +300,7 @@ function InputColor(props: InputColorProps) {
                 }}
                 disabled={!supported || disabled}
               >
-                <IconColorSwatch />
+                <IconColorPicker />
               </Button>
             </div>
           </div>
