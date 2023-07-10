@@ -62,7 +62,7 @@ const EditableBool = (props: EditableBoolProps) => {
   };
 
   return (
-    <div className="mb-[1rem] flex min-h-[2rem] items-center gap-2" ref={ref}>
+    <div className="mb-1 flex min-h-[2rem] items-center gap-2" ref={ref}>
       {!!leftSection && leftSection}
       <div>{label}</div>
       {active ? (

@@ -63,9 +63,17 @@ const EditableEnum = ({
         copyValue={t[value as keyof typeof t] as string}
         required={required}
       />
-      <Select>
+      <Select
+        value={value}
+        onValueChange={(value) => {
+          onSubmit?.(value);
+          console.log(value);
+        }}
+        disabled={disabled}
+        {...moreProps}
+      >
         <SelectTrigger>
-          <SelectValue placeholder="Select ..." />
+          <SelectValue placeholder={`${t.select} ...`} />
         </SelectTrigger>
         <SelectContent>
           {enum_data.map((val, index) => (
@@ -75,16 +83,6 @@ const EditableEnum = ({
           ))}
         </SelectContent>
       </Select>
-      {/* <Select
-        data={enum_data}
-        value={value}
-        onValueChange={(value) => {
-          onSubmit?.(value);
-          console.log(value);
-        }}
-        disabled={disabled}
-        {...moreProps}
-      /> */}
     </div>
   );
 };

@@ -102,5 +102,6 @@
   "color_with_alpha": "Color value",
   "hide": "Hide",
   "show": "show",
-  "zoom": "Zoom"
+  "zoom": "Zoom",
+  "select": "Select"
 }

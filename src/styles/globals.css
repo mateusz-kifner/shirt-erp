@@ -93,7 +93,7 @@ body::-webkit-scrollbar {
     text-stone-600
     hover:bg-gray-200
     dark:border-stone-600
-  dark:stroke-gray-200
+    dark:stroke-gray-200
     dark:text-gray-200
     dark:hover:bg-neutral-700;
   }

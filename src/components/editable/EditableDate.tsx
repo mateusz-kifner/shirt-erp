@@ -10,6 +10,10 @@ import DisplayCell from "@/components/ui/DisplayCell";
 import type EditableInput from "@/types/EditableInput";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import { handleFocusForInnerElements } from "@/utils/handleFocusForInnerElements";
+import { IconCalendar } from "@tabler/icons-react";
+import Calendar from "react-calendar";
+import Button from "../ui/Button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 type InputDateProps = EditableInput<string>;
 
@@ -85,34 +89,41 @@ const EditableDate = (props: InputDateProps) => {
         error={error}
         leftSection={leftSection}
         rightSection={
-          <></>
-          //   <Popover
-          //     onOpenChange={setCalendarOpened}
-          //     trigger={
-          //       !!rightSection ? (
-          //         rightSection
-          //       ) : (
-          //         <div className="flex items-center justify-center">
-          //           <Button size="icon"  variant="outline">
-          //             <CalendarIcon size={18} />
-          //           </Button>
-          //         </div>
-          //       )
-          //     }
-          //     contentProps={{ align: "end", sideOffset: 13 }}
-          //   >
-          //     <Calendar
-          //       className={"z-[1000] w-96 rounded p-2"}
-          //       onChange={(date) => {
-          //         setText(
-          //           dayjs(date as Date)
-          //             .format("L")
-          //             .toString()
-          //         );
-          //       }}
-          //       value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
-          //     />
-          //   </Popover>
+          <Popover
+            onOpenChange={setCalendarOpened}
+            // contentProps={{ align: "end", sideOffset: 13 }}
+          >
+            <PopoverTrigger>
+              {!!rightSection ? (
+                rightSection
+              ) : (
+                <div className="flex items-center justify-center">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 p-0 text-stone-800 dark:text-stone-200 "
+                  >
+                    <IconCalendar size={18} />
+                  </Button>
+                </div>
+              )}
+            </PopoverTrigger>
+            <PopoverContent
+              align="end"
+              className="w-96 rounded border-gray-400 bg-white p-2 dark:border-stone-600 dark:bg-stone-900"
+            >
+              <Calendar
+                onChange={(date) => {
+                  setText(
+                    dayjs(date as Date)
+                      .format("L")
+                      .toString()
+                  );
+                }}
+                value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
+              />
+            </PopoverContent>
+          </Popover>
         }
         focus={focus || calendarOpened}
       >
