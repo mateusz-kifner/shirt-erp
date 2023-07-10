@@ -1,17 +1,5 @@
 import { useEffect, useState } from "react";
 
-import {
-  IconBug,
-  IconLogout,
-  IconMoonStars,
-  IconSun,
-  IconUser,
-} from "@tabler/icons-react";
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import { withIronSessionSsr } from "iron-session/next";
-import { useRouter } from "next/router";
-import SuperJSON from "superjson";
-
 import Editable from "@/components/editable/Editable";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
@@ -24,6 +12,17 @@ import { sessionOptions } from "@/server/session";
 import template from "@/templates/test.template";
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
+import {
+  IconBug,
+  IconLogout,
+  IconMoonStars,
+  IconSun,
+  IconUserCircle,
+} from "@tabler/icons-react";
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import { withIronSessionSsr } from "iron-session/next";
+import { useRouter } from "next/router";
+import SuperJSON from "superjson";
 
 const testData = {
   name: "string",
@@ -80,7 +79,7 @@ function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
   const { locale } = router;
-  const { data:userData } = api.session.me.useQuery();
+  const { data: userData } = api.session.me.useQuery();
   const logout = api.session.logout.useMutation({
     onSuccess() {
       void router.push("/profile");
@@ -122,7 +121,7 @@ function Settings() {
   return (
     <div className="flex w-full flex-row items-start justify-center pb-12 pt-28 font-sans dark:text-gray-200">
       <div className="card mx-auto w-[36rem] bg-white shadow-xl dark:bg-stone-800">
-        <IconUser className="mx-auto -mt-20 h-32 w-32 rounded-full border-8 border-white bg-gray-200 stroke-slate-900 dark:border-stone-800  dark:bg-stone-800  dark:stroke-gray-200 " />
+        <IconUserCircle className="mx-auto -mt-20 h-32 w-32 rounded-full border-8 border-white bg-gray-200 stroke-slate-900 dark:border-stone-800  dark:bg-stone-800  dark:stroke-gray-200 " />
         <div className="mt-2 text-center text-3xl font-medium">
           {userData?.name}
         </div>
