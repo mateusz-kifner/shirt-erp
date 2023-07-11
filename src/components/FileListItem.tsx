@@ -5,7 +5,8 @@ import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 
-import Button from "./ui/Button";
+import { cn } from "@/utils/cn";
+import Button, { buttonVariants } from "./ui/Button";
 import SimpleTooltip from "./ui/SimpleTooltip";
 
 interface FileListItemProps {
@@ -59,7 +60,7 @@ const FileListItem = (props: FileListItemProps) => {
             <Button
               size="icon"
               variant="outline"
-              className="absolute left-0 top-0 z-50 h-full w-full hover:bg-black hover:bg-opacity-20"
+              className="absolute left-0 top-0 z-50 h-full w-full rounded-none border-b-0 border-l-0 border-t-0 hover:bg-black hover:bg-opacity-20"
               onClick={() => {
                 value?.filename &&
                   onPreview(
@@ -103,8 +104,9 @@ const FileListItem = (props: FileListItemProps) => {
               ? "?token=" + value?.token + "&download"
               : "?download"
           }`}
-          className="action-button
-            absolute 
+          className={cn(
+            buttonVariants({ variant: "ghost", size: "icon" }),
+            `absolute 
             -right-12
             top-1/2
             h-32
@@ -120,8 +122,8 @@ const FileListItem = (props: FileListItemProps) => {
             hover:before:bg-black
             hover:before:bg-opacity-20
             dark:bg-stone-800
-            dark:hover:bg-stone-800
-            "
+            dark:hover:bg-stone-800`
+          )}
         >
           <IconDownload size={26} />
           <div style={{ width: "2.4rem" }}></div>

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { getRandomColorByNumber } from "@/utils/getRandomColor";
+import Button from "./ui/Button";
 
 interface DefaultListItemProps<T> {
   onChange?: (item: T) => void;
@@ -26,12 +27,19 @@ export function DefaultListItem<T extends { id?: number | null }>({
   disabled,
 }: DefaultListItemProps<T>) {
   return (
-    <button
-      className={`button button-outline h-14 flex-grow rounded border-none px-2
+    <Button
+      variant="ghost"
+      className={`h-14 flex-grow rounded border-none px-2
       py-0
-        ${active ? "bg-gray-200 dark:bg-neutral-700" : ""}`}
+        ${
+          active
+            ? "bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10"
+            : ""
+        }`}
       disabled={disabled}
       onClick={() => onChange?.(value)}
+      leftSection={leftSection}
+      rightSection={rightSection}
     >
       {value && (
         <div
@@ -55,7 +63,6 @@ export function DefaultListItem<T extends { id?: number | null }>({
           {avatarElement ? avatarElement : " "}
         </div>
       )}
-      {!!leftSection && leftSection}
       <div className="flex flex-grow flex-col items-start gap-2">
         <span className="text-sm text-stone-800 dark:text-stone-200">
           {!!firstElement && firstElement}
@@ -64,7 +71,6 @@ export function DefaultListItem<T extends { id?: number | null }>({
           {!!secondElement && secondElement}
         </span>
       </div>
-      {!!rightSection && rightSection}
-    </button>
+    </Button>
   );
 }

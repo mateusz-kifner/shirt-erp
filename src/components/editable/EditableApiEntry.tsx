@@ -6,11 +6,12 @@ import { capitalize, isEqual } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import Button from "@/components/ui/Button";
+import Button, { buttonVariants } from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import useTranslation from "@/hooks/useTranslation";
 
 import type EditableInput from "@/types/EditableInput";
+import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
 import InputLabel from "../input/InputLabel";
 
@@ -143,7 +144,10 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
             <div className="absolute right-3 top-1/2 -translate-y-1/2">
               <Link
                 href={`/erp/${entryName}/${value?.id as string}`}
-                className="action-button"
+                className={cn(
+                  buttonVariants({ size: "icon", variant: "ghost" }),
+                  ""
+                )}
                 tabIndex={-1}
               >
                 <IconExternalLink size={18} />

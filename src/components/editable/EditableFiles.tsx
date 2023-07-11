@@ -6,15 +6,22 @@ import {
   type DragEvent,
 } from "react";
 
-import { IconLoader2, IconPlus, IconTrashX, IconUpload } from "@tabler/icons-react";
+import {
+  IconLoader2,
+  IconPlus,
+  IconTrashX,
+  IconUpload,
+} from "@tabler/icons-react";
 
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import { type FileType } from "@/schema/fileSchema";
 import type EditableInput from "@/types/EditableInput";
+import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
 import InputLabel from "../input/InputLabel";
+import { buttonVariants } from "../ui/Button";
 import Modal from "../ui/Modal";
 
 // FIXME: ENFORCE FILE LIMIT
@@ -224,14 +231,10 @@ const EditableFiles = (props: EditableFilesProps) => {
           <div className="relative w-full">
             <label
               htmlFor="file"
-              className="
-              button 
-              button-outline
-              h-10 
-              w-full  
-              rounded-b
-              rounded-t-none
-              "
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "h-10 w-full  rounded-b rounded-t-none"
+              )}
             >
               {uploading ? (
                 <IconLoader2 className="animate-spin" />
