@@ -93,7 +93,7 @@ const EditableDate = (props: InputDateProps) => {
             onOpenChange={setCalendarOpened}
             // contentProps={{ align: "end", sideOffset: 13 }}
           >
-            <PopoverTrigger>
+            <PopoverTrigger asChild>
               {!!rightSection ? (
                 rightSection
               ) : (

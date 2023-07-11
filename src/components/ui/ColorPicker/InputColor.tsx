@@ -1,3 +1,4 @@
+import Button from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
 import equalHSV from "@/utils/equalHSV";
 import { useEyeDropper } from "@mantine/hooks";
@@ -8,7 +9,6 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
-import Button from "../ui/Button";
 import AlphaSlider from "./AlphaSlider";
 import ColorArea from "./ColorArea";
 import ColorSwatches from "./ColorSwatches";

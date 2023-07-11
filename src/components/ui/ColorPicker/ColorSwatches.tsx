@@ -1,8 +1,8 @@
+import Button from "@/components/ui/Button";
+import { ScrollArea } from "@/components/ui/ScrollArea";
+import SimpleTooltip from "@/components/ui/SimpleTooltip";
 import { IconNote, IconNoteOff } from "@tabler/icons-react";
 import { useId, useState } from "react";
-import Button from "../ui/Button";
-import { ScrollArea } from "../ui/ScrollArea";
-import SimpleTooltip from "../ui/SimpleTooltip";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
 // Fix: Scroll maybe??? broken

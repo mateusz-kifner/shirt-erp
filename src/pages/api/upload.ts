@@ -4,7 +4,6 @@ import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import { type Prisma } from "@prisma/client";
 import formidable from "formidable";
-import type IncomingForm from "formidable/Formidable";
 import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";
 import { getIronSession, type IronSession } from "iron-session";
@@ -15,8 +14,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
  */
 
 // TODO: make size calculation async
-
-let form: IncomingForm;
 
 // disable default body parser
 export const config = {
@@ -34,9 +31,11 @@ export default async function Upload(
       throw new HTTPError(405, `Method ${req.method as string} not allowed`);
     }
     const session: IronSession = await getIronSession(req, res, sessionOptions);
+    console.log(session);
+
     if (!session.isLoggedIn) throw new HTTPError(401, `Unauthenticated`);
 
-    form = new formidable.IncomingForm({
+    const form = new formidable.IncomingForm({
       multiples: true,
       uploadDir: "./uploads/",
       maxFileSize: 10 * 1024 * 1024 * 1024, // 10Gb
@@ -44,6 +43,7 @@ export default async function Upload(
       maxFiles: 1024,
       // hashAlgorithm: "sha1",
     });
+    console.log(form);
 
     const { files } = await new Promise<{
       fields: formidable.Fields;
@@ -115,6 +115,7 @@ export default async function Upload(
       data: filesFromDb,
     });
   } catch (err) {
+    console.log(err);
     if (err instanceof HTTPError) {
       res.status(err.statusCode).json({
         status: "error",

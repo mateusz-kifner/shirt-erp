@@ -61,7 +61,7 @@
     "clsx": "^1.2.1",
     "dayjs": "^1.11.9",
     "dompurify": "^3.0.5",
-    "formidable": "^3.5.0",
+    "formidable": "^2.1.2",
     "image-size": "^1.0.2",
     "iron-session": "^6.3.1",
     "js-logger": "^1.6.1",
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/eslint": "^8.44.0",
-    "@types/formidable": "^3.4.0",
+    "@types/formidable": "^2.0.6",
     "@types/node": "^18.x.x",
     "@types/prettier": "^2.7.3",
     "@types/react": "^18.2.14",
