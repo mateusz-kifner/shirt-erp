@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <Dialog open={true}>
-      <DialogContent>
+      <DialogContent disableClose>
         <DialogTitle>{t.sign_in}</DialogTitle>
         <form onSubmit={handleLogin}>
           <div className="flex flex-col gap-4 px-2 pb-8 pt-2">
