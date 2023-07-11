@@ -55,8 +55,9 @@ const ApiEntryEditable = <EntryType,>({
 
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
+    if (!data) return;
     // @ts-ignore
-    update({ id: data?.id, [key]: val });
+    update({ id: data.id, [key]: val });
     // console.log(key, val);
     /**/
   };

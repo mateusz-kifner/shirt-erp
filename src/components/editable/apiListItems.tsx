@@ -12,11 +12,15 @@ import { truncString } from "@/utils/truncString";
 
 import ProductListItem from "@/page-components/erp/product/ProductListItem";
 import { type ClientType } from "@/schema/clientSchema";
+import { type OrderType } from "@/schema/orderSchema";
+import { type ProductType } from "@/schema/productSchema";
+
+type ItemTypes = ClientType | OrderType | ProductType;
 
 export type apiListItems = {
   [key: string]: {
-    ListItem: ComponentType<any>;
-    copyProvider: (val: any) => string | undefined;
+    ListItem: ComponentType<ItemTypes>;
+    copyProvider: (val: ItemTypes) => string | undefined;
   };
 };
 
@@ -31,7 +35,7 @@ const apiListItems = {
   },
   products: {
     ListItem: ProductListItem,
-    copyProvider: (value: any) =>
+    copyProvider: (value: ProductType) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },
   // users: {
@@ -41,12 +45,12 @@ const apiListItems = {
   // },
   orders: {
     ListItem: OrderListItem,
-    copyProvider: (value: any) =>
+    copyProvider: (value: OrderType) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },
   "orders-archive": {
     ListItem: OrderListItem,
-    copyProvider: (value: any) =>
+    copyProvider: (value: OrderType) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },
   // workstations: {

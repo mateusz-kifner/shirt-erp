@@ -45,10 +45,10 @@ const EditableFiles = (props: EditableFilesProps) => {
   }>({ url: "", width: 100, height: 100 });
   const [dragActive, setDragActive] = useState<boolean>(false);
   const { mutate: uploadMutate } = useUploadMutation({
-    onSuccess: (data: Response, variables: FormData, context: unknown) => {
+    onSuccess: (data, variables, context) => {
       data
         .json()
-        .then((res) => {
+        .then((res: any) => {
           if (res?.statusCode === 201 && Array.isArray(res?.data)) {
             const filesData = res.data as FileType[];
             onSubmit?.([...files, ...filesData]);

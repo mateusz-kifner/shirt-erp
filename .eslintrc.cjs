@@ -18,6 +18,7 @@ const config = {
         "@typescript-eslint/no-unsafe-assignment": "warn",
         "@typescript-eslint/restrict-plus-operands": "warn",
         "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-unsafe-argument": "warn",
         "@next/next/no-img-element": "off",
         "@typescript-eslint/no-unused-vars": [

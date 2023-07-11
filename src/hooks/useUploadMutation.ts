@@ -6,12 +6,15 @@ const useUploadMutation = (
     "mutationFn"
   >
 ) => {
-  return useMutation((formData: FormData) => {
-    return fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-  }, options);
+  return useMutation<Response, unknown, FormData, unknown>(
+    (formData: FormData) => {
+      return fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+    },
+    options
+  );
 };
 
 export default useUploadMutation;
