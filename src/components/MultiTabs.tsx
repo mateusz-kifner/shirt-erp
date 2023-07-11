@@ -2,6 +2,7 @@ import {
   forwardRef,
   useEffect,
   useId,
+  useRef,
   useState,
   type ComponentPropsWithoutRef,
   type ReactNode,
@@ -12,10 +13,10 @@ import { useMergedRef, useResizeObserver } from "@mantine/hooks";
 import { IconPinned } from "@tabler/icons-react";
 import { omit } from "lodash";
 
-import Portal from "@/components/Portal";
 import { useUserContext } from "@/context/userContext";
-import TablerIconType from "@/types/TablerIconType";
+import type TablerIconType from "@/types/TablerIconType";
 import { simpleColors } from "@/utils/getRandomColor";
+import { Portal } from "@radix-ui/react-portal";
 
 export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   /** Value that is used to connect Tab with associated panel */
@@ -162,6 +163,7 @@ const MultiTabs = (props: MultiTabsProps) => {
     rightSection,
     availableSpace,
   } = props;
+  const portalContainerRef = useRef<HTMLElement | null>(null);
   const { navigationCollapsed, setNavigationCollapsed } = useUserContext();
   const [tabsSizes, setTabsSizes] = useState<number[]>([]);
   const uuid = useId();
@@ -177,6 +179,10 @@ const MultiTabs = (props: MultiTabsProps) => {
   useEffect(() => {
     setTabsSizes([]);
   }, [childrenLabelsKey]);
+
+  useEffect(() => {
+    portalContainerRef.current = document.querySelector("#HeaderTabs");
+  }, []);
 
   // if (isSmall || hasTouch) {
   //   return (
@@ -221,7 +227,7 @@ const MultiTabs = (props: MultiTabsProps) => {
   // }
 
   return (
-    <Portal target="#HeaderTabs">
+    <Portal container={portalContainerRef.current}>
       <div className="flex h-14 items-end px-4" ref={ref}>
         <div>
           {childrenLabels.map((label, index) => {

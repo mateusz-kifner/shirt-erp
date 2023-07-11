@@ -14,6 +14,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
  */
 
 // TODO: make size calculation async
+// TODO: Upgrade to formidable 3
 
 // disable default body parser
 export const config = {
