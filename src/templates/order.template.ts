@@ -30,7 +30,7 @@ const order_template = {
   price: {
     label: "Cena",
     type: "money",
-    },
+  },
   isPricePaid: {
     label: "Cena zapłacona",
     type: "switch",
@@ -59,6 +59,7 @@ const order_template = {
       data: OrderType,
       onSubmit: (key: string, value: any) => void
     ) => {
+      if (client === null) return;
       if (
         data.address === null ||
         (!data?.address?.streetName &&
@@ -84,7 +85,7 @@ const order_template = {
       name: "Adres",
     },
     type: "address",
-    
+
     allowClear: true,
   },
   products: {

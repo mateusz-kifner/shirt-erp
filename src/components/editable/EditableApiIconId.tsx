@@ -1,9 +1,6 @@
 import { ReactNode, useId, useState } from "react";
 
-import { IconX } from "@tabler/icons-react";
-
 import Button from "@/components/ui/Button";
-import Modal from "@/components/ui/Modal";
 
 import type EditableInput from "@/types/EditableInput";
 import { Label } from "../ui/Label";
@@ -28,7 +25,7 @@ const EditableApiIconId = ({
     <div className="flex-grow">
       <Label>{label}</Label>
 
-      <Modal open={open} onClose={() => setOpened(false)} title="Wybierz ikonę">
+      {/* <Modal open={open} onClose={() => setOpened(false)} title="Wybierz ikonę">
         <div className="grid grid-cols-3 gap-4">
           {icons.map((icon, index) => (
             <Button
@@ -58,6 +55,7 @@ const EditableApiIconId = ({
           </Button>
         </div>
       </Modal>
+      */}
       <div className="flex flex-col gap-2">
         <Button
           className=" h-32 w-32"

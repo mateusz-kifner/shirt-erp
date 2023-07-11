@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
-import Modal from "@/components/ui/Modal";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type UserType } from "@/schema/userSchema";
 import { api } from "@/utils/api";
 import UserListItem from "./UserListItem";
@@ -40,31 +40,29 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
   }, [opened]);
 
   return (
-    <Modal
-      open={opened}
-      onOpenChange={() => onClose()}
-      title={<h3 className="mb-4">Utwórz nowego klienta</h3>}
-    >
-      <div className="flex flex-col gap-2">
-        <EditableApiEntry
-          label="Szablon"
-          entryName="users"
-          Element={UserListItem}
-          onSubmit={setTemplate}
-          value={template}
-          withErase
-          listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
-        />
-        <EditableText
-          label="Nazwa użytkownika"
-          onSubmit={(val) => {
-            val && setUsername(val);
-          }}
-          value={username}
-          required
-        />
+    <Dialog open={opened} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent>
+        <DialogTitle>Utwórz nowego klienta</DialogTitle>
+        <div className="flex flex-col gap-2">
+          <EditableApiEntry
+            label="Szablon"
+            entryName="users"
+            Element={UserListItem}
+            onSubmit={setTemplate}
+            value={template}
+            withErase
+            listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
+          />
+          <EditableText
+            label="Nazwa użytkownika"
+            onSubmit={(val) => {
+              val && setUsername(val);
+            }}
+            value={username}
+            required
+          />
 
-        {/* <Button
+          {/* <Button
           onClick={() => {
             if (username.length == 0)
               return setError("Musisz podać nie pustą nazwę użytkownika");
@@ -79,9 +77,10 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
           <IconPlus />
           Utwórz klienta
         </Button> */}
-        <div className="text-red-600">{error}</div>
-      </div>
-    </Modal>
+          <div className="text-red-600">{error}</div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

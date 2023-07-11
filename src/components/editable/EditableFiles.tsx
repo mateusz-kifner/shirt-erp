@@ -13,6 +13,7 @@ import {
   IconUpload,
 } from "@tabler/icons-react";
 
+import { buttonVariants } from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import { type FileType } from "@/schema/fileSchema";
@@ -21,8 +22,7 @@ import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
 import InputLabel from "../input/InputLabel";
-import { buttonVariants } from "../ui/Button";
-import Modal from "../ui/Modal";
+import { Dialog, DialogContent } from "../ui/Dialog";
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -155,14 +155,16 @@ const EditableFiles = (props: EditableFilesProps) => {
         required={required}
       />
       <div className="pb-2">
-        <Modal open={previewOpened} onClose={() => setPreviewOpened(false)}>
-          <img
-            src={preview.url}
-            alt=""
-            className="max-h-[85vh] max-w-[85vw]"
-            style={{ width: preview.width }}
-          />
-        </Modal>
+        <Dialog>
+          <DialogContent>
+            <img
+              src={preview.url}
+              alt=""
+              className="max-h-[85vh] max-w-[85vw]"
+              style={{ width: preview.width }}
+            />
+          </DialogContent>
+        </Dialog>
 
         <div
           className={`relative min-h-[44px]  rounded border border-solid transition-all before:absolute before:inset-0  ${

@@ -1,7 +1,7 @@
-import { api } from "@/utils/api"
-import { useEffect, useState } from "react"
-import simpleHash from "../utils/simpleHash"
-import Modal from "./ui/Modal"
+import { api } from "@/utils/api";
+import { useEffect, useState } from "react";
+import simpleHash from "../utils/simpleHash";
+
 // import Markdown from "./details/Markdown"
 
 // const fetchWelcomeMessage = async () => {
@@ -17,35 +17,36 @@ import Modal from "./ui/Modal"
 // }
 
 const WelcomeMessage = () => {
-  const [opened, setOpened] = useState<boolean>(true)
-  const {data} = api.session.me.useQuery()
+  const [opened, setOpened] = useState<boolean>(true);
+  const { data } = api.session.me.useQuery();
   // const { setWelcomeMessageHash, user } = useAuthContext()
   // const { data, refetch } = useQuery(["global"], fetchWelcomeMessage, {
   //   enabled: false,
   // })
-  const welcomeMessage = ""
+  const welcomeMessage = "";
 
   useEffect(() => {
     // refetch()
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
-  if (!data) return null
-  const hash = simpleHash(welcomeMessage)
+  if (!data) return null;
+  const hash = simpleHash(welcomeMessage);
   // if (!data || data?.welcomeMessageHash === hash.toString()) return null
 
   return (
-    <Modal
-      open={opened}
-      onClose={async () => {
-        // mutateWelcomeMessageHash(hash.toString())
-        // setWelcomeMessageHash(hash.toString())
-        setOpened(false)
-      }}
-    >
-        {/* <Markdown value={data.data.welcomeMessage ?? ""} /> */}
-    </Modal>
-  )
-}
+    <></>
+    // <Modal
+    //   open={opened}
+    //   onClose={async () => {
+    //     // mutateWelcomeMessageHash(hash.toString())
+    //     // setWelcomeMessageHash(hash.toString())
+    //     setOpened(false)
+    //   }}
+    // >
+    //     {/* <Markdown value={data.data.welcomeMessage ?? ""} /> */}
+    // </Modal>
+  );
+};
 
-export default WelcomeMessage
+export default WelcomeMessage;

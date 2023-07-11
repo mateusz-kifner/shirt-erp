@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
-import Modal from "@/components/ui/Modal";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type ProductType } from "@/schema/productSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
@@ -43,51 +43,50 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
   }, [opened]);
 
   return (
-    <Modal
-      open={opened}
-      onOpenChange={() => onClose()}
-      title={<h3 className="mb-4">Utwórz nowy produkt</h3>}
-    >
-      <div className="flex flex-col gap-2">
-        <EditableApiEntry
-          label="Szablon"
-          entryName="products"
-          Element={ProductListItem}
-          onSubmit={setTemplate}
-          value={template}
-          withErase
-          listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
-        />
-        <EditableText
-          label="Nazwa użytkownika"
-          onSubmit={(val) => {
-            val && setProductName(val);
-          }}
-          value={productName}
-          required
-        />
+    <Dialog open={opened} onOpenChange={() => onClose()}>
+      <DialogContent>
+        <DialogTitle>Utwórz nowy produkt</DialogTitle>
+        <div className="flex flex-col gap-2">
+          <EditableApiEntry
+            label="Szablon"
+            entryName="products"
+            Element={ProductListItem}
+            onSubmit={setTemplate}
+            value={template}
+            withErase
+            listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
+          />
+          <EditableText
+            label="Nazwa użytkownika"
+            onSubmit={(val) => {
+              val && setProductName(val);
+            }}
+            value={productName}
+            required
+          />
 
-        <Button
-          onClick={() => {
-            if (productName.length == 0)
-              return setError("Musisz podać nie pustą nazwę produktu");
-            const new_product = {
-              ...(template ? omit(template, "id") : {}),
-              name: productName,
-              orders: [],
-              "orders-archive": [],
-            };
+          <Button
+            onClick={() => {
+              if (productName.length == 0)
+                return setError("Musisz podać nie pustą nazwę produktu");
+              const new_product = {
+                ...(template ? omit(template, "id") : {}),
+                name: productName,
+                orders: [],
+                "orders-archive": [],
+              };
 
-            createProduct({ name: productName });
-          }}
-          className="mt-4"
-        >
-          <IconPlus />
-          Utwórz produkt
-        </Button>
-        <div className="text-red-600">{error}</div>
-      </div>
-    </Modal>
+              createProduct({ name: productName });
+            }}
+            className="mt-4"
+          >
+            <IconPlus />
+            Utwórz produkt
+          </Button>
+          <div className="text-red-600">{error}</div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

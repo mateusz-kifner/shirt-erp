@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
-import Modal from "@/components/ui/Modal";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type OrderType } from "@/schema/orderSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
@@ -45,54 +45,55 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   }, [opened]);
 
   return (
-    <Modal
-      open={opened}
-      onOpenChange={() => onClose()}
-      title={<h3 className="mb-4">Utwórz nowe zamówienie</h3>}
-    >
-      <div className="flex flex-col gap-2">
-        <EditableApiEntry
-          label="Szablon"
-          entryName="order"
-          Element={OrderListItem}
-          onSubmit={setTemplate}
-          value={template}
-          withErase
-          listProps={{
-            defaultSearch: "Szablon",
-            filterKeys: ["name"],
-            sortColumn: "name",
-            excludeKey: undefined,
-          }}
-        />
-        <EditableText
-          label="Nazwa zamówienia"
-          onSubmit={(val) => {
-            val && setOrderName(val);
-          }}
-          value={orderName}
-          required
-        />
+    <Dialog open={opened} onOpenChange={() => onClose()}>
+      <DialogContent>
+        <DialogTitle>Utwórz nowe zamówienie</DialogTitle>
+        <div className="flex flex-col gap-2">
+          <EditableApiEntry
+            label="Szablon"
+            entryName="order"
+            Element={OrderListItem}
+            onSubmit={setTemplate}
+            value={template}
+            withErase
+            listProps={{
+              defaultSearch: "Szablon",
+              filterKeys: ["name"],
+              sortColumn: "name",
+              excludeKey: undefined,
+            }}
+          />
+          <EditableText
+            label="Nazwa zamówienia"
+            onSubmit={(val) => {
+              val && setOrderName(val);
+            }}
+            value={orderName}
+            required
+          />
 
-        <Button
-          onClick={() => {
-            if (orderName.length == 0)
-              return setError("Musisz podać nie pustą nazwę zamówienia");
-            const newOrder = {
-              ...(template ? omit(template, "id") : {}),
-              address: template?.address ? omit(template.address, "id") : null,
-              name: orderName,
-            };
-            createOrder(newOrder);
-          }}
-          className="mt-4"
-        >
-          <IconPlus />
-          Utwórz zamówienie
-        </Button>
-        <div className="text-red-600">{error}</div>
-      </div>
-    </Modal>
+          <Button
+            onClick={() => {
+              if (orderName.length == 0)
+                return setError("Musisz podać nie pustą nazwę zamówienia");
+              const newOrder = {
+                ...(template ? omit(template, "id") : {}),
+                address: template?.address
+                  ? omit(template.address, "id")
+                  : null,
+                name: orderName,
+              };
+              createOrder(newOrder);
+            }}
+            className="mt-4"
+          >
+            <IconPlus />
+            Utwórz zamówienie
+          </Button>
+          <div className="text-red-600">{error}</div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
