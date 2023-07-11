@@ -12,11 +12,11 @@ import { useClickOutside } from "@mantine/hooks";
 import colorNames from "@/utils/color-names.json";
 import preventLeave from "@/utils/preventLeave";
 
+import InputColor from "@/components/ui/ColorPicker/InputColor";
 import type EditableInput from "@/types/EditableInput";
 import equalHSV from "@/utils/equalHSV";
 import { IconColorSwatch } from "@tabler/icons-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
-import InputColor from "../ColorPicker/InputColor";
 import InputLabel from "../input/InputLabel";
 import Button from "../ui/Button";
 import DisplayCell from "../ui/DisplayCell";
