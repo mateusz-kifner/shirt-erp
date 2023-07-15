@@ -60,7 +60,7 @@ const FileListItem = (props: FileListItemProps) => {
             <Button
               size="icon"
               variant="outline"
-              className="absolute left-0 top-0 z-50 h-full w-full rounded-none border-b-0 border-l-0 border-t-0 hover:bg-black hover:bg-opacity-20"
+              className="absolute left-0 top-0 z-10 h-full w-full rounded-none border-b-0 border-l-0 border-t-0 hover:bg-black hover:bg-opacity-20"
               onClick={() => {
                 value?.filename &&
                   onPreview(

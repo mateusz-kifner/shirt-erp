@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
 
 import { useDebouncedValue, useToggle } from "@mantine/hooks";
 import {
@@ -54,6 +54,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
     buttonSection,
     sortColumn,
   } = props;
+  const uuid = useId();
   const itemsPerPage = 10;
   const t = useTranslation();
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
@@ -159,6 +160,8 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
             </Button>
           </div>
           <input
+            name={"search" + uuid}
+            id={"search" + uuid}
             className="
                 data-disabled:text-gray-500
                 dark:data-disabled:text-gray-500

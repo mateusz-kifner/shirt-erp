@@ -14,7 +14,7 @@ const Header = () => {
   const { navigationCollapsed } = useUserContext();
 
   return (
-    <div className="fixed left-0 top-0 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 px-4">
+    <div className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 px-4">
       <div className="flex h-full flex-nowrap items-center justify-between">
         {navigationCollapsed ? (
           // eslint-disable-next-line
@@ -45,8 +45,8 @@ const Header = () => {
       ></div>
       <div className="flex justify-end gap-3" ref={ref}>
         <button
-          className="border-1 animate-pop inline-flex h-9
-            w-9 items-center justify-center 
+          className="border-1 inline-flex h-9 w-9
+            animate-pop items-center justify-center 
             rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
             hover:bg-stone-950
             active:hover:scale-95 active:hover:animate-none 
@@ -56,8 +56,8 @@ const Header = () => {
           <IconSearch className="stroke-gray-200" />
         </button>
         <button
-          className="border-1 animate-pop inline-flex h-9
-            w-9 items-center justify-center 
+          className="border-1 inline-flex h-9 w-9
+            animate-pop items-center justify-center 
             rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
             hover:bg-stone-950
             active:hover:scale-95 active:hover:animate-none 
@@ -68,8 +68,8 @@ const Header = () => {
           <IconMessage2 className="stroke-gray-200" />
         </button>
         <button
-          className="border-1 animate-pop inline-flex h-9
-            w-9 items-center justify-center 
+          className="border-1 inline-flex h-9 w-9
+            animate-pop items-center justify-center 
             rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
             hover:bg-stone-950
             active:hover:scale-95 active:hover:animate-none 
@@ -82,8 +82,8 @@ const Header = () => {
 
         <Link
           href={"/erp/settings"}
-          className="border-1 animate-pop inline-flex h-9
-            w-9 items-center justify-center 
+          className="border-1 inline-flex h-9 w-9
+            animate-pop items-center justify-center 
             rounded-full bg-stone-800 p-0 font-semibold uppercase no-underline transition-all
             hover:bg-stone-950
             active:hover:scale-95 active:hover:animate-none 
