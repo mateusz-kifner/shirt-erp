@@ -232,7 +232,7 @@ const EditableFiles = (props: EditableFilesProps) => {
               )}
           <div className="relative w-full">
             <label
-              htmlFor="file"
+              htmlFor={"file" + uuid}
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "h-10 w-full  rounded-b rounded-t-none"
@@ -246,7 +246,8 @@ const EditableFiles = (props: EditableFilesProps) => {
               {uploading ? t.uploading : t.add_files}
             </label>
             <input
-              id="file"
+              id={"file" + uuid}
+              name={"file" + uuid}
               type="file"
               className="absolute inset-0 -z-10 opacity-0"
               onChange={handleChange}

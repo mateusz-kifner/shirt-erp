@@ -307,6 +307,7 @@ const EditableRichText = ({
         label={label}
         copyValue={plainText.length > 0 ? plainText : ""}
         required={required}
+        htmlFor={"rich_text" + uuid}
       />
       <DisplayCellExpanding
         leftSection={!focus && leftSection}
@@ -396,7 +397,11 @@ const EditableRichText = ({
               })}
             </div>
 
-            <EditorContent editor={editor} />
+            <EditorContent
+              editor={editor}
+              name={"rich_text" + uuid}
+              id={"rich_text" + uuid}
+            />
           </div>
         ) : (
           <div

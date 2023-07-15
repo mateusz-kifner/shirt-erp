@@ -217,6 +217,7 @@ const EditableColor = (props: EditableColorProps) => {
           autoCorrect="false"
           spellCheck="false"
           id={"inputColor_" + uuid}
+          name={"inputColor_" + uuid}
           value={colorText ?? ""}
           onChange={(e) => setColorViaString(e.target.value)}
           className={`

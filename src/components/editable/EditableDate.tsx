@@ -129,6 +129,7 @@ const EditableDate = (props: InputDateProps) => {
       >
         <input
           id={"inputDate_" + uuid}
+          name={"inputDate_" + uuid}
           ref={inputDateRef}
           value={text}
           onChange={(e) => {
