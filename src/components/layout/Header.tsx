@@ -1,9 +1,10 @@
 import { useUserContext } from "@/context/userContext";
 import { cn } from "@/utils/cn";
 import { useElementSize } from "@mantine/hooks";
-import { IconMessage2, IconSettings } from "@tabler/icons-react";
+import { IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
-import Button, { buttonVariants } from "../ui/Button";
+import { buttonVariants } from "../ui/Button";
+import Messages from "./Messages";
 import Notifications from "./Notifications";
 import Search from "./Search";
 
@@ -42,9 +43,7 @@ const Header = () => {
       ></div>
       <div className="flex justify-end gap-3" ref={ref}>
         <Search />
-        <Button variant="outline" size="icon" className="rounded-full">
-          <IconMessage2 className="stroke-gray-200" />
-        </Button>
+        <Messages />
         <Notifications />
 
         <Link
