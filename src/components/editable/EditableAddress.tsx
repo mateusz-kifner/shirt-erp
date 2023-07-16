@@ -9,7 +9,7 @@ import EditableText from "@/components/editable/EditableText";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { type AddressType } from "@/schema/addressSchema";
 import type EditableInput from "@/types/EditableInput";
-import InputLabel from "../input/InputLabel";
+import { Label } from "../ui/Label";
 
 const provinces = [
   "dolnośląskie",
@@ -109,11 +109,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   const valueString = toString();
   return (
     <div>
-      <InputLabel
-        label={label?.name}
-        copyValue={toString()}
-        required={required}
-      />
+      <Label label={label?.name} copyValue={toString()} required={required} />
       <DisplayCellExpanding
         className={`p-2 ${
           !valueString ? "text-gray-400 dark:text-stone-600" : ""

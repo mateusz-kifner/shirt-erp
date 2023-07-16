@@ -1,11 +1,11 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
-import InputLabel from "@/components/input/InputLabel";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
 import DisplayCell from "../ui/DisplayCell";
+import { Label } from "../ui/Label";
 
 interface EditableShortTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -85,11 +85,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
       onFocus={() => !disabled && setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      <InputLabel
-        label={label}
-        copyValue={text}
-        htmlFor={"short_text_" + uuid}
-      />
+      <Label label={label} copyValue={text} htmlFor={"short_text_" + uuid} />
       <DisplayCell
         leftSection={leftSection}
         rightSection={rightSection}

@@ -1,11 +1,11 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
-import InputLabel from "@/components/input/InputLabel";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
+import { Label } from "../ui/Label";
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -97,7 +97,7 @@ const EditableText = (props: EditableTextProps) => {
       onFocus={() => !disabled && setFocus(true)}
       onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      <InputLabel label={label} copyValue={text} htmlFor={"textarea_" + uuid} />
+      <Label label={label} copyValue={text} htmlFor={"textarea_" + uuid} />
       <DisplayCellExpanding
         leftSection={leftSection}
         rightSection={rightSection}

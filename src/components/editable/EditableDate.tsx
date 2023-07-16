@@ -4,7 +4,6 @@ import { useDebouncedValue } from "@mantine/hooks";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
-import InputLabel from "@/components/input/InputLabel";
 import DisplayCell from "@/components/ui/DisplayCell";
 
 import type EditableInput from "@/types/EditableInput";
@@ -13,6 +12,7 @@ import { handleFocusForInnerElements } from "@/utils/handleFocusForInnerElements
 import { IconCalendar } from "@tabler/icons-react";
 import Calendar from "react-calendar";
 import Button from "../ui/Button";
+import { Label } from "../ui/Label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 type InputDateProps = EditableInput<string>;
@@ -76,11 +76,7 @@ const EditableDate = (props: InputDateProps) => {
 
   return (
     <div className="relative flex-grow">
-      <InputLabel
-        label={label}
-        copyValue={text}
-        htmlFor={"inputDate_" + uuid}
-      />
+      <Label label={label} copyValue={text} htmlFor={"inputDate_" + uuid} />
       <DisplayCell
         onFocus={handleFocusForInnerElements(() => setFocus(true))}
         onBlur={handleBlurForInnerElements(() => setFocus(false))}

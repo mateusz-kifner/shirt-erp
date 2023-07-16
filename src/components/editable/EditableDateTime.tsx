@@ -13,7 +13,7 @@ import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
-import InputLabel from "../input/InputLabel";
+import { Label } from "../ui/Label";
 
 // TODO: make it editable
 // BUG: clicking on label causes copy onClick to occur.
@@ -103,10 +103,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       // onFocus={() => !disabled && setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      <InputLabel
-        label={label}
-        copyValue={dayjs(date).format("L LT").toString()}
-      />
+      <Label label={label} copyValue={dayjs(date).format("L LT").toString()} />
       <DisplayCell
         leftSection={<IconCalendar size={18} />}
         className="border-none"

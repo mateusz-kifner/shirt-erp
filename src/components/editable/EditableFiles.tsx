@@ -21,8 +21,8 @@ import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
-import InputLabel from "../input/InputLabel";
 import { Dialog, DialogContent } from "../ui/Dialog";
+import { Label } from "../ui/Label";
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -146,7 +146,7 @@ const EditableFiles = (props: EditableFilesProps) => {
       // ref={refClickOutside}
       onDragEnter={handleDrag}
     >
-      <InputLabel
+      <Label
         label={label}
         copyValue={value?.reduce(
           (prev, next) => `${prev}${next.originalFilename}\n`,

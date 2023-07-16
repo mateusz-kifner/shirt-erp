@@ -17,9 +17,9 @@ import type EditableInput from "@/types/EditableInput";
 import equalHSV from "@/utils/equalHSV";
 import { IconColorSwatch } from "@tabler/icons-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
-import InputLabel from "../input/InputLabel";
 import Button from "../ui/Button";
 import DisplayCell from "../ui/DisplayCell";
+import { Label } from "../ui/Label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
@@ -167,7 +167,7 @@ const EditableColor = (props: EditableColorProps) => {
       onFocus={() => !disabled && setFocus(true)}
       ref={ref}
     >
-      <InputLabel
+      <Label
         label={label}
         copyValue={colorText ?? ""}
         htmlFor={"inputColor_" + uuid}

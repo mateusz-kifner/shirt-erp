@@ -15,7 +15,6 @@ import StarterKit from "@tiptap/starter-kit";
 
 import preventLeave from "@/utils/preventLeave";
 
-import InputLabel from "@/components/input/InputLabel";
 import type EditableInput from "@/types/EditableInput";
 import {
   IconAlignCenter,
@@ -41,6 +40,7 @@ import {
 } from "@tabler/icons-react";
 import Button from "../ui/Button";
 import DisplayCellExpanding from "../ui/DisplayCellExpanding";
+import { Label } from "../ui/Label";
 
 // TODO: refactor buttons rendering
 
@@ -303,7 +303,7 @@ const EditableRichText = ({
       onFocus={() => !disabled && setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}
     >
-      <InputLabel
+      <Label
         label={label}
         copyValue={plainText.length > 0 ? plainText : ""}
         required={required}

@@ -1,9 +1,8 @@
-import InputLabel from "@/components/input/InputLabel";
-
 import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/types/EditableInput";
 import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
 import { useId } from "react";
+import { Label } from "../ui/Label";
 import {
   Select,
   SelectContent,
@@ -58,7 +57,7 @@ const EditableEnum = ({
 
   return (
     <div className={`flex flex-grow  ${collapse ? "gap-3 pt-3" : "flex-col"}`}>
-      <InputLabel
+      <Label
         label={label}
         copyValue={t[value as keyof typeof t] as string}
         required={required}

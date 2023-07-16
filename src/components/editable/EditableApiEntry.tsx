@@ -11,8 +11,8 @@ import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
-import InputLabel from "../input/InputLabel";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/Dialog";
+import { Label } from "../ui/Label";
 
 interface EditableApiEntryProps extends EditableInput<any> {
   entryName: string;
@@ -67,7 +67,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
 
   return (
     <div>
-      <InputLabel
+      <Label
         label={label}
         copyValue={apiEntry && copyValue ? copyValue : ""}
         required={required}

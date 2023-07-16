@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 
 import type EditableInput from "@/types/EditableInput";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
-import InputLabel from "../input/InputLabel";
+import { Label } from "../ui/Label";
 
 // fixme submit only on edit end
 
@@ -90,7 +90,7 @@ const EditableArray = (props: EditableArrayProps) => {
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}
       // tabIndex={999999}
     >
-      <InputLabel label={label} />
+      <Label label={label} />
 
       <div className="flex min-h-[2.75rem] flex-col gap-2">
         <div className=" flex flex-col gap-2">
