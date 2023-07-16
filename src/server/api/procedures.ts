@@ -8,11 +8,7 @@ type PrismaModelName = keyof typeof prisma;
 
 export function createProcedureGetById(modelName: PrismaModelName) {
   return authenticatedProcedure.input(z.number()).query(async ({ input }) => {
-    const data = await (
-      prisma[modelName] as Prisma.ClientDelegate<
-        Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-      >
-    ).findUnique({
+    const data = await (prisma[modelName] as Prisma.ClientDelegate).findUnique({
       where: { id: input },
     });
     return data;
@@ -29,11 +25,7 @@ export function createProcedureGetAll(modelName: PrismaModelName) {
     )
     .query(async ({ input }) => {
       const sortParam = { orderBy: { [input.sortColumn]: input.sort } };
-      const data = await (
-        prisma[modelName] as Prisma.ClientDelegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-        >
-      ).findMany({
+      const data = await (prisma[modelName] as Prisma.ClientDelegate).findMany({
         ...sortParam,
       });
       return data;
@@ -44,11 +36,7 @@ export function createProcedureDeleteById(modelName: PrismaModelName) {
   return authenticatedProcedure
     .input(z.number())
     .mutation(async ({ input: id }) => {
-      const data = await (
-        prisma[modelName] as Prisma.ClientDelegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-        >
-      ).delete({
+      const data = await (prisma[modelName] as Prisma.ClientDelegate).delete({
         where: { id: id },
       });
       return data;
@@ -69,9 +57,7 @@ export function createProcedureSearch(modelName: PrismaModelName) {
     )
     .query(async ({ input }) => {
       const results = await (
-        prisma[modelName] as Prisma.ClientDelegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-        >
+        prisma[modelName] as Prisma.ClientDelegate
       ).findMany({
         orderBy: {
           [input.sortColumn]: input.sort,
@@ -149,18 +135,14 @@ export function createProcedureSearchWithPagination(
       };
 
       const results = await (
-        prisma[modelName] as Prisma.ClientDelegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-        >
+        prisma[modelName] as Prisma.ClientDelegate
       ).findMany({
         ...query,
         take: input.itemsPerPage,
         skip: (input.currentPage - 1) * input.itemsPerPage,
       });
       const totalItems = await (
-        prisma[modelName] as Prisma.ClientDelegate<
-          Prisma.RejectOnNotFound | Prisma.RejectPerOperation | undefined
-        >
+        prisma[modelName] as Prisma.ClientDelegate
       ).count(query);
       return {
         results,

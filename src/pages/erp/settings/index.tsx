@@ -196,9 +196,7 @@ function Settings() {
             data={testValue}
             template={template}
             onSubmit={(key, value) => {
-              // @ts-ignore
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-              setTestValue((val) => ({ ...val, [key]: value }));
+              setTestValue((val: any) => ({ ...val, [key]: value }));
               console.log(key, value);
             }}
           />

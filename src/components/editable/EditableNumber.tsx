@@ -1,9 +1,9 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
-import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/types/EditableInput";
+import { useClickOutside } from "@mantine/hooks";
 import DisplayCell from "../ui/DisplayCell";
 import { Label } from "../ui/Label";
 
@@ -35,9 +35,12 @@ const EditableNumber = (props: EditableNumberProps) => {
     ...moreProps
   } = props;
   const uuid = useId();
-  const [text, setText] = useState<string>(value?.toString() ?? "");
+  const [text, setText] = useState<string>(
+    !(value === undefined || isNaN(value)) ? value.toFixed(fixed) : ""
+  );
   const [focus, setFocus] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
+  const outerRef = useClickOutside(() => setFocus(false));
 
   // const t = useTranslation();
   useEffect(() => {
@@ -47,7 +50,7 @@ const EditableNumber = (props: EditableNumberProps) => {
       InputRef.current?.selectionStart &&
         (InputRef.current.selectionStart = InputRef.current.value.length);
     } else {
-      if (text !== value?.toString()) {
+      if (parseFloat(text) !== value) {
         onSubmit?.(parseFloat(text));
       }
       window.removeEventListener("beforeunload", preventLeave);
@@ -57,7 +60,7 @@ const EditableNumber = (props: EditableNumberProps) => {
 
   useEffect(() => {
     return () => {
-      if (text !== (value ?? "")) {
+      if (parseFloat(text) !== value) {
         onSubmit?.(parseFloat(text));
       }
       window.removeEventListener("beforeunload", preventLeave);
@@ -66,8 +69,10 @@ const EditableNumber = (props: EditableNumberProps) => {
   }, []);
 
   useEffect(() => {
-    if (value?.toString() !== text) {
-      const new_value = value?.toString() ?? "";
+    if (parseFloat(text) !== value) {
+      const new_value = !(value === undefined || isNaN(value))
+        ? value.toFixed(fixed)
+        : "";
       setText(new_value);
     }
   }, [value]);
@@ -80,7 +85,6 @@ const EditableNumber = (props: EditableNumberProps) => {
 
   const onKeyDownInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (focus) {
-      console.log(e.code);
       if (e.code === "Enter" && !e.shiftKey) {
         e.preventDefault();
         (e.target as HTMLInputElement).blur();
@@ -101,12 +105,14 @@ const EditableNumber = (props: EditableNumberProps) => {
     }
   };
 
+  const onFocus = () => !disabled && setFocus(true);
+
   return (
     <div
       className="flex-grow"
-      onClick={() => !disabled && setFocus(true)}
-      onFocus={() => !disabled && setFocus(true)}
-      onBlur={handleBlurForInnerElements(() => setFocus(false))}
+      onClick={onFocus}
+      onFocus={onFocus}
+      ref={outerRef}
     >
       <Label label={label} copyValue={text} htmlFor={"short_text_" + uuid} />
       <DisplayCell
@@ -137,8 +143,8 @@ const EditableNumber = (props: EditableNumberProps) => {
           ${className ?? ""}`}
           style={style}
           value={text}
-          onFocus={() => !disabled && setFocus(true)}
-          onClick={() => !disabled && setFocus(true)}
+          onFocus={onFocus}
+          onClick={onFocus}
           onChange={onChangeInput}
           onKeyDown={onKeyDownInput}
           maxLength={maxLength}
