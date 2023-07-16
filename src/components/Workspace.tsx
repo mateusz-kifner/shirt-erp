@@ -8,7 +8,7 @@ import MultiTabs from "@/components/MultiTabs";
 import { useUserContext } from "@/context/userContext";
 import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
-import TablerIconType from "@/types/TablerIconType";
+import TablerIconType from "@/schema/TablerIconType";
 import { getQueryAsIntOrNull } from "@/utils/query";
 
 // import MultiTabs from "./MultiTabs"

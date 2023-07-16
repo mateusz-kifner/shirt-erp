@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { Label } from "../ui/Label";
 
 // TODO: make it editable

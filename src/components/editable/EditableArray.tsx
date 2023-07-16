@@ -6,7 +6,7 @@ import { isEqual, omit } from "lodash";
 
 import Button from "@/components/ui/Button";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { Label } from "../ui/Label";
 

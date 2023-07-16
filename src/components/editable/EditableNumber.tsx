@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
 import preventLeave from "@/utils/preventLeave";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { useClickOutside } from "@mantine/hooks";
 import DisplayCell from "../ui/DisplayCell";
 import { Label } from "../ui/Label";

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import { handleFocusForInnerElements } from "@/utils/handleFocusForInnerElements";
 import { IconCalendar } from "@tabler/icons-react";

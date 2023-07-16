@@ -1,5 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
 import { useId } from "react";
 import { Label } from "../ui/Label";

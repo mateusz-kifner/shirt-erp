@@ -7,8 +7,8 @@ import EditableEnum from "@/components/editable/EditableEnum";
 import EditableText from "@/components/editable/EditableText";
 
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
+import type EditableInput from "@/schema/EditableInput";
 import { type AddressType } from "@/schema/addressSchema";
-import type EditableInput from "@/types/EditableInput";
 import { Label } from "../ui/Label";
 
 const provinces = [

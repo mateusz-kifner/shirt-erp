@@ -14,7 +14,7 @@ import { IconPinned } from "@tabler/icons-react";
 import { omit } from "lodash";
 
 import { useUserContext } from "@/context/userContext";
-import type TablerIconType from "@/types/TablerIconType";
+import type TablerIconType from "@/schema/TablerIconType";
 import { simpleColors } from "@/utils/getRandomColor";
 import { Portal } from "@radix-ui/react-portal";
 

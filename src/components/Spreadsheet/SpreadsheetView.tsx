@@ -1,7 +1,7 @@
 import React, { ComponentType, useId, useMemo } from "react";
 
 import { CellBase, Matrix } from "react-spreadsheet";
-import { AABB2D } from "../../types/AABB";
+import { AABB2D } from "../../schema/AABB";
 import {
   getColorByName,
   getRandomColorByNumber,

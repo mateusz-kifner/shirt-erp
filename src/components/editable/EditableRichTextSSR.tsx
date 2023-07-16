@@ -15,7 +15,7 @@ import StarterKit from "@tiptap/starter-kit";
 
 import preventLeave from "@/utils/preventLeave";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import {
   IconAlignCenter,
   IconAlignJustified,

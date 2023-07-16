@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import DisplayCell from "../ui/DisplayCell";
 import { Label } from "../ui/Label";
 

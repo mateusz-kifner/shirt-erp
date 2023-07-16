@@ -16,8 +16,8 @@ import {
 import { buttonVariants } from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
+import type EditableInput from "@/schema/EditableInput";
 import { type FileType } from "@/schema/fileSchema";
-import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";

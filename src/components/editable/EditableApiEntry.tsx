@@ -8,7 +8,7 @@ import Link from "next/link";
 import Button, { buttonVariants } from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
 
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/Dialog";

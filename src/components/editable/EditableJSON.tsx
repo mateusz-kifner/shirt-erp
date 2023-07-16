@@ -1,7 +1,6 @@
 import { useId } from "react";
 
-
-import type EditableInput from "@/types/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { Input } from "../ui/Input";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -11,7 +10,7 @@ const EditableJSON = ({ value, label }: EditableJSONProps) => {
   const uuid = useId();
   return (
     <div className="flex-grow">
-      <Input/>
+      <Input />
       <code
         style={{
           overflow: "hidden",

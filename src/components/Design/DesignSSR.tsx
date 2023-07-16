@@ -1,7 +1,7 @@
 import { useUserContext } from "@/context/userContext";
 import useTranslation from "@/hooks/useTranslation";
+import type EditableInput from "@/schema/EditableInput";
 import { type FileType } from "@/schema/fileSchema";
-import type EditableInput from "@/types/EditableInput";
 import { useListState } from "@mantine/hooks";
 import { SVG } from "@svgdotjs/svg.js";
 
