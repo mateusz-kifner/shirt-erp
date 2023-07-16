@@ -30,10 +30,13 @@ function Search(props: SearchProps) {
       { preventDefault: true },
     ],
   ]);
-  const { data } = api.search.all.useQuery({
-    query: debouncedQuery,
-    itemsPerPage: 4,
-  });
+  const { data } = api.search.all.useQuery(
+    {
+      query: debouncedQuery,
+      itemsPerPage: 4,
+    },
+    { enabled: open, refetchOnMount: false, refetchOnWindowFocus: false }
+  );
   return (
     <Dialog modal={true} open={open} onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger asChild>
