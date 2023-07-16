@@ -27,7 +27,9 @@ type typepartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
   getAll: createProcedureGetAll("spreadsheet"),
+
   getById: createProcedureGetById("spreadsheet"),
+
   create: authenticatedProcedure
     .input(spreadsheetSchemaWithoutId)
     .mutation(async ({ input: spreadsheetData }) => {
@@ -36,7 +38,9 @@ export const spreadsheetRouter = createTRPCRouter({
       });
       return newSpreadsheet;
     }),
+
   deleteById: createProcedureDeleteById("spreadsheet"),
+
   update: authenticatedProcedure
     .input(spreadsheetSchema)
     .mutation(async ({ input: spreadsheetData }) => {
@@ -46,6 +50,7 @@ export const spreadsheetRouter = createTRPCRouter({
       });
       return updatedSpreadsheet;
     }),
+
   updatePartial: authenticatedProcedure
     .input(partialSpreadsheetData)
     .mutation(async ({ input: partialData }) => {
@@ -55,7 +60,7 @@ export const spreadsheetRouter = createTRPCRouter({
       if (!dataSpreadsheet?.data)
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "NOT FOUND",
+          message: "NOT_FOUND",
         });
       const dataDecoded = SuperJSON.parse(dataSpreadsheet.data.toString());
       console.log(dataDecoded);
@@ -67,6 +72,8 @@ export const spreadsheetRouter = createTRPCRouter({
       });
       return updatedSpreadsheet;
     }),
+
   search: createProcedureSearch("spreadsheet"),
+
   searchWithPagination: createProcedureSearchWithPagination("spreadsheet"),
 });

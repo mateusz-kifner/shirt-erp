@@ -5,7 +5,7 @@ import { api } from "@/utils/api";
 import { useDebouncedValue, useHotkeys } from "@mantine/hooks";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useId, useState } from "react";
 import Button from "../ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/Dialog";
 import { Input } from "../ui/Input";
@@ -14,6 +14,7 @@ interface SearchProps {}
 
 function Search(props: SearchProps) {
   const {} = props;
+  const uuid = useId();
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const t = useTranslation();
@@ -58,8 +59,9 @@ function Search(props: SearchProps) {
           <span className="pl-4 italic text-gray-800 first-letter:capitalize dark:text-stone-200">
             {t.order.plural}
           </span>
-          {data?.[1].map((order) => (
+          {data?.[1].map((order, index) => (
             <OrderListItem
+              key={"order" + uuid + index}
               value={order}
               onChange={(order) => {
                 router.push(`/erp/order/${order.id}`).catch((e) => {
@@ -74,8 +76,9 @@ function Search(props: SearchProps) {
           <span className="pl-4 italic text-gray-800 first-letter:capitalize dark:text-stone-200">
             {t.client.plural}
           </span>
-          {data?.[0].map((client) => (
+          {data?.[0].map((client, index) => (
             <ClientListItem
+              key={"client" + uuid + index}
               value={client}
               onChange={(client) => {
                 router.push(`/erp/client/${client.id}`).catch((e) => {

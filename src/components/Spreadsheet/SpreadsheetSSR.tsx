@@ -1,24 +1,20 @@
-import React, { useId, useMemo, useState, type ComponentType } from "react";
+import React, { useId, useMemo, useState } from "react";
 
 // Icons
 import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
 
 // Spreadsheet Imports
 import type {
-  CellComponent,
   ColumnIndicatorComponent,
   CornerIndicatorComponent,
-  Matrix,
   Point,
   RowIndicatorComponent,
 } from "react-spreadsheet";
 import Spreadsheet from "react-spreadsheet";
-import { Cell, enhance as enhanceCell } from "./Cell";
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
 } from "./ColumnIndicator";
 import CornerIndicator from "./CornerIndicator";
-import DataEditorDisabled from "./DataEditorDisabled";
 import DataViewer from "./DataViewer";
 import RowIndicator, { enhance as enhanceRowIndicator } from "./RowIndicator";
 import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
@@ -26,42 +22,30 @@ import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
 import useTranslation from "@/hooks/useTranslation";
-import type EditableInput from "../../types/EditableInput";
+import TablerIconType from "@/schema/TablerIconType";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
 import SimpleTooltip from "../ui/SimpleTooltip";
 
-interface EditableTableProps extends EditableInput<Matrix<any>> {
-  metadataIcons?: ComponentType[];
-  metadataLabels?: string[];
-  metadata: {
-    [key: string]: {
-      id: number;
-      [key: string]: any;
-    };
-  };
-  metadataActions: ((
-    table: UniversalMatrix,
-    metaId: number
-  ) => [UniversalMatrix, string])[];
-  metadataActionIcons: ComponentType[];
-  metadataActionLabels?: string[];
+interface EditableTableProps {
+  id: number;
+  metadata: { [key: string]: { id: number; [key: string]: any } };
+  metadataVisuals: {
+    icon: TablerIconType;
+    label: string;
+  }[];
+  metadataActions: {
+    icon: TablerIconType;
+    label: string;
+    action: (
+      table: UniversalMatrix,
+      metaId: number
+    ) => [UniversalMatrix, string];
+  }[];
 }
 
 const EditableTable = (props: EditableTableProps) => {
-  const {
-    label,
-    value,
-    onSubmit,
-    disabled,
-    required,
-    metadataIcons,
-    metadataLabels,
-    metadata,
-    metadataActions,
-    metadataActionIcons,
-    metadataActionLabels,
-  } = props;
+  const { id, metadata, metadataActions, metadataVisuals } = props;
   const [statusText, setStatusText] = useState<string>("");
   const uuid = useId();
   const [openedColumn, setOpenedColumn] = useState<boolean>(false);
@@ -83,7 +67,8 @@ const EditableTable = (props: EditableTableProps) => {
       setMetadata,
     },
   ] = useSpreadSheetData(
-    value ?? [
+    // value ??
+    [
       [undefined, undefined],
       [undefined, undefined],
     ]
@@ -140,7 +125,6 @@ const EditableTable = (props: EditableTableProps) => {
     column: number
   ) => {
     e.preventDefault();
-    if (disabled) return;
     if (!openedColumn) {
       setOpenedColumn(true);
       // setContextPositionAndValue([e?.pageX, e?.pageY, column]);
@@ -154,7 +138,6 @@ const EditableTable = (props: EditableTableProps) => {
     row: number
   ) => {
     e.preventDefault();
-    if (disabled) return;
     if (!openedColumn) {
       setOpenedRow(true);
       // setContextPositionAndValue([e?.pageX, e?.pageY, row]);
@@ -216,10 +199,10 @@ const EditableTable = (props: EditableTableProps) => {
     [openedRow]
   );
 
-  const enhancedCell = useMemo(
-    () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
-    [metadataIcons]
-  );
+  // const enhancedCell = useMemo(
+  //   () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
+  //   [metadataIcons]
+  // );
 
   const metadataActionsMemo = useMemo(() => metadataActions, [metadataActions]);
 
@@ -233,7 +216,8 @@ const EditableTable = (props: EditableTableProps) => {
     >
       <div
         className={`flex items-end justify-around py-1 ${
-          disabled ? "none" : ""
+          ""
+          // disabled ? "none" : ""
         }`}
       >
         <div className="flex">
@@ -411,59 +395,66 @@ const EditableTable = (props: EditableTableProps) => {
           {metadata &&
             Object.keys(metadata).map((key, bgIndex) => (
               <div key={uuid + "_" + bgIndex}>
-                {metadataIcons &&
-                  metadataIcons.map((Icon, index) => (
-                    <SimpleTooltip
-                      tooltip={metadataLabels?.[index]}
-                      key={uuid + "_" + bgIndex + "_" + index}
-                      // openDelay={500}
-                    >
-                      <Button
-                        style={{
-                          backgroundColor:
-                            getRandomColorByNumber(metadata[key]!.id) + "88",
-                        }}
-                        onClick={() => {
-                          setMetadataOnSelection({
-                            metaId: metadata[key]!.id,
-                            metaPropertyId: index,
-                          });
-                          setStatusText("Ustawiono metadane");
-                          incrementUpdateCount();
-                        }}
+                {metadataVisuals &&
+                  metadataVisuals.map((visual, index) => {
+                    const Icon = visual?.icon;
+                    return (
+                      <SimpleTooltip
+                        tooltip={visual.label}
+                        key={uuid + "_" + bgIndex + "_" + index}
+                        // openDelay={500}
                       >
-                        {Icon && <Icon />}
-                      </Button>
-                    </SimpleTooltip>
-                  ))}
-
-                {metadataActionIcons &&
-                  metadataActionIcons.map((Icon, index) => (
-                    <SimpleTooltip
-                      tooltip={metadataActionLabels?.[index]}
-                      key={uuid + "_" + bgIndex + "_action_" + index}
-                      // openDelay={500}
-                    >
-                      <Button
-                        style={{
-                          backgroundColor:
-                            getRandomColorByNumber(metadata[key]!.id) + "88",
-                        }}
-                        onClick={() => {
-                          metadataActionsMemo[index] &&
-                            setData((data) => {
-                              const [new_data, status] = metadataActionsMemo[
-                                index
-                              ]!(data, metadata[key]!.id);
-                              setStatusText(status);
-                              return new_data;
+                        <Button
+                          style={{
+                            backgroundColor:
+                              getRandomColorByNumber(metadata[key]!.id) + "88",
+                          }}
+                          onClick={() => {
+                            setMetadataOnSelection({
+                              metaId: metadata[key]!.id,
+                              metaPropertyId: index,
                             });
-                        }}
+                            setStatusText("Ustawiono metadane");
+                            incrementUpdateCount();
+                          }}
+                        >
+                          <Icon />
+                        </Button>
+                      </SimpleTooltip>
+                    );
+                  })}
+
+                {metadataActions &&
+                  metadataActions.map((action, index) => {
+                    const Icon = action?.icon;
+                    return (
+                      <SimpleTooltip
+                        tooltip={action.label}
+                        key={uuid + "_" + bgIndex + "_action_" + index}
+                        // openDelay={500}
                       >
-                        {Icon && <Icon />}
-                      </Button>
-                    </SimpleTooltip>
-                  ))}
+                        <Button
+                          style={{
+                            backgroundColor:
+                              getRandomColorByNumber(metadata[key]!.id) + "88",
+                          }}
+                          onClick={() => {
+                            metadataActionsMemo[index] &&
+                              setData((data) => {
+                                const [new_data, status] = action.action(
+                                  data,
+                                  metadata[key]!.id
+                                );
+                                setStatusText(status);
+                                return new_data;
+                              });
+                          }}
+                        >
+                          {Icon && <Icon />}
+                        </Button>
+                      </SimpleTooltip>
+                    );
+                  })}
               </div>
             ))}
           <SimpleTooltip tooltip={t.clear}>
@@ -504,8 +495,8 @@ const EditableTable = (props: EditableTableProps) => {
           }}
           onCellCommit={() => setCanUpdate(true)}
           DataViewer={DataViewer}
-          DataEditor={disabled ? DataEditorDisabled : undefined}
-          Cell={enhancedCell}
+          // DataEditor={disabled ? DataEditorDisabled : undefined}
+          // Cell={enhancedCell}
           className="Spreadsheet"
           ColumnIndicator={enhancedColumnIndicator}
           RowIndicator={enhancedRowIndicator}
