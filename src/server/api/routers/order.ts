@@ -64,6 +64,7 @@ export const orderRouter = createTRPCRouter({
       ]);
       if (orderData.files?.length && orderData.files.length > 0)
         createData.files = { create: { ...orderData.files } };
+      // ^?
       if (orderData.spreadsheets?.length && orderData.spreadsheets.length > 0)
         createData.spreadsheets = { create: { ...orderData.spreadsheets } };
       if (orderData.designs?.length && orderData.designs.length > 0)
