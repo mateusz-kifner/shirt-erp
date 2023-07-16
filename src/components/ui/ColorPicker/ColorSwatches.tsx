@@ -48,35 +48,27 @@ function ColorSwatches(props: ColorSwatchesProps) {
           <div key={`${key}_${index}_${uuid}`} className="flex flex-col gap-2">
             {!key.startsWith("_") && <span className="pl-2">{key}</span>}
             <div className="flex flex-wrap gap-2">
-              {Object.keys(colors[key]!).map((colorName, colorIndex) =>
-                disableColorTooltip ? (
+              {Object.keys(colors[key]!).map((colorName, colorIndex) => (
+                <SimpleTooltip
+                  key={`${key}_${index}_${colorIndex}_${uuid}`}
+                  tooltip={colorName}
+                  position="top"
+                  align={
+                    colorIndex % 11 < 2
+                      ? "start"
+                      : colorIndex % 11 > 8
+                      ? "end"
+                      : "center"
+                  }
+                  disabled={disableColorTooltip}
+                >
                   <div
-                    key={`${key}_${index}_${colorIndex}_${uuid}`}
-                    className="h-[1.5rem] w-[1.5rem] rounded"
+                    className="h-6 w-6 rounded"
                     style={{ background: colors[key]![colorName] }}
                     onClick={() => onClick?.(colors[key]![colorName]!)}
                   ></div>
-                ) : (
-                  <SimpleTooltip
-                    key={`${key}_${index}_${colorIndex}_${uuid}`}
-                    tooltip={colorName}
-                    position="top"
-                    align={
-                      colorIndex % 11 < 2
-                        ? "start"
-                        : colorIndex % 11 > 8
-                        ? "end"
-                        : "center"
-                    }
-                  >
-                    <div
-                      className="h-[1.5rem] w-[1.5rem] rounded"
-                      style={{ background: colors[key]![colorName] }}
-                      onClick={() => onClick?.(colors[key]![colorName]!)}
-                    ></div>
-                  </SimpleTooltip>
-                )
-              )}
+                </SimpleTooltip>
+              ))}
             </div>
           </div>
         ))}
