@@ -12,7 +12,7 @@ import {
 import { toast } from "@/hooks/useToast";
 import { cn } from "@/utils/cn";
 import Button from "./Button";
-import SimpleTooltip from "./SimpleTooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 
 export interface LabelProps
   extends ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
@@ -59,14 +59,18 @@ const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
           </Button>
         )}
         {helpTooltip && helpTooltip.length > 0 && (
-          <SimpleTooltip
-            tooltip={helpTooltip}
-            className="px-1"
-            classNameTooltip="w-80 whitespace-normal dark:whitespace-normal"
-            delay="delay-700"
+          <Tooltip
+          // className="px-1"
+          // classNameTooltip="w-80 whitespace-normal dark:whitespace-normal"
+          // delay="delay-700"
           >
-            <IconQuestionMark size={16} />
-          </SimpleTooltip>
+            <TooltipTrigger asChild>
+              <IconQuestionMark size={16} />
+            </TooltipTrigger>
+            <TooltipContent className="w-80 whitespace-normal text-center dark:whitespace-normal">
+              {helpTooltip}
+            </TooltipContent>
+          </Tooltip>
         )}
         {children}
       </LabelPrimitive.Root>

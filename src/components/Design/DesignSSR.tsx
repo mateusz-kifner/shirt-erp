@@ -5,7 +5,12 @@ import type EditableInput from "@/types/EditableInput";
 import { useListState } from "@mantine/hooks";
 import { SVG } from "@svgdotjs/svg.js";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/DropdownMenu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
 
 import {
   IconCategory,
@@ -15,7 +20,7 @@ import {
   IconSquareNumber1,
   IconSquareNumber2,
   IconSquareNumber3,
-  IconWallpaper
+  IconWallpaper,
 } from "@tabler/icons-react";
 import {
   useEffect,
@@ -29,7 +34,7 @@ import Button from "../ui/Button";
 import { Input } from "../ui/Input";
 import { Label } from "../ui/Label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
-import SimpleTooltip from "../ui/SimpleTooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -173,10 +178,10 @@ const EditableDesign = (props: EditableDesignProps) => {
   const [backgroundId, setBackgroundId] = useState<number>(0);
   const [backgroundImageId, setBackgroundImageId] = useState<number>(0);
 
-
   const [images, imagesHandlers] = useListState<FileType>([]);
 
-  const backgroundImage = backgrounds?.[backgroundId]?.images?.[backgroundImageId]?.image
+  const backgroundImage =
+    backgrounds?.[backgroundId]?.images?.[backgroundImageId]?.image;
 
   const draw = () => {
     SVGContainer.add(SVG().rect(100, 100).fill("#f06"));
@@ -198,9 +203,13 @@ const EditableDesign = (props: EditableDesignProps) => {
 
   return (
     <>
-    <Label />
+      <Label />
       <div
-        className={fullscreen?"dark:bg-black bg-white absolute inset-0 z-[99999] h-[200vh] overflow-hidden" : "h-full"}
+        className={
+          fullscreen
+            ? "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black"
+            : "h-full"
+        }
       >
         <div
           // py="xs"
@@ -208,101 +217,108 @@ const EditableDesign = (props: EditableDesignProps) => {
           // position="apart"
           // sx={fullscreen ? SxBackground : undefined}
           style={{ display: disabled ? "none" : undefined }}
-          className="Spreadsheet__controls py-4 flex items-end "
+          className="Spreadsheet__controls flex items-end py-4 "
         >
-          <div className="flex gap-2 items-end">
-              <SimpleTooltip tooltip={t.grid}>
-                <Button
-                  onClick={() => setShowGrid((val) => !val)}
-                >
+          <div className="flex items-end gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button onClick={() => setShowGrid((val) => !val)}>
                   <IconGridPattern />
                 </Button>
-              </SimpleTooltip>
-              <DropdownMenu>
-                
-                <DropdownMenuTrigger>
-                  <SimpleTooltip tooltip={t.item}>
+              </TooltipTrigger>
+              <TooltipContent>{t.grid}</TooltipContent>
+            </Tooltip>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Button>
                       <IconCategory />
                     </Button>
-                  </SimpleTooltip>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {backgrounds.map((value, index) => {
-                    const Icon = value.icon;
-                    return (
-                      <DropdownMenuItem
-                        key={`${uuid}itemsMenu:${index}`}
-                        // icon={<Icon />}
-                        onClick={() => setBackgroundId(index)}
-                      >
-                        <Icon/>
-                        {value.name}
-                      </DropdownMenuItem>
-                    );
-                  })}
-                </DropdownMenuContent>
-              </DropdownMenu>{" "}
-              <Popover>
-                <PopoverTrigger>
-                  <SimpleTooltip
-                    tooltip={t.background_color}
-                  >
+                  </TooltipTrigger>
+                  <TooltipContent>{t.item}</TooltipContent>
+                </Tooltip>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {backgrounds.map((value, index) => {
+                  const Icon = value.icon;
+                  return (
+                    <DropdownMenuItem
+                      key={`${uuid}itemsMenu:${index}`}
+                      // icon={<Icon />}
+                      onClick={() => setBackgroundId(index)}
+                    >
+                      <Icon />
+                      {value.name}
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>{" "}
+            <Popover>
+              <PopoverTrigger>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Button>
                       <IconWallpaper fill={backgroundColor} />
                     </Button>
-                  </SimpleTooltip>
-                </PopoverTrigger>
-                <PopoverContent>
-                  {t.background_color}
-                  {/* <ColorPicker
+                  </TooltipTrigger>
+                  <TooltipContent>{t.background_color}</TooltipContent>
+                </Tooltip>
+              </PopoverTrigger>
+              <PopoverContent>
+                {t.background_color}
+                {/* <ColorPicker
                     swatchesPerRow={7}
                     format="rgba"
                     swatches={colorPickerSwatches}
                     value={backgroundColor}
                     onChange={setBackgroundColor}
                   /> */}
-                  <Input
-                    value={backgroundColor}
-                    onChange={(e) => setBackgroundColor(e.target.value)}
-                  />
-                </PopoverContent>
-              </Popover>
-              <Popover>
-                <PopoverTrigger>
-                  <SimpleTooltip
-                    tooltip={t.item_color}
-                  >
+                <Input
+                  value={backgroundColor}
+                  onChange={(e) => setBackgroundColor(e.target.value)}
+                />
+              </PopoverContent>
+            </Popover>
+            <Popover>
+              <PopoverTrigger>
+                <Tooltip>
+                  <TooltipTrigger asChild>
                     <Button>
                       <IconColorSwatch fill={itemColor} />
                     </Button>
-                  </SimpleTooltip>
-                </PopoverTrigger>
-                <PopoverContent>
-                  {t.item_color}
-                  {/* <ColorPicker
+                  </TooltipTrigger>
+                  <TooltipContent>{t.item_color}</TooltipContent>
+                </Tooltip>
+              </PopoverTrigger>
+              <PopoverContent>
+                {t.item_color}
+                {/* <ColorPicker
                     swatchesPerRow={7}
                     format="rgba"
                     swatches={colorPickerSwatches}
                     value={itemColor}
                     onChange={setItemColor}
                   /> */}
-                  <Input
-                    value={itemColor}
-                    onChange={(e) => setItemColor(e.target.value)}
-                  />
-                </PopoverContent>
-              </Popover>
-
-            <SimpleTooltip tooltip={t.fullscreen}>
-              <Button
-                onClick={() => {
-                  setFullscreen((fullscreen) => !fullscreen);
-                }}
-              >
-                <IconScreenShare />
-              </Button>
-            </SimpleTooltip>
+                <Input
+                  value={itemColor}
+                  onChange={(e) => setItemColor(e.target.value)}
+                />
+              </PopoverContent>
+            </Popover>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={() => {
+                    setFullscreen((fullscreen) => !fullscreen);
+                  }}
+                >
+                  <IconScreenShare />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t.fullscreen}</TooltipContent>
+            </Tooltip>
           </div>
         </div>
 
@@ -311,7 +327,7 @@ const EditableDesign = (props: EditableDesignProps) => {
             ({ image, mask }, bgImageIndex) => {
               const width = image?.width ?? 800;
               const height = image?.height ?? 800;
-              const maskUrl =  mask?.url;
+              const maskUrl = mask?.url;
               const imageUrl = image?.url;
               return (
                 <div
@@ -323,8 +339,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                   }}
                 >
                   <div
-                    className="absolute top-0 left-0"
-
+                    className="absolute left-0 top-0"
                     style={{
                       backgroundColor: backgroundColor,
                       width: width,
@@ -334,7 +349,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                   ></div>
 
                   <div
-                    className="absolute top-0 left-0"
+                    className="absolute left-0 top-0"
                     style={{
                       backgroundImage: image?.url
                         ? `url('${imageUrl}')`
@@ -345,7 +360,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                     }}
                   >
                     <div
-                    className="absolute top-0 left-0 w-full h-full"
+                      className="absolute left-0 top-0 h-full w-full"
                       style={{
                         maskImage: mask?.url ? `url('${maskUrl}')` : undefined,
                         maskSize: `${width}px ${height}px`,
@@ -361,7 +376,7 @@ const EditableDesign = (props: EditableDesignProps) => {
                   </div>
                   {showGrid && (
                     <div
-                    className="absolute top-0 left-0 "
+                      className="absolute left-0 top-0 "
                       style={{
                         backgroundImage: `url('/assets/grid.svg')`,
                         width: width,
@@ -373,7 +388,7 @@ const EditableDesign = (props: EditableDesignProps) => {
 
                   {images.map((imageData, index) => (
                     <img
-                      className="absolute top-0 left-0"
+                      className="absolute left-0 top-0"
                       key={uuid + "bg" + bgImageIndex + "image" + index}
                       src={`${imageData?.url}?token=${imageData.token}`}
                     />
