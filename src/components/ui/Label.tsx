@@ -24,7 +24,7 @@ export interface LabelProps
 }
 
 const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex h-8 items-center py-1"
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex h-8 items-center py-1 text-stone-950 dark:text-stone-200"
 );
 
 const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
@@ -59,11 +59,7 @@ const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
           </Button>
         )}
         {helpTooltip && helpTooltip.length > 0 && (
-          <Tooltip
-          // className="px-1"
-          // classNameTooltip="w-80 whitespace-normal dark:whitespace-normal"
-          // delay="delay-700"
-          >
+          <Tooltip>
             <TooltipTrigger asChild>
               <IconQuestionMark size={16} />
             </TooltipTrigger>

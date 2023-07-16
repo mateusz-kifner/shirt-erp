@@ -91,10 +91,10 @@ const EditableAddress = (props: EditableAddressProps) => {
   const toString = () => {
     if (!address) return undefined;
     return (
-      (address?.streetName ? `ul. ${address?.streetName} ` : "") +
+      (address.streetName ? `ul. ${address.streetName} ` : "") +
       (address.streetNumber || "") +
-      (address.apartmentNumber ? " / " + address.apartmentNumber : "") +
-      ((address?.streetName ||
+      (address.apartmentNumber ? ` / ${address.apartmentNumber}` : "") +
+      ((address.streetName ||
         address.streetNumber ||
         address.apartmentNumber) &&
         "\n") +

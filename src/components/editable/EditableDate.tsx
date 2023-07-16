@@ -15,7 +15,7 @@ import Button from "../ui/Button";
 import { Label } from "../ui/Label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
-type InputDateProps = EditableInput<string>;
+type InputDateProps = EditableInput<Date>;
 
 //todo : make this use dates instead
 
@@ -70,7 +70,7 @@ const EditableDate = (props: InputDateProps) => {
       dayjs(value).format("YYYY-MM-DD").toString()
     ) {
       setError(false);
-      onSubmit?.(newDate.format("YYYY-MM-DD").toString());
+      onSubmit?.(dayjs(newDate.format("YYYY-MM-DD").toString()).toDate());
     }
   }, [debouncedText]);
 
