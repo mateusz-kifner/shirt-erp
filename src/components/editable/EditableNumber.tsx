@@ -23,11 +23,15 @@ const EditableNumber = (props: EditableNumberProps) => {
     onSubmit,
     disabled,
     required,
-    maxLength,
+    maxLength = Number.MAX_SAFE_INTEGER,
     style,
     className,
     leftSection,
     rightSection,
+    increment = 0.01,
+    min = Number.MIN_SAFE_INTEGER,
+    max = Number.MAX_SAFE_INTEGER,
+    fixed = 2,
     ...moreProps
   } = props;
   const uuid = useId();
@@ -43,7 +47,7 @@ const EditableNumber = (props: EditableNumberProps) => {
       InputRef.current?.selectionStart &&
         (InputRef.current.selectionStart = InputRef.current.value.length);
     } else {
-      if (text !== (value ?? "")) {
+      if (text !== value?.toString()) {
         onSubmit?.(parseFloat(text));
       }
       window.removeEventListener("beforeunload", preventLeave);
@@ -62,22 +66,37 @@ const EditableNumber = (props: EditableNumberProps) => {
   }, []);
 
   useEffect(() => {
-    const new_value = value?.toString() ?? "";
-    setText(new_value);
+    if (value?.toString() !== text) {
+      const new_value = value?.toString() ?? "";
+      setText(new_value);
+    }
   }, [value]);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!(maxLength && e.target.value.length > maxLength)) {
+    if (e.target.value.length < maxLength) {
       setText(e.target.value);
     }
   };
 
   const onKeyDownInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (focus) {
+      console.log(e.code);
       if (e.code === "Enter" && !e.shiftKey) {
         e.preventDefault();
         (e.target as HTMLInputElement).blur();
         setFocus(false);
+      }
+      if (e.code === "ArrowUp") {
+        const multiplier = e.ctrlKey ? 100 : e.shiftKey ? 10 : 1;
+        setText((val) =>
+          (parseFloat(val) + increment * multiplier).toFixed(fixed)
+        );
+      }
+      if (e.code === "ArrowDown") {
+        const multiplier = e.ctrlKey ? 100 : e.shiftKey ? 10 : 1;
+        setText((val) =>
+          (parseFloat(val) - increment * multiplier).toFixed(fixed)
+        );
       }
     }
   };
