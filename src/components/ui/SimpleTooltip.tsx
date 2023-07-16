@@ -21,6 +21,7 @@ interface SimpleTooltipProps {
   children?: ReactNode;
   position?: "top" | "left" | "bottom" | "right";
   align?: "start" | "center" | "end";
+  disabled?: boolean;
 }
 
 function SimpleTooltip(props: SimpleTooltipProps) {
@@ -32,7 +33,10 @@ function SimpleTooltip(props: SimpleTooltipProps) {
     delay = "delay-1500",
     position = "top",
     align = "center",
+    disabled = false,
   } = props;
+
+  if (disabled) return children;
 
   return (
     <div className={`tooltip ${className ?? ""} tooltip-${delay}`}>

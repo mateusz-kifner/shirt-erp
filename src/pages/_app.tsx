@@ -11,7 +11,6 @@ import AppLayout from "@/components/layout/AppLayout";
 import { UserContextProvider } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { api } from "@/utils/api";
-import { TooltipProvider as RadixTooltipProvider } from "@radix-ui/react-tooltip";
 
 import "@/styles/globals.css";
 
@@ -23,6 +22,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { Toaster } from "@/components/layout/Toaster";
+import { TooltipProvider } from "@/components/ui/Tooltip";
 import { toast } from "@/hooks/useToast";
 import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
@@ -85,7 +85,7 @@ const App: AppType = ({ Component, pageProps }) => {
 
   return (
     <UserContextProvider>
-      <RadixTooltipProvider>
+      <TooltipProvider>
         <AppLayout>
           <Head>
             <title>ShirtERP</title>
@@ -96,7 +96,7 @@ const App: AppType = ({ Component, pageProps }) => {
         </AppLayout>
         <Toaster />
         <ReactQueryDevtools initialIsOpen={false} />
-      </RadixTooltipProvider>
+      </TooltipProvider>
     </UserContextProvider>
   );
 };

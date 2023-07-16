@@ -7,7 +7,7 @@ import { type CSSProperties, type ReactNode } from "react";
 
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
-import SimpleTooltip from "./ui/SimpleTooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
 
 interface FileListItemProps {
   onChange?: (file: Partial<FileType>) => void;
@@ -59,7 +59,7 @@ const FileListItem = (props: FileListItemProps) => {
           {preview && onPreview && (
             <Button
               size="icon"
-              variant="outline"
+              variant="ghost"
               className="absolute left-0 top-0 z-10 h-full w-full rounded-none border-b-0 border-l-0 border-t-0 hover:bg-black hover:bg-opacity-20"
               onClick={() => {
                 value?.filename &&
@@ -81,22 +81,20 @@ const FileListItem = (props: FileListItemProps) => {
             </Button>
           )}
         </div>
-        <SimpleTooltip
-          tooltip={value?.originalFilename}
-          // delayDuration={1000}
-          // multiline
-          // width={400}
-          // style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word" }}
-          // withArrow
-          // openDelay={500}
-          // disabled={
-          //   !!(value?.originalFilename && value?.originalFilename?.length < 40)
-          // }
-        >
-          <div className="max-w-[calc(100% - 180px)] max-h-[90px] flex-grow break-words pr-2">
-            {value?.originalFilename}
-          </div>
-        </SimpleTooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="w-[calc(100% - 180px)] mr-20 max-h-[90px] break-all">
+              {value?.originalFilename}
+            </div>
+          </TooltipTrigger>
+          {!(
+            value?.originalFilename && value?.originalFilename?.length < 40
+          ) && (
+            <TooltipContent className="w-80 whitespace-normal break-all dark:whitespace-normal">
+              {value?.originalFilename}
+            </TooltipContent>
+          )}
+        </Tooltip>
 
         <Link
           href={`/api/files/${value?.filename}${
