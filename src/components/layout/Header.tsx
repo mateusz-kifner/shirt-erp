@@ -50,7 +50,7 @@ const Header = () => {
           href={"/erp/settings"}
           className={cn(
             buttonVariants({ size: "icon", variant: "outline" }),
-            "rounded-full"
+            "rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
           )}
         >
           <IconSettings className="stroke-gray-200" />

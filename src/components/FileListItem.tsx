@@ -111,16 +111,8 @@ const FileListItem = (props: FileListItemProps) => {
             w-32
             -translate-y-1/2
             rounded-full
-            bg-white
-            before:absolute
-            before:inset-0
-            before:-z-10
-            before:rounded-full
-            hover:bg-white
-            hover:before:bg-black
-            hover:before:bg-opacity-20
-            dark:bg-stone-800
-            dark:hover:bg-stone-800`
+            hover:bg-black/15
+            dark:hover:bg-white/10`
           )}
         >
           <IconDownload size={26} />

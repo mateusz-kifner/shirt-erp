@@ -40,7 +40,11 @@ function Search(props: SearchProps) {
   return (
     <Dialog modal={true} open={open} onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full">
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
+        >
           <IconSearch className="stroke-gray-200" />
         </Button>
       </DialogTrigger>

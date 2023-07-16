@@ -12,12 +12,12 @@ function Messages(props: MessagesProps) {
         <Button
           size="icon"
           variant="outline"
-          className="rounded-full"
+          className="rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
           onClick={() => {
             // refetch();
           }}
         >
-          <IconMessageCircle2 />
+          <IconMessageCircle2 className="stroke-gray-200" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

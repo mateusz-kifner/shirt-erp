@@ -52,13 +52,13 @@ const Notifications = () => {
         <Button
           size="icon"
           variant="outline"
-          className="rounded-full"
+          className="rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
           onClick={() => {
             // refetch();
             setOpened((val) => !val);
           }}
         >
-          <IconBell />
+          <IconBell className="stroke-gray-200" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2" sideOffset={10}>
