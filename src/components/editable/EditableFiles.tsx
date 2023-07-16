@@ -161,7 +161,7 @@ const EditableFiles = (props: EditableFilesProps) => {
             !open && setPreviewOpened(false);
           }}
         >
-          <DialogContent className="max-h-[90vh] max-w-[90vw] object-contain">
+          <DialogContent className="max-h-[90vh] min-h-[4rem] max-w-[90vw] object-contain">
             <img
               src={preview.url}
               alt=""

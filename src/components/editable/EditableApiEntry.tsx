@@ -75,11 +75,12 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
       />
 
       <Dialog
-      // open={open}
-      // onClose={() => setOpen(false)}
-      // contentProps={{
-      //   className: "w-[30rem] max-w-screen min-h-[50rem] max-h-screen",
-      // }}
+        open={open}
+        onOpenChange={setOpen}
+        // onClose={() => setOpen(false)}
+        // contentProps={{
+        //   className: "w-[30rem] max-w-screen min-h-[50rem] max-h-screen",
+        // }}
       >
         <DialogTrigger asChild>
           {entryName ? (
