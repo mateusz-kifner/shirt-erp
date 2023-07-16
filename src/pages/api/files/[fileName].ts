@@ -39,25 +39,32 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       );
       res.setHeader("Content-Type", "application/octet-stream");
 
-      const fileStream = createReadStream(
-        `./uploads/${file?.newFilename as string}`
-      );
-
-      fileStream.pipe(res);
+      try {
+        const fileStream = createReadStream(
+          `./uploads/${file?.newFilename as string}`
+        );
+        fileStream.pipe(res);
+      } catch (e) {
+        throw new HTTPError(404, `File not found`);
+      }
     } else {
       // View headers
       res.setHeader(
         "Content-Type",
         file.mimetype ?? "application/octet-stream"
       );
+      try {
+        const imageData = await fs.readFile(
+          `./uploads/${file?.newFilename as string}`
+        );
 
-      const imageData = await fs.readFile(
-        `./uploads/${file?.newFilename as string}`
-      );
-
-      res.send(imageData);
+        res.send(imageData);
+      } catch (e) {
+        throw new HTTPError(404, `File not found`);
+      }
     }
   } catch (err) {
+    console.log(err);
     if (err instanceof HTTPError) {
       res.status(err.statusCode).json({
         status: "error",
