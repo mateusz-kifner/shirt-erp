@@ -107,6 +107,7 @@ const EditableText = (props: EditableTextProps) => {
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
+        className={className}
       >
         <textarea
           id={"textarea_" + uuid}

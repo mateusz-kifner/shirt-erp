@@ -91,6 +91,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
+        className={className}
       >
         <input
           id={"short_text_" + uuid}

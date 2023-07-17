@@ -1,5 +1,5 @@
+import { cn } from "@/utils/cn";
 import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import { twMerge } from "tailwind-merge";
 
 interface DisplayCellProps extends HTMLAttributes<HTMLDivElement> {
   leftSection?: ReactNode;
@@ -24,7 +24,7 @@ const DisplayCell = forwardRef<HTMLDivElement, DisplayCellProps>(
     } = props;
     return (
       <div
-        className={twMerge(
+        className={cn(
           `relative
           flex
           h-11
@@ -35,9 +35,9 @@ const DisplayCell = forwardRef<HTMLDivElement, DisplayCellProps>(
           overflow-hidden 
           whitespace-pre-line
           break-words 
-          rounded
           border
           border-solid
+          border-transparent
           bg-white
           px-2
           text-sm
@@ -46,19 +46,20 @@ const DisplayCell = forwardRef<HTMLDivElement, DisplayCellProps>(
           outline-none
           read-only:bg-transparent 
           read-only:outline-none 
-          focus:border-sky-600 
+          hover:rounded 
+          focus:border-sky-600
           dark:bg-stone-800
           dark:text-stone-600
-          dark:outline-none
+          dark:outline-none 
           dark:read-only:bg-transparent 
-          dark:read-only:outline-none 
+        dark:read-only:outline-none
         dark:focus:border-sky-600`,
-          className,
           disabled && " bg-transparent text-gray-500",
           focus
-            ? "border-sky-600 dark:border-sky-600"
-            : "border-gray-400 dark:border-stone-600",
-          error && "border-red-500 dark:border-red-500"
+            ? "rounded border-sky-600 dark:border-sky-600"
+            : "border-b-gray-400 hover:border-gray-400 dark:border-b-stone-600 dark:hover:border-stone-600",
+          error && "border-red-500 dark:border-red-500",
+          className
         )}
         {...moreProps}
         ref={ref}

@@ -14,7 +14,7 @@ const UserListItem = (props: UserListItemProps) => {
   return (
     <DefaultListItem
       firstElement={value ? truncString(value?.name ?? "", 40) : "⸺"}
-      secondElement={value ? truncString(value?.username ?? "", 40) : "⸺"}
+      secondElement={value ? truncString(value?.username ?? "", 40) : " "}
       avatarElement={`${value?.name?.[0]}${value?.name?.split(" ")?.[1]?.[0]}`}
       {...props}
     />

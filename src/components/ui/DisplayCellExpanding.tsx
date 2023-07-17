@@ -1,3 +1,4 @@
+import { cn } from "@/utils/cn";
 import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 
 interface DisplayCellProps extends HTMLAttributes<HTMLDivElement> {
@@ -21,42 +22,46 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
     } = props;
     return (
       <div
-        className={`
-        relative
-        flex
-        min-h-[2.75rem]
-        w-full
-        resize-none
-        items-center
-        gap-2
-        overflow-hidden
-        whitespace-pre-line 
-        break-words
-        rounded 
-        border
-        border-solid
-        bg-white
-        px-2
-        text-sm
-        leading-normal
-        text-stone-800
-        outline-none
-        read-only:bg-transparent
-        read-only:outline-none 
-        focus:border-sky-600 
+        className={cn(
+          `before:inset
+          relative
+          flex
+          min-h-[2.75rem]
+          w-full
+          resize-none
+          items-center
+          gap-2
+          overflow-hidden 
+          whitespace-pre-line
+          break-words
+          border
+          border-b
+          border-solid
+          border-transparent
+          bg-white
+          px-2
+          text-sm
+          leading-normal
+          text-stone-800 
+          outline-none
+          transition-all
+         
+          read-only:bg-transparent 
+          read-only:outline-none 
+          hover:rounded
+        focus:border-sky-600
         dark:bg-stone-800
         dark:text-stone-200
         dark:outline-none
-        dark:read-only:bg-transparent 
-        dark:read-only:outline-none 
-      dark:focus:border-sky-600 
-      ${className ?? ""} ${disabled ? " bg-transparent text-gray-500" : ""} 
-      ${
-        focus
-          ? "border-sky-600 dark:border-sky-600"
-          : "border-gray-400 dark:border-stone-600"
-      }
-      `}
+        dark:read-only:bg-transparent
+        dark:read-only:outline-none
+        dark:focus:border-sky-600`,
+          disabled ? " bg-transparent text-gray-500" : "",
+          focus
+            ? "rounded border-sky-600 dark:border-sky-600"
+            : "border-b-gray-400 hover:border-gray-400 dark:border-b-stone-600 dark:hover:border-stone-600",
+          className
+        )}
         {...moreProps}
         ref={ref}
       >

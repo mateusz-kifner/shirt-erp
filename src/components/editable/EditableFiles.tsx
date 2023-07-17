@@ -140,12 +140,7 @@ const EditableFiles = (props: EditableFilesProps) => {
   };
 
   return (
-    <div
-      // onClick={() => !disabled && setFocus(true)}
-      // onFocus={() => !disabled && setFocus(true)}
-      // ref={refClickOutside}
-      onDragEnter={handleDrag}
-    >
+    <div onDragEnter={handleDrag}>
       <Label
         label={label}
         copyValue={value?.reduce(
@@ -182,24 +177,24 @@ const EditableFiles = (props: EditableFilesProps) => {
           onDragOver={handleDrag}
           onDrop={handleDrop}
         >
-          {files.length > 0
-            ? files.map((file, index) => (
-                <FileListItem
-                  key={`${uuid}_${file.id}_${file.filename}`}
-                  value={file}
-                  onPreview={(url, width, height) => {
-                    setPreview({
-                      url,
-                      width: width ?? 300,
-                      height: height ?? 300,
-                    });
-                    setPreviewOpened(true);
-                  }}
-                  style={{ flexGrow: 1 }}
-                  contextMenuContent={
-                    !disabled && (
-                      <>
-                        {/* <RadixContextMenu.Item
+          {files.length > 0 ? (
+            files.map((file, index) => (
+              <FileListItem
+                key={`${uuid}_${file.id}_${file.filename}`}
+                value={file}
+                onPreview={(url, width, height) => {
+                  setPreview({
+                    url,
+                    width: width ?? 300,
+                    height: height ?? 300,
+                  });
+                  setPreviewOpened(true);
+                }}
+                style={{ flexGrow: 1 }}
+                contextMenuContent={
+                  !disabled && (
+                    <>
+                      {/* <RadixContextMenu.Item
                           className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600"
                           disabled={index === 0}
                         >
@@ -211,30 +206,30 @@ const EditableFiles = (props: EditableFilesProps) => {
                         >
                           <IconArrowDown /> Down
                         </RadixContextMenu.Item> */}
-                        <RadixContextMenu.Item className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600">
-                          <IconTrashX /> Delete
-                        </RadixContextMenu.Item>
-                      </>
-                    )
-                  }
-                />
-              ))
-            : !uploading && (
-                <div
-                  className={`flex h-24 items-center justify-center gap-2 rounded-t border-l border-r border-t border-solid border-gray-400 dark:border-stone-600 ${
-                    dragActive ? "text-xl" : ""
-                  }`}
-                >
-                  {dragActive ? (
-                    <>
-                      <IconUpload size={44} />
-                      {t.drop_files_here}
+                      <RadixContextMenu.Item className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600">
+                        <IconTrashX /> Delete
+                      </RadixContextMenu.Item>
                     </>
-                  ) : (
-                    "Brak plików"
-                  )}
-                </div>
+                  )
+                }
+              />
+            ))
+          ) : (
+            <div
+              className={`flex h-24 items-center justify-center gap-2 rounded-t border-l border-r border-t border-solid border-gray-400 dark:border-stone-600 ${
+                dragActive ? "text-xl" : ""
+              }`}
+            >
+              {dragActive ? (
+                <>
+                  <IconUpload size={44} />
+                  {t.drop_files_here}
+                </>
+              ) : (
+                "Brak plików"
               )}
+            </div>
+          )}
           <div className="relative w-full">
             <label
               htmlFor={"file" + uuid}

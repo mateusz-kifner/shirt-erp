@@ -1,7 +1,12 @@
 import type { ComponentType, CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
-import { IconBuildingCommunity, IconCalendar, IconCash, IconNumbers } from "@tabler/icons-react";
+import {
+  IconBuildingCommunity,
+  IconCalendar,
+  IconCash,
+  IconNumbers,
+} from "@tabler/icons-react";
 
 // Editable imports
 import EditableAddress from "@/components/editable/EditableAddress";

@@ -53,7 +53,7 @@ const FileListItem = (props: FileListItemProps) => {
             alt=""
             width={100}
             height={100}
-            className="h-[100px] w-[100px]  border-none border-gray-400 object-cover dark:border-stone-600"
+            className="h-[100px] w-[100px]  border-b-0 border-l-0 border-r border-t-0 border-gray-400 object-cover dark:border-stone-600"
           />
 
           {preview && onPreview && (
