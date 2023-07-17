@@ -4,8 +4,8 @@ import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
-import { Label } from "../ui/Label";
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number;

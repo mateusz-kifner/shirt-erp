@@ -1,3 +1,6 @@
+import Button from "@/components/ui/Button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { Input } from "@/components/ui/Input";
 import useTranslation from "@/hooks/useTranslation";
 import ClientListItem from "@/page-components/erp/client/ClientListItem";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
@@ -6,9 +9,6 @@ import { useDebouncedValue, useHotkeys } from "@mantine/hooks";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useId, useState } from "react";
-import Button from "../ui/Button";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/Dialog";
-import { Input } from "../ui/Input";
 
 interface SearchProps {}
 

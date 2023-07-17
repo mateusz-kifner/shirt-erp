@@ -14,6 +14,8 @@ import {
 } from "@tabler/icons-react";
 
 import { buttonVariants } from "@/components/ui/Button";
+import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Label } from "@/components/ui/Label";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import type EditableInput from "@/schema/EditableInput";
@@ -21,8 +23,6 @@ import { type FileType } from "@/schema/fileSchema";
 import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
-import { Dialog, DialogContent } from "../ui/Dialog";
-import { Label } from "../ui/Label";
 
 // FIXME: ENFORCE FILE LIMIT
 

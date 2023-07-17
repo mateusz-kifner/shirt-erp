@@ -6,9 +6,9 @@ import { isEqual, omit } from "lodash";
 
 import Button from "@/components/ui/Button";
 
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
-import { Label } from "../ui/Label";
 
 // fixme submit only on edit end
 

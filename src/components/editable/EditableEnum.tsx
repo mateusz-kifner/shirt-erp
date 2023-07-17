@@ -1,15 +1,15 @@
-import useTranslation from "@/hooks/useTranslation";
-import type EditableInput from "@/schema/EditableInput";
-import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
-import { useId } from "react";
-import { Label } from "../ui/Label";
+import { Label } from "@/components/ui/Label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "@/components/ui/Select";
+import useTranslation from "@/hooks/useTranslation";
+import type EditableInput from "@/schema/EditableInput";
+import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
+import { useId } from "react";
 
 // EditableInput<T> {
 //   label?: string;

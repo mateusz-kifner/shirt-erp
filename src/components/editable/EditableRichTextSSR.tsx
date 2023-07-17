@@ -15,6 +15,9 @@ import StarterKit from "@tiptap/starter-kit";
 
 import preventLeave from "@/utils/preventLeave";
 
+import Button from "@/components/ui/Button";
+import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import {
   IconAlignCenter,
@@ -38,9 +41,6 @@ import {
   IconSuperscript,
   IconUnderline,
 } from "@tabler/icons-react";
-import Button from "../ui/Button";
-import DisplayCellExpanding from "../ui/DisplayCellExpanding";
-import { Label } from "../ui/Label";
 
 // TODO: refactor buttons rendering
 

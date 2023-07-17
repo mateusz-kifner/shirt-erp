@@ -1,9 +1,9 @@
+import { buttonVariants } from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { cn } from "@/utils/cn";
 import { useElementSize } from "@mantine/hooks";
 import { IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
-import { buttonVariants } from "../ui/Button";
 import Messages from "./Messages";
 import Notifications from "./Notifications";
 import Search from "./Search";

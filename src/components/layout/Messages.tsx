@@ -1,6 +1,10 @@
+import Button from "@/components/ui/Button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import { IconMessageCircle2 } from "@tabler/icons-react";
-import Button from "../ui/Button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 interface MessagesProps {}
 

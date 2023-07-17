@@ -12,6 +12,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 
+import Button from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 import {
   IconCategory,
   IconColorSwatch,
@@ -30,11 +43,6 @@ import {
   useState,
   type ComponentType,
 } from "react";
-import Button from "../ui/Button";
-import { Input } from "../ui/Input";
-import { Label } from "../ui/Label";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 
 const colorPickerSwatches = [
   "#000e1c",

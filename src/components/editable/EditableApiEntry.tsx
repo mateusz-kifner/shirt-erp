@@ -8,11 +8,11 @@ import Link from "next/link";
 import Button, { buttonVariants } from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
 
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/Dialog";
-import { Label } from "../ui/Label";
 
 interface EditableApiEntryProps extends EditableInput<any> {
   entryName: string;

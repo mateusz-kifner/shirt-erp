@@ -2,8 +2,8 @@ import { ReactNode, useId, useState } from "react";
 
 import Button from "@/components/ui/Button";
 
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
-import { Label } from "../ui/Label";
 
 interface EditableApiIconIdProps extends EditableInput<number> {
   icons?: ReactNode[];

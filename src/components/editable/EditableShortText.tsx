@@ -3,10 +3,10 @@ import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
+import DisplayCell from "@/components/ui/DisplayCell";
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
-import DisplayCell from "../ui/DisplayCell";
-import { Label } from "../ui/Label";
 
 interface EditableShortTextProps extends EditableInput<string> {
   maxLength?: number;

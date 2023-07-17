@@ -7,9 +7,9 @@ import EditableEnum from "@/components/editable/EditableEnum";
 import EditableText from "@/components/editable/EditableText";
 
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { type AddressType } from "@/schema/addressSchema";
-import { Label } from "../ui/Label";
 
 const provinces = [
   "dolnośląskie",

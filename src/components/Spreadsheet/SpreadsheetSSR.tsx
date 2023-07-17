@@ -21,11 +21,11 @@ import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
+import Button from "@/components/ui/Button";
+import { ScrollArea } from "@/components/ui/ScrollArea";
+import SimpleTooltip from "@/components/ui/SimpleTooltip";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
-import Button from "../ui/Button";
-import { ScrollArea } from "../ui/ScrollArea";
-import SimpleTooltip from "../ui/SimpleTooltip";
 
 interface EditableTableProps {
   id: number;

@@ -12,16 +12,20 @@ import { useClickOutside } from "@mantine/hooks";
 import colorNames from "@/utils/color-names.json";
 import preventLeave from "@/utils/preventLeave";
 
+import Button from "@/components/ui/Button";
 import InputColor from "@/components/ui/ColorPicker/InputColor";
+import DisplayCell from "@/components/ui/DisplayCell";
+import { Label } from "@/components/ui/Label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import type EditableInput from "@/schema/EditableInput";
 import equalHSV from "@/utils/equalHSV";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconColorSwatch } from "@tabler/icons-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
-import Button from "../ui/Button";
-import DisplayCell from "../ui/DisplayCell";
-import { Label } from "../ui/Label";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
 

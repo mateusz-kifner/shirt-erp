@@ -1,7 +1,7 @@
 import { useId } from "react";
 
+import { Input } from "@/components/ui/Input";
 import type EditableInput from "@/schema/EditableInput";
-import { Input } from "../ui/Input";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableJSONProps extends EditableInput<string> {}

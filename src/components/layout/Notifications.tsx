@@ -5,8 +5,12 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 
-import Button from "../ui/Button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
+import Button from "@/components/ui/Button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();

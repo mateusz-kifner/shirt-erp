@@ -12,8 +12,8 @@ import dayjs from "dayjs";
 import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
 
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
-import { Label } from "../ui/Label";
 
 // TODO: make it editable
 // BUG: clicking on label causes copy onClick to occur.

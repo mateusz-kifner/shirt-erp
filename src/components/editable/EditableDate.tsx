@@ -6,15 +6,19 @@ import { useRouter } from "next/router";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 
+import Button from "@/components/ui/Button";
+import { Label } from "@/components/ui/Label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/Popover";
 import type EditableInput from "@/schema/EditableInput";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import { handleFocusForInnerElements } from "@/utils/handleFocusForInnerElements";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconCalendar } from "@tabler/icons-react";
 import Calendar from "react-calendar";
-import Button from "../ui/Button";
-import { Label } from "../ui/Label";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 type InputDateProps = EditableInput<Date>;
 
