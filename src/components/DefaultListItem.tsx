@@ -29,13 +29,14 @@ export function DefaultListItem<T extends { id?: number | null }>({
   return (
     <Button
       variant="ghost"
-      className={`h-14 flex-grow rounded border-none px-2
-      py-0
-        ${
-          active
-            ? "bg-black bg-opacity-10 dark:bg-white dark:bg-opacity-10"
-            : ""
-        }`}
+      className={`
+        flex
+        h-14
+        flex-grow
+        rounded
+        border-none px-2
+        py-0
+        ${active ? "bg-black/10 dark:bg-white/10" : ""}`}
       disabled={disabled}
       onClick={() => onChange?.(value)}
       leftSection={leftSection}

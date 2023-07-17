@@ -1,5 +1,5 @@
-import { getRandomColorByNumber } from "@/utils/getRandomColor";
 import { truncString } from "@/utils/truncString";
+import { DefaultListItem } from "./DefaultListItem";
 
 interface DefaultListItemWithValueProps<T> {
   onChange?: (item: T) => void;
@@ -29,11 +29,9 @@ export function DefaultListItemWithValue<
   T extends { id?: number | null; [key: string]: any }
 >({
   value,
-  onChange,
   entryKey,
   entryKey2,
-  active,
-  disabled,
+  ...moreProps
 }: DefaultListItemWithValueProps<T>) {
   // start from 1, because 0 is id
   const firstElement: string | null = value
@@ -50,37 +48,10 @@ export function DefaultListItemWithValue<
     : null;
 
   return (
-    <button
-      className={`button button-outline h-14 flex-grow rounded border-none px-2
-      py-0
-            ${
-              active
-                ? "bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-10"
-                : ""
-            }`}
-      disabled={disabled}
-      onClick={() => onChange?.(value)}
-    >
-      {value && (
-        <div
-          className="flex h-10 w-10 select-none items-center justify-center rounded-full text-base font-bold text-stone-800 dark:text-stone-200"
-          style={{
-            background: `radial-gradient(circle, transparent 58%, ${getRandomColorByNumber(
-              value.id
-            )}  60%)`,
-          }}
-        >
-          {" "}
-        </div>
-      )}
-      <div className="flex flex-grow flex-col items-start gap-2">
-        <span className="text-sm text-stone-800 dark:text-stone-200">
-          {firstElement ? truncString(firstElement, 40) : "⸺"}
-        </span>
-        <span className="text-xs text-stone-600 dark:text-stone-400">
-          {secondElement && truncString(secondElement, 40)}
-        </span>
-      </div>
-    </button>
+    <DefaultListItem
+      value={value}
+      firstElement={firstElement ? truncString(firstElement, 40) : "⸺"}
+      secondElement={secondElement && truncString(secondElement, 40)}
+    />
   );
 }

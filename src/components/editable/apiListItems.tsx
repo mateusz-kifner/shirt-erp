@@ -11,6 +11,7 @@ import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import { truncString } from "@/utils/truncString";
 
 import ProductListItem from "@/page-components/erp/product/ProductListItem";
+import UserListItem from "@/page-components/erp/user/UserListItem";
 import { type ClientType } from "@/schema/clientSchema";
 import { type OrderType } from "@/schema/orderSchema";
 import { type ProductType } from "@/schema/productSchema";
@@ -33,22 +34,22 @@ const apiListItems = {
         ? truncString(`${value.firstname ?? ""} ${value.lastname ?? ""}`, 40)
         : truncString(value?.username ? value.username : "", 40),
   },
-  products: {
+  product: {
     ListItem: ProductListItem,
     copyProvider: (value: ProductType) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },
-  // users: {
-  //   ListItem: UserListItem,
-  //   copyProvider: (value: any) =>
-  //     value?.username ? truncString(value.username, 40) : undefined,
-  // },
-  orders: {
+  user: {
+    ListItem: UserListItem,
+    copyProvider: (value: any) =>
+      value?.username ? truncString(value.username, 40) : undefined,
+  },
+  order: {
     ListItem: OrderListItem,
     copyProvider: (value: OrderType) =>
       value?.name ? truncString(value.name, 40) : undefined,
   },
-  "orders-archive": {
+  "order-archive": {
     ListItem: OrderListItem,
     copyProvider: (value: OrderType) =>
       value?.name ? truncString(value.name, 40) : undefined,
