@@ -33,6 +33,36 @@ export default {
             transform: "scale(1)",
           },
         },
+        "border-from-bottom": {
+          "0%": {
+            backgroundSize: "100% 100%,100% 100%",
+          },
+          "2%": {
+            backgroundSize: "100% 100%,102% 10%",
+          },
+          "10%": {
+            backgroundSize: "100% 100%,140% 10%",
+          },
+          "12%": {
+            backgroundSize: "100% 100%,300% 10%",
+          },
+          "18%": {
+            backgroundSize: "50% 100%,400% 200%",
+          },
+          "24%": {
+            backgroundSize: "0% 100%,400% 200%",
+          },
+          "36%": {
+            backgroundSize: "0% 100%,400% 200%",
+          },
+          "48%": {
+            backgroundSize: "0% 100%,400% 200%",
+          },
+          "100%": {
+            backgroundSize: "0% 100%,400% 200%",
+          },
+        },
+
         show: {
           from: { opacity: "0" },
           to: { opacity: "1" },
@@ -51,9 +81,17 @@ export default {
         pop: "pop  0.25s cubic-bezier(0.16, 1, 0.3, 1)",
         show: "show 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         contentShow: "contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "border-from-bottom": "border-from-bottom 1000ms ease-out forwards",
       },
       opacity: {
         15: ".15",
+      },
+      backgroundImage: {
+        "gradient-circle": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-ellipse-b":
+          "radial-gradient(ellipse at bottom,var(--tw-gradient-stops))",
+        "gradient-ellipse-t":
+          "radial-gradient(ellipse at top,var(--tw-gradient-stops))",
       },
     },
   },

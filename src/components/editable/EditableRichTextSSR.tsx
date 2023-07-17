@@ -313,6 +313,7 @@ const EditableRichText = ({
         leftSection={!focus && leftSection}
         rightSection={!focus && rightSection}
         className="py-2.5"
+        focus={focus}
       >
         {focus ? (
           <div className="flex flex-grow flex-col">

@@ -115,7 +115,7 @@ const ApiEntryEditable = <EntryType,>({
         <Button
           size="icon"
           variant="outline"
-          className="fixed right-4 top-[5.5] h-11 w-11 rounded-full border border-solid  border-gray-400  bg-white  dark:border-stone-600 dark:bg-stone-800 dark:hover:bg-stone-700"
+          className="fixed right-4 top-[5.5] z-10 h-11 w-11 rounded-full border border-solid  border-gray-400  bg-white  dark:border-stone-600 dark:bg-stone-800 dark:hover:bg-stone-700"
           onClick={() => {
             refetch().catch(() => {
               /**/
