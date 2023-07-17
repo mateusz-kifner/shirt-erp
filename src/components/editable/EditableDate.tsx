@@ -57,7 +57,9 @@ const EditableDate = (props: InputDateProps) => {
   useEffect(() => {
     if (debouncedText.length === 0) {
       setError(false);
-      onSubmit?.(null);
+      if (value !== null) {
+        onSubmit?.(null);
+      }
       return;
     }
 
@@ -108,7 +110,7 @@ const EditableDate = (props: InputDateProps) => {
             </PopoverTrigger>
             <PopoverContent
               align="end"
-              className="w-96 rounded border-gray-400 bg-white p-2 dark:border-stone-600 dark:bg-stone-900"
+              className="flex w-96 justify-center rounded border-gray-400 bg-white p-2 dark:border-stone-600 dark:bg-stone-900"
             >
               <Calendar
                 onChange={(date) => {

@@ -86,8 +86,6 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
     });
   }, [selectedId]);
 
-  console.log(data);
-
   return (
     <div className="flex flex-col gap-4 text-stone-900 dark:text-stone-100 ">
       <div className="flex flex-col gap-2">
