@@ -43,9 +43,11 @@ const EditableNumber = (props: EditableNumberProps) => {
   };
   const [text, setText] = useState<string>(toText(value));
   const [focus, setFocus] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
   const outerRef = useClickOutside(() => setFocus(false));
   const onFocus = () => !disabled && setFocus(true);
+  let isNumRegex = /^[\d|\+|\.|\,]+$/;
 
   const onSubmitValue = (text: string) => {
     const num = parseFloat(text);
@@ -54,7 +56,6 @@ const EditableNumber = (props: EditableNumberProps) => {
         onSubmit?.(null);
       }
     } else if (num !== value) {
-      console.log(num);
       onSubmit?.(num);
     }
   };
@@ -87,7 +88,8 @@ const EditableNumber = (props: EditableNumberProps) => {
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length < maxLength) {
-      setText(e.target.value);
+      setText(e.target.value.replace(",", "."));
+      setError(!isNumRegex.test(e.target.value));
     }
   };
 
@@ -125,6 +127,7 @@ const EditableNumber = (props: EditableNumberProps) => {
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
+        error={error}
       >
         <input
           id={"short_text_" + uuid}
