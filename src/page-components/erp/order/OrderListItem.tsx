@@ -62,7 +62,9 @@ const OrderListItem = (props: OrderListItemProps) => {
           value?.status === "rejected" ||
           value?.status === "archived" ||
           value?.status === "sent"
-        ) && timeLeft !== null ? (
+        ) &&
+        timeLeft !== null &&
+        value.dateOfCompletion !== null ? (
           <IconCalendarTime size={18} stroke={color} />
         ) : undefined
       }

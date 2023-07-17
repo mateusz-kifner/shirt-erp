@@ -9,6 +9,7 @@ import DisplayCell from "@/components/ui/DisplayCell";
 import type EditableInput from "@/schema/EditableInput";
 import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import { handleFocusForInnerElements } from "@/utils/handleFocusForInnerElements";
+import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconCalendar } from "@tabler/icons-react";
 import Calendar from "react-calendar";
 import Button from "../ui/Button";
@@ -45,10 +46,7 @@ const EditableDate = (props: InputDateProps) => {
 
   useEffect(() => {
     if (focus && !calendarOpened) {
-      inputDateRef.current?.focus();
-      inputDateRef.current?.selectionStart &&
-        (inputDateRef.current.selectionStart =
-          inputDateRef.current.value.length);
+      inputFocusAtEndOfLine(inputDateRef);
     }
   }, [focus]);
 

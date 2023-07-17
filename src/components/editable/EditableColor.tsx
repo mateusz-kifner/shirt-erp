@@ -15,6 +15,7 @@ import preventLeave from "@/utils/preventLeave";
 import InputColor from "@/components/ui/ColorPicker/InputColor";
 import type EditableInput from "@/schema/EditableInput";
 import equalHSV from "@/utils/equalHSV";
+import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconColorSwatch } from "@tabler/icons-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
 import Button from "../ui/Button";
@@ -137,7 +138,7 @@ const EditableColor = (props: EditableColorProps) => {
 
   useEffect(() => {
     if (focus) {
-      inputRef.current?.focus();
+      inputFocusAtEndOfLine(inputRef);
       window.addEventListener("beforeunload", preventLeave);
     } else {
       onLoseFocus();

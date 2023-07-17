@@ -4,6 +4,7 @@ import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
 import type EditableInput from "@/schema/EditableInput";
+import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import DisplayCell from "../ui/DisplayCell";
 import { Label } from "../ui/Label";
 
@@ -34,10 +35,8 @@ const EditableShortText = (props: EditableShortTextProps) => {
   // const t = useTranslation();
   useEffect(() => {
     if (focus) {
+      inputFocusAtEndOfLine(InputRef);
       window.addEventListener("beforeunload", preventLeave);
-      InputRef.current?.focus();
-      InputRef.current?.selectionStart &&
-        (InputRef.current.selectionStart = InputRef.current.value.length);
     } else {
       if (text !== (value ?? "")) {
         onSubmit?.(text);

@@ -1,11 +1,11 @@
+import { useClickOutside } from "@mantine/hooks";
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
-import preventLeave from "@/utils/preventLeave";
-
+import DisplayCell from "@/components/ui/DisplayCell";
+import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
-import { useClickOutside } from "@mantine/hooks";
-import DisplayCell from "../ui/DisplayCell";
-import { Label } from "../ui/Label";
+import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
+import preventLeave from "@/utils/preventLeave";
 
 interface EditableNumberProps extends EditableInput<number> {
   maxLength?: number;
@@ -35,24 +35,35 @@ const EditableNumber = (props: EditableNumberProps) => {
     ...moreProps
   } = props;
   const uuid = useId();
-  const [text, setText] = useState<string>(
-    !(value === undefined || isNaN(value)) ? value.toFixed(fixed) : ""
-  );
+  const toText = (num?: number | null) => {
+    if (value === null) return "";
+    if (value === undefined) return "";
+    if (isNaN(value)) return "";
+    return value.toFixed(fixed);
+  };
+  const [text, setText] = useState<string>(toText(value));
   const [focus, setFocus] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
   const outerRef = useClickOutside(() => setFocus(false));
 
-  // const t = useTranslation();
+  const onSubmitValue = (text: string) => {
+    const num = parseFloat(text);
+    if (isNaN(num)) {
+      if (!isNaN(value ?? NaN)) {
+        onSubmit?.(null);
+      }
+    } else if (num !== value) {
+      console.log(num);
+      onSubmit?.(num);
+    }
+  };
+
   useEffect(() => {
     if (focus) {
+      inputFocusAtEndOfLine(InputRef);
       window.addEventListener("beforeunload", preventLeave);
-      InputRef.current?.focus();
-      InputRef.current?.selectionStart &&
-        (InputRef.current.selectionStart = InputRef.current.value.length);
     } else {
-      if (parseFloat(text) !== value) {
-        onSubmit?.(parseFloat(text));
-      }
+      onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     }
     // eslint-disable-next-line
@@ -60,9 +71,7 @@ const EditableNumber = (props: EditableNumberProps) => {
 
   useEffect(() => {
     return () => {
-      if (parseFloat(text) !== value) {
-        onSubmit?.(parseFloat(text));
-      }
+      onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     };
     // eslint-disable-next-line
@@ -70,9 +79,7 @@ const EditableNumber = (props: EditableNumberProps) => {
 
   useEffect(() => {
     if (parseFloat(text) !== value) {
-      const new_value = !(value === undefined || isNaN(value))
-        ? value.toFixed(fixed)
-        : "";
+      const new_value = toText(value);
       setText(new_value);
     }
   }, [value]);
