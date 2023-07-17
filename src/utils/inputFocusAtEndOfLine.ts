@@ -1,6 +1,8 @@
 import { RefObject } from "react";
 
-function inputFocusAtEndOfLine(ref: RefObject<HTMLInputElement>) {
+function inputFocusAtEndOfLine(
+  ref: RefObject<HTMLInputElement | HTMLTextAreaElement>
+) {
   ref.current?.focus();
   ref.current?.selectionStart &&
     (ref.current.selectionStart = ref.current.value.length);

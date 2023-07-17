@@ -1,12 +1,12 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
-import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
+import { useClickOutside } from "@mantine/hooks";
 
 interface EditableShortTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -31,6 +31,8 @@ const EditableShortText = (props: EditableShortTextProps) => {
   const [text, setText] = useState<string>(value ?? "");
   const [focus, setFocus] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
+  const outerRef = useClickOutside(() => setFocus(false));
+  const onFocus = () => !disabled && setFocus(true);
 
   // const t = useTranslation();
   useEffect(() => {
@@ -80,9 +82,9 @@ const EditableShortText = (props: EditableShortTextProps) => {
   return (
     <div
       className="flex-grow"
-      onClick={() => !disabled && setFocus(true)}
-      onFocus={() => !disabled && setFocus(true)}
-      onBlur={handleBlurForInnerElements(() => setFocus(false))}
+      onClick={onFocus}
+      onFocus={onFocus}
+      ref={outerRef}
     >
       <Label label={label} copyValue={text} htmlFor={"short_text_" + uuid} />
       <DisplayCell
@@ -113,8 +115,8 @@ const EditableShortText = (props: EditableShortTextProps) => {
           ${className ?? ""}`}
           style={style}
           value={text}
-          onFocus={() => !disabled && setFocus(true)}
-          onClick={() => !disabled && setFocus(true)}
+          onFocus={onFocus}
+          onClick={onFocus}
           onChange={onChangeInput}
           onKeyDown={onKeyDownInput}
           maxLength={maxLength}

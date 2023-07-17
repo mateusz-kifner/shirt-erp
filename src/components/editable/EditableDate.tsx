@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 
-import { useDebouncedValue } from "@mantine/hooks";
+import { useClickOutside, useDebouncedValue } from "@mantine/hooks";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
@@ -14,8 +14,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover";
 import type EditableInput from "@/schema/EditableInput";
-import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
-import { handleFocusForInnerElements } from "@/utils/handleFocusForInnerElements";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconCalendar } from "@tabler/icons-react";
 import Calendar from "react-calendar";
@@ -47,6 +45,8 @@ const EditableDate = (props: InputDateProps) => {
   const inputDateRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<boolean>(false);
   const [calendarOpened, setCalendarOpened] = useState<boolean>(false);
+  const outerRef = useClickOutside(() => setFocus(false));
+  const onFocus = () => !disabled && setFocus(true);
 
   useEffect(() => {
     if (focus && !calendarOpened) {
@@ -79,12 +79,11 @@ const EditableDate = (props: InputDateProps) => {
   }, [debouncedText]);
 
   return (
-    <div className="relative flex-grow">
+    <div className="relative flex-grow" ref={outerRef}>
       <Label label={label} copyValue={text} htmlFor={"inputDate_" + uuid} />
       <DisplayCell
-        onFocus={handleFocusForInnerElements(() => setFocus(true))}
-        onBlur={handleBlurForInnerElements(() => setFocus(false))}
-        onClick={() => setFocus(true)}
+        onFocus={onFocus}
+        onClick={onFocus}
         className={"px-2"}
         error={error}
         leftSection={leftSection}
@@ -135,6 +134,8 @@ const EditableDate = (props: InputDateProps) => {
           onChange={(e) => {
             setText(e.target.value);
           }}
+          onClick={onFocus}
+          onFocus={onFocus}
           className="
               data-disabled:text-gray-500
               dark:data-disabled:text-gray-500

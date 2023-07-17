@@ -1,11 +1,12 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
-import { handleBlurForInnerElements } from "@/utils/handleBlurForInnerElements";
 import preventLeave from "@/utils/preventLeave";
 
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
+import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
+import { useClickOutside } from "@mantine/hooks";
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -30,18 +31,24 @@ const EditableText = (props: EditableTextProps) => {
   const [text, setText] = useState<string>(value ?? "");
   const [focus, setFocus] = useState<boolean>(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const outerRef = useClickOutside(() => setFocus(false));
+  const onFocus = () => !disabled && setFocus(true);
 
+  const onSubmitValue = (text: string) => {
+    // if text empty submit null
+    if (text.length === 0 && value !== null) {
+      onSubmit?.(null);
+    } else if (text !== (value ?? "")) {
+      onSubmit?.(text);
+    }
+  };
   // const t = useTranslation();
   useEffect(() => {
     if (focus) {
+      inputFocusAtEndOfLine(textAreaRef);
       window.addEventListener("beforeunload", preventLeave);
-      textAreaRef.current &&
-        (textAreaRef.current.selectionStart = textAreaRef.current.value.length);
-      textAreaRef.current && textAreaRef.current.focus();
     } else {
-      if (text !== (value ?? "")) {
-        onSubmit?.(text);
-      }
+      onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     }
     // eslint-disable-next-line
@@ -49,9 +56,7 @@ const EditableText = (props: EditableTextProps) => {
 
   useEffect(() => {
     return () => {
-      if (text !== (value ?? "")) {
-        onSubmit?.(text);
-      }
+      onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     };
     // eslint-disable-next-line
@@ -93,9 +98,9 @@ const EditableText = (props: EditableTextProps) => {
   return (
     <div
       className="flex-grow"
-      onClick={() => !disabled && setFocus(true)}
-      onFocus={() => !disabled && setFocus(true)}
-      onBlur={handleBlurForInnerElements(() => setFocus(false))}
+      onClick={onFocus}
+      onFocus={onFocus}
+      ref={outerRef}
     >
       <Label label={label} copyValue={text} htmlFor={"textarea_" + uuid} />
       <DisplayCellExpanding
@@ -128,8 +133,8 @@ const EditableText = (props: EditableTextProps) => {
           ${className ?? ""}`}
           style={style}
           value={text}
-          onFocus={() => !disabled && setFocus(true)}
-          onClick={() => !disabled && setFocus(true)}
+          onFocus={onFocus}
+          onClick={onFocus}
           onChange={onChangeTextarea}
           onKeyDown={onKeyDownTextarea}
           onInput={(e) => setTextAreaHeight(e.target as HTMLTextAreaElement)}

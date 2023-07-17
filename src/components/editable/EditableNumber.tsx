@@ -45,6 +45,7 @@ const EditableNumber = (props: EditableNumberProps) => {
   const [focus, setFocus] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
   const outerRef = useClickOutside(() => setFocus(false));
+  const onFocus = () => !disabled && setFocus(true);
 
   const onSubmitValue = (text: string) => {
     const num = parseFloat(text);
@@ -111,8 +112,6 @@ const EditableNumber = (props: EditableNumberProps) => {
       }
     }
   };
-
-  const onFocus = () => !disabled && setFocus(true);
 
   return (
     <div
