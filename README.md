@@ -2,7 +2,7 @@
 
 # ShirtERP
 
-System do zażądania drukarnią koszulek.
+System do zarządzania drukarnią koszulek.
 
 ![Produkty](.github/ShirtERP.png)
 ![Zamówienia](.github/ShirtERP2.png)
