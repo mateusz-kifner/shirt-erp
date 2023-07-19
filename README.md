@@ -11,9 +11,6 @@ System do zarządzania drukarnią koszulek.
 
 ### License Proprietary
 
-Wszystkie licencje na ShirtDipERP są ważne w ShirtERP, na identycznych zasadach.
-All licenses for ShirtDipERP carries out to ShirtERP, with the same terms.
-
 ### W przypadku chęci kupna systemu proszę o kontakt przez mail: kifner.mateusz(αt)gmail.com
 
 ### For business deals please contact me via mail: kifner.mateusz(αt)gmail.com
