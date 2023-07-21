@@ -12,12 +12,34 @@ import template from "@/templates/order.template";
 // import { OrderType } from "../../../types/OrderType"
 // import Editable from "../../../components/editable/Editable"
 import ApiEntryEditable from "@/components/ApiEntryEditable";
+import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
+import { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
+import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import Workspace from "@/components/Workspace";
+import { getColorNameFromHex } from "@/components/editable/EditableColor";
+import Button from "@/components/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderList from "@/page-components/erp/order/OrderList";
+import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconList, IconMail, IconNotebook } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconColorSwatch,
+  IconList,
+  IconMail,
+  IconNotebook,
+  IconPlus,
+  IconRobot,
+  IconRuler,
+} from "@tabler/icons-react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 // import { Button, Group, Menu, Stack, Text } from "@mantine/core"
@@ -43,6 +65,10 @@ const OrdersPage: NextPage = () => {
   );
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
+  const { data: orderData } = api.order.getById.useQuery(id as number, {
+    enabled: id !== null,
+  });
+  const t = useTranslation();
   // const { isSmall, hasTouch } = useAuthContext()
   // const isMobile = hasTouch || isSmall
   // const [openAddModal, setOpenAddModal] = useState<boolean>(false)
@@ -56,9 +82,9 @@ const OrdersPage: NextPage = () => {
     "loading" | "idle" | "error" | "success"
   >("idle");
   const childrenIcons = [
-    IconList, 
-    IconNotebook, 
-    IconMail
+    IconList,
+    IconNotebook,
+    IconMail,
     // ...((data && data?.tables && data?.tables.map(() => IconTable)) ?? []),
     // IconVector,
   ];
@@ -88,15 +114,73 @@ const OrdersPage: NextPage = () => {
     //   })
   };
 
-  // const metadata = data
-  //   ? data.products?.reduce(
-  //       (prev, next) => ({
-  //         ...prev,
-  //         [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },
-  //       }),
-  //       {}
-  //     )
-  //   : {}
+  const metadata = orderData
+    ? orderData?.products?.reduce(
+        (prev, next) => ({
+          ...prev,
+          [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },
+        }),
+        {}
+      )
+    : {};
+  const actionFill = (
+    table: UniversalMatrix,
+    metaId: number
+  ): [UniversalMatrix, string, any, any] => {
+    let pusta = true;
+    table: for (let y = 0; y < table.length; y++) {
+      for (let x = 0; x < table[0].length; x++) {
+        if (!(!table[y][x] || (table[y][x] && !table[y][x]?.value))) {
+          pusta = false;
+          break table;
+        }
+      }
+    }
+
+    if (pusta) {
+      let new_table: UniversalMatrix = [];
+      const product = (data?.products.filter((val) => val.id === metaId) || [
+        null,
+      ])[0];
+      const sizes = product?.variants?.sizes;
+      const colors = product?.variants?.colors;
+
+      for (let y = 0; y < colors.length + 1; y++) {
+        new_table.push([]);
+        for (let x = 0; x < sizes.length + 1; x++) {
+          if (y > 0 && x == 0) {
+            new_table[y].push({
+              value: getColorNameFromHex(colors[y - 1]),
+              metaId,
+              metaPropertyId: 0,
+            });
+          } else if (y == 0 && x > 0) {
+            new_table[y].push({
+              value: sizes[x - 1],
+              metaId,
+              metaPropertyId: 1,
+            });
+          } else {
+            new_table[y].push({ value: "" });
+          }
+        }
+      }
+
+      new_table = [
+        new_table[0].map((val, index) =>
+          index === 0 ? { value: product?.name } : undefined
+        ),
+
+        ...new_table,
+      ];
+
+      return [new_table, "Auto uzupełnienie się powiodło."];
+    }
+    return [
+      table,
+      "error: Tablica musi być pusta do operacji auto uzupełniania.",
+    ];
+  };
   // const table_template = {
   //   name: {
   //     label: "Nazwa arkusza",
@@ -230,6 +314,19 @@ const OrdersPage: NextPage = () => {
         childrenIcons={[IconList, IconNotebook]}
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
+        rightMenuSection={
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>
+                <IconPlus />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>{t.sheet}</DropdownMenuItem>
+              <DropdownMenuItem>{t.design}</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        }
       >
         <OrderList selectedId={id} onAddElement={() => setOpenAddModal(true)} />
         <ApiEntryEditable
@@ -238,6 +335,29 @@ const OrdersPage: NextPage = () => {
           id={id}
           allowDelete
         />
+        {orderData &&
+          orderData.spreadsheets.map((val) => (
+            <Spreadsheet
+              id={val.id}
+              metadata={metadata}
+              metadataVisuals={[
+                { icon: IconColorSwatch, label: "Color" },
+                { icon: IconRuler, label: "Size" },
+              ]}
+              metadataActions={[
+                {
+                  icon: IconRobot,
+                  label: "Auto uzupełnij",
+                  action: actionFill,
+                },
+                {
+                  icon: IconCheck,
+                  label: "Sprawdź poprawność pól",
+                  action: verifyMetadata,
+                },
+              ]}
+            />
+          ))}
       </Workspace>
       {/*
       <Workspace

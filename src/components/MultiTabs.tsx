@@ -253,13 +253,7 @@ const MultiTabs = (props: MultiTabsProps) => {
                   //   return new_arr;
                   // })
                 }
-                rightSection={
-                  !!rightSection ? (
-                    rightSection
-                  ) : isPinned ? (
-                    <IconPinned size={16} />
-                  ) : undefined
-                }
+                rightSection={isPinned ? <IconPinned size={16} /> : undefined}
                 isActive={active === index || isPinned}
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                 onClick={() => !isPinned && onActive(index)}
@@ -272,6 +266,7 @@ const MultiTabs = (props: MultiTabsProps) => {
               </Tab>
             );
           })}
+          {!!rightSection && rightSection}
         </div>
       </div>
     </Portal>

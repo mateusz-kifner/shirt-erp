@@ -4,19 +4,8 @@ import React, { useId, useMemo, useState } from "react";
 import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
 
 // Spreadsheet Imports
-import type {
-  ColumnIndicatorComponent,
-  CornerIndicatorComponent,
-  Point,
-  RowIndicatorComponent,
-} from "react-spreadsheet";
+import type { Point } from "react-spreadsheet";
 import Spreadsheet from "react-spreadsheet";
-import ColumnIndicator, {
-  enhance as enhanceColumnIndicator,
-} from "./ColumnIndicator";
-import CornerIndicator from "./CornerIndicator";
-import DataViewer from "./DataViewer";
-import RowIndicator, { enhance as enhanceRowIndicator } from "./RowIndicator";
 import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
@@ -40,7 +29,7 @@ interface EditableTableProps {
     action: (
       table: UniversalMatrix,
       metaId: number
-    ) => [UniversalMatrix, string];
+    ) => [UniversalMatrix, string, any, any];
   }[];
 }
 
@@ -179,25 +168,25 @@ const EditableTable = (props: EditableTableProps) => {
 
   // useEffect(() => {}, [disabled]);
 
-  const enhancedColumnIndicator = useMemo(
-    () =>
-      enhanceColumnIndicator(
-        ColumnIndicator,
-        onContextmenuColumn
-      ) as unknown as ColumnIndicatorComponent,
-    //eslint-disable-next-line
-    [openedColumn]
-  );
+  // const enhancedColumnIndicator = useMemo(
+  //   () =>
+  //     enhanceColumnIndicator(
+  //       ColumnIndicator,
+  //       onContextmenuColumn
+  //     ) as unknown as ColumnIndicatorComponent,
+  //   //eslint-disable-next-line
+  //   [openedColumn]
+  // );
 
-  const enhancedRowIndicator = useMemo(
-    () =>
-      enhanceRowIndicator(
-        RowIndicator,
-        onContextmenuRow
-      ) as unknown as RowIndicatorComponent,
-    //eslint-disable-next-line
-    [openedRow]
-  );
+  // const enhancedRowIndicator = useMemo(
+  //   () =>
+  //     enhanceRowIndicator(
+  //       RowIndicator,
+  //       onContextmenuRow
+  //     ) as unknown as RowIndicatorComponent,
+  //   //eslint-disable-next-line
+  //   [openedRow]
+  // );
 
   // const enhancedCell = useMemo(
   //   () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
@@ -494,15 +483,15 @@ const EditableTable = (props: EditableTableProps) => {
             setCanUpdate(mode === "view");
           }}
           onCellCommit={() => setCanUpdate(true)}
-          DataViewer={DataViewer}
+          // DataViewer={DataViewer}
           // DataEditor={disabled ? DataEditorDisabled : undefined}
           // Cell={enhancedCell}
           className="Spreadsheet"
-          ColumnIndicator={enhancedColumnIndicator}
-          RowIndicator={enhancedRowIndicator}
-          CornerIndicator={
-            CornerIndicator as unknown as CornerIndicatorComponent
-          }
+          // ColumnIndicator={enhancedColumnIndicator}
+          // RowIndicator={enhancedRowIndicator}
+          // CornerIndicator={
+          //   CornerIndicator as unknown as CornerIndicatorComponent
+          // }
         />
         <div style={{ height: 4 }}></div>
       </ScrollArea>

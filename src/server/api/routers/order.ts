@@ -40,6 +40,7 @@ const includeAll = {
   address: true,
   spreadsheets: true,
   designs: true,
+  products: true,
 };
 
 export const orderRouter = createTRPCRouter({
@@ -61,19 +62,28 @@ export const orderRouter = createTRPCRouter({
         "address",
         "designs",
         "spreadsheets",
+        "products",
       ]);
-      if (orderData.files?.length && orderData.files.length > 0) {
+      if (orderData.files?.length && orderData.files.length > 0)
         createData.files = { connect: [...orderData.files] };
-      }
+
+      if (orderData.products?.length && orderData.products.length > 0)
+        createData.products = {
+          connect: [...orderData.products.map((val) => ({ id: val.id }))],
+        };
+
       if (orderData.spreadsheets?.length && orderData.spreadsheets.length > 0)
         createData.spreadsheets = { create: { ...orderData.spreadsheets } };
+
       if (orderData.designs?.length && orderData.designs.length > 0)
         createData.designs = { create: { ...orderData.designs } };
-      if (orderData?.client?.id) {
+
+      if (orderData?.client?.id)
         createData.client = { connect: { id: orderData.client.id } };
-      }
+
       if (orderData.address)
         createData.address = { create: { ...orderData.address } };
+
       console.log(createData);
       const newOrder = await prisma.order.create({
         data: createData,
@@ -91,6 +101,7 @@ export const orderRouter = createTRPCRouter({
         files,
         client,
         address,
+        products,
         ...simpleOrderData
       } = orderData;
       // const originalOrder = await prisma.order.findUnique({

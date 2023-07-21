@@ -3,6 +3,7 @@ import { addressSchema } from "./addressSchema";
 import { clientSchema } from "./clientSchema";
 import { designSchema } from "./designSchema";
 import { fileSchema } from "./fileSchema";
+import { productSchema } from "./productSchema";
 import { spreadsheetSchema } from "./spreadsheetSchema";
 
 export const orderSchema = z.object({
@@ -13,9 +14,10 @@ export const orderSchema = z.object({
   price: z.string().max(255).nullable().optional(),
   isPricePaid: z.boolean().default(false).nullable().optional(),
   dateOfCompletion: z.date().nullable().optional(),
-  spreadsheets: z.array(spreadsheetSchema).nullable().optional(),
-  designs: z.array(designSchema).nullable().optional(),
-  files: z.array(fileSchema).nullable().optional(),
+  spreadsheets: z.array(spreadsheetSchema).optional(),
+  designs: z.array(designSchema).optional(),
+  files: z.array(fileSchema).optional(),
+  products: z.array(productSchema).optional(),
   workTime: z.number().nullable().optional(),
   client: clientSchema.nullable().optional(),
   address: addressSchema.nullable().optional(),

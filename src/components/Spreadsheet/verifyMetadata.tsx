@@ -1,8 +1,11 @@
-import { AABB2D } from "../../schema/AABB";
+import { TypeAABB2D } from "../../schema/AABB";
 import isNumeric from "../../utils/isNumeric";
 import { UniversalMatrix } from "./useSpreadSheetData";
 
-function verifyMetadata(table: UniversalMatrix, metaId: number) {
+function verifyMetadata(
+  table: UniversalMatrix,
+  metaId: number
+): [UniversalMatrix, string, any, any] {
   let row = -1;
   let rowId = -1;
   let column = -1;
@@ -92,7 +95,12 @@ function verifyMetadata(table: UniversalMatrix, metaId: number) {
   return [
     table,
     "success: Tablica mam poprawne metadane",
-    { minX: rowMin, maxX: rowMax, minY: columnMin, maxY: columnMax } as AABB2D,
+    {
+      minX: rowMin,
+      maxX: rowMax,
+      minY: columnMin,
+      maxY: columnMax,
+    } as TypeAABB2D,
     { row: column, column: row },
   ];
 }
