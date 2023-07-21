@@ -215,8 +215,8 @@ model Product {
   category    String?  @db.VarChar(255)
   description String?
   iconId      Int?
-  colors      String[]
-  sizes       String[]
+  colors      String[] @default([])
+  sizes       String[] @default([])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   createdById Int?
