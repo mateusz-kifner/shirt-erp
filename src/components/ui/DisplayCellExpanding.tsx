@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
-import { useHover, useMergedRef } from "@mantine/hooks";
 import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+import { displayCellVariants } from "./DisplayCell";
 
 interface DisplayCellProps extends HTMLAttributes<HTMLDivElement> {
   leftSection?: ReactNode;
@@ -24,46 +24,9 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
       style,
       ...moreProps
     } = props;
-    const { ref: hoveredRef, hovered } = useHover();
-    const mergedRef = useMergedRef(hoveredRef, ref);
     return (
       <div
-        className={cn(
-          `relative
-          z-10
-          flex
-          min-h-[2.75rem]
-          w-full
-          resize-none
-          items-center
-          gap-2
-          overflow-hidden
-          whitespace-pre-line
-          break-words
-          rounded
-          px-2
-          text-sm
-          leading-normal
-          text-stone-800
-          outline-none
-          transition-all
-          before:absolute
-          before:inset-px
-          before:-z-10
-          before:rounded
-          before:bg-white
-          read-only:bg-transparent
-          read-only:outline-none
-          focus:border-sky-600 dark:text-stone-200
-          dark:outline-none
-          dark:before:bg-stone-800
-          dark:read-only:bg-transparent
-          dark:read-only:outline-none
-          dark:focus:border-sky-600`,
-          disabled ? "bg-transparent text-gray-500" : "",
-          !focus && "hover:animate-border-from-bottom",
-          className
-        )}
+        className={cn(displayCellVariants({ focus, disabled }), className)}
         style={{
           background: focus
             ? error
@@ -75,7 +38,7 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
           ...style,
         }}
         {...moreProps}
-        ref={mergedRef}
+        ref={ref}
       >
         <div className="flex flex-grow items-center gap-2">
           {!!leftSection && (
