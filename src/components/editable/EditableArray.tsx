@@ -35,7 +35,7 @@ const EditableArray = (props: EditableArrayProps) => {
     Element,
     elementProps,
     organizingHandle = "none",
-    linkEntry = false,
+    linkEntry,
     unique = true,
   } = props;
   const [items, handlers] = useListState<any>(value ?? []);
@@ -96,21 +96,23 @@ const EditableArray = (props: EditableArrayProps) => {
         <div className=" flex flex-col gap-2">
           {/* {items.length == 0 && "⸺"} */}
           {items.map((val, index) => {
+            const elementPropsMerge = {
+              ...omit(elementProps, ["label", "arrayType"]),
+              value: val,
+              onSubmit: (itemValue: any) => {
+                handlers.setItem(index, itemValue);
+              },
+            };
+            if (disabled) elementProps.disabled = true;
+            if (linkEntry) elementProps.linkEntry = true;
+
             return (
               <RadixContextMenu.Root key={uuid + index}>
                 <RadixContextMenu.Trigger className="flex-grow rounded-sm bg-stone-200 dark:bg-stone-800">
-                  <Element
-                    {...omit(elementProps, ["label"])}
-                    value={val}
-                    onSubmit={(itemValue: any) => {
-                      handlers.setItem(index, itemValue);
-                    }}
-                    disabled={disabled}
-                    linkEntry={linkEntry}
-                  />
+                  <Element {...elementPropsMerge} />
                 </RadixContextMenu.Trigger>
                 <RadixContextMenu.Portal>
-                  <RadixContextMenu.Content className="flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950">
+                  <RadixContextMenu.Content className=" z-[9999] flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950">
                     <RadixContextMenu.Item
                       className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600"
                       onClick={() => {

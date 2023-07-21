@@ -51,14 +51,14 @@ const productTemplate = {
     label: "Kolory",
     type: "array",
     arrayType: "color",
-    style: { minWidth: 220 },
+    // style: { minWidth: 220 },
   },
 
   sizes: {
     label: "Rozmiary",
     type: "array",
     arrayType: "text",
-    style: { minWidth: 220 },
+    // style: { minWidth: 220 },
   },
 
   createdAt: {

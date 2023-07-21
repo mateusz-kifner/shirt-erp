@@ -12,7 +12,7 @@ import { useClickOutside } from "@mantine/hooks";
 import colorNames from "@/utils/color-names.json";
 import preventLeave from "@/utils/preventLeave";
 
-import Button from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import InputColor from "@/components/ui/ColorPicker/InputColor";
 import DisplayCell from "@/components/ui/DisplayCell";
 import { Label } from "@/components/ui/Label";
@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover";
 import type EditableInput from "@/schema/EditableInput";
+import { cn } from "@/utils/cn";
 import equalHSV from "@/utils/equalHSV";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconColorSwatch } from "@tabler/icons-react";
@@ -191,19 +192,18 @@ const EditableColor = (props: EditableColorProps) => {
         }
         rightSection={
           <Popover onOpenChange={onLoseFocus} modal={true}>
-            <PopoverTrigger>
+            <PopoverTrigger
+              className={cn(
+                buttonVariants({ size: "icon", variant: "ghost" }),
+                "h-8 w-8 text-stone-900 dark:text-stone-200"
+              )}
+            >
               {!!rightSection ? (
                 rightSection
               ) : (
-                <div className="flex h-11 items-center justify-center">
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-8 w-8 text-stone-900 dark:text-stone-200 "
-                  >
-                    <IconColorSwatch />
-                  </Button>
-                </div>
+                // <div className="flex h-11 items-center justify-center">
+                <IconColorSwatch />
+                // </div>
               )}
             </PopoverTrigger>
             <PopoverContent
