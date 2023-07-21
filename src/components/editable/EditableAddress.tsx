@@ -49,7 +49,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   } = props;
   const [address, setAddress] = useState<AddressType>(value);
   const [focus, setFocus] = useState<boolean>(false);
-
+  console.log(value);
   const ref = useClickOutside(() => setFocus(false));
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
   const returnFocus = useFocusReturn({
@@ -94,10 +94,9 @@ const EditableAddress = (props: EditableAddressProps) => {
       (address.streetName ? `ul. ${address.streetName} ` : "") +
       (address.streetNumber || "") +
       (address.apartmentNumber ? ` / ${address.apartmentNumber}` : "") +
-      ((address.streetName ||
-        address.streetNumber ||
-        address.apartmentNumber) &&
-        "\n") +
+      (address.streetName || address.streetNumber || address.apartmentNumber
+        ? "\n"
+        : "") +
       (address.secondLine ? address.secondLine + "\n" : "") +
       (address.postCode ? address.postCode + " " : "") +
       (address.city || "") +

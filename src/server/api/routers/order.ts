@@ -81,8 +81,7 @@ export const orderRouter = createTRPCRouter({
       if (orderData?.client?.id)
         createData.client = { connect: { id: orderData.client.id } };
 
-      if (orderData.address)
-        createData.address = { create: { ...orderData.address } };
+      createData.address = { create: orderData.address ?? {} };
 
       console.log(createData);
       const newOrder = await prisma.order.create({

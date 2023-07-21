@@ -248,7 +248,7 @@ model TypeAddress {
   secondLine      String?  @db.VarChar(255)
   postCode        String?  @db.VarChar(255)
   city            String?  @db.VarChar(255)
-  province        String?  @db.VarChar(255)
+  province        String?  @default("pomorskie") @db.VarChar(255)
   Clients         Client[]
   Orders          Order[]
 }

@@ -87,6 +87,10 @@ const EditableText = (props: EditableTextProps) => {
         (e.target as HTMLTextAreaElement).blur();
         setFocus(false);
       }
+      if (e.code === "Tab") {
+        (e.target as HTMLTextAreaElement).blur();
+        setFocus(false);
+      }
     }
   };
 
