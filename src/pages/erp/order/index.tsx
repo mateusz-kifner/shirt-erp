@@ -15,8 +15,8 @@ import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
-import Workspace from "@/components/Workspace";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
+import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
 import {
   DropdownMenu,

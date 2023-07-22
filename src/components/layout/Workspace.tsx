@@ -4,7 +4,7 @@ import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
-import MultiTabs from "@/components/MultiTabs";
+import MultiTabs from "@/components/layout/MultiTabs";
 import { useUserContext } from "@/context/userContext";
 import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
