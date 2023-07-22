@@ -15,6 +15,7 @@ import { omit } from "lodash";
 
 import { useUserContext } from "@/context/userContext";
 import type TablerIconType from "@/schema/TablerIconType";
+import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
 import { Portal } from "@radix-ui/react-portal";
 
@@ -69,8 +70,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     return (
       // <Tooltip tooltip={!!small && children} withinPortal position="bottom">
       <button
-        className={`
-            inline-flex
+        className={cn(
+          `inline-flex
             h-10
             select-none 
             items-center
@@ -100,11 +101,10 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             active:focus:scale-95 
             active:focus:animate-none 
             disabled:pointer-events-none	
-            disabled:bg-stone-700
-            ${className ?? ""}
-            ${isActive ? "bg-transparent" : "bg-stone-800"}
-            ${isActive ? "border-b-2" : "border-b"}
-            `}
+            disabled:bg-stone-700`,
+          isActive ? "border-b-2 bg-transparent" : "border-b bg-stone-800",
+          className
+        )}
         ref={groupRef}
         onClick={onClick}
         onContextMenu={onContextMenu}
@@ -229,45 +229,43 @@ const MultiTabs = (props: MultiTabsProps) => {
   return (
     <Portal container={portalContainerRef.current}>
       <div className="flex h-14 items-end px-4" ref={ref}>
-        <div>
-          {childrenLabels.map((label, index) => {
-            const isPinned = pinned?.includes(index);
+        {childrenLabels.map((label, index) => {
+          const isPinned = pinned?.includes(index);
 
-            return (
-              <Tab
-                index={index}
-                key={`${uuid}_${index}_${childrenLabelsKey}`}
-                value={index}
-                Icon={
-                  childrenIcons?.[index] ??
-                  childrenIcons?.[childrenIcons.length - 1]
+          return (
+            <Tab
+              index={index}
+              key={`${uuid}_${index}_${childrenLabelsKey}`}
+              value={index}
+              Icon={
+                childrenIcons?.[index] ??
+                childrenIcons?.[childrenIcons.length - 1]
+              }
+              small={small}
+              setBigSize={
+                (size) => {
+                  /**/
                 }
-                small={small}
-                setBigSize={
-                  (size) => {
-                    /**/
-                  }
-                  // setTabsSizes((val) => {
-                  //   let new_arr = [...val];
-                  //   new_arr[index] = size;
-                  //   return new_arr;
-                  // })
-                }
-                rightSection={isPinned ? <IconPinned size={16} /> : undefined}
-                isActive={active === index || isPinned}
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                onClick={() => !isPinned && onActive(index)}
-                onContextMenu={(e: SyntheticEvent) => {
-                  e.preventDefault();
-                  onPin(index);
-                }}
-              >
-                {label}
-              </Tab>
-            );
-          })}
-          {!!rightSection && rightSection}
-        </div>
+                // setTabsSizes((val) => {
+                //   let new_arr = [...val];
+                //   new_arr[index] = size;
+                //   return new_arr;
+                // })
+              }
+              rightSection={isPinned ? <IconPinned size={16} /> : undefined}
+              isActive={active === index || isPinned}
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+              onClick={() => !isPinned && onActive(index)}
+              onContextMenu={(e: SyntheticEvent) => {
+                e.preventDefault();
+                onPin(index);
+              }}
+            >
+              {label}
+            </Tab>
+          );
+        })}
+        {!!rightSection && rightSection}
       </div>
     </Portal>
   );

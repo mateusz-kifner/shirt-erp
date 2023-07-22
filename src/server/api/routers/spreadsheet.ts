@@ -31,10 +31,18 @@ export const spreadsheetRouter = createTRPCRouter({
   getById: createProcedureGetById("spreadsheet"),
 
   create: authenticatedProcedure
-    .input(spreadsheetSchemaWithoutId)
-    .mutation(async ({ input: spreadsheetData }) => {
+    .input(
+      spreadsheetSchemaWithoutId.merge(
+        z.object({ orderId: z.number().optional() })
+      )
+    )
+    .mutation(async ({ input }) => {
+      const { orderId, ...spreadsheetData } = input;
       const newSpreadsheet = await prisma.spreadsheet.create({
-        data: { ...spreadsheetData },
+        data: {
+          ...spreadsheetData,
+          orders: { connect: { id: orderId } },
+        },
       });
       return newSpreadsheet;
     }),
@@ -46,7 +54,7 @@ export const spreadsheetRouter = createTRPCRouter({
     .mutation(async ({ input: spreadsheetData }) => {
       const updatedSpreadsheet = await prisma.spreadsheet.update({
         where: { id: spreadsheetData.id },
-        data: omit({ ...spreadsheetData }, ["id"]),
+        data: omit({ ...spreadsheetData }, ["id", "orderId"]),
       });
       return updatedSpreadsheet;
     }),

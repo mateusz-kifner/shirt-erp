@@ -16,8 +16,8 @@ import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
+import { Tab } from "@/components/layout/MultiTabs";
 import Workspace from "@/components/layout/Workspace";
-import Button from "@/components/ui/Button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,6 +39,8 @@ import {
   IconPlus,
   IconRobot,
   IconRuler,
+  IconTable,
+  IconVector,
 } from "@tabler/icons-react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
@@ -68,6 +70,10 @@ const OrdersPage: NextPage = () => {
   const { data: orderData } = api.order.getById.useQuery(id as number, {
     enabled: id !== null,
   });
+
+  const { mutate: createSpreadsheetMutation } =
+    api.spreadsheet.create.useMutation({});
+
   const t = useTranslation();
   // const { isSmall, hasTouch } = useAuthContext()
   // const isMobile = hasTouch || isSmall
@@ -85,8 +91,11 @@ const OrdersPage: NextPage = () => {
     IconList,
     IconNotebook,
     IconMail,
-    // ...((data && data?.tables && data?.tables.map(() => IconTable)) ?? []),
-    // IconVector,
+    ...((orderData &&
+      orderData?.spreadsheets &&
+      orderData?.spreadsheets.map(() => IconTable)) ??
+      []),
+    IconVector,
   ];
 
   const childrenLabels = id
@@ -94,12 +103,16 @@ const OrdersPage: NextPage = () => {
         "Lista zamówień",
         "Właściwości",
         "E-maile",
-        // ...(data && Array.isArray(data?.tables)
-        //   ? data.tables.map((table, index) => table.name)
-        //   : []),
-        // ...(data && Array.isArray(data?.designs)
-        //   ? data.designs.map((design, index) => design.name)
-        //   : []),
+        ...(orderData && Array.isArray(orderData?.spreadsheets)
+          ? orderData.spreadsheets.map(
+              (sheet, index) => sheet.name ?? `[${t.sheet}]`
+            )
+          : []),
+        ...(orderData && Array.isArray(orderData?.designs)
+          ? orderData.designs.map(
+              (design, index) => design.name ?? `[${t.design}]`
+            )
+          : []),
       ]
     : ["Lista zamówień"];
 
@@ -181,6 +194,18 @@ const OrdersPage: NextPage = () => {
       "error: Tablica musi być pusta do operacji auto uzupełniania.",
     ];
   };
+
+  const addSpreadsheet = () => {
+    createSpreadsheetMutation({
+      name: `${t.sheet} ${(orderData?.spreadsheets?.length ?? 0) + 1}`,
+      data: [
+        [{}, {}],
+        [{}, {}],
+      ],
+      orderId: id ?? undefined,
+    });
+  };
+  const addDesign = () => {};
   // const table_template = {
   //   name: {
   //     label: "Nazwa arkusza",
@@ -303,27 +328,31 @@ const OrdersPage: NextPage = () => {
 
   // const addElementLabels = ["sheet", "design"]
   // const addElementIcons = [IconTable, IconVector]
-
+  console.log(orderData?.spreadsheets);
   return (
     <>
       <Workspace
         cacheKey={entryName}
-        childrenLabels={
-          id ? ["Lista klientów", "Właściwości"] : ["Lista klientów"]
-        }
-        childrenIcons={[IconList, IconNotebook]}
+        childrenLabels={childrenLabels}
+        childrenIcons={childrenIcons}
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
         rightMenuSection={
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button>
+              <Tab value={-1}>
                 <IconPlus />
-              </Button>
+              </Tab>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>{t.sheet}</DropdownMenuItem>
-              <DropdownMenuItem>{t.design}</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => addSpreadsheet()}>
+                <IconTable />
+                {t.sheet}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => addDesign()}>
+                <IconVector />
+                {t.design}
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         }
@@ -335,9 +364,11 @@ const OrdersPage: NextPage = () => {
           id={id}
           allowDelete
         />
+        <div>{/*MAILS HERE*/}</div>
         {orderData &&
-          orderData.spreadsheets.map((val) => (
+          orderData.spreadsheets.map((val, index) => (
             <Spreadsheet
+              key={`${uuid}spreadsheet:${index}:`}
               id={val.id}
               metadata={metadata}
               metadataVisuals={[
