@@ -4,10 +4,11 @@ import { useListState } from "@mantine/hooks";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import { isEqual, omit } from "lodash";
 
-import Button from "@/components/ui/Button";
+import Button, { buttonVariants } from "@/components/ui/Button";
 
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
+import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 
 // fixme submit only on edit end
@@ -114,7 +115,10 @@ const EditableArray = (props: EditableArrayProps) => {
                 <RadixContextMenu.Portal>
                   <RadixContextMenu.Content className=" z-[9999] flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950">
                     <RadixContextMenu.Item
-                      className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600"
+                      className={cn(
+                        buttonVariants({ variant: "ghost" }),
+                        "justify-start"
+                      )}
                       onClick={() => {
                         handlers.remove(index);
                       }}
