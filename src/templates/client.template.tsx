@@ -4,7 +4,7 @@ import {
   IconMail,
   IconNote,
   IconPhone,
-  IconUser
+  IconUser,
 } from "@tabler/icons-react";
 
 const clientTemplate = {
@@ -72,6 +72,7 @@ const clientTemplate = {
     arrayType: "apiEntry",
     entryName: "orders",
     linkEntry: true,
+    disabled: true,
   },
 
   orderArchives: {
@@ -80,6 +81,7 @@ const clientTemplate = {
     arrayType: "apiEntry",
     entryName: "orders-archive",
     linkEntry: true,
+    disabled: true,
   },
 
   createdAt: {
