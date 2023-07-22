@@ -338,23 +338,25 @@ const OrdersPage: NextPage = () => {
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
         rightMenuSection={
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Tab value={-1}>
-                <IconPlus />
-              </Tab>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => addSpreadsheet()}>
-                <IconTable />
-                {t.sheet}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => addDesign()}>
-                <IconVector />
-                {t.design}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          id !== null && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Tab value={-1}>
+                  <IconPlus />
+                </Tab>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onClick={() => addSpreadsheet()}>
+                  <IconTable />
+                  {t.sheet}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => addDesign()}>
+                  <IconVector />
+                  {t.design}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )
         }
       >
         <OrderList selectedId={id} onAddElement={() => setOpenAddModal(true)} />
@@ -364,7 +366,7 @@ const OrdersPage: NextPage = () => {
           id={id}
           allowDelete
         />
-        <div>{/*MAILS HERE*/}</div>
+        <div>{/*MAILS HERE*/}TODO: Add mails here</div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (
             <Spreadsheet

@@ -5,7 +5,6 @@ import { spreadsheetSchema } from "@/schema/spreadsheetSchema";
 import {
   createProcedureDeleteById,
   createProcedureGetAll,
-  createProcedureGetById,
   createProcedureSearch,
   createProcedureSearchWithPagination,
 } from "@/server/api/procedures";
@@ -23,13 +22,17 @@ const partialSpreadsheetData = z.object({
   ),
 });
 
-type typepartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
+type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
   getAll: createProcedureGetAll("spreadsheet"),
 
-  getById: createProcedureGetById("spreadsheet"),
-
+  getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
+    const data = await prisma.spreadsheet.findUnique({
+      where: { id: input },
+    });
+    return data;
+  }),
   create: authenticatedProcedure
     .input(
       spreadsheetSchemaWithoutId.merge(

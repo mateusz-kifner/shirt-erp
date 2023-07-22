@@ -1,11 +1,5 @@
-import { execPath } from "process"
-import {
-  CellBase,
-  DataViewerProps,
-  Dimensions,
-  getComputedValue,
-} from "react-spreadsheet"
-import isNumeric from "../../utils/isNumeric"
+import { CellBase, DataViewerProps, Dimensions } from "react-spreadsheet";
+import isNumeric from "../../utils/isNumeric";
 
 /** Get the offset values of given element */
 export function getOffsetRect(element: HTMLElement): Dimensions {
@@ -14,20 +8,17 @@ export function getOffsetRect(element: HTMLElement): Dimensions {
     height: element.offsetHeight,
     left: element.offsetLeft,
     top: element.offsetTop,
-  }
+  };
 }
 
-export const TRUE_TEXT = "TRUE"
-export const FALSE_TEXT = "FALSE"
+export const TRUE_TEXT = "TRUE";
+export const FALSE_TEXT = "FALSE";
 
 /** The default Spreadsheet DataViewer component */
 const DataViewer = <Cell extends CellBase<Value>, Value>({
   cell,
-  formulaParser,
 }: DataViewerProps<Cell>) => {
-  let value = cell?.value ?? ""
-
-  // value = getComputedValue<Cell, Value>({ cell, formulaParser })
+  let value = cell?.value ?? "";
 
   return typeof value === "boolean" ? (
     <span className="Spreadsheet__data-viewer Spreadsheet__data-viewer--boolean">
@@ -41,11 +32,11 @@ const DataViewer = <Cell extends CellBase<Value>, Value>({
       {/* @ts-ignore*/}
       {value}
     </span>
-  )
-}
+  );
+};
 
-export default DataViewer
+export default DataViewer;
 
 export function convertBooleanToText(value: boolean): string {
-  return value ? TRUE_TEXT : FALSE_TEXT
+  return value ? TRUE_TEXT : FALSE_TEXT;
 }

@@ -1,7 +1,6 @@
-import type { MouseEvent, FC } from "react"
-import classNames from "classnames"
-import type { ColumnIndicatorProps } from "react-spreadsheet"
-import { columnIndexToLabel } from "hot-formula-parser"
+import classNames from "classnames";
+import type { FC, MouseEvent } from "react";
+import type { ColumnIndicatorProps } from "react-spreadsheet";
 
 const ColumnIndicator = ({
   column,
@@ -9,7 +8,7 @@ const ColumnIndicator = ({
   selected,
   onContextmenu,
 }: ColumnIndicatorProps & {
-  onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void
+  onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void;
 }) => {
   return (
     <th
@@ -22,24 +21,26 @@ const ColumnIndicator = ({
     >
       {label !== undefined ? label : columnIndexToLabel(String(column))}
     </th>
-  )
-}
+  );
+};
 
-export default ColumnIndicator
+export default ColumnIndicator;
 
 export const enhance = (
   ColumnIndicatorComponent: FC<
     ColumnIndicatorProps & {
-      onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void
+      onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void;
     }
   >,
   onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void
 ): FC<
   ColumnIndicatorProps & {
-    onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void
+    onContextmenu: (e: MouseEvent<HTMLDivElement>, column: number) => void;
   }
 > => {
   return function ColumnIndicatorWrapper(props) {
-    return <ColumnIndicatorComponent {...props} onContextmenu={onContextmenu} />
-  }
-}
+    return (
+      <ColumnIndicatorComponent {...props} onContextmenu={onContextmenu} />
+    );
+  };
+};

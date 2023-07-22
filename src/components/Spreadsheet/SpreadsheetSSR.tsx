@@ -5,7 +5,7 @@ import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
 
 // Spreadsheet Imports
 import type { Point } from "react-spreadsheet";
-import Spreadsheet from "react-spreadsheet";
+import ReactSpreadsheet from "react-spreadsheet";
 import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
@@ -15,8 +15,9 @@ import { ScrollArea } from "@/components/ui/ScrollArea";
 import SimpleTooltip from "@/components/ui/SimpleTooltip";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
+import { api } from "@/utils/api";
 
-interface EditableTableProps {
+interface SpreadsheetProps {
   id: number;
   metadata: { [key: string]: { id: number; [key: string]: any } };
   metadataVisuals: {
@@ -33,17 +34,15 @@ interface EditableTableProps {
   }[];
 }
 
-const EditableTable = (props: EditableTableProps) => {
+const Spreadsheet = (props: SpreadsheetProps) => {
   const { id, metadata, metadataActions, metadataVisuals } = props;
+  const { data: value } = api.spreadsheet.getById.useQuery(id, {});
   const [statusText, setStatusText] = useState<string>("");
   const uuid = useId();
   const [openedColumn, setOpenedColumn] = useState<boolean>(false);
   const [openedRow, setOpenedRow] = useState<boolean>(false);
-  // const [contextPositionAndValue, setContextPositionAndValue] = useState<
-  //   [number, number, number]
-  // >([0, 0, -1]);
   const t = useTranslation();
-  // const [data, setData] = useState<Matrix<any>>()
+
   const [
     data,
     {
@@ -56,12 +55,12 @@ const EditableTable = (props: EditableTableProps) => {
       setMetadata,
     },
   ] = useSpreadSheetData(
-    // value ??
-    [
+    (value?.data as UniversalMatrix) ?? [
       [undefined, undefined],
       [undefined, undefined],
     ]
   );
+
   const [selection, setSelection] = useState<Point[]>([]);
   const [updateCount, setUpdateCount] = useState<number>(0);
   const [canUpdate, setCanUpdate] = useState<boolean>(true);
@@ -471,14 +470,14 @@ const EditableTable = (props: EditableTableProps) => {
         </div>
       </div>
       <ScrollArea>
-        <Spreadsheet
+        <ReactSpreadsheet
           data={data}
           onChange={(data) => {
             // setDataWhenNEQ(data);
             incrementUpdateCount();
           }}
           onSelect={setSelectionIfNotNull}
-          // darkMode={darkTheme}
+          darkMode={document.querySelector("html")!.classList.contains("dark")}
           onModeChange={(mode) => {
             setCanUpdate(mode === "view");
           }}
@@ -510,4 +509,4 @@ const EditableTable = (props: EditableTableProps) => {
   );
 };
 
-export default EditableTable;
+export default Spreadsheet;

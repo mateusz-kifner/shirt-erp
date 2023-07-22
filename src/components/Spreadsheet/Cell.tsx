@@ -44,7 +44,6 @@ export const Cell = ({
   row,
   column,
   DataViewer,
-  formulaParser,
   selected,
   active,
   dragging,
@@ -133,7 +132,6 @@ export const Cell = ({
         row={row}
         column={column}
         cell={data ?? { value: "" }}
-        formulaParser={formulaParser}
         setCellData={function (cell: CellBase<any>): void {
           throw new Error("Function not implemented.");
         }}
