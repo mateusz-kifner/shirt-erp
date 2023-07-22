@@ -5,6 +5,7 @@ import { designSchema } from "./designSchema";
 import { fileSchema } from "./fileSchema";
 import { productSchema } from "./productSchema";
 import { spreadsheetSchema } from "./spreadsheetSchema";
+import { userSchema } from "./userSchema";
 
 export const orderSchema = z.object({
   id: z.number(),
@@ -18,6 +19,7 @@ export const orderSchema = z.object({
   designs: z.array(designSchema).optional(),
   files: z.array(fileSchema).optional(),
   products: z.array(productSchema).optional(),
+  employees: z.array(userSchema.omit({ password: true })).optional(),
   workTime: z.number().nullable().optional(),
   client: clientSchema.nullable().optional(),
   address: addressSchema.nullable().optional(),

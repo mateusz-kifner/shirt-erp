@@ -11,7 +11,6 @@ import { prisma } from "@/server/db";
 
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { type Prisma } from "@prisma/client";
-import { omit } from "lodash";
 
 const orderSchemaWithoutId = orderSchema
   .omit({ id: true, address: true })
@@ -41,6 +40,7 @@ const includeAll = {
   spreadsheets: true,
   designs: true,
   products: true,
+  employees: true,
 };
 
 export const orderRouter = createTRPCRouter({
@@ -55,15 +55,19 @@ export const orderRouter = createTRPCRouter({
   create: authenticatedProcedure
     .input(orderSchemaWithoutId)
     .mutation(async ({ input: orderData }) => {
-      console.log(orderData);
-      const createData: Prisma.OrderCreateInput = omit(orderData, [
-        "files",
-        "client",
-        "address",
-        "designs",
-        "spreadsheets",
-        "products",
-      ]);
+      const {
+        spreadsheets,
+        designs,
+        files,
+        client,
+        address,
+        products,
+        employees,
+        ...simpleOrderData
+      } = orderData;
+
+      const createData: Prisma.OrderCreateInput = { ...simpleOrderData };
+
       if (orderData.files?.length && orderData.files.length > 0)
         createData.files = { connect: [...orderData.files] };
 
@@ -83,7 +87,6 @@ export const orderRouter = createTRPCRouter({
 
       createData.address = { create: orderData.address ?? {} };
 
-      console.log(createData);
       const newOrder = await prisma.order.create({
         data: createData,
       });
@@ -101,64 +104,35 @@ export const orderRouter = createTRPCRouter({
         client,
         address,
         products,
+        employees,
         ...simpleOrderData
       } = orderData;
-      // const originalOrder = await prisma.order.findUnique({
-      //   where: { id: orderId },
-      //   include: includeAll,
-      // });
+
       const updateData: Prisma.OrderUpdateInput = { ...simpleOrderData };
-      if (client?.id) {
-        updateData.client = { connect: { id: client?.id } };
+
+      if (client?.id) updateData.client = { connect: { id: client?.id } };
+
+      if (products && Array.isArray(products))
+        updateData.products = { set: products.map((val) => ({ id: val.id })) };
+
+      if (employees && Array.isArray(employees)) {
+        updateData.employees = {
+          set: employees.map((val) => ({ id: val.id })),
+        };
       }
+
+      if (files && Array.isArray(files))
+        updateData.files = { set: files.map((val) => ({ id: val.id })) };
+
+      if (address) updateData.address = { update: address };
 
       const updatedOrder = await prisma.order.update({
         where: { id: orderId },
         data: updateData,
+        include: includeAll,
       });
 
-      // Update spreadsheets -- BAD EXAMPLE
-      // if (spreadsheets) {
-      //   await prisma.typeSpreadsheet.deleteMany({ where: { orderId } });
-      //   const spreadsheetData = spreadsheets.map((spreadsheet) => ({
-      //     ...spreadsheet,
-      //     orderId,
-      //   }));
-      //   await prisma.typeSpreadsheet.createMany({ data: spreadsheetData });
-      // }
-
-      // TODO: Make this work
-      // delete lost
-      // add new
-      // update existing
-      // if (spreadsheets) {
-      //   const originalSpreadsheetIds =
-      //     originalOrder?.spreadsheets.map((file) => file.id) ?? [];
-      //   const newSpreadsheetIds = spreadsheets.map((file) => file.id);
-
-      //   console.log(originalSpreadsheetIds, newSpreadsheetIds);
-      // }
-
-      // Update address
-      if (address) {
-        await prisma.typeAddress.update({
-          where: { id: address.id },
-          data: address,
-        });
-      }
-
-      // Update files
-      if (files) {
-        const fileData = files.map((file) =>
-          prisma.file.update({
-            where: { id: file.id },
-            data: { ...file, Order: { connect: { id: orderId } } },
-          })
-        );
-        await Promise.all(fileData);
-      }
-
-      return { ...updatedOrder, files, spreadsheets, designs, client, address };
+      return updatedOrder;
     }),
   search: createProcedureSearch("order"),
   searchWithPagination: createProcedureSearchWithPagination("order"),
