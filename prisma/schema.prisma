@@ -169,7 +169,7 @@ model OrderArchive {
 model Order {
   id                Int           @id @default(autoincrement())
   name              String?       @db.VarChar(255)
-  status            String?       @db.VarChar(255)
+  status            String?       @default("planned") @db.VarChar(255)
   notes             String?
   price             String?       @db.VarChar(255)
   isPricePaid       Boolean?
