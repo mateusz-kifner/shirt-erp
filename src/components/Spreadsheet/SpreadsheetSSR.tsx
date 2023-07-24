@@ -4,7 +4,11 @@ import React, { useId, useMemo, useState } from "react";
 import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
 
 // Spreadsheet Imports
-import type { Point } from "react-spreadsheet";
+import type {
+  ColumnIndicatorComponent,
+  Point,
+  RowIndicatorComponent,
+} from "react-spreadsheet";
 import ReactSpreadsheet from "react-spreadsheet";
 import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
@@ -16,6 +20,13 @@ import SimpleTooltip from "@/components/ui/SimpleTooltip";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
 import { api } from "@/utils/api";
+import TableCenterIcon from "../icons/TableCenterIcon";
+import TableEdgeIcon from "../icons/TableEdgeIcon";
+import { ContextMenuItem } from "../ui/ContextMenu";
+import ColumnIndicator, {
+  enhance as enhanceColumnIndicator,
+} from "./ColumnIndicator";
+import RowIndicator, { enhance as enhanceRowIndicator } from "./RowIndicator";
 
 interface SpreadsheetProps {
   id: number;
@@ -167,25 +178,75 @@ const Spreadsheet = (props: SpreadsheetProps) => {
 
   // useEffect(() => {}, [disabled]);
 
-  // const enhancedColumnIndicator = useMemo(
-  //   () =>
-  //     enhanceColumnIndicator(
-  //       ColumnIndicator,
-  //       onContextmenuColumn
-  //     ) as unknown as ColumnIndicatorComponent,
-  //   //eslint-disable-next-line
-  //   [openedColumn]
-  // );
+  const enhancedColumnIndicator = useMemo(
+    () =>
+      enhanceColumnIndicator(
+        ColumnIndicator,
+        <>
+          <ContextMenuItem>
+            <TableEdgeIcon
+              action_color={"#84cc16"}
+              size={20}
+              stroke={1.2}
+              style={{ transform: "scale(-1)" }}
+            />
+            {t.add_column_left}
+          </ContextMenuItem>
 
-  // const enhancedRowIndicator = useMemo(
-  //   () =>
-  //     enhanceRowIndicator(
-  //       RowIndicator,
-  //       onContextmenuRow
-  //     ) as unknown as RowIndicatorComponent,
-  //   //eslint-disable-next-line
-  //   [openedRow]
-  // );
+          <ContextMenuItem>
+            <TableEdgeIcon action_color={"#84cc16"} size={20} stroke={1.2} />
+            {t.add_column_right}
+          </ContextMenuItem>
+
+          <ContextMenuItem>
+            <TableCenterIcon action_color={"#ef4444"} size={20} stroke={1} />
+            {t.remove_column}
+          </ContextMenuItem>
+        </>
+      ) as unknown as ColumnIndicatorComponent,
+    //eslint-disable-next-line
+    [openedColumn]
+  );
+
+  const enhancedRowIndicator = useMemo(
+    () =>
+      enhanceRowIndicator(
+        RowIndicator,
+        <>
+          <ContextMenuItem>
+            <TableEdgeIcon
+              action_color={"#84cc16"}
+              size={20}
+              stroke={1.2}
+              style={{ transform: "rotate(-90deg)" }}
+            />
+            {t.add_row_top}
+          </ContextMenuItem>
+
+          <ContextMenuItem>
+            <TableEdgeIcon
+              action_color={"#84cc16"}
+              size={20}
+              stroke={1.2}
+              style={{ transform: "rotate(90deg)" }}
+            />
+            {t.add_row_bottom}
+          </ContextMenuItem>
+
+          <ContextMenuItem>
+            <TableCenterIcon
+              action_color={"#ef4444"}
+              size={20}
+              stroke={1}
+              style={{ transform: "rotate(90deg)" }}
+            />
+            {t.remove_row}
+          </ContextMenuItem>
+        </>
+      ) as unknown as RowIndicatorComponent,
+    //eslint-disable-next-line
+    [openedRow]
+  );
 
   // const enhancedCell = useMemo(
   //   () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
@@ -209,177 +270,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
         }`}
       >
         <div className="flex">
-          {/* Column Menu
-          {openedColumn && (
-            <Portal>
-              <Stack
-                style={{
-                  position: "absolute",
-                  top: contextPositionAndValue[1],
-                  left: contextPositionAndValue[0],
-                }}
-              >
-                <Button.Group
-                  orientation="vertical"
-                  // onBlur={() => setOpenedColumn(false)}
-                >
-                  <Button
-                    variant="default"
-                    onClick={() => {
-                      setOpenedColumn(false);
-                    }}
-                  >
-                    <Text color="grey" size="xs">
-                      {t("close")}
-                    </Text>
-                  </Button>
-                  <Button
-                    variant="default"
-                    leftIcon={
-                      <TableEdgeIcon
-                        action_color={theme.colors.green[6]}
-                        size={18}
-                        stroke={1.2}
-                        style={{ transform: "scale(-1)" }}
-                      />
-                    }
-                    onClick={() => {
-                      addColumn(contextPositionAndValue[2]);
-                      incrementUpdateCount();
-                      setStatusText("Dodano kolumnę");
-                      setOpenedColumn(false);
-                    }}
-                  >
-                    {t("add-column-left")}
-                  </Button>
-                  <Button
-                    variant="default"
-                    leftIcon={
-                      <TableEdgeIcon
-                        action_color={theme.colors.green[6]}
-                        size={18}
-                        stroke={1.2}
-                      />
-                    }
-                    onClick={() => {
-                      addColumn(contextPositionAndValue[2] + 1);
-                      incrementUpdateCount();
-                      setStatusText("Dodano kolumnę");
-                      setOpenedColumn(false);
-                    }}
-                  >
-                    {t("add-column-right")}
-                  </Button>
-                  <Divider />
-                  <Button
-                    variant="default"
-                    leftIcon={
-                      <TableCenterIcon
-                        action_color={theme.colors.red[6]}
-                        size={18}
-                        stroke={1}
-                        action_position="center"
-                      />
-                    }
-                    onClick={() => {
-                      removeColumn(contextPositionAndValue[2]);
-                      incrementUpdateCount();
-                      setStatusText("Usunięto kolumnę");
-                      setOpenedColumn(false);
-                    }}
-                  >
-                    {t("remove-column")}
-                  </Button>
-                </Button.Group>
-              </Stack>
-            </Portal>
-          )}
-          {/*Row Menu}
-          {openedRow && (
-            <Portal>
-              <Stack
-                style={{
-                  position: "absolute",
-                  top: contextPositionAndValue[1],
-                  left: contextPositionAndValue[0],
-                }}
-              >
-                <Button.Group
-                  orientation="vertical"
-                  // onBlur={() => setOpenedRow(false)}
-                >
-                  <Button
-                    variant="default"
-                    onClick={() => {
-                      setOpenedRow(false);
-                    }}
-                  >
-                    <Text color="grey" size="xs">
-                      {t("close")}
-                    </Text>
-                  </Button>
-                  <Button
-                    variant="default"
-                    leftIcon={
-                      <TableEdgeIcon
-                        action_color={theme.colors.green[6]}
-                        size={18}
-                        stroke={1.2}
-                        style={{ transform: "scale(-1)" }}
-                      />
-                    }
-                    onClick={() => {
-                      addRow(contextPositionAndValue[2]);
-                      incrementUpdateCount();
-                      setStatusText("Dodano kolumnę");
-                      setOpenedRow(false);
-                    }}
-                  >
-                    {t("add-row-top")}
-                  </Button>
-                  <Button
-                    variant="default"
-                    leftIcon={
-                      <TableEdgeIcon
-                        action_color={theme.colors.green[6]}
-                        size={18}
-                        stroke={1.2}
-                      />
-                    }
-                    onClick={() => {
-                      addRow(contextPositionAndValue[2] + 1);
-                      incrementUpdateCount();
-                      setStatusText("Dodano kolumnę");
-                      setOpenedRow(false);
-                    }}
-                  >
-                    {t("add-row-bottom")}
-                  </Button>
-                  <Divider />
-                  <Button
-                    variant="default"
-                    leftIcon={
-                      <TableCenterIcon
-                        action_color={theme.colors.red[6]}
-                        size={18}
-                        stroke={1}
-                        action_position="center"
-                      />
-                    }
-                    onClick={() => {
-                      removeRow(contextPositionAndValue[2]);
-                      incrementUpdateCount();
-                      setStatusText("Usunięto kolumnę");
-                      setOpenedRow(false);
-                    }}
-                  >
-                    {t("remove-row")}
-                  </Button>
-                </Button.Group>
-              </Stack>
-            </Portal>
-          )} */}
-
           {metadata &&
             Object.keys(metadata).map((key, bgIndex) => (
               <div key={uuid + "_" + bgIndex}>
@@ -393,6 +283,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
                         // openDelay={500}
                       >
                         <Button
+                          variant="ghost"
                           style={{
                             backgroundColor:
                               getRandomColorByNumber(metadata[key]!.id) + "88",
@@ -486,11 +377,8 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           // DataEditor={disabled ? DataEditorDisabled : undefined}
           // Cell={enhancedCell}
           className="Spreadsheet"
-          // ColumnIndicator={enhancedColumnIndicator}
-          // RowIndicator={enhancedRowIndicator}
-          // CornerIndicator={
-          //   CornerIndicator as unknown as CornerIndicatorComponent
-          // }
+          ColumnIndicator={enhancedColumnIndicator}
+          RowIndicator={enhancedRowIndicator}
         />
         <div style={{ height: 4 }}></div>
       </ScrollArea>

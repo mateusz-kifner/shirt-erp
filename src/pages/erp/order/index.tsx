@@ -152,11 +152,11 @@ const OrdersPage: NextPage = () => {
 
     if (pusta) {
       let new_table: UniversalMatrix = [];
-      const product = (data?.products.filter((val) => val.id === metaId) || [
-        null,
-      ])[0];
-      const sizes = product?.variants?.sizes;
-      const colors = product?.variants?.colors;
+      const product = (orderData?.products.filter(
+        (val) => val.id === metaId
+      ) || [null])[0];
+      const sizes = product?.sizes ?? [];
+      const colors = product?.colors ?? [];
 
       for (let y = 0; y < colors.length + 1; y++) {
         new_table.push([]);
