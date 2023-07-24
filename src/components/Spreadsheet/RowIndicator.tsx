@@ -1,21 +1,21 @@
-import classNames from "classnames"
-import { useCallback, type FC, type ReactNode } from "react"
+import classNames from "classnames";
+import { useCallback, type FC, type MouseEvent, type ReactNode } from "react";
 
-import { RowIndicatorProps } from "react-spreadsheet"
-import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from "../ui/ContextMenu"
+import { RowIndicatorProps } from "react-spreadsheet";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuTrigger,
+} from "../ui/ContextMenu";
 
-const RowIndicator = (props: RowIndicatorProps & {
-  contextMenu: ReactNode
-}) => {
-  const {
-    row,
-    label,
-    selected,
-    contextMenu,
-    onSelect
-  } = props
+const RowIndicator = (
+  props: RowIndicatorProps & {
+    contextMenu: (row: number) => ReactNode;
+  }
+) => {
+  const { row, label, selected, contextMenu, onSelect } = props;
   const handleClick = useCallback(
-    (event: React.MouseEvent) => {
+    (event: MouseEvent) => {
       onSelect(row, event.shiftKey);
     },
     [onSelect, row]
@@ -23,37 +23,36 @@ const RowIndicator = (props: RowIndicatorProps & {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-    <th
-      className={classNames("Spreadsheet__header", {
-        "Spreadsheet__header--selected": selected,
-      })}
-      onClick={handleClick}
-      tabIndex={0}
-    >
-      {label !== undefined ? label : row + 1}
-    </th>
-    </ContextMenuTrigger>
-    <ContextMenuContent>
-      {contextMenu}
-      </ContextMenuContent>
+        <th
+          className={classNames("Spreadsheet__header", {
+            "Spreadsheet__header--selected": selected,
+          })}
+          onClick={handleClick}
+          tabIndex={0}
+        >
+          {label !== undefined ? label : row + 1}
+        </th>
+      </ContextMenuTrigger>
+      <ContextMenuContent>{contextMenu(row)}</ContextMenuContent>
     </ContextMenu>
-  )
-}
+  );
+};
 
-export default RowIndicator
+export default RowIndicator;
 
 export const enhance = (
   RowIndicatorComponent: FC<
     RowIndicatorProps & {
-      contextMenu: ReactNode
+      contextMenu: (row: number) => ReactNode;
     }
   >,
-  contextMenu: ReactNode): FC<
+  contextMenu: (row: number) => ReactNode
+): FC<
   RowIndicatorProps & {
-    contextMenu: ReactNode
+    contextMenu: (row: number) => ReactNode;
   }
 > => {
   return function RowIndicatorWrapper(props) {
-    return <RowIndicatorComponent {...props} contextMenu={contextMenu} />
-  }
-}
+    return <RowIndicatorComponent {...props} contextMenu={contextMenu} />;
+  };
+};

@@ -1,18 +1,18 @@
 import classNames from "classnames";
 import { useCallback, type FC, type ReactNode } from "react";
 import type { ColumnIndicatorProps } from "react-spreadsheet";
-import { ContextMenu, ContextMenuContent, ContextMenuTrigger } from "../ui/ContextMenu";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuTrigger,
+} from "../ui/ContextMenu";
 
-const ColumnIndicator = (props: ColumnIndicatorProps & {
-  contextMenu: ReactNode;
-}) => {
-  const {
-    column,
-    label,
-    selected,
-    contextMenu,
-    onSelect
-  } = props
+const ColumnIndicator = (
+  props: ColumnIndicatorProps & {
+    contextMenu: (column: number) => ReactNode;
+  }
+) => {
+  const { column, label, selected, contextMenu, onSelect } = props;
   const handleClick = useCallback(
     (event: React.MouseEvent) => {
       onSelect(column, event.shiftKey);
@@ -22,19 +22,17 @@ const ColumnIndicator = (props: ColumnIndicatorProps & {
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
-    <th
-      className={classNames("Spreadsheet__header", {
-        "Spreadsheet__header--selected": selected,
-      })}
-      onClick={handleClick}
-      tabIndex={0}
-    >
-      {label !== undefined ? label : columnIndexToLabel(column)}
-    </th>
-    </ContextMenuTrigger>
-    <ContextMenuContent>
-      {contextMenu}
-      </ContextMenuContent>
+        <th
+          className={classNames("Spreadsheet__header", {
+            "Spreadsheet__header--selected": selected,
+          })}
+          onClick={handleClick}
+          tabIndex={0}
+        >
+          {label !== undefined ? label : columnIndexToLabel(column)}
+        </th>
+      </ContextMenuTrigger>
+      <ContextMenuContent>{contextMenu(column)}</ContextMenuContent>
     </ContextMenu>
   );
 };
@@ -44,19 +42,17 @@ export default ColumnIndicator;
 export const enhance = (
   ColumnIndicatorComponent: FC<
     ColumnIndicatorProps & {
-      contextMenu: ReactNode;
+      contextMenu: (column: number) => ReactNode;
     }
   >,
-  contextMenu: ReactNode
+  contextMenu: (column: number) => ReactNode
 ): FC<
-  ColumnIndicatorProps& {
-    contextMenu: ReactNode;
+  ColumnIndicatorProps & {
+    contextMenu: (column: number) => ReactNode;
   }
 > => {
   return function ColumnIndicatorWrapper(props) {
-    return (
-      <ColumnIndicatorComponent {...props} contextMenu={contextMenu} />
-    );
+    return <ColumnIndicatorComponent {...props} contextMenu={contextMenu} />;
   };
 };
 

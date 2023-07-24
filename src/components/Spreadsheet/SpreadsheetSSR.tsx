@@ -180,10 +180,15 @@ const Spreadsheet = (props: SpreadsheetProps) => {
 
   const enhancedColumnIndicator = useMemo(
     () =>
-      enhanceColumnIndicator(
-        ColumnIndicator,
+      enhanceColumnIndicator(ColumnIndicator, (column: number) => (
         <>
-          <ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              addColumn(column);
+              incrementUpdateCount();
+              setStatusText("Dodano kolumnę");
+            }}
+          >
             <TableEdgeIcon
               action_color={"#84cc16"}
               size={20}
@@ -193,27 +198,44 @@ const Spreadsheet = (props: SpreadsheetProps) => {
             {t.add_column_left}
           </ContextMenuItem>
 
-          <ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              addColumn(column + 1);
+              incrementUpdateCount();
+              setStatusText("Dodano kolumnę");
+            }}
+          >
             <TableEdgeIcon action_color={"#84cc16"} size={20} stroke={1.2} />
             {t.add_column_right}
           </ContextMenuItem>
 
-          <ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              removeColumn(column);
+              incrementUpdateCount();
+              setStatusText("Usunięto kolumnę");
+            }}
+          >
             <TableCenterIcon action_color={"#ef4444"} size={20} stroke={1} />
             {t.remove_column}
           </ContextMenuItem>
         </>
-      ) as unknown as ColumnIndicatorComponent,
+      )) as unknown as ColumnIndicatorComponent,
     //eslint-disable-next-line
     [openedColumn]
   );
 
   const enhancedRowIndicator = useMemo(
     () =>
-      enhanceRowIndicator(
-        RowIndicator,
+      enhanceRowIndicator(RowIndicator, (row) => (
         <>
-          <ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              addRow(row);
+              incrementUpdateCount();
+              setStatusText("Dodano kolumnę");
+            }}
+          >
             <TableEdgeIcon
               action_color={"#84cc16"}
               size={20}
@@ -223,7 +245,13 @@ const Spreadsheet = (props: SpreadsheetProps) => {
             {t.add_row_top}
           </ContextMenuItem>
 
-          <ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              addRow(row + 1);
+              incrementUpdateCount();
+              setStatusText("Dodano kolumnę");
+            }}
+          >
             <TableEdgeIcon
               action_color={"#84cc16"}
               size={20}
@@ -233,7 +261,13 @@ const Spreadsheet = (props: SpreadsheetProps) => {
             {t.add_row_bottom}
           </ContextMenuItem>
 
-          <ContextMenuItem>
+          <ContextMenuItem
+            onClick={() => {
+              removeRow(row);
+              incrementUpdateCount();
+              setStatusText("Usunięto kolumnę");
+            }}
+          >
             <TableCenterIcon
               action_color={"#ef4444"}
               size={20}
@@ -243,7 +277,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
             {t.remove_row}
           </ContextMenuItem>
         </>
-      ) as unknown as RowIndicatorComponent,
+      )) as unknown as RowIndicatorComponent,
     //eslint-disable-next-line
     [openedRow]
   );
