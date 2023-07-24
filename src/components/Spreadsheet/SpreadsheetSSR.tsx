@@ -17,13 +17,13 @@ import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
 import Button from "@/components/ui/Button";
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import SimpleTooltip from "@/components/ui/SimpleTooltip";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
 import { api } from "@/utils/api";
 import TableCenterIcon from "../icons/TableCenterIcon";
 import TableEdgeIcon from "../icons/TableEdgeIcon";
 import { ContextMenuItem } from "../ui/ContextMenu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 import { Cell, enhance as enhanceCell } from "./Cell";
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
@@ -54,8 +54,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
   const [statusText, setStatusText] = useState<string>("");
   const uuid = useId();
   const t = useTranslation();
-  console.log(metadata);
-
   const [
     data,
     {
@@ -271,108 +269,128 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     <div
       className={
         fullscreen
-          ? "absolute left-0 right-0 top-0 z-[9999] h-[200vh] overflow-hidden"
-          : "h-full"
+          ? "absolute left-0 right-0 top-0 z-[9999] h-[200vh] overflow-hidden bg-gray-200 dark:bg-stone-800"
+          : "h-full p-px"
       }
     >
       <div
-        className={`flex items-end justify-between py-1 ${
+        className={`flex items-end justify-between px-2 py-2 ${
           ""
           // disabled ? "none" : ""
         }`}
       >
-        <div className="flex">
+        <div className="flex flex-wrap items-end gap-2">
           {metadata &&
             Object.keys(metadata).map((key, bgIndex) => (
-              <div key={uuid + "_" + bgIndex}>
-                {metadataVisuals &&
-                  metadataVisuals.map((visual, index) => {
-                    const Icon = visual?.icon;
-                    return (
-                      <SimpleTooltip
-                        tooltip={visual.label}
-                        key={uuid + "_" + bgIndex + "_" + index}
-                        // openDelay={500}
-                      >
-                        <Button
-                          variant="ghost"
-                          style={{
-                            backgroundColor:
-                              getRandomColorByNumber(metadata[key]!.id) + "88",
-                          }}
-                          onClick={() => {
-                            setMetadataOnSelection({
-                              metaId: metadata[key]!.id,
-                              metaPropertyId: index,
-                            });
-                            setStatusText("Ustawiono metadane");
-                            incrementUpdateCount();
-                          }}
-                        >
-                          <Icon />
-                        </Button>
-                      </SimpleTooltip>
-                    );
-                  })}
+              <div key={uuid + "_" + bgIndex} className="flex flex-col">
+                <div className="text-sm italic">{key.split(":")[0]}</div>
+                <div>
+                  {metadataVisuals &&
+                    metadataVisuals.map((visual, index) => {
+                      const Icon = visual?.icon;
+                      return (
+                        <Tooltip key={uuid + "_" + bgIndex + "_" + index}>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="relative rounded-none before:absolute before:inset-0 first:rounded-l last:rounded-r hover:before:bg-black/20"
+                              style={{
+                                backgroundColor:
+                                  getRandomColorByNumber(metadata[key]!.id) +
+                                  "88",
+                              }}
+                              onClick={() => {
+                                setMetadataOnSelection({
+                                  metaId: metadata[key]!.id,
+                                  metaPropertyId: index,
+                                });
+                                setStatusText("Ustawiono metadane");
+                                incrementUpdateCount();
+                              }}
+                            >
+                              <Icon />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>{visual.label}</TooltipContent>
+                        </Tooltip>
+                      );
+                    })}
 
-                {metadataActions &&
-                  metadataActions.map((action, index) => {
-                    const Icon = action?.icon;
-                    return (
-                      <SimpleTooltip
-                        tooltip={action.label}
-                        key={uuid + "_" + bgIndex + "_action_" + index}
-                        // openDelay={500}
-                      >
-                        <Button
-                          style={{
-                            backgroundColor:
-                              getRandomColorByNumber(metadata[key]!.id) + "88",
-                          }}
-                          onClick={() => {
-                            metadataActionsMemo[index] &&
-                              setData((data) => {
-                                const [new_data, status] = action.action(
-                                  data,
-                                  metadata[key]!.id
-                                );
-                                setStatusText(status);
-                                return new_data;
-                              });
-                          }}
+                  {metadataActions &&
+                    metadataActions.map((action, index) => {
+                      const Icon = action?.icon;
+                      return (
+                        <Tooltip
+                          key={uuid + "_" + bgIndex + "_action_" + index}
                         >
-                          {Icon && <Icon />}
-                        </Button>
-                      </SimpleTooltip>
-                    );
-                  })}
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="relative rounded-none border-l-0 before:absolute before:inset-0 first:rounded-l first:border last:rounded-r hover:before:bg-black/20"
+                              style={{
+                                backgroundColor:
+                                  getRandomColorByNumber(metadata[key]!.id) +
+                                  "88",
+                              }}
+                              onClick={() => {
+                                metadataActionsMemo[index] &&
+                                  setData((data) => {
+                                    const [new_data, status] = action.action(
+                                      data,
+                                      metadata[key]!.id
+                                    );
+                                    setStatusText(status);
+                                    return new_data;
+                                  });
+                              }}
+                            >
+                              {Icon && <Icon />}
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>{action.label}</TooltipContent>
+                        </Tooltip>
+                      );
+                    })}
+                </div>
               </div>
             ))}
-          <SimpleTooltip tooltip={t.clear}>
-            <Button
-              onClick={() => {
-                clearMetadataOnSelection();
-                incrementUpdateCount();
-                setStatusText("Usunięto metadane");
-              }}
-            >
-              <IconTrashX />
-            </Button>
-          </SimpleTooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  clearMetadataOnSelection();
+                  incrementUpdateCount();
+                  setStatusText("Usunięto metadane");
+                }}
+              >
+                <IconTrashX />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t.clear}</TooltipContent>
+          </Tooltip>
         </div>
         <div className="flex items-end">
-          <SimpleTooltip tooltip={t.fullscreen}>
-            <Button
-              onClick={() => {
-                setFullscreen((fullscreen) => !fullscreen);
-              }}
-            >
-              <IconScreenShare />
-            </Button>
-          </SimpleTooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => {
+                  setFullscreen((fullscreen) => !fullscreen);
+                }}
+              >
+                <IconScreenShare />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t.fullscreen}</TooltipContent>
+          </Tooltip>
         </div>
       </div>
-      <ScrollArea>
+      <ScrollArea className="bg-white dark:bg-stone-950">
         <ReactSpreadsheet
           data={data}
           onChange={(data) => {
@@ -396,11 +414,12 @@ const Spreadsheet = (props: SpreadsheetProps) => {
       </ScrollArea>
       <div
         className={
-          statusText.startsWith("error")
+          "p-2 " +
+          (statusText.startsWith("error")
             ? "text-red-500"
             : statusText.startsWith("success")
             ? "text-green-500"
-            : "text-gray-500"
+            : "text-gray-500")
         }
       >
         {statusText || "⸺"}

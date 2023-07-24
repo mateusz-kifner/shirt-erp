@@ -132,7 +132,9 @@ const OrdersPage: NextPage = () => {
     ? orderData?.products?.reduce(
         (prev, next) => ({
           ...prev,
-          [next.name ?? "[NAME NOT SET] " + next.id]: { id: next.id },
+          [`${next.name}:${next.id}` ?? "[NAME NOT SET] " + next.id]: {
+            id: next.id,
+          },
         }),
         {}
       )
@@ -360,14 +362,23 @@ const OrdersPage: NextPage = () => {
           )
         }
       >
-        <OrderList selectedId={id} onAddElement={() => setOpenAddModal(true)} />
-        <ApiEntryEditable
-          template={template}
-          entryName={entryName}
-          id={id}
-          allowDelete
-        />
-        <div>{/*MAILS HERE*/}TODO: Add mails here</div>
+        <div className="relative p-4">
+          <OrderList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+        <div className="relative p-4">
+          <ApiEntryEditable
+            template={template}
+            entryName={entryName}
+            id={id}
+            allowDelete
+          />
+        </div>
+        <div className="relative p-4">
+          <div>{/*MAILS HERE*/}TODO: Add mails here</div>
+        </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (
             <Spreadsheet

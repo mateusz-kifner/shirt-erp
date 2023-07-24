@@ -127,7 +127,7 @@ const Workspace = ({
         activeTabs.map((childIndex, index) => (
           <div
             key={uuid + index}
-            className="relative flex w-[420px] min-w-[420px] flex-col rounded bg-white p-4 shadow-lg dark:bg-stone-800"
+            className="flex w-[420px] min-w-[420px] flex-col rounded bg-white shadow-lg dark:bg-stone-800"
             {...(childrenWrapperProps &&
             childrenWrapperProps[childIndex] !== undefined
               ? childrenWrapperProps[childIndex]
