@@ -38,7 +38,7 @@ import {
   IconNotebook,
   IconPlus,
   IconRobot,
-  IconRuler,
+  IconRuler2,
   IconTable,
   IconVector,
 } from "@tabler/icons-react";
@@ -216,7 +216,7 @@ const OrdersPage: NextPage = () => {
   //   },
   //   table: {
   //     type: "table",
-  //     metadataIcons: [IconColorSwatch, IconRulerMeasure],
+  //     metadataIcons: [IconColorSwatch, IconRuler2Measure],
   //     metadataLabels: ["Kolor", "Rozmiar"],
   //     metadata,
   //     metadataActions: [
@@ -387,7 +387,7 @@ const OrdersPage: NextPage = () => {
               metadata={metadata}
               metadataVisuals={[
                 { icon: IconColorSwatch, label: "Color" },
-                { icon: IconRuler, label: "Size" },
+                { icon: IconRuler2, label: "Size" },
               ]}
               metadataActions={[
                 {
