@@ -30,7 +30,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
       onClose(data.id);
     },
     onError(error) {
-      //setError("Produkt o takiej nazwie istnieje.");
+      setError("Produkt o takiej nazwie już istnieje.");
     },
   });
 

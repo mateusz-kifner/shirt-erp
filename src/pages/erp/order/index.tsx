@@ -127,6 +127,7 @@ const OrdersPage: NextPage = () => {
     //   })
   };
 
+  console.log(orderData?.products);
   const metadata = orderData
     ? orderData?.products?.reduce(
         (prev, next) => ({

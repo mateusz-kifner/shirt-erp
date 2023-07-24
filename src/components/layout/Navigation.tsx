@@ -17,7 +17,7 @@ function Navigation() {
   return (
     <div
       className={`fixed left-0 top-14 flex h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)]  flex-col justify-between  border-r-[1px] border-stone-400 bg-white  px-3 py-1 transition-all dark:border-stone-600 dark:bg-stone-900 ${
-        navigationCollapsed ? "w-20" : "w-64"
+        navigationCollapsed ? "w-[5.0625rem]" : "w-64" // 5.0625rem centers circle around button
       }`}
     >
       <div className="scrollbar scrollbar-track-transparent scrollbar-thumb-blue-500 scrollbar-corner-transparent  scrollbar-thumb-rounded-full scrollbar-w-2 overflow-y-auto overflow-x-hidden transition-all ">
@@ -31,7 +31,6 @@ function Navigation() {
                   // onClick={(e: any) => {
                   //   !biggerThanSM && toggleNavigationCollapsed()
                   // }}
-                  small={navigationCollapsed}
                   active={val.entryName === router.pathname.split("/")[2]}
                 />
               )

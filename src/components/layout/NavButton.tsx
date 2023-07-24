@@ -4,7 +4,6 @@ import { useId, type ButtonHTMLAttributes, type ComponentType } from "react";
 
 interface NavButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
-  small?: boolean;
   label: string;
   Icon: TablerIconType;
   href: string;
@@ -16,7 +15,7 @@ interface NavButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 function NavButton(props: NavButtonProps) {
-  const { label, href, Icon, gradient, color, active, small } = props;
+  const { label, href, Icon, gradient, color, active } = props;
   const uuid = useId();
   return (
     <Link

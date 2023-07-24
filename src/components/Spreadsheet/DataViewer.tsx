@@ -14,11 +14,11 @@ export function getOffsetRect(element: HTMLElement): Dimensions {
 export const TRUE_TEXT = "TRUE";
 export const FALSE_TEXT = "FALSE";
 
-/** The default Spreadsheet DataViewer component */
 const DataViewer = <Cell extends CellBase<Value>, Value>({
   cell,
-}: DataViewerProps<Cell>) => {
-  let value = cell?.value ?? "";
+  evaluatedCell,
+}: DataViewerProps<Cell>): React.ReactElement => {
+  const value = evaluatedCell?.value ?? cell?.value;
 
   return typeof value === "boolean" ? (
     <span className="Spreadsheet__data-viewer Spreadsheet__data-viewer--boolean">

@@ -1,10 +1,11 @@
-import React, { useId, useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 
 // Icons
 import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
 
 // Spreadsheet Imports
 import type {
+  CellComponent,
   ColumnIndicatorComponent,
   Point,
   RowIndicatorComponent,
@@ -23,9 +24,11 @@ import { api } from "@/utils/api";
 import TableCenterIcon from "../icons/TableCenterIcon";
 import TableEdgeIcon from "../icons/TableEdgeIcon";
 import { ContextMenuItem } from "../ui/ContextMenu";
+import { Cell, enhance as enhanceCell } from "./Cell";
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,
 } from "./ColumnIndicator";
+import DataViewer from "./DataViewer";
 import RowIndicator, { enhance as enhanceRowIndicator } from "./RowIndicator";
 
 interface SpreadsheetProps {
@@ -50,9 +53,8 @@ const Spreadsheet = (props: SpreadsheetProps) => {
   const { data: value } = api.spreadsheet.getById.useQuery(id, {});
   const [statusText, setStatusText] = useState<string>("");
   const uuid = useId();
-  const [openedColumn, setOpenedColumn] = useState<boolean>(false);
-  const [openedRow, setOpenedRow] = useState<boolean>(false);
   const t = useTranslation();
+  console.log(metadata);
 
   const [
     data,
@@ -117,32 +119,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     clearMetadata(selection);
     incrementUpdateCount();
     setSelection([]);
-  };
-
-  const onContextmenuColumn = (
-    e: React.MouseEvent<HTMLDivElement>,
-    column: number
-  ) => {
-    e.preventDefault();
-    if (!openedColumn) {
-      setOpenedColumn(true);
-      // setContextPositionAndValue([e?.pageX, e?.pageY, column]);
-    } else {
-      setOpenedColumn(false);
-    }
-  };
-
-  const onContextmenuRow = (
-    e: React.MouseEvent<HTMLDivElement>,
-    row: number
-  ) => {
-    e.preventDefault();
-    if (!openedColumn) {
-      setOpenedRow(true);
-      // setContextPositionAndValue([e?.pageX, e?.pageY, row]);
-    } else {
-      setOpenedColumn(false);
-    }
   };
 
   // useEffect(() => {
@@ -221,8 +197,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as ColumnIndicatorComponent,
-    //eslint-disable-next-line
-    [openedColumn]
+    []
   );
 
   const enhancedRowIndicator = useMemo(
@@ -278,14 +253,17 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as RowIndicatorComponent,
-    //eslint-disable-next-line
-    [openedRow]
+    []
   );
 
-  // const enhancedCell = useMemo(
-  //   () => enhanceCell(Cell, metadataIcons ?? []) as unknown as CellComponent,
-  //   [metadataIcons]
-  // );
+  const enhancedCell = useMemo(
+    () =>
+      enhanceCell(
+        Cell,
+        metadataVisuals.map((val) => val.icon) ?? []
+      ) as unknown as CellComponent,
+    [metadataVisuals]
+  );
 
   const metadataActionsMemo = useMemo(() => metadataActions, [metadataActions]);
 
@@ -298,7 +276,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
       }
     >
       <div
-        className={`flex items-end justify-around py-1 ${
+        className={`flex items-end justify-between py-1 ${
           ""
           // disabled ? "none" : ""
         }`}
@@ -407,9 +385,9 @@ const Spreadsheet = (props: SpreadsheetProps) => {
             setCanUpdate(mode === "view");
           }}
           onCellCommit={() => setCanUpdate(true)}
-          // DataViewer={DataViewer}
+          DataViewer={DataViewer}
           // DataEditor={disabled ? DataEditorDisabled : undefined}
-          // Cell={enhancedCell}
+          Cell={enhancedCell}
           className="Spreadsheet"
           ColumnIndicator={enhancedColumnIndicator}
           RowIndicator={enhancedRowIndicator}

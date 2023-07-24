@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 
-import Editable from "@/components/editable/Editable";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
-import { toast } from "@/hooks/useToast";
 import useTranslation from "@/hooks/useTranslation";
 import { appRouter } from "@/server/api/root";
 import { prisma } from "@/server/db";
 import { sessionOptions } from "@/server/session";
-import template from "@/templates/test.template";
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
 import {
@@ -180,26 +177,8 @@ function Settings() {
               >
                 Open Test Form
               </Button>
-
-              <Button
-                onClick={() => {
-                  /**/
-                  toast({ title: "test" });
-                }}
-                leftSection={<IconBug />}
-              >
-                show info
-              </Button>
             </>
           )}
-          <Editable
-            data={testValue}
-            template={template}
-            onSubmit={(key, value) => {
-              setTestValue((val: any) => ({ ...val, [key]: value }));
-              console.log(key, value);
-            }}
-          />
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import {
   CSSProperties,
   MouseEvent,
-  SVGAttributes,
   useCallback,
   useEffect,
   useMemo,
@@ -9,9 +8,10 @@ import {
 } from "react";
 import { Dimensions, Point } from "react-spreadsheet";
 
+import TablerIconType from "@/schema/TablerIconType";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { merge } from "lodash";
-import type { ComponentType, FC } from "react";
+import type { FC } from "react";
 import type { CellBase, CellComponentProps } from "react-spreadsheet";
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
@@ -25,10 +25,6 @@ export function getOffsetRect(element: HTMLElement): Dimensions {
   };
 }
 
-type GenericSVGIcon = ComponentType<
-  ({ size?: number } & SVGAttributes<SVGElement>) | any
->;
-
 type CellWithIcons = CellComponentProps<
   CellBase<string> & {
     metaId?: number;
@@ -37,7 +33,7 @@ type CellWithIcons = CellComponentProps<
     active?: any;
   }
 > & {
-  icons: GenericSVGIcon[];
+  icons: TablerIconType[];
 };
 
 export const Cell = ({
@@ -51,6 +47,9 @@ export const Cell = ({
   data,
   select,
   activate,
+  evaluatedData,
+  copied,
+  setCellData,
   setCellDimensions,
   icons,
 }: CellWithIcons) => {
@@ -106,7 +105,7 @@ export const Cell = ({
   return (
     <td
       ref={rootRef}
-      className={"Spreadsheet__cell"}
+      className={"Spreadsheet__cell relative"}
       style={merge(data?.style, {
         background: data?.metaId
           ? getRandomColorByNumber(data.metaId) + "88"
@@ -128,13 +127,13 @@ export const Cell = ({
         ) : (
           <IconX size={12} style={{ position: "absolute", top: 0, left: 0 }} />
         ))}
+
       <DataViewer
         row={row}
         column={column}
         cell={data ?? { value: "" }}
-        setCellData={function (cell: CellBase<any>): void {
-          throw new Error("Function not implemented.");
-        }}
+        setCellData={setCellData}
+        evaluatedCell={evaluatedData}
       />
     </td>
   );
@@ -142,9 +141,9 @@ export const Cell = ({
 
 export const enhance = (
   CellComponent: FC<CellWithIcons>,
-  icons: GenericSVGIcon[]
+  icons: TablerIconType[]
 ): FC<CellWithIcons> => {
-  return function ColumnIndicatorWrapper(props) {
+  return function CellWrapper(props) {
     return <CellComponent {...props} icons={icons} />;
   };
 };
