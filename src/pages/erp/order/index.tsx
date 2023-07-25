@@ -2,15 +2,6 @@ import { useId, useState } from "react";
 
 import template from "@/templates/order.template";
 // import * as XLSX from "xlsx"
-// import ApiEntryEditable from "../../../components/api/ApiEntryEditable"
-// import Workspace from "../../../components/layout/Workspace"
-// import OrdersList from "./OrdersList"
-// import { NextPage } from "next"
-// import { getQueryAsIntOrNull } from "../../../utils/nextQueryUtils"
-// import OrderAddModal from "./OrderAddModal"
-// import useStrapi from "../../../hooks/useStrapi"
-// import { OrderType } from "../../../types/OrderType"
-// import Editable from "../../../components/editable/Editable"
 import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
@@ -44,18 +35,8 @@ import {
 } from "@tabler/icons-react";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-// import { Button, Group, Menu, Stack, Text } from "@mantine/core"
-// import DeleteButton from "../../../components/DeleteButton"
-// import { useTranslation } from "../../../i18n"
-// import { UniversalMatrix } from "../../../components/spreadsheet/useSpreadSheetData"
-// import { getColorNameFromHex } from "../../../components/editable/EditableColor"
-// import verifyMetadata from "../../../components/spreadsheet/verifyMetadata"
 // import designBackgrounds from "./designBackgrounds"
-// import { useRouter } from "next/router"
-// import { Tab } from "../../../components/layout/MultiTabs"
-// import { useAuthContext } from "../../../context/authContext"
 // import OrderMessagesView from "./OrderMessagesView"
-// import axios from "axios"
 
 const entryName = "order";
 
@@ -74,6 +55,8 @@ const OrdersPage: NextPage = () => {
   const { mutate: createSpreadsheetMutation } =
     api.spreadsheet.create.useMutation({});
 
+  const { mutate: createDesignMutation } =
+    api.design.create.useMutation({});
   const t = useTranslation();
   // const { isSmall, hasTouch } = useAuthContext()
   // const isMobile = hasTouch || isSmall
@@ -208,7 +191,13 @@ const OrdersPage: NextPage = () => {
       orderId: id ?? undefined,
     });
   };
-  const addDesign = () => {};
+  const addDesign = () => {
+    createDesignMutation({
+      name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
+      data: [],
+      orderId: id ?? undefined,
+    });
+  };
   // const table_template = {
   //   name: {
   //     label: "Nazwa arkusza",
@@ -404,159 +393,6 @@ const OrdersPage: NextPage = () => {
             />
           ))}
       </Workspace>
-      {/*
-      <Workspace
-        childrenLabels={childrenLabels}
-        childrenIcons={childrenIcons}
-        rightMenuSection={
-          id !== null && (
-            <Menu position="bottom" withArrow withinPortal>
-              <Menu.Target>
-                <Tab
-                  Icon={IconPlus}
-                  value={childrenLabels.length}
-                  p="xs"
-                  variant="outline"
-                >
-                  {isMobile ? t("add") : ""}
-                </Tab>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item py={4}>
-                  <Text color="grey" size="xs">
-                    {t("close")}
-                  </Text>
-                </Menu.Item>
-                {addElementLabels.map((label, index) => {
-                  const Icon = addElementIcons?.[index]
-                    ? addElementIcons[index]
-                    : IconPlus
-                  return (
-                    <Menu.Item
-                      key={uuid + "_menu_" + index}
-                      icon={<Icon size={18} />}
-                      onClick={() => onAddElement?.(index)}
-                    >
-                      {t(label as any)}
-                    </Menu.Item>
-                  )
-                })}
-              </Menu.Dropdown>
-            </Menu>
-          )
-        }
-      >
-        <OrdersList
-          selectedId={id}
-          onAddElement={() => setOpenAddModal(true)}
-        />
-
-        <Stack>
-          <ApiEntryEditable
-            template={template}
-            entryName={"orders"}
-            id={id}
-            allowDelete
-          />
-          {!!id && (
-            <Button
-              style={{ position: "relative", bottom: "96px" }}
-              onClick={() =>
-                axios
-                  .get("/order/archive/" + id)
-                  .then((res) => {
-                    router.push(`/erp/orders`)
-                  })
-                  .catch((err) => console.log(err))
-              }
-              variant={"light"}
-              color="orange"
-            >
-              {t("archive")}
-            </Button>
-          )}
-        </Stack>
-        <OrderMessagesView order={data} refetch={refetch} />
-
-        {data &&
-          Array.isArray(data?.tables) &&
-          data.tables.map((table, index) => {
-            // console.log(table)
-            return (
-              table && (
-                <div key={uuid + index}>
-                  <Stack style={{ minHeight: 200 }}>
-                    <Editable
-                      template={table_template}
-                      data={table}
-                      onSubmit={(key, value) => {
-                        console.log("onSubmit table [", key, "]: ", value)
-                        apiUpdate(
-                          "tables",
-                          data.tables.map((originalVal, originalIndex) =>
-                            index === originalIndex
-                              ? { ...originalVal, [key]: value }
-                              : originalVal
-                          )
-                        )
-                      }}
-                    />{" "}
-                  </Stack>
-                  <Group></Group>
-                  <DeleteButton
-                    label="sheet"
-                    onDelete={() =>
-                      update({
-                        id: data.id,
-                        tables: data.tables.filter((val, i) => i !== index),
-                      })
-                    }
-                    buttonProps={{ mt: "4rem" }}
-                  />
-                </div>
-              )
-            )
-          })}
-        {data &&
-          Array.isArray(data?.designs) &&
-          data.designs.map((design, index) => {
-            // console.log(table)
-            return (
-              design && (
-                <div key={uuid + index}>
-                  <Stack style={{ minHeight: 200 }}>
-                    <Editable
-                      template={design_template}
-                      data={design}
-                      onSubmit={(key, value) => {
-                        console.log("onSubmit design [", key, "]: ", value)
-                        apiUpdate(
-                          "design",
-                          data.designs.map((originalVal, originalIndex) =>
-                            index === originalIndex
-                              ? { ...originalVal, [key]: value }
-                              : originalVal
-                          )
-                        )
-                      }}
-                    />{" "}
-                  </Stack>
-                  <Group></Group>
-                  <DeleteButton
-                    label="design"
-                    onDelete={() =>
-                      update({
-                        id: data.id,
-                        designs: data.designs.filter((val, i) => i !== index),
-                      })
-                    }
-                    buttonProps={{ mt: "4rem" }}
-                  />
-                </div>
-              )
-            )
-          })}
-      </Workspace> */}
       <OrderAddModal
         opened={openAddModal}
         onClose={(id?: number) => {

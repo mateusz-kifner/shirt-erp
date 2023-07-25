@@ -282,8 +282,8 @@ model Spreadsheet {
 }
 
 model Design {
-  id    Int     @id @default(autoincrement())
-  name  String? @db.VarChar(255)
-  data  Json?   @default("[]")
-  Order Order[]
+  id     Int     @id @default(autoincrement())
+  name   String? @db.VarChar(255)
+  data   Json?   @default("[]")
+  orders Order[]
 }

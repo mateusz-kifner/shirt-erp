@@ -4,6 +4,7 @@ import { productRouter } from "@/server/api/routers/product";
 import { sessionRouter } from "@/server/api/routers/session";
 import { settingsRouter } from "@/server/api/routers/settings";
 import { createTRPCRouter } from "@/server/api/trpc";
+import { designRouter } from "./routers/design";
 import { orderRouter } from "./routers/order";
 import { searchRouter } from "./routers/search";
 import { spreadsheetRouter } from "./routers/spreadsheet";
@@ -22,6 +23,7 @@ export const appRouter = createTRPCRouter({
   client: clientRouter,
   order: orderRouter,
   spreadsheet: spreadsheetRouter,
+  design: designRouter,
   user: userRouter,
   search: searchRouter,
 });
