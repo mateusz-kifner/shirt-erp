@@ -22,7 +22,19 @@ const Notifications = () => {
   const uuid = useId();
   const todayDate = dayjs().format("YYYY-MM-DD");
   const router = useRouter();
-  const { data } = api.session.me.useQuery();
+  const { data, error, isError } = api.session.me.useQuery(undefined, {
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (
+      isError &&
+      error?.data?.httpStatus === 403 &&
+      error.message === "User not authenticated"
+    ) {
+      void router.push("/login");
+    }
+  }, [error]);
 
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {
