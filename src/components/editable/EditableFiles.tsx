@@ -138,7 +138,7 @@ const EditableFiles = (props: EditableFilesProps) => {
       }
     }
   };
-
+  console.log(preview.width, preview.height);
   return (
     <div onDragEnter={handleDrag}>
       <Label
@@ -156,12 +156,12 @@ const EditableFiles = (props: EditableFilesProps) => {
             !open && setPreviewOpened(false);
           }}
         >
-          <DialogContent className="max-h-[90vh] min-h-[4rem] max-w-[90vw] object-contain">
+          <DialogContent className={"max-h-none w-auto max-w-none md:w-auto"}>
             <img
               src={preview.url}
               alt=""
-              className="max-h-[85vh] max-w-[85vw]"
-              style={{ width: preview.width }}
+              className={"max-h-[85vh] max-w-[85vw]"}
+              style={{ width: preview.width, objectFit: "contain" }}
             />
           </DialogContent>
         </Dialog>
