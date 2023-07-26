@@ -76,7 +76,7 @@ const EditableEnum = ({
         </SelectTrigger>
         <SelectContent>
           {enum_data.map((val, index) => (
-            <SelectItem value={val} key={`${uuid}_${index}`}>
+            <SelectItem value={val} key={`${uuid}:${index}`}>
               {(t[val as keyof typeof t] as string | undefined) ?? val}
             </SelectItem>
           ))}

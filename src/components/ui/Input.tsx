@@ -1,21 +1,58 @@
-import { forwardRef, type InputHTMLAttributes } from "react";
+import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
 
 import { cn } from "@/utils/cn";
+import DisplayCell from "./DisplayCell";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  leftSection?: ReactNode;
+  rightSection?: ReactNode;
+  focus?: boolean;
+  displayCellClassName?: string;
+}
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  (
+    {
+      className,
+      displayCellClassName,
+      leftSection,
+      rightSection,
+      focus,
+      type,
+      ...props
+    },
+    ref
+  ) => {
     return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-10 w-full rounded-md border border-stone-200  bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-stone-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50  dark:border-stone-800 dark:bg-stone-950 dark:ring-offset-stone-950 dark:placeholder:text-stone-400 dark:focus-visible:ring-stone-800",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
+      <DisplayCell
+        leftSection={leftSection}
+        rightSection={rightSection}
+        focus={focus}
+        className={displayCellClassName}
+      >
+        <input
+          type={type}
+          className={cn(
+            `
+            data-disabled:text-gray-500
+            dark:data-disabled:text-gray-500
+            w-full
+            resize-none
+            overflow-hidden
+            whitespace-pre-line 
+            break-words
+            bg-transparent
+            py-3
+            text-sm
+            outline-none
+            focus-visible:border-transparent
+            focus-visible:outline-none`,
+            className
+          )}
+          ref={ref}
+          {...props}
+        />
+      </DisplayCell>
     );
   }
 );

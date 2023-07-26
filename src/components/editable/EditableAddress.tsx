@@ -1,15 +1,21 @@
-import { useEffect, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { useClickOutside, useFocusReturn } from "@mantine/hooks";
 import { isEqual } from "lodash";
-
-import EditableEnum from "@/components/editable/EditableEnum";
-import EditableText from "@/components/editable/EditableText";
 
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { type AddressType } from "@/schema/addressSchema";
+import { Input } from "../ui/Input";
+import EditableEnum from "./EditableEnum";
 
 const provinces = [
   "dolnośląskie",
@@ -36,6 +42,60 @@ interface EditableAddressProps
   maxLength?: number;
 }
 
+interface InputAddressFieldProps {
+  label?: string | null;
+  value: string;
+  leftSection?: ReactNode;
+  rightSection?: ReactNode;
+  onSubmit: (value: string) => void;
+}
+
+const InputAddressField = forwardRef<HTMLInputElement, InputAddressFieldProps>(
+  (props, ref) => {
+    const { label, value, leftSection, rightSection, onSubmit } = props;
+    const [focus, setFocus] = useState<boolean>(false);
+    const [val, setVal] = useState(value ?? "");
+    const uuid = useId();
+
+    useEffect(() => {
+      if (!focus) {
+        onSubmit?.(val);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [focus]);
+
+    useEffect(() => {
+      if (value !== val) {
+        setVal(value);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
+
+    return (
+      <div className="flex flex-grow flex-col">
+        <Label
+          htmlFor={`${uuid}:addressField:`}
+          label={label}
+          copyValue={value}
+        />
+        <Input
+          id={`${uuid}:addressField:`}
+          value={val}
+          onChange={(e) => e.target.value !== null && setVal(e.target.value)}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          focus={focus}
+          leftSection={leftSection}
+          rightSection={rightSection}
+          ref={ref}
+        />
+      </div>
+    );
+  }
+);
+
+InputAddressField.displayName = "InputAddressField";
+
 const EditableAddress = (props: EditableAddressProps) => {
   const {
     label,
@@ -49,19 +109,54 @@ const EditableAddress = (props: EditableAddressProps) => {
   } = props;
   const [address, setAddress] = useState<AddressType>(value);
   const [focus, setFocus] = useState<boolean>(false);
-  console.log(value);
-  const ref = useClickOutside(() => setFocus(false));
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
+  const ref = useClickOutside(() => {
+    if (!enumOpen) {
+      // onFocusLose();
+      setFocus(false);
+    }
+  });
   const returnFocus = useFocusReturn({
     opened: enumOpen,
   });
+  const onFocus = () => !disabled && setFocus(true);
+
+  const refStreetName = useRef<HTMLInputElement>(null);
+  const refStreetNumber = useRef<HTMLInputElement>(null);
+  const refApartmentNumber = useRef<HTMLInputElement>(null);
+  const refSecondLine = useRef<HTMLInputElement>(null);
+  const refPostCode = useRef<HTMLInputElement>(null);
+  const refCity = useRef<HTMLInputElement>(null);
+
+  // const onFocusLose = () => {
+  //   console.log(
+  //     value && {
+  //       ...value,
+  //       streetName: refStreetName.current?.value ?? "",
+  //       streetNumber: refStreetNumber.current?.value ?? "",
+  //       apartmentNumber: refApartmentNumber.current?.value ?? "",
+  //       secondLine: refSecondLine.current?.value ?? "",
+  //       postCode: refPostCode.current?.value ?? "",
+  //       city: refCity.current?.value ?? "",
+  //     }
+  //   );
+  //   value &&
+  //     setAddress({
+  //       ...value,
+  //       streetName: refStreetName.current?.value ?? "",
+  //       streetNumber: refStreetNumber.current?.value ?? "",
+  //       apartmentNumber: refApartmentNumber.current?.value ?? "",
+  //       secondLine: refSecondLine.current?.value ?? "",
+  //       postCode: refPostCode.current?.value ?? "",
+  //       city: refCity.current?.value ?? "",
+  //     });
+  // };
 
   const setAddressField = (key: string, val: string) => {
     const new_address = { ...address, [key]: val } as AddressType;
     const prevAddress = value;
 
     if (!isEqual(prevAddress, new_address)) {
-      onSubmit?.(new_address);
       setAddress(new_address);
     }
   };
@@ -69,6 +164,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   useEffect(() => {
     if (focus) {
       // setPrevAddress({ ...address })
+    } else {
     }
     // eslint-disable-next-line
   }, [focus]);
@@ -106,84 +202,92 @@ const EditableAddress = (props: EditableAddressProps) => {
   };
 
   const valueString = toString();
+
   return (
     <div>
       <Label label={label?.name} copyValue={toString()} required={required} />
       <DisplayCellExpanding
-        className={`p-2 ${
+        className={`px-2 ${
           !valueString ? "text-gray-400 dark:text-stone-600" : ""
         }`}
         ref={ref}
-        onClick={() => !disabled && setFocus(true)}
-        onFocus={() => !disabled && setFocus(true)}
+        onClick={onFocus}
+        onFocus={onFocus}
         leftSection={!(focus || enumOpen) && leftSection}
         rightSection={rightSection}
+        focus={focus}
       >
         {focus || enumOpen ? (
           <div
             style={{ position: "relative" }}
             className="flex flex-grow flex-col gap-2 pb-3"
-            tabIndex={99999} // ensure that focus can be captured on element
+            // tabIndex={99999} // ensure that focus can be captured on element
           >
-            <EditableText
-              label={label?.streetName ?? undefined}
-              value={value?.streetName ?? ""}
-              onSubmit={(value) =>
-                value !== null && setAddressField("streetName", value)
-              }
+            <InputAddressField
+              label={label?.streetName}
+              value={address?.streetName ?? ""}
+              onSubmit={(value: string) => {
+                setAddressField("streetName", value);
+              }}
+              ref={refStreetName}
             />
             <div className="flex flex-grow gap-2">
-              <EditableText
-                label={label?.streetNumber ?? undefined}
-                value={value?.streetNumber ?? ""}
-                onSubmit={(value) =>
-                  value !== null && setAddressField("streetNumber", value)
-                }
-                style={{ flexGrow: 1 }}
+              <InputAddressField
+                label={label?.streetNumber}
+                value={address?.streetNumber ?? ""}
+                onSubmit={(value: string) => {
+                  setAddressField("streetNumber", value);
+                }}
+                ref={refStreetNumber}
               />
-              <EditableText
-                label={label?.apartmentNumber ?? undefined}
-                value={value?.apartmentNumber ?? ""}
-                onSubmit={(value) =>
-                  value !== null && setAddressField("apartmentNumber", value)
-                }
-                style={{ flexGrow: 1 }}
+              <InputAddressField
+                label={label?.apartmentNumber}
+                value={address?.apartmentNumber ?? ""}
+                onSubmit={(value: string) => {
+                  setAddressField("apartmentNumber", value);
+                }}
+                ref={refApartmentNumber}
               />
             </div>
-            <EditableText
-              label={label?.secondLine ?? undefined}
-              value={value?.secondLine ?? ""}
-              onSubmit={(value) =>
-                value !== null && setAddressField("secondLine", value)
-              }
-            />
-            <EditableText
-              label={label?.postCode ?? undefined}
-              value={value?.postCode ?? ""}
-              onSubmit={(value) =>
-                value !== null && setAddressField("postCode", value)
-              }
-            />
-            <EditableText
-              label={label?.city ?? undefined}
-              value={value?.city ?? ""}
-              onSubmit={(value) =>
-                value !== null && setAddressField("city", value)
-              }
-            />
-            <EditableEnum
-              label={label?.province ?? undefined}
-              value={value?.province ?? ""}
-              onSubmit={(value) =>
-                value !== null && setAddressField("province", value)
-              }
-              enum_data={provinces}
-              open={enumOpen}
-              onOpenChange={(open) => {
-                setEnumOpen(open);
-                !open && returnFocus();
+            <InputAddressField
+              label={label?.secondLine}
+              value={address?.secondLine ?? ""}
+              onSubmit={(value: string) => {
+                setAddressField("secondLine", value);
               }}
+              ref={refSecondLine}
             />
+            <InputAddressField
+              label={label?.postCode}
+              value={address?.postCode ?? ""}
+              onSubmit={(value: string) => {
+                setAddressField("postCode", value);
+              }}
+              ref={refPostCode}
+            />
+            <InputAddressField
+              label={label?.city}
+              value={address?.city ?? ""}
+              onSubmit={(value: string) => {
+                setAddressField("city", value);
+              }}
+              ref={refCity}
+            />
+            <div className="flex flex-grow flex-col">
+              <Label label={label?.province} />
+              <EditableEnum
+                value={address?.province ?? ""}
+                onSubmit={(value) =>
+                  value !== null && setAddressField("province", value)
+                }
+                enum_data={provinces}
+                open={enumOpen}
+                onOpenChange={(open) => {
+                  setEnumOpen(open);
+                  !open && returnFocus();
+                }}
+              />
+            </div>
           </div>
         ) : (
           toString() || "⸺"
