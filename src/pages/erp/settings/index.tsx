@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import EditableEnum from "@/components/editable/EditableEnum";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -147,11 +148,11 @@ function Settings() {
           </div>
           <div className="flex items-center justify-stretch">
             <span className="w-1/2">{t.language}</span>
-            {/* <Select
-              data={["pl", "en"]}
+            <EditableEnum
+              enum_data={["pl", "en"]}
               defaultValue={locale ?? "pl"}
               onValueChange={changeLocale}
-            /> */}
+            />
           </div>
           <Button
             onClick={toggleTheme}

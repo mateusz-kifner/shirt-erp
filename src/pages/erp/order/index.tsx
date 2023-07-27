@@ -4,7 +4,7 @@ import template from "@/templates/order.template";
 // import * as XLSX from "xlsx"
 import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
-import { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
+import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
 import { Tab } from "@/components/layout/MultiTabs";
@@ -33,7 +33,7 @@ import {
   IconTable,
   IconVector,
 } from "@tabler/icons-react";
-import { NextPage } from "next";
+import { type NextPage } from "next";
 import { useRouter } from "next/router";
 // import designBackgrounds from "./designBackgrounds"
 // import OrderMessagesView from "./OrderMessagesView"
@@ -55,8 +55,7 @@ const OrdersPage: NextPage = () => {
   const { mutate: createSpreadsheetMutation } =
     api.spreadsheet.create.useMutation({});
 
-  const { mutate: createDesignMutation } =
-    api.design.create.useMutation({});
+  const { mutate: createDesignMutation } = api.design.create.useMutation({});
   const t = useTranslation();
   // const { isSmall, hasTouch } = useAuthContext()
   // const isMobile = hasTouch || isSmall
@@ -338,11 +337,21 @@ const OrdersPage: NextPage = () => {
                 </Tab>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => addSpreadsheet()}>
+                <DropdownMenuItem
+                  onClick={() => {
+                    addSpreadsheet();
+                    router.reload();
+                  }}
+                >
                   <IconTable />
                   {t.sheet}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => addDesign()}>
+                <DropdownMenuItem
+                  onClick={() => {
+                    addDesign();
+                    router.reload();
+                  }}
+                >
                   <IconVector />
                   {t.design}
                 </DropdownMenuItem>

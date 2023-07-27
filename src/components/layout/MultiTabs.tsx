@@ -77,7 +77,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             items-center
             justify-center 
             gap-3 
-            border-x 
+            border-r
             border-t
             border-solid
             border-stone-700 
@@ -90,7 +90,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             outline-offset-4 
             transition-all
             first:rounded-tl 
-            first:border-r-0
+            first:border-l
             last:rounded-tr
             only:rounded-tr
             only:border-r 
