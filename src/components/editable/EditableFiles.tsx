@@ -138,7 +138,6 @@ const EditableFiles = (props: EditableFilesProps) => {
       }
     }
   };
-  console.log(preview.width, preview.height);
   return (
     <div onDragEnter={handleDrag}>
       <Label

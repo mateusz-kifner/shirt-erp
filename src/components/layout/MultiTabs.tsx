@@ -9,8 +9,8 @@ import {
   type SyntheticEvent,
 } from "react";
 
-import { useMergedRef, useResizeObserver } from "@mantine/hooks";
-import { IconPinned } from "@tabler/icons-react";
+import { useIntersection, useMediaQuery } from "@mantine/hooks";
+import { IconAlertCircle, IconPinned } from "@tabler/icons-react";
 import { omit } from "lodash";
 
 import { useUserContext } from "@/context/userContext";
@@ -18,6 +18,8 @@ import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
 import { Portal } from "@radix-ui/react-portal";
+import Button from "../ui/Button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 
 export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   /** Value that is used to connect Tab with associated panel */
@@ -33,7 +35,6 @@ export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   Icon?: TablerIconType;
 
   small?: boolean;
-  setBigSize?: (size: number) => void;
   isActive?: boolean;
   index?: number;
 }
@@ -45,21 +46,12 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       Icon,
       rightSection,
       small = false,
-      setBigSize,
       isActive = false,
       onClick,
       onContextMenu,
       index,
       className,
     } = props;
-    const [resizeRef, rect] = useResizeObserver();
-    const groupRef = useMergedRef(resizeRef, ref);
-
-    useEffect(() => {
-      rect.width !== 0 && !small && setBigSize?.(rect.width + 46);
-      //eslint-disable-next-line
-    }, [rect.width]);
-
     const hasIcon = !!Icon;
     const hasRightSection = !!rightSection;
     const color =
@@ -68,24 +60,26 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         : undefined;
 
     return (
-      // <Tooltip tooltip={!!small && children} withinPortal position="bottom">
-      <button
-        className={cn(
-          `inline-flex
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            className={cn(
+              `inline-flex
             h-10
             select-none 
             items-center
             justify-center 
             gap-3 
+            whitespace-nowrap
             border-r
             border-t
-            border-solid
-            border-stone-700 
-            stroke-gray-200
+            border-solid 
+            border-stone-700
+            stroke-gray-200 
             px-4 
             py-0 
             font-semibold 
-            text-gray-200 
+            text-gray-200
             no-underline
             outline-offset-4 
             transition-all
@@ -102,33 +96,37 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             active:focus:animate-none 
             disabled:pointer-events-none	
             disabled:bg-stone-700`,
-          isActive ? "border-b-2 bg-transparent" : "border-b bg-stone-800",
-          className
-        )}
-        ref={groupRef}
-        onClick={onClick}
-        onContextMenu={onContextMenu}
-        style={{
-          borderBottomColor: isActive ? color : undefined,
-        }}
-        {...omit(props, [
-          "isActive",
-          "setBigSize",
-          "small",
-          "rightSection",
-          "Icon",
-          "children",
-        ])}
-      >
-        {hasIcon &&
-          (isActive && color ? (
-            <Icon size={16} color={color} />
-          ) : (
-            <Icon size={16} />
-          ))}
-        {!small && children}
-        {hasRightSection && rightSection}
-      </button>
+              isActive ? "border-b-2 bg-transparent" : "border-b bg-stone-800",
+              className
+            )}
+            ref={ref}
+            onClick={onClick}
+            onContextMenu={onContextMenu}
+            style={{
+              borderBottomColor: isActive ? color : undefined,
+            }}
+            {...omit(props, [
+              "isActive",
+              "small",
+              "rightSection",
+              "Icon",
+              "children",
+            ])}
+          >
+            {hasIcon &&
+              (isActive && color ? (
+                <Icon size={16} color={color} />
+              ) : (
+                <Icon size={16} />
+              ))}
+            {!small && children}
+            {hasRightSection && rightSection}
+          </button>
+        </TooltipTrigger>
+        {!!small && <TooltipContent side="bottom">{children}</TooltipContent>}
+      </Tooltip>
+      // <Tooltip tooltip={!!small && children} withinPortal position="bottom">
+
       // </Tooltip>
     );
   }
@@ -161,74 +159,98 @@ const MultiTabs = (props: MultiTabsProps) => {
     childrenLabels,
     childrenIcons,
     rightSection,
-    availableSpace,
+    leftSection,
   } = props;
   const portalContainerRef = useRef<HTMLElement | null>(null);
+  const portalContainerInnerRef = useRef<HTMLDivElement | null>(null);
+  const portalMobileContainerRef = useRef<HTMLElement | null>(null);
+  const [small, setSmall] = useState(false);
   const { navigationCollapsed, setNavigationCollapsed } = useUserContext();
-  const [tabsSizes, setTabsSizes] = useState<number[]>([]);
+  // const [tabsSizes, setTabsSizes] = useState<number[]>([]);
   const uuid = useId();
-  const [ref, rect] = useResizeObserver();
-  const maxSize = tabsSizes.reduce((prev, next) => prev + next, 0);
-  const small = maxSize + 108 > rect.width;
+  // const [ref, rect] = useResizeObserver();
+  // const maxSize = tabsSizes.reduce((prev, next) => prev + next, 0);
+  // const small = maxSize + 108 > rect.width;
   const childrenLabelsKey = childrenLabels.reduce(
     (prev, next) => prev + next,
     ""
   );
+  const { ref, entry } = useIntersection({
+    root: portalContainerInnerRef.current,
+    threshold: 1,
+  });
+  console.log(entry?.isIntersecting);
+  const hasTouch = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)"
+  );
+
+  const isSmall = useMediaQuery(`(max-width: 780px)`, true);
+
+  useEffect(() => {
+    entry !== undefined && entry?.isIntersecting === false && setSmall(true);
+  }, [entry]);
+
+  useEffect(() => {
+    setSmall(false);
+  }, [childrenLabels.length]);
 
   // const t = useTranslation();
-  useEffect(() => {
-    setTabsSizes([]);
-  }, [childrenLabelsKey]);
+  // useEffect(() => {
+  //   setTabsSizes([]);
+  // }, [childrenLabelsKey]);
 
   useEffect(() => {
     portalContainerRef.current = document.querySelector("#HeaderTabs");
+    portalMobileContainerRef.current = document.querySelector("#SpecialMenu");
   }, []);
 
-  // if (isSmall || hasTouch) {
-  //   return (
-  //     <Portal target="#SpecialMenu">
-  //       <Stack>
-  //         {!!leftSection && leftSection}
-  //         {childrenLabels.map((label, index) => {
-  //           const Icon =
-  //             childrenIcons?.[index] ??
-  //             childrenIcons?.[childrenIcons.length - 1] ??
-  //             IconAlertCircle;
+  if (isSmall || hasTouch) {
+    return (
+      <Portal container={portalMobileContainerRef.current}>
+        <div className="flex flex-col gap-2">
+          {!!leftSection && leftSection}
+          {childrenLabels.map((label, index) => {
+            const Icon =
+              childrenIcons?.[index] ??
+              childrenIcons?.[childrenIcons.length - 1] ??
+              IconAlertCircle;
 
-  //           const color =
-  //             index !== undefined
-  //               ? simpleColors[index % simpleColors.length]
-  //               : undefined;
-  //           return (
-  //             <Button
-  //               key={uuid + "_" + index}
-  //               px="md"
-  //               leftIcon={<Icon size={32} />}
-  //               onClick={() => {
-  //                 onTabChange(index);
-  //                 setNavigationCollapsed(false);
-  //               }}
-  //               disabled={index === active}
-  //               variant="outline"
-  //               style={{
-  //                 borderColor: color,
-  //                 color: color,
-  //               }}
-  //               size="xl"
-  //             >
-  //               <Text size="md">{label}</Text>
-  //             </Button>
-  //           );
-  //         })}
-  //         {!!rightSection && rightSection}
-  //       </Stack>
-  //     </Portal>
-  //   );
-  // }
+            const color =
+              index !== undefined
+                ? simpleColors[index % simpleColors.length]
+                : undefined;
+            return (
+              <Button
+                key={uuid + "_" + index}
+                leftSection={<Icon size={32} />}
+                onClick={() => {
+                  onActive(index);
+                  setNavigationCollapsed(false);
+                }}
+                disabled={index === active}
+                variant="outline"
+                style={{
+                  borderColor: color,
+                  color: color,
+                }}
+              >
+                {label}
+              </Button>
+            );
+          })}
+          {!!rightSection && rightSection}
+        </div>
+      </Portal>
+    );
+  }
 
   return (
-    <Portal container={portalContainerRef.current}>
-      <div className="flex h-14 items-end px-4" ref={ref}>
+    <Portal
+      container={portalContainerRef.current}
+      className="relative overflow-hidden"
+      ref={portalContainerInnerRef}
+    >
+      <div className="flex h-14 w-fit items-end px-4" ref={ref}>
         {childrenLabels.map((label, index) => {
           const isPinned = pinned?.includes(index);
 
@@ -242,16 +264,6 @@ const MultiTabs = (props: MultiTabsProps) => {
                 childrenIcons?.[childrenIcons.length - 1]
               }
               small={small}
-              setBigSize={
-                (size) => {
-                  /**/
-                }
-                // setTabsSizes((val) => {
-                //   let new_arr = [...val];
-                //   new_arr[index] = size;
-                //   return new_arr;
-                // })
-              }
               rightSection={isPinned ? <IconPinned size={16} /> : undefined}
               isActive={active === index || isPinned}
               // eslint-disable-next-line @typescript-eslint/no-unsafe-return
