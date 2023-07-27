@@ -9,7 +9,11 @@ import {
   type SyntheticEvent,
 } from "react";
 
-import { useIntersection, useMediaQuery } from "@mantine/hooks";
+import {
+  useDebouncedValue,
+  useMediaQuery,
+  useResizeObserver,
+} from "@mantine/hooks";
 import { IconAlertCircle, IconPinned } from "@tabler/icons-react";
 import { omit } from "lodash";
 
@@ -18,6 +22,7 @@ import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
 import { Portal } from "@radix-ui/react-portal";
+import { usePrev } from "@react-spring/shared";
 import Button from "../ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 
@@ -166,20 +171,18 @@ const MultiTabs = (props: MultiTabsProps) => {
   const portalMobileContainerRef = useRef<HTMLElement | null>(null);
   const [small, setSmall] = useState(false);
   const { navigationCollapsed, setNavigationCollapsed } = useUserContext();
-  // const [tabsSizes, setTabsSizes] = useState<number[]>([]);
   const uuid = useId();
-  // const [ref, rect] = useResizeObserver();
-  // const maxSize = tabsSizes.reduce((prev, next) => prev + next, 0);
-  // const small = maxSize + 108 > rect.width;
   const childrenLabelsKey = childrenLabels.reduce(
     (prev, next) => prev + next,
     ""
   );
-  const { ref, entry } = useIntersection({
-    root: portalContainerInnerRef.current,
-    threshold: 1,
+  const prevChildrenLabelsKey = usePrev(childrenLabelsKey);
+  const [innerRef, innerRect] = useResizeObserver();
+  const [outerRef, outerRect] = useResizeObserver();
+  const [outerWidth] = useDebouncedValue(outerRect.width, 200, {
+    leading: true,
   });
-  console.log(entry?.isIntersecting);
+
   const hasTouch = useMediaQuery(
     "only screen and (hover: none) and (pointer: coarse)"
   );
@@ -187,12 +190,12 @@ const MultiTabs = (props: MultiTabsProps) => {
   const isSmall = useMediaQuery(`(max-width: 780px)`, true);
 
   useEffect(() => {
-    entry !== undefined && entry?.isIntersecting === false && setSmall(true);
-  }, [entry]);
+    setSmall(innerRect.width > outerWidth);
+  }, [outerWidth]);
 
-  useEffect(() => {
-    setSmall(false);
-  }, [childrenLabels.length]);
+  // useEffect(() => {
+  //   setSmall(false);
+  // }, [childrenLabels.length]);
 
   // const t = useTranslation();
   // useEffect(() => {
@@ -248,9 +251,9 @@ const MultiTabs = (props: MultiTabsProps) => {
     <Portal
       container={portalContainerRef.current}
       className="relative overflow-hidden"
-      ref={portalContainerInnerRef}
+      ref={outerRef}
     >
-      <div className="flex h-14 w-fit items-end px-4" ref={ref}>
+      <div className="flex h-14 w-fit items-end px-4" ref={innerRef}>
         {childrenLabels.map((label, index) => {
           const isPinned = pinned?.includes(index);
 

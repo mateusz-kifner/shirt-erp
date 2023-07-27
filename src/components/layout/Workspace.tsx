@@ -113,6 +113,7 @@ const Workspace = ({
       ref={ref}
     >
       <MultiTabs
+        key={childrenLabels.reduce((prev, next) => prev + next, "")}
         active={tabState.active}
         onActive={setActive}
         pinned={tabState.pinned}
