@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/DropdownMenu";
 
 import Button from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
 import {
   Popover,
   PopoverContent,
@@ -33,7 +31,6 @@ import {
   IconSquareNumber1,
   IconSquareNumber2,
   IconSquareNumber3,
-  IconWallpaper,
 } from "@tabler/icons-react";
 import {
   useEffect,
@@ -43,6 +40,7 @@ import {
   useState,
   type ComponentType,
 } from "react";
+import EditableColor from "../editable/EditableColor";
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -120,12 +118,12 @@ export type DesignBackgroundsType = {
   }[];
 }[];
 
-interface EditableDesignProps extends EditableInput<any> {
+interface DesignProps extends EditableInput<any> {
   files?: FileType[];
   backgrounds: DesignBackgroundsType;
 }
 
-const EditableDesign = (props: EditableDesignProps) => {
+const Design = (props: DesignProps) => {
   const {
     label,
     value,
@@ -133,7 +131,7 @@ const EditableDesign = (props: EditableDesignProps) => {
     disabled,
     required,
     files,
-    backgrounds: externalBackgrounds,
+    backgrounds: externalBackgrounds = [],
   } = props;
   const t = useTranslation();
   const { debug } = useUserContext();
@@ -210,136 +208,125 @@ const EditableDesign = (props: EditableDesignProps) => {
   }, [SVGWrapperRefElement, SVGContainer]);
 
   return (
-    <>
-      <Label />
+    <div
+      className={
+        fullscreen
+          ? "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black"
+          : "h-full p-2"
+      }
+    >
       <div
-        className={
-          fullscreen
-            ? "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black"
-            : "h-full"
-        }
+        // py="xs"
+        // align="end"
+        // position="apart"
+        // sx={fullscreen ? SxBackground : undefined}
+        style={{ display: disabled ? "none" : undefined }}
+        className="Spreadsheet__controls flex items-end justify-end  "
       >
-        <div
-          // py="xs"
-          // align="end"
-          // position="apart"
-          // sx={fullscreen ? SxBackground : undefined}
-          style={{ display: disabled ? "none" : undefined }}
-          className="Spreadsheet__controls flex items-end py-4 "
-        >
-          <div className="flex items-end gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button onClick={() => setShowGrid((val) => !val)}>
-                  <IconGridPattern />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t.grid}</TooltipContent>
-            </Tooltip>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button>
-                      <IconCategory />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>{t.item}</TooltipContent>
-                </Tooltip>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {backgrounds.map((value, index) => {
-                  const Icon = value.icon;
-                  return (
-                    <DropdownMenuItem
-                      key={`${uuid}itemsMenu:${index}`}
-                      // icon={<Icon />}
-                      onClick={() => setBackgroundId(index)}
-                    >
-                      <Icon />
-                      {value.name}
-                    </DropdownMenuItem>
-                  );
-                })}
-              </DropdownMenuContent>
-            </DropdownMenu>{" "}
-            <Popover>
-              <PopoverTrigger>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button>
-                      <IconWallpaper fill={backgroundColor} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>{t.background_color}</TooltipContent>
-                </Tooltip>
-              </PopoverTrigger>
-              <PopoverContent>
-                {t.background_color}
-                {/* <ColorPicker
-                    swatchesPerRow={7}
-                    format="rgba"
-                    swatches={colorPickerSwatches}
-                    value={backgroundColor}
-                    onChange={setBackgroundColor}
-                  /> */}
-                <Input
-                  value={backgroundColor}
-                  onChange={(e) => setBackgroundColor(e.target.value)}
-                />
-              </PopoverContent>
-            </Popover>
-            <Popover>
-              <PopoverTrigger>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button>
-                      <IconColorSwatch fill={itemColor} />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>{t.item_color}</TooltipContent>
-                </Tooltip>
-              </PopoverTrigger>
-              <PopoverContent>
+        <div className="flex items-end gap-2">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => setShowGrid((val) => !val)}
+              >
+                <IconGridPattern />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t.grid}</TooltipContent>
+          </Tooltip>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button size="icon" variant="outline">
+                    <IconCategory />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{t.item}</TooltipContent>
+              </Tooltip>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {backgrounds.map((value, index) => {
+                const Icon = value.icon;
+                return (
+                  <DropdownMenuItem
+                    key={`${uuid}itemsMenu:${index}`}
+                    // icon={<Icon />}
+                    onClick={() => setBackgroundId(index)}
+                  >
+                    <Icon />
+                    {value.name}
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Popover>
+            <PopoverTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    style={{ background: backgroundColor }}
+                  >
+                    <IconColorSwatch fill={itemColor} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{t.item_color}</TooltipContent>
+              </Tooltip>
+            </PopoverTrigger>
+            <PopoverContent className="flex flex-col gap-2">
+              <div>
                 {t.item_color}
-                {/* <ColorPicker
-                    swatchesPerRow={7}
-                    format="rgba"
-                    swatches={colorPickerSwatches}
-                    value={itemColor}
-                    onChange={setItemColor}
-                  /> */}
-                <Input
+                <EditableColor
                   value={itemColor}
-                  onChange={(e) => setItemColor(e.target.value)}
-                />
-              </PopoverContent>
-            </Popover>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  onClick={() => {
-                    setFullscreen((fullscreen) => !fullscreen);
+                  onSubmit={(value) => {
+                    value && setItemColor(value);
                   }}
-                >
-                  <IconScreenShare />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t.fullscreen}</TooltipContent>
-            </Tooltip>
-          </div>
+                />
+              </div>
+              <div>
+                {t.background_color}
+                <EditableColor
+                  value={backgroundColor}
+                  onSubmit={(value) => {
+                    value && setBackgroundColor(value);
+                  }}
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                onClick={() => {
+                  setFullscreen((fullscreen) => !fullscreen);
+                }}
+              >
+                <IconScreenShare />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t.fullscreen}</TooltipContent>
+          </Tooltip>
         </div>
+      </div>
 
-        <div className="flex gap-2">
-          {backgrounds?.[backgroundId]?.images.map(
-            ({ image, mask }, bgImageIndex) => {
-              const width = image?.width ?? 800;
-              const height = image?.height ?? 800;
-              const maskUrl = mask?.url;
-              const imageUrl = image?.url;
-              return (
+      <div className="flex flex-col gap-2">
+        {backgrounds?.[backgroundId]?.images.map(
+          ({ image, mask, name }, bgImageIndex) => {
+            const width = image?.width ?? 800;
+            const height = image?.height ?? 800;
+            const maskUrl = mask?.url;
+            const imageUrl = image?.url;
+            return (
+              <div key={uuid + "bg" + bgImageIndex}>
+                <div>{name}</div>
                 <div
-                  key={uuid + "bg" + bgImageIndex}
                   style={{
                     position: "relative",
                     width: width,
@@ -402,13 +389,13 @@ const EditableDesign = (props: EditableDesignProps) => {
                     />
                   ))}
                 </div>
-              );
-            }
-          )}
-        </div>
+              </div>
+            );
+          }
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
-export default EditableDesign;
+export default Design;

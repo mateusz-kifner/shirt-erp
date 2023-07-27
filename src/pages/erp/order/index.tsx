@@ -3,6 +3,7 @@ import { useId, useState } from "react";
 import template from "@/templates/order.template";
 // import * as XLSX from "xlsx"
 import ApiEntryEditable from "@/components/ApiEntryEditable";
+import Design from "@/components/Design/Design";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
@@ -18,6 +19,7 @@ import {
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderList from "@/page-components/erp/order/OrderList";
+import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { useMediaQuery } from "@mantine/hooks";
@@ -52,10 +54,12 @@ const OrdersPage: NextPage = () => {
     enabled: id !== null,
   });
 
-  const { mutate: createSpreadsheetMutation } =
+  const { mutateAsync: createSpreadsheetMutation } =
     api.spreadsheet.create.useMutation({});
 
-  const { mutate: createDesignMutation } = api.design.create.useMutation({});
+  const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
+    {}
+  );
   const t = useTranslation();
   // const { isSmall, hasTouch } = useAuthContext()
   // const isMobile = hasTouch || isSmall
@@ -188,14 +192,14 @@ const OrdersPage: NextPage = () => {
         [{}, {}],
       ],
       orderId: id ?? undefined,
-    });
+    }).then(() => router.reload());
   };
   const addDesign = () => {
     createDesignMutation({
       name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
       data: [],
       orderId: id ?? undefined,
-    });
+    }).then(() => router.reload());
   };
   // const table_template = {
   //   name: {
@@ -337,21 +341,11 @@ const OrdersPage: NextPage = () => {
                 </Tab>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem
-                  onClick={() => {
-                    addSpreadsheet();
-                    router.reload();
-                  }}
-                >
+                <DropdownMenuItem onClick={addSpreadsheet}>
                   <IconTable />
                   {t.sheet}
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => {
-                    addDesign();
-                    router.reload();
-                  }}
-                >
+                <DropdownMenuItem onClick={addDesign}>
                   <IconVector />
                   {t.design}
                 </DropdownMenuItem>
@@ -399,6 +393,15 @@ const OrdersPage: NextPage = () => {
                   action: verifyMetadata,
                 },
               ]}
+            />
+          ))}
+
+        {orderData &&
+          orderData.designs.map((val, index) => (
+            <Design
+              key={`${uuid}design:${index}:`}
+              id={val.id}
+              backgrounds={designBackgrounds}
             />
           ))}
       </Workspace>
