@@ -23,6 +23,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
+import { cn } from "@/utils/cn";
+import { isMimeImage } from "@/utils/isMimeImage";
 import {
   IconCategory,
   IconColorSwatch,
@@ -33,14 +35,18 @@ import {
   IconSquareNumber3,
 } from "@tabler/icons-react";
 import {
+  ChangeEvent,
   useEffect,
   useId,
   useMemo,
   useRef,
   useState,
   type ComponentType,
+  type DragEvent,
 } from "react";
+import FileListItem from "../FileListItem";
 import EditableColor from "../editable/EditableColor";
+import DesignImage from "./DesignImage";
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -183,6 +189,7 @@ const Design = (props: DesignProps) => {
   const [itemColor, setItemColor] = useState<string>("#222222");
   const [backgroundId, setBackgroundId] = useState<number>(0);
   const [backgroundImageId, setBackgroundImageId] = useState<number>(0);
+  const [dragActive, setDragActive] = useState(false);
 
   const [images, imagesHandlers] = useListState<FileType>([]);
 
@@ -207,13 +214,54 @@ const Design = (props: DesignProps) => {
     }
   }, [SVGWrapperRefElement, SVGContainer]);
 
+  const handleDrag = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // console.log(e.dataTransfer);
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files.length > 0) {
+      // onUploadMany(Array.from(e.target.files));
+      console.log("files handleChange", Array.from(e.target.files));
+    }
+  };
+
+  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(e.dataTransfer);
+    const data = e.dataTransfer.getData("application/json");
+    const obj = JSON.parse(data);
+    imagesHandlers.append(obj as FileType);
+
+    console.log(obj);
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      // onUploadMany(Array.from(e.dataTransfer.files));
+      try {
+        setDragActive(false);
+
+        e.dataTransfer.clearData();
+      } catch (error) {
+        // already handled
+      }
+    }
+  };
+
   return (
     <div
-      className={
-        fullscreen
-          ? "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black"
-          : "h-full p-2"
-      }
+      className={cn(
+        "flex h-full flex-col gap-2 p-2",
+        fullscreen &&
+          "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black"
+      )}
     >
       <div
         // py="xs"
@@ -221,7 +269,7 @@ const Design = (props: DesignProps) => {
         // position="apart"
         // sx={fullscreen ? SxBackground : undefined}
         style={{ display: disabled ? "none" : undefined }}
-        className="Spreadsheet__controls flex items-end justify-end  "
+        className="Spreadsheet__controls flex items-end justify-end gap-2"
       >
         <div className="flex items-end gap-2">
           <Tooltip>
@@ -315,84 +363,115 @@ const Design = (props: DesignProps) => {
           </Tooltip>
         </div>
       </div>
-
-      <div className="flex flex-col gap-2">
-        {backgrounds?.[backgroundId]?.images.map(
-          ({ image, mask, name }, bgImageIndex) => {
-            const width = image?.width ?? 800;
-            const height = image?.height ?? 800;
-            const maskUrl = mask?.url;
-            const imageUrl = image?.url;
-            return (
-              <div key={uuid + "bg" + bgImageIndex}>
-                <div>{name}</div>
+      <div className="flex gap-2">
+        <div className="flex flex-col items-start gap-4">
+          {backgrounds?.[backgroundId]?.images.map(
+            ({ image, mask, name }, bgImageIndex) => {
+              const width = image?.width ?? 800;
+              const height = image?.height ?? 800;
+              const maskUrl = mask?.url;
+              const imageUrl = image?.url;
+              return (
                 <div
-                  style={{
-                    position: "relative",
-                    width: width,
-                    height: height,
-                  }}
+                  key={uuid + "bg" + bgImageIndex}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                  className={cn(
+                    "border-2 border-solid border-transparent",
+                    dragActive && "border-sky-600"
+                  )}
                 >
+                  {/* <div>{name}</div> */}
                   <div
-                    className="absolute left-0 top-0"
                     style={{
-                      backgroundColor: backgroundColor,
+                      position: "relative",
                       width: width,
                       height: height,
-                      border: "1px solid rgb(128,128,128)",
-                    }}
-                  ></div>
-
-                  <div
-                    className="absolute left-0 top-0"
-                    style={{
-                      backgroundImage: image?.url
-                        ? `url('${imageUrl}')`
-                        : undefined,
-                      width: width,
-                      height: height,
-                      backgroundSize: `${width}px ${height}px`,
                     }}
                   >
                     <div
-                      className="absolute left-0 top-0 h-full w-full"
+                      className="absolute left-0 top-0"
                       style={{
-                        maskImage: mask?.url ? `url('${maskUrl}')` : undefined,
-                        maskSize: `${width}px ${height}px`,
-                        WebkitMaskSize: `${width}px ${height}px`,
-                        WebkitMaskImage: mask?.url
-                          ? `url('${maskUrl}')`
-                          : undefined,
-
-                        backgroundColor: mask?.url ? itemColor : undefined,
-                        mixBlendMode: "multiply",
-                      }}
-                    ></div>
-                  </div>
-                  {showGrid && (
-                    <div
-                      className="absolute left-0 top-0 "
-                      style={{
-                        backgroundImage: `url('/assets/grid.svg')`,
+                        backgroundColor: backgroundColor,
                         width: width,
                         height: height,
-                        backgroundSize: `${width / 2}px ${height / 2}px`,
+                        border: "1px solid rgb(128,128,128)",
                       }}
                     ></div>
-                  )}
 
-                  {images.map((imageData, index) => (
-                    <img
+                    <div
                       className="absolute left-0 top-0"
-                      key={uuid + "bg" + bgImageIndex + "image" + index}
-                      src={`${imageData?.url}?token=${imageData.token}`}
-                    />
-                  ))}
+                      style={{
+                        backgroundImage: image?.url
+                          ? `url('${imageUrl}')`
+                          : undefined,
+                        width: width,
+                        height: height,
+                        backgroundSize: `${width}px ${height}px`,
+                      }}
+                    >
+                      <div
+                        className="absolute left-0 top-0 h-full w-full"
+                        style={{
+                          maskImage: mask?.url
+                            ? `url('${maskUrl}')`
+                            : undefined,
+                          maskSize: `${width}px ${height}px`,
+                          WebkitMaskSize: `${width}px ${height}px`,
+                          WebkitMaskImage: mask?.url
+                            ? `url('${maskUrl}')`
+                            : undefined,
+
+                          backgroundColor: mask?.url ? itemColor : undefined,
+                          mixBlendMode: "multiply",
+                        }}
+                      ></div>
+                    </div>
+                    {showGrid && (
+                      <div
+                        className="absolute left-0 top-0 "
+                        style={{
+                          backgroundImage: `url('/assets/grid.svg')`,
+                          width: width,
+                          height: height,
+                          backgroundSize: `${width / 2}px ${height / 2}px`,
+                        }}
+                      ></div>
+                    )}
+
+                    {images.map((imageData, index) => (
+                      <DesignImage file={imageData} />
+                    ))}
+                    {/* {images.map((imageData, index) => (
+                      <img
+                        className="absolute left-0 top-0"
+                        key={uuid + "bg" + bgImageIndex + "image" + index}
+                        src={`${imageData?.url}?token=${imageData.token}`}
+                      />
+                    ))} */}
+                  </div>
                 </div>
-              </div>
-            );
-          }
-        )}
+              );
+            }
+          )}
+        </div>
+        <div className="flex flex-grow flex-col">
+          {files &&
+            files?.map((val) => {
+              const url = val.mimetype?.startsWith("image")
+                ? `/api/files/${val.filename}${
+                    val?.token && val.token.length > 0
+                      ? "?token=" + val?.token
+                      : ""
+                  }`
+                : undefined;
+              return isMimeImage(val?.mimetype ?? "") ? (
+                <FileListItem value={val} disableDownload draggable />
+              ) : null;
+            })}
+        </div>
       </div>
     </div>
   );

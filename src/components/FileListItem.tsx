@@ -21,6 +21,8 @@ interface FileListItemProps {
   ) => void;
   style?: CSSProperties;
   contextMenuContent?: ReactNode;
+  disableDownload?: boolean;
+  draggable?: boolean;
 }
 
 const FileListItem = (props: FileListItemProps) => {
@@ -32,7 +34,10 @@ const FileListItem = (props: FileListItemProps) => {
     onPreview,
     style,
     contextMenuContent,
+    disableDownload,
+    draggable,
   } = props;
+
   const t = useTranslation();
 
   const preview = value.mimetype?.startsWith("image")
@@ -44,6 +49,12 @@ const FileListItem = (props: FileListItemProps) => {
   return (
     <RadixContextMenu.Root>
       <RadixContextMenu.Trigger
+        draggable={draggable}
+        onDragStart={(e) => {
+          // console.log(e);
+          const jsonData = JSON.stringify(value);
+          e.dataTransfer.setData("application/json", jsonData);
+        }}
         style={style}
         className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600"
       >
@@ -96,15 +107,16 @@ const FileListItem = (props: FileListItemProps) => {
           )}
         </Tooltip>
 
-        <Link
-          href={`/api/files/${value?.filename}${
-            value?.token && value.token.length > 0
-              ? "?token=" + value?.token + "&download"
-              : "?download"
-          }`}
-          className={cn(
-            buttonVariants({ variant: "ghost", size: "icon" }),
-            `absolute 
+        {!disableDownload && (
+          <Link
+            href={`/api/files/${value?.filename}${
+              value?.token && value.token.length > 0
+                ? "?token=" + value?.token + "&download"
+                : "?download"
+            }`}
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "icon" }),
+              `absolute 
             -right-12
             top-1/2
             h-32
@@ -113,11 +125,12 @@ const FileListItem = (props: FileListItemProps) => {
             rounded-full
             hover:bg-black/15
             dark:hover:bg-white/10`
-          )}
-        >
-          <IconDownload size={26} />
-          <div style={{ width: "2.4rem" }}></div>
-        </Link>
+            )}
+          >
+            <IconDownload size={26} />
+            <div style={{ width: "2.4rem" }}></div>
+          </Link>
+        )}
 
         {/* <div
         style={{

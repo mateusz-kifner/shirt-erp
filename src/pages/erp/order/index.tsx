@@ -37,8 +37,6 @@ import {
 } from "@tabler/icons-react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
-// import designBackgrounds from "./designBackgrounds"
-// import OrderMessagesView from "./OrderMessagesView"
 
 const entryName = "order";
 
@@ -402,6 +400,7 @@ const OrdersPage: NextPage = () => {
               key={`${uuid}design:${index}:`}
               id={val.id}
               backgrounds={designBackgrounds}
+              files={orderData.files}
             />
           ))}
       </Workspace>
