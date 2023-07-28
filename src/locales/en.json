@@ -103,5 +103,8 @@
   "hide": "Hide",
   "show": "show",
   "zoom": "Zoom",
-  "select": "Select"
+  "select": "Select",
+  "properties": "Properties",
+  "width": "Width",
+  "height": "Height"
 }

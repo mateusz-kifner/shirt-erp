@@ -6,7 +6,7 @@
     "config": "tailwind.config.ts",
     "css": "src/styles/globals.css",
     "baseColor": "stone",
-    "cssVariables": true
+    "cssVariables": false
   },
   "aliases": {
     "components": "@/components",

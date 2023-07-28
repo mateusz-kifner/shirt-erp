@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/DropdownMenu";
 
 import Button from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import {
   Tooltip,
   TooltipContent,
@@ -46,6 +48,7 @@ import {
 } from "react";
 import FileListItem from "../FileListItem";
 import EditableColor from "../editable/EditableColor";
+import { Label } from "../ui/Label";
 import DesignImage from "./DesignImage";
 
 const colorPickerSwatches = [
@@ -464,26 +467,53 @@ const Design = (props: DesignProps) => {
             }
           )}
         </div>
-        <div className="flex flex-grow flex-col">
-          {files &&
-            files?.map((val, index) => {
-              const url = val.mimetype?.startsWith("image")
-                ? `/api/files/${val.filename}${
-                    val?.token && val.token.length > 0
-                      ? "?token=" + val?.token
-                      : ""
-                  }`
-                : undefined;
-              return isMimeImage(val?.mimetype ?? "") ? (
-                <FileListItem
-                  value={val}
-                  disableDownload
-                  draggable
-                  key={`${uuid}:files:${index}`}
-                />
-              ) : null;
-            })}
-        </div>
+        <Tabs defaultValue="files" className="flex flex-grow flex-col">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="files" className=" first-letter:uppercase">
+              {t.file.plural}
+            </TabsTrigger>
+            <TabsTrigger value="properties">{t.properties}</TabsTrigger>
+          </TabsList>
+          <TabsContent value="files">
+            {files &&
+              files?.map((val, index) => {
+                const url = val.mimetype?.startsWith("image")
+                  ? `/api/files/${val.filename}${
+                      val?.token && val.token.length > 0
+                        ? "?token=" + val?.token
+                        : ""
+                    }`
+                  : undefined;
+                return isMimeImage(val?.mimetype ?? "") ? (
+                  <FileListItem
+                    value={val}
+                    disableDownload
+                    draggable
+                    key={`${uuid}:files:${index}`}
+                  />
+                ) : null;
+              })}
+          </TabsContent>
+          <TabsContent value="properties" className="flex gap-2">
+            {activeImage !== null ? (
+              <div className="grid w-full grid-cols-2 gap-2">
+                <div>
+                  <Label htmlFor={`${uuid}:properties:width`} label={t.width} />
+                  <Input id={`${uuid}:properties:width`} />
+                </div>
+                <div>
+                  <Label
+                    htmlFor={`${uuid}:properties:height`}
+                    label={t.height}
+                  />
+                  <Input id={`${uuid}:properties:height`} />
+                </div>
+              </div>
+            ) : (
+              <div>Select image</div>
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );

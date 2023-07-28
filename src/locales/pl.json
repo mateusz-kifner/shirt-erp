@@ -103,5 +103,8 @@
   "hide": "Ukryj",
   "show": "Pokaż",
   "zoom": "Powiększenie",
-  "select": "Wybierz"
+  "select": "Wybierz",
+  "properties": "Właściwości",
+  "width": "Szerokość",
+  "height": "Wysokość"
 }
