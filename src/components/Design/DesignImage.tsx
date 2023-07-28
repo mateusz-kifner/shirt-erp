@@ -28,34 +28,17 @@ function DesignImage(props: DesignImageProps) {
     }
   );
 
-  const [styleTL, apiTL] = useSpring(() => ({ x: 0, y: 0 }));
-
-  const bindTL = useDrag(
-    ({ down, offset: [ox, oy] }) =>
-      apiTL.start({ x: ox, y: oy, immediate: down }),
-    {
-      bounds: { left: -width, right: 800, top: -height, bottom: 800 },
-    }
-  );
-
   return (
-    <>
-      <animated.div
-        {...bind()}
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          background: `url(${url})`,
-          ...style,
-        }}
-        className="absolute left-0 top-0 touch-none"
-      ></animated.div>
-      <animated.div
-        {...bindTL()}
-        style={{ ...styleTL }}
-        className="absolute left-0 top-0 h-6 w-6 touch-none rounded-full bg-sky-600"
-      ></animated.div>
-    </>
+    <animated.div
+      {...bind()}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        background: `url(${url})`,
+        ...style,
+      }}
+      className="absolute left-0 top-0 touch-none"
+    ></animated.div>
   );
 }
 
