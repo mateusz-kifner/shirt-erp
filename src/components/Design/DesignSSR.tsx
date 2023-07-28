@@ -23,6 +23,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
+import TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import { isMimeImage } from "@/utils/isMimeImage";
 import {
@@ -41,7 +42,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type ComponentType,
   type DragEvent,
 } from "react";
 import FileListItem from "../FileListItem";
@@ -116,7 +116,7 @@ const colorPickerSwatches = [
 
 export type DesignBackgroundsType = {
   name: string;
-  icon: ComponentType<any & { size?: number }>;
+  icon: TablerIconType;
   images: {
     name: string;
     image?: Partial<FileType>;
@@ -205,8 +205,7 @@ const Design = (props: DesignProps) => {
   };
 
   useEffect(() => {
-    if (images.length === 0 && files && files[0])
-      imagesHandlers.append(files[0]);
+    if (files && files[2]) imagesHandlers.setState([files[2]]);
   }, []);
 
   useEffect(() => {
@@ -290,38 +289,38 @@ const Design = (props: DesignProps) => {
                 <IconGridPattern />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{t.grid}</TooltipContent>
+            <TooltipContent side="bottom">{t.grid}</TooltipContent>
           </Tooltip>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Tooltip>
+          <Tooltip>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <TooltipTrigger asChild>
                   <Button size="icon" variant="outline">
                     <IconCategory />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>{t.item}</TooltipContent>
-              </Tooltip>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {backgrounds.map((value, index) => {
-                const Icon = value.icon;
-                return (
-                  <DropdownMenuItem
-                    key={`${uuid}itemsMenu:${index}`}
-                    // icon={<Icon />}
-                    onClick={() => setBackgroundId(index)}
-                  >
-                    <Icon />
-                    {value.name}
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <Popover>
-            <PopoverTrigger>
-              <Tooltip>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {backgrounds.map((value, index) => {
+                  const Icon = value.icon;
+                  return (
+                    <DropdownMenuItem
+                      key={`${uuid}itemsMenu:${index}`}
+                      // icon={<Icon />}
+                      onClick={() => setBackgroundId(index)}
+                    >
+                      <Icon />
+                      {value.name}
+                    </DropdownMenuItem>
+                  );
+                })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <TooltipContent side="bottom">{t.item}</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <Popover>
+              <PopoverTrigger asChild>
                 <TooltipTrigger asChild>
                   <Button
                     size="icon"
@@ -331,30 +330,30 @@ const Design = (props: DesignProps) => {
                     <IconColorSwatch fill={itemColor} />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>{t.item_color}</TooltipContent>
-              </Tooltip>
-            </PopoverTrigger>
-            <PopoverContent className="flex flex-col gap-2">
-              <div>
-                {t.item_color}
-                <EditableColor
-                  value={itemColor}
-                  onSubmit={(value) => {
-                    value && setItemColor(value);
-                  }}
-                />
-              </div>
-              <div>
-                {t.background_color}
-                <EditableColor
-                  value={backgroundColor}
-                  onSubmit={(value) => {
-                    value && setBackgroundColor(value);
-                  }}
-                />
-              </div>
-            </PopoverContent>
-          </Popover>
+              </PopoverTrigger>
+              <PopoverContent className="flex flex-col gap-2">
+                <div>
+                  {t.item_color}
+                  <EditableColor
+                    value={itemColor}
+                    onSubmit={(value) => {
+                      value && setItemColor(value);
+                    }}
+                  />
+                </div>
+                <div>
+                  {t.background_color}
+                  <EditableColor
+                    value={backgroundColor}
+                    onSubmit={(value) => {
+                      value && setBackgroundColor(value);
+                    }}
+                  />
+                </div>
+              </PopoverContent>
+            </Popover>
+            <TooltipContent side="bottom">{t.item_color}</TooltipContent>
+          </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -367,7 +366,7 @@ const Design = (props: DesignProps) => {
                 <IconScreenShare />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{t.fullscreen}</TooltipContent>
+            <TooltipContent side="bottom">{t.fullscreen}</TooltipContent>
           </Tooltip>
         </div>
       </div>
@@ -382,10 +381,10 @@ const Design = (props: DesignProps) => {
               return (
                 <div
                   key={uuid + "bg" + bgImageIndex}
-                  // onDragEnter={handleDrag}
-                  // onDragLeave={handleDrag}
-                  // onDragOver={handleDrag}
-                  // onDrop={handleDrop}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
                   className={cn(
                     "border-2 border-solid border-transparent",
                     dragActive && "border-sky-600"
@@ -448,13 +447,14 @@ const Design = (props: DesignProps) => {
                         }}
                       ></div>
                     )}
-
-                    {images.map((imageData, index) => (
-                      <DesignImage
-                        file={imageData}
-                        key={`${uuid}:img:${index}`}
-                      />
-                    ))}
+                    <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
+                      {images.map((imageData, index) => (
+                        <DesignImage
+                          file={imageData}
+                          key={`${uuid}:img:${index}`}
+                        />
+                      ))}
+                    </div>
                     {/* {images.map((imageData, index) => (
                       <img
                         className="absolute left-0 top-0"
@@ -470,7 +470,7 @@ const Design = (props: DesignProps) => {
         </div>
         <div className="flex flex-grow flex-col">
           {files &&
-            files?.map((val) => {
+            files?.map((val, index) => {
               const url = val.mimetype?.startsWith("image")
                 ? `/api/files/${val.filename}${
                     val?.token && val.token.length > 0
@@ -479,7 +479,12 @@ const Design = (props: DesignProps) => {
                   }`
                 : undefined;
               return isMimeImage(val?.mimetype ?? "") ? (
-                <FileListItem value={val} disableDownload draggable />
+                <FileListItem
+                  value={val}
+                  disableDownload
+                  draggable
+                  key={`${uuid}:files:${index}`}
+                />
               ) : null;
             })}
         </div>
