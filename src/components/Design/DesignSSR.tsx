@@ -190,6 +190,7 @@ const Design = (props: DesignProps) => {
   const [backgroundId, setBackgroundId] = useState<number>(0);
   const [backgroundImageId, setBackgroundImageId] = useState<number>(0);
   const [dragActive, setDragActive] = useState(false);
+  const [activeImage, setActiveImage] = useState<number | null>(null);
 
   const [images, imagesHandlers] = useListState<FileType>([]);
 
@@ -452,16 +453,11 @@ const Design = (props: DesignProps) => {
                         <DesignImage
                           file={imageData}
                           key={`${uuid}:img:${index}`}
+                          onActive={(active) => active && setActiveImage(index)}
+                          active={activeImage === index}
                         />
                       ))}
                     </div>
-                    {/* {images.map((imageData, index) => (
-                      <img
-                        className="absolute left-0 top-0"
-                        key={uuid + "bg" + bgImageIndex + "image" + index}
-                        src={`${imageData?.url}?token=${imageData.token}`}
-                      />
-                    ))} */}
                   </div>
                 </div>
               );

@@ -1,13 +1,17 @@
 import { type FileType } from "@/schema/fileSchema";
+import { cn } from "@/utils/cn";
 import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
+import { type HTMLAttributes } from "react";
 
-interface DesignImageProps {
+interface DesignImageProps extends HTMLAttributes<HTMLDivElement> {
   file: Partial<FileType>;
+  active?: boolean;
+  onActive?: (active: boolean) => void;
 }
 
 function DesignImage(props: DesignImageProps) {
-  const { file } = props;
+  const { file, active, onActive, ...moreProps } = props;
   const width = file.width ?? 0;
   const height = file.height ?? 0;
 
@@ -21,8 +25,11 @@ function DesignImage(props: DesignImageProps) {
 
   // Set the drag hook and define component movement based on gesture data
   const bind = useDrag(
-    ({ down, offset: [ox, oy] }) =>
-      api.start({ x: ox, y: oy, immediate: down }),
+    ({ down, offset: [ox, oy], active }) => {
+      api.start({ x: ox, y: oy, immediate: down });
+      onActive?.(active);
+    },
+
     {
       bounds: { left: -width, right: 800, top: -height, bottom: 800 },
     }
@@ -37,7 +44,11 @@ function DesignImage(props: DesignImageProps) {
         background: `url(${url})`,
         ...style,
       }}
-      className="absolute left-0 top-0 touch-none"
+      className={cn(
+        "absolute left-0 top-0 touch-none border-2 border-solid",
+        active && "border-sky-600"
+      )}
+      {...moreProps}
     ></animated.div>
   );
 }
