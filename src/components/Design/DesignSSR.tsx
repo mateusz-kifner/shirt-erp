@@ -205,6 +205,11 @@ const Design = (props: DesignProps) => {
   };
 
   useEffect(() => {
+    if (images.length === 0 && files && files[0])
+      imagesHandlers.append(files[0]);
+  }, []);
+
+  useEffect(() => {
     if (
       SVGWrapperRefElement &&
       SVGWrapperRefElement?.current &&
@@ -238,10 +243,13 @@ const Design = (props: DesignProps) => {
     e.stopPropagation();
     console.log(e.dataTransfer);
     const data = e.dataTransfer.getData("application/json");
-    const obj = JSON.parse(data);
-    imagesHandlers.append(obj as FileType);
-
-    console.log(obj);
+    try {
+      const obj = JSON.parse(data);
+      imagesHandlers.append(obj as FileType);
+      console.log(obj);
+    } catch (e) {
+      console.log(e);
+    }
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       // onUploadMany(Array.from(e.dataTransfer.files));
@@ -374,10 +382,10 @@ const Design = (props: DesignProps) => {
               return (
                 <div
                   key={uuid + "bg" + bgImageIndex}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
+                  // onDragEnter={handleDrag}
+                  // onDragLeave={handleDrag}
+                  // onDragOver={handleDrag}
+                  // onDrop={handleDrop}
                   className={cn(
                     "border-2 border-solid border-transparent",
                     dragActive && "border-sky-600"
@@ -442,7 +450,10 @@ const Design = (props: DesignProps) => {
                     )}
 
                     {images.map((imageData, index) => (
-                      <DesignImage file={imageData} />
+                      <DesignImage
+                        file={imageData}
+                        key={`${uuid}:img:${index}`}
+                      />
                     ))}
                     {/* {images.map((imageData, index) => (
                       <img
