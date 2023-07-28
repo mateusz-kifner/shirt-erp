@@ -494,21 +494,27 @@ const Design = (props: DesignProps) => {
                 ) : null;
               })}
           </TabsContent>
-          <TabsContent value="properties" className="flex gap-2">
+          <TabsContent value="properties" className="flex flex-col gap-2">
             {activeImage !== null ? (
-              <div className="grid w-full grid-cols-2 gap-2">
-                <div>
-                  <Label htmlFor={`${uuid}:properties:width`} label={t.width} />
-                  <Input id={`${uuid}:properties:width`} />
+              <>
+                <div>{images[activeImage]?.filename}</div>
+                <div className="grid w-full grid-cols-2 gap-2">
+                  <div>
+                    <Label
+                      htmlFor={`${uuid}:properties:width`}
+                      label={t.width}
+                    />
+                    <Input id={`${uuid}:properties:width`} />
+                  </div>
+                  <div>
+                    <Label
+                      htmlFor={`${uuid}:properties:height`}
+                      label={t.height}
+                    />
+                    <Input id={`${uuid}:properties:height`} />
+                  </div>
                 </div>
-                <div>
-                  <Label
-                    htmlFor={`${uuid}:properties:height`}
-                    label={t.height}
-                  />
-                  <Input id={`${uuid}:properties:height`} />
-                </div>
-              </div>
+              </>
             ) : (
               <div>Select image</div>
             )}
