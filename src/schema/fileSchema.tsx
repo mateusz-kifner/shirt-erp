@@ -6,6 +6,7 @@ export const fileSchema = z.object({
   originalFilename: z.string().max(1024).nullable().optional(),
   filename: z.string().max(1024).nullable().optional(),
   newFilename: z.string().max(1024).nullable().optional(),
+  url: z.string().nullable().optional(),
   mimetype: z.string().max(255).nullable().optional(),
   hash: z.string().max(10).nullable().optional(),
   token: z.string().max(32).nullable().optional(),
@@ -17,4 +18,4 @@ export const fileSchema = z.object({
   updatedById: z.number().nullable().optional(),
 });
 
-export type FileType = z.infer<typeof fileSchema> & { url: string };
+export type FileType = z.infer<typeof fileSchema>;

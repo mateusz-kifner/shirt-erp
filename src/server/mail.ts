@@ -69,3 +69,25 @@ export async function fetchFolders(client: ImapFlow) {
     await client.logout();
   }
 }
+
+// export async function fetchEmails2(client: ImapFlow, id?: string) {
+//   try {
+//     await client.connect();
+//     await client.mailboxOpen("INBOX");
+
+//     const message = await client.fetch({seq:{from:-10}}, {
+//       envelope: true,
+//     });
+
+//     if (!message) {
+//       throw new Error("Email not found.");
+//     }
+
+//     return message;
+//   } catch (error) {
+//     console.error("Error fetching email:", error);
+//     throw new Error("Failed to fetch email.");
+//   } finally {
+//     await client.logout();
+//   }
+// }

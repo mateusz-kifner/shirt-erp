@@ -4,8 +4,8 @@ interface EmailPageProps {}
 
 function EmailPage(props: EmailPageProps) {
   const {} = props;
-  const { data } = api.mail.getById.useQuery();
-  return <div>{data && data.map((val) => val.uid)}</div>;
+  const { data } = api.mail.getEmails.useQuery();
+  return <div>{data && data.map((val) => val.user)}</div>;
 }
 
 export default EmailPage;

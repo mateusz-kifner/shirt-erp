@@ -2,41 +2,47 @@ import { productSchema } from "@/schema/productSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 import { fetchEmailById, fetchEmails, fetchFolders } from "@/server/mail";
+import { TRPCError } from "@trpc/server";
 import { ImapFlow } from "imapflow";
+import { omit } from "lodash";
 import { z } from "zod";
 
-const productSchemaWithoutId = productSchema.omit({ id: true });
-
 export const mailRouter = createTRPCRouter({
+  getEmails: authenticatedProcedure.query(async ({ ctx }) => {
+    const data = await prisma.user.findUnique({
+      where: { id: ctx.session!.user!.id },
+      include: { emailCredentials: true },
+    });
+    return data?.emailCredentials.map((val) => omit(val, ["password"]));
+  }),
   getFolders: authenticatedProcedure
-    // .input(
-    //   z.object({
-    //     sortColumn: z.string().default("id"),
-    //     sort: z.enum(["desc", "asc"]).default("desc"),
-    //   })
-    // )
+    .input(z.number())
     .query(async ({ ctx, input }) => {
       const data = await prisma.user.findUnique({
         where: { id: ctx.session!.user!.id },
         include: { emailCredentials: true },
       });
 
-      const folders = (data?.emailCredentials ?? [])
-        .filter((auth) => auth.protocol === "imap")
-        .map(async (auth) => {
-          const client = new ImapFlow({
-            host: auth.host ?? "",
-            port: auth.port ?? 993,
-            auth: {
-              user: auth.user ?? "",
-              pass: auth.password ?? "",
-            },
-            secure: auth.secure ?? true,
-          });
-          return await fetchFolders(client);
+      const auth = data?.emailCredentials
+        .filter((val) => val.id === input)
+        .filter((auth) => auth.protocol === "imap")[0];
+
+      if (auth === undefined)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "emailCredentials not found",
         });
 
-      return await Promise.all(folders);
+      const client = new ImapFlow({
+        host: auth.host ?? "",
+        port: auth.port ?? 993,
+        auth: {
+          user: auth.user ?? "",
+          pass: auth.password ?? "",
+        },
+        secure: auth.secure ?? true,
+      });
+      return await fetchFolders(client);
     }),
   getAll: authenticatedProcedure
     .input(
@@ -92,7 +98,7 @@ export const mailRouter = createTRPCRouter({
       return await Promise.all(mails);
     }),
   create: authenticatedProcedure
-    .input(productSchemaWithoutId)
+    .input(z.number())
     .mutation(async ({ input: productData }) => {
       return {};
     }),
