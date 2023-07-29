@@ -106,5 +106,6 @@
   "select": "Select",
   "properties": "Properties",
   "width": "Width",
-  "height": "Height"
+  "height": "Height",
+  "credentials": "credentials"
 }

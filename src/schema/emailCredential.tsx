@@ -2,10 +2,11 @@ import { z } from "zod";
 
 export const emailCredentialSchema = z.object({
   id: z.number(),
-  host: z.string().max(255).nullable().optional(),
-  port: z.number().nullable().optional(),
-  user: z.string().max(255).nullable().optional(),
-  password: z.string().max(255).nullable().optional(),
+  host: z.string().max(255),
+  port: z.number(),
+  protocol: z.string().max(10),
+  user: z.string().max(255),
+  password: z.string().max(255),
   secure: z.boolean().nullable().optional(),
 });
 

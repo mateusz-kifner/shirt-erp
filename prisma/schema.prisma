@@ -78,8 +78,9 @@ model EmailCredential {
   host        String?  @db.VarChar(255)
   port        Int?
   user        String?  @db.VarChar(255)
+  protocol    String?  @default("imap") @db.VarChar(10)
   password    String?  @db.VarChar(255)
-  secure      Boolean?
+  secure      Boolean? @default(true)
   users       User[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

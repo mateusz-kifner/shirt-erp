@@ -13,6 +13,7 @@ import { useLocalStorage } from "@mantine/hooks";
 import {
   IconBug,
   IconLogout,
+  IconMail,
   IconMoonStars,
   IconSun,
   IconUserCircle,
@@ -159,6 +160,17 @@ function Settings() {
             leftSection={theme === 1 ? <IconSun /> : <IconMoonStars />}
           >
             {theme === 1 ? t.light_theme : t.dark_theme}
+          </Button>
+
+          <Button
+            onClick={() => {
+              router.push("settings/email-credentials");
+            }}
+            leftSection={<IconMail />}
+          >
+            <p className="first-letter:uppercase">
+              {t["email-message"].singular} {t.credentials}
+            </p>
           </Button>
           <Button
             onClick={() => {
