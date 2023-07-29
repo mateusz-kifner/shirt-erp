@@ -1,12 +1,11 @@
 import { ImapFlow } from "imapflow";
 
-export async function fetchEmailById(client: ImapFlow, id: string) {
+export async function fetchEmailById(client: ImapFlow, id?: string) {
   try {
     await client.connect();
-    await client.mailboxOpen("INDEX");
+    await client.mailboxOpen("INBOX");
 
-    const message = await client.fetchOne(id, {
-      bodyStructure: true,
+    const message = await client.fetchOne(id ?? "*", {
       envelope: true,
     });
 
@@ -30,11 +29,14 @@ export async function fetchEmails(
 ) {
   try {
     await client.connect();
-    await client.mailboxOpen("INDEX");
-
-    const messages = await client.fetch(`${skip}:${skip + take}`, {
+    await client.mailboxOpen("INBOX");
+    const messages = [];
+    for await (const msg of client.fetch(`${skip}:${skip + take}`, {
       uid: true,
-    });
+    })) {
+      console.log(msg.uid);
+      messages.push(msg);
+    }
 
     if (!messages) {
       throw new Error("Email not found.");
@@ -44,6 +46,25 @@ export async function fetchEmails(
   } catch (error) {
     console.error("Error fetching email:", error);
     throw new Error("Failed to fetch email.");
+  } finally {
+    await client.logout();
+  }
+}
+
+export async function fetchFolders(client: ImapFlow) {
+  try {
+    await client.connect();
+
+    const folders = await client.list();
+
+    if (!folders) {
+      throw new Error("Folders not found.");
+    }
+
+    return folders;
+  } catch (error) {
+    console.error("Error fetching Folders:", error);
+    throw new Error("Failed to fetch Folders.");
   } finally {
     await client.logout();
   }
