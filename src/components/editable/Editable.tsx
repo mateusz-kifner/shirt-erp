@@ -31,120 +31,120 @@ import { makeDefaultListItem } from "../DefaultListItemWithValue";
 import EditableNumber from "./EditableNumber";
 import EditableShortText from "./EditableShortText";
 
-interface BaseTemplateType<TName, TValue = string> {
-  label: string;
-  type: TName;
-  required?: boolean;
-  disabled?: boolean;
-  helpTooltip?: string;
-}
+// interface BaseTemplateType<TName, TValue = string> {
+//   label: string;
+//   type: TName;
+//   required?: boolean;
+//   disabled?: boolean;
+//   helpTooltip?: string;
+// }
 
-type TemplateStringType = BaseTemplateType<"text" | "title" | "richtext"> & {
-  maxLength: number;
-};
+// type TemplateStringType = BaseTemplateType<"text" | "title" | "richtext"> & {
+//   maxLength: number;
+// };
 
-type TemplateDateType = BaseTemplateType<"datetime" | "date">;
+// type TemplateDateType = BaseTemplateType<"datetime" | "date">;
 
-type TemplateNumberType = BaseTemplateType<"number", number> & {
-  min: number;
-  increment: number;
-  fixed: number;
-};
+// type TemplateNumberType = BaseTemplateType<"number", number> & {
+//   min: number;
+//   increment: number;
+//   fixed: number;
+// };
 
-type TemplateArrayType = BaseTemplateType<"array", any[]> & {
-  arrayType: "title" | "text" | "apiEntry" | "datetime" | "date";
-};
+// type TemplateArrayType = BaseTemplateType<"array", any[]> & {
+//   arrayType: "title" | "text" | "apiEntry" | "datetime" | "date";
+// };
 
-type TemplateApiEntryType = BaseTemplateType<"apiEntry", any> & {
-  entryName: string;
-  linkEntry?: boolean;
-  allowClear?: boolean;
-  onSubmitTrigger?: (
-    key: string,
-    entryData: any, // Data of this entry
-    inputData: any, // Additional data
-    onSubmit: (key: string, value: any, data: any) => void
-  ) => void;
-};
+// type TemplateApiEntryType = BaseTemplateType<"apiEntry", any> & {
+//   entryName: string;
+//   linkEntry?: boolean;
+//   allowClear?: boolean;
+//   onSubmitTrigger?: (
+//     key: string,
+//     entryData: any, // Data of this entry
+//     inputData: any, // Additional data
+//     onSubmit: (key: string, value: any, data: any) => void
+//   ) => void;
+// };
 
-type TemplateAddressType = {
-  type: "address";
-  label: {
-    streetName: string;
-    streetNumber: string;
-    apartmentNumber: string;
-    secondLine: string;
-    city: string;
-    province: string;
-    postCode: string;
-    name: string;
-  };
-  allowClear?: boolean;
-};
+// type TemplateAddressType = {
+//   type: "address";
+//   label: {
+//     streetName: string;
+//     streetNumber: string;
+//     apartmentNumber: string;
+//     secondLine: string;
+//     city: string;
+//     province: string;
+//     postCode: string;
+//     name: string;
+//   };
+//   allowClear?: boolean;
+// };
 
-type TemplateFilesType = BaseTemplateType<"files", any[]> & {
-  maxFileCount: number;
-};
+// type TemplateFilesType = BaseTemplateType<"files", any[]> & {
+//   maxFileCount: number;
+// };
 
-type TemplateEnumType = BaseTemplateType<"enum", string> & {
-  enum_data: string[];
-};
+// type TemplateEnumType = BaseTemplateType<"enum", string> & {
+//   enum_data: string[];
+// };
 
-type TemplateBooleanType = BaseTemplateType<"boolean", boolean> & {
-  children: { checked: string; unchecked: string };
-};
+// type TemplateBooleanType = BaseTemplateType<"boolean", boolean> & {
+//   children: { checked: string; unchecked: string };
+// };
 
-type TemplateIdType = { type: "id" };
+// type TemplateIdType = { type: "id" };
 
-type TemplateType =
-  | TemplateStringType
-  | TemplateNumberType
-  | TemplateDateType
-  | TemplateEnumType
-  | TemplateAddressType
-  | TemplateApiEntryType
-  | TemplateBooleanType
-  | TemplateApiEntryType
-  | TemplateArrayType
-  | TemplateFilesType
-  | TemplateIdType;
+// type TemplateType =
+//   | TemplateStringType
+//   | TemplateNumberType
+//   | TemplateDateType
+//   | TemplateEnumType
+//   | TemplateAddressType
+//   | TemplateApiEntryType
+//   | TemplateBooleanType
+//   | TemplateApiEntryType
+//   | TemplateArrayType
+//   | TemplateFilesType
+//   | TemplateIdType;
 
-type DataType =
-  | (TemplateStringType & { value: string })
-  | (TemplateNumberType & { value: number })
-  | (TemplateDateType & { value: string })
-  | (TemplateEnumType & { value: string })
-  | (TemplateAddressType & {
-      value: {
-        streetName: string;
-        streetNumber: string;
-        apartmentNumber: string;
-        secondLine: string;
-        city: string;
-        province: string;
-        postCode: string;
-      };
-    })
-  | (TemplateApiEntryType & { value: any })
-  | (TemplateBooleanType & { value: boolean })
-  | (TemplateArrayType & { value: any[] })
-  | (TemplateFilesType & { value: any[] });
+// type DataType =
+//   | (TemplateStringType & { value: string })
+//   | (TemplateNumberType & { value: number })
+//   | (TemplateDateType & { value: string })
+//   | (TemplateEnumType & { value: string })
+//   | (TemplateAddressType & {
+//       value: {
+//         streetName: string;
+//         streetNumber: string;
+//         apartmentNumber: string;
+//         secondLine: string;
+//         city: string;
+//         province: string;
+//         postCode: string;
+//       };
+//     })
+//   | (TemplateApiEntryType & { value: any })
+//   | (TemplateBooleanType & { value: boolean })
+//   | (TemplateArrayType & { value: any[] })
+//   | (TemplateFilesType & { value: any[] });
 
-type TemplateSimpleTypePropertyType =
-  | "title"
-  | "text"
-  | "apiEntry"
-  | "datetime"
-  | "date"
-  | "richtext"
-  | "number"
-  | "enum"
-  | "files";
+// type TemplateSimpleTypePropertyType =
+//   | "title"
+//   | "text"
+//   | "apiEntry"
+//   | "datetime"
+//   | "date"
+//   | "richtext"
+//   | "number"
+//   | "enum"
+//   | "files";
 
-type TemplateTypePropertyType = Extract<
-  TemplateSimpleTypePropertyType | "array" | "group",
-  string
->;
+// type TemplateTypePropertyType = Extract<
+//   TemplateSimpleTypePropertyType | "array" | "group",
+//   string
+// >;
 
 export type editableFields = {
   [key: string]: {
