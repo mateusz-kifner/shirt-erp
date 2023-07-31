@@ -18,7 +18,7 @@ export const displayCellVariants = cva(
   px-2
   text-sm
   leading-normal
-  text-stone-800
+  
   outline-none
   transition-all
   before:absolute
@@ -28,7 +28,8 @@ export const displayCellVariants = cva(
   before:bg-white
   read-only:bg-transparent
   read-only:outline-none
-  focus:border-sky-600 dark:text-stone-200
+  focus:border-sky-600 
+  
   dark:outline-none
   dark:before:bg-stone-800
   dark:read-only:bg-transparent
@@ -38,7 +39,8 @@ export const displayCellVariants = cva(
     variants: {
       focus: {
         true: "",
-        false: "hover:animate-border-from-bottom",
+        false:
+          "hover:animate-border-from-bottom text-gray-400 dark:text-stone-600",
       },
       disabled: {
         true: "bg-transparent text-gray-500 before:inset-0",

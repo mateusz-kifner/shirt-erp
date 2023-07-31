@@ -38,7 +38,7 @@ const provinces = [
 
 interface EditableAddressProps
   extends Omit<EditableInput<AddressType>, "label"> {
-  label?: AddressType & { name: string };
+  label?: Omit<AddressType & { name: string }, "id">;
   maxLength?: number;
 }
 

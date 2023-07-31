@@ -196,7 +196,7 @@ function Settings() {
                 data={{ test: "ala ma kota" }}
                 onSubmit={(key, value) => console.log(key, value)}
               >
-                <EditableShortText label="test" keyName="test" disabled />
+                <EditableShortText label="test" keyName="test" />
               </Editable2>
             </>
           )}

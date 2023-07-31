@@ -5,12 +5,16 @@ import { clientSchema } from "@/schema/clientSchema";
 import {
   createProcedureDeleteById,
   createProcedureGetAll,
-  createProcedureGetById,
   createProcedureSearch,
   createProcedureSearchWithPagination,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
+import { Prisma } from "@prisma/client";
+
+const includeAll = {
+  address: true,
+};
 
 const clientSchemaWithoutId = clientSchema
   .omit({ id: true, address: true })
@@ -33,13 +37,26 @@ const clientSchemaWithoutId = clientSchema
 
 export const clientRouter = createTRPCRouter({
   getAll: createProcedureGetAll("client"),
-  getById: createProcedureGetById("client"),
+  getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
+    const data = await prisma.client.findUnique({
+      where: { id: input },
+      include: includeAll,
+    });
+    return data;
+  }),
   create: authenticatedProcedure
     .input(clientSchemaWithoutId)
     .mutation(async ({ input: clientData }) => {
+      const { address, ...simpleClientData } = clientData;
+
+      const createData: Prisma.ClientCreateInput = { ...simpleClientData };
+
+      createData.address = { create: address ?? {} };
+
       const newClient = await prisma.client.create({
-        data: { ...clientData, address: { create: { ...clientData.address } } },
+        data: createData,
       });
+
       return newClient;
     }),
   deleteById: createProcedureDeleteById("client"),

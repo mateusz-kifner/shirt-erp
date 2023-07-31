@@ -4,11 +4,10 @@ import { useMediaQuery } from "@mantine/hooks";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
-import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Workspace from "@/components/layout/Workspace";
 import ClientAddModal from "@/page-components/erp/client/ClientAddModal";
+import ClientEditable from "@/page-components/erp/client/ClientEditable";
 import ClientsList from "@/page-components/erp/client/ClientList";
-import template from "@/templates/client.template";
 import { getQueryAsIntOrNull } from "@/utils/query";
 
 const entryName = "client";
@@ -32,16 +31,15 @@ const ClientsPage = () => {
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
       >
-        <ClientsList
-          selectedId={id}
-          onAddElement={() => setOpenAddModal(true)}
-        />
-        <ApiEntryEditable
-          template={template}
-          entryName={entryName}
-          id={id}
-          allowDelete
-        />
+        <div className="relative p-4">
+          <ClientsList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+        <div className="relative flex flex-col gap-4 p-4">
+          <ClientEditable id={id} />
+        </div>
       </Workspace>
       <ClientAddModal
         opened={openAddModal}
