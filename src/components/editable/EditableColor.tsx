@@ -83,6 +83,7 @@ const EditableColor = (props: EditableColorProps) => {
     style,
     leftSection,
     rightSection,
+    keyName,
   } = props;
   const uuid = useId();
   const [colorText, setColorText] = useState<string | null>(

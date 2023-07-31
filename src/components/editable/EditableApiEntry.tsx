@@ -43,6 +43,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     linkEntry = true,
     helpTooltip,
     allowClear = false,
+    keyName,
   } = props;
 
   const [apiEntry, setApiEntry] = useState<any>(value);

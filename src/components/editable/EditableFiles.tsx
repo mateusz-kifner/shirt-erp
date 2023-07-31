@@ -31,7 +31,15 @@ interface EditableFilesProps extends EditableInput<FileType[]> {
 }
 
 const EditableFiles = (props: EditableFilesProps) => {
-  const { label, required, onSubmit, value, disabled, maxCount = 128 } = props;
+  const {
+    label,
+    required,
+    onSubmit,
+    value,
+    disabled,
+    maxCount = 128,
+    keyName,
+  } = props;
   const t = useTranslation();
   const uuid = useId();
   const [files, setFiles] = useState<FileType[]>(value ?? []);

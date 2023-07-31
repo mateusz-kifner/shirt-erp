@@ -6,7 +6,7 @@ import type EditableInput from "@/schema/EditableInput";
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableJSONProps extends EditableInput<string> {}
 
-const EditableJSON = ({ value, label }: EditableJSONProps) => {
+const EditableJSON = ({ value, label, keyName }: EditableJSONProps) => {
   const uuid = useId();
   return (
     <div className="flex-grow">

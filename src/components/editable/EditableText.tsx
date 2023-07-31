@@ -25,6 +25,7 @@ const EditableText = (props: EditableTextProps) => {
     className,
     leftSection,
     rightSection,
+    keyName,
     ...moreProps
   } = props;
   const uuid = useId();

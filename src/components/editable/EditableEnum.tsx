@@ -50,6 +50,7 @@ const EditableEnum = ({
   disabled,
   required,
   collapse = false,
+  keyName,
   ...moreProps
 }: EditableEnumProps) => {
   const t = useTranslation();

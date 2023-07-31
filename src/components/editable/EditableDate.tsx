@@ -31,6 +31,7 @@ const EditableDate = (props: InputDateProps) => {
     required,
     leftSection,
     rightSection,
+    keyName,
   } = props;
   const uuid = useId();
   const router = useRouter();

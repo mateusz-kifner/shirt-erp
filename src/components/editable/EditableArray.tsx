@@ -38,6 +38,7 @@ const EditableArray = (props: EditableArrayProps) => {
     organizingHandle = "none",
     linkEntry,
     unique = true,
+    keyName,
   } = props;
   const [items, handlers] = useListState<any>(value ?? []);
   // const [focus, setFocus] = useState<boolean>(false);

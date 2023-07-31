@@ -106,6 +106,7 @@ const EditableAddress = (props: EditableAddressProps) => {
     maxLength,
     leftSection,
     rightSection,
+    keyName,
   } = props;
   const [address, setAddress] = useState<AddressType>(value);
   const [focus, setFocus] = useState<boolean>(false);

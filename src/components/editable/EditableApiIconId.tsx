@@ -9,14 +9,16 @@ interface EditableApiIconIdProps extends EditableInput<number> {
   icons?: ReactNode[];
 }
 
-const EditableApiIconId = ({
-  label,
-  value,
-  onSubmit,
-  disabled,
-  required,
-  icons = [],
-}: EditableApiIconIdProps) => {
+const EditableApiIconId = (props: EditableApiIconIdProps) => {
+  const {
+    label,
+    value,
+    onSubmit,
+    disabled,
+    required,
+    icons = [],
+    keyName,
+  } = props;
   const [open, setOpened] = useState(false);
   const uuid = useId();
   const icon = value !== undefined ? icons[value] : null;

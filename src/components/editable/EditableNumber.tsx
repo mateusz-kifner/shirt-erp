@@ -32,6 +32,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
     fixed = 2,
+    keyName,
     ...moreProps
   } = props;
   const uuid = useId();

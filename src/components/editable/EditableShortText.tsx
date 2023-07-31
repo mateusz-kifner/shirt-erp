@@ -25,6 +25,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
     className,
     leftSection,
     rightSection,
+    keyName,
     ...moreProps
   } = props;
   const uuid = useId();
@@ -91,6 +92,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
+        disabled={disabled}
         className={className}
       >
         <input

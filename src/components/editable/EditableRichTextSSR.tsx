@@ -230,6 +230,7 @@ const EditableRichText = ({
   required,
   leftSection,
   rightSection,
+  keyName,
 }: EditableRichTextProps) => {
   const uuid = useId();
   const [text, setText] = useState<string>(

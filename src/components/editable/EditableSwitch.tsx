@@ -36,6 +36,7 @@ const EditableBool = (props: EditableBoolProps) => {
     stateColors = { checked: "#2f9e44", unchecked: "#e03131" },
     rightSection,
     leftSection,
+    keyName,
   } = props;
 
   // const switchRef = useRef(null);

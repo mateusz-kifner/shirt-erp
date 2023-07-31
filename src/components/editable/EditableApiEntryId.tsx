@@ -14,7 +14,7 @@ interface EditableApiEntryIdProps extends EditableInput<number> {
 }
 
 const EditableApiEntryId = (props: EditableApiEntryIdProps) => {
-  const { value, onSubmit, entryName } = props;
+  const { value, onSubmit, entryName, keyName } = props;
   const { data } = api[entryName as "client"].getById.useQuery(
     value as number,
     { enabled: !!value }

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
+import Editable2 from "@/components/editable/Editable2";
 import EditableEnum from "@/components/editable/EditableEnum";
+import EditableShortText from "@/components/editable/EditableShortText";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -190,6 +192,12 @@ function Settings() {
               >
                 Open Test Form
               </Button>
+              <Editable2
+                data={{ test: "ala ma kota" }}
+                onSubmit={(key, value) => console.log(key, value)}
+              >
+                <EditableShortText label="test" keyName="test" disabled />
+              </Editable2>
             </>
           )}
         </div>

@@ -9,6 +9,7 @@ interface EditableInput<T> {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   className?: string;
+  keyName?: string;
 }
 
 export default EditableInput;
