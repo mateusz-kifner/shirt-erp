@@ -234,7 +234,7 @@ const EditableRichText = ({
 }: EditableRichTextProps) => {
   const uuid = useId();
   const [text, setText] = useState<string>(
-    value ? DOMPurify.sanitize(value) : ""
+    value ? DOMPurify.sanitize(value) : "",
   );
 
   const [focus, setFocus] = useState<boolean>(false);
@@ -260,7 +260,7 @@ const EditableRichText = ({
     },
   });
   const clickOutsideRef = useClickOutside<HTMLDivElement>(() =>
-    setFocus(false)
+    setFocus(false),
   );
 
   useEffect(() => {
@@ -293,8 +293,8 @@ const EditableRichText = ({
     turndownService.turndown(
       text
         .replace(/h[0-9]>/g, "div>")
-        .replace(/<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g, "")
-    )
+        .replace(/<\/*(s|em|strong|a|b|i|mark|del|small|ins|sub|sup)>/g, ""),
+    ),
   );
 
   return (
@@ -338,11 +338,11 @@ const EditableRichText = ({
                               value.isActive?.name
                                 ? editor?.isActive(
                                     value.isActive.name,
-                                    value.isActive.attributes
+                                    value.isActive.attributes,
                                   )
                                 : false
                             )
-                              ? "bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-20"
+                              ? "bg-black/20 dark:bg-white/20"
                               : ""
                           }`}
                           onClick={() =>
@@ -374,7 +374,7 @@ const EditableRichText = ({
                           value.isActive?.name
                             ? editor?.isActive(
                                 value.isActive.name,
-                                value.isActive.attributes
+                                value.isActive.attributes,
                               )
                             : false
                         )
@@ -412,7 +412,7 @@ const EditableRichText = ({
               text === "<p></p>" ||
               text === "<p></p><p></p>"
                 ? "text-gray-400 dark:text-stone-600"
-                : ""
+                : "text-stone-950 dark:text-stone-200"
             }`}
             dangerouslySetInnerHTML={{
               __html:
