@@ -77,7 +77,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
 
       <Dialog
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={(open) => !disabled && setOpen(open)}
         // onClose={() => setOpen(false)}
         // contentProps={{
         //   className: "w-[30rem] max-w-screen min-h-[50rem] max-h-screen",
@@ -94,7 +94,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               }`}
             >
               <Element
-                onChange={() => setOpen(true)}
+                onChange={() => !disabled && setOpen(true)}
                 value={apiEntry}
                 disabled={disabled}
               />
@@ -104,7 +104,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                     href={`/erp/${entryName}/${value?.id as string}`}
                     className={cn(
                       buttonVariants({ size: "icon", variant: "ghost" }),
-                      ""
+                      "",
                     )}
                     tabIndex={-1}
                   >
@@ -146,7 +146,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                           singular: string;
                           plural: string;
                         }
-                      )?.plural
+                      )?.plural,
                     )
                   : undefined
               }

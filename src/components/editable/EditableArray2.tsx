@@ -42,7 +42,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
     if (
       isEqual(
         filtered_items,
-        prev.filter((val) => !!val)
+        prev.filter((val) => !!val),
       )
     )
       return;
@@ -88,7 +88,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
 
       <div className="flex min-h-[2.75rem] flex-col gap-2">
         <div className=" flex flex-col gap-2">
-          {/* {items.length == 0 && "⸺"} */}
+          {items.length == 0 && "⸺"}
           {items.map((val, index) => {
             // const elementPropsMerge = {
             //   ...omit(elementProps, ["label", "arrayType"]),
@@ -108,13 +108,14 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
                     onSubmit: (itemValue: T | null) => {
                       handlers.setItem(index, itemValue);
                     },
+                    disabled,
                   })}
                 </ContextMenuTrigger>
                 <ContextMenuContent>
                   <ContextMenuItem
                     className={cn(
                       buttonVariants({ variant: "ghost" }),
-                      "justify-start"
+                      "justify-start",
                     )}
                     onClick={() => {
                       handlers.remove(index);

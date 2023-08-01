@@ -6,6 +6,9 @@ import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
+import Button from "@/components/ui/Button";
+import Wrapper from "@/components/ui/Wrapper";
+import { useLoaded } from "@/hooks/useLoaded";
 import { OrderType } from "@/schema/orderSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
@@ -15,6 +18,7 @@ import {
   IconMail,
   IconNote,
   IconPhone,
+  IconRefresh,
   IconUser,
 } from "@tabler/icons-react";
 import OrderListItem from "../order/OrderListItem";
@@ -26,6 +30,7 @@ interface ClientEditableProps {
 
 function ClientEditable(props: ClientEditableProps) {
   const { id } = props;
+  const isLoaded = useLoaded();
 
   const { data, refetch } = api.client.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -37,6 +42,12 @@ function ClientEditable(props: ClientEditableProps) {
   });
   const { mutateAsync: deleteById } = api.client.deleteById.useMutation();
 
+  const apiUpdate = (key: string, val: any) => {
+    if (!isLoaded) return;
+    if (!data) return;
+    update({ id: data.id, [key]: val });
+  };
+
   if (!data)
     return (
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -45,9 +56,30 @@ function ClientEditable(props: ClientEditableProps) {
     );
   console.log(data);
   return (
-    <Editable data={data} onSubmit={(key, value) => console.log(key, value)}>
+    <Editable data={data} onSubmit={apiUpdate}>
       <EditableDebugInfo label="ID: " keyName="id" />
-      <EditableShortText keyName="username" required />
+      <Wrapper
+        keyName="username" // hint for Editable
+        wrapperClassName="flex gap-2 items-center"
+        wrapperRightSection={
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full"
+            onClick={() => {
+              refetch();
+            }}
+          >
+            <IconRefresh />
+          </Button>
+        }
+      >
+        <EditableShortText
+          keyName="username"
+          required
+          style={{ fontSize: "1.4em" }}
+        />
+      </Wrapper>
       <EditableShortText
         keyName="firstname"
         label="Imie"
@@ -93,10 +125,9 @@ function ClientEditable(props: ClientEditableProps) {
         leftSection={<IconAddressBook />}
       />
 
-      <EditableArray<OrderType> label="Zamówienia" keyName="orders">
+      <EditableArray<OrderType> label="Zamówienia" keyName="orders" disabled>
         <EditableApiEntry
           linkEntry
-          disabled
           entryName="order"
           Element={OrderListItem}
           copyProvider={(value: OrderType) =>
@@ -107,10 +138,10 @@ function ClientEditable(props: ClientEditableProps) {
       <EditableArray<OrderType>
         label="Zamówienia archiwizowane"
         keyName="ordersArchive"
+        disabled
       >
         <EditableApiEntry
           linkEntry
-          disabled
           entryName="order-archive"
           Element={OrderListItem}
           copyProvider={(value: OrderType) =>
