@@ -14,6 +14,8 @@ import { Prisma } from "@prisma/client";
 
 const includeAll = {
   address: true,
+  orders: true,
+  ordersArchive: true,
 };
 
 const clientSchemaWithoutId = clientSchema

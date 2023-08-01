@@ -1,10 +1,14 @@
 import Editable from "@/components/editable/Editable2";
 import EditableAddress from "@/components/editable/EditableAddress";
+import EditableApiEntry from "@/components/editable/EditableApiEntry";
+import EditableArray from "@/components/editable/EditableArray2";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
+import { OrderType } from "@/schema/orderSchema";
 import { api } from "@/utils/api";
+import { truncString } from "@/utils/truncString";
 import {
   IconAddressBook,
   IconBuildingFactory,
@@ -13,6 +17,7 @@ import {
   IconPhone,
   IconUser,
 } from "@tabler/icons-react";
+import OrderListItem from "../order/OrderListItem";
 //TODO: Remake Array type
 
 interface ClientEditableProps {
@@ -88,25 +93,31 @@ function ClientEditable(props: ClientEditableProps) {
         leftSection={<IconAddressBook />}
       />
 
-      {/* <EditableArray label="Zamówienia" arrayType="" linkEntry disabled  />  */}
-
-      {/* orders: {
-  label: "Zamówienia",
-  type: "array",
-  arrayType: "apiEntry",
-  entryName: "orders",
-  linkEntry: true,
-  disabled: true,
-}, */}
-
-      {/* orderArchives: {
-  label: "Zamówienia archiwizowane",
-  type: "array",
-  arrayType: "apiEntry",
-  entryName: "orders-archive",
-  linkEntry: true,
-  disabled: true,
-}, */}
+      <EditableArray<OrderType> label="Zamówienia" keyName="orders">
+        <EditableApiEntry
+          linkEntry
+          disabled
+          entryName="order"
+          Element={OrderListItem}
+          copyProvider={(value: OrderType) =>
+            value?.name ? truncString(value.name, 40) : undefined
+          }
+        />
+      </EditableArray>
+      <EditableArray<OrderType>
+        label="Zamówienia archiwizowane"
+        keyName="ordersArchive"
+      >
+        <EditableApiEntry
+          linkEntry
+          disabled
+          entryName="order-archive"
+          Element={OrderListItem}
+          copyProvider={(value: OrderType) =>
+            value?.name ? truncString(value.name, 40) : undefined
+          }
+        />
+      </EditableArray>
 
       <EditableDateTime
         keyName="createdAt"
