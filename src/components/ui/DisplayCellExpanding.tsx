@@ -28,10 +28,13 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
       <div
         className={cn(displayCellVariants({ focus, disabled }), className)}
         style={{
-          background: focus
+          backgroundColor: focus
             ? error
               ? "#ef4444"
               : "#0284c7"
+            : "transparent",
+          backgroundImage: focus
+            ? "none"
             : "radial-gradient(ellipse at top, #292524 0%, #292524 50%, rgba(0,0,0,0) 70%),radial-gradient(ellipse at bottom, #57534e 0%, #57534e 50%, rgba(0,0,0,0) 70%)",
           backgroundPosition: focus ? "top" : "top, bottom",
           backgroundRepeat: focus ? "no-repeat" : "no-repeat, no-repeat",
@@ -63,7 +66,7 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
         )}
       </div>
     );
-  }
+  },
 );
 
 DisplayCellExpanding.displayName = "DisplayCellExpanding";

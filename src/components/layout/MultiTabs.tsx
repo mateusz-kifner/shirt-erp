@@ -21,7 +21,6 @@ import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
 import { Portal } from "@radix-ui/react-portal";
-import { usePrev } from "@react-spring/shared";
 import Button from "../ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 
@@ -167,8 +166,8 @@ const MultiTabs = (props: MultiTabsProps) => {
     (prev, next) => prev + next,
     "",
   );
-  const prevChildrenLabelsKey = usePrev(childrenLabelsKey);
-  const [innerRef, innerRect] = useResizeObserver();
+  const [maxWidthArr, setMaxWidthArr] = useState<number[]>([]);
+  const innerRef = useRef<HTMLDivElement>(null);
   const [outerRef, outerRect] = useResizeObserver();
   const [outerWidth] = useDebouncedValue(outerRect.width, 200, {
     leading: true,
@@ -181,8 +180,13 @@ const MultiTabs = (props: MultiTabsProps) => {
   const isSmall = useMediaQuery(`(max-width: 780px)`, true);
 
   useEffect(() => {
-    setSmall(innerRect.width > outerWidth);
-  }, [outerWidth]);
+    if (outerRect.width > 0) {
+      const sumOfMaxWidth = maxWidthArr.reduce((prev, next) => prev + next, 0);
+      if (sumOfMaxWidth > 0) {
+        setSmall(outerRect.width < sumOfMaxWidth);
+      }
+    }
+  }, [outerWidth, maxWidthArr]);
 
   // useEffect(() => {
   //   setSmall(false);
@@ -197,6 +201,20 @@ const MultiTabs = (props: MultiTabsProps) => {
     portalContainerRef.current = document.querySelector("#HeaderTabs");
     portalMobileContainerRef.current = document.querySelector("#SpecialMenu");
   }, []);
+
+  useEffect(() => {
+    if (innerRef.current) {
+      const childrenWidth = (
+        Array.from(innerRef.current.children) as HTMLElement[]
+      ).map((child, index) => child.offsetWidth);
+
+      setMaxWidthArr((prev) =>
+        childrenWidth.map((val, index) =>
+          prev[index] !== undefined && prev[index]! > val ? prev[index]! : val,
+        ),
+      );
+    }
+  }, [childrenLabelsKey, innerRef.current]);
 
   if (isSmall || hasTouch) {
     return (
