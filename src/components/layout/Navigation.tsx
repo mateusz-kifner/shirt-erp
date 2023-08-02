@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 
 import NavButton from "@/components/layout/NavButton";
 import { useUserContext } from "@/context/userContext";
+import Button from "../ui/Button";
 import navigationData from "./navigationData";
 
 function Navigation() {
@@ -33,14 +34,16 @@ function Navigation() {
                   // }}
                   active={val.entryName === router.pathname.split("/")[2]}
                 />
-              )
+              ),
           )}
         </div>
       </div>
       <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
         <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
-        <button
-          className=" flex h-12 w-12 items-center justify-center rounded-full transition-all before:absolute before:bottom-2 before:left-0 before:h-12 before:w-full  hover:bg-black hover:bg-opacity-25"
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-12 w-12 rounded-full"
           onClick={() => {
             toggleNavigationCollapsed();
           }}
@@ -50,7 +53,7 @@ function Navigation() {
           ) : (
             <IconChevronLeft className="stroke-stone-600 dark:stroke-gray-200" />
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

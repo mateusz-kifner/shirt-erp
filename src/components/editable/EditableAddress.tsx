@@ -91,7 +91,7 @@ const InputAddressField = forwardRef<HTMLInputElement, InputAddressFieldProps>(
         />
       </div>
     );
-  }
+  },
 );
 
 InputAddressField.displayName = "InputAddressField";
@@ -209,7 +209,9 @@ const EditableAddress = (props: EditableAddressProps) => {
       <Label label={label?.name} copyValue={toString()} required={required} />
       <DisplayCellExpanding
         className={`px-2 ${
-          !valueString ? "text-gray-400 dark:text-stone-600" : ""
+          !valueString
+            ? "text-gray-400 dark:text-stone-600"
+            : "text-stone-950 dark:text-stone-200"
         }`}
         ref={ref}
         onClick={onFocus}
