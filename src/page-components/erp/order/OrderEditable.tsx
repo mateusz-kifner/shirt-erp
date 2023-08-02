@@ -2,46 +2,45 @@ import Editable from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableArray from "@/components/editable/EditableArray";
+import EditableDate from "@/components/editable/EditableDate";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
+import EditableEnum from "@/components/editable/EditableEnum";
+import EditableFiles from "@/components/editable/EditableFiles";
+import EditableNumber from "@/components/editable/EditableNumber";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
+import EditableSwitch from "@/components/editable/EditableSwitch";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
-import { OrderType } from "@/schema/orderSchema";
+import { ProductType } from "@/schema/productSchema";
+import { UserType } from "@/schema/userSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
-import {
-  IconAddressBook,
-  IconBuildingFactory,
-  IconMail,
-  IconNote,
-  IconPhone,
-  IconRefresh,
-  IconUser,
-} from "@tabler/icons-react";
-import OrderListItem from "../order/OrderListItem";
+import { IconAddressBook, IconCash, IconRefresh } from "@tabler/icons-react";
+import { clientListSearchParams } from "../client/ClientList";
+import ClientListItem from "../client/ClientListItem";
+import ProductListItem from "../product/ProductListItem";
+import UserListItem from "../user/UserListItem";
 
-//TODO: Remake Array type
-
-interface ClientEditableProps {
+interface OrderEditableProps {
   id: number | null;
 }
 
-function ClientEditable(props: ClientEditableProps) {
+function OrderEditable(props: OrderEditableProps) {
   const { id } = props;
   const isLoaded = useLoaded();
 
-  const { data, refetch } = api.client.getById.useQuery(id as number, {
+  const { data, refetch } = api.order.getById.useQuery(id as number, {
     enabled: id !== null,
   });
-  const { mutateAsync: update } = api.client.update.useMutation({
+  const { mutateAsync: update } = api.order.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.client.deleteById.useMutation();
+  const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
 
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
@@ -60,7 +59,7 @@ function ClientEditable(props: ClientEditableProps) {
     <Editable data={data} onSubmit={apiUpdate}>
       <EditableDebugInfo label="ID: " keyName="id" />
       <Wrapper
-        keyName="username" // hint for Editable
+        keyName="name" // hint for Editable
         wrapperClassName="flex gap-2 items-center"
         wrapperRightSection={
           <Button
@@ -76,40 +75,40 @@ function ClientEditable(props: ClientEditableProps) {
         }
       >
         <EditableShortText
-          keyName="username"
+          keyName="name"
           required
           style={{ fontSize: "1.4em" }}
         />
       </Wrapper>
-      <EditableShortText
-        keyName="firstname"
-        label="Imie"
-        leftSection={<IconUser />}
+      <EditableEnum
+        label="Status"
+        keyName="status"
+        enum_data={[
+          "planned",
+          "accepted",
+          "in production",
+          "wrapped",
+          "sent",
+          "rejected",
+          "archived",
+        ]}
       />
+      <EditableRichText label="Notatki" keyName="notes" />
       <EditableShortText
-        keyName="lastname"
-        label="Nazwisko"
-        leftSection={<IconUser />}
+        keyName="price"
+        label="Cena"
+        leftSection={<IconCash />}
       />
-      <EditableRichText
-        keyName="notes"
-        label="Notatki"
-        leftSection={<IconNote />}
-      />
-      <EditableShortText
-        keyName="email"
-        label="Email"
-        leftSection={<IconMail />}
-      />
-      <EditableShortText
-        keyName="phoneNumber"
-        label="Telefon"
-        leftSection={<IconPhone />}
-      />
-      <EditableShortText
-        keyName="companyName"
-        label="Nazwa firmy"
-        leftSection={<IconBuildingFactory />}
+      <EditableSwitch keyName="isPricePaid" label="Cena zapłacona" />
+      <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
+      <EditableFiles keyName="files" label="Pliki" />
+      <EditableApiEntry
+        keyName="client"
+        entryName="client"
+        linkEntry
+        allowClear
+        listProps={clientListSearchParams}
+        Element={ClientListItem}
       />
       <EditableAddress
         label={{
@@ -126,30 +125,36 @@ function ClientEditable(props: ClientEditableProps) {
         leftSection={<IconAddressBook />}
       />
 
-      <EditableArray<OrderType> label="Zamówienia" keyName="orders" disabled>
+      <EditableArray<ProductType> label="Produkty" keyName="products">
         <EditableApiEntry
           linkEntry
-          entryName="order"
-          Element={OrderListItem}
-          copyProvider={(value: OrderType) =>
+          entryName="product"
+          Element={ProductListItem}
+          copyProvider={(value: ProductType) =>
             value?.name ? truncString(value.name, 40) : undefined
           }
+          allowClear
         />
       </EditableArray>
-      <EditableArray<OrderType>
-        label="Zamówienia archiwizowane"
-        keyName="ordersArchive"
-        disabled
-      >
+      <EditableArray<UserType> label="Pracownicy" keyName="employees">
         <EditableApiEntry
           linkEntry
-          entryName="order-archive"
-          Element={OrderListItem}
-          copyProvider={(value: OrderType) =>
-            value?.name ? truncString(value.name, 40) : undefined
+          entryName="user"
+          Element={UserListItem}
+          copyProvider={(value: any) =>
+            value?.username ? truncString(value.username, 40) : undefined
           }
+          allowClear
         />
       </EditableArray>
+
+      <EditableNumber
+        label="Całkowity czas pracy"
+        min={0}
+        increment={1}
+        fixed={0}
+        keyName="workTime"
+      />
 
       <EditableDateTime
         keyName="createdAt"
@@ -167,4 +172,4 @@ function ClientEditable(props: ClientEditableProps) {
   );
 }
 
-export default ClientEditable;
+export default OrderEditable;

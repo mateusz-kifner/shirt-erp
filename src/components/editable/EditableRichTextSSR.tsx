@@ -220,7 +220,9 @@ const controls: (
 const turndownService = new TurndownService();
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface EditableRichTextProps extends EditableInput<string> {}
+interface EditableRichTextProps extends EditableInput<string> {
+  maxLength?: number;
+}
 
 const EditableRichText = ({
   label,
@@ -230,6 +232,7 @@ const EditableRichText = ({
   required,
   leftSection,
   rightSection,
+  maxLength = Number.MAX_SAFE_INTEGER,
   keyName,
 }: EditableRichTextProps) => {
   const uuid = useId();

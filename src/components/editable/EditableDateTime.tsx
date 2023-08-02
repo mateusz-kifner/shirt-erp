@@ -20,7 +20,7 @@ import type EditableInput from "@/schema/EditableInput";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableDateTimeProps extends EditableInput<string> {
-  collapse: boolean;
+  collapse?: boolean;
 }
 
 const EditableDateTime = (props: EditableDateTimeProps) => {
@@ -45,7 +45,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
   const clipboard = useClipboard();
   const dateRef = useRef<HTMLButtonElement>(null);
   const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
+    "only screen and (hover: none) and (pointer: coarse)",
   );
   const activate = () => {
     setActive(true);

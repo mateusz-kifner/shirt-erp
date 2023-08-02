@@ -4,11 +4,10 @@ import { useMediaQuery } from "@mantine/hooks";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
-import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Workspace from "@/components/layout/Workspace";
 import ProductAddModal from "@/page-components/erp/product/ProductAddModal";
+import ProductEditable from "@/page-components/erp/product/ProductEditble";
 import ProductsList from "@/page-components/erp/product/ProductList";
-import template from "@/templates/product.template";
 import { getQueryAsIntOrNull } from "@/utils/query";
 
 const entryName = "product";
@@ -16,7 +15,7 @@ const entryName = "product";
 const ProductsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
+    "only screen and (hover: none) and (pointer: coarse)",
   );
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
@@ -32,16 +31,15 @@ const ProductsPage = () => {
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
       >
-        <ProductsList
-          selectedId={id}
-          onAddElement={() => setOpenAddModal(true)}
-        />
-        <ApiEntryEditable
-          template={template}
-          entryName={entryName}
-          id={id}
-          allowDelete
-        />
+        <div className="relative p-4">
+          <ProductsList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+        <div className="relative flex flex-col gap-4 p-4 ">
+          <ProductEditable id={id} />
+        </div>
       </Workspace>
       <ProductAddModal
         opened={openAddModal}

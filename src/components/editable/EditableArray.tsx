@@ -1,56 +1,48 @@
-import { useEffect, useId, useState, type ComponentType } from "react";
-
+import EditableInput from "@/schema/EditableInput";
+import { cn } from "@/utils/cn";
 import { useListState } from "@mantine/hooks";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
-import { isEqual, omit } from "lodash";
+import { isEqual } from "lodash";
+import { ReactElement, cloneElement, useEffect, useId, useState } from "react";
+import Button, { buttonVariants } from "../ui/Button";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "../ui/ContextMenu";
+import { Label } from "../ui/Label";
 
-import Button, { buttonVariants } from "@/components/ui/Button";
-
-import { Label } from "@/components/ui/Label";
-import type EditableInput from "@/schema/EditableInput";
-import { cn } from "@/utils/cn";
-import * as RadixContextMenu from "@radix-ui/react-context-menu";
-
-// fixme submit only on edit end
-
-interface EditableArrayProps extends Omit<EditableInput<any[]>, "value"> {
-  value?: any[] | null;
-  newItemValue?: any;
+interface EditableArrayProps<T> extends EditableInput<T[]> {
   maxCount?: number;
-  Element: ComponentType<any>;
-  elementProps: any;
-  organizingHandle: "none" | "arrows" | "drag and drop";
-  linkEntry: boolean;
-  unique: boolean;
+  uniqueItems?: boolean;
+  children: ReactElement<EditableInput<T>>;
 }
 
-const EditableArray = (props: EditableArrayProps) => {
+function EditableArray<T = any>(props: EditableArrayProps<T>) {
   const {
     label,
     value,
-    newItemValue,
     onSubmit,
     disabled,
     required,
     maxCount,
-    Element,
-    elementProps,
-    organizingHandle = "none",
-    linkEntry,
-    unique = true,
+    uniqueItems,
+    children,
     keyName,
   } = props;
-  const [items, handlers] = useListState<any>(value ?? []);
+
+  const [items, handlers] = useListState<T | null>(value ?? []);
   // const [focus, setFocus] = useState<boolean>(false);
-  const [prev, setPrev] = useState<any[]>(items);
+  const [prev, setPrev] = useState<(T | null)[]>(items);
   const uuid = useId();
 
   useEffect(() => {
-    const filtered_items = items.filter((val) => !!val);
+    const filtered_items = items.filter((val) => val !== null) as T[];
     if (
       isEqual(
         filtered_items,
-        prev.filter((val) => !!val)
+        prev.filter((val) => !!val),
       )
     )
       return;
@@ -96,39 +88,43 @@ const EditableArray = (props: EditableArrayProps) => {
 
       <div className="flex min-h-[2.75rem] flex-col gap-2">
         <div className=" flex flex-col gap-2">
-          {/* {items.length == 0 && "⸺"} */}
+          {items.length == 0 && "⸺"}
           {items.map((val, index) => {
-            const elementPropsMerge = {
-              ...omit(elementProps, ["label", "arrayType"]),
-              value: val,
-              onSubmit: (itemValue: any) => {
-                handlers.setItem(index, itemValue);
-              },
-            };
-            if (disabled) elementProps.disabled = true;
-            if (linkEntry) elementProps.linkEntry = true;
+            // const elementPropsMerge = {
+            //   ...omit(elementProps, ["label", "arrayType"]),
+            //   value: val,
+            //   onSubmit: (itemValue: any) => {
+            //     handlers.setItem(index, itemValue);
+            //   },
+            // };
+            // if (disabled) elementProps.disabled = true;
+            // if (linkEntry) elementProps.linkEntry = true;
 
             return (
-              <RadixContextMenu.Root key={uuid + index}>
-                <RadixContextMenu.Trigger className="flex-grow rounded-sm bg-stone-200 dark:bg-stone-800">
-                  <Element {...elementPropsMerge} />
-                </RadixContextMenu.Trigger>
-                <RadixContextMenu.Portal>
-                  <RadixContextMenu.Content className=" z-[9999] flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950">
-                    <RadixContextMenu.Item
-                      className={cn(
-                        buttonVariants({ variant: "ghost" }),
-                        "justify-start"
-                      )}
-                      onClick={() => {
-                        handlers.remove(index);
-                      }}
-                    >
-                      <IconTrashX /> Delete
-                    </RadixContextMenu.Item>
-                  </RadixContextMenu.Content>
-                </RadixContextMenu.Portal>
-              </RadixContextMenu.Root>
+              <ContextMenu key={uuid + index}>
+                <ContextMenuTrigger asChild>
+                  {cloneElement(children, {
+                    value: val ?? undefined,
+                    onSubmit: (itemValue: T | null) => {
+                      handlers.setItem(index, itemValue);
+                    },
+                    disabled,
+                  })}
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuItem
+                    className={cn(
+                      buttonVariants({ variant: "ghost" }),
+                      "justify-start",
+                    )}
+                    onClick={() => {
+                      handlers.remove(index);
+                    }}
+                  >
+                    <IconTrashX /> Delete
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             );
           })}
         </div>
@@ -150,6 +146,6 @@ const EditableArray = (props: EditableArrayProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default EditableArray;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Editable2 from "@/components/editable/Editable2";
+import Editable2 from "@/components/editable/Editable";
 import EditableEnum from "@/components/editable/EditableEnum";
 import EditableShortText from "@/components/editable/EditableShortText";
 import Button from "@/components/ui/Button";
@@ -97,7 +97,7 @@ function Settings() {
   const [testColor, setTestColor] = useState<string>("#fff");
   const [testValue, setTestValue] = useState<any>(testData);
   const [testDate, setTestDate] = useState<string | null>(
-    "2021-11-05T12:24:05.097Z"
+    "2021-11-05T12:24:05.097Z",
   );
   const { mutate } = api.client.create.useMutation();
   const [remSize, setRemSize] = useLocalStorage({

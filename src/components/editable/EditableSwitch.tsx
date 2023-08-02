@@ -18,20 +18,18 @@ import type EditableInput from "@/schema/EditableInput";
 //   className?: string;
 // }
 
-interface EditableBoolProps extends EditableInput<boolean> {
-  checkLabels: { checked: string; unchecked: string };
-  stateLabels: { checked: string; unchecked: string };
-  stateColors: { checked: string; unchecked: string };
+interface EditableSwitchProps extends EditableInput<boolean> {
+  stateLabels?: { checked: string; unchecked: string };
+  stateColors?: { checked: string; unchecked: string };
 }
 
-const EditableBool = (props: EditableBoolProps) => {
+const EditableSwitch = (props: EditableSwitchProps) => {
   const {
     label,
     value,
     onSubmit,
     disabled,
     required,
-    checkLabels = { checked: undefined, unchecked: undefined },
     stateLabels = { checked: "Tak", unchecked: "Nie" },
     stateColors = { checked: "#2f9e44", unchecked: "#e03131" },
     rightSection,
@@ -82,4 +80,4 @@ const EditableBool = (props: EditableBoolProps) => {
   );
 };
 
-export default EditableBool;
+export default EditableSwitch;

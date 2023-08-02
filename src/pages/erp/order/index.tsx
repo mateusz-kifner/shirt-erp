@@ -1,8 +1,6 @@
 import { useId, useState } from "react";
 
-import template from "@/templates/order.template";
 // import * as XLSX from "xlsx"
-import ApiEntryEditable from "@/components/ApiEntryEditable";
 import Design from "@/components/Design/Design";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
@@ -18,6 +16,7 @@ import {
 } from "@/components/ui/DropdownMenu";
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
+import OrderEditable from "@/page-components/erp/order/OrderEditable";
 import OrderList from "@/page-components/erp/order/OrderList";
 import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
@@ -44,7 +43,7 @@ const OrdersPage: NextPage = () => {
   const uuid = useId();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
+    "only screen and (hover: none) and (pointer: coarse)",
   );
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
@@ -56,7 +55,7 @@ const OrdersPage: NextPage = () => {
     api.spreadsheet.create.useMutation({});
 
   const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
-    {}
+    {},
   );
   const t = useTranslation();
   // const { isSmall, hasTouch } = useAuthContext()
@@ -89,12 +88,12 @@ const OrdersPage: NextPage = () => {
         "E-maile",
         ...(orderData && Array.isArray(orderData?.spreadsheets)
           ? orderData.spreadsheets.map(
-              (sheet, index) => sheet.name ?? `[${t.sheet}]`
+              (sheet, index) => sheet.name ?? `[${t.sheet}]`,
             )
           : []),
         ...(orderData && Array.isArray(orderData?.designs)
           ? orderData.designs.map(
-              (design, index) => design.name ?? `[${t.design}]`
+              (design, index) => design.name ?? `[${t.design}]`,
             )
           : []),
       ]
@@ -120,12 +119,12 @@ const OrdersPage: NextPage = () => {
             id: next.id,
           },
         }),
-        {}
+        {},
       )
     : {};
   const actionFill = (
     table: UniversalMatrix,
-    metaId: number
+    metaId: number,
   ): [UniversalMatrix, string, any, any] => {
     let pusta = true;
     table: for (let y = 0; y < table.length; y++) {
@@ -140,7 +139,7 @@ const OrdersPage: NextPage = () => {
     if (pusta) {
       let new_table: UniversalMatrix = [];
       const product = (orderData?.products.filter(
-        (val) => val.id === metaId
+        (val) => val.id === metaId,
       ) || [null])[0];
       const sizes = product?.sizes ?? [];
       const colors = product?.colors ?? [];
@@ -168,7 +167,7 @@ const OrdersPage: NextPage = () => {
 
       new_table = [
         new_table[0].map((val, index) =>
-          index === 0 ? { value: product?.name } : undefined
+          index === 0 ? { value: product?.name } : undefined,
         ),
 
         ...new_table,
@@ -358,13 +357,8 @@ const OrdersPage: NextPage = () => {
             onAddElement={() => setOpenAddModal(true)}
           />
         </div>
-        <div className="relative p-4">
-          <ApiEntryEditable
-            template={template}
-            entryName={entryName}
-            id={id}
-            allowDelete
-          />
+        <div className="relative flex flex-col gap-4 p-4 ">
+          <OrderEditable id={id} />
         </div>
         <div className="relative p-4">
           <div>{/*MAILS HERE*/}TODO: Add mails here</div>
