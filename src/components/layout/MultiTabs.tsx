@@ -15,7 +15,6 @@ import {
   useResizeObserver,
 } from "@mantine/hooks";
 import { IconAlertCircle, IconPinned } from "@tabler/icons-react";
-import { omit } from "lodash";
 
 import { useUserContext } from "@/context/userContext";
 import type TablerIconType from "@/schema/TablerIconType";
@@ -56,6 +55,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       onContextMenu,
       index,
       className,
+      ...moreProps
     } = props;
     const hasIcon = !!Icon;
     const hasRightSection = !!rightSection;
@@ -63,13 +63,11 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       index !== undefined
         ? simpleColors[index % simpleColors.length]
         : undefined;
-
     return (
       <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            className={cn(
-              `inline-flex
+        <TooltipTrigger
+          className={cn(
+            `inline-flex
             h-10
             select-none 
             items-center
@@ -101,32 +99,25 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             active:focus:animate-none 
             disabled:pointer-events-none	
             disabled:bg-stone-700`,
-              isActive ? "border-b-2 bg-transparent" : "border-b bg-stone-800",
-              className
-            )}
-            ref={ref}
-            onClick={onClick}
-            onContextMenu={onContextMenu}
-            style={{
-              borderBottomColor: isActive ? color : undefined,
-            }}
-            {...omit(props, [
-              "isActive",
-              "small",
-              "rightSection",
-              "Icon",
-              "children",
-            ])}
-          >
-            {hasIcon &&
-              (isActive && color ? (
-                <Icon size={16} color={color} />
-              ) : (
-                <Icon size={16} />
-              ))}
-            {!small && children}
-            {hasRightSection && rightSection}
-          </button>
+            isActive ? "border-b-2 bg-transparent" : "border-b bg-stone-800",
+            className,
+          )}
+          ref={ref}
+          onClick={onClick}
+          onContextMenu={onContextMenu}
+          style={{
+            borderBottomColor: isActive ? color : undefined,
+          }}
+          {...moreProps}
+        >
+          {hasIcon &&
+            (isActive && color ? (
+              <Icon size={16} color={color} />
+            ) : (
+              <Icon size={16} />
+            ))}
+          {!small && children}
+          {hasRightSection && rightSection}
         </TooltipTrigger>
         {!!small && <TooltipContent side="bottom">{children}</TooltipContent>}
       </Tooltip>
@@ -134,7 +125,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
 
       // </Tooltip>
     );
-  }
+  },
 );
 
 Tab.displayName = "Tab";
@@ -174,7 +165,7 @@ const MultiTabs = (props: MultiTabsProps) => {
   const uuid = useId();
   const childrenLabelsKey = childrenLabels.reduce(
     (prev, next) => prev + next,
-    ""
+    "",
   );
   const prevChildrenLabelsKey = usePrev(childrenLabelsKey);
   const [innerRef, innerRect] = useResizeObserver();
@@ -184,7 +175,7 @@ const MultiTabs = (props: MultiTabsProps) => {
   });
 
   const hasTouch = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
+    "only screen and (hover: none) and (pointer: coarse)",
   );
 
   const isSmall = useMediaQuery(`(max-width: 780px)`, true);

@@ -283,44 +283,6 @@ const OrdersPage: NextPage = () => {
   //   },
   // }
 
-  // const onAddElement = (element: number) => {
-  //   switch (element) {
-  //     case 0:
-  //       data &&
-  //         update({
-  //           id: data.id,
-  //           tables: [
-  //             ...(data.tables ?? []),
-  //             {
-  //               name: "Arkusz " + ((data.tables?.length ?? 0) + 1),
-  //               table: [
-  //                 [null, null],
-  //                 [null, null],
-  //               ],
-  //             },
-  //           ],
-  //         })
-
-  //       break
-  //     case 1:
-  //       data &&
-  //         update({
-  //           id: data.id,
-  //           designs: [
-  //             ...(data.designs ?? []),
-  //             {
-  //               name: "Design " + ((data.designs?.length ?? 0) + 1),
-  //               design: {},
-  //             },
-  //           ],
-  //         })
-  //       break
-  //   }
-  // }
-
-  // const addElementLabels = ["sheet", "design"]
-  // const addElementIcons = [IconTable, IconVector]
-  console.log(orderData?.spreadsheets);
   return (
     <>
       <Workspace
@@ -333,7 +295,7 @@ const OrdersPage: NextPage = () => {
           id !== null && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Tab value={-1}>
+                <Tab value={-1} className="p-2">
                   <IconPlus />
                 </Tab>
               </DropdownMenuTrigger>
