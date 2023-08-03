@@ -23,10 +23,6 @@ interface ClientListProps {
 const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
   const router = useRouter();
   const t = useTranslation();
-  console.log(
-    entryName,
-    entryName ? capitalize(t[entryName].plural) : undefined
-  );
 
   return (
     <ApiList

@@ -75,11 +75,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
       <EditableArray keyName="expensesData" label="Paragon">
         <EditableObject className="flex gap-2">
           <EditableShortText keyName="name" className="flex-grow" />
-          <EditableShortText
-            leftSection={<IconCash />}
-            keyName="cost"
-            // className="w-20"
-          />
+          <EditableShortText leftSection={<IconCash />} keyName="cost" />
         </EditableObject>
       </EditableArray>
 

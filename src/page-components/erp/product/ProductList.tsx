@@ -23,10 +23,6 @@ interface ProductListProps {
 const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
   const router = useRouter();
   const t = useTranslation();
-  console.log(
-    entryName,
-    entryName ? capitalize(t[entryName].plural) : undefined
-  );
 
   return (
     <ApiList
