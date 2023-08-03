@@ -48,7 +48,7 @@ const OrderListItem = (props: OrderListItemProps) => {
         (value?.status
           ? truncString(
               (t[value.status as keyof typeof t] as string) ?? "",
-              20
+              20,
             ) + " | "
           : "") +
         dateDisplay +
@@ -65,7 +65,7 @@ const OrderListItem = (props: OrderListItemProps) => {
         ) &&
         timeLeft !== null &&
         value.dateOfCompletion !== null ? (
-          <IconCalendarTime size={18} stroke={color} />
+          <IconCalendarTime size={18} color={color} />
         ) : undefined
       }
       {...props}
