@@ -23,6 +23,7 @@ interface WorkspaceProps {
   defaultPinned?: number[];
   leftMenuSection?: ReactNode;
   rightMenuSection?: ReactNode;
+  disablePin?: boolean;
 }
 
 const Workspace = ({
@@ -35,6 +36,7 @@ const Workspace = ({
   defaultPinned = [0],
   leftMenuSection,
   rightMenuSection,
+  disablePin,
 }: WorkspaceProps) => {
   // const { isSmall, hasTouch } = useAuthContext()
   // const isMobile = hasTouch || isSmall
@@ -65,10 +67,11 @@ const Workspace = ({
   };
 
   const togglePin = (pin: number) => {
+    if (disablePin) return;
     if (tabState.pinned.indexOf(pin) !== -1) {
       setTabState(
         tabState.pinned.filter((val) => val !== pin),
-        tabState.active
+        tabState.active,
       );
     } else {
       setTabState([...tabState.pinned, pin], tabState.active);

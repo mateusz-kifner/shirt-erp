@@ -60,7 +60,7 @@ const navigationData: {
   {
     label: "Maile",
     Icon: IconMail,
-    href: "/erp/email-message",
+    href: "/erp/email",
     entryName: "email",
     gradient: { from: "#3B5BDB", to: "#099268", deg: 105 },
   },
