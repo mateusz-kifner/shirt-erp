@@ -107,15 +107,14 @@ model EmailMessage {
 }
 
 model Expense {
-  id            Int      @id @default(autoincrement())
-  name          String?  @db.VarChar(255)
-  cost          Decimal? @db.Decimal(10, 2)
-  expensesCost  Int[]
-  expensesNames String[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  createdById   Int?
-  updatedById   Int?
+  id           Int      @id @default(autoincrement())
+  name         String?  @db.VarChar(255)
+  cost         Decimal? @db.Decimal(10, 2)
+  expensesData Json?    @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  createdById  Int?
+  updatedById  Int?
 }
 
 model Global {
