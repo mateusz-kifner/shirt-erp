@@ -5,6 +5,7 @@ import { sessionRouter } from "@/server/api/routers/session";
 import { settingsRouter } from "@/server/api/routers/settings";
 import { createTRPCRouter } from "@/server/api/trpc";
 import { designRouter } from "./routers/design";
+import { expenseRouter } from "./routers/expense";
 import { mailRouter } from "./routers/mail";
 import { orderRouter } from "./routers/order";
 import { searchRouter } from "./routers/search";
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   search: searchRouter,
   mail: mailRouter,
+  expense: expenseRouter,
 });
 
 // export type definition of API
