@@ -7,7 +7,7 @@ import { ImapFlow } from "imapflow";
 import { omit } from "lodash";
 import { z } from "zod";
 
-export const mailRouter = createTRPCRouter({
+export const emailRouter = createTRPCRouter({
   getEmails: authenticatedProcedure.query(async ({ ctx }) => {
     const data = await prisma.user.findUnique({
       where: { id: ctx.session!.user!.id },
@@ -49,7 +49,7 @@ export const mailRouter = createTRPCRouter({
       z.object({
         take: z.number(),
         skip: z.number(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const data = await prisma.user.findUnique({
