@@ -18,14 +18,13 @@ export const EmailContext = createContext<EmailContextType | null>(null);
 
 export const EmailContextProvider = ({
   children,
-  defaultData,
+  emailConfig: initialEmailConfig,
 }: {
   children: ReactNode;
-  defaultData: Omit<EmailContextType, "setEmailConfig">;
+  emailConfig: EmailCredentialType;
 }) => {
-  const [emailConfig, setEmailConfig] = useState<EmailCredentialType>(
-    defaultData.emailConfig,
-  );
+  const [emailConfig, setEmailConfig] =
+    useState<EmailCredentialType>(initialEmailConfig);
 
   return (
     <EmailContext.Provider

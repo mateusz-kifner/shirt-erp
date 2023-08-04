@@ -12,10 +12,9 @@ function EmailClient(props: EmailClientProps) {
   const { emailClient } = props;
   const [activeMailbox, setActiveMailbox] = useState("INBOX");
   return (
-    <EmailContextProvider defaultData={{ emailConfig: emailClient }}>
+    <EmailContextProvider emailConfig={emailClient}>
       <div className="flex gap-2">
         <EmailFolderTree
-          emailClient={emailClient}
           active={activeMailbox}
           onActive={(val) => val && setActiveMailbox(val)}
         />

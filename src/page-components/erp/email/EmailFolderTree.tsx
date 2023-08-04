@@ -1,5 +1,4 @@
 import Button, { ButtonProps } from "@/components/ui/Button";
-import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -12,6 +11,7 @@ import {
 } from "@tabler/icons-react";
 import { ListTreeResponse } from "imapflow";
 import { useId, useState } from "react";
+import { useEmailContext } from "./emialContext";
 
 function getIcon(specialUse: string) {
   switch (specialUse) {
@@ -46,16 +46,16 @@ function EmailTreeButton(props: EmailTreeButtonProps) {
 }
 
 interface EmailFolderTreeProps {
-  emailClient: EmailCredentialType;
   active?: string;
   onActive?: (active?: string) => void;
   onRefetch?: () => void;
 }
 
 function EmailFolderTree(props: EmailFolderTreeProps) {
-  const { emailClient, active, onActive, onRefetch } = props;
+  const { active, onActive, onRefetch } = props;
+  const { emailConfig } = useEmailContext();
   const uuid = useId();
-  const { data } = api.email.getFolderTree.useQuery(emailClient.id, {
+  const { data } = api.email.getFolderTree.useQuery(emailConfig.id, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -75,7 +75,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
           }}
           className="relative justify-start p-1"
         >
-          {emailClient.user}
+          {emailConfig.user}
           <IconRefresh
             className={cn(
               "absolute bottom-0  right-0 h-4 w-4 rounded-full bg-white dark:bg-stone-800",
