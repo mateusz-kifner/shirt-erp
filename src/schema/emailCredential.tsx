@@ -6,7 +6,6 @@ export const emailCredentialSchema = z.object({
   port: z.number(),
   protocol: z.string().max(10),
   user: z.string().max(255),
-  password: z.string().max(255),
   secure: z.boolean().nullable().optional(),
 });
 

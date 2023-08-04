@@ -1,23 +1,27 @@
+import { EmailCredentialType } from "@/schema/emailCredential";
 import { useState } from "react";
 import EmailFolderTree from "./EmailFolderTree";
 import EmailList from "./EmailList";
+import { EmailContextProvider } from "./emialContext";
 
 interface EmailClientProps {
-  emailClientId: number;
+  emailClient: EmailCredentialType;
 }
 
 function EmailClient(props: EmailClientProps) {
-  const { emailClientId } = props;
+  const { emailClient } = props;
   const [activeMailbox, setActiveMailbox] = useState("INBOX");
   return (
-    <div className="flex gap-2">
-      <EmailFolderTree
-        emailClientId={emailClientId}
-        active={activeMailbox}
-        onActive={(val) => val && setActiveMailbox(val)}
-      />
-      <EmailList emailClientId={emailClientId} mailbox={activeMailbox} />
-    </div>
+    <EmailContextProvider defaultData={{ emailConfig: emailClient }}>
+      <div className="flex gap-2">
+        <EmailFolderTree
+          emailClient={emailClient}
+          active={activeMailbox}
+          onActive={(val) => val && setActiveMailbox(val)}
+        />
+        <EmailList mailbox={activeMailbox} />
+      </div>
+    </EmailContextProvider>
   );
 }
 

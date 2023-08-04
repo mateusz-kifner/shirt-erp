@@ -25,7 +25,11 @@ export const settingsRouter = createTRPCRouter({
   }),
 
   createMailCredential: authenticatedProcedure
-    .input(emailCredentialSchemaWithoutId)
+    .input(
+      emailCredentialSchemaWithoutId.merge(
+        z.object({ password: z.string().max(255) }),
+      ),
+    )
     .mutation(async ({ ctx, input: mailCredential }) => {
       const newMailCredential = await prisma.emailCredential.create({
         data: {
@@ -53,7 +57,7 @@ export const settingsRouter = createTRPCRouter({
       });
 
       const found = data?.emailCredentials.findIndex(
-        (credential) => credential.id === id
+        (credential) => credential.id === id,
       );
       if (found === undefined) {
         throw new TRPCError({

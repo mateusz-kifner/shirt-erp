@@ -1,12 +1,17 @@
 import { ImapFlow } from "imapflow";
 
-export async function fetchEmailById(client: ImapFlow, uid?: string) {
+export async function fetchEmailById(
+  client: ImapFlow,
+  uid?: string,
+  mailbox: string = "INBOX",
+) {
   try {
     await client.connect();
-    await client.mailboxOpen("INBOX");
+    await client.mailboxOpen(mailbox);
 
     const message = await client.fetchOne(uid ?? "*", {
       envelope: true,
+      uid: true,
     });
 
     if (!message) {

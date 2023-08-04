@@ -55,8 +55,8 @@ function EmailPage(props: EmailPageProps) {
         disablePin
       >
         {emailClientsIMAP.map((client, index) => (
-          <div className="relative p-4" key={`${uuid}${index}`}>
-            <EmailClient emailClientId={client.id} />
+          <div className="relative p-2" key={`${uuid}${index}`}>
+            <EmailClient emailClient={client} />
           </div>
         ))}
       </Workspace>

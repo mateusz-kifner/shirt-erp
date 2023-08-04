@@ -12,16 +12,18 @@ function EmailListItem(props: EmailListItemProps) {
   const { onChange, value, active, disabled } = props;
   return (
     <Button
-      size="xs"
+      size="sm"
       variant="ghost"
       className="grid w-full grid-cols-3 gap-2 text-left"
     >
-      <div>
+      <div className="flex flex-nowrap overflow-hidden whitespace-nowrap">
         {value.envelope?.from.map((sender) => (
           <span>{sender.name ? sender.name : sender.address}</span>
         ))}
       </div>
-      <div className="col-start-2 col-end-4">{value.envelope?.subject}</div>
+      <div className="col-start-2 col-end-4 flex flex-nowrap overflow-hidden whitespace-nowrap">
+        {value.envelope?.subject}
+      </div>
     </Button>
   );
 }
