@@ -23,7 +23,11 @@ export const expenseRouter = createTRPCRouter({
     return data;
   }),
   create: authenticatedProcedure
-    .input(expenseSchemaWithoutId)
+    .input(
+      expenseSchemaWithoutId
+        .omit({ name: true })
+        .merge(z.object({ name: z.string().max(255) })),
+    )
     .mutation(async ({ input: expenseData }) => {
       const newExpense = await prisma.expense.create({
         data: expenseData,
@@ -33,15 +37,11 @@ export const expenseRouter = createTRPCRouter({
     }),
   deleteById: createProcedureDeleteById("expense"),
   update: authenticatedProcedure
-    .input(
-      expenseSchema
-        .omit({ name: true })
-        .merge(z.object({ name: z.string().nullable().optional() })),
-    )
+    .input(expenseSchema)
     .mutation(async ({ input: expenseData }) => {
       const updatedExpense = await prisma.expense.update({
         where: { id: expenseData.id },
-        data: {},
+        data: expenseData,
       });
       return updatedExpense;
     }),

@@ -2,6 +2,7 @@ import Editable from "@/components/editable/Editable";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
+import EditableNumber from "@/components/editable/EditableNumber";
 import EditableObject from "@/components/editable/EditableObject";
 import EditableShortText from "@/components/editable/EditableShortText";
 import Button from "@/components/ui/Button";
@@ -66,16 +67,12 @@ function ExpenseEditable(props: ExpenseEditableProps) {
           style={{ fontSize: "1.4em" }}
         />
       </Wrapper>
-      <EditableShortText
-        keyName="price"
-        label="Cena"
-        leftSection={<IconCash />}
-      />
+      <EditableNumber keyName="cost" label="Cena" leftSection={<IconCash />} />
 
       <EditableArray keyName="expensesData" label="Paragon">
         <EditableObject className="flex gap-2">
           <EditableShortText keyName="name" className="flex-grow" />
-          <EditableShortText leftSection={<IconCash />} keyName="cost" />
+          <EditableNumber leftSection={<IconCash />} keyName="cost" />
         </EditableObject>
       </EditableArray>
 

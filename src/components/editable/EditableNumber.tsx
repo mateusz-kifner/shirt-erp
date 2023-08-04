@@ -7,6 +7,8 @@ import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import preventLeave from "@/utils/preventLeave";
 
+const isNumRegex = /^[\d|\+|\.|\,]+$/;
+
 interface EditableNumberProps extends EditableInput<number> {
   maxLength?: number;
   style?: CSSProperties;
@@ -40,7 +42,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     if (value === null) return "";
     if (value === undefined) return "";
     if (isNaN(value)) return "";
-    return value.toFixed(fixed);
+    return Number(value).toFixed(fixed); // no idea why this conversion is nesesery TODO: investigate missing toFixed on 'number'
   };
   const [text, setText] = useState<string>(toText(value));
   const [focus, setFocus] = useState<boolean>(false);
@@ -48,7 +50,6 @@ const EditableNumber = (props: EditableNumberProps) => {
   const InputRef = useRef<HTMLInputElement>(null);
   const outerRef = useClickOutside(() => setFocus(false));
   const onFocus = () => !disabled && setFocus(true);
-  let isNumRegex = /^[\d|\+|\.|\,]+$/;
 
   const onSubmitValue = (text: string) => {
     const num = parseFloat(text);
@@ -104,13 +105,13 @@ const EditableNumber = (props: EditableNumberProps) => {
       if (e.code === "ArrowUp") {
         const multiplier = e.ctrlKey ? 100 : e.shiftKey ? 10 : 1;
         setText((val) =>
-          (parseFloat(val) + increment * multiplier).toFixed(fixed)
+          (parseFloat(val) + increment * multiplier).toFixed(fixed),
         );
       }
       if (e.code === "ArrowDown") {
         const multiplier = e.ctrlKey ? 100 : e.shiftKey ? 10 : 1;
         setText((val) =>
-          (parseFloat(val) - increment * multiplier).toFixed(fixed)
+          (parseFloat(val) - increment * multiplier).toFixed(fixed),
         );
       }
     }
