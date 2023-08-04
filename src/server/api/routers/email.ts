@@ -81,31 +81,39 @@ export const emailRouter = createTRPCRouter({
   getAll: authenticatedProcedure
     .input(
       z.object({
+        mailbox: z.string().default("INBOX"),
+        emailClientId: z.number(),
         take: z.number(),
         skip: z.number(),
       }),
     )
     .query(async ({ ctx, input }) => {
+      const { mailbox, emailClientId, take, skip } = input;
       const data = await prisma.user.findUnique({
         where: { id: ctx.session!.user!.id },
         include: { emailCredentials: true },
       });
 
-      const mails = (data?.emailCredentials ?? [])
-        .filter((auth) => auth.protocol === "imap")
-        .map(async (auth) => {
-          const client = new ImapFlow({
-            host: auth.host ?? "",
-            port: auth.port ?? 993,
-            auth: {
-              user: auth.user ?? "",
-              pass: auth.password ?? "",
-            },
-            secure: auth.secure ?? true,
-          });
-          return await fetchEmails(client, input.take, input.skip);
+      const auth = data?.emailCredentials
+        .filter((val) => val.id === emailClientId)
+        .filter((auth) => auth.protocol === "imap")[0];
+
+      if (auth === undefined)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "emailCredentials not found",
         });
-      return await Promise.all(mails);
+
+      const client = new ImapFlow({
+        host: auth.host ?? "",
+        port: auth.port ?? 993,
+        auth: {
+          user: auth.user ?? "",
+          pass: auth.password ?? "",
+        },
+        secure: auth.secure ?? true,
+      });
+      return await fetchEmails(client, mailbox, take, skip);
     }),
   getById: authenticatedProcedure
     .input(z.string().optional())

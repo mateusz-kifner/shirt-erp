@@ -7,7 +7,7 @@ import { getQueryAsIntOrNull } from "@/utils/query";
 import { useMediaQuery } from "@mantine/hooks";
 import { IconMail, IconPencil } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useId, useState } from "react";
 
 const entryName = "email";
 
@@ -15,7 +15,8 @@ interface EmailPageProps {}
 
 function EmailPage(props: EmailPageProps) {
   const {} = props;
-  const { data: mailboxes } = api.email.getAllConfigs.useQuery(undefined, {
+  const uuid = useId();
+  const { data: emailClients } = api.email.getAllConfigs.useQuery(undefined, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -26,18 +27,18 @@ function EmailPage(props: EmailPageProps) {
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
 
-  const mailboxesIMAP = mailboxes
-    ? mailboxes.filter((val) => val.protocol === "imap")
+  const emailClientsIMAP = emailClients
+    ? emailClients.filter((client) => client.protocol === "imap")
     : [];
-  const mailboxesSMTP = mailboxes
-    ? mailboxes.filter((val) => val.protocol === "smtp")
+  const emailClientsSMTP = emailClients
+    ? emailClients.filter((client) => client.protocol === "smtp")
     : [];
 
   return (
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        childrenLabels={mailboxesIMAP.map((m) => m.user ?? "")}
+        childrenLabels={emailClientsIMAP.map((client) => client.user ?? "")}
         childrenIcons={[IconMail]}
         defaultActive={0}
         defaultPinned={[]}
@@ -53,9 +54,9 @@ function EmailPage(props: EmailPageProps) {
         }
         disablePin
       >
-        {mailboxesIMAP.map((mailbox) => (
-          <div className="relative p-4">
-            <EmailClient mailboxId={mailbox.id} />
+        {emailClientsIMAP.map((client, index) => (
+          <div className="relative p-4" key={`${uuid}${index}`}>
+            <EmailClient emailClientId={client.id} />
           </div>
         ))}
       </Workspace>

@@ -1,11 +1,11 @@
 import { ImapFlow } from "imapflow";
 
-export async function fetchEmailById(client: ImapFlow, id?: string) {
+export async function fetchEmailById(client: ImapFlow, uid?: string) {
   try {
     await client.connect();
     await client.mailboxOpen("INBOX");
 
-    const message = await client.fetchOne(id ?? "*", {
+    const message = await client.fetchOne(uid ?? "*", {
       envelope: true,
     });
 
@@ -24,17 +24,23 @@ export async function fetchEmailById(client: ImapFlow, id?: string) {
 
 export async function fetchEmails(
   client: ImapFlow,
-  take: number,
-  skip: number,
+  mailbox: string = "INBOX",
+  take: number = 10,
+  skip: number = 0,
 ) {
   try {
     await client.connect();
-    await client.mailboxOpen("INBOX");
+    const mailboxObj = await client.mailboxOpen(mailbox);
+    console.log(mailboxObj);
+    const messagesCount = mailboxObj.exists;
     const messages = [];
-    for await (const msg of client.fetch(`${skip}:${skip + take}`, {
+    const queryArr = Array.from({ length: take }, (_, i) => skip + i);
+    for await (const msg of client.fetch(queryArr, {
       uid: true,
+      threadId: true,
+      envelope: true,
     })) {
-      console.log(msg.uid);
+      // console.log(msg.uid);
       messages.push(msg);
     }
 

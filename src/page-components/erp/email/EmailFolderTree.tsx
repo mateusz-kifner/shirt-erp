@@ -8,6 +8,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { ListTreeResponse } from "imapflow";
+import { useId } from "react";
 
 function getIcon(specialUse: string) {
   switch (specialUse) {
@@ -42,23 +43,44 @@ function EmailTreeButton(props: EmailTreeButtonProps) {
 }
 
 interface EmailFolderTreeProps {
-  mailboxId: number;
+  emailClientId: number;
+  active?: string;
+  onActive?: (active?: string) => void;
 }
 
 function EmailFolderTree(props: EmailFolderTreeProps) {
-  const { mailboxId } = props;
-  const { data } = api.email.getFolderTree.useQuery(mailboxId, {
+  const { emailClientId, active, onActive } = props;
+  const uuid = useId();
+  const { data } = api.email.getFolderTree.useQuery(emailClientId, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
   return (
     <div className="flex w-40 flex-col gap-2 rounded bg-white p-2 dark:bg-stone-950">
       {data &&
-        data.folders.map((folder) => (
+        data.folders.map((folder, index) => (
           <>
-            <EmailTreeButton folder={folder} className="justify-start" />
-            {folder?.folders?.map((folder) => (
-              <EmailTreeButton folder={folder} className="ml-3 justify-start" />
+            <EmailTreeButton
+              folder={folder}
+              className={
+                active === folder.path
+                  ? "justify-start bg-black/10  text-stone-900 dark:bg-white/10 dark:text-stone-50"
+                  : "justify-start"
+              }
+              onClick={() => onActive?.(folder.path)}
+              key={`${uuid}${index}`}
+            />
+            {folder?.folders?.map((folder, index2) => (
+              <EmailTreeButton
+                folder={folder}
+                className={
+                  active === folder.path
+                    ? "ml-3 justify-start bg-black/10  text-stone-900 dark:bg-white/10 dark:text-stone-50"
+                    : "ml-3  justify-start"
+                }
+                onClick={() => onActive?.(folder.path)}
+                key={`${uuid}${index}:${index2}`}
+              />
             ))}
           </>
         ))}

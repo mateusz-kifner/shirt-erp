@@ -1,14 +1,22 @@
+import { useState } from "react";
 import EmailFolderTree from "./EmailFolderTree";
+import EmailList from "./EmailList";
 
 interface EmailClientProps {
-  mailboxId: number;
+  emailClientId: number;
 }
 
 function EmailClient(props: EmailClientProps) {
-  const { mailboxId } = props;
+  const { emailClientId } = props;
+  const [activeMailbox, setActiveMailbox] = useState("INBOX");
   return (
     <>
-      <EmailFolderTree mailboxId={mailboxId} />
+      <EmailFolderTree
+        emailClientId={emailClientId}
+        active={activeMailbox}
+        onActive={(val) => val && setActiveMailbox(val)}
+      />
+      <EmailList emailClientId={emailClientId} mailbox={activeMailbox} />
     </>
   );
 }
