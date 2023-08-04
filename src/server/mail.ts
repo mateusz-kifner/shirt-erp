@@ -33,9 +33,20 @@ export async function fetchEmails(
     const mailboxObj = await client.mailboxOpen(mailbox);
     console.log(mailboxObj);
     const messagesCount = mailboxObj.exists;
+    // @ts-ignore this exists but not added to TS
+    const noModseq = mailboxObj?.noModseq;
     const messages = [];
-    const queryArr = Array.from({ length: take }, (_, i) => skip + i);
-    for await (const msg of client.fetch(queryArr, {
+    let query: number[] | string;
+
+    // use generic seq for fetching messages
+    if (noModseq === true) {
+      query = Array.from({ length: take }, (_, i) => skip + i);
+    } else {
+      const newTake = messagesCount < take ? messagesCount : take;
+      const newSkip = skip + 1;
+      query = take > 1 ? `${newSkip}:${newSkip + newTake}` : `${newSkip}`;
+    }
+    for await (const msg of client.fetch(query, {
       uid: true,
       threadId: true,
       envelope: true,

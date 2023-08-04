@@ -1,5 +1,6 @@
 import { api } from "@/utils/api";
 import { useId } from "react";
+import EmailListItem from "./EmailListItem";
 
 interface EmailListProps {
   emailClientId: number;
@@ -25,12 +26,9 @@ function EmailList(props: EmailListProps) {
       )
     : [];
   return (
-    <div className="flex flex-col gap-2">
-      {sortedData.map((v, index) => (
-        <div className="flex gap-2" key={`${uuid}${index}`}>
-          <div>{v.uid}</div>
-          <div>{v.envelope.subject}</div>
-        </div>
+    <div className="flex w-full flex-col gap-2">
+      {sortedData.map((value, index) => (
+        <EmailListItem key={`${uuid}${index}`} value={value} />
       ))}
     </div>
   );

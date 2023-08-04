@@ -56,7 +56,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
     refetchOnWindowFocus: false,
   });
   return (
-    <div className="flex w-40 flex-col gap-2 rounded bg-white p-2 dark:bg-stone-950">
+    <div className="flex w-40 min-w-[10rem] flex-col gap-2 rounded bg-white p-2 dark:bg-stone-950">
       {data &&
         data.folders.map((folder, index) => (
           <>
