@@ -61,7 +61,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
   });
   const [loadingAnimation, setLoadingAnimation] = useState(false);
   return (
-    <div className="flex w-40 min-w-[10rem] flex-col gap-2 rounded bg-gray-200 p-2  text-stone-950 dark:bg-stone-950 dark:text-stone-200">
+    <div className="flex w-40 min-w-[10rem] flex-col gap-2 rounded bg-gray-200 p-2 text-stone-950 dark:bg-stone-950 dark:text-stone-200">
       <div className="flex h-10 flex-col gap-2">
         <Button
           size="sm"
@@ -78,8 +78,9 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
           {emailConfig.user}
           <IconRefresh
             className={cn(
-              "absolute bottom-0  right-0 h-4 w-4 rounded-full bg-white dark:bg-stone-800",
-              loadingAnimation && "animate-spin direction-reverse",
+              "absolute -bottom-1  right-0 h-4 w-4 rounded-full bg-white transition-all dark:bg-stone-800",
+              loadingAnimation &&
+                "animate-spin bg-sky-200 direction-reverse dark:bg-sky-950",
             )}
           />
         </Button>

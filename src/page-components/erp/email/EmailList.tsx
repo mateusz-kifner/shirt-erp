@@ -6,10 +6,11 @@ import { useEmailContext } from "./emialContext";
 
 interface EmailListProps {
   mailbox?: string;
+  onSelect?: (uid: number) => void;
 }
 
 function EmailList(props: EmailListProps) {
-  const { mailbox } = props;
+  const { mailbox, onSelect } = props;
   const { emailConfig } = useEmailContext();
   const uuid = useId();
   const [page, setPage] = useState(0);
@@ -43,7 +44,11 @@ function EmailList(props: EmailListProps) {
         </div>
         <div className="border-b border-solid border-b-gray-200 dark:border-b-stone-800"></div>
         {sortedData.map((value, index) => (
-          <EmailListItem key={`${uuid}${index}`} value={value} />
+          <EmailListItem
+            key={`${uuid}${index}`}
+            value={value}
+            onChange={(value) => onSelect?.(value.uid)}
+          />
         ))}
       </div>
       <Pagination initialPage={1} totalPages={1} onPageChange={setPage} />

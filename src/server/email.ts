@@ -9,10 +9,11 @@ export async function fetchEmailById(
     await client.connect();
     await client.mailboxOpen(mailbox);
 
-    const message = await client.fetchOne(uid ?? "*", {
+    const message = await client.fetchOne(uid as string, {
       envelope: true,
       uid: true,
     });
+    console.log(message);
 
     if (!message) {
       throw new Error("Email not found.");
@@ -53,7 +54,6 @@ export async function fetchEmails(
     }
     for await (const msg of client.fetch(query, {
       uid: true,
-      threadId: true,
       envelope: true,
     })) {
       // console.log(msg.uid);

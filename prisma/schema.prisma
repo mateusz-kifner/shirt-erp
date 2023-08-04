@@ -35,23 +35,24 @@ model UserPermission {
 }
 
 model File {
-  id               Int        @id @default(autoincrement())
+  id               Int            @id @default(autoincrement())
   size             Int
-  filepath         String     @db.VarChar(2048)
-  originalFilename String?    @db.VarChar(1024)
-  newFilename      String?    @db.VarChar(1024)
-  filename         String?    @db.VarChar(1024)
-  mimetype         String?    @db.VarChar(255)
-  hash             String?    @db.VarChar(10)
-  token            String?    @db.VarChar(32)
+  filepath         String         @db.VarChar(2048)
+  originalFilename String?        @db.VarChar(1024)
+  newFilename      String?        @db.VarChar(1024)
+  filename         String?        @db.VarChar(1024)
+  mimetype         String?        @db.VarChar(255)
+  hash             String?        @db.VarChar(10)
+  token            String?        @db.VarChar(32)
   width            Int?
   height           Int?
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   createdById      Int?
   updatedById      Int?
   TypeIcon         TypeIcon[]
   Order            Order[]
+  EmailMessage     EmailMessage[]
 }
 
 model Client {
@@ -97,9 +98,13 @@ model EmailMessage {
   html          String?
   text          String?
   messageId     String?   @db.VarChar(255)
+  messageUid    Int?
+  mailbox       String?
+  clientUser    String?
   headerLines   String?
   textAsHtml    String?
-  nextMessageId Int?
+  messageFileId Int?
+  messageFile   File?     @relation(fields: [messageFileId], references: [id])
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   createdById   Int?

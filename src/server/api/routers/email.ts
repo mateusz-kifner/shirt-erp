@@ -6,7 +6,7 @@ import {
   fetchEmails,
   fetchFolderTree,
   fetchFolders,
-} from "@/server/mail";
+} from "@/server/email";
 import { TRPCError } from "@trpc/server";
 import { ImapFlow } from "imapflow";
 import { omit } from "lodash";

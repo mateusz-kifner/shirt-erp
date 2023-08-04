@@ -15,6 +15,7 @@ function EmailListItem(props: EmailListItemProps) {
       size="sm"
       variant="ghost"
       className="grid w-full grid-cols-3 gap-2 text-left"
+      onClick={() => onChange?.(value)}
     >
       <div className="flex flex-nowrap overflow-hidden whitespace-nowrap">
         {value.envelope?.from.map((sender) => (

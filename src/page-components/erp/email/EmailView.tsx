@@ -9,32 +9,25 @@ import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import { api } from "@/utils/api";
 import { IconRefresh } from "@tabler/icons-react";
+import { useEmailContext } from "./emialContext";
 
-interface ProductEditableProps {
+interface EmailViewProps {
   id: number | null;
-  mailboxId: number;
+  mailbox: string;
 }
 
-function ProductEditable(props: ProductEditableProps) {
-  const { id, mailboxId } = props;
+function EmailView(props: EmailViewProps) {
+  const { id, mailbox } = props;
   const isLoaded = useLoaded();
-
-  const { data, refetch } = api.product.getById.useQuery(id as number, {
-    enabled: id !== null,
-  });
-  const { mutateAsync: update } = api.product.update.useMutation({
-    onSuccess: () => {
-      refetch().catch((err) => console.log(err));
+  const { emailConfig } = useEmailContext();
+  const { data, refetch } = api.email.getById.useQuery(
+    { emailClientId: emailConfig.id, mailbox, emailId: id as number },
+    {
+      enabled: id !== null,
     },
-  });
-  const { mutateAsync: deleteById } = api.product.deleteById.useMutation();
+  );
 
-  const apiUpdate = (key: string, val: any) => {
-    if (!isLoaded) return;
-    if (!data) return;
-    update({ id: data.id, [key]: val });
-  };
-
+  console.log(id, mailbox, id !== null);
   if (!data)
     return (
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -43,7 +36,7 @@ function ProductEditable(props: ProductEditableProps) {
     );
 
   return (
-    <Editable data={data} onSubmit={apiUpdate}>
+    <Editable data={data}>
       <EditableDebugInfo label="ID: " keyName="id" />
       <Wrapper
         keyName="subject" // hint for Editable
@@ -78,4 +71,4 @@ function ProductEditable(props: ProductEditableProps) {
   );
 }
 
-export default ProductEditable;
+export default EmailView;
