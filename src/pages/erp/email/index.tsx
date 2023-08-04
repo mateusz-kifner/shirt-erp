@@ -15,7 +15,7 @@ interface EmailPageProps {}
 
 function EmailPage(props: EmailPageProps) {
   const {} = props;
-  const { data: mailboxes } = api.email.getEmails.useQuery(undefined, {
+  const { data: mailboxes } = api.email.getAllConfigs.useQuery(undefined, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -54,7 +54,7 @@ function EmailPage(props: EmailPageProps) {
         disablePin
       >
         {mailboxesIMAP.map((mailbox) => (
-          <div className="relative flex flex-col gap-4 p-4">
+          <div className="relative p-4">
             <EmailClient mailboxId={mailbox.id} />
           </div>
         ))}

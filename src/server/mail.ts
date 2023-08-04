@@ -25,7 +25,7 @@ export async function fetchEmailById(client: ImapFlow, id?: string) {
 export async function fetchEmails(
   client: ImapFlow,
   take: number,
-  skip: number
+  skip: number,
 ) {
   try {
     await client.connect();
@@ -65,6 +65,25 @@ export async function fetchFolders(client: ImapFlow) {
   } catch (error) {
     console.error("Error fetching Folders:", error);
     throw new Error("Failed to fetch Folders.");
+  } finally {
+    await client.logout();
+  }
+}
+
+export async function fetchFolderTree(client: ImapFlow) {
+  try {
+    await client.connect();
+
+    const folderTree = await client.listTree();
+
+    if (!folderTree) {
+      throw new Error("FolderTree not found.");
+    }
+
+    return folderTree;
+  } catch (error) {
+    console.error("Error fetching FolderTree:", error);
+    throw new Error("Failed to fetch FolderTree.");
   } finally {
     await client.logout();
   }
