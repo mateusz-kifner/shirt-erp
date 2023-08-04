@@ -6,9 +6,20 @@ import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
+import useTranslation from "@/hooks/useTranslation";
 import { OrderType } from "@/schema/orderSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
@@ -21,6 +32,7 @@ import {
   IconRefresh,
   IconUser,
 } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 import OrderListItem from "../order/OrderListItem";
 
 //TODO: Remake Array type
@@ -32,6 +44,8 @@ interface ClientEditableProps {
 function ClientEditable(props: ClientEditableProps) {
   const { id } = props;
   const isLoaded = useLoaded();
+  const router = useRouter();
+  const t = useTranslation();
 
   const { data, refetch } = api.client.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -49,6 +63,13 @@ function ClientEditable(props: ClientEditableProps) {
     update({ id: data.id, [key]: val });
   };
 
+  const apiDelete = () => {
+    if (!data) return;
+    deleteById(data.id).then(() => {
+      router.push(`/erp/client`);
+    });
+  };
+
   if (!data)
     return (
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -57,113 +78,136 @@ function ClientEditable(props: ClientEditableProps) {
     );
 
   return (
-    <Editable data={data} onSubmit={apiUpdate}>
-      <EditableDebugInfo label="ID: " keyName="id" />
-      <Wrapper
-        keyName="username" // hint for Editable
-        wrapperClassName="flex gap-2 items-center"
-        wrapperRightSection={
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full"
-            onClick={() => {
-              refetch();
-            }}
-          >
-            <IconRefresh />
-          </Button>
-        }
-      >
+    <>
+      <Editable data={data} onSubmit={apiUpdate}>
+        <EditableDebugInfo label="ID: " keyName="id" />
+        <Wrapper
+          keyName="username" // hint for Editable
+          wrapperClassName="flex gap-2 items-center"
+          wrapperRightSection={
+            <Button
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+              onClick={() => {
+                refetch();
+              }}
+            >
+              <IconRefresh />
+            </Button>
+          }
+        >
+          <EditableShortText
+            keyName="username"
+            required
+            style={{ fontSize: "1.4em" }}
+          />
+        </Wrapper>
         <EditableShortText
-          keyName="username"
-          required
-          style={{ fontSize: "1.4em" }}
+          keyName="firstname"
+          label="Imie"
+          leftSection={<IconUser />}
         />
-      </Wrapper>
-      <EditableShortText
-        keyName="firstname"
-        label="Imie"
-        leftSection={<IconUser />}
-      />
-      <EditableShortText
-        keyName="lastname"
-        label="Nazwisko"
-        leftSection={<IconUser />}
-      />
-      <EditableRichText
-        keyName="notes"
-        label="Notatki"
-        leftSection={<IconNote />}
-      />
-      <EditableShortText
-        keyName="email"
-        label="Email"
-        leftSection={<IconMail />}
-      />
-      <EditableShortText
-        keyName="phoneNumber"
-        label="Telefon"
-        leftSection={<IconPhone />}
-      />
-      <EditableShortText
-        keyName="companyName"
-        label="Nazwa firmy"
-        leftSection={<IconBuildingFactory />}
-      />
-      <EditableAddress
-        label={{
-          streetName: "Ulica",
-          streetNumber: "Nr. bloku",
-          apartmentNumber: "Nr. mieszkania",
-          secondLine: "Dodatkowe dane adresata",
-          city: "Miasto",
-          province: "Województwo",
-          postCode: "Kod pocztowy",
-          name: "Address",
-        }}
-        keyName="address"
-        leftSection={<IconAddressBook />}
-      />
+        <EditableShortText
+          keyName="lastname"
+          label="Nazwisko"
+          leftSection={<IconUser />}
+        />
+        <EditableRichText
+          keyName="notes"
+          label="Notatki"
+          leftSection={<IconNote />}
+        />
+        <EditableShortText
+          keyName="email"
+          label="Email"
+          leftSection={<IconMail />}
+        />
+        <EditableShortText
+          keyName="phoneNumber"
+          label="Telefon"
+          leftSection={<IconPhone />}
+        />
+        <EditableShortText
+          keyName="companyName"
+          label="Nazwa firmy"
+          leftSection={<IconBuildingFactory />}
+        />
+        <EditableAddress
+          label={{
+            streetName: "Ulica",
+            streetNumber: "Nr. bloku",
+            apartmentNumber: "Nr. mieszkania",
+            secondLine: "Dodatkowe dane adresata",
+            city: "Miasto",
+            province: "Województwo",
+            postCode: "Kod pocztowy",
+            name: "Address",
+          }}
+          keyName="address"
+          leftSection={<IconAddressBook />}
+        />
 
-      <EditableArray<OrderType> label="Zamówienia" keyName="orders" disabled>
-        <EditableApiEntry
-          linkEntry
-          entryName="order"
-          Element={OrderListItem}
-          copyProvider={(value: OrderType) =>
-            value?.name ? truncString(value.name, 40) : undefined
-          }
-        />
-      </EditableArray>
-      <EditableArray<OrderType>
-        label="Zamówienia archiwizowane"
-        keyName="ordersArchive"
-        disabled
-      >
-        <EditableApiEntry
-          linkEntry
-          entryName="order-archive"
-          Element={OrderListItem}
-          copyProvider={(value: OrderType) =>
-            value?.name ? truncString(value.name, 40) : undefined
-          }
-        />
-      </EditableArray>
+        <EditableArray<OrderType> label="Zamówienia" keyName="orders" disabled>
+          <EditableApiEntry
+            linkEntry
+            entryName="order"
+            Element={OrderListItem}
+            copyProvider={(value: OrderType) =>
+              value?.name ? truncString(value.name, 40) : undefined
+            }
+          />
+        </EditableArray>
+        <EditableArray<OrderType>
+          label="Zamówienia archiwizowane"
+          keyName="ordersArchive"
+          disabled
+        >
+          <EditableApiEntry
+            linkEntry
+            entryName="order-archive"
+            Element={OrderListItem}
+            copyProvider={(value: OrderType) =>
+              value?.name ? truncString(value.name, 40) : undefined
+            }
+          />
+        </EditableArray>
 
-      <EditableDateTime
-        keyName="createdAt"
-        label="Utworzono"
-        disabled
-        collapse
-      />
-      <EditableDateTime
-        keyName="updatedAt"
-        label="Edytowano"
-        disabled
-        collapse
-      />
-    </Editable>
+        <EditableDateTime
+          keyName="createdAt"
+          label="Utworzono"
+          disabled
+          collapse
+        />
+        <EditableDateTime
+          keyName="updatedAt"
+          label="Edytowano"
+          disabled
+          collapse
+        />
+      </Editable>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className="mt-6">
+          <Button variant="destructive">
+            {t.delete} {t.client.singular}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
+            <AlertDialogDescription>
+              {t.operation_not_reversible}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
+            <AlertDialogAction onClick={apiDelete}>
+              {t.delete}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 

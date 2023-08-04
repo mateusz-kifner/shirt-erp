@@ -11,14 +11,26 @@ import EditableNumber from "@/components/editable/EditableNumber";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
 import EditableSwitch from "@/components/editable/EditableSwitch";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
+import useTranslation from "@/hooks/useTranslation";
 import { ProductType } from "@/schema/productSchema";
 import { UserType } from "@/schema/userSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import { IconAddressBook, IconCash, IconRefresh } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
 import ProductListItem from "../product/ProductListItem";
@@ -31,6 +43,8 @@ interface OrderEditableProps {
 function OrderEditable(props: OrderEditableProps) {
   const { id } = props;
   const isLoaded = useLoaded();
+  const router = useRouter();
+  const t = useTranslation();
 
   const { data, refetch } = api.order.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -48,6 +62,13 @@ function OrderEditable(props: OrderEditableProps) {
     update({ id: data.id, [key]: val });
   };
 
+  const apiDelete = () => {
+    if (!data) return;
+    deleteById(data.id).then(() => {
+      router.push(`/erp/order`);
+    });
+  };
+
   if (!data)
     return (
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -56,119 +77,142 @@ function OrderEditable(props: OrderEditableProps) {
     );
 
   return (
-    <Editable data={data} onSubmit={apiUpdate}>
-      <EditableDebugInfo label="ID: " keyName="id" />
-      <Wrapper
-        keyName="name" // hint for Editable
-        wrapperClassName="flex gap-2 items-center"
-        wrapperRightSection={
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full"
-            onClick={() => {
-              refetch();
-            }}
-          >
-            <IconRefresh />
-          </Button>
-        }
-      >
+    <>
+      <Editable data={data} onSubmit={apiUpdate}>
+        <EditableDebugInfo label="ID: " keyName="id" />
+        <Wrapper
+          keyName="name" // hint for Editable
+          wrapperClassName="flex gap-2 items-center"
+          wrapperRightSection={
+            <Button
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+              onClick={() => {
+                refetch();
+              }}
+            >
+              <IconRefresh />
+            </Button>
+          }
+        >
+          <EditableShortText
+            keyName="name"
+            required
+            style={{ fontSize: "1.4em" }}
+          />
+        </Wrapper>
+        <EditableEnum
+          label="Status"
+          keyName="status"
+          enum_data={[
+            "planned",
+            "accepted",
+            "in production",
+            "wrapped",
+            "sent",
+            "rejected",
+            "archived",
+          ]}
+        />
+        <EditableRichText label="Notatki" keyName="notes" />
         <EditableShortText
-          keyName="name"
-          required
-          style={{ fontSize: "1.4em" }}
+          keyName="price"
+          label="Cena"
+          leftSection={<IconCash />}
         />
-      </Wrapper>
-      <EditableEnum
-        label="Status"
-        keyName="status"
-        enum_data={[
-          "planned",
-          "accepted",
-          "in production",
-          "wrapped",
-          "sent",
-          "rejected",
-          "archived",
-        ]}
-      />
-      <EditableRichText label="Notatki" keyName="notes" />
-      <EditableShortText
-        keyName="price"
-        label="Cena"
-        leftSection={<IconCash />}
-      />
-      <EditableSwitch keyName="isPricePaid" label="Cena zapłacona" />
-      <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
-      <EditableFiles keyName="files" label="Pliki" />
-      <EditableApiEntry
-        keyName="client"
-        entryName="client"
-        linkEntry
-        allowClear
-        listProps={clientListSearchParams}
-        Element={ClientListItem}
-      />
-      <EditableAddress
-        label={{
-          streetName: "Ulica",
-          streetNumber: "Nr. bloku",
-          apartmentNumber: "Nr. mieszkania",
-          secondLine: "Dodatkowe dane adresata",
-          city: "Miasto",
-          province: "Województwo",
-          postCode: "Kod pocztowy",
-          name: "Address",
-        }}
-        keyName="address"
-        leftSection={<IconAddressBook />}
-      />
-
-      <EditableArray<ProductType> label="Produkty" keyName="products">
+        <EditableSwitch keyName="isPricePaid" label="Cena zapłacona" />
+        <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
+        <EditableFiles keyName="files" label="Pliki" />
         <EditableApiEntry
+          keyName="client"
+          entryName="client"
           linkEntry
-          entryName="product"
-          Element={ProductListItem}
-          copyProvider={(value: ProductType) =>
-            value?.name ? truncString(value.name, 40) : undefined
-          }
           allowClear
+          listProps={clientListSearchParams}
+          Element={ClientListItem}
         />
-      </EditableArray>
-      <EditableArray<UserType> label="Pracownicy" keyName="employees">
-        <EditableApiEntry
-          linkEntry
-          entryName="user"
-          Element={UserListItem}
-          copyProvider={(value: any) =>
-            value?.username ? truncString(value.username, 40) : undefined
-          }
-          allowClear
+        <EditableAddress
+          label={{
+            streetName: "Ulica",
+            streetNumber: "Nr. bloku",
+            apartmentNumber: "Nr. mieszkania",
+            secondLine: "Dodatkowe dane adresata",
+            city: "Miasto",
+            province: "Województwo",
+            postCode: "Kod pocztowy",
+            name: "Address",
+          }}
+          keyName="address"
+          leftSection={<IconAddressBook />}
         />
-      </EditableArray>
 
-      <EditableNumber
-        label="Całkowity czas pracy"
-        min={0}
-        increment={1}
-        fixed={0}
-        keyName="workTime"
-      />
+        <EditableArray<ProductType> label="Produkty" keyName="products">
+          <EditableApiEntry
+            linkEntry
+            entryName="product"
+            Element={ProductListItem}
+            copyProvider={(value: ProductType) =>
+              value?.name ? truncString(value.name, 40) : undefined
+            }
+            allowClear
+          />
+        </EditableArray>
+        <EditableArray<UserType> label="Pracownicy" keyName="employees">
+          <EditableApiEntry
+            linkEntry
+            entryName="user"
+            Element={UserListItem}
+            copyProvider={(value: any) =>
+              value?.username ? truncString(value.username, 40) : undefined
+            }
+            allowClear
+          />
+        </EditableArray>
 
-      <EditableDateTime
-        keyName="createdAt"
-        label="Utworzono"
-        disabled
-        collapse
-      />
-      <EditableDateTime
-        keyName="updatedAt"
-        label="Edytowano"
-        disabled
-        collapse
-      />
-    </Editable>
+        <EditableNumber
+          label="Całkowity czas pracy"
+          min={0}
+          increment={1}
+          fixed={0}
+          keyName="workTime"
+        />
+
+        <EditableDateTime
+          keyName="createdAt"
+          label="Utworzono"
+          disabled
+          collapse
+        />
+        <EditableDateTime
+          keyName="updatedAt"
+          label="Edytowano"
+          disabled
+          collapse
+        />
+      </Editable>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className="mt-6">
+          <Button variant="destructive">
+            {t.delete} {t.order.singular}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
+            <AlertDialogDescription>
+              {t.operation_not_reversible}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
+            <AlertDialogAction onClick={apiDelete}>
+              {t.delete}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 import { Label } from "@/components/ui/Label";
+import { useLoaded } from "@/hooks/useLoaded";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import preventLeave from "@/utils/preventLeave";
@@ -45,6 +46,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     return Number(value).toFixed(fixed); // no idea why this conversion is nesesery TODO: investigate missing toFixed on 'number'
   };
   const [text, setText] = useState<string>(toText(value));
+  const isLoaded = useLoaded();
   const [focus, setFocus] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const InputRef = useRef<HTMLInputElement>(null);
@@ -52,6 +54,7 @@ const EditableNumber = (props: EditableNumberProps) => {
   const onFocus = () => !disabled && setFocus(true);
 
   const onSubmitValue = (text: string) => {
+    if (!isLoaded) return;
     const num = parseFloat(text);
     if (isNaN(num)) {
       if (!isNaN(value ?? NaN)) {
