@@ -1,6 +1,7 @@
+import fs from "fs";
 import { ImapFlow } from "imapflow";
 
-export async function fetchEmailById(
+export async function fetchEmailByUid(
   client: ImapFlow,
   uid?: string,
   mailbox: string = "INBOX",
@@ -12,8 +13,9 @@ export async function fetchEmailById(
     const message = await client.fetchOne(uid as string, {
       envelope: true,
       uid: true,
+      // bodyStructure: true,
     });
-    console.log(message);
+    // console.log(message);
 
     if (!message) {
       throw new Error("Email not found.");
@@ -37,7 +39,6 @@ export async function fetchEmails(
   try {
     await client.connect();
     const mailboxObj = await client.mailboxOpen(mailbox);
-    console.log(mailboxObj);
     const messagesCount = mailboxObj.exists;
     // @ts-ignore this exists but not added to TS
     const noModseq = mailboxObj?.noModseq;
@@ -106,6 +107,63 @@ export async function fetchFolderTree(client: ImapFlow) {
   } catch (error) {
     console.error("Error fetching FolderTree:", error);
     throw new Error("Failed to fetch FolderTree.");
+  } finally {
+    await client.logout();
+  }
+}
+
+// cache emails
+
+export async function downloadEmailByUid(
+  client: ImapFlow,
+  uid?: string,
+  mailbox: string = "INBOX",
+) {
+  try {
+    await client.connect();
+    await client.mailboxOpen(mailbox);
+
+    let emailStream = await client.download(uid as string, undefined, {
+      uid: true,
+    });
+    const outputFilePath = `./email_cache/email-${uid}.eml`;
+    // let parsed = await simpleParser(emailStream.content);
+
+    // console.log(parsed);
+    if (emailStream) {
+      const writeStream = fs.createWriteStream(outputFilePath);
+      emailStream.content.pipe(writeStream);
+
+      emailStream.content.on("data", (chunk) => {
+        writeStream.write(chunk);
+      });
+
+      emailStream.content.on("end", () => {
+        writeStream.end();
+      });
+      // const writeStream = fs.createWriteStream(outputFilePath);
+      // emailStream.content.pipe(writeStream);
+      // writeStream.on("finish", () => {
+      //   console.log(`Stream saved to ${outputFilePath}`);
+      // });
+
+      // writeStream.on("error", (error) => {
+      //   console.error("Error saving stream:", error);
+      // });
+
+      // await fs.writeFile(outputFilePath, emailStream.content);
+    } else {
+      console.log(`Email with ID ${uid} not found.`);
+    }
+    return {};
+    // if (!parsed) {
+    //   throw new Error("Email not found.");
+    // }
+
+    // return parsed;
+  } catch (error) {
+    console.error("Error fetching email:", error);
+    throw new Error("Failed to fetch email.");
   } finally {
     await client.logout();
   }

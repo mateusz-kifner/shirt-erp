@@ -2,7 +2,7 @@ import { productSchema } from "@/schema/productSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 import {
-  fetchEmailById,
+  downloadEmailByUid,
   fetchEmails,
   fetchFolderTree,
   fetchFolders,
@@ -12,6 +12,31 @@ import { ImapFlow } from "imapflow";
 import { omit } from "lodash";
 import { z } from "zod";
 
+const LOG_LEVEL: "DEBUG" | "WARN" | "INFO" | "ERROR" = "INFO";
+
+const logDebug = (obj: any) => {
+  //@ts-ignore
+  if (LOG_LEVEL === "WARN" || LOG_LEVEL === "ERROR" || LOG_LEVEL === "INFO")
+    return;
+  console.log("Debug: ", JSON.stringify(obj, undefined, 2));
+};
+
+const logInfo = (obj: any) => {
+  //@ts-ignore
+  if (LOG_LEVEL === "WARN" || LOG_LEVEL === "ERROR") return;
+  console.log("Info: ", JSON.stringify(obj, undefined, 2));
+};
+
+const logWarn = (obj: any) => {
+  //@ts-ignore
+  if (LOG_LEVEL === "ERROR") return;
+  console.log("Warn: ", JSON.stringify(obj, undefined, 2));
+};
+
+const logError = (obj: any) => {
+  console.log("Error: ", JSON.stringify(obj, undefined, 2));
+};
+
 export const emailRouter = createTRPCRouter({
   getAllConfigs: authenticatedProcedure.query(async ({ ctx }) => {
     const data = await prisma.user.findUnique({
@@ -20,6 +45,7 @@ export const emailRouter = createTRPCRouter({
     });
     return data?.emailCredentials.map((val) => omit(val, ["password"]));
   }),
+
   getFolders: authenticatedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
@@ -46,9 +72,16 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
+        logger: {
+          debug: logDebug,
+          info: logInfo,
+          warn: logWarn,
+          error: logError,
+        },
       });
       return await fetchFolders(client);
     }),
+
   getFolderTree: authenticatedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
@@ -75,9 +108,16 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
+        logger: {
+          debug: logDebug,
+          info: logInfo,
+          warn: logWarn,
+          error: logError,
+        },
       });
       return await fetchFolderTree(client);
     }),
+
   getAll: authenticatedProcedure
     .input(
       z.object({
@@ -112,10 +152,17 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
+        logger: {
+          debug: logDebug,
+          info: logInfo,
+          warn: logWarn,
+          error: logError,
+        },
       });
       return await fetchEmails(client, mailbox, take, skip);
     }),
-  getById: authenticatedProcedure
+
+  getByUid: authenticatedProcedure
     .input(
       z.object({
         mailbox: z.string().default("INBOX"),
@@ -148,9 +195,22 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
+        logger: {
+          debug: logDebug,
+          info: logInfo,
+          warn: logWarn,
+          error: logError,
+        },
       });
-      return await fetchEmailById(client, emailId.toString(), mailbox);
+      // const mail = await fetchEmailByUid(client, emailId.toString(), mailbox);
+      const meta = await downloadEmailByUid(
+        client,
+        emailId.toString(),
+        mailbox,
+      );
+      return meta;
     }),
+
   create: authenticatedProcedure
     .input(z.number())
     .mutation(async ({ input: productData }) => {

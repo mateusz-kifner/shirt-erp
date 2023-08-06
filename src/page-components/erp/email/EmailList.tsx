@@ -6,7 +6,7 @@ import { useEmailContext } from "./emialContext";
 
 interface EmailListProps {
   mailbox?: string;
-  onSelect?: (uid: number) => void;
+  onSelect?: (uid: number | null) => void;
 }
 
 function EmailList(props: EmailListProps) {
@@ -47,7 +47,7 @@ function EmailList(props: EmailListProps) {
           <EmailListItem
             key={`${uuid}${index}`}
             value={value}
-            onChange={(value) => onSelect?.(value.uid)}
+            onChange={(value) => onSelect?.(value.uid ?? null)}
           />
         ))}
       </div>
