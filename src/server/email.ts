@@ -1,5 +1,7 @@
 import fs from "fs";
 import { ImapFlow } from "imapflow";
+import { simpleParser } from "mailparser";
+import { Stream } from "stream";
 
 export async function fetchEmailByUid(
   client: ImapFlow,
@@ -126,32 +128,17 @@ export async function downloadEmailByUid(
     let emailStream = await client.download(uid as string, undefined, {
       uid: true,
     });
-    const outputFilePath = `./email_cache/email-${uid}.eml`;
-    // let parsed = await simpleParser(emailStream.content);
+    console.log(client.id);
+    if (!client.authenticated)
+      throw new Error("Email server authentication failed");
+    // @ts-ignore  client.options is not in type
+    const outputFilePath = `./email_cache/email-${client.options.auth.user}-${uid}.eml`;
 
-    // console.log(parsed);
     if (emailStream) {
-      const writeStream = fs.createWriteStream(outputFilePath);
-      emailStream.content.pipe(writeStream);
+      await writeStreamAsync(outputFilePath, emailStream.content);
 
-      emailStream.content.on("data", (chunk) => {
-        writeStream.write(chunk);
-      });
-
-      emailStream.content.on("end", () => {
-        writeStream.end();
-      });
-      // const writeStream = fs.createWriteStream(outputFilePath);
-      // emailStream.content.pipe(writeStream);
-      // writeStream.on("finish", () => {
-      //   console.log(`Stream saved to ${outputFilePath}`);
-      // });
-
-      // writeStream.on("error", (error) => {
-      //   console.error("Error saving stream:", error);
-      // });
-
-      // await fs.writeFile(outputFilePath, emailStream.content);
+      const parsed = await simpleParser(fs.createReadStream(outputFilePath));
+      console.log(parsed);
     } else {
       console.log(`Email with ID ${uid} not found.`);
     }
@@ -169,24 +156,23 @@ export async function downloadEmailByUid(
   }
 }
 
-// export async function fetchEmails2(client: ImapFlow, id?: string) {
-//   try {
-//     await client.connect();
-//     await client.mailboxOpen("INBOX");
+async function writeStreamAsync(outputFilePath: string, stream: Stream) {
+  return new Promise<void>((resolve, reject) => {
+    const writeStream = fs.createWriteStream(outputFilePath);
 
-//     const message = await client.fetch({seq:{from:-10}}, {
-//       envelope: true,
-//     });
+    stream.pipe(writeStream);
 
-//     if (!message) {
-//       throw new Error("Email not found.");
-//     }
+    stream.on("end", () => {
+      writeStream.end();
+    });
 
-//     return message;
-//   } catch (error) {
-//     console.error("Error fetching email:", error);
-//     throw new Error("Failed to fetch email.");
-//   } finally {
-//     await client.logout();
-//   }
-// }
+    writeStream.on("finish", () => {
+      resolve();
+    });
+
+    writeStream.on("error", (writeError) => {
+      console.error("Error saving stream:", writeError);
+      reject(writeError);
+    });
+  });
+}
