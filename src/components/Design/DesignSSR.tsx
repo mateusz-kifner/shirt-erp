@@ -130,6 +130,7 @@ export type DesignBackgroundsType = {
 interface DesignProps extends EditableInput<any> {
   files?: FileType[];
   backgrounds: DesignBackgroundsType;
+  id?: number;
 }
 
 const Design = (props: DesignProps) => {
@@ -271,7 +272,7 @@ const Design = (props: DesignProps) => {
       className={cn(
         "flex h-full flex-col gap-2 p-2",
         fullscreen &&
-          "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black"
+          "absolute inset-0 z-[99999] h-[200vh] overflow-hidden bg-white dark:bg-black",
       )}
     >
       <div
@@ -391,7 +392,7 @@ const Design = (props: DesignProps) => {
                   onDrop={handleDrop}
                   className={cn(
                     "border-2 border-solid border-transparent",
-                    dragActive && "border-sky-600"
+                    dragActive && "border-sky-600",
                   )}
                 >
                   {/* <div>{name}</div> */}
@@ -464,7 +465,7 @@ const Design = (props: DesignProps) => {
                   </div>
                 </div>
               );
-            }
+            },
           )}
         </div>
         <Tabs defaultValue="files" className="flex flex-grow flex-col">

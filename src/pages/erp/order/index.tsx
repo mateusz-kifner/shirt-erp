@@ -126,10 +126,22 @@ const OrdersPage: NextPage = () => {
     table: UniversalMatrix,
     metaId: number,
   ): [UniversalMatrix, string, any, any] => {
+    if (table[0]![0] !== undefined)
+      throw new Error(
+        "UniversalMatrix is required to contain at least 1 element",
+      );
+
+    let row_len = table[0]?.length;
+    for (const row of table) {
+      if (row.length !== row_len)
+        throw new Error(
+          "UniversalMatrix is required to have rows of equal length",
+        );
+    }
     let pusta = true;
     table: for (let y = 0; y < table.length; y++) {
-      for (let x = 0; x < table[0].length; x++) {
-        if (!(!table[y][x] || (table[y][x] && !table[y][x]?.value))) {
+      for (let x = 0; x < table[0]!.length; x++) {
+        if (!(!table[y]![x] || (table[y]![x] && !table[y]![x]?.value))) {
           pusta = false;
           break table;
         }
@@ -148,36 +160,43 @@ const OrdersPage: NextPage = () => {
         new_table.push([]);
         for (let x = 0; x < sizes.length + 1; x++) {
           if (y > 0 && x == 0) {
-            new_table[y].push({
-              value: getColorNameFromHex(colors[y - 1]),
+            new_table[y]!.push({
+              value: getColorNameFromHex(colors[y - 1] ?? ""),
               metaId,
               metaPropertyId: 0,
             });
           } else if (y == 0 && x > 0) {
-            new_table[y].push({
+            new_table[y]!.push({
               value: sizes[x - 1],
               metaId,
               metaPropertyId: 1,
             });
           } else {
-            new_table[y].push({ value: "" });
+            new_table[y]!.push({ value: "" });
           }
         }
       }
 
       new_table = [
-        new_table[0].map((val, index) =>
+        new_table[0]!.map((val, index) =>
           index === 0 ? { value: product?.name } : undefined,
         ),
 
         ...new_table,
       ];
 
-      return [new_table, "Auto uzupełnienie się powiodło."];
+      return [
+        new_table,
+        "Auto uzupełnienie się powiodło.",
+        undefined,
+        undefined,
+      ];
     }
     return [
       table,
       "error: Tablica musi być pusta do operacji auto uzupełniania.",
+      undefined,
+      undefined,
     ];
   };
 
