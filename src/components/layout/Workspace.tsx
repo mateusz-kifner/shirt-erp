@@ -3,13 +3,13 @@ import { Children, useId, type ReactNode } from "react";
 import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
-import ErrorBoundary from "@/components/ErrorBoundary";
 import MultiTabs from "@/components/layout/MultiTabs";
 import { useUserContext } from "@/context/userContext";
 import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { ErrorBoundary } from "react-error-boundary";
 
 // import MultiTabs from "./MultiTabs"
 

@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Logger from "js-logger";
 import Head from "next/head";
 
-import ErrorBoundary from "@/components/ErrorBoundary";
 import AppLayout from "@/components/layout/AppLayout";
 import { UserContextProvider } from "@/context/userContext";
 import { env } from "@/env.mjs";
@@ -27,6 +26,7 @@ import { toast } from "@/hooks/useToast";
 import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -70,7 +70,7 @@ Logger.setHandler(function (messages, context) {
 });
 
 Logger.setLevel(
-  env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN
+  env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN,
 );
 
 const App: AppType = ({ Component, pageProps }) => {

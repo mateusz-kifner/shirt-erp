@@ -34,6 +34,7 @@ export const settingsRouter = createTRPCRouter({
       const newMailCredential = await prisma.emailCredential.create({
         data: {
           ...mailCredential,
+          secure: mailCredential.secure ?? false,
           users: { connect: [{ id: ctx.session!.user!.id }] },
         },
       });
