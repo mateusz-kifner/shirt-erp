@@ -3,7 +3,7 @@ import { useState } from "react";
 import EmailFolderTree from "./EmailFolderTree";
 import EmailList from "./EmailList";
 import EmailView from "./EmailView";
-import { EmailContextProvider } from "./emialContext";
+import { EmailContextProvider } from "./emailContext";
 
 interface EmailClientProps {
   emailClient: EmailCredentialType;

@@ -10,7 +10,7 @@ import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import { api } from "@/utils/api";
 import { IconRefresh } from "@tabler/icons-react";
-import { useEmailContext } from "./emialContext";
+import { useEmailContext } from "./emailContext";
 
 interface EmailViewProps {
   id: number | null;
@@ -41,37 +41,39 @@ function EmailView(props: EmailViewProps) {
   return (
     <Editable data={data}>
       <EditableDebugInfo label="ID: " keyName="id" />
-      <EditableObject keyName="envelope">
-        <Wrapper
-          keyName="subject" // hint for Editable
-          wrapperClassName="flex gap-2 items-center"
-          wrapperRightSection={
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full"
-              onClick={() => {
-                refetch();
-              }}
-            >
-              <IconRefresh />
-            </Button>
-          }
-        >
-          <EditableShortText
-            keyName="subject"
-            required
-            style={{ fontSize: "1.4em" }}
-            disabled
-          />
-        </Wrapper>
-        <EditableShortText keyName="from" label="Od" disabled />
-        <EditableShortText keyName="to" label="Do" disabled />
-        <EditableDateTime keyName="date" label="Data" disabled collapse />
-
-        <EditableRichText label="Wiadomość" keyName="html" disabled />
-        <EditableFiles keyName="attachments" label="Pliki" disabled />
+      <Wrapper
+        keyName="subject" // hint for Editable
+        wrapperClassName="flex gap-2 items-center"
+        wrapperRightSection={
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full"
+            onClick={() => {
+              refetch();
+            }}
+          >
+            <IconRefresh />
+          </Button>
+        }
+      >
+        <EditableShortText
+          keyName="subject"
+          required
+          style={{ fontSize: "1.4em" }}
+          disabled
+        />
+      </Wrapper>
+      <EditableObject keyName="from">
+        <EditableShortText keyName="text" label="Od" disabled />
       </EditableObject>
+      <EditableObject keyName="to">
+        <EditableShortText keyName="text" label="Do" disabled />
+      </EditableObject>
+      <EditableDateTime keyName="date" label="Data" disabled collapse />
+
+      <EditableRichText label="Wiadomość" keyName="html" disabled />
+      <EditableFiles keyName="attachments" label="Pliki" disabled />
     </Editable>
   );
 }

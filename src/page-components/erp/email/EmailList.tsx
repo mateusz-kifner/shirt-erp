@@ -2,7 +2,7 @@ import Pagination from "@/components/ui/Pagination";
 import { api } from "@/utils/api";
 import { useId, useState } from "react";
 import EmailListItem from "./EmailListItem";
-import { useEmailContext } from "./emialContext";
+import { useEmailContext } from "./emailContext";
 
 interface EmailListProps {
   mailbox?: string;

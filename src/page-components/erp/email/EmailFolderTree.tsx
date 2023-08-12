@@ -11,7 +11,7 @@ import {
 } from "@tabler/icons-react";
 import { ListTreeResponse } from "imapflow";
 import { useId, useState } from "react";
-import { useEmailContext } from "./emialContext";
+import { useEmailContext } from "./emailContext";
 
 function getIcon(specialUse: string) {
   switch (specialUse) {

@@ -1,7 +1,12 @@
-import fs from "fs";
 import { ImapFlow } from "imapflow";
 import { simpleParser } from "mailparser";
-import { Stream } from "stream";
+import fs from "node:fs";
+import { Stream } from "node:stream";
+
+import { omit } from "lodash";
+import { createHash } from "node:crypto";
+
+const mailDir = "./cache/email/";
 
 export async function fetchEmailByUid(
   client: ImapFlow,
@@ -42,23 +47,30 @@ export async function fetchEmails(
     await client.connect();
     const mailboxObj = await client.mailboxOpen(mailbox);
     const messagesCount = mailboxObj.exists;
-    // @ts-ignore this exists but not added to TS
+    // @ts-ignore this exists but not added to TS def
     const noModseq = mailboxObj?.noModseq;
+    console.log(mailboxObj);
     const messages = [];
     let query: number[] | string;
 
+    const last_message = await client.fetchOne("*", { envelope: true });
+
+    console.log(last_message);
     // use generic seq for fetching messages
-    if (noModseq === true) {
-      query = Array.from({ length: take }, (_, i) => skip + i);
-    } else {
-      const newTake = messagesCount < take ? messagesCount : take;
-      const newSkip = skip + 1;
-      query = take > 1 ? `${newSkip}:${newSkip + newTake}` : `${newSkip}`;
-    }
-    for await (const msg of client.fetch(query, {
-      uid: true,
-      envelope: true,
-    })) {
+    // if (noModseq === true) {
+    //query = Array.from({ length: 1 }, (_, i) => skip + i);
+    // } else {
+    //   const newTake = messagesCount < take ? messagesCount : take;
+    //   const newSkip = skip + 1;
+    //   query = take > 1 ? `${newSkip}:${newSkip + newTake}` : `${newSkip}`;
+    // }
+
+    for await (const msg of client.fetch(
+      { seq: `${last_message.seq - 10}:${last_message.seq}` },
+      {
+        envelope: true,
+      },
+    )) {
       // console.log(msg.uid);
       messages.push(msg);
     }
@@ -125,29 +137,52 @@ export async function downloadEmailByUid(
     await client.connect();
     await client.mailboxOpen(mailbox);
 
-    let emailStream = await client.download(uid as string, undefined, {
-      uid: true,
-    });
-    console.log(client.id);
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
-    // @ts-ignore  client.options is not in type
-    const outputFilePath = `./email_cache/email-${client.options.auth.user}-${uid}.eml`;
 
-    if (emailStream) {
-      await writeStreamAsync(outputFilePath, emailStream.content);
+    const auth: { user: string; pass?: string; accessToken?: string } =
+      // @ts-ignore
+      client.options.auth;
 
-      const parsed = await simpleParser(fs.createReadStream(outputFilePath));
-      console.log(parsed);
+    if (auth.user.indexOf("•") !== -1)
+      throw new Error("Forbidden characters in user");
+
+    const hashString = auth.pass ?? auth.accessToken;
+    if (hashString === undefined)
+      throw new Error(
+        "Cannot generate hash, password or accessToken not found",
+      );
+
+    const hash = createHash("md5")
+      .update(hashString)
+      .digest("hex")
+      .substring(0, 12);
+
+    const outputFileName = `email•${auth.user}•${uid}•${hash}.eml`;
+    const outputFilePath = `${mailDir}${outputFileName}`;
+
+    let emailFileStream;
+    if (fs.existsSync(outputFileName)) {
+      emailFileStream = fs.createReadStream(outputFilePath);
     } else {
-      console.log(`Email with ID ${uid} not found.`);
-    }
-    return {};
-    // if (!parsed) {
-    //   throw new Error("Email not found.");
-    // }
+      console.log(`Email with ID ${uid} not found in cache, downloading`);
+      let emailStream = await client.download(uid as string, undefined, {
+        uid: true,
+      });
 
-    // return parsed;
+      if (!emailStream)
+        throw new Error(`Email with ID ${uid} not found on server`);
+
+      await writeStreamAsync(outputFilePath, emailStream.content);
+      emailFileStream = fs.createReadStream(outputFilePath);
+    }
+    const parsed = await simpleParser(emailFileStream);
+
+    if (!parsed) {
+      throw new Error("Email not found.");
+    }
+
+    return omit(parsed, ["attachments"]);
   } catch (error) {
     console.error("Error fetching email:", error);
     throw new Error("Failed to fetch email.");

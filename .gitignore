@@ -46,5 +46,7 @@ yarn-error.log*
 uploads/*
 !uploads/.gitkeep
 
-email_cache/*
-!email_cache/.gitkeep
+cache/*
+cache/email/*
+!cache/email
+!cache/email/.gitkeep
