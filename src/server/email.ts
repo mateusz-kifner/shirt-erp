@@ -1,9 +1,10 @@
 import { ImapFlow } from "imapflow";
-import { simpleParser } from "mailparser";
 import fs from "node:fs";
+import fsp from "node:fs/promises";
 import { Stream } from "node:stream";
 
 import { omit } from "lodash";
+import { simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 
 const mailDir = "./cache/email/";
@@ -161,10 +162,10 @@ export async function downloadEmailByUid(
     const outputFileName = `email•${auth.user}•${uid}•${hash}.eml`;
     const outputFilePath = `${mailDir}${outputFileName}`;
 
-    let emailFileStream;
-    if (fs.existsSync(outputFileName)) {
-      emailFileStream = fs.createReadStream(outputFilePath);
-    } else {
+    try {
+      await fsp.access(outputFilePath);
+      console.log(`Email with ID ${uid} found in cache`);
+    } catch {
       console.log(`Email with ID ${uid} not found in cache, downloading`);
       let emailStream = await client.download(uid as string, undefined, {
         uid: true,
@@ -174,8 +175,8 @@ export async function downloadEmailByUid(
         throw new Error(`Email with ID ${uid} not found on server`);
 
       await writeStreamAsync(outputFilePath, emailStream.content);
-      emailFileStream = fs.createReadStream(outputFilePath);
     }
+    const emailFileStream = fs.createReadStream(outputFilePath);
     const parsed = await simpleParser(emailFileStream);
 
     if (!parsed) {

@@ -24,6 +24,8 @@ import { Portal } from "@radix-ui/react-portal";
 import Button from "../ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 
+// TODO: rebuild like radix
+
 export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   /** Value that is used to connect Tab with associated panel */
   value: number;
