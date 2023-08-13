@@ -8,6 +8,7 @@ import NodeClam from "clamscan";
 import { omit } from "lodash";
 import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
+import sharp from "sharp";
 
 const mailDir = "./cache/email/";
 
@@ -58,18 +59,15 @@ export async function fetchEmails(
 
     const last_message = await client.fetchOne("*", { envelope: true });
 
-    console.log(last_message);
-    // use generic seq for fetching messages
-    // if (noModseq === true) {
-    //query = Array.from({ length: 1 }, (_, i) => skip + i);
-    // } else {
-    //   const newTake = messagesCount < take ? messagesCount : take;
-    //   const newSkip = skip + 1;
-    //   query = take > 1 ? `${newSkip}:${newSkip + newTake}` : `${newSkip}`;
-    // }
+    let start = last_message.seq - take - skip;
+    let stop = last_message.seq - skip;
+    if (start < 1) start = 1;
+    if (stop < 1) stop = 1;
+
+    console.log(last_message, `${start}:${stop}`);
 
     for await (const msg of client.fetch(
-      { seq: `${last_message.seq - 10}:${last_message.seq}` },
+      { seq: `${start}:${stop}` },
       {
         envelope: true,
       },
@@ -218,11 +216,46 @@ export async function downloadEmailByUid(
     const result: Omit<ParsedMail, "attachments"> & { avIsInfected?: false } = {
       ...omit(parsed, ["attachments"]),
     };
-    if (env.ENABLE_CLAMAV) {
-      result["avIsInfected"] = false;
-    }
+    if (env.ENABLE_CLAMAV) result["avIsInfected"] = false;
+    console.log(parsed.attachments);
 
-    return result;
+    const files = parsed.attachments.map(async (attachment, index) => {
+      let preview;
+      if (attachment.contentType == "image/jpeg") {
+        preview = await sharp(attachment.content)
+          .resize(100, 100, {
+            fit: "cover",
+            background: { r: 150, g: 150, b: 150 },
+          })
+          .jpeg()
+          .toBuffer();
+      }
+      preview && (await fsp.writeFile("test.jpg", preview));
+
+      return {
+        name: attachment.filename,
+        preview: preview ? preview.toString("base64") : null,
+        mimetype: attachment.contentType,
+        size: attachment.size,
+      };
+    });
+    const data = await Promise.allSettled(files);
+    console.log(data);
+    return {
+      ...result,
+      attachments: data.map((val, index) =>
+        val.status === "fulfilled"
+          ? val.value
+          : {
+              name: "[UNKNOWN]",
+            },
+      ) as {
+        name?: string;
+        preview?: string;
+        mimetype?: string;
+        size?: number;
+      }[],
+    };
   } catch (error) {
     console.error("Error fetching email:", error);
     throw new Error("Failed to fetch email.");

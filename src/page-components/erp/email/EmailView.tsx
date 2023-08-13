@@ -38,43 +38,57 @@ function EmailView(props: EmailViewProps) {
       </div>
     );
 
-  return (
-    <Editable data={data}>
-      <EditableDebugInfo label="ID: " keyName="id" />
-      <Wrapper
-        keyName="subject" // hint for Editable
-        wrapperClassName="flex gap-2 items-center"
-        wrapperRightSection={
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full"
-            onClick={() => {
-              refetch();
-            }}
-          >
-            <IconRefresh />
-          </Button>
-        }
-      >
-        <EditableShortText
-          keyName="subject"
-          required
-          style={{ fontSize: "1.4em" }}
-          disabled
-        />
-      </Wrapper>
-      <EditableObject keyName="from">
-        <EditableShortText keyName="text" label="Od" disabled />
-      </EditableObject>
-      <EditableObject keyName="to">
-        <EditableShortText keyName="text" label="Do" disabled />
-      </EditableObject>
-      <EditableDateTime keyName="date" label="Data" disabled collapse />
+  if (data.avIsInfected)
+    return (
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        Email zawiera wirusy
+      </div>
+    );
 
-      <EditableRichText label="Wiadomość" keyName="html" disabled />
-      <EditableFiles keyName="attachments" label="Pliki" disabled />
-    </Editable>
+  return (
+    <div>
+      <Editable data={data}>
+        <EditableDebugInfo label="ID: " keyName="id" />
+        <Wrapper
+          keyName="subject" // hint for Editable
+          wrapperClassName="flex gap-2 items-center"
+          wrapperRightSection={
+            <Button
+              size="icon"
+              variant="ghost"
+              className="rounded-full"
+              onClick={() => {
+                refetch();
+              }}
+            >
+              <IconRefresh />
+            </Button>
+          }
+        >
+          <EditableShortText
+            keyName="subject"
+            required
+            style={{ fontSize: "1.4em" }}
+            disabled
+          />
+        </Wrapper>
+        <EditableObject keyName="from">
+          <EditableShortText keyName="text" label="Od" disabled />
+        </EditableObject>
+        <EditableObject keyName="to">
+          <EditableShortText keyName="text" label="Do" disabled />
+        </EditableObject>
+        <EditableDateTime keyName="date" label="Data" disabled collapse />
+
+        <EditableRichText label="Wiadomość" keyName="html" disabled />
+        <EditableFiles keyName="attachments" label="Pliki" disabled />
+      </Editable>
+      {data.attachments.map((file, index) =>
+        file.preview ? (
+          <img src={`data:image/jpeg;base64,${file.preview}`} />
+        ) : null,
+      )}
+    </div>
   );
 }
 
