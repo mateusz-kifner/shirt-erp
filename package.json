@@ -61,6 +61,7 @@
     "@types/tinycolor2": "^1.4.3",
     "@use-gesture/react": "^10.2.27",
     "bcrypt": "^5.1.0",
+    "clamscan": "^2.1.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.9",
@@ -88,6 +89,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
+    "@types/clamscan": "^2.0.4",
     "@types/eslint": "^8.44.1",
     "@types/formidable": "^2.0.6",
     "@types/imapflow": "^1.0.13",

@@ -3,6 +3,7 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import { Stream } from "node:stream";
 
+import NodeClam from "clamscan";
 import { omit } from "lodash";
 import { simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
@@ -176,14 +177,37 @@ export async function downloadEmailByUid(
 
       await writeStreamAsync(outputFilePath, emailStream.content);
     }
+    try {
+      const clamscan = await new NodeClam().init({ removeInfected: true });
+      const scanResult = await clamscan.scanDir(outputFilePath);
+      if (scanResult.badFiles.length > 0) {
+        await fsp.writeFile(
+          outputFilePath,
+          `[clamav deleted]: File Infected, viruses found:  ${scanResult.viruses}`,
+        );
+        return {
+          avIsInfected: true,
+          viruses: scanResult.viruses,
+        };
+      }
+    } catch (err) {
+      console.log("ClamAV:", err);
+    }
+
     const emailFileStream = fs.createReadStream(outputFilePath);
     const parsed = await simpleParser(emailFileStream);
 
     if (!parsed) {
       throw new Error("Email not found.");
     }
+    if (parsed.headerLines[0]?.key.startsWith("[clamav deleted]")) {
+      return {
+        avIsInfected: true,
+        viruses: ["file deleted"],
+      };
+    }
 
-    return omit(parsed, ["attachments"]);
+    return { ...omit(parsed, ["attachments"]), avIsInfected: false };
   } catch (error) {
     console.error("Error fetching email:", error);
     throw new Error("Failed to fetch email.");
