@@ -3,9 +3,10 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import { Stream } from "node:stream";
 
+import { env } from "@/env.mjs";
 import NodeClam from "clamscan";
 import { omit } from "lodash";
-import { simpleParser } from "mailparser";
+import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 
 const mailDir = "./cache/email/";
@@ -177,21 +178,26 @@ export async function downloadEmailByUid(
 
       await writeStreamAsync(outputFilePath, emailStream.content);
     }
-    try {
-      const clamscan = await new NodeClam().init({ removeInfected: true });
-      const scanResult = await clamscan.scanDir(outputFilePath);
-      if (scanResult.badFiles.length > 0) {
-        await fsp.writeFile(
-          outputFilePath,
-          `[clamav deleted]: File Infected, viruses found:  ${scanResult.viruses}`,
-        );
-        return {
-          avIsInfected: true,
-          viruses: scanResult.viruses,
-        };
+    if (env.ENABLE_CLAMAV) {
+      try {
+        const clamscan = await new NodeClam().init({ removeInfected: true });
+        const scanResult = await clamscan.scanDir(outputFilePath);
+        if (scanResult.badFiles.length > 0) {
+          await fsp.writeFile(
+            outputFilePath,
+            `[clamav deleted]: File Infected, viruses found:  ${scanResult.viruses}`,
+          );
+          return {
+            avIsInfected: true,
+            viruses: scanResult.viruses,
+          } as {
+            avIsInfected: true;
+            viruses: string[];
+          };
+        }
+      } catch (err) {
+        console.log("ClamAV:", err);
       }
-    } catch (err) {
-      console.log("ClamAV:", err);
     }
 
     const emailFileStream = fs.createReadStream(outputFilePath);
@@ -204,10 +210,19 @@ export async function downloadEmailByUid(
       return {
         avIsInfected: true,
         viruses: ["file deleted"],
+      } as {
+        avIsInfected: true;
+        viruses: string[];
       };
     }
+    const result: Omit<ParsedMail, "attachments"> & { avIsInfected?: false } = {
+      ...omit(parsed, ["attachments"]),
+    };
+    if (env.ENABLE_CLAMAV) {
+      result["avIsInfected"] = false;
+    }
 
-    return { ...omit(parsed, ["attachments"]), avIsInfected: false };
+    return result;
   } catch (error) {
     console.error("Error fetching email:", error);
     throw new Error("Failed to fetch email.");

@@ -10,6 +10,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     SECRET_COOKIE_PASSWORD: z.string().min(32),
+    ENABLE_CLAMAV: z.boolean().default(false),
   },
 
   /**
@@ -34,6 +35,7 @@ export const env = createEnv({
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_START_MESSAGE: process.env.NEXT_PUBLIC_START_MESSAGE,
     NEXT_PUBLIC_DEMO: process.env.NEXT_PUBLIC_DEMO,
+    ENABLE_CLAMAV: process.env.ENABLE_CLAMAV,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
