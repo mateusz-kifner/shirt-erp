@@ -89,7 +89,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
       </div>
       {data &&
         data.folders.map((folder, index) => (
-          <>
+          <div className="contents" key={`${uuid}${index}`}>
             <EmailTreeButton
               folder={folder}
               className={
@@ -98,7 +98,6 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
                   : "justify-start"
               }
               onClick={() => onActive?.(folder.path)}
-              key={`${uuid}:${index}`}
             />
             {folder?.folders?.map((folder, index2) => (
               <EmailTreeButton
@@ -109,10 +108,10 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
                     : "ml-3  justify-start"
                 }
                 onClick={() => onActive?.(folder.path)}
-                key={`${uuid}:${index}:${index2}`}
+                key={`${uuid}${index}:${index2}`}
               />
             ))}
-          </>
+          </div>
         ))}
     </div>
   );

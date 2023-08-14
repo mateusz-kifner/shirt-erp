@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import { FetchMessageObject } from "imapflow";
+import { useId } from "react";
 
 interface EmailListItemProps {
   onChange?: (item: Partial<FetchMessageObject>) => void;
@@ -10,7 +11,7 @@ interface EmailListItemProps {
 
 function EmailListItem(props: EmailListItemProps) {
   const { onChange, value, active, disabled } = props;
-
+  const uuid = useId();
   return (
     <Button
       size="sm"
@@ -19,8 +20,10 @@ function EmailListItem(props: EmailListItemProps) {
       onClick={() => onChange?.(value)}
     >
       <div className="flex flex-nowrap overflow-hidden whitespace-nowrap">
-        {value.envelope?.from.map((sender) => (
-          <span>{sender.name ? sender.name : sender.address}</span>
+        {value.envelope?.from.map((sender, index) => (
+          <span key={`${uuid}${index}`}>
+            {sender.name ? sender.name : sender.address}
+          </span>
         ))}
       </div>
       <div className="col-start-2 col-end-4 flex flex-nowrap overflow-hidden whitespace-nowrap">
