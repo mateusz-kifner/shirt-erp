@@ -1,4 +1,5 @@
 import Button, { ButtonProps } from "@/components/ui/Button";
+import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -11,7 +12,6 @@ import {
 } from "@tabler/icons-react";
 import { ListTreeResponse } from "imapflow";
 import { useId, useState } from "react";
-import { useEmailContext } from "./emailContext";
 
 function getIcon(specialUse: string) {
   switch (specialUse) {
@@ -46,14 +46,14 @@ function EmailTreeButton(props: EmailTreeButtonProps) {
 }
 
 interface EmailFolderTreeProps {
+  emailConfig: EmailCredentialType;
   active?: string;
   onActive?: (active?: string) => void;
   onRefetch?: () => void;
 }
 
 function EmailFolderTree(props: EmailFolderTreeProps) {
-  const { active, onActive, onRefetch } = props;
-  const { emailConfig } = useEmailContext();
+  const { active, onActive, onRefetch, emailConfig } = props;
   const uuid = useId();
   const { data } = api.email.getFolderTree.useQuery(emailConfig.id, {
     refetchOnReconnect: false,
@@ -61,7 +61,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
   });
   const [loadingAnimation, setLoadingAnimation] = useState(false);
   return (
-    <div className="flex w-40 min-w-[10rem] flex-col gap-2 rounded bg-gray-200 p-2 text-stone-950 dark:bg-stone-950 dark:text-stone-200">
+    <div className="flex w-40 min-w-[10rem] flex-col gap-2 p-2">
       <div className="flex h-10 flex-col gap-2">
         <Button
           size="sm"
@@ -85,7 +85,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
           />
         </Button>
 
-        <div className="border-b border-solid border-b-white dark:border-b-stone-800"></div>
+        <div className="border-b border-solid border-b-white dark:border-b-stone-950"></div>
       </div>
       {data &&
         data.folders.map((folder, index) => (
