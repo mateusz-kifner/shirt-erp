@@ -4,6 +4,7 @@ import ErrorPage from "@/pages/_error";
 import { api } from "@/utils/api";
 import { getQueryAsStringOrNull } from "@/utils/query";
 import { useRouter } from "next/router";
+import { useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface EmailMailboxProps {}
@@ -12,6 +13,7 @@ function EmailMailbox(props: EmailMailboxProps) {
   const {} = props;
   const router = useRouter();
   const { user } = router.query;
+  const uuid = useId();
   const mailbox: string = (
     getQueryAsStringOrNull(router, "mailbox") ?? "INBOX"
   ).replace("-", "/");
@@ -22,6 +24,7 @@ function EmailMailbox(props: EmailMailboxProps) {
       refetchOnWindowFocus: false,
     },
   );
+  const [refreshCounter, setRefreshCounter] = useState(0); // this is hack
   const emailClientsIMAP = emailClients
     ? emailClients.filter((client) => client.protocol === "imap")
     : [];
@@ -67,6 +70,7 @@ function EmailMailbox(props: EmailMailboxProps) {
                 }`,
               )
             }
+            onRefetch={() => setRefreshCounter((v) => v + 1)}
           />
         </ErrorBoundary>
       </div>
@@ -80,6 +84,7 @@ function EmailMailbox(props: EmailMailboxProps) {
           }
         >
           <EmailList
+            key={`${uuid}${refreshCounter}`}
             emailConfig={emailConfig}
             mailbox={mailbox}
             onSelect={(uid) =>

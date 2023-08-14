@@ -203,12 +203,12 @@ export const emailRouter = createTRPCRouter({
         },
       });
       // const mail = await fetchEmailByUid(client, emailId.toString(), mailbox);
-      const meta = await downloadEmailByUid(
+      const mail = await downloadEmailByUid(
         client,
         emailId.toString(),
         mailbox,
       );
-      return meta;
+      return mail;
     }),
 
   create: authenticatedProcedure

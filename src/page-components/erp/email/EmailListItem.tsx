@@ -10,6 +10,7 @@ interface EmailListItemProps {
 
 function EmailListItem(props: EmailListItemProps) {
   const { onChange, value, active, disabled } = props;
+
   return (
     <Button
       size="sm"
