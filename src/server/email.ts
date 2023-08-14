@@ -217,7 +217,6 @@ export async function downloadEmailByUid(
       ...omit(parsed, ["attachments"]),
     };
     if (env.ENABLE_CLAMAV) result["avIsInfected"] = false;
-    console.log(parsed.attachments);
 
     const files = parsed.attachments.map(async (attachment, index) => {
       let preview;
@@ -239,7 +238,6 @@ export async function downloadEmailByUid(
       };
     });
     const data = await Promise.allSettled(files);
-    console.log(data);
     return {
       ...result,
       attachments: data.map((val, index) =>

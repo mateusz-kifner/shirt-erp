@@ -8,19 +8,19 @@ import EditableShortText from "@/components/editable/EditableShortText";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
+import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
 import { IconRefresh } from "@tabler/icons-react";
-import { useEmailContext } from "./emailContext";
 
 interface EmailViewProps {
+  emailConfig: EmailCredentialType;
   id: number | null;
   mailbox: string;
 }
 
 function EmailView(props: EmailViewProps) {
-  const { id, mailbox } = props;
+  const { id, mailbox, emailConfig } = props;
   const isLoaded = useLoaded();
-  const { emailConfig } = useEmailContext();
   const { data, refetch } = api.email.getByUid.useQuery(
     { emailClientId: emailConfig.id, mailbox, emailId: id as number },
     {
@@ -46,7 +46,7 @@ function EmailView(props: EmailViewProps) {
     );
 
   return (
-    <div>
+    <div className="p-2">
       <Editable data={data}>
         <EditableDebugInfo label="ID: " keyName="id" />
         <Wrapper
