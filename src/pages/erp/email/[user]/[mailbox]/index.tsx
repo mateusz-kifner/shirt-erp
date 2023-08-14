@@ -52,7 +52,7 @@ function EmailMailbox(props: EmailMailboxProps) {
           leftSection={leftMenuSection}
         /> */}
 
-      <div className="flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
+      <div className="relative flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
           fallback={
             <h1>
@@ -74,7 +74,7 @@ function EmailMailbox(props: EmailMailboxProps) {
           />
         </ErrorBoundary>
       </div>
-      <div className="flex min-h-[16rem] flex-grow flex-col rounded bg-white shadow-lg dark:bg-stone-800">
+      <div className="relative flex min-h-[16rem] flex-grow flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
           fallback={
             <h1>

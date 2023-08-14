@@ -49,7 +49,7 @@ function EmailMessage(props: EmailMessageProps) {
           leftSection={leftMenuSection}
         /> */}
 
-      <div className="flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
+      <div className="relative flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
           fallback={
             <h1>
@@ -70,7 +70,7 @@ function EmailMessage(props: EmailMessageProps) {
           />
         </ErrorBoundary>
       </div>
-      <div className="flex min-h-[16rem] flex-grow flex-col rounded bg-white shadow-lg dark:bg-stone-800">
+      <div className="relative flex min-h-[16rem] flex-grow flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
           fallback={
             <h1>
