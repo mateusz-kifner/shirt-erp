@@ -230,7 +230,6 @@ export async function downloadEmailByUid(
           .jpeg()
           .toBuffer();
       }
-      preview && (await fsp.writeFile("test.jpg", preview));
 
       return {
         name: attachment.filename,
