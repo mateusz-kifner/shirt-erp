@@ -51,8 +51,7 @@ export async function fetchEmails(
     await client.connect();
     const mailboxObj = await client.mailboxOpen(mailbox);
     const messagesCount = mailboxObj.exists;
-    // @ts-ignore this exists but not added to TS def
-    const noModseq = mailboxObj?.noModseq;
+
     console.log(mailboxObj);
     const messages = [];
     let query: number[] | string;
@@ -80,7 +79,7 @@ export async function fetchEmails(
       throw new Error("Email not found.");
     }
 
-    return messages;
+    return { results: messages, totalItems: messagesCount };
   } catch (error) {
     console.error("Error fetching email:", error);
     throw new Error("Failed to fetch email.");

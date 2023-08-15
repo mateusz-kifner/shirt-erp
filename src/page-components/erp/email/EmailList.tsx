@@ -13,25 +13,31 @@ interface EmailListProps {
 function EmailList(props: EmailListProps) {
   const { mailbox, onSelect, emailConfig } = props;
   const uuid = useId();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const { data, refetch } = api.email.getAll.useQuery(
     {
       mailbox,
       emailClientId: emailConfig.id,
-      take: 10,
-      skip: 0,
+      take: itemsPerPage,
+      skip: itemsPerPage * (page - 1),
     },
     {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
     },
   );
-  const sortedData = data
-    ? data?.sort(
-        // @ts-ignore
-        (a, b) => new Date(b.envelope.date) - new Date(a.envelope.date),
-      )
-    : [];
+
+  const messages =
+    data && data?.results
+      ? data.results?.sort(
+          // @ts-ignore
+          (a, b) => new Date(b.envelope.date) - new Date(a.envelope.date),
+        )
+      : [];
+
+  const totalPages = Math.ceil((data?.totalItems ?? 9999) / itemsPerPage);
+
   return (
     <div className="flex w-full flex-col justify-between gap-2 rounded p-2">
       <div className="flex flex-col gap-2">
@@ -41,7 +47,7 @@ function EmailList(props: EmailListProps) {
             Tytuł
           </div>
         </div>
-        {sortedData.map((value, index) => (
+        {messages.map((value, index) => (
           <EmailListItem
             key={`${uuid}${index}`}
             value={value}
@@ -49,7 +55,11 @@ function EmailList(props: EmailListProps) {
           />
         ))}
       </div>
-      <Pagination initialPage={1} totalPages={1} onPageChange={setPage} />
+      <Pagination
+        initialPage={1}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 }
