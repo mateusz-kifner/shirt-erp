@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 function useMultiTabsState<T>(
   initialActive?: number,
   initialPinned?: number[],
+  cacheKey?: string,
 ): {
   active: number;
   pinned: number[];

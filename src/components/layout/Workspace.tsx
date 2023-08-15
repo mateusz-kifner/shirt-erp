@@ -4,7 +4,6 @@ import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
 import { useUserContext } from "@/context/userContext";
-import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
 import { getQueryAsIntOrNull } from "@/utils/query";
@@ -50,41 +49,45 @@ const Workspace = ({
   const uuid = useId();
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const multiTabsState = useMultiTabsState();
+  const multiTabsState = useMultiTabsState(
+    defaultActive,
+    defaultPinned,
+    cacheKey,
+  );
 
   const t = useTranslation();
   const { navigationCollapsed, toggleNavigationCollapsed, debug } =
     useUserContext();
   const { ref, width } = useElementSize();
 
-  const [tabStateArray, setTabStateArray] = useRQCache<{
-    [key: string]: { active?: number; pinned: number[] };
-  }>("pinned_" + cacheKey, {});
+  // const [tabStateArray, setTabStateArray] = useRQCache<{
+  //   [key: string]: { active?: number; pinned: number[] };
+  // }>("pinned_" + cacheKey, {});
 
-  const tabState = tabStateArray?.[cacheKey] ?? {
-    active: defaultActive,
-    pinned: defaultPinned,
-  };
+  // const tabState = tabStateArray?.[cacheKey] ?? {
+  //   active: defaultActive,
+  //   pinned: defaultPinned,
+  // };
 
-  const setTabState = (pinned: number[], active?: number) => {
-    setTabStateArray({ ...tabStateArray, [cacheKey]: { active, pinned } });
-  };
+  // const setTabState = (pinned: number[], active?: number) => {
+  //   setTabStateArray({ ...tabStateArray, [cacheKey]: { active, pinned } });
+  // };
 
-  const togglePin = (pin: number) => {
-    if (disablePin) return;
-    if (tabState.pinned.indexOf(pin) !== -1) {
-      setTabState(
-        tabState.pinned.filter((val) => val !== pin),
-        tabState.active,
-      );
-    } else {
-      setTabState([...tabState.pinned, pin], tabState.active);
-    }
-  };
+  // const togglePin = (pin: number) => {
+  //   if (disablePin) return;
+  //   if (tabState.pinned.indexOf(pin) !== -1) {
+  //     setTabState(
+  //       tabState.pinned.filter((val) => val !== pin),
+  //       tabState.active,
+  //     );
+  //   } else {
+  //     setTabState([...tabState.pinned, pin], tabState.active);
+  //   }
+  // };
 
-  const setActive = (active?: number) => {
-    setTabState(tabState.pinned, active);
-  };
+  // const setActive = (active?: number) => {
+  //   setTabState(tabState.pinned, active);
+  // };
   // setPinned((pinnedArray) => {
   //   if (pinnedArray.includes(pinned)) {
   //     return pinnedArray.filter((val) => val !== pinned);
@@ -95,9 +98,12 @@ const Workspace = ({
 
   const child_array = Children.toArray(children);
 
-  const activeTabs = [...tabState.pinned];
-  if (tabState.active !== undefined && !activeTabs.includes(tabState.active))
-    activeTabs.push(tabState.active);
+  const activeTabs = [...multiTabsState.pinned];
+  if (
+    multiTabsState.active !== undefined &&
+    !activeTabs.includes(multiTabsState.active)
+  )
+    activeTabs.push(multiTabsState.active);
 
   // useEffect(() => {
   //   if (!childrenLabels) return
