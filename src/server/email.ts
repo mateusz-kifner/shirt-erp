@@ -1,7 +1,7 @@
 import { ImapFlow } from "imapflow";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import { Stream } from "node:stream";
+import { Readable, Stream } from "node:stream";
 
 import { env } from "@/env.mjs";
 import { isMimeImage } from "@/utils/isMimeImage";
@@ -131,7 +131,7 @@ export async function fetchFolderTree(client: ImapFlow) {
 
 export async function downloadEmailByUid(
   client: ImapFlow,
-  uid?: string,
+  uid: string,
   mailbox: string = "INBOX",
 ) {
   try {
@@ -145,29 +145,14 @@ export async function downloadEmailByUid(
       // @ts-ignore
       client.options.auth;
 
-    if (auth.user.indexOf("•") !== -1)
-      throw new Error("Forbidden characters in user");
-
-    const hashString = auth.pass ?? auth.accessToken;
-    if (hashString === undefined)
-      throw new Error(
-        "Cannot generate hash, password or accessToken not found",
-      );
-
-    const hash = createHash("md5")
-      .update(hashString)
-      .digest("hex")
-      .substring(0, 12);
-
-    const outputFileName = `email•${auth.user}•${uid}•${hash}.eml`;
-    const outputFilePath = `${mailDir}${outputFileName}`;
+    const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
     try {
       await fsp.access(outputFilePath);
       console.log(`Email with ID ${uid} found in cache`);
     } catch {
       console.log(`Email with ID ${uid} not found in cache, downloading`);
-      let emailStream = await client.download(uid as string, undefined, {
+      let emailStream = await client.download(uid, undefined, {
         uid: true,
       });
 
@@ -261,6 +246,68 @@ export async function downloadEmailByUid(
   }
 }
 
+export async function downloadEmailAttachment(
+  client: ImapFlow,
+  uid: string,
+  mailbox: string = "INBOX",
+  attachment: string = "",
+) {
+  try {
+    await client.connect();
+    await client.mailboxOpen(mailbox);
+
+    if (!client.authenticated)
+      throw new Error("Email server authentication failed");
+
+    const auth: { user: string; pass?: string; accessToken?: string } =
+      // @ts-ignore
+      client.options.auth;
+    const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
+
+    try {
+      await fsp.access(outputFilePath);
+      console.log(`Email with ID ${uid} found in cache`);
+    } catch {
+      console.log(`Email with ID ${uid} not found in cache, downloading`);
+      let emailStream = await client.download(uid, undefined, {
+        uid: true,
+      });
+
+      if (!emailStream)
+        throw new Error(`Email with ID ${uid} not found on server`);
+
+      await writeStreamAsync(outputFilePath, emailStream.content);
+    }
+
+    const emailFileStream = fs.createReadStream(outputFilePath);
+    const parsed = await simpleParser(emailFileStream);
+
+    if (!parsed) {
+      throw new Error("Email not found.");
+    }
+
+    if (parsed.headerLines[0]?.key.startsWith("[clamav deleted]"))
+      throw new Error("Virus detected");
+
+    const file = parsed.attachments.find((val) => val.filename === attachment);
+    if (!file) throw new Error("NOT FOUND");
+
+    if (env.ENABLE_CLAMAV) {
+      const clamscan = await new NodeClam().init({});
+      const scanResult = await clamscan.scanStream(
+        bufferToReadable(file.content),
+      );
+      if (scanResult.isInfected) throw new Error("Virus detected");
+    }
+    return file;
+  } catch (error) {
+    console.error("Error fetching email attachment:", error);
+    throw new Error("Failed to fetch email attachment.");
+  } finally {
+    await client.logout();
+  }
+}
+
 async function writeStreamAsync(outputFilePath: string, stream: Stream) {
   return new Promise<void>((resolve, reject) => {
     const writeStream = fs.createWriteStream(outputFilePath);
@@ -280,4 +327,32 @@ async function writeStreamAsync(outputFilePath: string, stream: Stream) {
       reject(writeError);
     });
   });
+}
+
+function resolveEmailCacheFileName(
+  auth: { user: string; pass?: string; accessToken?: string },
+  uid: string,
+) {
+  if (auth.user.indexOf("•") !== -1)
+    throw new Error("Forbidden characters in user");
+
+  const hashString = auth.pass ?? auth.accessToken;
+  if (hashString === undefined)
+    throw new Error("Cannot generate hash, password or accessToken not found");
+
+  const hash = createHash("md5")
+    .update(hashString)
+    .digest("hex")
+    .substring(0, 12);
+
+  const outputFileName = `email•${auth.user}•${uid}•${hash}.eml`;
+  const outputFilePath = `${mailDir}${outputFileName}`;
+  return { outputFileName, outputFilePath };
+}
+
+function bufferToReadable(buffer: Buffer) {
+  const readable = new Readable();
+  readable.push(buffer);
+  readable.push(null); // Mark the end of the stream
+  return readable;
 }

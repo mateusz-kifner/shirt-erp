@@ -134,9 +134,9 @@ export const emailRouter = createTRPCRouter({
         include: { emailCredentials: true },
       });
 
-      const auth = data?.emailCredentials
-        .filter((val) => val.id === emailClientId)
-        .filter((auth) => auth.protocol === "imap")[0];
+      const auth = data?.emailCredentials.filter(
+        (val) => val.id === emailClientId && val.protocol === "imap",
+      )[0];
 
       if (auth === undefined)
         throw new TRPCError({

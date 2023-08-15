@@ -149,12 +149,7 @@ function EmailView(props: EmailViewProps) {
             </Tooltip>
 
             <Link
-              // href={`/api/files/${value?.filename}${
-              //   value?.token && value.token.length > 0
-              //     ? "?token=" + value?.token + "&download"
-              //     : "?download"
-              // }`}
-              href={""}
+              href={`/api/email/${emailConfig.user}/${mailbox}/${id}/${file.name}`}
               className={cn(
                 buttonVariants({ variant: "ghost", size: "icon" }),
                 `absolute 
