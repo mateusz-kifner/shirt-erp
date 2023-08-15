@@ -1,8 +1,11 @@
+import MultiTabs from "@/components/layout/MultiTabs";
 import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailList from "@/page-components/erp/email/EmailList";
+import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import ErrorPage from "@/pages/_error";
 import { api } from "@/utils/api";
 import { getQueryAsStringOrNull } from "@/utils/query";
+import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -25,6 +28,8 @@ function EmailMailbox(props: EmailMailboxProps) {
     },
   );
   const [refreshCounter, setRefreshCounter] = useState(0); // this is hack
+  const [openSendModal, setOpenSendModal] = useState<boolean>(false);
+
   const emailClientsIMAP = emailClients
     ? emailClients.filter((client) => client.protocol === "imap")
     : [];
@@ -37,20 +42,36 @@ function EmailMailbox(props: EmailMailboxProps) {
   )[0];
   if (emailConfig === undefined) return <ErrorPage statusCode={404} />;
 
+  const active =
+    emailClientsIMAP
+      .map((val, index) => (val.user === user ? index : null))
+      .filter((v) => v !== null)[0] ?? 0;
+
+  console.log(emailClientsIMAP[active]?.user);
+
   return (
     <div className="flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4">
-      {/* <MultiTabs
-          key={childrenLabels.reduce((prev, next) => prev + next, "")}
-          active={tabState.active}
-          onActive={setActive}
-          pinned={tabState.pinned}
-          onPin={togglePin}
-          childrenLabels={childrenLabels}
-          childrenIcons={childrenIcons}
-          availableSpace={width}
-          rightSection={rightMenuSection}
-          leftSection={leftMenuSection}
-        /> */}
+      <MultiTabs
+        active={active}
+        onActive={(active) =>
+          active !== undefined &&
+          router.push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`)
+        }
+        pinned={[]}
+        onPin={() => {}}
+        childrenLabels={emailClientsIMAP.map((val) => val.user)}
+        childrenIcons={[IconMail]}
+        availableSpace={0}
+        // rightSection={
+        //   <Tab
+        //     value={-1}
+        //     className="p-2"
+        //     onClick={() => setOpenSendModal(true)}
+        //   >
+        //     <IconPencil />
+        //   </Tab>
+        // }
+      />
 
       <div className="relative flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
@@ -70,7 +91,6 @@ function EmailMailbox(props: EmailMailboxProps) {
                 }`,
               )
             }
-            onRefetch={() => setRefreshCounter((v) => v + 1)}
           />
         </ErrorBoundary>
       </div>
@@ -97,7 +117,22 @@ function EmailMailbox(props: EmailMailboxProps) {
           />
         </ErrorBoundary>
       </div>
-      {/* ))} */}
+      <EmailSendModal
+        opened={openSendModal}
+        onClose={(id?: number) => {
+          setOpenSendModal(false);
+          id !== undefined &&
+            router
+              .push(
+                `/erp/email/${user}/${
+                  mailbox ? mailbox.replace("/", "-") : "INBOX"
+                }`,
+              )
+              .catch((e) => {
+                throw e;
+              });
+        }}
+      />
     </div>
   );
 }

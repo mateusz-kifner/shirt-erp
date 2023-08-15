@@ -4,6 +4,7 @@ import fsp from "node:fs/promises";
 import { Stream } from "node:stream";
 
 import { env } from "@/env.mjs";
+import { isMimeImage } from "@/utils/isMimeImage";
 import NodeClam from "clamscan";
 import { omit } from "lodash";
 import { ParsedMail, simpleParser } from "mailparser";
@@ -219,7 +220,7 @@ export async function downloadEmailByUid(
 
     const files = parsed.attachments.map(async (attachment, index) => {
       let preview;
-      if (attachment.contentType == "image/jpeg") {
+      if (isMimeImage(attachment.contentType)) {
         preview = await sharp(attachment.content)
           .resize(100, 100, {
             fit: "cover",
