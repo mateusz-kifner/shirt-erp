@@ -128,7 +128,11 @@ const Workspace = ({
             childrenIcons?.[index] ??
             childrenIcons?.[childrenIcons.length - 1] ??
             IconAlertCircle;
-          return <Tab leftSection={<Icon />}>{label}</Tab>;
+          return (
+            <Tab key={`${uuid}${index}`} leftSection={<Icon />}>
+              {label}
+            </Tab>
+          );
         })}
       </MultiTabs>
       {children &&
