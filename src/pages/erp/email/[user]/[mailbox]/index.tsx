@@ -69,8 +69,10 @@ function EmailMailbox(props: EmailMailboxProps) {
         //   </Tab>
         // }
       >
-        {emailClientsIMAP.map((val) => (
-          <Tab leftSection={<IconMail />}>{val.user}</Tab>
+        {emailClientsIMAP.map((val, index) => (
+          <Tab key={`${uuid}${index}`} leftSection={<IconMail />}>
+            {val.user}
+          </Tab>
         ))}
       </MultiTabs>
 

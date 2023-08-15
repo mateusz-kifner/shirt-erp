@@ -8,7 +8,7 @@ import { api } from "@/utils/api";
 import { getQueryAsIntOrNull, getQueryAsStringOrNull } from "@/utils/query";
 import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface EmailMessageProps {}
@@ -16,6 +16,7 @@ interface EmailMessageProps {}
 function EmailMessage(props: EmailMessageProps) {
   const router = useRouter();
   const { user } = router.query;
+  const uuid = useId();
   const mailbox: string = (
     getQueryAsStringOrNull(router, "mailbox") ?? "INBOX"
   ).replace("-", "/");
@@ -67,8 +68,10 @@ function EmailMessage(props: EmailMessageProps) {
         //   </Tab>
         // }
       >
-        {emailClientsIMAP.map((val) => (
-          <Tab leftSection={<IconMail />}>{val.user}</Tab>
+        {emailClientsIMAP.map((val, index) => (
+          <Tab key={`${uuid}${index}`} leftSection={<IconMail />}>
+            {val.user}
+          </Tab>
         ))}
       </MultiTabs>
       <div className="relative flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
