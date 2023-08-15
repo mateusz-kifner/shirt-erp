@@ -1,47 +1,70 @@
+import { UseListStateHandlers, useListState } from "@mantine/hooks";
 import {
   createContext,
   useContext,
-  useState,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
 } from "react";
 
-import { EmailCredentialType } from "@/schema/emailCredential";
-
-interface EmailContextType {
-  emailConfig: EmailCredentialType;
-  setEmailConfig: Dispatch<SetStateAction<EmailCredentialType>>;
+interface MultiTabsContextType {
+  active: number;
+  setActive: Dispatch<SetStateAction<number>>;
+  pinned: number[];
+  togglePin: (index: number) => void;
+  setPinned: Dispatch<SetStateAction<number[]>>;
+  tabsMaxWidth: number[];
+  getTabMaxWidth: (index: number) => number | undefined;
+  setTabMaxWidth: (index: number, item: number) => void;
 }
 
-export const EmailContext = createContext<EmailContextType | null>(null);
+export const MultiTabsContext = createContext<MultiTabsContextType | null>(
+  null,
+);
 
-export const EmailContextProvider = ({
-  children,
-  emailConfig: initialEmailConfig,
-}: {
+interface MultiTabsContextProviderProps {
   children: ReactNode;
-  emailConfig: EmailCredentialType;
-}) => {
-  const [emailConfig, setEmailConfig] =
-    useState<EmailCredentialType>(initialEmailConfig);
+  active: number;
+  pinned: number[];
+  setActive: Dispatch<SetStateAction<number>>;
+  pinnedHandler: UseListStateHandlers<number>;
+}
+
+export const MultiTabsContextProvider = (
+  props: MultiTabsContextProviderProps,
+) => {
+  const { children, active, pinned, setActive, pinnedHandler } = props;
+  const [tabsMaxWidth, tabsMaxWidthHandlers] = useListState<number>();
 
   return (
-    <EmailContext.Provider
+    <MultiTabsContext.Provider
       value={{
-        emailConfig,
-        setEmailConfig,
+        active,
+        setActive,
+        pinned,
+        togglePin: (index: number) => {
+          const indexOfPinned = pinned.indexOf(index);
+          if (indexOfPinned === -1) {
+            pinnedHandler.append(index);
+          } else {
+            pinnedHandler.remove(indexOfPinned);
+          }
+        },
+        setPinned: pinnedHandler.setState,
+        tabsMaxWidth,
+        getTabMaxWidth: (index: number) => tabsMaxWidth[index],
+        setTabMaxWidth: tabsMaxWidthHandlers.setItem,
       }}
     >
       {children}
-    </EmailContext.Provider>
+    </MultiTabsContext.Provider>
   );
 };
 
-export function useEmailContext(): EmailContextType {
-  const state = useContext(EmailContext);
+export function useMultiTabsContext(): MultiTabsContextType {
+  const state = useContext(MultiTabsContext);
   if (!state) {
-    throw new Error(`ERROR: Cannot use emailContext outside of emailClient`);
+    throw new Error(`ERROR: Cannot use MultiTabsContext outside of MultiTabs`);
   }
   return state;
 }

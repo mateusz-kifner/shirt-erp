@@ -1,4 +1,5 @@
-import MultiTabs from "@/components/layout/MultiTabs";
+import MultiTabs from "@/components/layout/MultiTabs/MultiTabs";
+import { Tab } from "@/components/layout/MultiTabs/Tab";
 import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import EmailView from "@/page-components/erp/email/EmailView";
@@ -7,7 +8,7 @@ import { api } from "@/utils/api";
 import { getQueryAsIntOrNull, getQueryAsStringOrNull } from "@/utils/query";
 import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface EmailMessageProps {}
@@ -40,35 +41,36 @@ function EmailMessage(props: EmailMessageProps) {
   )[0];
   if (emailConfig === undefined) return <ErrorPage statusCode={404} />;
 
-  const active =
+  const currentIMAPuser =
     emailClientsIMAP
       .map((val, index) => (val.user === user ? index : null))
       .filter((v) => v !== null)[0] ?? 0;
 
+  const setActive: Dispatch<SetStateAction<number>> = (value) => {
+    const active = typeof value == "function" ? value(currentIMAPuser) : value;
+
+    active !== undefined &&
+      router.push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`);
+  };
+
   return (
     <div className="flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4">
       <MultiTabs
-        active={active}
-        onActive={(active) =>
-          active &&
-          router.push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`)
-        }
-        pinned={[]}
-        onPin={() => {}}
-        childrenLabels={emailClientsIMAP.map((val) => val.user)}
-        childrenIcons={[IconMail]}
-        availableSpace={0}
+        active={currentIMAPuser}
+        setActive={setActive}
         // rightSection={
         //   <Tab
-        //     value={-1}
         //     className="p-2"
         //     onClick={() => setOpenSendModal(true)}
         //   >
         //     <IconPencil />
         //   </Tab>
         // }
-      />
-
+      >
+        {emailClientsIMAP.map((val) => (
+          <Tab leftSection={<IconMail />}>{val.user}</Tab>
+        ))}
+      </MultiTabs>
       <div className="relative flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
           fallback={

@@ -6,7 +6,7 @@ import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
-import { Tab } from "@/components/layout/MultiTabs";
+import { Tab } from "@/components/layout/MultiTabs/Tab";
 import Workspace from "@/components/layout/Workspace";
 import {
   DropdownMenu,
@@ -314,7 +314,7 @@ const OrdersPage: NextPage = () => {
           id !== null && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Tab value={-1} className="p-2">
+                <Tab className="p-2">
                   <IconPlus />
                 </Tab>
               </DropdownMenuTrigger>

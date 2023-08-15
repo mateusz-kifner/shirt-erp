@@ -1,4 +1,4 @@
-import { Tab } from "@/components/layout/MultiTabs";
+import { Tab } from "@/components/layout/MultiTabs/Tab";
 import Workspace from "@/components/layout/Workspace";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import { api } from "@/utils/api";
@@ -54,9 +54,10 @@ function EmailPage(props: EmailPageProps) {
             childrenWrapperProps={[]}
             rightMenuSection={
               <Tab
-                value={-1}
+                index={-1}
                 className="p-2"
                 onClick={() => setOpenSendModal(true)}
+                onContextMenu={() => {}}
               >
                 <IconPencil />
               </Tab>

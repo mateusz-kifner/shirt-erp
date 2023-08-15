@@ -3,13 +3,16 @@ import { Children, useId, type ReactNode } from "react";
 import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
-import MultiTabs from "@/components/layout/MultiTabs";
 import { useUserContext } from "@/context/userContext";
 import useRQCache from "@/hooks/useRQCache";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { ErrorBoundary } from "react-error-boundary";
+import MultiTabs from "./MultiTabs/MultiTabs";
+import { Tab } from "./MultiTabs/Tab";
+import useMultiTabsState from "./MultiTabs/useMultiTabsState";
 
 // import MultiTabs from "./MultiTabs"
 
@@ -47,6 +50,7 @@ const Workspace = ({
   const uuid = useId();
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
+  const multiTabsState = useMultiTabsState();
 
   const t = useTranslation();
   const { navigationCollapsed, toggleNavigationCollapsed, debug } =
@@ -116,17 +120,17 @@ const Workspace = ({
       ref={ref}
     >
       <MultiTabs
+        {...multiTabsState}
         key={childrenLabels.reduce((prev, next) => prev + next, "")}
-        active={tabState.active}
-        onActive={setActive}
-        pinned={tabState.pinned}
-        onPin={togglePin}
-        childrenLabels={childrenLabels}
-        childrenIcons={childrenIcons}
-        availableSpace={width}
-        rightSection={rightMenuSection}
-        leftSection={leftMenuSection}
-      />
+      >
+        {childrenLabels.map((label, index) => {
+          const Icon =
+            childrenIcons?.[index] ??
+            childrenIcons?.[childrenIcons.length - 1] ??
+            IconAlertCircle;
+          return <Tab leftSection={<Icon />}>{label}</Tab>;
+        })}
+      </MultiTabs>
       {children &&
         activeTabs.map((childIndex, index) => (
           <div

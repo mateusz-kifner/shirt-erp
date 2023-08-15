@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import Editable2 from "@/components/editable/Editable";
 import EditableEnum from "@/components/editable/EditableEnum";
 import EditableShortText from "@/components/editable/EditableShortText";
+import MultiTabs from "@/components/layout/MultiTabs/MultiTabs";
+import { Tab } from "@/components/layout/MultiTabs/Tab";
+import useMultiTabsState from "@/components/layout/MultiTabs/useMultiTabsState";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -104,6 +107,7 @@ function Settings() {
     key: "remSize",
     defaultValue: 10,
   });
+  const multiTabsState = useMultiTabsState(0, []);
 
   useEffect(() => {
     if (loaded) {
@@ -198,6 +202,17 @@ function Settings() {
               >
                 <EditableShortText label="test" keyName="test" />
               </Editable2>
+              <MultiTabs {...multiTabsState}>
+                <Tab leftSection={<IconBug />}>Test</Tab>
+                <Tab leftSection={<IconBug />}>Test 2</Tab>
+                <Tab leftSection={<IconBug />}>Test 3</Tab>
+                <Tab leftSection={<IconBug />}>
+                  Test 4 asdfsdajfaklsflkjasdklj
+                </Tab>
+                <Tab leftSection={<IconBug />}>
+                  Test 5 asdfsdajfaklsflkjasdklj
+                </Tab>
+              </MultiTabs>
             </>
           )}
         </div>
