@@ -10,6 +10,7 @@ import {
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
+import { Prisma } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import SuperJSON from "superjson";
 import { z } from "zod";
@@ -18,7 +19,7 @@ const spreadsheetSchemaWithoutId = spreadsheetSchema.omit({ id: true });
 const partialSpreadsheetData = z.object({
   id: z.number(),
   partialData: z.array(
-    z.object({ position: Vector2Schema, data: z.record(z.any()) })
+    z.object({ position: Vector2Schema, data: z.record(z.any()) }),
   ),
 });
 
@@ -37,14 +38,15 @@ export const spreadsheetRouter = createTRPCRouter({
   create: authenticatedProcedure
     .input(
       spreadsheetSchemaWithoutId.merge(
-        z.object({ orderId: z.number().optional() })
-      )
+        z.object({ orderId: z.number().optional() }),
+      ),
     )
     .mutation(async ({ input }) => {
-      const { orderId, ...spreadsheetData } = input;
+      const { orderId, data, ...spreadsheetData } = input;
       const newSpreadsheet = await prisma.spreadsheet.create({
         data: {
           ...spreadsheetData,
+          data: data as Prisma.InputJsonValue,
           orders: { connect: { id: orderId } },
         },
       });
@@ -56,9 +58,20 @@ export const spreadsheetRouter = createTRPCRouter({
   update: authenticatedProcedure
     .input(spreadsheetSchema)
     .mutation(async ({ input: spreadsheetData }) => {
+      const {
+        id: spreadsheetId,
+        data,
+        ...simpleSpreadsheetData
+      } = spreadsheetData;
+
+      const updateData: Prisma.SpreadsheetUpdateInput = {
+        ...simpleSpreadsheetData,
+        data: data as Prisma.InputJsonValue,
+      };
+
       const updatedSpreadsheet = await prisma.spreadsheet.update({
-        where: { id: spreadsheetData.id },
-        data: omit({ ...spreadsheetData }, ["id", "orderId"]),
+        where: { id: spreadsheetId },
+        data: updateData,
       });
       return updatedSpreadsheet;
     }),

@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const spreadsheetSchema = z.object({
-  id: z.number(),
-  name: z.string().max(255),
-  data: z.record(z.string(), z.any()).array().array(),
+  id: z.number().optional(),
+  name: z.string().max(255).optional().nullable(),
+  data: z.record(z.string(), z.any()).optional().array().array(),
   // orders: z.array(z.any()).optional(),
 });
 

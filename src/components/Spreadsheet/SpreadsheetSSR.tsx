@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 
 // Icons
 import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
@@ -16,7 +16,7 @@ import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
 import Button from "@/components/ui/Button";
-import { ScrollArea } from "@/components/ui/ScrollArea";
+import { ScrollArea, ScrollBar } from "@/components/ui/ScrollArea";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
 import { api } from "@/utils/api";
@@ -43,7 +43,7 @@ interface SpreadsheetProps {
     label: string;
     action: (
       table: UniversalMatrix,
-      metaId: number
+      metaId: number,
     ) => [UniversalMatrix, string, any, any];
   }[];
 }
@@ -51,6 +51,7 @@ interface SpreadsheetProps {
 const Spreadsheet = (props: SpreadsheetProps) => {
   const { id, metadata, metadataActions, metadataVisuals } = props;
   const { data: value } = api.spreadsheet.getById.useQuery(id, {});
+  const { mutateAsync: update } = api.spreadsheet.update.useMutation();
   const [statusText, setStatusText] = useState<string>("");
   const uuid = useId();
   const t = useTranslation();
@@ -67,9 +68,9 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     },
   ] = useSpreadSheetData(
     (value?.data as UniversalMatrix) ?? [
-      [undefined, undefined],
-      [undefined, undefined],
-    ]
+      [{ value: "" }, { value: "" }],
+      [{ value: "" }, { value: "" }],
+    ],
   );
 
   const [selection, setSelection] = useState<Point[]>([]);
@@ -78,31 +79,38 @@ const Spreadsheet = (props: SpreadsheetProps) => {
   const [fullscreen, setFullscreen] = useState<boolean>(false);
   const incrementUpdateCount = () => setUpdateCount((count) => count + 1);
 
-  // const setDataWhenNEQ = (new_data: UniversalMatrix) => {
-  //   let eq = true;
-  //   if (
-  //     new_data.length === data.length &&
-  //     new_data[0].length === data[0].length
-  //   ) {
-  //     for (let y = 0; y < data.length; y++) {
-  //       for (let x = 0; x < data[0].length; x++) {
-  //         if (
-  //           new_data[y][x]?.value !== data[y][x]?.value ||
-  //           new_data[y][x]?.metaId !== data[y][x]?.metaId ||
-  //           new_data[y][x]?.metaPropertyId !== data[y][x]?.metaPropertyId
-  //         ) {
-  //           eq = false;
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     eq = false;
-  //   }
+  const onApiUpdate = () => {
+    const new_data = data.map((row) =>
+      row.map((value) => (value === undefined ? { value: "" } : value)),
+    );
+    update({ ...value, data: new_data });
+  };
 
-  //   if (!eq) {
-  //     setData(new_data);
-  //   }
-  // };
+  const setDataWhenNEQ = (new_data: UniversalMatrix) => {
+    let eq = true;
+    if (
+      new_data.length === data.length &&
+      new_data[0]!.length === data[0]!.length
+    ) {
+      for (let y = 0; y < data.length; y++) {
+        for (let x = 0; x < data[0]!.length; x++) {
+          if (
+            new_data[y]![x]?.value !== data[y]![x]?.value ||
+            new_data[y]![x]?.metaId !== data[y]![x]?.metaId ||
+            new_data[y]![x]?.metaPropertyId !== data[y]![x]?.metaPropertyId
+          ) {
+            eq = false;
+          }
+        }
+      }
+    } else {
+      eq = false;
+    }
+
+    if (!eq) {
+      setData(new_data);
+    }
+  };
 
   const setSelectionIfNotNull = (value: Point[]) => {
     value.length != 0 && setSelection(value);
@@ -119,36 +127,45 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     setSelection([]);
   };
 
-  // useEffect(() => {
-  //   if (updateCount > 0 && canUpdate) {
-  //     let eq = true;
-  //     if (
-  //       value &&
-  //       value.length === data.length &&
-  //       value[0].length === data[0].length
-  //     ) {
-  //       for (let y = 0; y < data.length; y++) {
-  //         for (let x = 0; x < data[0].length; x++) {
-  //           if (
-  //             value[y][x]?.value !== data[y][x]?.value ||
-  //             value[y][x]?.metaId !== data[y][x]?.metaId ||
-  //             value[y][x]?.metaPropertyId !== data[y][x]?.metaPropertyId
-  //           ) {
-  //             eq = false;
-  //           }
-  //         }
-  //       }
-  //     } else {
-  //       eq = false;
-  //     }
+  useEffect(() => {
+    if (updateCount > 0 && canUpdate) {
+      let eq = true;
+      if (
+        value?.data &&
+        (value.data as UniversalMatrix).length === data.length &&
+        (value.data as UniversalMatrix)[0]!.length === data[0]!.length
+      ) {
+        for (let y = 0; y < data.length; y++) {
+          for (let x = 0; x < data[0]!.length; x++) {
+            if (
+              (value.data as UniversalMatrix)[y]![x]?.value !==
+                data[y]![x]?.value ||
+              (value.data as UniversalMatrix)[y]![x]?.metaId !==
+                data[y]![x]?.metaId ||
+              (value.data as UniversalMatrix)[y]![x]?.metaPropertyId !==
+                data[y]![x]?.metaPropertyId
+            ) {
+              eq = false;
+            }
+          }
+        }
+      } else {
+        eq = false;
+      }
 
-  //     if (!eq) {
-  //       onSubmit && onSubmit(data);
-  //       setUpdateCount(0);
-  //     }
-  //   }
-  //   //eslint-disable-next-line
-  // }, [updateCount, canUpdate]);
+      if (!eq) {
+        onApiUpdate();
+        setUpdateCount(0);
+      }
+    }
+    //eslint-disable-next-line
+  }, [updateCount, canUpdate]);
+
+  useEffect(() => {
+    if (!!value?.data) {
+      setData(value.data as UniversalMatrix);
+    }
+  }, [value?.data]);
 
   // useEffect(() => {}, [disabled]);
 
@@ -195,7 +212,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as ColumnIndicatorComponent,
-    []
+    [],
   );
 
   const enhancedRowIndicator = useMemo(
@@ -251,16 +268,16 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as RowIndicatorComponent,
-    []
+    [],
   );
 
   const enhancedCell = useMemo(
     () =>
       enhanceCell(
         Cell,
-        metadataVisuals.map((val) => val.icon) ?? []
+        metadataVisuals.map((val) => val.icon) ?? [],
       ) as unknown as CellComponent,
-    [metadataVisuals]
+    [metadataVisuals],
   );
 
   const metadataActionsMemo = useMemo(() => metadataActions, [metadataActions]);
@@ -339,7 +356,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
                                   setData((data) => {
                                     const [new_data, status] = action.action(
                                       data,
-                                      metadata[key]!.id
+                                      metadata[key]!.id,
                                     );
                                     setStatusText(status);
                                     return new_data;
@@ -394,7 +411,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
         <ReactSpreadsheet
           data={data}
           onChange={(data) => {
-            // setDataWhenNEQ(data);
+            setDataWhenNEQ(data);
             incrementUpdateCount();
           }}
           onSelect={setSelectionIfNotNull}
@@ -411,6 +428,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           RowIndicator={enhancedRowIndicator}
         />
         <div style={{ height: 4 }}></div>
+        <ScrollBar orientation="horizontal" />
       </ScrollArea>
       <div
         className={

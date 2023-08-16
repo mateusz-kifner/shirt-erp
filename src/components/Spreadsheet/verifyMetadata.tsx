@@ -6,7 +6,7 @@ function verifyMetadata(
   table: UniversalMatrix,
   metaId: number,
 ): [UniversalMatrix, string, any, any] {
-  if (table[0]![0] !== undefined)
+  if (table[0]![0] === undefined)
     throw new Error(
       "UniversalMatrix is required to contain at least 1 element",
     );

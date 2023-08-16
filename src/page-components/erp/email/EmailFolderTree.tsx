@@ -1,4 +1,5 @@
 import Button, { ButtonProps } from "@/components/ui/Button";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
@@ -59,9 +60,16 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
+
+  const { isMobile } = useIsMobile();
   const [loadingAnimation, setLoadingAnimation] = useState(false);
   return (
-    <div className="flex w-40 min-w-[10rem] flex-col gap-2 p-2">
+    <div
+      className={cn(
+        "flex flex-col gap-2 p-2",
+        isMobile ? "" : " w-40 min-w-[10rem]",
+      )}
+    >
       <div className="flex h-10 flex-col gap-2">
         <Button
           size="sm"

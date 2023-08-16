@@ -150,10 +150,10 @@ const EditableFiles = (props: EditableFilesProps) => {
     <div onDragEnter={handleDrag}>
       <Label
         label={label}
-        copyValue={value?.reduce(
-          (prev, next) => `${prev}${next.originalFilename}\n`,
-          ""
-        )}
+        // copyValue={value?.reduce(
+        //   (prev, next) => `${prev}${next.originalFilename}\n`,
+        //   ""
+        // )}
         required={required}
       />
       <div className="pb-2">
@@ -242,7 +242,7 @@ const EditableFiles = (props: EditableFilesProps) => {
               htmlFor={"file" + uuid}
               className={cn(
                 buttonVariants({ variant: "outline" }),
-                "h-10 w-full  rounded-b rounded-t-none"
+                "h-10 w-full  rounded-b rounded-t-none",
               )}
             >
               {uploading ? (

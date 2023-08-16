@@ -111,17 +111,18 @@ const OrdersPage: NextPage = () => {
     table: UniversalMatrix,
     metaId: number,
   ): [UniversalMatrix, string, any, any] => {
-    if (table[0]![0] !== undefined)
+    if (table[0]![0] === undefined) {
       throw new Error(
         "UniversalMatrix is required to contain at least 1 element",
       );
-
+    }
     let row_len = table[0]?.length;
     for (const row of table) {
-      if (row.length !== row_len)
+      if (row.length !== row_len) {
         throw new Error(
           "UniversalMatrix is required to have rows of equal length",
         );
+      }
     }
     let pusta = true;
     table: for (let y = 0; y < table.length; y++) {

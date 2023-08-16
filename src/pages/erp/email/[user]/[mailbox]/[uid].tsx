@@ -1,10 +1,12 @@
 import MultiTabs from "@/components/layout/MultiTabs/MultiTabs";
 import { Tab } from "@/components/layout/MultiTabs/Tab";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import EmailView from "@/page-components/erp/email/EmailView";
 import ErrorPage from "@/pages/_error";
 import { api } from "@/utils/api";
+import { cn } from "@/utils/cn";
 import { getQueryAsIntOrNull, getQueryAsStringOrNull } from "@/utils/query";
 import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
@@ -22,6 +24,7 @@ function EmailMessage(props: EmailMessageProps) {
   ).replace("-", "/");
   const uid = getQueryAsIntOrNull(router, "uid");
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);
+  const { isMobile } = useIsMobile();
 
   const { data: emailClients, isLoading } = api.email.getAllConfigs.useQuery(
     undefined,
@@ -55,10 +58,16 @@ function EmailMessage(props: EmailMessageProps) {
   };
 
   return (
-    <div className="flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4">
+    <div
+      className={cn(
+        "flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4",
+        isMobile && "flex-col items-stretch",
+      )}
+    >
       <MultiTabs
         active={currentIMAPuser}
         setActive={setActive}
+        // pinned={isMobile ? [0] : []}
         // rightSection={
         //   <Tab
         //     className="p-2"
@@ -74,7 +83,7 @@ function EmailMessage(props: EmailMessageProps) {
           </Tab>
         ))}
       </MultiTabs>
-      <div className="relative flex w-40 min-w-[10rem] flex-col rounded bg-white shadow-lg dark:bg-stone-800">
+      <div className="relative flex flex-col rounded bg-white shadow-lg dark:bg-stone-800">
         <ErrorBoundary
           fallback={
             <h1>
