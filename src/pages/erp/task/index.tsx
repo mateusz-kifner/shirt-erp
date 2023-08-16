@@ -34,12 +34,15 @@ const entryName = "task";
 
 const itemsPerPage = 10;
 
-const sortObjectByDateOrNull = (keyName: string) => (a: any, b: any) => {
-  if (!a[keyName] && !b[keyName]) return 0;
-  if (!a[keyName]) return 1;
-  if (!b[keyName]) return -1;
-  return a[keyName].getTime() - b[keyName].getTime();
-};
+const sortObjectByDateOrNull =
+  (keyName: string, sortOrder: "asc" | "desc" = "asc") =>
+  (a: any, b: any) => {
+    const multiplier = sortOrder === "asc" ? -1 : 1;
+    if (!a[keyName] && !b[keyName]) return 0;
+    if (!a[keyName]) return 1;
+    if (!b[keyName]) return -1;
+    return (a[keyName].getTime() - b[keyName].getTime()) * multiplier;
+  };
 
 const TasksPage = () => {
   const { isMobile } = useIsMobile();
@@ -104,8 +107,12 @@ const TasksPage = () => {
   const [page, setPage] = useState(1);
   const filteredOrders =
     data?.orders
-      .filter((val) => val.name?.includes(query) || val.notes?.includes(query))
-      .sort(sortObjectByDateOrNull("dateOfCompletion")) ?? [];
+      .filter(
+        (val) =>
+          (val.name?.includes(query) || val.notes?.includes(query)) &&
+          !val.name?.startsWith("Szablon"),
+      )
+      .sort(sortObjectByDateOrNull("dateOfCompletion", sortOrder)) ?? [];
 
   const totalPages = Math.ceil((filteredOrders.length ?? 1) / itemsPerPage);
 
@@ -232,7 +239,11 @@ const TasksPage = () => {
           <div className="flex flex-grow flex-col">
             <List
               ListItem={OrderListItem}
-              data={filteredOrders}
+              data={filteredOrders.filter(
+                (val, index) =>
+                  index >= (page - 1) * itemsPerPage &&
+                  index < page * itemsPerPage,
+              )}
               onChange={(val) =>
                 router.push(`/erp/task/${val.id}`).catch(Logger.warn)
               }
