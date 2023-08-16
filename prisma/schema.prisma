@@ -91,26 +91,31 @@ model EmailCredential {
 }
 
 model EmailMessage {
-  id            Int       @id @default(autoincrement())
-  subject       String?   @db.VarChar(255)
-  from          String?   @db.VarChar(255)
-  to            String?   @db.VarChar(255)
-  date          DateTime? @db.Timestamp(6)
-  html          String?
-  text          String?
-  messageId     String?   @db.VarChar(255)
-  messageUid    Int?
-  mailbox       String?
-  clientUser    String?
-  headerLines   String?
-  textAsHtml    String?
+  id          Int       @id @default(autoincrement())
+  subject     String?   @db.VarChar(255)
+  from        String?   @db.VarChar(255)
+  to          String?   @db.VarChar(255)
+  date        DateTime? @db.Timestamp(6)
+  html        String?
+  text        String?
+  messageId   String?   @db.VarChar(255)
+  messageUid  Int?
+  mailbox     String?
+  clientUser  String?
+  headerLines String?
+  textAsHtml  String?
+
   messageFileId Int?
-  messageFile   File?     @relation(fields: [messageFileId], references: [id])
-  attachments   File[]    @relation("EmailAttachmentsToFile")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  createdById   Int?
-  updatedById   Int?
+  messageFile   File? @relation(fields: [messageFileId], references: [id])
+
+  attachments File[] @relation("EmailAttachmentsToFile")
+
+  orders Order[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdById Int?
+  updatedById Int?
 }
 
 model Expense {
@@ -176,26 +181,27 @@ model OrderArchive {
 }
 
 model Order {
-  id                Int           @id @default(autoincrement())
-  name              String?       @db.VarChar(255)
-  status            String?       @default("planned") @db.VarChar(255)
+  id                Int            @id @default(autoincrement())
+  name              String?        @db.VarChar(255)
+  status            String?        @default("planned") @db.VarChar(255)
   notes             String?
-  price             String?       @db.VarChar(255)
+  price             String?        @db.VarChar(255)
   isPricePaid       Boolean?
-  dateOfCompletion  DateTime?     @db.Date
+  dateOfCompletion  DateTime?      @db.Date
   spreadsheets      Spreadsheet[]
   designs           Design[]
+  emails            EmailMessage[]
   products          Product[]
   employees         User[]
   emailMessagesText String?
   files             File[]
   workTime          Float?
-  client            Client?       @relation(fields: [clientId], references: [id])
-  address           TypeAddress?  @relation(fields: [addressId], references: [id])
+  client            Client?        @relation(fields: [clientId], references: [id])
+  address           TypeAddress?   @relation(fields: [addressId], references: [id])
   clientId          Int?
   addressId         Int?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
   createdById       Int?
   updatedById       Int?
 }

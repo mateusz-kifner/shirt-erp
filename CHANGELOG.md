@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.2.0] DEV 1 - 25.06.2022
+
+### Added
+
+- Added detach option to tabs
+- Email client
+- nextjs / trpc / prisma Backend
+
+### Changed
+
+- Refactored UI to use Radix & Tailwindcss
+- refactored mobile menu
+-
+
+### Removed
+
+- Strapi backend
+- page print helper
+
 ## [1.1.0] DEV 1 - 25.06.2022
 
 ### Added
