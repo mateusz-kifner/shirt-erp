@@ -1,12 +1,13 @@
 import {
   createContext,
   useContext,
+  useState,
   type Dispatch,
   type ReactNode,
   type SetStateAction,
 } from "react";
 
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useMediaQuery } from "@mantine/hooks";
 
 interface UserContextType {
   debug: boolean;
@@ -16,6 +17,12 @@ interface UserContextType {
   toggleNavigationCollapsed: () => void;
   setNavigationCollapsed: Dispatch<SetStateAction<boolean>>;
   toggleDebug: () => void;
+  mobileOpen: boolean;
+  setMobileOpen: Dispatch<SetStateAction<boolean>>;
+
+  smallScreen: boolean;
+  hasTouch: boolean;
+  isMobile: boolean;
 }
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -35,18 +42,18 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     defaultValue: 0,
   });
 
+  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+
   // const [secondNavigation, setSecondNavigation] = useLocalStorage<boolean>({
   //   key: "user-navigation-second",
   //   defaultValue: false,
   // });
 
-  // const smallerThanSM = useMediaQuery(
-  //   `(max-width: ${theme.breakpoints.md}px)`,
-  //   true
-  // );
-  // const hasTouch = useMediaQuery(
-  //   "only screen and (hover: none) and (pointer: coarse)"
-  // );
+  const smallScreen = useMediaQuery("(max-width: 768px)", true);
+  const hasTouch = useMediaQuery(
+    "only screen and (hover: none) and (pointer: coarse)",
+    true,
+  );
 
   return (
     <UserContext.Provider
@@ -63,6 +70,11 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         },
         setNavigationCollapsed,
         toggleDebug: () => setDebug((val) => !val),
+        mobileOpen,
+        setMobileOpen,
+        smallScreen,
+        hasTouch,
+        isMobile: smallScreen || hasTouch,
       }}
     >
       {children}
@@ -74,7 +86,7 @@ export function useUserContext(): UserContextType {
   const state = useContext(UserContext);
   if (!state) {
     throw new Error(
-      `ERROR: User reached logged-in-only component with null 'user' in context`
+      `ERROR: User reached logged-in-only component with null 'user' in context`,
     );
   }
   return state;

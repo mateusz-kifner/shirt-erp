@@ -5,7 +5,7 @@ import Navigation from "@/components/layout/Navigation";
 import { useUserContext } from "@/context/userContext";
 
 function Layout({ children }: PropsWithChildren) {
-  const { navigationCollapsed } = useUserContext();
+  const { navigationCollapsed, isMobile } = useUserContext();
 
   useEffect(() => {
     // initialize theme
@@ -26,7 +26,7 @@ function Layout({ children }: PropsWithChildren) {
     <div>
       <main
         className={`${
-          navigationCollapsed ? "pl-20" : "pl-64"
+          isMobile ? "" : navigationCollapsed ? "pl-20" : "pl-64"
         } min-h-screen pt-14 transition-all`}
       >
         {children}

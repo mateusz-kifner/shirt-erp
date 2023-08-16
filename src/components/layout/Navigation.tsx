@@ -1,28 +1,49 @@
-import { useState } from "react";
-
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import NavButton from "@/components/layout/NavButton";
 import { useUserContext } from "@/context/userContext";
+import { cn } from "@/utils/cn";
 import Button from "../ui/Button";
 import navigationData from "./navigationData";
 
 function Navigation() {
   const router = useRouter();
-  const { navigationCollapsed, toggleNavigationCollapsed, debug } =
-    useUserContext();
-
-  const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const {
+    navigationCollapsed,
+    toggleNavigationCollapsed,
+    debug,
+    isMobile,
+    mobileOpen,
+    setMobileOpen,
+  } = useUserContext();
 
   return (
     <div
-      className={`fixed left-0 top-14 flex h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)]  flex-col justify-between  border-r-[1px] border-stone-400 bg-white  px-3 py-1 transition-all dark:border-stone-600 dark:bg-stone-900 ${
-        navigationCollapsed ? "w-[5.0625rem]" : "w-64" // 5.0625rem centers circle around button
-      }`}
+      className={cn(
+        "fixed left-0  flex flex-col  justify-between border-r-[1px]  border-stone-400 bg-white px-3  py-1 transition-all dark:border-stone-600 dark:bg-stone-900",
+        isMobile ? "w-full" : navigationCollapsed ? "w-[5.0625rem]" : "w-64", // 5.0625rem centers circle around button,
+        isMobile && (mobileOpen ? "translate-x-0" : " -translate-x-full"),
+        isMobile
+          ? "top-2 z-[99999] h-[calc(100vh-1rem)]"
+          : "top-14  h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)]",
+      )}
     >
+      {isMobile && (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-2 top-2"
+          onClick={() => setMobileOpen(false)}
+        >
+          <IconX className="h-8 w-8 md:h-6 md:w-6" />
+          <span className="sr-only">Close</span>
+        </Button>
+      )}
       <div className="scrollbar scrollbar-track-transparent scrollbar-thumb-blue-500 scrollbar-corner-transparent  scrollbar-thumb-rounded-full scrollbar-w-2 overflow-y-auto overflow-x-hidden transition-all ">
-        <div className="flex flex-col gap-2 py-3">
+        <div
+          className={isMobile ? "grid grid-cols-3" : "flex flex-col gap-2 py-3"}
+        >
           {navigationData.map(
             (val) =>
               (!val?.debug || debug) && (
@@ -33,28 +54,35 @@ function Navigation() {
                   //   !biggerThanSM && toggleNavigationCollapsed()
                   // }}
                   active={val.entryName === router.pathname.split("/")[2]}
+                  small={isMobile}
+                  onClick={() => {
+                    setMobileOpen(false);
+                  }}
                 />
               ),
           )}
         </div>
       </div>
-      <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
-        <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="h-12 w-12 rounded-full"
-          onClick={() => {
-            toggleNavigationCollapsed();
-          }}
-        >
-          {navigationCollapsed ? (
-            <IconChevronRight className="stroke-stone-600 dark:stroke-gray-200" />
-          ) : (
-            <IconChevronLeft className="stroke-stone-600 dark:stroke-gray-200" />
-          )}
-        </Button>
-      </div>
+      <div className="flex flex-col" id="MobileMenu"></div>
+      {!isMobile && (
+        <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
+          <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="h-12 w-12 rounded-full"
+            onClick={() => {
+              toggleNavigationCollapsed();
+            }}
+          >
+            {navigationCollapsed ? (
+              <IconChevronRight className="stroke-stone-600 dark:stroke-gray-200" />
+            ) : (
+              <IconChevronLeft className="stroke-stone-600 dark:stroke-gray-200" />
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
