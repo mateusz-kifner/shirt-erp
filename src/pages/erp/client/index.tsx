@@ -27,8 +27,8 @@ const ClientsPage = () => {
           id ? ["Lista klientów", "Właściwości"] : ["Lista klientów"]
         }
         childrenIcons={[IconList, IconNotebook]}
-        defaultActive={id ? 1 : 0}
-        defaultPinned={isMobile ? [] : id ? [0] : []}
+        defaultActive={id !== null ? 1 : 0}
+        defaultPinned={id !== null ? [0] : []}
       >
         <div className="relative p-4">
           <ClientsList

@@ -1,12 +1,15 @@
-import { Children, useId, type ReactNode } from "react";
+import { Children, useEffect, useId, useRef, type ReactNode } from "react";
 
 import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
 import { useUserContext } from "@/context/userContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
+import { cn } from "@/utils/cn";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import * as Portal from "@radix-ui/react-portal";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ErrorBoundary } from "react-error-boundary";
 import MultiTabs from "./MultiTabs/MultiTabs";
@@ -33,7 +36,7 @@ const Workspace = ({
   children,
   childrenLabels = [],
   childrenIcons = [],
-  childrenWrapperProps = [null],
+  childrenWrapperProps = [],
   defaultActive = 1,
   defaultPinned = [0],
   leftMenuSection,
@@ -57,42 +60,12 @@ const Workspace = ({
   const { navigationCollapsed, toggleNavigationCollapsed, debug } =
     useUserContext();
   const { ref, width } = useElementSize();
+  const childrenCount = Children.count(children);
+  const childrenWrapperProps2 =
+    childrenCount < 2 && childrenWrapperProps.length === 0 ? [] : [null];
+  const { isMobile } = useIsMobile();
 
-  // const [tabStateArray, setTabStateArray] = useRQCache<{
-  //   [key: string]: { active?: number; pinned: number[] };
-  // }>("pinned_" + cacheKey, {});
-
-  // const tabState = tabStateArray?.[cacheKey] ?? {
-  //   active: defaultActive,
-  //   pinned: defaultPinned,
-  // };
-
-  // const setTabState = (pinned: number[], active?: number) => {
-  //   setTabStateArray({ ...tabStateArray, [cacheKey]: { active, pinned } });
-  // };
-
-  // const togglePin = (pin: number) => {
-  //   if (disablePin) return;
-  //   if (tabState.pinned.indexOf(pin) !== -1) {
-  //     setTabState(
-  //       tabState.pinned.filter((val) => val !== pin),
-  //       tabState.active,
-  //     );
-  //   } else {
-  //     setTabState([...tabState.pinned, pin], tabState.active);
-  //   }
-  // };
-
-  // const setActive = (active?: number) => {
-  //   setTabState(tabState.pinned, active);
-  // };
-  // setPinned((pinnedArray) => {
-  //   if (pinnedArray.includes(pinned)) {
-  //     return pinnedArray.filter((val) => val !== pinned);
-  //   } else {
-  //     return [...pinnedArray, pinned];
-  //   }
-  // });
+  const portalContainerRef = useRef<HTMLDivElement | null>(null);
 
   const child_array = Children.toArray(children);
 
@@ -103,20 +76,23 @@ const Workspace = ({
   )
     activeTabs.push(multiTabsState.active);
 
-  // useEffect(() => {
-  //   if (!childrenLabels) return
-  //   let new_arr = [...pinned]
-  //   if (active && !pinned.includes(active)) new_arr.push(active)
-  //   let index_arr = new_arr.map((val) => childrenLabels?.indexOf(val))
-  //   setQuery(router, {
-  //     show_views: index_arr.map((val) => val.toString()),
-  //   })
-  // }, [pinned, active])
+  useEffect(() => {
+    if (isMobile) {
+      multiTabsState.pinnedHandler.setState([0]);
+      id !== null && multiTabsState.active === 0 && multiTabsState.setActive(1);
+    }
+  }, [isMobile, multiTabsState.active, multiTabsState.pinned.length, id]);
 
-  // const openMenu = (e: MouseEvent<any, any>) => {
-  //   setMenuPosition(isMobile ? [width / 2, 60] : [e.pageX, e.pageY])
-  //   setMenuOpen(true)
-  // }
+  useEffect(() => {
+    if (multiTabsState.active >= childrenCount) {
+      multiTabsState.setActive(0);
+    }
+    multiTabsState.pinnedHandler.filter((val) => val < childrenCount);
+  }, [multiTabsState.active, multiTabsState.pinned.length]);
+
+  useEffect(() => {
+    portalContainerRef.current = document.querySelector("#MobileMenuPinned");
+  }, []);
 
   return (
     <div
@@ -139,30 +115,62 @@ const Workspace = ({
           );
         })}
       </MultiTabs>
-      {children &&
-        activeTabs.map((childIndex, index) => (
-          <div
-            key={uuid + index}
-            className="flex w-[420px] min-w-[420px] flex-col rounded bg-white shadow-lg dark:bg-stone-800"
-            {...(childrenWrapperProps &&
-            childrenWrapperProps[childIndex] !== undefined
-              ? childrenWrapperProps[childIndex]
-              : { style: { flexGrow: 1 } })}
-          >
-            <ErrorBoundary
-              fallback={
-                <h1>
-                  Tab number {childIndex} named {'"'}
-                  {childrenLabels[childIndex] ?? "[unknown]"}
-                  {'"'} encountered irreparable error and crashed, please reload
-                  page.
-                </h1>
-              }
+      <Portal.Root container={portalContainerRef.current}>
+        {children &&
+          multiTabsState.pinned.map((childIndex, index) => (
+            <div
+              key={uuid + index}
+              className="flex  flex-grow
+               flex-col rounded bg-white shadow-lg dark:bg-stone-800"
+              {...(childrenWrapperProps2 &&
+              childrenWrapperProps2[childIndex] !== undefined
+                ? childrenWrapperProps2[childIndex]
+                : { style: { flexGrow: 1 } })}
             >
-              {child_array[childIndex]}
-            </ErrorBoundary>
-          </div>
-        ))}
+              <ErrorBoundary
+                fallback={
+                  <h1>
+                    Tab number {childIndex} named {'"'}
+                    {childrenLabels[childIndex] ?? "[unknown]"}
+                    {'"'} encountered irreparable error and crashed, please
+                    reload page.
+                  </h1>
+                }
+              >
+                {child_array[childIndex]}
+              </ErrorBoundary>
+            </div>
+          ))}
+      </Portal.Root>
+      {children &&
+        (isMobile ? [multiTabsState.active] : activeTabs).map(
+          (childIndex, index) => (
+            <div
+              key={uuid + index}
+              className={cn(
+                "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
+                isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
+              )}
+              {...(childrenWrapperProps2 &&
+              childrenWrapperProps2[childIndex] !== undefined
+                ? childrenWrapperProps2[childIndex]
+                : { style: { flexGrow: 1 } })}
+            >
+              <ErrorBoundary
+                fallback={
+                  <h1>
+                    Tab number {childIndex} named {'"'}
+                    {childrenLabels[childIndex] ?? "[unknown]"}
+                    {'"'} encountered irreparable error and crashed, please
+                    reload page.
+                  </h1>
+                }
+              >
+                {child_array[childIndex]}
+              </ErrorBoundary>
+            </div>
+          ),
+        )}
     </div>
   );
 };

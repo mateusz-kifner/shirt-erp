@@ -1,9 +1,4 @@
-import { buttonVariants } from "@/components/ui/Button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip";
+import Button from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
 import { useMergedRef, useResizeObserver } from "@mantine/hooks";
@@ -105,28 +100,26 @@ export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
     const mergedRef = useMergedRef(ref, observerRef);
 
     return (
-      <Tooltip>
-        <TooltipTrigger
-          className={cn(
-            buttonVariants({ variant: "outline", size: "lg" }),
-            "w-full flex-grow text-lg",
-            isActive || isPinned
-              ? "border-2 bg-transparent"
-              : "border bg-stone-800",
-            className,
-          )}
-          ref={mergedRef}
-          style={{
-            borderColor: isActive || isPinned ? color : undefined,
-          }}
-          {...moreProps}
-        >
-          {!!left && left}
-          {!small && children}
-          {!!right && right}
-        </TooltipTrigger>
-        {!!small && <TooltipContent side="bottom">{children}</TooltipContent>}
-      </Tooltip>
+      <Button
+        className={cn(
+          "w-full flex-grow text-lg",
+          isActive || isPinned
+            ? "border-2 bg-transparent"
+            : "border bg-stone-800",
+          className,
+        )}
+        variant="outline"
+        size="lg"
+        ref={mergedRef}
+        style={{
+          borderColor: isActive || isPinned ? color : undefined,
+        }}
+        {...moreProps}
+      >
+        {!!left && left}
+        {children}
+        {!!right && right}
+      </Button>
     );
   },
 );
