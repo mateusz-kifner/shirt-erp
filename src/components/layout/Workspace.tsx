@@ -1,4 +1,12 @@
-import { Children, useEffect, useId, useRef, type ReactNode } from "react";
+import {
+  Children,
+  ReactElement,
+  cloneElement,
+  useEffect,
+  useId,
+  useRef,
+  type ReactNode,
+} from "react";
 
 import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
@@ -26,8 +34,8 @@ interface WorkspaceProps {
   children?: ReactNode;
   defaultActive?: number;
   defaultPinned?: number[];
-  leftMenuSection?: ReactNode;
-  rightMenuSection?: ReactNode;
+  leftMenuSection?: ReactElement | null;
+  rightMenuSection?: ReactElement | null;
   disablePin?: boolean;
 }
 
@@ -87,12 +95,33 @@ const Workspace = ({
     if (multiTabsState.active >= childrenCount) {
       multiTabsState.setActive(0);
     }
+    if (
+      multiTabsState.pinned.find((val) => val === multiTabsState.active) !==
+        undefined &&
+      multiTabsState.active + 1 < childrenCount
+    ) {
+      multiTabsState.setActive(multiTabsState.active + 1);
+    }
     multiTabsState.pinnedHandler.filter((val) => val < childrenCount);
   }, [multiTabsState.active, multiTabsState.pinned.length]);
 
   useEffect(() => {
     portalContainerRef.current = document.querySelector("#MobileMenuPinned");
   }, []);
+
+  const tabsChildren: ReactElement[] = childrenLabels.map((label, index) => {
+    const Icon =
+      childrenIcons?.[index] ??
+      childrenIcons?.[childrenIcons.length - 1] ??
+      IconAlertCircle;
+    return (
+      <Tab key={`${uuid}${index}`} leftSection={<Icon />}>
+        {label}
+      </Tab>
+    );
+  });
+  rightMenuSection &&
+    tabsChildren.push(cloneElement(rightMenuSection, { key: `${uuid}_right` }));
 
   return (
     <div
@@ -103,17 +132,7 @@ const Workspace = ({
         {...multiTabsState}
         key={childrenLabels.reduce((prev, next) => prev + next, "")}
       >
-        {childrenLabels.map((label, index) => {
-          const Icon =
-            childrenIcons?.[index] ??
-            childrenIcons?.[childrenIcons.length - 1] ??
-            IconAlertCircle;
-          return (
-            <Tab key={`${uuid}${index}`} leftSection={<Icon />}>
-              {label}
-            </Tab>
-          );
-        })}
+        {tabsChildren}
       </MultiTabs>
       {isMobile && (
         <Portal.Root container={portalContainerRef.current}>

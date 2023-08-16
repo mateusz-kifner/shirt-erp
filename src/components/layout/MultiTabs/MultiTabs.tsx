@@ -13,14 +13,13 @@ import {
   useState,
 } from "react";
 import { MobileTab } from "./MobileTab";
-import { TabProps } from "./Tab";
 import {
   MultiTabsContextProvider,
   useMultiTabsContext,
 } from "./multiTabsContext";
 
 interface MultiTabsProps {
-  children: ReactElement<TabProps> | ReactElement<TabProps>[];
+  children: ReactElement | null | (ReactElement | null)[];
   active: number;
   setActive: Dispatch<SetStateAction<number>>;
   pinned?: number[];
@@ -89,7 +88,7 @@ function MultiTabs(props: MultiTabsProps) {
 }
 
 function MultiTabsContent(props: {
-  children: ReactElement<TabProps> | ReactElement<TabProps>[];
+  children: ReactElement | null | (ReactElement | null)[];
   parentWidth: number;
 }) {
   const { children, parentWidth } = props;
@@ -110,8 +109,9 @@ function MultiTabsContent(props: {
     <>
       {Children.map(children, (child, index) => {
         const isPinned = pinned.indexOf(index) !== -1;
+        if (!child) return null;
         return cloneElement(
-          (isMobile ? <MobileTab /> : child) as typeof child,
+          (isMobile ? <MobileTab /> : child) as ReactElement,
           {
             index:
               typeof child.props.index === "number" ? child.props.index : index,

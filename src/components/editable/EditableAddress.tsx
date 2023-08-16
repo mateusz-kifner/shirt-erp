@@ -14,6 +14,7 @@ import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { type AddressType } from "@/schema/addressSchema";
+import Button from "../ui/Button";
 import { Input } from "../ui/Input";
 import EditableEnum from "./EditableEnum";
 
@@ -108,41 +109,37 @@ const EditableAddress = (props: EditableAddressProps) => {
     rightSection,
     keyName,
   } = props;
-  console.log(value);
+  // console.log(value);
   const [address, setAddress] = useState<AddressType>(value);
   const [focus, setFocus] = useState<boolean>(false);
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
-  const ref = useClickOutside(() => {
-    if (!enumOpen) {
-      // onFocusLose();
-      setFocus(false);
-    }
-  });
+
   const returnFocus = useFocusReturn({
     opened: enumOpen,
   });
   const onFocus = () => !disabled && setFocus(true);
-
-  const refStreetName = useRef<HTMLInputElement>(null);
-  const refStreetNumber = useRef<HTMLInputElement>(null);
-  const refApartmentNumber = useRef<HTMLInputElement>(null);
-  const refSecondLine = useRef<HTMLInputElement>(null);
-  const refPostCode = useRef<HTMLInputElement>(null);
-  const refCity = useRef<HTMLInputElement>(null);
+  const onBlur = () => {
+    if (!enumOpen) {
+      onFocusLose();
+      setFocus(false);
+    }
+  };
+  const ref = useClickOutside(onBlur);
+  const refStreetName = useRef<HTMLInputElement | null>(null);
+  const refStreetNumber = useRef<HTMLInputElement | null>(null);
+  const refApartmentNumber = useRef<HTMLInputElement | null>(null);
+  const refSecondLine = useRef<HTMLInputElement | null>(null);
+  const refPostCode = useRef<HTMLInputElement | null>(null);
+  const refCity = useRef<HTMLInputElement | null>(null);
 
   const onFocusLose = () => {
-    console.log(
-      value && {
-        ...value,
-        streetName: refStreetName.current?.value ?? "",
-        streetNumber: refStreetNumber.current?.value ?? "",
-        apartmentNumber: refApartmentNumber.current?.value ?? "",
-        secondLine: refSecondLine.current?.value ?? "",
-        postCode: refPostCode.current?.value ?? "",
-        city: refCity.current?.value ?? "",
-      },
-    );
     value &&
+      refStreetName.current !== null &&
+      refStreetNumber.current !== null &&
+      refApartmentNumber.current !== null &&
+      refSecondLine.current !== null &&
+      refPostCode.current !== null &&
+      refCity.current !== null &&
       onSubmit?.({
         ...value,
         streetName: refStreetName.current?.value ?? "",
@@ -162,15 +159,6 @@ const EditableAddress = (props: EditableAddressProps) => {
       setAddress(new_address);
     }
   };
-
-  useEffect(() => {
-    if (focus) {
-      // setPrevAddress({ ...address })
-    } else {
-      onFocusLose();
-    }
-    // eslint-disable-next-line
-  }, [focus]);
 
   useEffect(() => {
     if (value && !isEqual(address, value)) {
@@ -228,6 +216,7 @@ const EditableAddress = (props: EditableAddressProps) => {
             className="flex flex-grow flex-col gap-2 pb-3"
             // tabIndex={99999} // ensure that focus can be captured on element
           >
+            <Button onClick={() => onFocusLose()}>send</Button>
             <InputAddressField
               label={label?.streetName}
               value={address?.streetName ?? ""}

@@ -40,6 +40,7 @@ import {
   IconCopy,
   IconRefresh,
 } from "@tabler/icons-react";
+import { omit } from "lodash";
 import { useRouter } from "next/router";
 import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
@@ -154,8 +155,9 @@ function OrderEditable(props: OrderEditableProps) {
                     variant="ghost"
                     className="rounded-full"
                     onClick={() => {
+                      console.log(data.client);
                       !!data.client &&
-                        apiUpdate("address", data.client.address);
+                        apiUpdate("address", omit(data.client.address, ["id"]));
                     }}
                   >
                     <IconCopy />

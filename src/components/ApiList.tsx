@@ -58,8 +58,8 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
   const itemsPerPage = 10;
   const t = useTranslation();
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
-    "desc",
     "asc",
+    "desc",
   ]);
   const [query, setQuery] = useState<string | undefined>(defaultSearch);
   const [debouncedQuery] = useDebouncedValue(query, 200);

@@ -8,12 +8,6 @@ import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
 import { Tab } from "@/components/layout/MultiTabs/Tab";
 import Workspace from "@/components/layout/Workspace";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
@@ -57,15 +51,7 @@ const OrdersPage: NextPage = () => {
     {},
   );
   const t = useTranslation();
-  // const { isSmall, hasTouch } = useAuthContext()
-  // const isMobile = hasTouch || isSmall
-  // const [openAddModal, setOpenAddModal] = useState<boolean>(false)
 
-  // const router = useRouter()
-  // const id = getQueryAsIntOrNull(router, "id")
-  // const { data, update, refetch } = useStrapi<OrderType>(entryName, id, {
-  //   query: "populate=*",
-  // })
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle");
@@ -310,25 +296,25 @@ const OrdersPage: NextPage = () => {
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
         rightMenuSection={
-          id !== null && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Tab className="p-2">
-                  <IconPlus />
-                </Tab>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={addSpreadsheet}>
-                  <IconTable />
-                  {t.sheet}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={addDesign}>
-                  <IconVector />
-                  {t.design}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )
+          id !== null ? (
+            // <DropdownMenu>
+            //   <DropdownMenuTrigger asChild>
+            <Tab className="p-2" index={-1} onClick={addSpreadsheet}>
+              <IconPlus />
+            </Tab>
+          ) : //   </DropdownMenuTrigger>
+          //   <DropdownMenuContent>
+          //     <DropdownMenuItem onClick={addSpreadsheet}>
+          //       <IconTable />
+          //       {t.sheet}
+          //     </DropdownMenuItem>
+          //     <DropdownMenuItem onClick={addDesign}>
+          //       <IconVector />
+          //       {t.design}
+          //     </DropdownMenuItem>
+          //   </DropdownMenuContent>
+          // </DropdownMenu>
+          null
         }
       >
         <div className="relative p-4">

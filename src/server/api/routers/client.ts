@@ -1,4 +1,3 @@
-import { omit } from "lodash";
 import { z } from "zod";
 
 import { clientSchema } from "@/schema/clientSchema";
@@ -66,12 +65,16 @@ export const clientRouter = createTRPCRouter({
   update: authenticatedProcedure
     .input(clientSchema)
     .mutation(async ({ input: clientData }) => {
+      const { id: clientId, address, ...simpleClientData } = clientData;
+
+      const updateData: Prisma.ClientUpdateInput = { ...simpleClientData };
+
+      if (address) updateData.address = { update: address };
+
+      console.log(updateData);
       const updatedClient = await prisma.client.update({
-        where: { id: clientData.id },
-        data: {
-          ...omit({ ...clientData }, ["id", "address"]),
-          address: { update: { ...clientData.address } },
-        },
+        where: { id: clientId },
+        data: updateData,
         include: includeAll,
       });
       return updatedClient;
