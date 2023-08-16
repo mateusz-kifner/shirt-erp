@@ -40,8 +40,6 @@ const Workspace = ({
   rightMenuSection,
   disablePin,
 }: WorkspaceProps) => {
-  // const { isSmall, hasTouch } = useAuthContext()
-  // const isMobile = hasTouch || isSmall
   // const [menuPosition, setMenuPosition] = useState<[number, number]>([0, 0])
   // const [menuOpened, setMenuOpen] = useState<boolean>(false)
   // const [pinned, setPinned] = useState<number[]>([]);

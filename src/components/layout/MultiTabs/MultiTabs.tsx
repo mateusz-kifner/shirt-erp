@@ -1,4 +1,4 @@
-import { useUserContext } from "@/context/userContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { UseListStateHandlers, useResizeObserver } from "@mantine/hooks";
 import { Portal } from "@radix-ui/react-portal";
 import {
@@ -34,7 +34,7 @@ function MultiTabs(props: MultiTabsProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [outerRef, outerRect] = useResizeObserver();
 
-  const { isMobile } = useUserContext();
+  const { isMobile } = useIsMobile();
   useEffect(() => {
     portalContainerRef.current = document.querySelector("#HeaderTabs");
     portalMobileContainerRef.current = document.querySelector("#MobileMenu");
@@ -96,7 +96,7 @@ function MultiTabsContent(props: {
   const { tabsMaxWidth, togglePin, setActive, pinned } = useMultiTabsContext();
   const [small, setSmall] = useState(false);
   const childrenMaxWidth = tabsMaxWidth.reduce((p, n) => p + n, 0);
-  const { isMobile } = useUserContext();
+  const { isMobile } = useIsMobile();
 
   useEffect(() => {
     if (parentWidth > 0) {

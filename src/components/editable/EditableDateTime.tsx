@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import {
-  useClickOutside,
-  useClipboard,
-  useId,
-  useMediaQuery,
-} from "@mantine/hooks";
+import { useClickOutside, useClipboard, useId } from "@mantine/hooks";
 import { IconCalendar, IconClock } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
@@ -44,9 +39,6 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
   const [active, setActive] = useState<boolean>(false);
   const clipboard = useClipboard();
   const dateRef = useRef<HTMLButtonElement>(null);
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)",
-  );
   const activate = () => {
     setActive(true);
   };

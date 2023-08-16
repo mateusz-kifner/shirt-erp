@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import NavButton from "@/components/layout/NavButton";
 import { useUserContext } from "@/context/userContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";
 import Button from "../ui/Button";
 import navigationData from "./navigationData";
@@ -13,10 +14,10 @@ function Navigation() {
     navigationCollapsed,
     toggleNavigationCollapsed,
     debug,
-    isMobile,
     mobileOpen,
     setMobileOpen,
   } = useUserContext();
+  const { isMobile } = useIsMobile();
 
   return (
     <div

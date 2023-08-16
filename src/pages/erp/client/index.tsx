@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { useMediaQuery } from "@mantine/hooks";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import Workspace from "@/components/layout/Workspace";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import ClientAddModal from "@/page-components/erp/client/ClientAddModal";
 import ClientEditable from "@/page-components/erp/client/ClientEditable";
 import ClientsList from "@/page-components/erp/client/ClientList";
@@ -14,9 +14,8 @@ const entryName = "client";
 
 const ClientsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)"
-  );
+  const { isMobile } = useIsMobile();
+
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
 

@@ -7,7 +7,7 @@ import {
   type SetStateAction,
 } from "react";
 
-import { useLocalStorage, useMediaQuery } from "@mantine/hooks";
+import { useLocalStorage } from "@mantine/hooks";
 
 interface UserContextType {
   debug: boolean;
@@ -19,10 +19,6 @@ interface UserContextType {
   toggleDebug: () => void;
   mobileOpen: boolean;
   setMobileOpen: Dispatch<SetStateAction<boolean>>;
-
-  smallScreen: boolean;
-  hasTouch: boolean;
-  isMobile: boolean;
 }
 
 export const UserContext = createContext<UserContextType | null>(null);
@@ -49,12 +45,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   //   defaultValue: false,
   // });
 
-  const smallScreen = useMediaQuery("(max-width: 768px)", true);
-  const hasTouch = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)",
-    true,
-  );
-
   return (
     <UserContext.Provider
       value={{
@@ -72,9 +62,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         toggleDebug: () => setDebug((val) => !val),
         mobileOpen,
         setMobileOpen,
-        smallScreen,
-        hasTouch,
-        isMobile: smallScreen || hasTouch,
       }}
     >
       {children}

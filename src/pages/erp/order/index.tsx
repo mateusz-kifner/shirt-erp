@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderEditable from "@/page-components/erp/order/OrderEditable";
@@ -21,7 +22,6 @@ import OrderList from "@/page-components/erp/order/OrderList";
 import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
-import { useMediaQuery } from "@mantine/hooks";
 import {
   IconCheck,
   IconColorSwatch,
@@ -42,9 +42,8 @@ const entryName = "order";
 const OrdersPage: NextPage = () => {
   const uuid = useId();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)",
-  );
+  const { isMobile } = useIsMobile();
+
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
   const { data: orderData } = api.order.getById.useQuery(id as number, {

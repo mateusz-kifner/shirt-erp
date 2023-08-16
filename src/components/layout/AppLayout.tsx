@@ -3,9 +3,11 @@ import { useEffect, type PropsWithChildren } from "react";
 import Header from "@/components/layout/Header";
 import Navigation from "@/components/layout/Navigation";
 import { useUserContext } from "@/context/userContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 function Layout({ children }: PropsWithChildren) {
-  const { navigationCollapsed, isMobile } = useUserContext();
+  const { navigationCollapsed } = useUserContext();
+  const { isMobile } = useIsMobile();
 
   useEffect(() => {
     // initialize theme
