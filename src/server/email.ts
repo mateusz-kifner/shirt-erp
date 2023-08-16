@@ -6,6 +6,7 @@ import { Readable, Stream } from "node:stream";
 import { env } from "@/env.mjs";
 import { isMimeImage } from "@/utils/isMimeImage";
 import NodeClam from "clamscan";
+import Logger from "js-logger";
 import { omit } from "lodash";
 import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
@@ -53,7 +54,7 @@ export async function fetchEmails(
     const mailboxObj = await client.mailboxOpen(mailbox);
     const messagesCount = mailboxObj.exists;
 
-    console.log(mailboxObj);
+    // console.log(mailboxObj);
     const messages = [];
     let query: number[] | string;
 
@@ -64,7 +65,7 @@ export async function fetchEmails(
     if (start < 1) start = 1;
     if (stop < 1) stop = 1;
 
-    console.log(last_message, `${start}:${stop}`);
+    // console.log(last_message, `${start}:${stop}`);
 
     for await (const msg of client.fetch(
       { seq: `${start}:${stop}` },
@@ -149,9 +150,9 @@ export async function downloadEmailByUid(
 
     try {
       await fsp.access(outputFilePath);
-      console.log(`Email with ID ${uid} found in cache`);
+      Logger.info(`Email with ID ${uid} found in cache`);
     } catch {
-      console.log(`Email with ID ${uid} not found in cache, downloading`);
+      Logger.info(`Email with ID ${uid} not found in cache, downloading`);
       let emailStream = await client.download(uid, undefined, {
         uid: true,
       });
@@ -179,7 +180,7 @@ export async function downloadEmailByUid(
           };
         }
       } catch (err) {
-        console.log("ClamAV:", err);
+        Logger.warn("ClamAV:", err);
       }
     }
 
@@ -266,9 +267,9 @@ export async function downloadEmailAttachment(
 
     try {
       await fsp.access(outputFilePath);
-      console.log(`Email with ID ${uid} found in cache`);
+      Logger.info(`Email with ID ${uid} found in cache`);
     } catch {
-      console.log(`Email with ID ${uid} not found in cache, downloading`);
+      Logger.info(`Email with ID ${uid} not found in cache, downloading`);
       let emailStream = await client.download(uid, undefined, {
         uid: true,
       });
