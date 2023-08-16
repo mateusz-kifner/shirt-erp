@@ -14,7 +14,7 @@ export default function Login() {
 
   const login = api.session.login.useMutation({
     onSuccess() {
-      void router.push("/task");
+      void router.push("/erp/task");
     },
     onError(err) {
       setErrorMsg(t.error_sign_in);
@@ -158,7 +158,7 @@ export const getServerSideProps = withIronSessionSsr(function ({ req }) {
   if (req.session.isLoggedIn) {
     return {
       redirect: {
-        destination: "/task",
+        destination: "/erp/task",
         permanent: false,
       },
     };

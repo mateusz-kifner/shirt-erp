@@ -6,7 +6,7 @@ const Main = () => {
   const router = useRouter();
 
   useEffect(() => {
-    void router.push("/erp/tasks");
+    void router.push("/erp/task");
   });
 
   return (

@@ -1,17 +1,20 @@
-import React, { ComponentType, useId, useMemo } from "react";
+import React, { useId, useMemo } from "react";
 
-import { CellBase, Matrix } from "react-spreadsheet";
-import { AABB2D } from "../../schema/AABB";
+import { CellBase } from "react-spreadsheet";
 import {
   getColorByName,
   getRandomColorByNumber,
 } from "../../utils/getRandomColor";
 import isNumeric from "../../utils/isNumeric";
-import { UniversalMatrix } from "../spreadsheet/useSpreadSheetData";
 
-import type EditableInput from "../../types/EditableInput";
+import { TypeAABB2D } from "@/schema/AABB";
+import TablerIconType from "@/schema/TablerIconType";
+import { api } from "@/utils/api";
+import Button from "../ui/Button";
+import { ScrollArea } from "../ui/ScrollArea";
+import { UniversalMatrix } from "./useSpreadSheetData";
 
-function expandAABB(aabb: AABB2D, row: number, col: number) {
+function expandAABB(aabb: TypeAABB2D, row: number, col: number) {
   let new_aabb = { ...aabb };
   if (row === aabb.minX - 1) {
     new_aabb.minX -= 1;
@@ -28,41 +31,40 @@ function expandAABB(aabb: AABB2D, row: number, col: number) {
   return new_aabb;
 }
 
-interface EditableTableProps extends EditableInput<Matrix<any>> {
-  metadataIcons?: ComponentType[];
-  metadataLabels?: string[];
-  metadata: {
-    [key: string]: {
-      id: number;
-      [key: string]: any;
-    };
-  };
-  metadataActions: ((
-    table: UniversalMatrix,
-    metaId: number
-  ) =>
-    | [UniversalMatrix, string]
-    | [UniversalMatrix, string, AABB2D, { row: number; column: number }])[];
-  metadataActionIcons: ComponentType[];
-  metadataActionLabels?: string[];
+interface EditableTableProps {
+  id: number;
+  metadata: { [key: string]: { id: number; [key: string]: any } };
+  metadataVisuals: {
+    icon: TablerIconType;
+    label: string;
+  }[];
+  metadataActions: {
+    icon: TablerIconType;
+    label: string;
+    action: (
+      table: UniversalMatrix,
+      metaId: number,
+    ) => [UniversalMatrix, string, any, any];
+  }[];
 }
 
 const EditableTableView = (props: EditableTableProps) => {
-  const { value, metadataIcons, metadataActions, metadata, onSubmit } = props;
+  const { id, metadata, metadataVisuals, metadataActions } = props;
   const uuid = useId();
-  const theme = useMantineTheme();
-  const darkTheme = theme.colorScheme === "dark";
 
   const meta_id = Object.values(metadata)[0]?.id;
+  if (meta_id === undefined) throw new Error("meta_id is not correct");
+  const { data: valueData } = api.spreadsheet.getById.useQuery(id, {});
 
+  const value = valueData?.data as UniversalMatrix;
   // FIXME: make memo refresh after changes to table
   const verify = useMemo(
     () =>
       Array.isArray(value) && value.length > 0
-        ? metadataActions[0](value, meta_id)
+        ? metadataActions[0]?.action(value, meta_id)
         : null,
     //eslint-disable-next-line
-    [metadata, value]
+    [metadata, value],
   );
   const boundingBox = verify && verify?.length > 1 ? verify[2] : null;
   const metaIdPosition = verify && verify?.length > 1 ? verify[3] : null;
@@ -71,12 +73,16 @@ const EditableTableView = (props: EditableTableProps) => {
       ? expandAABB(boundingBox, metaIdPosition?.row, metaIdPosition?.column)
       : null;
 
-  const is_error = verify === null || verify[1].startsWith("error");
+  const is_error = verify === null || verify?.[1].startsWith("error");
+
+  const onApiUpdate = (data: UniversalMatrix) => {
+    console.log(data);
+  };
 
   const onCellClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     row: number,
-    col: number
+    col: number,
   ) => {
     if (value === undefined) return;
     const ctrl = e.ctrlKey;
@@ -87,7 +93,7 @@ const EditableTableView = (props: EditableTableProps) => {
             ? {
                 ...val2,
               }
-            : undefined
+            : undefined,
         ),
       ]),
     ];
@@ -95,147 +101,129 @@ const EditableTableView = (props: EditableTableProps) => {
       console.log("TODO: special action TableView");
     } else {
       if (
-        new_data[row][col] !== undefined &&
-        new_data[row][col]?.active !== undefined
+        new_data[row]![col] !== undefined &&
+        new_data[row]![col]?.active !== undefined
       ) {
-        new_data[row][col] = {
-          ...(new_data[row][col] as CellBase<any>),
+        new_data[row]![col] = {
+          ...(new_data[row]![col] as CellBase<any>),
           active: undefined,
         };
       } else {
-        new_data[row][col] = {
-          ...(new_data[row][col] as CellBase<any>),
-          active: new_data[row][col]?.value as any,
+        new_data[row]![col] = {
+          ...(new_data[row]![col] as CellBase<any>),
+          active: new_data[row]![col]?.value as any,
         };
       }
     }
-    onSubmit?.(new_data);
+    onApiUpdate?.(new_data);
   };
 
   return (
     <ScrollArea type="auto">
-      <table
-        style={{
-          background: darkTheme ? "#000" : "#fff",
-          padding: 0,
-          margin: 0,
-          borderSpacing: 0,
-          border: "1px solid #333",
-        }}
-      >
-        <tbody>
-          {value?.map((row, rowIndex) => (
-            <tr key={uuid + "_row_" + rowIndex}>
-              {row.map((val, colIndex) => {
-                const inAABB =
-                  expandedBoundingBox &&
-                  rowIndex >= expandedBoundingBox.minY &&
-                  rowIndex <= expandedBoundingBox.maxY &&
-                  colIndex >= expandedBoundingBox.minX &&
-                  colIndex <= expandedBoundingBox.maxX;
-                const Icon = metadataIcons?.[val?.metaPropertyId ?? -1];
-                // TODO: make this use products
-                const color = getColorByName(val?.value);
-                return (
-                  <td
-                    key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
-                    style={{
-                      // border: "1px solid #333",
-                      padding: 0,
-                      minWidth: "3.92em",
-                      minHeight: "1.9em",
-                      height: "1.9em",
-                      maxHeight: "1.9em",
-                      overflow: "hidden",
-                      wordBreak: "keep-all",
-                      whiteSpace: "nowrap",
-                      textAlign: isNumeric(val?.value) ? "right" : "left",
-                      boxSizing: "border-box",
-                      position: "relative",
-                      background: val?.metaId
-                        ? getRandomColorByNumber(meta_id) + "88"
-                        : undefined,
-                      border:
-                        (inAABB || val?.metaId == meta_id) && !!val?.value
-                          ? "1px solid " + getRandomColorByNumber(meta_id)
-                          : "1px solid #333",
-                      paddingRight: color !== null ? 32 : 0,
-                    }}
-                  >
-                    {Icon && (
-                      <Icon
-                        // @ts-ignore
-                        size={12}
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          right: 0,
-                          zIndex: 10,
-                        }}
-                      />
-                    )}
+      <div className="p-2">
+        <h1>{valueData?.name}</h1>
+        <table className="m-0  border-spacing-0 border border-solid border-stone-800 bg-white p-0 dark:bg-black">
+          <tbody>
+            {value?.map((row, rowIndex) => (
+              <tr key={uuid + "_row_" + rowIndex}>
+                {row.map((val, colIndex) => {
+                  const inAABB =
+                    expandedBoundingBox &&
+                    rowIndex >= expandedBoundingBox.minY &&
+                    rowIndex <= expandedBoundingBox.maxY &&
+                    colIndex >= expandedBoundingBox.minX &&
+                    colIndex <= expandedBoundingBox.maxX;
+                  const Icon =
+                    metadataVisuals?.[val?.metaPropertyId ?? -1]?.icon;
+                  // TODO: make this use products
+                  const color = getColorByName(val?.value);
+                  return (
+                    <td
+                      key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
+                      className="relative box-border overflow-hidden whitespace-nowrap break-keep p-0"
+                      style={{
+                        // border: "1px solid #333",
+                        minWidth: "3.92em",
+                        minHeight: "1.9em",
+                        height: "1.9em",
+                        maxHeight: "1.9em",
+                        textAlign: isNumeric(val?.value) ? "right" : "left",
+                        background: val?.metaId
+                          ? getRandomColorByNumber(meta_id) + "88"
+                          : undefined,
+                        border:
+                          (inAABB || val?.metaId == meta_id) && !!val?.value
+                            ? "1px solid " + getRandomColorByNumber(meta_id)
+                            : "1px solid #333",
+                        paddingRight: color !== null ? 32 : 0,
+                      }}
+                    >
+                      {Icon && (
+                        <Icon
+                          size={12}
+                          className="absolute right-0 top-0 z-10"
+                        />
+                      )}
 
-                    {(inAABB &&
-                      !val?.metaId &&
-                      val?.value !== undefined &&
-                      val?.value?.length > 0) ||
-                    (!inAABB &&
-                      val?.value !== undefined &&
-                      val?.value?.length > 0) ? (
-                      <UnstyledButton
-                        sx={(theme) => ({
-                          width: "100%",
-                          height: "100%",
-                          backgroundColor: !!val?.active
-                            ? "#2F9E4488"
-                            : "#E0313188",
-                          color: darkTheme ? "#fff" : "#000",
-                          border: "none",
-                          margin: 0,
-                          padding: 4,
-                          gap: 0,
-                          "&:hover": {
+                      {(inAABB &&
+                        !val?.metaId &&
+                        val?.value !== undefined &&
+                        val?.value?.length > 0) ||
+                      (!inAABB &&
+                        val?.value !== undefined &&
+                        val?.value?.length > 0) ? (
+                        <Button
+                          className="h-full w-full rounded-none"
+                          size="sm"
+                          style={{
                             backgroundColor: !!val?.active
-                              ? "#2F9E44"
-                              : "#E03131",
-                          },
-                        })}
-                        onClick={(
-                          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                        ) => onCellClick(e, rowIndex, colIndex)}
-                      >
-                        {val?.value ?? ""}
-                      </UnstyledButton>
-                    ) : (
-                      val?.value ?? ""
-                    )}
+                              ? "#2F9E4488"
+                              : "#E0313188",
+                          }}
+                          onClick={(
+                            e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+                          ) => onCellClick(e, rowIndex, colIndex)}
+                        >
+                          {val?.value ?? ""}
+                        </Button>
+                      ) : (
+                        val?.value ?? ""
+                      )}
 
-                    {color && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: 2,
-                          right: 2,
-                          bottom: 2,
-                          aspectRatio: "1 / 1",
-                          backgroundColor: color,
-                          borderRadius: "0.5em",
-                        }}
-                      ></div>
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div
-        style={{
-          height: 12,
-        }}
-      ></div>
-      {is_error && <Text color="red">{verify?.[1] ?? ""}</Text>}
+                      {color && (
+                        <div
+                          className="absolute bottom-0.5 right-0.5 top-0.5 aspect-square rounded-lg"
+                          style={{
+                            backgroundColor: color,
+                          }}
+                        ></div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div
+          style={{
+            height: 12,
+          }}
+        ></div>
+
+        <div
+          className={
+            "p-2 " +
+            (verify?.[1].startsWith("error")
+              ? "text-red-500"
+              : verify?.[1].startsWith("success")
+              ? "text-green-500"
+              : "text-gray-500")
+          }
+        >
+          {verify?.[1] || "⸺"}
+        </div>
+      </div>
     </ScrollArea>
   );
 };

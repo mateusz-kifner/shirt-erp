@@ -237,30 +237,32 @@ const EditableFiles = (props: EditableFilesProps) => {
               )}
             </div>
           )}
-          <div className="relative w-full">
-            <label
-              htmlFor={"file" + uuid}
-              className={cn(
-                buttonVariants({ variant: "outline" }),
-                "h-10 w-full  rounded-b rounded-t-none",
-              )}
-            >
-              {uploading ? (
-                <IconLoader2 className="animate-spin" />
-              ) : (
-                <IconPlus />
-              )}
-              {uploading ? t.uploading : t.add_files}
-            </label>
-            <input
-              id={"file" + uuid}
-              name={"file" + uuid}
-              type="file"
-              className="absolute inset-0 -z-10 opacity-0"
-              onChange={handleChange}
-              multiple
-            />
-          </div>
+          {!disabled && (
+            <div className="relative w-full">
+              <label
+                htmlFor={"file" + uuid}
+                className={cn(
+                  buttonVariants({ variant: "outline" }),
+                  "h-10 w-full  rounded-b rounded-t-none",
+                )}
+              >
+                {uploading ? (
+                  <IconLoader2 className="animate-spin" />
+                ) : (
+                  <IconPlus />
+                )}
+                {uploading ? t.uploading : t.add_files}
+              </label>
+              <input
+                id={"file" + uuid}
+                name={"file" + uuid}
+                type="file"
+                className="absolute inset-0 -z-10 opacity-0"
+                onChange={handleChange}
+                multiple
+              />
+            </div>
+          )}
           {error && <div className="text-red-500">{error}</div>}
         </div>
       </div>
