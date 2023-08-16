@@ -39,7 +39,7 @@ const EditableDate = (props: InputDateProps) => {
   const dateFormat = router.locale === "pl" ? "DD.MM.YYYY" : "YYYY-MM-DD";
   const dateFromValue = dayjs(value ?? null);
   const [text, setText] = useState(
-    dateFromValue.isValid() ? dateFromValue.format("L").toString() : ""
+    dateFromValue.isValid() ? dateFromValue.format("L").toString() : "",
   );
 
   const [debouncedText, cancel] = useDebouncedValue(text, 300);
@@ -87,43 +87,48 @@ const EditableDate = (props: InputDateProps) => {
         onClick={onFocus}
         className={"px-2"}
         error={error}
+        disabled={disabled}
         leftSection={leftSection}
         rightSection={
-          <Popover
-            onOpenChange={setCalendarOpened}
-            // contentProps={{ align: "end", sideOffset: 13 }}
-          >
-            <PopoverTrigger asChild>
-              {!!rightSection ? (
-                rightSection
-              ) : (
-                <div className="flex items-center justify-center">
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-8 w-8 p-0 text-stone-800 dark:text-stone-200 "
-                  >
-                    <IconCalendar size={18} />
-                  </Button>
-                </div>
-              )}
-            </PopoverTrigger>
-            <PopoverContent
-              align="end"
-              className="flex w-96 justify-center rounded border-gray-400 bg-white p-2 dark:border-stone-600 dark:bg-stone-900"
+          !disabled && (
+            <Popover
+              onOpenChange={setCalendarOpened}
+              // contentProps={{ align: "end", sideOffset: 13 }}
             >
-              <Calendar
-                onChange={(date) => {
-                  setText(
-                    dayjs(date as Date)
-                      .format("L")
-                      .toString()
-                  );
-                }}
-                value={dayjs(text).isValid() ? dayjs(text).toDate() : undefined}
-              />
-            </PopoverContent>
-          </Popover>
+              <PopoverTrigger asChild>
+                {!!rightSection ? (
+                  rightSection
+                ) : (
+                  <div className="flex items-center justify-center">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-8 w-8 p-0 text-stone-800 dark:text-stone-200 "
+                    >
+                      <IconCalendar size={18} />
+                    </Button>
+                  </div>
+                )}
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="flex w-96 justify-center rounded border-gray-400 bg-white p-2 dark:border-stone-600 dark:bg-stone-900"
+              >
+                <Calendar
+                  onChange={(date) => {
+                    setText(
+                      dayjs(date as Date)
+                        .format("L")
+                        .toString(),
+                    );
+                  }}
+                  value={
+                    dayjs(text).isValid() ? dayjs(text).toDate() : undefined
+                  }
+                />
+              </PopoverContent>
+            </Popover>
+          )
         }
         focus={focus || calendarOpened}
       >

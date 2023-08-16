@@ -133,6 +133,7 @@ const EditableNumber = (props: EditableNumberProps) => {
         rightSection={rightSection}
         focus={focus}
         error={error}
+        disabled={disabled}
       >
         <input
           id={"short_text_" + uuid}

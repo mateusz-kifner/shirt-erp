@@ -206,6 +206,7 @@ const EditableAddress = (props: EditableAddressProps) => {
         ref={ref}
         onClick={onFocus}
         onFocus={onFocus}
+        disabled={disabled}
         leftSection={!(focus || enumOpen) && leftSection}
         rightSection={rightSection}
         focus={focus}

@@ -18,7 +18,6 @@ export const displayCellVariants = cva(
   px-2
   text-sm
   leading-normal
-  
   outline-none
   transition-all
   before:absolute
@@ -29,7 +28,6 @@ export const displayCellVariants = cva(
   read-only:bg-transparent
   read-only:outline-none
   focus:border-sky-600 
-  
   dark:outline-none
   dark:before:bg-stone-800
   dark:read-only:bg-transparent

@@ -88,6 +88,7 @@ function TaskView(props: TaskViewProps) {
               <IconExternalLink />
             </Button>
           }
+          disabled
         >
           <EditableShortText
             keyName="name"
