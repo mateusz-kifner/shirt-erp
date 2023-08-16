@@ -45,7 +45,7 @@ function EmailMessage(props: EmailMessageProps) {
   const currentIMAPuser =
     emailClientsIMAP
       .map((val, index) => (val.user === user ? index : null))
-      .filter((v) => v !== null)[0] ?? 0;
+      .find((v) => v !== null) ?? 0;
 
   const setActive: Dispatch<SetStateAction<number>> = (value) => {
     const active = typeof value == "function" ? value(currentIMAPuser) : value;

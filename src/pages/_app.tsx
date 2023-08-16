@@ -35,39 +35,41 @@ dayjs.extend(customParseFormat);
 
 // TODO: refactor logger
 
-Logger.setHandler(function (messages, context) {
-  console.log(messages);
-  const savedValue = localStorage.getItem("user-data"); // TODO: log user id here
-  console.log(messages[0]?.message ?? "Nieznany błąd", messages[0]);
-  if (context.level === Logger.ERROR)
-    if (context.level === Logger.WARN)
+if (typeof window !== "undefined") {
+  Logger.setHandler(function (messages, context) {
+    console.log(messages);
+    const savedValue = localStorage.getItem("user-data"); // TODO: log user id here
+    console.log(messages[0]?.message ?? "Nieznany błąd", messages[0]);
+    if (context.level === Logger.ERROR)
+      if (context.level === Logger.WARN)
+        toast({
+          title: "Błąd",
+          description:
+            messages[0]?.message ??
+            "Nieznany błąd: sprawdź szczegóły w logu serwera",
+        });
+    if (typeof messages[0] === "string") {
       toast({
-        title: "Błąd",
-        description:
-          messages[0]?.message ??
-          "Nieznany błąd: sprawdź szczegóły w logu serwera",
+        title: "Ostrzeżenie",
+        // description:
+        //   messages[0].message ??
+        //   "Nieznany błąd: sprawdź szczegóły w logu serwera",
       });
-  if (typeof messages[0] === "string") {
-    toast({
-      title: "Ostrzeżenie",
-      // description:
-      //   messages[0].message ??
-      //   "Nieznany błąd: sprawdź szczegóły w logu serwera",
-    });
-    // axios.post("/logs", {
-    //   message: messages[0],
-    //   type: context.level.name,
-    //   userId: savedValue && savedValue?.length > 0 ? savedValue : null,
-    // });
-  } else {
-    // axios.post("/logs", {
-    //   message: messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
-    //   data: messages[0],
-    //   type: context.level.name,
-    //   userId: savedValue && savedValue?.length > 0 ? savedValue : null,
-    // });
-  }
-});
+      // axios.post("/logs", {
+      //   message: messages[0],
+      //   type: context.level.name,
+      //   userId: savedValue && savedValue?.length > 0 ? savedValue : null,
+      // });
+    } else {
+      // axios.post("/logs", {
+      //   message: messages[0]?.message ? messages[0]?.message : "Nieznany błąd",
+      //   data: messages[0],
+      //   type: context.level.name,
+      //   userId: savedValue && savedValue?.length > 0 ? savedValue : null,
+      // });
+    }
+  });
+}
 
 Logger.setLevel(
   env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN,

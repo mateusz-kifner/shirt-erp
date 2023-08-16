@@ -9,33 +9,9 @@ import {
 } from "@/server/email";
 import { TRPCError } from "@trpc/server";
 import { ImapFlow } from "imapflow";
+import Logger from "js-logger";
 import { omit } from "lodash";
 import { z } from "zod";
-
-const LOG_LEVEL: "DEBUG" | "WARN" | "INFO" | "ERROR" = "INFO";
-
-const logDebug = (obj: any) => {
-  //@ts-ignore
-  if (LOG_LEVEL === "WARN" || LOG_LEVEL === "ERROR" || LOG_LEVEL === "INFO")
-    return;
-  console.log("Debug: ", JSON.stringify(obj, undefined, 2));
-};
-
-const logInfo = (obj: any) => {
-  //@ts-ignore
-  if (LOG_LEVEL === "WARN" || LOG_LEVEL === "ERROR") return;
-  console.log("Info: ", JSON.stringify(obj, undefined, 2));
-};
-
-const logWarn = (obj: any) => {
-  //@ts-ignore
-  if (LOG_LEVEL === "ERROR") return;
-  console.log("Warn: ", JSON.stringify(obj, undefined, 2));
-};
-
-const logError = (obj: any) => {
-  console.log("Error: ", JSON.stringify(obj, undefined, 2));
-};
 
 export const emailRouter = createTRPCRouter({
   getAllConfigs: authenticatedProcedure.query(async ({ ctx }) => {
@@ -72,12 +48,7 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
-        logger: {
-          debug: logDebug,
-          info: logInfo,
-          warn: logWarn,
-          error: logError,
-        },
+        logger: Logger,
       });
       return await fetchFolders(client);
     }),
@@ -108,12 +79,7 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
-        logger: {
-          debug: logDebug,
-          info: logInfo,
-          warn: logWarn,
-          error: logError,
-        },
+        logger: Logger,
       });
       return await fetchFolderTree(client);
     }),
@@ -152,12 +118,7 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
-        logger: {
-          debug: logDebug,
-          info: logInfo,
-          warn: logWarn,
-          error: logError,
-        },
+        logger: Logger,
       });
       return await fetchEmails(client, mailbox, take, skip);
     }),
@@ -195,12 +156,7 @@ export const emailRouter = createTRPCRouter({
           pass: auth.password ?? "",
         },
         secure: auth.secure ?? true,
-        logger: {
-          debug: logDebug,
-          info: logInfo,
-          warn: logWarn,
-          error: logError,
-        },
+        logger: Logger,
       });
       // const mail = await fetchEmailByUid(client, emailId.toString(), mailbox);
       const mail = await downloadEmailByUid(
