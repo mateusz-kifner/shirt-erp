@@ -53,7 +53,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
             Element={ClientListItem}
             onSubmit={setTemplate}
             value={template}
-            withErase
+            allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
           <EditableText

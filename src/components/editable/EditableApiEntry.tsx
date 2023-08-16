@@ -20,7 +20,6 @@ interface EditableApiEntryProps extends EditableInput<any> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
   copyProvider?: (value: any | null) => string | undefined;
   style?: CSSProperties;
-  withErase?: boolean;
   listProps?: any;
   linkEntry?: boolean;
   helpTooltip?: string;
@@ -38,7 +37,6 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     entryName,
     copyProvider = () => "",
     style,
-    withErase = false,
     listProps,
     linkEntry = true,
     helpTooltip,

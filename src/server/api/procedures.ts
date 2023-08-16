@@ -21,7 +21,7 @@ export function createProcedureGetAll(modelName: PrismaModelName) {
       z.object({
         sortColumn: z.string().default("id"),
         sort: z.enum(["desc", "asc"]).default("desc"),
-      })
+      }),
     )
     .query(async ({ input }) => {
       const sortParam = { orderBy: { [input.sortColumn]: input.sort } };
@@ -53,7 +53,7 @@ export function createProcedureSearch(modelName: PrismaModelName) {
         sortColumn: z.string().default("id"),
         excludeKey: z.string().optional(),
         excludeValue: z.string().optional(),
-      })
+      }),
     )
     .query(async ({ input }) => {
       const results = await (
@@ -75,7 +75,7 @@ export function createProcedureSearch(modelName: PrismaModelName) {
 }
 
 export function createProcedureSearchWithPagination(
-  modelName: PrismaModelName
+  modelName: PrismaModelName,
 ) {
   return authenticatedProcedure
     .input(
@@ -88,7 +88,7 @@ export function createProcedureSearchWithPagination(
         excludeValue: z.string().optional(),
         currentPage: z.number(),
         itemsPerPage: z.number().default(10),
-      })
+      }),
     )
     .query(async ({ input }) => {
       console.log(input);
@@ -113,14 +113,6 @@ export function createProcedureSearchWithPagination(
           search.length > 0
             ? {
                 OR: search,
-                NOT:
-                  input.excludeKey && input.excludeValue
-                    ? {
-                        [input.excludeKey]: {
-                          contains: input.excludeValue,
-                        },
-                      }
-                    : undefined,
               }
             : {
                 NOT:

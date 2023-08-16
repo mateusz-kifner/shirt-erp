@@ -18,6 +18,7 @@ import SpreadsheetView from "@/components/Spreadsheet/SpreadsheetView";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
+import Pagination from "@/components/ui/Pagination";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
@@ -26,9 +27,19 @@ import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { useToggle } from "@mantine/hooks";
 import Logger from "js-logger";
+import { capitalize } from "lodash";
 import { useId, useState } from "react";
 
 const entryName = "task";
+
+const itemsPerPage = 10;
+
+const sortObjectByDateOrNull = (keyName: string) => (a: any, b: any) => {
+  if (!a[keyName] && !b[keyName]) return 0;
+  if (!a[keyName]) return 1;
+  if (!b[keyName]) return -1;
+  return a[keyName].getTime() - b[keyName].getTime();
+};
 
 const TasksPage = () => {
   const { isMobile } = useIsMobile();
@@ -47,6 +58,8 @@ const TasksPage = () => {
   const { data: orderData } = api.order.getById.useQuery(id as number, {
     enabled: id !== null,
   });
+
+  const label = entryName ? capitalize(t[entryName].plural) : undefined;
 
   const childrenIcons = [
     IconList,
@@ -88,6 +101,13 @@ const TasksPage = () => {
         {},
       )
     : {};
+  const [page, setPage] = useState(1);
+  const filteredOrders =
+    data?.orders
+      .filter((val) => val.name?.includes(query) || val.notes?.includes(query))
+      .sort(sortObjectByDateOrNull("dateOfCompletion")) ?? [];
+
+  const totalPages = Math.ceil((filteredOrders.length ?? 1) / itemsPerPage);
 
   return (
     <div className="flex gap-4">
@@ -98,10 +118,10 @@ const TasksPage = () => {
         defaultActive={id ? 1 : 0}
         defaultPinned={isMobile ? [] : id ? [0] : []}
       >
-        <div className="relative p-4">
+        <div className="relative flex flex-col gap-2 p-4">
           <div className="flex flex-col gap-2">
             <div className="flex justify-between px-2">
-              <h2 className="text-2xl font-bold">{t.task.plural}</h2>
+              <h2 className="text-2xl font-bold">{label}</h2>
               <div className="flex gap-2">
                 {/* {!!buttonSection && buttonSection} */}
                 <Button
@@ -209,14 +229,21 @@ const TasksPage = () => {
               />
             </div>
           </div>
-          <List
-            ListItem={OrderListItem}
-            data={data?.orders}
-            onChange={(val) =>
-              router.push(`/erp/task/${val.id}`).catch(Logger.warn)
-            }
-            selectedId={id}
-          ></List>
+          <div className="flex flex-grow flex-col">
+            <List
+              ListItem={OrderListItem}
+              data={filteredOrders}
+              onChange={(val) =>
+                router.push(`/erp/task/${val.id}`).catch(Logger.warn)
+              }
+              selectedId={id}
+            ></List>
+          </div>
+          <Pagination
+            totalPages={totalPages}
+            initialPage={1}
+            onPageChange={setPage}
+          />
         </div>
         <div className="relative flex flex-col gap-4 p-4 ">
           <TaskView id={id} />

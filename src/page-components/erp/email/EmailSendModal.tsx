@@ -45,7 +45,7 @@ const EmailSendModal = ({ opened, onClose }: EmailSendModalProps) => {
             Element={EmailListItem}
             onSubmit={setTemplate}
             value={template}
-            withErase
+            allowClearr
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
           <EditableText

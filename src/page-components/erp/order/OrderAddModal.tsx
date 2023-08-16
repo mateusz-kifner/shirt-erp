@@ -22,6 +22,11 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   const [orderName, setOrderName] = useState<string>("Klient");
   const [template, setTemplate] = useState<Partial<OrderType> | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const { data } = api.order.getById.useQuery(template?.id as number, {
+    enabled: template !== null && template.id !== undefined,
+  });
+
   const { mutate: createOrder } = api.order.create.useMutation({
     onSuccess(data) {
       // setTimeout(() => {
@@ -55,7 +60,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
             Element={OrderListItem}
             onSubmit={setTemplate}
             value={template}
-            withErase
+            allowClear
             listProps={{
               defaultSearch: "Szablon",
               filterKeys: ["name"],
@@ -76,13 +81,12 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
             onClick={() => {
               if (orderName.length == 0)
                 return setError("Musisz podać nie pustą nazwę zamówienia");
+              console.log;
               const newOrder = {
-                ...(template ? omit(template, "id") : {}),
-                address: template?.address
-                  ? omit(template.address, "id")
-                  : null,
+                ...(data ? omit(data, "id") : {}),
+                address: data?.address ? omit(data.address, "id") : null,
                 name: orderName,
-              };
+              } as any;
               createOrder(newOrder);
             }}
             className="mt-4"

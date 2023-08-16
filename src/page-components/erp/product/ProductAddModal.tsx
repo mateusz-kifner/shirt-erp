@@ -53,7 +53,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
             Element={ProductListItem}
             onSubmit={setTemplate}
             value={template}
-            withErase
+            allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
           <EditableText

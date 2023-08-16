@@ -68,24 +68,28 @@ export const orderRouter = createTRPCRouter({
 
       const createData: Prisma.OrderCreateInput = { ...simpleOrderData };
 
-      if (orderData.files?.length && orderData.files.length > 0)
-        createData.files = { connect: [...orderData.files] };
+      if (files?.length && files.length > 0)
+        createData.files = { connect: [...files] };
 
-      if (orderData.products?.length && orderData.products.length > 0)
+      if (products?.length && products.length > 0)
         createData.products = {
-          connect: [...orderData.products.map((val) => ({ id: val.id }))],
+          connect: [...products.map((val) => ({ id: val.id }))],
         };
 
-      if (orderData.spreadsheets?.length && orderData.spreadsheets.length > 0)
-        createData.spreadsheets = { create: { ...orderData.spreadsheets } };
+      if (spreadsheets?.length && spreadsheets.length > 0)
+        createData.spreadsheets = { create: { ...spreadsheets } };
 
-      if (orderData.designs?.length && orderData.designs.length > 0)
-        createData.designs = { create: { ...orderData.designs } };
+      if (designs?.length && designs.length > 0)
+        createData.designs = { create: { ...designs } };
 
-      if (orderData?.client?.id)
-        createData.client = { connect: { id: orderData.client.id } };
+      if (client?.id) createData.client = { connect: { id: client.id } };
 
-      createData.address = { create: orderData.address ?? {} };
+      createData.address = { create: address ?? {} };
+
+      if (employees?.length && employees.length > 0)
+        createData.employees = {
+          connect: [...employees.map((val) => ({ id: val.id }))],
+        };
 
       const newOrder = await prisma.order.create({
         data: createData,

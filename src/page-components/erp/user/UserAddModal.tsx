@@ -50,7 +50,7 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
             Element={UserListItem}
             onSubmit={setTemplate}
             value={template}
-            withErase
+            allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
           <EditableText
