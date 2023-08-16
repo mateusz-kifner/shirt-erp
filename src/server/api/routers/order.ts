@@ -28,14 +28,14 @@ const orderSchemaWithoutId = orderSchema
         })
         .optional()
         .nullable(),
-    })
+    }),
   );
 
 export type OrderTypeWithoutId = z.infer<typeof orderSchemaWithoutId>;
 
 const includeAll = {
   files: true,
-  client: true,
+  client: { include: { address: true } },
   address: true,
   spreadsheets: true,
   designs: true,

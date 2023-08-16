@@ -22,6 +22,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
@@ -29,7 +34,12 @@ import { ProductType } from "@/schema/productSchema";
 import { UserType } from "@/schema/userSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
-import { IconAddressBook, IconCash, IconRefresh } from "@tabler/icons-react";
+import {
+  IconAddressBook,
+  IconCash,
+  IconCopy,
+  IconRefresh,
+} from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
@@ -132,20 +142,45 @@ function OrderEditable(props: OrderEditableProps) {
           listProps={clientListSearchParams}
           Element={ClientListItem}
         />
-        <EditableAddress
-          label={{
-            streetName: "Ulica",
-            streetNumber: "Nr. bloku",
-            apartmentNumber: "Nr. mieszkania",
-            secondLine: "Dodatkowe dane adresata",
-            city: "Miasto",
-            province: "Województwo",
-            postCode: "Kod pocztowy",
-            name: "Address",
-          }}
-          keyName="address"
-          leftSection={<IconAddressBook />}
-        />
+        <Wrapper
+          keyName="address" // hint for Editable
+          wrapperClassName="flex gap-2 items-end"
+          wrapperRightSection={
+            !!data.client && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="rounded-full"
+                    onClick={() => {
+                      !!data.client &&
+                        apiUpdate("address", data.client.address);
+                    }}
+                  >
+                    <IconCopy />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Kopiuj adres z klienta</TooltipContent>
+              </Tooltip>
+            )
+          }
+        >
+          <EditableAddress
+            label={{
+              streetName: "Ulica",
+              streetNumber: "Nr. bloku",
+              apartmentNumber: "Nr. mieszkania",
+              secondLine: "Dodatkowe dane adresata",
+              city: "Miasto",
+              province: "Województwo",
+              postCode: "Kod pocztowy",
+              name: "Address",
+            }}
+            keyName="address"
+            leftSection={<IconAddressBook />}
+          />
+        </Wrapper>
 
         <EditableArray<ProductType> label="Produkty" keyName="products">
           <EditableApiEntry

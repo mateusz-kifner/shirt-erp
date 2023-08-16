@@ -34,7 +34,7 @@ const clientSchemaWithoutId = clientSchema
         })
         .optional()
         .nullable(),
-    })
+    }),
   );
 
 export const clientRouter = createTRPCRouter({
@@ -57,6 +57,7 @@ export const clientRouter = createTRPCRouter({
 
       const newClient = await prisma.client.create({
         data: createData,
+        include: includeAll,
       });
 
       return newClient;
@@ -71,6 +72,7 @@ export const clientRouter = createTRPCRouter({
           ...omit({ ...clientData }, ["id", "address"]),
           address: { update: { ...clientData.address } },
         },
+        include: includeAll,
       });
       return updatedClient;
     }),

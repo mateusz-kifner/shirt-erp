@@ -108,6 +108,7 @@ const EditableAddress = (props: EditableAddressProps) => {
     rightSection,
     keyName,
   } = props;
+  console.log(value);
   const [address, setAddress] = useState<AddressType>(value);
   const [focus, setFocus] = useState<boolean>(false);
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
@@ -129,29 +130,29 @@ const EditableAddress = (props: EditableAddressProps) => {
   const refPostCode = useRef<HTMLInputElement>(null);
   const refCity = useRef<HTMLInputElement>(null);
 
-  // const onFocusLose = () => {
-  //   console.log(
-  //     value && {
-  //       ...value,
-  //       streetName: refStreetName.current?.value ?? "",
-  //       streetNumber: refStreetNumber.current?.value ?? "",
-  //       apartmentNumber: refApartmentNumber.current?.value ?? "",
-  //       secondLine: refSecondLine.current?.value ?? "",
-  //       postCode: refPostCode.current?.value ?? "",
-  //       city: refCity.current?.value ?? "",
-  //     }
-  //   );
-  //   value &&
-  //     setAddress({
-  //       ...value,
-  //       streetName: refStreetName.current?.value ?? "",
-  //       streetNumber: refStreetNumber.current?.value ?? "",
-  //       apartmentNumber: refApartmentNumber.current?.value ?? "",
-  //       secondLine: refSecondLine.current?.value ?? "",
-  //       postCode: refPostCode.current?.value ?? "",
-  //       city: refCity.current?.value ?? "",
-  //     });
-  // };
+  const onFocusLose = () => {
+    console.log(
+      value && {
+        ...value,
+        streetName: refStreetName.current?.value ?? "",
+        streetNumber: refStreetNumber.current?.value ?? "",
+        apartmentNumber: refApartmentNumber.current?.value ?? "",
+        secondLine: refSecondLine.current?.value ?? "",
+        postCode: refPostCode.current?.value ?? "",
+        city: refCity.current?.value ?? "",
+      },
+    );
+    value &&
+      onSubmit?.({
+        ...value,
+        streetName: refStreetName.current?.value ?? "",
+        streetNumber: refStreetNumber.current?.value ?? "",
+        apartmentNumber: refApartmentNumber.current?.value ?? "",
+        secondLine: refSecondLine.current?.value ?? "",
+        postCode: refPostCode.current?.value ?? "",
+        city: refCity.current?.value ?? "",
+      });
+  };
 
   const setAddressField = (key: string, val: string) => {
     const new_address = { ...address, [key]: val } as AddressType;
@@ -166,6 +167,7 @@ const EditableAddress = (props: EditableAddressProps) => {
     if (focus) {
       // setPrevAddress({ ...address })
     } else {
+      onFocusLose();
     }
     // eslint-disable-next-line
   }, [focus]);
@@ -205,7 +207,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   const valueString = toString();
 
   return (
-    <div>
+    <div className="flex-grow">
       <Label label={label?.name} copyValue={toString()} required={required} />
       <DisplayCellExpanding
         className={`px-2 ${

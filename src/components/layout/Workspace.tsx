@@ -115,33 +115,35 @@ const Workspace = ({
           );
         })}
       </MultiTabs>
-      <Portal.Root container={portalContainerRef.current}>
-        {children &&
-          multiTabsState.pinned.map((childIndex, index) => (
-            <div
-              key={uuid + index}
-              className="flex  flex-grow
+      {isMobile && (
+        <Portal.Root container={portalContainerRef.current}>
+          {children &&
+            multiTabsState.pinned.map((childIndex, index) => (
+              <div
+                key={uuid + index}
+                className="flex  flex-grow
                flex-col rounded bg-white shadow-lg dark:bg-stone-800"
-              {...(childrenWrapperProps2 &&
-              childrenWrapperProps2[childIndex] !== undefined
-                ? childrenWrapperProps2[childIndex]
-                : { style: { flexGrow: 1 } })}
-            >
-              <ErrorBoundary
-                fallback={
-                  <h1>
-                    Tab number {childIndex} named {'"'}
-                    {childrenLabels[childIndex] ?? "[unknown]"}
-                    {'"'} encountered irreparable error and crashed, please
-                    reload page.
-                  </h1>
-                }
+                {...(childrenWrapperProps2 &&
+                childrenWrapperProps2[childIndex] !== undefined
+                  ? childrenWrapperProps2[childIndex]
+                  : { style: { flexGrow: 1 } })}
               >
-                {child_array[childIndex]}
-              </ErrorBoundary>
-            </div>
-          ))}
-      </Portal.Root>
+                <ErrorBoundary
+                  fallback={
+                    <h1>
+                      Tab number {childIndex} named {'"'}
+                      {childrenLabels[childIndex] ?? "[unknown]"}
+                      {'"'} encountered irreparable error and crashed, please
+                      reload page.
+                    </h1>
+                  }
+                >
+                  {child_array[childIndex]}
+                </ErrorBoundary>
+              </div>
+            ))}
+        </Portal.Root>
+      )}
       {children &&
         (isMobile ? [multiTabsState.active] : activeTabs).map(
           (childIndex, index) => (

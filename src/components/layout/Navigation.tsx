@@ -23,7 +23,7 @@ function Navigation() {
   return (
     <div
       className={cn(
-        "fixed left-0  flex flex-col  border-r-[1px]  border-stone-400 bg-white px-3  py-1 transition-all dark:border-stone-600 dark:bg-stone-900",
+        "fixed left-0  flex flex-col  border-r-[1px]  border-stone-400 bg-white  transition-all dark:border-stone-600 dark:bg-stone-900",
         isMobile ? "w-full" : navigationCollapsed ? "w-[5.0625rem]" : "w-64", // 5.0625rem centers circle around button,
         isMobile && (mobileOpen ? "translate-x-0" : " -translate-x-full"),
         isMobile
@@ -32,11 +32,18 @@ function Navigation() {
       )}
     >
       <ScrollArea>
-        <div className="flex  flex-col gap-2  pt-10 ">
+        <div className="flex  flex-col gap-3">
           <div
-            className={
-              isMobile ? "grid grid-cols-3" : "flex flex-col gap-2 py-3"
-            }
+            className={cn(
+              " px-3 py-1",
+              isMobile ? "grid grid-cols-3" : "flex flex-col gap-2 py-3",
+              isMobile
+                ? "w-full"
+                : navigationCollapsed
+                ? "w-[5.0625rem]"
+                : "w-64",
+              isMobile && "pt-10 ",
+            )}
           >
             {navigationData.map(
               (val) =>
@@ -59,7 +66,7 @@ function Navigation() {
           {isMobile && (
             <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
           )}
-          <div className="flex flex-col gap-2" id="MobileMenu"></div>
+          <div className="flex flex-col gap-2 px-3 py-1" id="MobileMenu"></div>
           {isMobile && (
             <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
           )}
