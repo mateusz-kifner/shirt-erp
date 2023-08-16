@@ -21,12 +21,12 @@ function Navigation() {
   return (
     <div
       className={cn(
-        "fixed left-0  flex flex-col  justify-between border-r-[1px]  border-stone-400 bg-white px-3  py-1 transition-all dark:border-stone-600 dark:bg-stone-900",
+        "fixed left-0  flex flex-col  border-r-[1px]  border-stone-400 bg-white px-3  py-1 transition-all dark:border-stone-600 dark:bg-stone-900",
         isMobile ? "w-full" : navigationCollapsed ? "w-[5.0625rem]" : "w-64", // 5.0625rem centers circle around button,
         isMobile && (mobileOpen ? "translate-x-0" : " -translate-x-full"),
         isMobile
           ? "top-2 z-[99999] h-[calc(100vh-1rem)]"
-          : "top-14  h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)]",
+          : "top-14  h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] justify-between",
       )}
     >
       {isMobile && (
@@ -63,7 +63,7 @@ function Navigation() {
           )}
         </div>
       </div>
-      <div className="flex flex-col" id="MobileMenu"></div>
+      <div className="flex flex-col gap-2" id="MobileMenu"></div>
       {!isMobile && (
         <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
           <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>

@@ -1,3 +1,4 @@
+import { useUserContext } from "@/context/userContext";
 import { UseListStateHandlers, useResizeObserver } from "@mantine/hooks";
 import { Portal } from "@radix-ui/react-portal";
 import {
@@ -11,6 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { MobileTab } from "./MobileTab";
 import { TabProps } from "./Tab";
 import {
   MultiTabsContextProvider,
@@ -32,6 +34,7 @@ function MultiTabs(props: MultiTabsProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [outerRef, outerRect] = useResizeObserver();
 
+  const { isMobile } = useUserContext();
   useEffect(() => {
     portalContainerRef.current = document.querySelector("#HeaderTabs");
     portalMobileContainerRef.current = document.querySelector("#MobileMenu");
@@ -60,11 +63,22 @@ function MultiTabs(props: MultiTabsProps) {
       {...multiTabsState}
     >
       <Portal
-        container={portalContainerRef.current}
+        container={
+          isMobile
+            ? portalMobileContainerRef.current
+            : portalContainerRef.current
+        }
         className="relative overflow-hidden"
         ref={outerRef}
       >
-        <div className="flex h-14 w-fit items-end px-4" ref={innerRef}>
+        <div
+          className={
+            isMobile
+              ? "flex w-full flex-col gap-2 px-4"
+              : "flex h-14 w-fit items-end px-4"
+          }
+          ref={innerRef}
+        >
           <MultiTabsContent parentWidth={outerRect.width}>
             {children}
           </MultiTabsContent>
@@ -82,6 +96,7 @@ function MultiTabsContent(props: {
   const { tabsMaxWidth, togglePin, setActive, pinned } = useMultiTabsContext();
   const [small, setSmall] = useState(false);
   const childrenMaxWidth = tabsMaxWidth.reduce((p, n) => p + n, 0);
+  const { isMobile } = useUserContext();
 
   useEffect(() => {
     if (parentWidth > 0) {
@@ -95,30 +110,34 @@ function MultiTabsContent(props: {
     <>
       {Children.map(children, (child, index) => {
         const isPinned = pinned.indexOf(index) !== -1;
-        return cloneElement(child, {
-          index:
-            typeof child.props.index === "number" ? child.props.index : index,
-          onContextMenu: (e: MouseEvent<HTMLButtonElement>) => {
-            e.preventDefault();
-            togglePin(index);
+        return cloneElement(
+          (isMobile ? <MobileTab /> : child) as typeof child,
+          {
+            index:
+              typeof child.props.index === "number" ? child.props.index : index,
+            onContextMenu: (e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              togglePin(index);
+            },
+            onClick:
+              typeof child.props.onClick === "function"
+                ? child.props.onClick
+                : () => {
+                    !isPinned && setActive(index);
+                  },
+            onMouseDown:
+              typeof child.props.onMouseDown === "function"
+                ? child.props.onMouseDown
+                : (e: MouseEvent<HTMLButtonElement>) => {
+                    if (e.button === 1) {
+                      console.log("middle click tab: ", index);
+                      // TODO: detach window if middle clicked
+                    }
+                  },
+            small,
+            ...child.props,
           },
-          onClick:
-            typeof child.props.onClick === "function"
-              ? child.props.onClick
-              : () => {
-                  !isPinned && setActive(index);
-                },
-          onMouseDown:
-            typeof child.props.onMouseDown === "function"
-              ? child.props.onMouseDown
-              : (e: MouseEvent<HTMLButtonElement>) => {
-                  if (e.button === 1) {
-                    console.log("middle click tab: ", index);
-                    // TODO: detach window if middle clicked
-                  }
-                },
-          small,
-        });
+        );
       })}
     </>
   );
