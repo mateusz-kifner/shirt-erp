@@ -64,7 +64,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
     );
 
     // Download headers
-    console.log(attachment);
+    // console.log(attachment);
     res.setHeader(
       "Content-Disposition",
       `attachment; filename="${encodeURIComponent(attachment.filename ?? "")}"`,

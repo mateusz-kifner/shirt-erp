@@ -97,7 +97,7 @@ function EmailView(props: EmailViewProps) {
           <span>({dayjs(date).fromNow()})</span>
         </div>
       </div>
-      <div className="border-b border-solid border-b-white dark:border-b-stone-950"></div>
+      <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
 
       <div
         className={`plain-html editor w-full ${

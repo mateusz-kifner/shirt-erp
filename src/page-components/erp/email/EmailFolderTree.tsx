@@ -93,7 +93,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
           />
         </Button>
 
-        <div className="border-b border-solid border-b-white dark:border-b-stone-950"></div>
+        <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
       </div>
       {data &&
         data.folders.map((folder, index) => (
