@@ -299,9 +299,12 @@ const OrdersPage: NextPage = () => {
           id !== null ? (
             // <DropdownMenu>
             //   <DropdownMenuTrigger asChild>
-            <Tab className="p-2" index={-1} onClick={addSpreadsheet}>
-              <IconPlus />
-            </Tab>
+            <Tab
+              className="p-2"
+              index={-1}
+              onClick={addSpreadsheet}
+              leftSection={<IconPlus />}
+            ></Tab>
           ) : //   </DropdownMenuTrigger>
           //   <DropdownMenuContent>
           //     <DropdownMenuItem onClick={addSpreadsheet}>
