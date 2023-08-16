@@ -1,5 +1,6 @@
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import Button, { buttonVariants } from "@/components/ui/Button";
+import { Separator } from "@/components/ui/Separator";
 import {
   Tooltip,
   TooltipContent,
@@ -97,7 +98,7 @@ function EmailView(props: EmailViewProps) {
           <span>({dayjs(date).fromNow()})</span>
         </div>
       </div>
-      <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
+      <Separator />
 
       <div
         className={`plain-html editor w-full ${

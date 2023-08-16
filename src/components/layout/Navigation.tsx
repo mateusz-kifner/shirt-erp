@@ -7,6 +7,7 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
+import { Separator } from "../ui/Separator";
 import navigationData from "./navigationData";
 
 function Navigation() {
@@ -63,13 +64,9 @@ function Navigation() {
                 ),
             )}
           </div>
-          {isMobile && (
-            <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
-          )}
+          {isMobile && <Separator />}
           <div className="flex flex-col gap-2 px-3 py-1" id="MobileMenu"></div>
-          {isMobile && (
-            <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
-          )}
+          {isMobile && <Separator />}
           <div className="flex flex-col gap-2" id="MobileMenuPinned"></div>
         </div>
       </ScrollArea>
@@ -86,7 +83,7 @@ function Navigation() {
         </Button>
       ) : (
         <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
-          <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
+          <Separator />
           <Button
             size="icon"
             variant="ghost"

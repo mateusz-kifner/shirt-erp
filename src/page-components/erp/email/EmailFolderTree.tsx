@@ -1,4 +1,5 @@
 import Button, { ButtonProps } from "@/components/ui/Button";
+import { Separator } from "@/components/ui/Separator";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
@@ -93,7 +94,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
           />
         </Button>
 
-        <div className="w-full border-t-[1px] border-stone-400 dark:border-stone-600"></div>
+        <Separator />
       </div>
       {data &&
         data.folders.map((folder, index) => (
