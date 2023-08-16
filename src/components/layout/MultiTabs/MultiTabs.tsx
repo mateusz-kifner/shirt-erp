@@ -131,7 +131,7 @@ function MultiTabsContent(props: {
                 : (e: MouseEvent<HTMLButtonElement>) => {
                     if (e.button === 1) {
                       console.log("middle click tab: ", index);
-                      // TODO: detach window if middle clicked
+                      child.props.onMiddleClick?.(e);
                     }
                   },
             small,

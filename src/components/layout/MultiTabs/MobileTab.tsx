@@ -5,6 +5,7 @@ import { useMergedRef, useResizeObserver } from "@mantine/hooks";
 import { IconPinned } from "@tabler/icons-react";
 import {
   ComponentPropsWithoutRef,
+  MouseEvent,
   ReactElement,
   ReactNode,
   cloneElement,
@@ -24,6 +25,7 @@ export interface MobileTabProps extends ComponentPropsWithoutRef<"button"> {
 
   index?: number;
   small?: boolean;
+  onMiddleClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
@@ -35,6 +37,7 @@ export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
       rightSection,
       className,
       small = false,
+      onMiddleClick,
       ...moreProps
     } = props;
     // throw if used standalone

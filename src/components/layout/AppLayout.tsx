@@ -4,10 +4,12 @@ import Header from "@/components/layout/Header";
 import Navigation from "@/components/layout/Navigation";
 import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useRouter } from "next/router";
 
 function Layout({ children }: PropsWithChildren) {
   const { navigationCollapsed } = useUserContext();
   const { isMobile } = useIsMobile();
+  const router = useRouter();
 
   useEffect(() => {
     // initialize theme
@@ -23,6 +25,14 @@ function Layout({ children }: PropsWithChildren) {
 
     return () => clearTimeout(timeout);
   }, []);
+
+  if (router.query["no-ui"] === "1") {
+    return (
+      <main className="min-w-screen min-h-screen transition-all">
+        {children}
+      </main>
+    );
+  }
 
   return (
     <div>

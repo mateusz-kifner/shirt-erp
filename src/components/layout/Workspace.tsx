@@ -115,7 +115,17 @@ const Workspace = ({
       childrenIcons?.[childrenIcons.length - 1] ??
       IconAlertCircle;
     return (
-      <Tab key={`${uuid}${index}`} leftSection={<Icon />}>
+      <Tab
+        key={`${uuid}${index}`}
+        leftSection={<Icon />}
+        onMiddleClick={() =>
+          window.open(
+            `${router.asPath}?no-ui=1&select-tab=${index}`,
+            "_blank",
+            "resizable,scrollbars=yes,toolbar=no,status=no,location=no,menubar=no",
+          )
+        }
+      >
         {label}
       </Tab>
     );

@@ -53,6 +53,7 @@ model File {
   TypeIcon         TypeIcon[]
   Order            Order[]
   EmailMessage     EmailMessage[]
+  EmailAttachments EmailMessage[] @relation("EmailAttachmentsToFile")
 }
 
 model Client {
@@ -105,6 +106,7 @@ model EmailMessage {
   textAsHtml    String?
   messageFileId Int?
   messageFile   File?     @relation(fields: [messageFileId], references: [id])
+  attachments   File[]    @relation("EmailAttachmentsToFile")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   createdById   Int?
