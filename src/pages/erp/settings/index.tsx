@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import Editable2 from "@/components/editable/Editable";
 import EditableEnum from "@/components/editable/EditableEnum";
-import EditableShortText from "@/components/editable/EditableShortText";
-import MultiTabs from "@/components/layout/MultiTabs/MultiTabs";
-import { Tab } from "@/components/layout/MultiTabs/Tab";
-import useMultiTabsState from "@/components/layout/MultiTabs/useMultiTabsState";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -27,32 +22,6 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import SuperJSON from "superjson";
-
-const testData = {
-  name: "string",
-  // bool: true,
-  // switch: false,
-  category: "option 1",
-  color: "#ff0000",
-  date: "2021-11-05T12:24:05.097Z",
-  datetime: "2021-11-05T12:24:05.097Z",
-  product: null,
-  client: null,
-  // productComponent: null,
-  // productComponents: [],
-  // image: null,
-  // file: null,
-  // files: null,
-  // workstations: null,
-  // employee: null,
-  // employees: null,
-  // submit: null,
-
-  // group: { name: "test", color: "#ff0000" },
-  // group2: { name: "test", color: "#ff0000" },
-  // group3: { name: {}, color: "#ff0000" },
-  // group_of_arrays: { arrayText: [], arrayText2: [] },
-};
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
   const user = req.session.user;
@@ -94,20 +63,10 @@ function Settings() {
   });
   const t = useTranslation();
   const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
-  const [testFormOpen, setTestFormOpen] = useState<boolean>(false);
-  const [alertOpen, setAlertOpen] = useState<boolean>(false);
-  const [val, setVal] = useState<any>(null);
-  const [testColor, setTestColor] = useState<string>("#fff");
-  const [testValue, setTestValue] = useState<any>(testData);
-  const [testDate, setTestDate] = useState<string | null>(
-    "2021-11-05T12:24:05.097Z",
-  );
-  const { mutate } = api.client.create.useMutation();
   const [remSize, setRemSize] = useLocalStorage({
     key: "remSize",
     defaultValue: 10,
   });
-  const multiTabsState = useMultiTabsState(0, []);
 
   useEffect(() => {
     if (loaded) {
@@ -186,35 +145,7 @@ function Settings() {
           >
             Debug {debug ? "ON" : "OFF"}
           </Button>
-          {debug && (
-            <>
-              <Button
-                onClick={() => {
-                  setTestFormOpen(true);
-                }}
-                leftSection={<IconBug />}
-              >
-                Open Test Form
-              </Button>
-              <Editable2
-                data={{ test: "ala ma kota" }}
-                onSubmit={(key, value) => console.log(key, value)}
-              >
-                <EditableShortText label="test" keyName="test" />
-              </Editable2>
-              <MultiTabs {...multiTabsState}>
-                <Tab leftSection={<IconBug />}>Test</Tab>
-                <Tab leftSection={<IconBug />}>Test 2</Tab>
-                <Tab leftSection={<IconBug />}>Test 3</Tab>
-                <Tab leftSection={<IconBug />}>
-                  Test 4 asdfsdajfaklsflkjasdklj
-                </Tab>
-                <Tab leftSection={<IconBug />}>
-                  Test 5 asdfsdajfaklsflkjasdklj
-                </Tab>
-              </MultiTabs>
-            </>
-          )}
+          {debug && <></>}
         </div>
       </div>
     </div>

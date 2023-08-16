@@ -5,7 +5,6 @@ import { cn } from "@/utils/cn";
 import { useElementSize } from "@mantine/hooks";
 import { IconMenu2, IconSettings } from "@tabler/icons-react";
 import Link from "next/link";
-import Messages from "./Messages";
 import Notifications from "./Notifications";
 import Search from "./Search";
 
@@ -54,7 +53,7 @@ const Header = () => {
       ></div>
       <div className="flex justify-end gap-3" ref={ref}>
         <Search />
-        <Messages />
+        {/* <Messages /> */}
         <Notifications />
 
         <Link
