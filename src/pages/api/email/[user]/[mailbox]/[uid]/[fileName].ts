@@ -4,6 +4,7 @@ import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { ImapFlow } from "imapflow";
 import { IronSession, getIronSession } from "iron-session";
+import Logger from "js-logger";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Readable } from "node:stream";
 
@@ -52,6 +53,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
         pass: auth.password ?? "",
       },
       secure: auth.secure ?? true,
+      logger: Logger,
     });
 
     const attachment = await downloadEmailAttachment(
