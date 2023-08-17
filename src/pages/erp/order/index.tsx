@@ -8,6 +8,13 @@ import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
 import { Tab } from "@/components/layout/MultiTabs/Tab";
 import Workspace from "@/components/layout/Workspace";
+import Button from "@/components/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
@@ -20,6 +27,7 @@ import { getQueryAsIntOrNull } from "@/utils/query";
 import {
   IconCheck,
   IconColorSwatch,
+  IconDotsVertical,
   IconList,
   IconMail,
   IconNotebook,
@@ -27,6 +35,7 @@ import {
   IconRobot,
   IconRuler2,
   IconTable,
+  IconTrashX,
   IconVector,
 } from "@tabler/icons-react";
 import { type NextPage } from "next";
@@ -47,6 +56,9 @@ const OrdersPage: NextPage = () => {
 
   const { mutateAsync: createSpreadsheetMutation } =
     api.spreadsheet.create.useMutation({});
+
+  const { mutateAsync: deleteSpreadsheetMutation } =
+    api.spreadsheet.deleteById.useMutation({});
 
   const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
     {},
@@ -197,6 +209,11 @@ const OrdersPage: NextPage = () => {
       orderId: id ?? undefined,
     }).then(() => router.reload());
   };
+
+  const removeSpreadsheet = (id: number) => {
+    deleteSpreadsheetMutation(id).then(() => router.reload());
+  };
+
   const addDesign = () => {
     createDesignMutation({
       name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
@@ -252,27 +269,44 @@ const OrdersPage: NextPage = () => {
         </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (
-            <Spreadsheet
-              key={`${uuid}spreadsheet:${index}:`}
-              id={val.id}
-              metadata={metadata}
-              metadataVisuals={[
-                { icon: IconColorSwatch, label: "Color" },
-                { icon: IconRuler2, label: "Size" },
-              ]}
-              metadataActions={[
-                {
-                  icon: IconRobot,
-                  label: "Auto uzupełnij",
-                  action: actionFill,
-                },
-                {
-                  icon: IconCheck,
-                  label: "Sprawdź poprawność pól",
-                  action: verifyMetadata,
-                },
-              ]}
-            />
+            <div>
+              <div className="flex justify-between gap-2 p-2 align-middle text-xl">
+                <span>{val.name}</span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <IconDotsVertical />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => removeSpreadsheet(val.id)}>
+                      <IconTrashX /> {t.delete}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <Spreadsheet
+                key={`${uuid}spreadsheet:${index}:`}
+                id={val.id}
+                metadata={metadata}
+                metadataVisuals={[
+                  { icon: IconColorSwatch, label: "Color" },
+                  { icon: IconRuler2, label: "Size" },
+                ]}
+                metadataActions={[
+                  {
+                    icon: IconRobot,
+                    label: "Auto uzupełnij",
+                    action: actionFill,
+                  },
+                  {
+                    icon: IconCheck,
+                    label: "Sprawdź poprawność pól",
+                    action: verifyMetadata,
+                  },
+                ]}
+              />
+            </div>
           ))}
 
         {orderData &&
