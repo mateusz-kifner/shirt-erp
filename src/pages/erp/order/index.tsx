@@ -269,7 +269,7 @@ const OrdersPage: NextPage = () => {
         </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (
-            <div>
+            <div key={`${uuid}spreadsheet:${index}:`}>
               <div className="flex justify-between gap-2 p-2 align-middle text-xl">
                 <span>{val.name}</span>
                 <DropdownMenu>
@@ -286,7 +286,6 @@ const OrdersPage: NextPage = () => {
                 </DropdownMenu>
               </div>
               <Spreadsheet
-                key={`${uuid}spreadsheet:${index}:`}
                 id={val.id}
                 metadata={metadata}
                 metadataVisuals={[
