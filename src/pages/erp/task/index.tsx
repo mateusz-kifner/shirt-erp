@@ -27,7 +27,6 @@ import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { useToggle } from "@mantine/hooks";
-import Logger from "js-logger";
 import { capitalize } from "lodash";
 import { useId, useState } from "react";
 
@@ -235,9 +234,9 @@ const TasksPage = () => {
                   index >= (page - 1) * itemsPerPage &&
                   index < page * itemsPerPage,
               )}
-              onChange={(val) =>
-                router.push(`/erp/task/${val.id}`).catch(Logger.warn)
-              }
+              onChange={(val) => {
+                router.push(`/erp/task/${val.id}`).catch(console.log);
+              }}
               selectedId={id}
             ></List>
           </div>

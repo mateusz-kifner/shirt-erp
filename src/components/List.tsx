@@ -3,7 +3,7 @@ import { useId } from "react";
 interface ListProps<T = any> {
   ListItem: React.ElementType;
   onChange?: (val: T) => void;
-  listItemProps?: { linkTo: (val: T) => string } | any;
+  listItemProps?: any; // { linkTo: (val: T) => string } |
   selectedId?: number | null;
   data?: T[];
 }

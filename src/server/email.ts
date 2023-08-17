@@ -214,7 +214,7 @@ export async function downloadEmailByUid(
       Logger.info(`Email with ID ${uid} found in cache`);
     } catch {
       Logger.info(`Email with ID ${uid} not found in cache, downloading`);
-      let emailStream = await client.download(uid, undefined, {
+      const emailStream = await client.download(uid, undefined, {
         uid: true,
       });
 
@@ -331,7 +331,7 @@ export async function downloadEmailAttachment(
       Logger.info(`Email with ID ${uid} found in cache`);
     } catch {
       Logger.info(`Email with ID ${uid} not found in cache, downloading`);
-      let emailStream = await client.download(uid, undefined, {
+      const emailStream = await client.download(uid, undefined, {
         uid: true,
       });
 
@@ -405,7 +405,7 @@ export async function transferEmailToDbByUId(
       Logger.info(`Email with ID ${uid} found in cache`);
     } catch {
       Logger.info(`Email with ID ${uid} not found in cache, downloading`);
-      let emailStream = await client.download(uid, undefined, {
+      const emailStream = await client.download(uid, undefined, {
         uid: true,
       });
 
@@ -475,7 +475,9 @@ export async function transferEmailToDbByUId(
       token: string;
     }[] = (await Promise.allSettled(newFiles))
       .filter((val) => val.status === "fulfilled")
-      .map((val) => (val as any).value);
+      // @ts-ignore
+      // eslint-disable-next-line
+      .map((val) => val.value);
 
     const newMail = await prisma.emailMessage.create({
       data: {

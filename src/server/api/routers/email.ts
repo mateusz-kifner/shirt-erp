@@ -1,4 +1,3 @@
-import { emailMessageSchema } from "@/schema/emailMessage";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 import {
@@ -211,23 +210,24 @@ export const emailRouter = createTRPCRouter({
       return mail;
     }),
 
-  create: authenticatedProcedure
-    .input(z.number())
-    .mutation(async ({ input: productData }) => {
-      return {};
-    }),
-  deleteById: authenticatedProcedure
+  // create: authenticatedProcedure
+  //   .input(z.number())
+  //   .mutation(async ({ input: productData }) => {
+  //     return {};
+  //   }),
+  // deleteById: authenticatedProcedure
 
-    .input(z.number())
-    .mutation(async ({ input: id }) => {
-      return {};
-    }),
-  update: authenticatedProcedure
-    .input(emailMessageSchema)
-    .mutation(async ({ input: emailData }) => {
-      const { id: emailId, ...simpleEmailData } = emailData;
-      return {};
-    }),
+  //   .input(z.number())
+  //   .mutation(async ({ input: id }) => {
+  //     return {};
+  //   }),
+  // update: authenticatedProcedure
+  //   .input(emailMessageSchema)
+  //   .mutation(async ({ input: emailData }) => {
+  //     const { id: emailId, ...simpleEmailData } = emailData;
+
+  //     return {};
+  //   }),
   search: authenticatedProcedure
     .input(
       z.object({

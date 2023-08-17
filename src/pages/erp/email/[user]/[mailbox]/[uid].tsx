@@ -54,7 +54,9 @@ function EmailMessage(props: EmailMessageProps) {
     const active = typeof value == "function" ? value(currentIMAPuser) : value;
 
     active !== undefined &&
-      router.push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`);
+      router
+        .push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`)
+        .catch(console.log);
   };
 
   return (
@@ -94,13 +96,15 @@ function EmailMessage(props: EmailMessageProps) {
         >
           <EmailFolderTree
             emailConfig={emailConfig}
-            onActive={(mailbox) =>
-              router.push(
-                `/erp/email/${user}/${
-                  mailbox ? mailbox.replace("/", "-") : "INBOX"
-                }`,
-              )
-            }
+            onActive={(mailbox) => {
+              router
+                .push(
+                  `/erp/email/${user}/${
+                    mailbox ? mailbox.replace("/", "-") : "INBOX"
+                  }`,
+                )
+                .catch(console.log);
+            }}
           />
         </ErrorBoundary>
       </div>

@@ -34,7 +34,7 @@ function ProductEditable(props: ProductEditableProps) {
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val });
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   if (!data)
@@ -56,7 +56,7 @@ function ProductEditable(props: ProductEditableProps) {
             variant="ghost"
             className="rounded-full"
             onClick={() => {
-              refetch();
+              refetch().catch(console.log);
             }}
           >
             <IconRefresh />

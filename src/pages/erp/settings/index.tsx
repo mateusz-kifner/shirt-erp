@@ -131,7 +131,7 @@ function Settings() {
 
           <Button
             onClick={() => {
-              router.push("settings/email-credentials");
+              router.push("settings/email-credentials").catch(console.log);
             }}
             leftSection={<IconMail />}
           >

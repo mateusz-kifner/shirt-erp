@@ -9,7 +9,7 @@ function EmailClient(props: EmailClientProps) {
 
   useEffect(() => {
     if (router.query.user !== undefined)
-      router.replace(`./${router.query.user}/INBOX`);
+      router.replace(`./${router.query.user}/INBOX`).catch(console.log);
   }, [router.query.user]);
 
   return (

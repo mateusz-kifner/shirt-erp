@@ -1,11 +1,11 @@
 function isNumeric(value: any) {
-  if (typeof value === "number") return true
-  var str = (value || "").toString()
-  if (!str) return false
-  return !isNaN(str)
+  if (typeof value === "number") return true;
+  const str = (value || "").toString();
+  if (!str) return false;
+  return !isNaN(str);
 }
 
-export default isNumeric
+export default isNumeric;
 
 /*
 https://github.com/hash-bang/lodash-isnumeric

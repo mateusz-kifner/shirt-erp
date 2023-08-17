@@ -62,17 +62,19 @@ function EmailViewApi(props: EmailViewApiProps) {
         emailClientId: emailConfig.id,
         emailId: id,
         mailbox,
-      }).then((emailData) => {
-        const newMails = orderData.emails ? orderData.emails : [];
-        newMails.push(emailData);
-        const files = orderData.files
-          ? [...orderData.files, ...emailData.attachments]
-          : emailData.attachments;
-        orderUpdate({ id: orderData.id, emails: newMails, files }).then(() =>
-          setOpen(false),
-        );
-        setOrderId(null);
-      });
+      })
+        .then((emailData) => {
+          const newMails = orderData.emails ? orderData.emails : [];
+          newMails.push(emailData);
+          const files = orderData.files
+            ? [...orderData.files, ...emailData.attachments]
+            : emailData.attachments;
+          orderUpdate({ id: orderData.id, emails: newMails, files })
+            .then(() => setOpen(false))
+            .catch(console.log);
+          setOrderId(null);
+        })
+        .catch(console.log);
     }
   }, [orderId, isSuccess]);
 
@@ -148,13 +150,15 @@ function EmailViewApi(props: EmailViewApiProps) {
             size="icon"
             variant="ghost"
             className="rounded-full"
-            onClick={() =>
-              router.push(
-                `/erp/email/${emailConfig.user}/${
-                  mailbox ? mailbox.replace("/", "-") : "INBOX"
-                }`,
-              )
-            }
+            onClick={() => {
+              router
+                .push(
+                  `/erp/email/${emailConfig.user}/${
+                    mailbox ? mailbox.replace("/", "-") : "INBOX"
+                  }`,
+                )
+                .catch(console.log);
+            }}
           >
             <IconArrowLeft />
           </Button>

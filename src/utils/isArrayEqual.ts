@@ -1,7 +1,8 @@
-import _ from "lodash"
+import _ from "lodash";
 
-const isArrayEqual = function (x: any, y: any) {
-  return _(x).xorWith(y, _.isEqual).isEmpty()
-}
+const isArrayEqual = (x: any, y: any) => {
+  // eslint-disable-next-line
+  return _(x).xorWith(y, _.isEqual).isEmpty();
+};
 
-export default isArrayEqual
+export default isArrayEqual;

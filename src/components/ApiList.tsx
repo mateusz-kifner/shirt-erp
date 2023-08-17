@@ -20,7 +20,7 @@ interface ApiListProps<T = any> {
   label?: string | ReactNode;
   onChange?: (val: T) => void;
   onRefresh?: () => void;
-  listItemProps?: { linkTo: (val: T) => string } | any;
+  listItemProps?: any; //{ linkTo: (val: T) => string } |
   selectedId?: number | null;
   filterKeys?: string[];
   excludeKey?: string;

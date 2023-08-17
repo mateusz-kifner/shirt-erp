@@ -57,7 +57,9 @@ function EmailCredentials(props: EmailCredentialsProps) {
                 user: userInput.value,
                 password: passwordInput.value,
                 secure: secure,
-              }).then(() => refetch());
+              })
+                .then(() => refetch())
+                .catch(console.log);
             }}
           >
             <div>
@@ -121,9 +123,11 @@ function EmailCredentials(props: EmailCredentialsProps) {
                   <Button
                     size="icon"
                     variant="destructive"
-                    onClick={() =>
-                      deleteMailCredentialAsync(val.id).then(() => refetch())
-                    }
+                    onClick={() => {
+                      deleteMailCredentialAsync(val.id)
+                        .then(() => refetch())
+                        .catch(console.log);
+                    }}
                   >
                     <IconTrashX />
                   </Button>{" "}

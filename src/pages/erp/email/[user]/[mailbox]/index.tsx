@@ -57,7 +57,9 @@ function EmailMailbox(props: EmailMailboxProps) {
     const active = typeof value == "function" ? value(currentIMAPuser) : value;
 
     active !== undefined &&
-      router.push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`);
+      router
+        .push(`/erp/email/${emailClientsIMAP[active]?.user}/INBOX`)
+        .catch(console.log);
   };
 
   return (
@@ -99,13 +101,15 @@ function EmailMailbox(props: EmailMailboxProps) {
         >
           <EmailFolderTree
             emailConfig={emailConfig}
-            onActive={(mailbox) =>
-              router.push(
-                `/erp/email/${user}/${
-                  mailbox ? mailbox.replace("/", "-") : "INBOX"
-                }`,
-              )
-            }
+            onActive={(mailbox) => {
+              router
+                .push(
+                  `/erp/email/${user}/${
+                    mailbox ? mailbox.replace("/", "-") : "INBOX"
+                  }`,
+                )
+                .catch(console.log);
+            }}
           />
         </ErrorBoundary>
       </div>
@@ -122,13 +126,15 @@ function EmailMailbox(props: EmailMailboxProps) {
             key={`${uuid}${refreshCounter}`}
             emailConfig={emailConfig}
             mailbox={mailbox}
-            onSelect={(uid) =>
-              router.push(
-                `/erp/email/${user}/${
-                  mailbox ? mailbox.replace("/", "-") : "INBOX"
-                }/${uid}`,
-              )
-            }
+            onSelect={(uid) => {
+              router
+                .push(
+                  `/erp/email/${user}/${
+                    mailbox ? mailbox.replace("/", "-") : "INBOX"
+                  }/${uid}`,
+                )
+                .catch(console.log);
+            }}
           />
         </ErrorBoundary>
       </div>

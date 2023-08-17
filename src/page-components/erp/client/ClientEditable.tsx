@@ -60,14 +60,16 @@ function ClientEditable(props: ClientEditableProps) {
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val });
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id).then(() => {
-      router.push(`/erp/client`);
-    });
+    deleteById(data.id)
+      .then(() => {
+        router.push(`/erp/client`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   if (!data)
@@ -90,7 +92,7 @@ function ClientEditable(props: ClientEditableProps) {
               variant="ghost"
               className="rounded-full"
               onClick={() => {
-                refetch();
+                refetch().catch(console.log);
               }}
             >
               <IconRefresh />

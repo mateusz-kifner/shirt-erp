@@ -81,21 +81,25 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val });
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id).then(() => {
-      router.push(`/erp/order-archive`);
-    });
+    deleteById(data.id)
+      .then(() => {
+        router.push(`/erp/order-archive`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   const apiUnarchive = () => {
     if (!data) return;
-    unarchiveById(data.id).then(() => {
-      router.push(`/erp/order`);
-    });
+    unarchiveById(data.id)
+      .then(() => {
+        router.push(`/erp/order`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   // update address if it's not set to client one
@@ -130,7 +134,7 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
               variant="ghost"
               className="rounded-full"
               onClick={() => {
-                refetch();
+                refetch().catch(console.log);
               }}
             >
               <IconRefresh />

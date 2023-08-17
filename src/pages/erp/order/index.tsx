@@ -129,7 +129,7 @@ const OrdersPage: NextPage = () => {
         "UniversalMatrix is required to contain at least 1 element",
       );
     }
-    let row_len = table[0]?.length;
+    const row_len = table[0]?.length;
     for (const row of table) {
       if (row.length !== row_len) {
         throw new Error(
@@ -207,11 +207,15 @@ const OrdersPage: NextPage = () => {
         [{}, {}],
       ],
       orderId: id ?? undefined,
-    }).then(() => router.reload());
+    })
+      .then(() => router.reload())
+      .catch(console.log);
   };
 
   const removeSpreadsheet = (id: number) => {
-    deleteSpreadsheetMutation(id).then(() => router.reload());
+    deleteSpreadsheetMutation(id)
+      .then(() => router.reload())
+      .catch(console.log);
   };
 
   const addDesign = () => {
@@ -219,7 +223,9 @@ const OrdersPage: NextPage = () => {
       name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
       data: [],
       orderId: id ?? undefined,
-    }).then(() => router.reload());
+    })
+      .then(() => router.reload())
+      .catch(console.log);
   };
 
   return (

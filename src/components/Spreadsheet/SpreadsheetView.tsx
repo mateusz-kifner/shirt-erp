@@ -15,7 +15,7 @@ import { ScrollArea } from "../ui/ScrollArea";
 import { UniversalMatrix } from "./useSpreadSheetData";
 
 function expandAABB(aabb: TypeAABB2D, row: number, col: number) {
-  let new_aabb = { ...aabb };
+  const new_aabb = { ...aabb };
   if (row === aabb.minX - 1) {
     new_aabb.minX -= 1;
   }
@@ -78,9 +78,9 @@ const EditableTableView = (props: EditableTableProps) => {
 
   const onApiUpdate = (data: UniversalMatrix) => {
     valueData &&
-      update({ id: valueData.id, name: valueData.name, data }).then((res) =>
-        refetch(),
-      );
+      update({ id: valueData.id, name: valueData.name, data })
+        .then((res) => refetch().catch(console.log))
+        .catch(console.log);
   };
 
   const onCellClick = (
@@ -90,7 +90,7 @@ const EditableTableView = (props: EditableTableProps) => {
   ) => {
     if (value === undefined) return;
     const ctrl = e.ctrlKey;
-    let new_data: UniversalMatrix = [
+    const new_data: UniversalMatrix = [
       ...value.map((val) => [
         ...val.map((val2) =>
           val2
@@ -115,7 +115,7 @@ const EditableTableView = (props: EditableTableProps) => {
       } else {
         new_data[row]![col] = {
           ...(new_data[row]![col] as CellBase<any>),
-          active: new_data[row]![col]?.value as any,
+          active: new_data[row]![col]?.value,
         };
       }
     }

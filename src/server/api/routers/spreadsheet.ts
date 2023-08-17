@@ -87,6 +87,7 @@ export const spreadsheetRouter = createTRPCRouter({
           code: "NOT_FOUND",
           message: "NOT_FOUND",
         });
+      //  eslint-disable-next-line
       const dataDecoded = SuperJSON.parse(dataSpreadsheet.data.toString());
       console.log(dataDecoded);
       for (const cell of partialData.partialData) {

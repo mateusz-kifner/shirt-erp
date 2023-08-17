@@ -39,7 +39,7 @@ function UserEditable(props: UserEditableProps) {
             variant="ghost"
             className="rounded-full"
             onClick={() => {
-              refetch();
+              refetch().catch(console.log);
             }}
           >
             <IconRefresh />

@@ -22,7 +22,6 @@ import {
   IconCash,
   IconExternalLink,
 } from "@tabler/icons-react";
-import Logger from "js-logger";
 import { useRouter } from "next/router";
 import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
@@ -52,14 +51,16 @@ function TaskView(props: TaskViewProps) {
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val });
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id).then(() => {
-      router.push(`/erp/order`);
-    });
+    deleteById(data.id)
+      .then(() => {
+        router.push(`/erp/order`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   if (!data)
@@ -82,7 +83,7 @@ function TaskView(props: TaskViewProps) {
               variant="ghost"
               className="rounded-full"
               onClick={() => {
-                router.push(`/erp/order/${id}`).catch(Logger.warn);
+                router.push(`/erp/order/${id}`).catch(console.log);
               }}
             >
               <IconExternalLink />

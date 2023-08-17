@@ -11,7 +11,7 @@ function verifyMetadata(
       "UniversalMatrix is required to contain at least 1 element",
     );
 
-  let row_len = table[0]?.length;
+  const row_len = table[0]?.length;
   for (const row of table) {
     if (row.length !== row_len)
       throw new Error(

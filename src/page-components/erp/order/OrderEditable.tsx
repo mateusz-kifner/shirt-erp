@@ -76,21 +76,25 @@ function OrderEditable(props: OrderEditableProps) {
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val });
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id).then(() => {
-      router.push(`/erp/order`);
-    });
+    deleteById(data.id)
+      .then(() => {
+        router.push(`/erp/order`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   const apiArchive = () => {
     if (!data) return;
-    archiveById(data.id).then(() => {
-      router.push(`/erp/order-archive`);
-    });
+    archiveById(data.id)
+      .then(() => {
+        router.push(`/erp/order-archive`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   // update address if it's not set to client one
@@ -125,7 +129,7 @@ function OrderEditable(props: OrderEditableProps) {
               variant="ghost"
               className="rounded-full"
               onClick={() => {
-                refetch();
+                refetch().catch(console.log);
               }}
             >
               <IconRefresh />

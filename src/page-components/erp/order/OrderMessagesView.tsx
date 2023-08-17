@@ -35,9 +35,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
       (order &&
         order.emails &&
         Array.isArray(order?.emails) &&
-        (order.emails.sort(
-          sortObjectByDateOrNull("date"),
-        ) as EmailMessageType[])) ||
+        order.emails.sort(sortObjectByDateOrNull("date"))) ||
       null,
     [order?.emails],
   );

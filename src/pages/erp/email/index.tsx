@@ -36,7 +36,9 @@ function EmailPage(props: EmailPageProps) {
     : [];
   useEffect(() => {
     if (emailClientsIMAP.length > 0 && emailClientsIMAP[0]?.user !== undefined)
-      router.replace(`./email/${emailClientsIMAP[0].user}/INBOX`);
+      router
+        .replace(`./email/${emailClientsIMAP[0].user}/INBOX`)
+        .catch(console.log);
   }, [emailClientsIMAP.length]);
 
   return (

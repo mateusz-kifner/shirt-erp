@@ -46,14 +46,16 @@ function ExpenseEditable(props: ExpenseEditableProps) {
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val });
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id).then(() => {
-      router.push(`/erp/expense`);
-    });
+    deleteById(data.id)
+      .then(() => {
+        router.push(`/erp/expense`).catch(console.log);
+      })
+      .catch(console.log);
   };
 
   if (!data)
@@ -76,7 +78,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
               variant="ghost"
               className="rounded-full"
               onClick={() => {
-                refetch();
+                refetch().catch(console.log);
               }}
             >
               <IconRefresh />
