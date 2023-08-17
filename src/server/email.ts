@@ -329,6 +329,18 @@ export async function transferEmailToDbByUId(
     const auth: { user: string; pass?: string; accessToken?: string } =
       // @ts-ignore
       client.options.auth;
+    const alreadyTransferred = await prisma.emailMessage.findFirst({
+      where: {
+        AND: [
+          { messageUid: parseInt(uid) },
+          { clientUser: auth.user },
+          { mailbox },
+        ],
+      },
+    });
+
+    if (alreadyTransferred !== null) return alreadyTransferred;
+
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
     try {
@@ -407,12 +419,6 @@ export async function transferEmailToDbByUId(
     }[] = (await Promise.allSettled(newFiles))
       .filter((val) => val.status === "fulfilled")
       .map((val) => (val as any).value);
-    console.log(resolvedFiles);
-    // await prisma.file.createMany({ data: resolvedFiles, skipDuplicates: false });
-    // const filenames = resolvedFiles.map((val) => val.filename) as string[];
-    // const filesFromDb = await prisma.file.findMany({
-    //   where: { filename: { in: filenames } },
-    // });
 
     const newMail = await prisma.emailMessage.create({
       data: {
