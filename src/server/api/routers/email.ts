@@ -1,4 +1,4 @@
-import { productSchema } from "@/schema/productSchema";
+import { emailMessageSchema } from "@/schema/emailMessage";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { prisma } from "@/server/db";
 import {
@@ -167,47 +167,48 @@ export const emailRouter = createTRPCRouter({
       );
       return mail;
     }),
-  downloadByUid: authenticatedProcedure.input(
-    z.object({
-      mailbox: z.string().default("INBOX"),
-      emailClientId: z.number(),
-      emailId: z.number(),
-    }),
-  )
-  .mutation(async ({ ctx, input }) => {
-    const { mailbox, emailClientId, emailId } = input;
-    const data = await prisma.user.findUnique({
-      where: { id: ctx.session!.user!.id },
-      include: { emailCredentials: true },
-    });
-
-    const auth = data?.emailCredentials
-      .filter((val) => val.id === emailClientId)
-      .filter((auth) => auth.protocol === "imap")[0];
-
-    if (auth === undefined)
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "emailCredentials not found",
+  downloadByUid: authenticatedProcedure
+    .input(
+      z.object({
+        mailbox: z.string().default("INBOX"),
+        emailClientId: z.number(),
+        emailId: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { mailbox, emailClientId, emailId } = input;
+      const data = await prisma.user.findUnique({
+        where: { id: ctx.session!.user!.id },
+        include: { emailCredentials: true },
       });
 
-    const client = new ImapFlow({
-      host: auth.host ?? "",
-      port: auth.port ?? 993,
-      auth: {
-        user: auth.user ?? "",
-        pass: auth.password ?? "",
-      },
-      secure: auth.secure ?? true,
-      logger: Logger,
-    });
-    const mail = await transferEmailToDbByUId(
-      client,
-      emailId.toString(),
-      mailbox,
-    );
-    return mail;
-  }),
+      const auth = data?.emailCredentials
+        .filter((val) => val.id === emailClientId)
+        .filter((auth) => auth.protocol === "imap")[0];
+
+      if (auth === undefined)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "emailCredentials not found",
+        });
+
+      const client = new ImapFlow({
+        host: auth.host ?? "",
+        port: auth.port ?? 993,
+        auth: {
+          user: auth.user ?? "",
+          pass: auth.password ?? "",
+        },
+        secure: auth.secure ?? true,
+        logger: Logger,
+      });
+      const mail = await transferEmailToDbByUId(
+        client,
+        emailId.toString(),
+        mailbox,
+      );
+      return mail;
+    }),
 
   create: authenticatedProcedure
     .input(z.number())
@@ -221,8 +222,9 @@ export const emailRouter = createTRPCRouter({
       return {};
     }),
   update: authenticatedProcedure
-    .input(productSchema)
-    .mutation(async ({ input: productData }) => {
+    .input(emailMessageSchema)
+    .mutation(async ({ input: emailData }) => {
+      const { id: emailId, ...simpleEmailData } = emailData;
       return {};
     }),
   search: authenticatedProcedure.input(z.number()).query(async ({ input }) => {

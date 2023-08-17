@@ -24,10 +24,9 @@ interface OrderMessagesViewProps {
 }
 
 const OrderMessagesView = (props: OrderMessagesViewProps) => {
-  const { order, refetch } = props;
+  const { order } = props;
   const uuid = useId();
 
-  const [active, setActive] = useState<boolean>(false);
   const [opened, setOpened] = useState<boolean>(false);
   const t = useTranslation();
 
@@ -42,12 +41,11 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
       null,
     [order?.emails],
   );
-
   return (
     <div className="relative">
-      <Accordion type="multiple">
-        {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
-          emailMessagesSorted.map((val, index, arr) => (
+      {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
+        <Accordion type="multiple" defaultValue={["email0"]}>
+          {emailMessagesSorted.map((val, index, arr) => (
             <AccordionItem value={"email" + index} key={`${uuid}mail:${index}`}>
               <AccordionTrigger className=" text-xl font-bold">
                 {val.subject}
@@ -56,11 +54,11 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
                 <EmailView data={omit(val, ["subject"])} />
               </AccordionContent>
             </AccordionItem>
-          ))
-        ) : (
-          <div className="font-bold">Brak e-maili</div>
-        )}
-      </Accordion>
+          ))}
+        </Accordion>
+      ) : (
+        <div className="font-bold">Brak e-maili</div>
+      )}
       <Dialog open={opened} onOpenChange={setOpened}>
         <DialogContent>
           <DialogHeader>

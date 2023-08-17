@@ -21,7 +21,7 @@ import {
 import { capitalize } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
 
@@ -45,11 +45,33 @@ function EmailViewApi(props: EmailViewApiProps) {
     },
   );
   const t = useTranslation();
+  const [orderId, setOrderId] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const { mutateAsync: transferEmail, isLoading } =
     api.email.downloadByUid.useMutation();
+  const { data: orderData, isSuccess } = api.order.getById.useQuery(
+    orderId as number,
+    { enabled: orderId !== null },
+  );
   const { mutateAsync: orderUpdate, isLoading: isLoading2 } =
     api.order.update.useMutation();
+
+  useEffect(() => {
+    if (id !== null && isSuccess && orderData) {
+      transferEmail({
+        emailClientId: emailConfig.id,
+        emailId: id,
+        mailbox,
+      }).then((emailData) => {
+        const newMails = orderData.emails ? orderData.emails : [];
+        newMails.push(emailData);
+        orderUpdate({ id: orderData.id, emails: newMails }).then(() =>
+          setOpen(false),
+        );
+        setOrderId(null);
+      });
+    }
+  }, [orderId, isSuccess]);
 
   if (!data)
     return (
@@ -105,19 +127,7 @@ function EmailViewApi(props: EmailViewApiProps) {
                 entryName={"order"}
                 label={capitalize(t.order.plural)}
                 onChange={(val: OrderType) => {
-                  id !== null &&
-                    transferEmail({
-                      emailClientId: emailConfig.id,
-                      emailId: id,
-                      mailbox,
-                    }).then((emailData) => {
-                      const newMails = val.emails ? val.emails : [];
-                      newMails.push(emailData);
-                      orderUpdate({ id: val.id, emails: newMails }).then(() =>
-                        setOpen(false),
-                      );
-                    });
-                  console.log(val);
+                  setOrderId(val.id);
                 }}
                 listItemProps={
                   {
