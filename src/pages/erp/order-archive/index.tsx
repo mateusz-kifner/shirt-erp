@@ -17,9 +17,9 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
+import OrderArchivesList from "@/page-components/erp/order-archive/OrderArchivesList";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderEditable from "@/page-components/erp/order/OrderEditable";
-import OrderList from "@/page-components/erp/order/OrderList";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
@@ -41,7 +41,7 @@ import {
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 
-const entryName = "order";
+const entryName = "order-archive";
 
 const OrderArchivesPage: NextPage = () => {
   const uuid = useId();
@@ -50,9 +50,12 @@ const OrderArchivesPage: NextPage = () => {
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { data: orderData } = api.orderArchive.getById.useQuery(id as number, {
-    enabled: id !== null,
-  });
+  const { data: orderData } = api["order-archive"].getById.useQuery(
+    id as number,
+    {
+      enabled: id !== null,
+    },
+  );
 
   const { mutateAsync: createSpreadsheetMutation } =
     api.spreadsheet.create.useMutation({});
@@ -256,7 +259,7 @@ const OrderArchivesPage: NextPage = () => {
         }
       >
         <div className="relative p-4">
-          <OrderList
+          <OrderArchivesList
             selectedId={id}
             onAddElement={() => setOpenAddModal(true)}
           />

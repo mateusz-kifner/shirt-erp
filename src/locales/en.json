@@ -41,7 +41,7 @@
     "singular": "log",
     "plural": "logs"
   },
-  "order archive": {
+  "order-archive": {
     "singular": "archived order",
     "plural": "archived orders"
   },

@@ -25,7 +25,7 @@ export const appRouter = createTRPCRouter({
   settings: settingsRouter,
   client: clientRouter,
   order: orderRouter,
-  orderArchive: orderArchiveRouter,
+  "order-archive": orderArchiveRouter,
   spreadsheet: spreadsheetRouter,
   design: designRouter,
   user: userRouter,
