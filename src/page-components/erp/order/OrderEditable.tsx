@@ -30,6 +30,7 @@ import {
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
+import { ClientType } from "@/schema/clientSchema";
 import { ProductType } from "@/schema/productSchema";
 import { UserType } from "@/schema/userSchema";
 import { api } from "@/utils/api";
@@ -42,6 +43,7 @@ import {
 } from "@tabler/icons-react";
 import { omit } from "lodash";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
 import ProductListItem from "../product/ProductListItem";
@@ -56,6 +58,9 @@ function OrderEditable(props: OrderEditableProps) {
   const isLoaded = useLoaded();
   const router = useRouter();
   const t = useTranslation();
+  const [orderAddressFromClient, setOrderAddressFromClient] = useState<
+    number | null
+  >(null);
 
   const { data, refetch } = api.order.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -79,6 +84,18 @@ function OrderEditable(props: OrderEditableProps) {
       router.push(`/erp/order`);
     });
   };
+
+  // update address if it's not set to client one
+  useEffect(() => {
+    if (
+      orderAddressFromClient !== null &&
+      data?.clientId == orderAddressFromClient
+    ) {
+      data.client?.address &&
+        apiUpdate("address", omit(data.client.address, ["id"]));
+      setOrderAddressFromClient(null);
+    }
+  }, [orderAddressFromClient, data?.clientId]);
 
   if (!data)
     return (
@@ -142,6 +159,19 @@ function OrderEditable(props: OrderEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
+          onSubmit={(value: ClientType) => {
+            // check if address is set
+            if (
+              data.address === null ||
+              (!data.address.apartmentNumber &&
+                !data.address.streetName &&
+                !data.address.streetNumber &&
+                !data.address.postCode &&
+                !data.address.city &&
+                !data.address.secondLine)
+            )
+              setOrderAddressFromClient(value.id);
+          }}
         />
         <Wrapper
           keyName="address" // hint for Editable

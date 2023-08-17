@@ -54,7 +54,8 @@ const EditableTableView = (props: EditableTableProps) => {
 
   const meta_id = Object.values(metadata)[0]?.id;
   if (meta_id === undefined) throw new Error("meta_id is not correct");
-  const { data: valueData } = api.spreadsheet.getById.useQuery(id, {});
+  const { data: valueData, refetch } = api.spreadsheet.getById.useQuery(id, {});
+  const { mutateAsync: update } = api.spreadsheet.update.useMutation();
 
   const value = valueData?.data as UniversalMatrix;
   // FIXME: make memo refresh after changes to table
@@ -76,7 +77,10 @@ const EditableTableView = (props: EditableTableProps) => {
   const is_error = verify === null || verify?.[1].startsWith("error");
 
   const onApiUpdate = (data: UniversalMatrix) => {
-    console.log(data);
+    valueData &&
+      update({ id: valueData.id, name: valueData.name, data }).then((res) =>
+        refetch(),
+      );
   };
 
   const onCellClick = (

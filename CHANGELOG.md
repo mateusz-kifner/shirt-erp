@@ -7,12 +7,13 @@
 - Added detach option to tabs
 - Email client
 - nextjs / trpc / prisma Backend
+- Added several color pallets
 
 ### Changed
 
 - Refactored UI to use Radix & Tailwindcss
-- refactored mobile menu
--
+- Refactored mobile menu
+- Refactored Color picker
 
 ### Removed
 

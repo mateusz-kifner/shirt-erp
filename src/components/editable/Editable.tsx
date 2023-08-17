@@ -22,8 +22,10 @@ function Editable(props: EditableProps) {
           return child;
         return cloneElement(child, {
           value: data[keyName as keyof typeof data],
-          onSubmit: ((value) =>
-            onSubmit?.(keyName, value)) as typeof child.props.onSubmit,
+          onSubmit: ((value) => {
+            onSubmit?.(keyName, value);
+            child.props?.onSubmit?.(value);
+          }) as typeof child.props.onSubmit,
           disabled: disabled || child.props.disabled,
         });
       })}

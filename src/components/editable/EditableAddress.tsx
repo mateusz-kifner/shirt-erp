@@ -14,7 +14,6 @@ import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { type AddressType } from "@/schema/addressSchema";
-import Button from "../ui/Button";
 import { Input } from "../ui/Input";
 import EditableEnum from "./EditableEnum";
 
@@ -217,7 +216,6 @@ const EditableAddress = (props: EditableAddressProps) => {
             className="flex flex-grow flex-col gap-2 pb-3"
             // tabIndex={99999} // ensure that focus can be captured on element
           >
-            <Button onClick={() => onFocusLose()}>send</Button>
             <InputAddressField
               label={label?.streetName}
               value={address?.streetName ?? ""}
