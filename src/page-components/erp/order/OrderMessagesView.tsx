@@ -14,7 +14,9 @@ import useTranslation from "@/hooks/useTranslation";
 import { EmailMessageType } from "@/schema/emailMessage";
 import { OrderType } from "@/schema/orderSchema";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
+import { omit } from "lodash";
 import { useId, useMemo, useState } from "react";
+import EmailView from "../email/EmailView";
 
 interface OrderMessagesViewProps {
   order?: Partial<OrderType>;
@@ -47,14 +49,16 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
         {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
           emailMessagesSorted.map((val, index, arr) => (
             <AccordionItem value={"email" + index} key={`${uuid}mail:${index}`}>
-              <AccordionTrigger>{val.subject}</AccordionTrigger>
+              <AccordionTrigger className=" text-xl font-bold">
+                {val.subject}
+              </AccordionTrigger>
               <AccordionContent className="whitespace-pre-wrap">
-                {val.text}
+                <EmailView data={omit(val, ["subject"])} />
               </AccordionContent>
             </AccordionItem>
           ))
         ) : (
-          <div className="bold">Brak e-maili</div>
+          <div className="font-bold">Brak e-maili</div>
         )}
       </Accordion>
       <Dialog open={opened} onOpenChange={setOpened}>

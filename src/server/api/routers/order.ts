@@ -41,6 +41,7 @@ const includeAll = {
   designs: true,
   products: true,
   employees: true,
+  emails: true,
 };
 
 export const orderRouter = createTRPCRouter({
@@ -72,7 +73,7 @@ export const orderRouter = createTRPCRouter({
       if (files?.length && files.length > 0)
         createData.files = { connect: [...files] };
 
-        // not working and not needed
+      // not working and not needed
       // if (emails?.length && emails.length > 0)
       //   createData.emails = { connect: [...emails] };
 

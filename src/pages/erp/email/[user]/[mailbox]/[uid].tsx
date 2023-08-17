@@ -3,7 +3,7 @@ import { Tab } from "@/components/layout/MultiTabs/Tab";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
-import EmailView from "@/page-components/erp/email/EmailView";
+import EmailViewApi from "@/page-components/erp/email/EmailViewApi";
 import ErrorPage from "@/pages/_error";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
@@ -113,7 +113,7 @@ function EmailMessage(props: EmailMessageProps) {
             </h1>
           }
         >
-          <EmailView emailConfig={emailConfig} mailbox={mailbox} id={uid} />
+          <EmailViewApi emailConfig={emailConfig} mailbox={mailbox} id={uid} />
         </ErrorBoundary>
       </div>
       <EmailSendModal
