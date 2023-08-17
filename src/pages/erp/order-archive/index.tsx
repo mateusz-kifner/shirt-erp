@@ -18,8 +18,8 @@ import {
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderArchivesList from "@/page-components/erp/order-archive/OrderArchivesList";
+import OrderArchiveEditable from "@/page-components/erp/order-archive/OrderEditable";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
-import OrderEditable from "@/page-components/erp/order/OrderEditable";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
@@ -265,7 +265,7 @@ const OrderArchivesPage: NextPage = () => {
           />
         </div>
         <div className="relative flex flex-col gap-4 p-4 ">
-          <OrderEditable id={id} />
+          <OrderArchiveEditable id={id} />
         </div>
         <div className="relative p-4">
           {orderData && <OrderMessagesView order={orderData as any} />}

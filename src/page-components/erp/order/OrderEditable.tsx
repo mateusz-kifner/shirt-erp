@@ -89,7 +89,7 @@ function OrderEditable(props: OrderEditableProps) {
   const apiArchive = () => {
     if (!data) return;
     archiveById(data.id).then(() => {
-      router.push(`/erp/order`);
+      router.push(`/erp/order-archive`);
     });
   };
 

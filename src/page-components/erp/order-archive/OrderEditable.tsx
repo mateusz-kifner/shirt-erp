@@ -87,7 +87,7 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
   const apiDelete = () => {
     if (!data) return;
     deleteById(data.id).then(() => {
-      router.push(`/erp/order`);
+      router.push(`/erp/order-archive`);
     });
   };
 
