@@ -6,6 +6,7 @@ import {
   fetchEmails,
   fetchFolderTree,
   fetchFolders,
+  transferEmailToDbByUId,
 } from "@/server/email";
 import { TRPCError } from "@trpc/server";
 import { ImapFlow } from "imapflow";
@@ -166,6 +167,47 @@ export const emailRouter = createTRPCRouter({
       );
       return mail;
     }),
+  downloadByUid: authenticatedProcedure.input(
+    z.object({
+      mailbox: z.string().default("INBOX"),
+      emailClientId: z.number(),
+      emailId: z.number(),
+    }),
+  )
+  .query(async ({ ctx, input }) => {
+    const { mailbox, emailClientId, emailId } = input;
+    const data = await prisma.user.findUnique({
+      where: { id: ctx.session!.user!.id },
+      include: { emailCredentials: true },
+    });
+
+    const auth = data?.emailCredentials
+      .filter((val) => val.id === emailClientId)
+      .filter((auth) => auth.protocol === "imap")[0];
+
+    if (auth === undefined)
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "emailCredentials not found",
+      });
+
+    const client = new ImapFlow({
+      host: auth.host ?? "",
+      port: auth.port ?? 993,
+      auth: {
+        user: auth.user ?? "",
+        pass: auth.password ?? "",
+      },
+      secure: auth.secure ?? true,
+      logger: Logger,
+    });
+    const mail = await transferEmailToDbByUId(
+      client,
+      emailId.toString(),
+      mailbox,
+    );
+    return mail;
+  }),
 
   create: authenticatedProcedure
     .input(z.number())

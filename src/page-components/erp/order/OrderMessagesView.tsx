@@ -1,21 +1,19 @@
-import { Accordion, Modal, Stack, Text, Title } from "@mantine/core";
-import { IconEdit, IconRefresh } from "@tabler/icons-react";
-import axios from "axios";
-import dayjs from "dayjs";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/Dialog";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import useTranslation from "@/hooks/useTranslation";
+import { EmailMessageType } from "@/schema/emailMessage";
+import { OrderType } from "@/schema/orderSchema";
 import { useId, useMemo, useState } from "react";
-import FloatingActions from "../../../components/FloatingActions";
-import ApiEntryEditable from "../../../components/api/ApiEntryEditable";
-import { OrderType } from "../../../types/OrderType";
-
-const template = {
-  emailMessages: {
-    type: "array",
-    arrayType: "apiEntry",
-    entryName: "email-messages",
-    linkEntry: true,
-    allowClear: true,
-  },
-};
 
 interface OrderMessagesViewProps {
   order?: Partial<OrderType>;
@@ -28,54 +26,52 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
 
   const [active, setActive] = useState<boolean>(false);
   const [opened, setOpened] = useState<boolean>(false);
+  const t = useTranslation();
 
-  const emailMessagesSorted = useMemo(
+  const emailMessagesSorted: EmailMessageType[] | null = useMemo(
     () =>
       (order &&
-        order.emailMessages &&
-        Array.isArray(order?.emailMessages) &&
-        order.emailMessages.sort((a, b) =>
-          dayjs(b.date).diff(dayjs(a.date))
-        )) ||
+        order.emails &&
+        Array.isArray(order?.emails) &&
+        (order.emails.sort(
+          sortObjectByDateOrNull("date"),
+        ) as EmailMessageType[])) ||
       null,
-    [order?.emailMessages]
+    [order?.emails],
   );
 
   return (
-    <Stack style={{ position: "relative" }}>
-      <Accordion defaultValue={"email0"} variant="separated">
+    <div className="relative">
+      <Accordion type="multiple">
         {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
           emailMessagesSorted.map((val, index, arr) => (
-            <Accordion.Item
-              value={"email" + index}
-              key={uuid + "_mail_" + index}
-            >
-              <Accordion.Control>
-                <Title order={5}>{val.subject}</Title>
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Text style={{ whiteSpace: "pre-wrap" }}>{val.text}</Text>
-              </Accordion.Panel>
-            </Accordion.Item>
+            <AccordionItem value={"email" + index} key={`${uuid}mail:${index}`}>
+              <AccordionTrigger>{val.subject}</AccordionTrigger>
+              <AccordionContent className="whitespace-pre-wrap">
+                {val.text}
+              </AccordionContent>
+            </AccordionItem>
           ))
         ) : (
-          <Text>Brak e-maili</Text>
+          <div className="bold">Brak e-maili</div>
         )}
       </Accordion>
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        size="xl"
-        title="Maile"
-      >
-        <ApiEntryEditable
+      <Dialog open={opened} onOpenChange={setOpened}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t["email-message"].plural}</DialogTitle>
+          </DialogHeader>
+
+          <div>test</div>
+        </DialogContent>
+        {/* <ApiEntryEditable
           template={template}
           entryName={"orders"}
           id={order?.id ?? null}
-        />
-      </Modal>
+        /> */}
+      </Dialog>
       {/* <Editable active={active} template={template} data={order ?? {}} /> */}
-      <FloatingActions
+      {/* <FloatingActions
         actions={[
           () => setOpened((val) => !val),
 
@@ -91,8 +87,8 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
           <IconEdit size={28} key={uuid + "_icon1"} />,
           <IconRefresh size={20} key={uuid + "_icon2"} />,
         ]}
-      />
-    </Stack>
+      /> */}
+    </div>
   );
 };
 

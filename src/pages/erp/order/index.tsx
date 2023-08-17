@@ -13,6 +13,7 @@ import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderEditable from "@/page-components/erp/order/OrderEditable";
 import OrderList from "@/page-components/erp/order/OrderList";
+import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
@@ -203,90 +204,6 @@ const OrdersPage: NextPage = () => {
       orderId: id ?? undefined,
     }).then(() => router.reload());
   };
-  // const table_template = {
-  //   name: {
-  //     label: "Nazwa arkusza",
-  //     type: "text",
-  //   },
-  //   table: {
-  //     type: "table",
-  //     metadataIcons: [IconColorSwatch, IconRuler2Measure],
-  //     metadataLabels: ["Kolor", "Rozmiar"],
-  //     metadata,
-  //     metadataActions: [
-  //       (table: UniversalMatrix, metaId: number) => {
-  //         let pusta = true
-  //         table: for (let y = 0; y < table.length; y++) {
-  //           for (let x = 0; x < table[0].length; x++) {
-  //             if (!(!table[y][x] || (table[y][x] && !table[y][x]?.value))) {
-  //               pusta = false
-  //               break table
-  //             }
-  //           }
-  //         }
-
-  //         if (pusta) {
-  //           let new_table: UniversalMatrix = []
-  //           const product = (data?.products.filter(
-  //             (val) => val.id === metaId
-  //           ) || [null])[0]
-  //           const sizes = product?.variants?.sizes
-  //           const colors = product?.variants?.colors
-
-  //           for (let y = 0; y < colors.length + 1; y++) {
-  //             new_table.push([])
-  //             for (let x = 0; x < sizes.length + 1; x++) {
-  //               if (y > 0 && x == 0) {
-  //                 new_table[y].push({
-  //                   value: getColorNameFromHex(colors[y - 1]),
-  //                   metaId,
-  //                   metaPropertyId: 0,
-  //                 })
-  //               } else if (y == 0 && x > 0) {
-  //                 new_table[y].push({
-  //                   value: sizes[x - 1],
-  //                   metaId,
-  //                   metaPropertyId: 1,
-  //                 })
-  //               } else {
-  //                 new_table[y].push({ value: "" })
-  //               }
-  //             }
-  //           }
-
-  //           new_table = [
-  //             new_table[0].map((val, index) =>
-  //               index === 0 ? { value: product?.name } : undefined
-  //             ),
-
-  //             ...new_table,
-  //           ]
-
-  //           return [new_table, "Auto uzupełnienie się powiodło."]
-  //         }
-  //         return [
-  //           table,
-  //           "error: Tablica musi być pusta do operacji auto uzupełniania.",
-  //         ]
-  //       },
-  //       verifyMetadata,
-  //     ],
-  //     metadataActionLabels: ["Auto uzupełnij", "Sprawdź poprawność pól"],
-  //     metadataActionIcons: [IconRobot, IconCheck],
-  //   },
-  // }
-
-  // const design_template = {
-  //   name: {
-  //     label: "Nazwa designu",
-  //     type: "text",
-  //   },
-  //   design: {
-  //     type: "design",
-  //     files: data?.files,
-  //     backgrounds: designBackgrounds,
-  //   },
-  // }
 
   return (
     <>
@@ -331,7 +248,7 @@ const OrdersPage: NextPage = () => {
           <OrderEditable id={id} />
         </div>
         <div className="relative p-4">
-          <div>{/*MAILS HERE*/}TODO: Add mails here</div>
+          {orderData && <OrderMessagesView order={orderData as any} />}
         </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (

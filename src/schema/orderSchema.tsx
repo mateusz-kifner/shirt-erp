@@ -2,6 +2,7 @@ import { z } from "zod";
 import { addressSchema } from "./addressSchema";
 import { clientSchema } from "./clientSchema";
 import { designSchema } from "./designSchema";
+import { emailMessageSchema } from "./emailMessage";
 import { fileSchema } from "./fileSchema";
 import { productSchema } from "./productSchema";
 import { spreadsheetSchema } from "./spreadsheetSchema";
@@ -23,6 +24,7 @@ export const orderSchema = z.object({
   workTime: z.number().nullable().optional(),
   client: clientSchema.nullable().optional(),
   address: addressSchema.nullable().optional(),
+  emails: emailMessageSchema.nullable().optional(),
 });
 
 export type OrderType = z.infer<typeof orderSchema>;

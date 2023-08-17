@@ -4,15 +4,19 @@ import fsp from "node:fs/promises";
 import { Readable, Stream } from "node:stream";
 
 import { env } from "@/env.mjs";
+import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import { isMimeImage } from "@/utils/isMimeImage";
 import NodeClam from "clamscan";
+import imageSize from "image-size";
 import Logger from "js-logger";
 import { omit } from "lodash";
 import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
+import path from "node:path";
 import sharp from "sharp";
 
 const mailDir = "./cache/email/";
+const uploadDir = "./uploads/"
 
 export async function fetchEmailByUid(
   client: ImapFlow,
@@ -308,6 +312,102 @@ export async function downloadEmailAttachment(
     await client.logout();
   }
 }
+
+export async function transferEmailToDbByUId(
+  client: ImapFlow,
+  uid: string,
+  mailbox: string = "INBOX",
+) {
+  try {
+    await client.connect();
+    await client.mailboxOpen(mailbox);
+
+    if (!client.authenticated)
+      throw new Error("Email server authentication failed");
+
+    const auth: { user: string; pass?: string; accessToken?: string } =
+      // @ts-ignore
+      client.options.auth;
+    const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
+
+    try {
+      await fsp.access(outputFilePath);
+      Logger.info(`Email with ID ${uid} found in cache`);
+    } catch {
+      Logger.info(`Email with ID ${uid} not found in cache, downloading`);
+      let emailStream = await client.download(uid, undefined, {
+        uid: true,
+      });
+
+      if (!emailStream)
+        throw new Error(`Email with ID ${uid} not found on server`);
+
+      await writeStreamAsync(outputFilePath, emailStream.content);
+    }
+
+    const emailFileStream = fs.createReadStream(outputFilePath);
+    const parsed = await simpleParser(emailFileStream);
+
+    if (!parsed) {
+      throw new Error("Email not found.");
+    }
+
+    if (parsed.headerLines[0]?.key.startsWith("[clamav deleted]"))
+      throw new Error("Virus detected");
+    
+      const absolutePath = path.resolve(uploadDir);
+
+    const newFiles = parsed.attachments.map(async (attachment)=>{
+      if (env.ENABLE_CLAMAV) {
+        const clamscan = await new NodeClam().init({});
+        const scanResult = await clamscan.scanStream(
+          bufferToReadable(attachment.content),
+        );
+        if (scanResult.isInfected) throw new Error("Virus detected");
+      }
+      const scrambledFileName = genRandomStringServerOnly(25);
+      const filePath = `${absolutePath}${scrambledFileName}`
+      await fsp.writeFile(filePath, attachment.content);
+      const originalFilenameExtDot = attachment.filename!.lastIndexOf(".");
+      const extWithDot = attachment.filename!.substring(
+        originalFilenameExtDot
+      );
+      const fileName = attachment.filename!.substring(
+        0,
+        originalFilenameExtDot
+      );
+      const hash = genRandomStringServerOnly(10);
+      let imgSize = null;
+      try {
+        imgSize = imageSize(filePath);
+      } catch {}
+      return {
+        size: attachment.size,
+        filepath: filePath,
+        originalFilename: attachment.filename,
+        filename: `${fileName}_${hash}${extWithDot}`,
+        newFilename: scrambledFileName,
+        mimetype: attachment.contentType,
+        width: imgSize?.width,
+        height: imgSize?.height,
+        hash,
+        token: genRandomStringServerOnly(32),
+      };
+
+    })
+    const resolvedFiles = await Promise.allSettled(newFiles)
+    console.log(resolvedFiles)
+
+    
+    return {};
+  } catch (error) {
+    console.error("Error fetching email attachment:", error);
+    throw new Error("Failed to fetch email attachment.");
+  } finally {
+    await client.logout();
+  }
+}
+
 
 async function writeStreamAsync(outputFilePath: string, stream: Stream) {
   return new Promise<void>((resolve, reject) => {
