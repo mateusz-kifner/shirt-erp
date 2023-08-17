@@ -11,6 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import OrderListItem from "@/page-components/erp/order/OrderListItem";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();
@@ -25,7 +27,7 @@ const Notifications = () => {
   const { data, error, isError } = api.session.me.useQuery(undefined, {
     retry: false,
   });
-
+  const { isMobile } = useIsMobile();
   useEffect(() => {
     if (
       isError &&
@@ -77,18 +79,22 @@ const Notifications = () => {
           <IconBell className="stroke-gray-200" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="flex flex-col gap-2" sideOffset={10}>
-        <div className="flex justify-between">
-          <h1>
-            <IconBell size={18} /> Powiadomienia{" "}
-          </h1>
+      <PopoverContent
+        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white dark:bg-stone-950 md:w-96"
+        sideOffset={10}
+        align={isMobile ? "start" : "end"}
+        collisionPadding={{ left: 16, right: 16 }}
+      >
+        <div className="flex ">
+          <IconBell size={18} /> Powiadomienia
         </div>
 
-        {/* {activeOrders ? (
+        {activeOrders ? (
           data?.orders
             .sort((a, b) =>
-              dayjs(a.dateOfCompletion).diff(dayjs(b.dateOfCompletion))
+              dayjs(a.dateOfCompletion).diff(dayjs(b.dateOfCompletion)),
             )
+            .filter((_, index) => index < 10)
             .map((val, index) => {
               const timeLeft = val?.dateOfCompletion
                 ? dayjs(val?.dateOfCompletion).diff(todayDate, "day")
@@ -107,7 +113,7 @@ const Notifications = () => {
                   <OrderListItem
                     value={val}
                     onChange={(val) => {
-                      router.push("/erp/tasks/" + val.id);
+                      router.push(`/erp/task/${val.id}`);
                       setOpened(false);
                     }}
                     key={uuid + index}
@@ -118,7 +124,7 @@ const Notifications = () => {
             })
         ) : (
           <div>Brak powiadomień</div>
-        )} */}
+        )}
       </PopoverContent>
     </Popover>
   );
