@@ -53,7 +53,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
             Element={ExpenseListItem}
             onSubmit={setTemplate}
             value={template}
-            allowClearrrr
+            allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
           />
           <EditableText
