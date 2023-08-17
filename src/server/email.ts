@@ -337,6 +337,7 @@ export async function transferEmailToDbByUId(
           { mailbox },
         ],
       },
+      include: { attachments: true, messageFile: true },
     });
 
     if (alreadyTransferred !== null) return alreadyTransferred;
@@ -438,6 +439,7 @@ export async function transferEmailToDbByUId(
         messageId: parsed.messageId,
         attachments: { create: resolvedFiles },
       },
+      include: { attachments: true, messageFile: true },
     });
 
     return newMail;

@@ -65,7 +65,10 @@ function EmailViewApi(props: EmailViewApiProps) {
       }).then((emailData) => {
         const newMails = orderData.emails ? orderData.emails : [];
         newMails.push(emailData);
-        orderUpdate({ id: orderData.id, emails: newMails }).then(() =>
+        const files = orderData.files
+          ? [...orderData.files, ...emailData.attachments]
+          : emailData.attachments;
+        orderUpdate({ id: orderData.id, emails: newMails, files }).then(() =>
           setOpen(false),
         );
         setOrderId(null);
