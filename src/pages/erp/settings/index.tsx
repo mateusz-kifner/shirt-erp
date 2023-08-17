@@ -116,8 +116,10 @@ function Settings() {
             <span className="w-1/2">{t.language}</span>
             <EditableEnum
               enum_data={["pl", "en"]}
-              defaultValue={locale ?? "pl"}
+              // defaultValue={locale ?? "pl"}
+              defaultValue={"pl"}
               onValueChange={changeLocale}
+              disabled
             />
           </div>
           <Button

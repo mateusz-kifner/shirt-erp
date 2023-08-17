@@ -85,6 +85,17 @@ const App: AppType = ({ Component, pageProps }) => {
     html.style.fontSize = `${remSize}px`;
   }, []);
 
+  const changeLocale = (value: string) => {
+    router.push("/", "/", { locale: value }).catch((e) => {
+      throw e;
+    });
+  };
+
+  // force Polish for now
+  useEffect(() => {
+    if (router.locale !== "pl") changeLocale("pl");
+  }, [router.locale]);
+
   return (
     <UserContextProvider>
       <TooltipProvider>
