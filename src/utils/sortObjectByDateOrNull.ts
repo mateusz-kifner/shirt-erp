@@ -7,3 +7,5 @@ const sortObjectByDateOrNull =
     if (!b[keyName]) return -1;
     return (a[keyName].getTime() - b[keyName].getTime()) * multiplier;
   };
+
+  export default sortObjectByDateOrNull

@@ -102,7 +102,7 @@ model EmailMessage {
   messageUid  Int?
   mailbox     String?
   clientUser  String?
-  headerLines String?
+  headerLines String[]  @default([])
   textAsHtml  String?
 
   messageFileId Int?

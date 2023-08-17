@@ -14,9 +14,10 @@ import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import sharp from "sharp";
+import { prisma } from "./db";
 
 const mailDir = "./cache/email/";
-const uploadDir = "./uploads/"
+const uploadDir = "./uploads/";
 
 export async function fetchEmailByUid(
   client: ImapFlow,
@@ -354,10 +355,10 @@ export async function transferEmailToDbByUId(
 
     if (parsed.headerLines[0]?.key.startsWith("[clamav deleted]"))
       throw new Error("Virus detected");
-    
-      const absolutePath = path.resolve(uploadDir);
 
-    const newFiles = parsed.attachments.map(async (attachment)=>{
+    const absolutePath = path.resolve(uploadDir);
+
+    const newFiles = parsed.attachments.map(async (attachment) => {
       if (env.ENABLE_CLAMAV) {
         const clamscan = await new NodeClam().init({});
         const scanResult = await clamscan.scanStream(
@@ -366,15 +367,13 @@ export async function transferEmailToDbByUId(
         if (scanResult.isInfected) throw new Error("Virus detected");
       }
       const scrambledFileName = genRandomStringServerOnly(25);
-      const filePath = `${absolutePath}${scrambledFileName}`
+      const filePath = `${absolutePath}/${scrambledFileName}`;
       await fsp.writeFile(filePath, attachment.content);
       const originalFilenameExtDot = attachment.filename!.lastIndexOf(".");
-      const extWithDot = attachment.filename!.substring(
-        originalFilenameExtDot
-      );
+      const extWithDot = attachment.filename!.substring(originalFilenameExtDot);
       const fileName = attachment.filename!.substring(
         0,
-        originalFilenameExtDot
+        originalFilenameExtDot,
       );
       const hash = genRandomStringServerOnly(10);
       let imgSize = null;
@@ -393,13 +392,49 @@ export async function transferEmailToDbByUId(
         hash,
         token: genRandomStringServerOnly(32),
       };
+    });
+    const resolvedFiles: {
+      size: number;
+      filepath: string;
+      originalFilename: string | undefined;
+      filename: string;
+      newFilename: string;
+      mimetype: string;
+      width: number | undefined;
+      height: number | undefined;
+      hash: string;
+      token: string;
+    }[] = (await Promise.allSettled(newFiles))
+      .filter((val) => val.status === "fulfilled")
+      .map((val) => (val as any).value);
+    console.log(resolvedFiles);
+    // await prisma.file.createMany({ data: resolvedFiles, skipDuplicates: false });
+    // const filenames = resolvedFiles.map((val) => val.filename) as string[];
+    // const filesFromDb = await prisma.file.findMany({
+    //   where: { filename: { in: filenames } },
+    // });
 
-    })
-    const resolvedFiles = await Promise.allSettled(newFiles)
-    console.log(resolvedFiles)
+    const newMail = await prisma.emailMessage.create({
+      data: {
+        to: Array.isArray(parsed.to)
+          ? parsed.to.map((v) => v.text).reduce((p, n, i) => `${p}, ${n}`, "")
+          : parsed.to?.text,
+        from: parsed.from?.text,
+        subject: parsed.subject,
+        date: parsed.date,
+        html: parsed.html ? parsed.html : null,
+        mailbox,
+        text: parsed.text,
+        textAsHtml: parsed.textAsHtml,
+        messageUid: parseInt(uid),
+        headerLines: parsed.headerLines.map((val) => val.line),
+        clientUser: auth.user,
+        messageId: parsed.messageId,
+        attachments: { create: resolvedFiles },
+      },
+    });
 
-    
-    return {};
+    return newMail;
   } catch (error) {
     console.error("Error fetching email attachment:", error);
     throw new Error("Failed to fetch email attachment.");
@@ -407,7 +442,6 @@ export async function transferEmailToDbByUId(
     await client.logout();
   }
 }
-
 
 async function writeStreamAsync(outputFilePath: string, stream: Stream) {
   return new Promise<void>((resolve, reject) => {

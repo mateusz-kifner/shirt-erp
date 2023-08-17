@@ -174,7 +174,7 @@ export const emailRouter = createTRPCRouter({
       emailId: z.number(),
     }),
   )
-  .query(async ({ ctx, input }) => {
+  .mutation(async ({ ctx, input }) => {
     const { mailbox, emailClientId, emailId } = input;
     const data = await prisma.user.findUnique({
       where: { id: ctx.session!.user!.id },

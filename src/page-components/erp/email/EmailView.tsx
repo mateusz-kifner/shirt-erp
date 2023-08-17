@@ -42,6 +42,8 @@ function EmailView(props: EmailViewProps) {
     },
   );
 
+  const { mutateAsync: transferEmail} = api.email.downloadByUid.useMutation()
+
   if (!data)
     return (
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -61,6 +63,7 @@ function EmailView(props: EmailViewProps) {
 
   return (
     <div className="flex flex-col gap-2 p-2">
+      <Button onClick={()=>{id !== null && transferEmail({emailClientId:emailConfig.id, emailId: id , mailbox})}}>{data ? "transfered" : "transferEmail"}</Button>
       <div className="flex items-center gap-3 text-2xl">
         <Button
           size="icon"
