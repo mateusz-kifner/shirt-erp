@@ -63,6 +63,7 @@ export const orderRouter = createTRPCRouter({
         address,
         products,
         employees,
+        emails,
         ...simpleOrderData
       } = orderData;
 
@@ -70,6 +71,10 @@ export const orderRouter = createTRPCRouter({
 
       if (files?.length && files.length > 0)
         createData.files = { connect: [...files] };
+
+        // not working and not needed
+      // if (emails?.length && emails.length > 0)
+      //   createData.emails = { connect: [...emails] };
 
       if (products?.length && products.length > 0)
         createData.products = {
@@ -109,6 +114,7 @@ export const orderRouter = createTRPCRouter({
         address,
         products,
         employees,
+        emails,
         ...simpleOrderData
       } = orderData;
 
@@ -127,6 +133,9 @@ export const orderRouter = createTRPCRouter({
 
       if (files && Array.isArray(files))
         updateData.files = { set: files.map((val) => ({ id: val.id })) };
+
+      if (emails && Array.isArray(emails))
+        updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
 
       if (address) updateData.address = { update: address };
 

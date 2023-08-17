@@ -9,7 +9,7 @@ export const emailMessageSchema = z.object({
   html: z.string().nullable().optional(),
   text: z.string().nullable().optional(),
   messageId: z.string().max(255).nullable().optional(),
-  headerLines: z.string().nullable().optional(),
+  headerLines: z.array(z.string()).optional(),
   textAsHtml: z.string().nullable().optional(),
   nextMessageId: z.number().nullable().optional(),
 });

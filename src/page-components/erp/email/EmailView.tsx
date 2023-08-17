@@ -1,5 +1,7 @@
+import ApiList from "@/components/ApiList";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import Button, { buttonVariants } from "@/components/ui/Button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Separator } from "@/components/ui/Separator";
 import {
   Tooltip,
@@ -7,20 +9,26 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 import { useLoaded } from "@/hooks/useLoaded";
+import useTranslation from "@/hooks/useTranslation";
 import { EmailCredentialType } from "@/schema/emailCredential";
+import { OrderType } from "@/schema/orderSchema";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
   IconArrowLeft,
   IconDownload,
+  IconLink,
+  IconLoader2,
   IconStarFilled,
   IconStarHalfFilled,
 } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import DOMPurify from "dompurify";
+import { capitalize } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useId } from "react";
+import { useId, useState } from "react";
+import OrderListItem from "../order/OrderListItem";
 
 interface EmailViewProps {
   emailConfig: EmailCredentialType;
@@ -41,8 +49,12 @@ function EmailView(props: EmailViewProps) {
       refetchOnWindowFocus: false,
     },
   );
-
-  const { mutateAsync: transferEmail} = api.email.downloadByUid.useMutation()
+  const t = useTranslation();
+  const [open, setOpen] = useState(false);
+  const { mutateAsync: transferEmail, isLoading } =
+    api.email.downloadByUid.useMutation();
+  const { mutateAsync: orderUpdate, isLoading: isLoading2 } =
+    api.order.update.useMutation();
 
   if (!data)
     return (
@@ -63,26 +75,73 @@ function EmailView(props: EmailViewProps) {
 
   return (
     <div className="flex flex-col gap-2 p-2">
-      <Button onClick={()=>{id !== null && transferEmail({emailClientId:emailConfig.id, emailId: id , mailbox})}}>{data ? "transfered" : "transferEmail"}</Button>
-      <div className="flex items-center gap-3 text-2xl">
-        <Button
-          size="icon"
-          variant="ghost"
-          className="rounded-full"
-          onClick={() =>
-            router.push(
-              `/erp/email/${emailConfig.user}/${
-                mailbox ? mailbox.replace("/", "-") : "INBOX"
-              }`,
-            )
-          }
-        >
-          <IconArrowLeft />
-        </Button>
-        <EditableDebugInfo label="ID: " keyName="id" value={id?.toString()} />
-        {data.subject}
-        {data.priority === "high" && <IconStarFilled />}
-        {data.priority === "low" && <IconStarHalfFilled />}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 text-2xl">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full"
+            onClick={() =>
+              router.push(
+                `/erp/email/${emailConfig.user}/${
+                  mailbox ? mailbox.replace("/", "-") : "INBOX"
+                }`,
+              )
+            }
+          >
+            <IconArrowLeft />
+          </Button>
+          <EditableDebugInfo label="ID: " keyName="id" value={id?.toString()} />
+          {data.subject}
+          {data.priority === "high" && <IconStarFilled />}
+          {data.priority === "low" && <IconStarHalfFilled />}
+        </div>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild className="rounded-full">
+            <Button size="icon" variant="ghost">
+              <IconLink />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            {isLoading ||
+              (isLoading2 && (
+                <div className="absolute inset-0 flex flex-col justify-center text-center align-middle backdrop-blur-sm">
+                  {isLoading && "Przetwarzanie email-a"}
+                  {isLoading2 && "Aktualizacja zamówienia"}
+                  <div className="flex w-full justify-center align-middle">
+                    <IconLoader2 size={44} className="animate-spin" />
+                  </div>
+                </div>
+              ))}
+            <ApiList
+              ListItem={OrderListItem}
+              entryName={"order"}
+              label={capitalize(t.order.plural)}
+              onChange={(val: OrderType) => {
+                id !== null &&
+                  transferEmail({
+                    emailClientId: emailConfig.id,
+                    emailId: id,
+                    mailbox,
+                  }).then((emailData) => {
+                    const newMails = val.emails ? val.emails : [];
+                    newMails.push(emailData);
+                    orderUpdate({ id: val.id, emails: newMails }).then(() =>
+                      setOpen(false),
+                    );
+                  });
+                console.log(val);
+              }}
+              listItemProps={
+                {
+                  // linkTo: (val: { id: number }) => `/erp/${entryName}/${val.id}`,
+                }
+              }
+
+              // {...orderListSearchParams}
+            />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="flex justify-between">
         <div className="flex gap-2">

@@ -24,7 +24,7 @@ export const orderSchema = z.object({
   workTime: z.number().nullable().optional(),
   client: clientSchema.nullable().optional(),
   address: addressSchema.nullable().optional(),
-  emails: emailMessageSchema.nullable().optional(),
+  emails: z.array(emailMessageSchema).optional(),
 });
 
 export type OrderType = z.infer<typeof orderSchema>;
