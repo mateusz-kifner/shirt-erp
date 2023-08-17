@@ -8,6 +8,7 @@ import { designRouter } from "./routers/design";
 import { emailRouter } from "./routers/email";
 import { expenseRouter } from "./routers/expense";
 import { orderRouter } from "./routers/order";
+import { orderArchiveRouter } from "./routers/orderArchive";
 import { searchRouter } from "./routers/search";
 import { spreadsheetRouter } from "./routers/spreadsheet";
 import { userRouter } from "./routers/user";
@@ -24,6 +25,7 @@ export const appRouter = createTRPCRouter({
   settings: settingsRouter,
   client: clientRouter,
   order: orderRouter,
+  orderArchive: orderArchiveRouter,
   spreadsheet: spreadsheetRouter,
   design: designRouter,
   user: userRouter,
