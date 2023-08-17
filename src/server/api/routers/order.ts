@@ -150,4 +150,62 @@ export const orderRouter = createTRPCRouter({
     }),
   search: createProcedureSearch("order"),
   searchWithPagination: createProcedureSearchWithPagination("order"),
+  archiveById: authenticatedProcedure
+    .input(z.number())
+    .mutation(async ({ input: orderId }) => {
+      const orderData = await prisma.order.findUniqueOrThrow({
+        where: { id: orderId },
+        include: includeAll,
+      });
+
+      const {
+        id,
+        address,
+        emails,
+        files,
+        employees,
+        client,
+        designs,
+        products,
+        spreadsheets,
+        clientId,
+        addressId,
+        ...simpleOrderData
+      } = orderData;
+
+      const newOrderArchiveData: Prisma.OrderArchiveCreateInput = {
+        ...simpleOrderData,
+      };
+
+      if (address?.id !== undefined)
+        newOrderArchiveData.address = { connect: { id: address.id } };
+      newOrderArchiveData.emails = {
+        connect: emails.map((v) => ({ id: v.id })),
+      };
+      newOrderArchiveData.files = { connect: files.map((v) => ({ id: v.id })) };
+      newOrderArchiveData.employees = {
+        connect: employees.map((v) => ({ id: v.id })),
+      };
+      if (client?.id !== undefined)
+        newOrderArchiveData.client = { connect: { id: client.id } };
+      newOrderArchiveData.designs = {
+        connect: designs.map((v) => ({ id: v.id })),
+      };
+      newOrderArchiveData.products = {
+        connect: products.map((v) => ({ id: v.id })),
+      };
+      newOrderArchiveData.spreadsheets = {
+        connect: spreadsheets.map((v) => ({ id: v.id })),
+      };
+
+      const orderArchiveData = await prisma.orderArchive.create({
+        data: newOrderArchiveData,
+      });
+      if (orderArchiveData) {
+        await prisma.order.delete({
+          where: { id },
+        });
+      }
+      return orderArchiveData;
+    }),
 });

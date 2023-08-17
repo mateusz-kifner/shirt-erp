@@ -49,11 +49,11 @@ import ClientListItem from "../client/ClientListItem";
 import ProductListItem from "../product/ProductListItem";
 import UserListItem from "../user/UserListItem";
 
-interface OrderEditableProps {
+interface OrderArchiveEditableProps {
   id: number | null;
 }
 
-function OrderEditable(props: OrderEditableProps) {
+function OrderArchiveEditable(props: OrderArchiveEditableProps) {
   const { id } = props;
   const isLoaded = useLoaded();
   const router = useRouter();
@@ -62,15 +62,21 @@ function OrderEditable(props: OrderEditableProps) {
     number | null
   >(null);
 
-  const { data, refetch } = api.order.getById.useQuery(id as number, {
-    enabled: id !== null,
-  });
-  const { mutateAsync: update } = api.order.update.useMutation({
+  const { data, refetch } = api["order-archive"].getById.useQuery(
+    id as number,
+    {
+      enabled: id !== null,
+    },
+  );
+  const { mutateAsync: update } = api["order-archive"].update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
+  const { mutateAsync: deleteById } =
+    api["order-archive"].deleteById.useMutation();
+  const { mutateAsync: unarchiveById } =
+    api["order-archive"].unarchiveById.useMutation();
 
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
@@ -81,6 +87,13 @@ function OrderEditable(props: OrderEditableProps) {
   const apiDelete = () => {
     if (!data) return;
     deleteById(data.id).then(() => {
+      router.push(`/erp/order`);
+    });
+  };
+
+  const apiUnarchive = () => {
+    if (!data) return;
+    unarchiveById(data.id).then(() => {
       router.push(`/erp/order`);
     });
   };
@@ -260,6 +273,30 @@ function OrderEditable(props: OrderEditableProps) {
       </Editable>
       <AlertDialog>
         <AlertDialogTrigger asChild className="mt-6">
+          <Button
+            variant="default"
+            className="bg-orange-600 hover:bg-orange-800"
+          >
+            {t.unarchive} {t.order.singular}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
+            <AlertDialogDescription>
+              {t.unarchive} {t.order.singular}{" "}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
+            <AlertDialogAction onClick={apiUnarchive}>
+              {t.unarchive}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className="mt-3">
           <Button variant="destructive">
             {t.delete} {t.order.singular}
           </Button>
@@ -283,4 +320,4 @@ function OrderEditable(props: OrderEditableProps) {
   );
 }
 
-export default OrderEditable;
+export default OrderArchiveEditable;

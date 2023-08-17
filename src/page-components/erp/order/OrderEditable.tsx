@@ -71,6 +71,7 @@ function OrderEditable(props: OrderEditableProps) {
     },
   });
   const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
+  const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
@@ -81,6 +82,13 @@ function OrderEditable(props: OrderEditableProps) {
   const apiDelete = () => {
     if (!data) return;
     deleteById(data.id).then(() => {
+      router.push(`/erp/order`);
+    });
+  };
+
+  const apiArchive = () => {
+    if (!data) return;
+    archiveById(data.id).then(() => {
       router.push(`/erp/order`);
     });
   };
@@ -260,6 +268,30 @@ function OrderEditable(props: OrderEditableProps) {
       </Editable>
       <AlertDialog>
         <AlertDialogTrigger asChild className="mt-6">
+          <Button
+            variant="default"
+            className="bg-orange-600 hover:bg-orange-800"
+          >
+            {t.archive} {t.order.singular}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
+            <AlertDialogDescription>
+              {t.archive} {t.order.singular}{" "}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
+            <AlertDialogAction onClick={apiArchive}>
+              {t.archive}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog>
+        <AlertDialogTrigger asChild className="mt-3">
           <Button variant="destructive">
             {t.delete} {t.order.singular}
           </Button>
