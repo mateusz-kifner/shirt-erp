@@ -11,7 +11,6 @@ import {
 import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
-import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import TablerIconType from "@/schema/TablerIconType";
@@ -65,8 +64,8 @@ const Workspace = ({
   );
 
   const t = useTranslation();
-  const { navigationCollapsed, toggleNavigationCollapsed, debug } =
-    useUserContext();
+  // const { navigationCollapsed, toggleNavigationCollapsed, debug } =
+  //   useUserContext();
   const { ref, width } = useElementSize();
   const childrenCount = Children.count(children);
   const childrenWrapperProps2 =

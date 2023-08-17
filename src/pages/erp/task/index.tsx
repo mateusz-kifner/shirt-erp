@@ -22,6 +22,7 @@ import Pagination from "@/components/ui/Pagination";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
+import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import TaskView from "@/page-components/erp/task/TaskView";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
@@ -250,7 +251,7 @@ const TasksPage = () => {
           <TaskView id={id} />
         </div>
         <div className="relative p-4">
-          <div>{/*MAILS HERE*/}TODO: Add mails here</div>
+          {orderData && <OrderMessagesView order={orderData as any} />}
         </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (
