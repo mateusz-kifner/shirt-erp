@@ -53,7 +53,6 @@ const EditableTableView = (props: EditableTableProps) => {
   const uuid = useId();
 
   const meta_id = Object.values(metadata)[0]?.id;
-  if (meta_id === undefined) throw new Error("meta_id is not correct");
   const { data: valueData, refetch } = api.spreadsheet.getById.useQuery(id, {});
   const { mutateAsync: update } = api.spreadsheet.update.useMutation();
 
@@ -61,7 +60,7 @@ const EditableTableView = (props: EditableTableProps) => {
   // FIXME: make memo refresh after changes to table
   const verify = useMemo(
     () =>
-      Array.isArray(value) && value.length > 0
+      Array.isArray(value) && value.length > 0 && meta_id !== undefined
         ? metadataActions[0]?.action(value, meta_id)
         : null,
     //eslint-disable-next-line
