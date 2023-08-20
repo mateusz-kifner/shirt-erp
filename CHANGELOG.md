@@ -4,6 +4,18 @@
 
 ### Added
 
+-
+
+### Changed
+
+### Removed
+
+- unused pages
+
+## [1.2.0] DEV 1 - 15.08.2023
+
+### Added
+
 - Added detach option to tabs
 - Email client
 - nextjs / trpc / prisma Backend

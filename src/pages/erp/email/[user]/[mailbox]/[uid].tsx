@@ -24,7 +24,7 @@ function EmailMessage(props: EmailMessageProps) {
   ).replace("-", "/");
   const uid = getQueryAsIntOrNull(router, "uid");
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   const { data: emailClients, isLoading } = api.email.getAllConfigs.useQuery(
     undefined,

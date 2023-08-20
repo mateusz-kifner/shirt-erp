@@ -4,7 +4,6 @@ import {
   IconBell,
   IconChecklist,
   IconCrown,
-  IconFile,
   IconMail,
   IconShirt,
   IconShoppingCart,
@@ -64,13 +63,13 @@ const navigationData: {
     entryName: "email",
     gradient: { from: "#3B5BDB", to: "#099268", deg: 105 },
   },
-  {
-    label: "Logi",
-    Icon: IconBell,
-    href: "/erp/log",
-    entryName: "log",
-    debug: true,
-  },
+  // {
+  //   label: "Logi",
+  //   Icon: IconBell,
+  //   href: "/erp/log",
+  //   entryName: "log",
+  //   debug: true,
+  // },
   {
     label: "Zamówienia archiwalne",
     Icon: IconBell,
@@ -85,14 +84,14 @@ const navigationData: {
     entryName: "user",
     debug: true,
   },
-  {
-    label: "Pliki",
-    Icon: IconFile,
-    href: "/erp/file",
-    entryName: "upload/file",
-    gradient: { from: "#2F9E44", to: "#66A80F", deg: 105 },
-    debug: true,
-  },
+  // {
+  //   label: "Pliki",
+  //   Icon: IconFile,
+  //   href: "/erp/file",
+  //   entryName: "upload/file",
+  //   gradient: { from: "#2F9E44", to: "#66A80F", deg: 105 },
+  //   debug: true,
+  // },
 ];
 
 export default navigationData;

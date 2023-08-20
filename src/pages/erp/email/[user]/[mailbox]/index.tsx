@@ -31,7 +31,7 @@ function EmailMailbox(props: EmailMailboxProps) {
       refetchOnWindowFocus: false,
     },
   );
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   const [refreshCounter, setRefreshCounter] = useState(0); // this is hack
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);

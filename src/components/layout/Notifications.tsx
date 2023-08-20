@@ -27,7 +27,7 @@ const Notifications = () => {
   const { data, error, isError } = api.session.me.useQuery(undefined, {
     retry: false,
   });
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
   useEffect(() => {
     if (
       isError &&

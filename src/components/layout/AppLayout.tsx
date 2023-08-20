@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 function Layout({ children }: PropsWithChildren) {
   const { navigationCollapsed } = useUserContext();
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
   const router = useRouter();
 
   useEffect(() => {

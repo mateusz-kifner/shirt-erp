@@ -19,7 +19,7 @@ function Navigation() {
     mobileOpen,
     setMobileOpen,
   } = useUserContext();
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   return (
     <div

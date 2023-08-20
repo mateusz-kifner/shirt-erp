@@ -11,7 +11,7 @@ import Search from "./Search";
 const Header = () => {
   const { ref, width: actionButtonsWidth } = useElementSize();
   const { navigationCollapsed, setMobileOpen, mobileOpen } = useUserContext();
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   return (
     <div className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 px-4">

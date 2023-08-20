@@ -19,7 +19,7 @@ import {
 } from "./multiTabsContext";
 
 interface MultiTabsProps {
-  children: ReactElement | null | (ReactElement | null)[];
+  children: ReactElement | ReactElement[];
   active: number;
   setActive: Dispatch<SetStateAction<number>>;
   pinned?: number[];
@@ -33,7 +33,7 @@ function MultiTabs(props: MultiTabsProps) {
   const innerRef = useRef<HTMLDivElement>(null);
   const [outerRef, outerRect] = useResizeObserver();
 
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
   useEffect(() => {
     portalContainerRef.current = document.querySelector("#HeaderTabs");
     portalMobileContainerRef.current = document.querySelector("#MobileMenu");
@@ -88,14 +88,14 @@ function MultiTabs(props: MultiTabsProps) {
 }
 
 function MultiTabsContent(props: {
-  children: ReactElement | null | (ReactElement | null)[];
+  children: ReactElement | ReactElement[];
   parentWidth: number;
 }) {
   const { children, parentWidth } = props;
   const { tabsMaxWidth, togglePin, setActive, pinned } = useMultiTabsContext();
   const [small, setSmall] = useState(false);
   const childrenMaxWidth = tabsMaxWidth.reduce((p, n) => p + n, 0);
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (parentWidth > 0) {

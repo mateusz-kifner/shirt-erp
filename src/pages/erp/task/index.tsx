@@ -36,7 +36,7 @@ const entryName = "task";
 const itemsPerPage = 10;
 
 const TasksPage = () => {
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");

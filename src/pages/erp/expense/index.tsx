@@ -1,9 +1,9 @@
 import Workspace from "@/components/layout/Workspace";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import ExpenseAddModal from "@/page-components/erp/expense/ExpenseAddModal";
 import ExpenseEditable from "@/page-components/erp/expense/ExpenseEditable";
 import ExpenseList from "@/page-components/erp/expense/ExpenseList";
 import { getQueryAsIntOrNull } from "@/utils/query";
-import { useMediaQuery } from "@mantine/hooks";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -14,30 +14,28 @@ interface ExpensePageProps {}
 
 function ExpensePage(props: ExpensePageProps) {
   const {} = props;
+  const isMobile = useIsMobile();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const isMobile = useMediaQuery(
-    "only screen and (hover: none) and (pointer: coarse)",
-  );
 
   return (
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        childrenLabels={
-          id ? ["Lista wydatków", "Właściwości"] : ["Lista wydatków"]
+        navigationMetadata={[{ label: "Lista wydatków", icon: IconList }]}
+        childrenMetadata={[{ label: "Właściwości", icon: IconNotebook }]}
+        // navigationStartSection={[]}
+        // navigationEndSection={[]}
+        navigation={
+          <div className="relative p-4">
+            <ExpenseList
+              selectedId={id}
+              onAddElement={() => setOpenAddModal(true)}
+            />
+          </div>
         }
-        childrenIcons={[IconList, IconNotebook]}
-        defaultActive={id ? 1 : 0}
-        defaultPinned={isMobile ? [] : id ? [0] : []}
       >
-        <div className="relative p-4">
-          <ExpenseList
-            selectedId={id}
-            onAddElement={() => setOpenAddModal(true)}
-          />
-        </div>
         <div className="relative flex flex-col gap-4 p-4">
           <ExpenseEditable id={id} />
         </div>
@@ -47,7 +45,7 @@ function ExpensePage(props: ExpensePageProps) {
         onClose={(id?: number) => {
           setOpenAddModal(false);
           id !== undefined &&
-            router.push(`/erp/expense/${id}`).catch((e) => {
+            router.push(`/erp/${entryName}/${id}`).catch((e) => {
               throw e;
             });
         }}

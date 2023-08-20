@@ -62,7 +62,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
     refetchOnWindowFocus: false,
   });
 
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
   const [loadingAnimation, setLoadingAnimation] = useState(false);
   return (
     <div

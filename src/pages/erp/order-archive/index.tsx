@@ -46,7 +46,7 @@ const entryName = "order-archive";
 const OrderArchivesPage: NextPage = () => {
   const uuid = useId();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");

@@ -14,7 +14,7 @@ const entryName = "client";
 
 const ClientsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const { isMobile } = useIsMobile();
+  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
