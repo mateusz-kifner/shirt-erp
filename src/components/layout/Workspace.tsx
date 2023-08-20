@@ -99,6 +99,11 @@ const Workspace = ({
     },
   );
 
+  const allActive = Array.from(
+    new Set([multiTabsState.active, ...multiTabsState.pinned]),
+  );
+  const navigationChildrenCount = Children.count(navigation);
+
   return (
     <div
       className="flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4"
@@ -145,59 +150,63 @@ const Workspace = ({
       )}
       {!isMobile &&
         navigation &&
-        Children.map(navigation, (child, childIndex) => (
-          <div
-            key={`${uuid} ${childIndex}`}
-            className={cn(
-              "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
-              isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
-            )}
-            {...(navigationMetadata &&
-            navigationMetadata[childIndex]?.props !== undefined
-              ? navigationMetadata[childIndex]?.props
-              : { style: {} })}
-          >
-            <ErrorBoundary
-              fallback={
-                <h1>
-                  Tab number {childIndex} named {'"'}
-                  {childrenMetadata?.[childIndex]?.label ?? "[unknown]"}
-                  {'"'} encountered irreparable error and crashed, please reload
-                  page.
-                </h1>
-              }
+        Children.map(navigation, (child, childIndex) =>
+          allActive.includes(childIndex) ? (
+            <div
+              key={`${uuid} ${childIndex}`}
+              className={cn(
+                "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
+                isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
+              )}
+              {...(navigationMetadata &&
+              navigationMetadata[childIndex]?.props !== undefined
+                ? navigationMetadata[childIndex]?.props
+                : { style: {} })}
             >
-              {child}
-            </ErrorBoundary>
-          </div>
-        ))}
+              <ErrorBoundary
+                fallback={
+                  <h1>
+                    Tab number {childIndex} named {'"'}
+                    {childrenMetadata?.[childIndex]?.label ?? "[unknown]"}
+                    {'"'} encountered irreparable error and crashed, please
+                    reload page.
+                  </h1>
+                }
+              >
+                {child}
+              </ErrorBoundary>
+            </div>
+          ) : null,
+        )}
       {children &&
-        Children.map(children, (child, childIndex) => (
-          <div
-            key={`${uuid} ${childIndex}`}
-            className={cn(
-              "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
-              isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
-            )}
-            {...(childrenMetadata &&
-            childrenMetadata[childIndex]?.props !== undefined
-              ? childrenMetadata[childIndex]?.props
-              : { style: { flexGrow: 1 } })}
-          >
-            <ErrorBoundary
-              fallback={
-                <h1>
-                  Tab number {childIndex} named {'"'}
-                  {childrenMetadata?.[childIndex]?.label ?? "[unknown]"}
-                  {'"'} encountered irreparable error and crashed, please reload
-                  page.
-                </h1>
-              }
+        Children.map(children, (child, childIndex) =>
+          allActive.includes(childIndex + navigationChildrenCount) ? (
+            <div
+              key={`${uuid} ${childIndex}`}
+              className={cn(
+                "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
+                isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
+              )}
+              {...(childrenMetadata &&
+              childrenMetadata[childIndex]?.props !== undefined
+                ? childrenMetadata[childIndex]?.props
+                : { style: { flexGrow: 1 } })}
             >
-              {child}
-            </ErrorBoundary>
-          </div>
-        ))}
+              <ErrorBoundary
+                fallback={
+                  <h1>
+                    Tab number {childIndex} named {'"'}
+                    {childrenMetadata?.[childIndex]?.label ?? "[unknown]"}
+                    {'"'} encountered irreparable error and crashed, please
+                    reload page.
+                  </h1>
+                }
+              >
+                {child}
+              </ErrorBoundary>
+            </div>
+          ) : null,
+        )}
     </div>
   );
 };

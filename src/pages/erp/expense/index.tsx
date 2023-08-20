@@ -25,8 +25,6 @@ function ExpensePage(props: ExpensePageProps) {
         cacheKey={entryName}
         navigationMetadata={[{ label: "Lista wydatków", icon: IconList }]}
         childrenMetadata={[{ label: "Właściwości", icon: IconNotebook }]}
-        // navigationStartSection={[]}
-        // navigationEndSection={[]}
         navigation={
           <div className="relative p-4">
             <ExpenseList
