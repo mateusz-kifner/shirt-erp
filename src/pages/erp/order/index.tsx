@@ -6,7 +6,6 @@ import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
-import { Tab } from "@/components/layout/MultiTabs/Tab";
 import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
 import {
@@ -31,12 +30,10 @@ import {
   IconList,
   IconMail,
   IconNotebook,
-  IconPlus,
   IconRobot,
   IconRuler2,
   IconTable,
   IconTrashX,
-  IconVector,
 } from "@tabler/icons-react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
@@ -68,34 +65,17 @@ const OrdersPage: NextPage = () => {
   const [status, setStatus] = useState<
     "loading" | "idle" | "error" | "success"
   >("idle");
-  const childrenIcons = [
-    IconList,
-    IconNotebook,
-    IconMail,
-    ...((orderData &&
-      orderData?.spreadsheets &&
-      orderData?.spreadsheets.map(() => IconTable)) ??
-      []),
-    IconVector,
-  ];
 
-  const childrenLabels = id
-    ? [
-        "Lista zamówień",
-        "Właściwości",
-        "E-maile",
-        ...(orderData && Array.isArray(orderData?.spreadsheets)
-          ? orderData.spreadsheets.map(
-              (sheet, index) => sheet.name ?? `[${t.sheet}]`,
-            )
-          : []),
-        ...(orderData && Array.isArray(orderData?.designs)
-          ? orderData.designs.map(
-              (design, index) => design.name ?? `[${t.design}]`,
-            )
-          : []),
-      ]
-    : ["Lista zamówień"];
+  const childrenMetadata = [
+    { label: "Właściwości", icon: IconNotebook },
+    { label: "E-maile", icon: IconMail },
+    ...(orderData && Array.isArray(orderData?.spreadsheets)
+      ? orderData.spreadsheets.map((sheet, index) => ({
+          label: sheet.name ?? `[${t.sheet}]`,
+          icon: IconTable,
+        }))
+      : []),
+  ];
 
   const apiUpdate = (key: string, val: any) => {
     setStatus("loading");
@@ -232,47 +212,51 @@ const OrdersPage: NextPage = () => {
     <>
       <Workspace
         cacheKey={entryName}
-        childrenLabels={childrenLabels}
-        childrenIcons={childrenIcons}
-        defaultActive={id ? 1 : 0}
-        defaultPinned={isMobile ? [] : id ? [0] : []}
-        rightMenuSection={
-          id !== null ? (
-            // <DropdownMenu>
-            //   <DropdownMenuTrigger asChild>
-            <Tab
-              className="p-2"
-              index={-1}
-              onClick={addSpreadsheet}
-              leftSection={<IconPlus />}
-            ></Tab>
-          ) : //   </DropdownMenuTrigger>
-          //   <DropdownMenuContent>
-          //     <DropdownMenuItem onClick={addSpreadsheet}>
-          //       <IconTable />
-          //       {t.sheet}
-          //     </DropdownMenuItem>
-          //     <DropdownMenuItem onClick={addDesign}>
-          //       <IconVector />
-          //       {t.design}
-          //     </DropdownMenuItem>
-          //   </DropdownMenuContent>
-          // </DropdownMenu>
-          null
+        navigationMetadata={[{ label: "Lista zamówień", icon: IconList }]}
+        childrenMetadata={id !== null ? childrenMetadata : []}
+        // rightMenuSection={
+        //   id !== null ? (
+        //     // <DropdownMenu>
+        //     //   <DropdownMenuTrigger asChild>
+        //     <Tab
+        //       className="p-2"
+        //       index={-1}
+        //       onClick={addSpreadsheet}
+        //       leftSection={<IconPlus />}
+        //     ></Tab>
+        //   ) : //   </DropdownMenuTrigger>
+        //   //   <DropdownMenuContent>
+        //   //     <DropdownMenuItem onClick={addSpreadsheet}>
+        //   //       <IconTable />
+        //   //       {t.sheet}
+        //   //     </DropdownMenuItem>
+        //   //     <DropdownMenuItem onClick={addDesign}>
+        //   //       <IconVector />
+        //   //       {t.design}
+        //   //     </DropdownMenuItem>
+        //   //   </DropdownMenuContent>
+        //   // </DropdownMenu>
+        //   null
+        // }
+        navigation={
+          <div className="relative p-4">
+            <OrderList
+              selectedId={id}
+              onAddElement={() => setOpenAddModal(true)}
+            />
+          </div>
         }
       >
-        <div className="relative p-4">
-          <OrderList
-            selectedId={id}
-            onAddElement={() => setOpenAddModal(true)}
-          />
-        </div>
-        <div className="relative flex flex-col gap-4 p-4 ">
-          <OrderEditable id={id} />
-        </div>
-        <div className="relative p-4">
-          {orderData && <OrderMessagesView order={orderData as any} />}
-        </div>
+        {id !== null && (
+          <div className="relative flex flex-col gap-4 p-4 ">
+            <OrderEditable id={id} />
+          </div>
+        )}
+        {orderData && (
+          <div className="relative p-4">
+            <OrderMessagesView order={orderData as any} />
+          </div>
+        )}
         {orderData &&
           orderData.spreadsheets.map((val, index) => (
             <div key={`${uuid}spreadsheet:${index}:`}>

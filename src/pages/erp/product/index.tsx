@@ -23,22 +23,24 @@ const ProductsPage = () => {
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        childrenLabels={
-          id ? ["Lista produktów", "Właściwości"] : ["Lista produktów"]
+        navigationMetadata={[{ label: "Lista produktów", icon: IconList }]}
+        childrenMetadata={
+          id !== null ? [{ label: "Właściwości", icon: IconNotebook }] : []
         }
-        childrenIcons={[IconList, IconNotebook]}
-        defaultActive={id ? 1 : 0}
-        defaultPinned={isMobile ? [] : id ? [0] : []}
+        navigation={
+          <div className="relative p-4">
+            <ProductsList
+              selectedId={id}
+              onAddElement={() => setOpenAddModal(true)}
+            />
+          </div>
+        }
       >
-        <div className="relative p-4">
-          <ProductsList
-            selectedId={id}
-            onAddElement={() => setOpenAddModal(true)}
-          />
-        </div>
-        <div className="relative flex flex-col gap-4 p-4 ">
-          <ProductEditable id={id} />
-        </div>
+        {id !== null && (
+          <div className="relative flex flex-col gap-4 p-4 ">
+            <ProductEditable id={id} />
+          </div>
+        )}
       </Workspace>
       <ProductAddModal
         opened={openAddModal}

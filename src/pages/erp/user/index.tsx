@@ -23,22 +23,24 @@ const UsersPage = () => {
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        childrenLabels={
-          id ? ["Lista klientów", "Właściwości"] : ["Lista klientów"]
+        navigationMetadata={[{ label: "Lista klientów", icon: IconList }]}
+        childrenMetadata={
+          id !== null ? [{ label: "Właściwości", icon: IconNotebook }] : []
         }
-        childrenIcons={[IconList, IconNotebook]}
-        defaultActive={id ? 1 : 0}
-        defaultPinned={isMobile ? [] : id ? [0] : []}
+        navigation={
+          <div className="relative p-4 ">
+            <UsersList
+              selectedId={id}
+              onAddElement={() => setOpenAddModal(true)}
+            />
+          </div>
+        }
       >
-        <div className="relative p-4 ">
-          <UsersList
-            selectedId={id}
-            onAddElement={() => setOpenAddModal(true)}
-          />
-        </div>
-        <div className="relative flex flex-col gap-4 p-4 ">
-          <UserEditable id={id} />
-        </div>
+        {id !== null && (
+          <div className="relative flex flex-col gap-4 p-4 ">
+            <UserEditable id={id} />
+          </div>
+        )}
       </Workspace>
       <UserAddModal
         opened={openAddModal}

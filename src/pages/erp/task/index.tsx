@@ -9,7 +9,6 @@ import {
   IconSortAscending,
   IconSortDescending,
   IconTable,
-  IconVector,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
@@ -55,34 +54,16 @@ const TasksPage = () => {
 
   const label = entryName ? capitalize(t[entryName].plural) : undefined;
 
-  const childrenIcons = [
-    IconList,
-    IconNotebook,
-    IconMail,
-    ...((orderData &&
-      orderData?.spreadsheets &&
-      orderData?.spreadsheets.map(() => IconTable)) ??
-      []),
-    IconVector,
+  const childrenMetadata = [
+    { label: "Właściwości", icon: IconNotebook },
+    { label: "E-maile", icon: IconMail },
+    ...(orderData && Array.isArray(orderData?.spreadsheets)
+      ? orderData.spreadsheets.map((sheet, index) => ({
+          label: sheet.name ?? `[${t.sheet}]`,
+          icon: IconTable,
+        }))
+      : []),
   ];
-
-  const childrenLabels = id
-    ? [
-        "Lista zadań",
-        "Właściwości",
-        "E-maile",
-        ...(orderData && Array.isArray(orderData?.spreadsheets)
-          ? orderData.spreadsheets.map(
-              (sheet, index) => sheet.name ?? `[${t.sheet}]`,
-            )
-          : []),
-        ...(orderData && Array.isArray(orderData?.designs)
-          ? orderData.designs.map(
-              (design, index) => design.name ?? `[${t.design}]`,
-            )
-          : []),
-      ]
-    : ["Lista zadań"];
 
   const metadata = orderData
     ? orderData?.products?.reduce(
@@ -111,145 +92,147 @@ const TasksPage = () => {
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        childrenLabels={childrenLabels}
-        childrenIcons={childrenIcons}
-        defaultActive={id ? 1 : 0}
-        defaultPinned={isMobile ? [] : id ? [0] : []}
-      >
-        <div className="relative flex flex-col gap-2 p-4">
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-between px-2">
-              <h2 className="text-2xl font-bold">{label}</h2>
-              <div className="flex gap-2">
-                {/* {!!buttonSection && buttonSection} */}
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="
+        navigationMetadata={[{ label: "Lista zadań", icon: IconList }]}
+        childrenMetadata={id !== null ? childrenMetadata : []}
+        navigation={
+          <div className="relative flex flex-col gap-2 p-4">
+            <div className="flex flex-col gap-2">
+              <div className="flex justify-between px-2">
+                <h2 className="text-2xl font-bold">{label}</h2>
+                <div className="flex gap-2">
+                  {/* {!!buttonSection && buttonSection} */}
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="
+                h-9
+                w-9
+                rounded-full
+              border-gray-400
+                p-1 
+                text-gray-700
+                dark:border-stone-600
+                dark:text-stone-400"
+                    onClick={() => {
+                      // refetch()
+                      // onRefresh?.();
+                    }}
+                  >
+                    <IconRefresh />
+                  </Button>
+                  {/* {showAddButton && (
+            <Button
+              size="icon"
+              variant="outline"
+              className="
                   h-9
                   w-9
-                  rounded-full
-                border-gray-400
-                  p-1 
-                  text-gray-700
-                  dark:border-stone-600
-                  dark:text-stone-400"
-                  onClick={() => {
-                    // refetch()
-                    // onRefresh?.();
-                  }}
-                >
-                  <IconRefresh />
-                </Button>
-                {/* {showAddButton && (
-              <Button
-                size="icon"
-                variant="outline"
-                className="
-                    h-9
-                    w-9
-                    rounded-full                 
-                    border-gray-400
-                    p-1 
-                    text-gray-700
-                    dark:border-stone-600
-                  dark:text-stone-400
-                  "
-                onClick={onAddElement}
-              >
-                <IconPlus />
-              </Button>
-            )} */}
-              </div>
-            </div>
-            <div className="flex gap-3 px-2.5">
-              <div className="flex ">
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="
-                  h-9
-                  w-9
-                  rounded-full
+                  rounded-full                 
                   border-gray-400
                   p-1 
                   text-gray-700
                   dark:border-stone-600
-                  dark:text-stone-400
-                  "
-                  onClick={() => toggleSortOrder()}
-                >
-                  {sortOrder === "asc" ? (
-                    <IconSortDescending />
-                  ) : (
-                    <IconSortAscending />
-                  )}
-                </Button>
+                dark:text-stone-400
+                "
+              onClick={onAddElement}
+            >
+              <IconPlus />
+            </Button>
+          )} */}
+                </div>
               </div>
-              <input
-                name={"search" + uuid}
-                id={"search" + uuid}
-                className="
-                data-disabled:text-gray-500
-                dark:data-disabled:text-gray-500
-                data-disabled:bg-transparent 
-                dark:data-disabled:bg-transparent
+              <div className="flex gap-3 px-2.5">
+                <div className="flex ">
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="
                 h-9
-                max-h-screen
-                w-full
-                resize-none
-                gap-2 
-                overflow-hidden
-                whitespace-pre-line 
-                break-words
+                w-9
                 rounded-full
-                border
-                border-solid 
                 border-gray-400
-                bg-white
-                px-4
-                py-2
-                text-sm
-                leading-normal 
-                outline-none 
-                read-only:bg-transparent
-                read-only:outline-none
-                focus:border-sky-600
+                p-1 
+                text-gray-700
                 dark:border-stone-600
-                dark:bg-stone-800 
-                dark:outline-none 
-                dark:read-only:bg-transparent 
-                dark:read-only:outline-none
-                dark:focus:border-sky-600"
-                type="text"
-                onChange={(value) => setQuery(value.target.value)}
-                placeholder={`${t.search}...`}
-              />
+                dark:text-stone-400
+                "
+                    onClick={() => toggleSortOrder()}
+                  >
+                    {sortOrder === "asc" ? (
+                      <IconSortDescending />
+                    ) : (
+                      <IconSortAscending />
+                    )}
+                  </Button>
+                </div>
+                <input
+                  name={"search" + uuid}
+                  id={"search" + uuid}
+                  className="
+              data-disabled:text-gray-500
+              dark:data-disabled:text-gray-500
+              data-disabled:bg-transparent 
+              dark:data-disabled:bg-transparent
+              h-9
+              max-h-screen
+              w-full
+              resize-none
+              gap-2 
+              overflow-hidden
+              whitespace-pre-line 
+              break-words
+              rounded-full
+              border
+              border-solid 
+              border-gray-400
+              bg-white
+              px-4
+              py-2
+              text-sm
+              leading-normal 
+              outline-none 
+              read-only:bg-transparent
+              read-only:outline-none
+              focus:border-sky-600
+              dark:border-stone-600
+              dark:bg-stone-800 
+              dark:outline-none 
+              dark:read-only:bg-transparent 
+              dark:read-only:outline-none
+              dark:focus:border-sky-600"
+                  type="text"
+                  onChange={(value) => setQuery(value.target.value)}
+                  placeholder={`${t.search}...`}
+                />
+              </div>
             </div>
+            <div className="flex flex-grow flex-col">
+              <List
+                ListItem={OrderListItem}
+                data={filteredOrders.filter(
+                  (val, index) =>
+                    index >= (page - 1) * itemsPerPage &&
+                    index < page * itemsPerPage,
+                )}
+                onChange={(val) => {
+                  router.push(`/erp/task/${val.id}`).catch(console.log);
+                }}
+                selectedId={id}
+              ></List>
+            </div>
+            <Pagination
+              totalPages={totalPages}
+              initialPage={1}
+              onPageChange={setPage}
+            />
           </div>
-          <div className="flex flex-grow flex-col">
-            <List
-              ListItem={OrderListItem}
-              data={filteredOrders.filter(
-                (val, index) =>
-                  index >= (page - 1) * itemsPerPage &&
-                  index < page * itemsPerPage,
-              )}
-              onChange={(val) => {
-                router.push(`/erp/task/${val.id}`).catch(console.log);
-              }}
-              selectedId={id}
-            ></List>
+        }
+      >
+        {id !== null && (
+          <div className="relative flex flex-col gap-4 p-4 ">
+            <TaskView id={id} />
           </div>
-          <Pagination
-            totalPages={totalPages}
-            initialPage={1}
-            onPageChange={setPage}
-          />
-        </div>
-        <div className="relative flex flex-col gap-4 p-4 ">
-          <TaskView id={id} />
-        </div>
+        )}
         <div className="relative p-4">
           {orderData && <OrderMessagesView order={orderData as any} />}
         </div>
