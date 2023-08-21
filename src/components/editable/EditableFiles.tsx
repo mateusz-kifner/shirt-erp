@@ -223,7 +223,7 @@ const EditableFiles = (props: EditableFilesProps) => {
             ))
           ) : (
             <div
-              className={`flex h-24 items-center justify-center gap-2 rounded-t border-l border-r border-t border-solid border-gray-400 dark:border-stone-600 ${
+              className={`flex h-24 items-center justify-center gap-2 rounded-t border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600 ${
                 dragActive ? "text-xl" : ""
               }`}
             >
