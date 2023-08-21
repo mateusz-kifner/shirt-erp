@@ -92,6 +92,7 @@ const Workspace = ({
               "resizable,scrollbars=yes,toolbar=no,status=no,location=no,menubar=no",
             )
           }
+          {...metadata.props}
         >
           {metadata.label}
         </Tab>

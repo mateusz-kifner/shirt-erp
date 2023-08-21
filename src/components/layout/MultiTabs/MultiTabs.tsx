@@ -130,7 +130,6 @@ function MultiTabsContent(props: {
                 ? child.props.onMouseDown
                 : (e: MouseEvent<HTMLButtonElement>) => {
                     if (e.button === 1) {
-                      console.log("middle click tab: ", index);
                       child.props.onMiddleClick?.(e);
                     }
                   },

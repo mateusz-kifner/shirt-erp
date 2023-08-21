@@ -30,6 +30,7 @@ import {
   IconList,
   IconMail,
   IconNotebook,
+  IconPlus,
   IconRobot,
   IconRuler2,
   IconTable,
@@ -216,31 +217,18 @@ const OrderArchivesPage: NextPage = () => {
       <Workspace
         cacheKey={entryName}
         navigationMetadata={[{ label: "Lista zamówień", icon: IconList }]}
-        childrenMetadata={id !== null ? childrenMetadata : []}
-        // rightMenuSection={
-        //   id !== null ? (
-        //     // <DropdownMenu>
-        //     //   <DropdownMenuTrigger asChild>
-        //     <Tab
-        //       className="p-2"
-        //       index={-1}
-        //       onClick={addSpreadsheet}
-        //       leftSection={<IconPlus />}
-        //     ></Tab>
-        //   ) : //   </DropdownMenuTrigger>
-        //   //   <DropdownMenuContent>
-        //   //     <DropdownMenuItem onClick={addSpreadsheet}>
-        //   //       <IconTable />
-        //   //       {t.sheet}
-        //   //     </DropdownMenuItem>
-        //   //     <DropdownMenuItem onClick={addDesign}>
-        //   //       <IconVector />
-        //   //       {t.design}
-        //   //     </DropdownMenuItem>
-        //   //   </DropdownMenuContent>
-        //   // </DropdownMenu>
-        //   null
-        // }
+        childrenMetadata={
+          id !== null
+            ? [
+                ...childrenMetadata,
+                {
+                  label: "",
+                  icon: IconPlus,
+                  props: { onClick: addSpreadsheet, className: "p-2" },
+                },
+              ]
+            : []
+        }
         navigation={
           <div className="relative p-4">
             <OrderArchivesList
