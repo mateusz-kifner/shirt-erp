@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import EditableEnum from "@/components/editable/EditableEnum";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
+import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { appRouter } from "@/server/api/root";
@@ -55,7 +56,7 @@ function Settings() {
   const { data: userData } = api.session.me.useQuery();
   const logout = api.session.logout.useMutation({
     onSuccess() {
-      void router.push("/profile");
+      void router.push("/login");
     },
     onError(err) {
       console.log(err.message);
@@ -139,14 +140,16 @@ function Settings() {
               {t["email-message"].singular} {t.credentials}
             </p>
           </Button>
-          <Button
-            onClick={() => {
-              toggleDebug();
-            }}
-            leftSection={<IconBug />}
-          >
-            Debug {debug ? "ON" : "OFF"}
-          </Button>
+          {!env.NEXT_PUBLIC_DEMO && (
+            <Button
+              onClick={() => {
+                toggleDebug();
+              }}
+              leftSection={<IconBug />}
+            >
+              Debug {debug ? "ON" : "OFF"}
+            </Button>
+          )}
           {debug && <></>}
         </div>
       </div>

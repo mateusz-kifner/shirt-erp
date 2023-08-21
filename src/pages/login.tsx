@@ -4,6 +4,8 @@ import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import { env } from "@/env.mjs";
+import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { sessionOptions } from "@/server/session";
 import { api } from "@/utils/api";
@@ -11,6 +13,7 @@ import { api } from "@/utils/api";
 export default function Login() {
   const router = useRouter();
   const t = useTranslation();
+  const isLoaded = useLoaded();
 
   const login = api.session.login.useMutation({
     onSuccess() {
@@ -32,8 +35,10 @@ export default function Login() {
     login.mutate(body);
   };
 
+  console.log(env.NEXT_PUBLIC_DEMO);
+
   return (
-    <Dialog open={true}>
+    <Dialog open={isLoaded}>
       <DialogContent disableClose>
         <DialogTitle>{t.sign_in}</DialogTitle>
         <form onSubmit={handleLogin}>
@@ -44,76 +49,78 @@ export default function Login() {
             <input
               name="username"
               className="
-                data-disabled:text-gray-500
-                dark:data-disabled:text-gray-500
-                data-disabled:bg-transparent 
-                dark:data-disabled:bg-transparent
                 h-11
                 max-h-screen
                 w-full
                 resize-none
-                gap-2 
+                gap-2
                 overflow-hidden
                 whitespace-pre-line 
                 break-words
-                rounded-md
+                rounded-md 
                 border
-                border-solid 
+                border-solid
                 border-gray-400
-                bg-white
+                bg-white 
                 p-4
                 px-6
                 text-base
-                leading-normal 
-                outline-none 
-                read-only:bg-transparent
-                read-only:outline-none
+                leading-normal
+                outline-none
+                read-only:bg-transparent 
+                read-only:outline-none 
                 focus:border-sky-600
+                disabled:text-gray-500
                 dark:border-stone-600
                 dark:bg-stone-800 
                 dark:outline-none 
                 dark:read-only:bg-transparent 
                 dark:read-only:outline-none
-                dark:focus:border-sky-600"
+                dark:focus:border-sky-600
+                dark:disabled:text-gray-500
+                "
               type="text"
               placeholder={t.username}
+              defaultValue={env.NEXT_PUBLIC_DEMO ? "testuser" : undefined}
+              disabled={env.NEXT_PUBLIC_DEMO}
             />
             <input
               name="password"
               className="
-                data-disabled:text-gray-500
-                dark:data-disabled:text-gray-500
-                data-disabled:bg-transparent 
-                dark:data-disabled:bg-transparent
-                h-11
+             
+                h-11 
                 max-h-screen
                 w-full
                 resize-none
-                gap-2 
+                gap-2
                 overflow-hidden
                 whitespace-pre-line 
                 break-words
-                rounded-md
+                rounded-md 
                 border
-                border-solid 
+                border-solid
                 border-gray-400
-                bg-white
+                bg-white 
                 p-4
                 px-6
                 text-base
-                leading-normal 
-                outline-none 
-                read-only:bg-transparent
-                read-only:outline-none
+                leading-normal
+                outline-none
+                read-only:bg-transparent 
+                read-only:outline-none 
                 focus:border-sky-600
+                disabled:text-gray-500
                 dark:border-stone-600
-                dark:bg-stone-800 
+                dark:bg-stone-800
                 dark:outline-none 
                 dark:read-only:bg-transparent 
-                dark:read-only:outline-none
-                dark:focus:border-sky-600"
+                dark:read-only:outline-none 
+                dark:focus:border-sky-600
+                dark:disabled:text-gray-500"
               type="password"
               placeholder={t.password}
+              defaultValue={env.NEXT_PUBLIC_DEMO ? "testuser" : undefined}
+              disabled={env.NEXT_PUBLIC_DEMO}
             />
             <input
               className={`

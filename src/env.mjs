@@ -21,7 +21,10 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "test", "production"]),
     NEXT_PUBLIC_START_MESSAGE: z.string().optional(),
-    NEXT_PUBLIC_DEMO: z.boolean().optional(),
+    NEXT_PUBLIC_DEMO: z.preprocess(
+      (v) => v === "true" || v === "1",
+      z.boolean(),
+    ),
   },
 
   /**
