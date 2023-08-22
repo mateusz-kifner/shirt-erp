@@ -1,0 +1,26 @@
+name: Deploy shirterp.eu
+
+on: [workflow_dispatch]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./
+
+    env:
+      CI: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: yarn && yarn build
+        run: |
+          ls
+          yarn
+          yarn build
+      - name: idk
+        run: |
+          echo "test"
