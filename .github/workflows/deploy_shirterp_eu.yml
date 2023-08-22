@@ -21,7 +21,7 @@ jobs:
           echo ${{secrets.ENV_FILE}} > .env
       - name: yarn && yarn build
         run: |
-          ls
+          ls -A
           yarn
           yarn build
 
