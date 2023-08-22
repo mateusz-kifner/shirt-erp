@@ -23,7 +23,7 @@ jobs:
         run: |
           node --version
           yarn
-          yarn build
+          yarn build --no-lint
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
