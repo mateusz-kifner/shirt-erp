@@ -20,11 +20,11 @@ jobs:
         run: |
           echo "${{secrets.ENV_FILE}}" > .env
           cat .env
-      - name: yarn && yarn build
-        run: |
-          ls -A
-          yarn
-          yarn build
+      # - name: yarn && yarn build
+      #   run: |
+      #     ls -A
+      #     yarn
+      #     yarn build
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
