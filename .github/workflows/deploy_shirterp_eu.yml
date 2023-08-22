@@ -19,10 +19,8 @@ jobs:
       - name: Set .env
         run: |
           echo "${{secrets.ENV_FILE}}" > .env
-          cat .env
       - name: yarn && yarn build
         run: |
-          ls -A
           yarn
           yarn build
 

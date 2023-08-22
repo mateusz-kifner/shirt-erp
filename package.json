@@ -100,6 +100,7 @@
     "@types/prettier": "^3.0.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
+    "@types/sharp": "^0.31.1",
     "@types/turndown": "^5.0.1",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
