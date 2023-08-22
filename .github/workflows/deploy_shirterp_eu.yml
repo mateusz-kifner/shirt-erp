@@ -21,6 +21,7 @@ jobs:
           echo "${{secrets.ENV_FILE}}" > .env
       - name: yarn && yarn build
         run: |
+          node --version
           yarn
           yarn build
 
