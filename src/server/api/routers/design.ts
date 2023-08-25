@@ -9,7 +9,7 @@ import {
   createProcedureSearchWithPagination,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+
 import { z } from "zod";
 
 const designSchemaWithoutId = designSchema.omit({ id: true });
@@ -18,13 +18,13 @@ export const designRouter = createTRPCRouter({
   getAll: createProcedureGetAll("design"),
   getById: createProcedureGetById("design"),
   create: authenticatedProcedure
-    .input(designSchemaWithoutId.merge(
-      z.object({ orderId: z.number().optional() })
-    ))
+    .input(
+      designSchemaWithoutId.merge(z.object({ orderId: z.number().optional() })),
+    )
     .mutation(async ({ input }) => {
-      const {orderId,...designData } = input
+      const { orderId, ...designData } = input;
       const newDesign = await prisma.design.create({
-        data:  {
+        data: {
           ...designData,
           orders: { connect: { id: orderId } },
         },

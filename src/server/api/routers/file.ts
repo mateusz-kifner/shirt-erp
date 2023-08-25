@@ -3,7 +3,7 @@ import { omit } from "lodash";
 import { FileType, fileSchema } from "@/schema/fileSchema";
 import { createProcedureDeleteById } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+
 import { z } from "zod";
 
 // const clientSchemaWithoutId = clientSchema.omit({ id: true });
@@ -15,7 +15,7 @@ export const fileRouter = createTRPCRouter({
     .input(
       z.object({
         sort: z.enum(["desc", "asc"]).default("desc"),
-      })
+      }),
     )
     .query(async ({ input }) => {
       const sortParam = { orderBy: { originalFilename: input.sort } };
@@ -27,7 +27,7 @@ export const fileRouter = createTRPCRouter({
           ({
             ...omit(file, ["filepath"]),
             url: `${baseUrl}${file.filename}?token=${file.token}`,
-          } as FileType)
+          }) as FileType,
       );
     }),
   getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {

@@ -4,7 +4,7 @@ import {
   createTRPCRouter,
   privilegedProcedure,
 } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+
 import { TRPCError } from "@trpc/server";
 import { omit } from "lodash";
 import { z } from "zod";

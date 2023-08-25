@@ -14,7 +14,6 @@ import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import sharp from "sharp";
-import { prisma } from "./db";
 
 const mailDir = "./cache/email/";
 const uploadDir = "./uploads/";

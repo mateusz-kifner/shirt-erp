@@ -7,8 +7,6 @@ import {
 } from "@/server/api/procedures";
 import { z } from "zod";
 
-import { prisma } from "@/server/db";
-
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { type Prisma } from "@prisma/client";
 

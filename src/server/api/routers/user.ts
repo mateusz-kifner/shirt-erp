@@ -7,13 +7,12 @@ import {
   createTRPCRouter,
   privilegedProcedure,
 } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
 
 const userSchemaWithoutId = userSchema.omit({ id: true });
 
 export const userIncludeAll = {
-  userPermissions:true,
-  orders:true
+  userPermissions: true,
+  orders: true,
 };
 
 export const userRouter = createTRPCRouter({
@@ -56,7 +55,7 @@ export const userRouter = createTRPCRouter({
         excludeValue: z.string().optional(),
         currentPage: z.number(),
         itemsPerPage: z.number().default(10),
-      })
+      }),
     )
     .query(async ({ input }) => {
       const search = [];

@@ -1,4 +1,3 @@
-import { prisma } from "@/server/db";
 import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
@@ -25,7 +24,7 @@ export const config = {
 
 export default async function Upload(
   req: IncomingMessage & NextApiRequest,
-  res: ServerResponse & NextApiResponse
+  res: ServerResponse & NextApiResponse,
 ) {
   try {
     if (req.method !== "POST") {
@@ -70,11 +69,11 @@ export default async function Upload(
     const newFiles: Prisma.FileCreateInput[] = fileArray.map((file) => {
       const originalFilenameExtDot = file.originalFilename!.lastIndexOf(".");
       const extWithDot = file.originalFilename!.substring(
-        originalFilenameExtDot
+        originalFilenameExtDot,
       );
       const fileName = file.originalFilename!.substring(
         0,
-        originalFilenameExtDot
+        originalFilenameExtDot,
       );
       const hash = genRandomStringServerOnly(10);
       let imgSize = null;

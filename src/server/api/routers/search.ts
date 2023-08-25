@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
 
 export const searchRouter = createTRPCRouter({
   all: authenticatedProcedure
@@ -10,7 +9,7 @@ export const searchRouter = createTRPCRouter({
         query: z.string().optional(),
         sort: z.enum(["desc", "asc"]).default("desc"),
         itemsPerPage: z.number().default(5),
-      })
+      }),
     )
     .query(async ({ input }) => {
       const searchClient = [];

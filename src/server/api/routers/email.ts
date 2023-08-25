@@ -1,5 +1,5 @@
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+
 import {
   downloadEmailByUid,
   emailSearch,

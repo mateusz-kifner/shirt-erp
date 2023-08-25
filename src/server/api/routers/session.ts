@@ -3,8 +3,12 @@ import bcrypt from "bcrypt";
 import _, { omit } from "lodash";
 import { z } from "zod";
 
-import { authenticatedProcedure, createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+import {
+  authenticatedProcedure,
+  createTRPCRouter,
+  publicProcedure,
+} from "@/server/api/trpc";
+
 import { userIncludeAll } from "./user";
 
 export const sessionRouter = createTRPCRouter({
@@ -21,16 +25,19 @@ export const sessionRouter = createTRPCRouter({
       };
     }
   }),
-  me: authenticatedProcedure.query( async ({ ctx }) => {
-    const data = await prisma.user.findUnique({where:{id:ctx.session?.user?.id},include:userIncludeAll})
-    return omit(data,["password"])
+  me: authenticatedProcedure.query(async ({ ctx }) => {
+    const data = await prisma.user.findUnique({
+      where: { id: ctx.session?.user?.id },
+      include: userIncludeAll,
+    });
+    return omit(data, ["password"]);
   }),
   login: publicProcedure
     .input(
       z.object({
         username: z.string(),
         password: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const { username, password } = input;

@@ -1,4 +1,3 @@
-import { prisma } from "@/server/db";
 import HTTPError from "@/utils/HTTPError";
 import { createReadStream } from "fs";
 import fs from "fs/promises";
@@ -34,14 +33,14 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       res.setHeader(
         "Content-Disposition",
         `attachment; filename="${encodeURIComponent(
-          file?.originalFilename ?? ""
-        )}"`
+          file?.originalFilename ?? "",
+        )}"`,
       );
       res.setHeader("Content-Type", "application/octet-stream");
 
       try {
         const fileStream = createReadStream(
-          `./uploads/${file?.newFilename as string}`
+          `./uploads/${file?.newFilename as string}`,
         );
         fileStream.pipe(res);
       } catch (e) {
@@ -51,11 +50,11 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       // View headers
       res.setHeader(
         "Content-Type",
-        file.mimetype ?? "application/octet-stream"
+        file.mimetype ?? "application/octet-stream",
       );
       try {
         const imageData = await fs.readFile(
-          `./uploads/${file?.newFilename as string}`
+          `./uploads/${file?.newFilename as string}`,
         );
 
         res.send(imageData);

@@ -1,4 +1,3 @@
-import { prisma } from "@/server/db";
 import { downloadEmailAttachment } from "@/server/email";
 import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";

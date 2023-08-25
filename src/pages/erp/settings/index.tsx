@@ -7,7 +7,7 @@ import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { appRouter } from "@/server/api/root";
-import { prisma } from "@/server/db";
+
 import { sessionOptions } from "@/server/session";
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
