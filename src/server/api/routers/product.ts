@@ -1,32 +1,15 @@
 import { db } from "@/db/db";
-import {
-  ProductType,
-  insertProductSchema,
-  products,
-} from "@/db/schema/products";
+import { insertProductSchema, products } from "@/db/schema/products";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { eq, ilike, not, or, sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
-
-const preparedTotalProducts = db
-  .select({ count: sql<number>`count(*)` })
-  .from(products)
-  .prepare("total_products");
-
-async function getTotalProducts() {
-  const total = await preparedTotalProducts.execute();
-  return total?.[0]?.count;
-}
+import {
+  createProcedureGetById,
+  createProcedureSearchWithPagination,
+} from "../procedures";
 
 export const productRouter = createTRPCRouter({
-  getById: authenticatedProcedure
-    .input(z.number())
-    .query(async ({ input: productId }) => {
-      const data = await db.query.products.findFirst({
-        where: eq(products.id, productId),
-      });
-      return data;
-    }),
+  getById: createProcedureGetById("products"),
   create: authenticatedProcedure
     .input(insertProductSchema)
     .mutation(async ({ input: productData, ctx }) => {
@@ -61,62 +44,5 @@ export const productRouter = createTRPCRouter({
         .returning();
       return updatedProduct[0];
     }),
-  search: authenticatedProcedure
-    .input(
-      z.object({
-        keys: z.array(z.string()),
-        query: z.string().optional(),
-        sort: z.enum(["desc", "asc"]).default("desc"),
-        sortColumn: z.string().default("name"),
-        excludeKey: z.string().optional(),
-        excludeValue: z.string().optional(),
-        currentPage: z.number().default(1),
-        itemsPerPage: z.number().default(10),
-      }),
-    )
-    .query(async ({ input }) => {
-      const {
-        keys,
-        query,
-        sort,
-        sortColumn,
-        excludeKey,
-        excludeValue,
-        currentPage,
-        itemsPerPage,
-      } = input;
-
-      const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
-
-      const search = queryParam
-        ? keys.map((key) =>
-            ilike(products[key as keyof ProductType], queryParam),
-          )
-        : [];
-
-      const results = await db.query.products.findMany({
-        where: queryParam
-          ? or(...search)
-          : excludeKey && excludeValue
-          ? not(
-              ilike(
-                products[excludeKey as keyof ProductType],
-                `${excludeValue}%`,
-              ),
-            )
-          : undefined,
-        limit: itemsPerPage,
-        offset: (currentPage - 1) * itemsPerPage,
-        orderBy: (products, handlers) => [
-          handlers[sort](products[sortColumn as keyof ProductType]),
-        ],
-      });
-
-      const totalItems = await getTotalProducts();
-
-      return {
-        results,
-        totalItems: totalItems ?? 0,
-      };
-    }),
+  search: createProcedureSearchWithPagination(products),
 });
