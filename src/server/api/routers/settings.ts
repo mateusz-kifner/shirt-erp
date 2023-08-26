@@ -4,15 +4,12 @@ import {
   insertEmailCredentialSchema,
 } from "@/db/schema/email_credentials";
 import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
-import { emailCredentialSchema } from "@/schema/emailCredential";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { omit } from "lodash";
 import { z } from "zod";
-
-const emailCredentialSchemaWithoutId = emailCredentialSchema.omit({ id: true });
 
 export const settingsRouter = createTRPCRouter({
   getAllMailCredentials: authenticatedProcedure.query(async ({ ctx }) => {

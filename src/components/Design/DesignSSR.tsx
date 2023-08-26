@@ -1,7 +1,6 @@
 import { useUserContext } from "@/context/userContext";
 import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/schema/EditableInput";
-import { type FileType } from "@/schema/fileSchema";
 import { useListState } from "@mantine/hooks";
 import { SVG } from "@svgdotjs/svg.js";
 
@@ -50,6 +49,7 @@ import FileListItem from "../FileListItem";
 import EditableColor from "../editable/EditableColor";
 import { Label } from "../ui/Label";
 import DesignImage from "./DesignImage";
+import { File } from "@/db/schema/files";
 
 const colorPickerSwatches = [
   "#000e1c",
@@ -122,13 +122,13 @@ export type DesignBackgroundsType = {
   icon: TablerIconType;
   images: {
     name: string;
-    image?: Partial<FileType>;
-    mask?: Partial<FileType>;
+    image?: Partial<File>;
+    mask?: Partial<File>;
   }[];
 }[];
 
 interface DesignProps extends EditableInput<any> {
-  files?: FileType[];
+  files?: File[];
   backgrounds: DesignBackgroundsType;
   id?: number;
 }
@@ -196,7 +196,7 @@ const Design = (props: DesignProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [activeImage, setActiveImage] = useState<number | null>(null);
 
-  const [images, imagesHandlers] = useListState<FileType>([]);
+  const [images, imagesHandlers] = useListState<File>([]);
 
   const backgroundImage =
     backgrounds?.[backgroundId]?.images?.[backgroundImageId]?.image;
@@ -249,7 +249,7 @@ const Design = (props: DesignProps) => {
     const data = e.dataTransfer.getData("application/json");
     try {
       const obj = JSON.parse(data);
-      imagesHandlers.append(obj as FileType);
+      imagesHandlers.append(obj as File);
       console.log(obj);
     } catch (e) {
       console.log(e);

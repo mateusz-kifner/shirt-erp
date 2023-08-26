@@ -1,5 +1,4 @@
 import useTranslation from "@/hooks/useTranslation";
-import { type FileType } from "@/schema/fileSchema";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
@@ -8,10 +7,11 @@ import { type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
+import { File } from "@/db/schema/files";
 
 interface FileListItemProps {
-  onChange?: (file: Partial<FileType>) => void;
-  value: Partial<FileType>;
+  onChange?: (file: Partial<File>) => void;
+  value: Partial<File>;
   active?: boolean;
   disabled?: boolean;
   onPreview?: (

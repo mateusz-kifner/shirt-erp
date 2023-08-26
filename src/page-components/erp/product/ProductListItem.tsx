@@ -1,10 +1,10 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { type ProductType } from "@/schema/productSchema";
+import { Product } from "@/db/schema/products";
 import { truncString } from "@/utils/truncString";
 
 interface ProductListItemProps {
-  onChange?: (item: Partial<ProductType>) => void;
-  value: Partial<ProductType>;
+  onChange?: (item: Partial<Product>) => void;
+  value: Partial<Product>;
   active?: boolean;
   disabled?: boolean;
 }

@@ -1,7 +1,7 @@
 import Button, { ButtonProps } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
+import { EmailCredential } from "@/db/schema/email_credentials";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -48,7 +48,7 @@ function EmailTreeButton(props: EmailTreeButtonProps) {
 }
 
 interface EmailFolderTreeProps {
-  emailConfig: EmailCredentialType;
+  emailConfig: EmailCredential;
   active?: string;
   onActive?: (active?: string) => void;
   onRefetch?: () => void;

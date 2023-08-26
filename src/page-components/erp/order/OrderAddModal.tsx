@@ -7,7 +7,6 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type OrderType } from "@/schema/orderSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import OrderListItem from "./OrderListItem";
@@ -20,7 +19,7 @@ interface OrderAddModalProps {
 const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   const router = useRouter();
   const [orderName, setOrderName] = useState<string>("Klient");
-  const [template, setTemplate] = useState<Partial<OrderType> | null>(null);
+  const [template, setTemplate] = useState<Partial<Order> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const { data } = api.order.getById.useQuery(template?.id as number, {

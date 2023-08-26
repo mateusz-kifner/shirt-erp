@@ -1,13 +1,13 @@
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
-import { EmailCredentialType } from "@/schema/emailCredential";
 import { api } from "@/utils/api";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useId, useState } from "react";
 import EmailListItem from "./EmailListItem";
+import { EmailCredential } from "@/db/schema/email_credentials";
 
 interface EmailListProps {
-  emailConfig: EmailCredentialType;
+  emailConfig: EmailCredential;
   mailbox?: string;
   onSelect?: (uid: number | null) => void;
 }

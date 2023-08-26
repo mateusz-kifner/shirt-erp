@@ -7,10 +7,10 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type ProductType } from "@/schema/productSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ProductListItem from "./ProductListItem";
+import { Product } from "@/db/schema/products";
 
 interface ProductAddModalProps {
   opened: boolean;
@@ -20,7 +20,7 @@ interface ProductAddModalProps {
 const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
   const router = useRouter();
   const [productName, setProductName] = useState<string>("Produkt");
-  const [template, setTemplate] = useState<Partial<ProductType> | null>(null);
+  const [template, setTemplate] = useState<Partial<Product> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { mutate: createProduct } = api.product.create.useMutation({
     onSuccess(data) {

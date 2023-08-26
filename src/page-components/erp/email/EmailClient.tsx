@@ -1,8 +1,8 @@
-import { EmailCredentialType } from "@/schema/emailCredential";
+import { EmailCredential } from "@/db/schema/email_credentials";
 import { useState } from "react";
 
 interface EmailClientProps {
-  emailClient: EmailCredentialType;
+  emailClient: EmailCredential;
 }
 
 function EmailClient(props: EmailClientProps) {

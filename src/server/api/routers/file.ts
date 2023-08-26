@@ -1,16 +1,10 @@
-import { FileType } from "@/schema/fileSchema";
-import {
-  createProcedureGetById,
-  createProcedureSearchWithPagination,
-} from "@/server/api/procedures";
+import { createProcedureSearchWithPagination } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { z } from "zod";
 import { db } from "@/db/db";
-import { files, insertFileSchema } from "@/db/schema/files";
+import { File, files, insertFileSchema } from "@/db/schema/files";
 import { eq } from "drizzle-orm";
-
-// const clientSchemaWithoutId = clientSchema.omit({ id: true });
 
 const baseUrl = "/api/files/";
 
@@ -25,7 +19,7 @@ export const fileRouter = createTRPCRouter({
       return {
         ...data,
         url: `${baseUrl}${data?.filename}?token=${data?.token}`,
-      } as FileType;
+      } as File;
     }),
   deleteById: authenticatedProcedure
     .input(z.number())

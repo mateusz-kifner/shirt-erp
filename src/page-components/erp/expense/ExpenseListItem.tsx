@@ -1,10 +1,10 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { type ExpenseType } from "@/schema/expenseSchema";
+import { Expense } from "@/db/schema/expenses";
 import { truncString } from "@/utils/truncString";
 
 interface ExpenseListItemProps {
-  onChange?: (item: Partial<ExpenseType>) => void;
-  value: Partial<ExpenseType>;
+  onChange?: (item: Partial<Expense>) => void;
+  value: Partial<Expense>;
   active?: boolean;
   disabled?: boolean;
 }

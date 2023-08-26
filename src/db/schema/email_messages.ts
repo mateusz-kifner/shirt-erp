@@ -12,6 +12,7 @@ import { files } from "./files";
 import { relations } from "drizzle-orm";
 import { email_messages_to_files } from "./email_messages_to_files";
 import { orders_to_email_messages } from "./orders_to_email_messages";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const email_messages = pgTable("email_messages", {
   id: serial("id").primaryKey(),
@@ -42,3 +43,10 @@ export const email_messages_relations = relations(
     orders: many(orders_to_email_messages),
   }),
 );
+
+export const insertEmailMessageSchema = createInsertSchema(email_messages);
+
+export const selectEmailMessageSchema = createSelectSchema(email_messages);
+
+export type EmailMessage = typeof email_messages.$inferSelect;
+export type NewEmailMessage = typeof email_messages.$inferInsert;
