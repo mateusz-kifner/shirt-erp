@@ -24,5 +24,5 @@ export const insertUserSchema = createInsertSchema(users);
 
 export const selectUserSchema = createSelectSchema(users);
 
-export type User = typeof users.$inferSelect; // return type when queried
-export type NewUser = typeof users.$inferInsert; // insert type
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
