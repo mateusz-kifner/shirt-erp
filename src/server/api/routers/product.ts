@@ -1,12 +1,20 @@
 import { db } from "@/db/db";
-import { insertProductSchema, products } from "@/db/schema/products";
+import { Product, insertProductSchema, products } from "@/db/schema/products";
 import { productSchema } from "@/schema/productSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { eq, sql } from "drizzle-orm";
-import { omit } from "lodash";
+import { eq, ilike, not, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
 const productSchemaWithoutId = productSchema.omit({ id: true });
+const preparedTotalProducts = db
+  .select({ count: sql<number>`count(*)` })
+  .from(products)
+  .prepare("total_products");
+
+async function getTotalProducts() {
+  const total = await preparedTotalProducts.execute();
+  return total?.[0]?.count;
+}
 
 export const productRouter = createTRPCRouter({
   getAll: authenticatedProcedure.query(async () => {
@@ -23,12 +31,17 @@ export const productRouter = createTRPCRouter({
     }),
   create: authenticatedProcedure
     .input(insertProductSchema)
-    .mutation(async ({ input: productData }) => {
+    .mutation(async ({ input: productData, ctx }) => {
+      const currentUserId = ctx.session!.user!.id;
       const newProduct = await db
         .insert(products)
-        .values(productData)
+        .values({
+          ...productData,
+          createdById: currentUserId,
+          updatedById: currentUserId,
+        })
         .returning();
-      return newProduct;
+      return newProduct[0];
     }),
   deleteById: authenticatedProcedure
     .input(z.number())
@@ -37,17 +50,18 @@ export const productRouter = createTRPCRouter({
         .delete(products)
         .where(eq(products.id, productId))
         .returning();
-      return deletedProduct;
+      return deletedProduct[0];
     }),
   update: authenticatedProcedure
     .input(insertProductSchema.merge(z.object({ id: z.number() })))
-    .mutation(async ({ input: productData }) => {
+    .mutation(async ({ input: productData, ctx }) => {
+      const { id: productId, ...dataToUpdate } = productData;
       const updatedProduct = await db
         .update(products)
-        .set(omit(productData, ["id"]))
-        .where(eq(products.id, productData.id))
+        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .where(eq(products.id, productId))
         .returning();
-      return updatedProduct;
+      return updatedProduct[0];
     }),
   searchWithPagination: authenticatedProcedure
     .input(
@@ -73,62 +87,31 @@ export const productRouter = createTRPCRouter({
         currentPage,
         itemsPerPage,
       } = input;
-      // console.log(input);
-      // const search = [];
-      // if (input.query && input.query.length > 0) {
-      //   const splitQuery = input.query.split(" ");
-      //   for (const queryPart of splitQuery) {
-      //     if (queryPart.length > 0) {
-      //       for (const key of input.keys) {
-      //         search.push({
-      //           [key]: { contains: queryPart, mode: "insensitive" },
-      //         });
-      //       }
-      //     }
-      //   }
-      // }
-      // const query = {
-      //   orderBy: {
-      //     [input.sortColumn]: input.sort,
-      //   },
-      //   where:
-      //     search.length > 0
-      //       ? {
-      //           OR: search,
-      //         }
-      //       : {
-      //           NOT:
-      //             input.excludeKey && input.excludeValue
-      //               ? {
-      //                   [input.excludeKey]: {
-      //                     contains: input.excludeValue,
-      //                   },
-      //                 }
-      //               : undefined,
-      //         },
-      // };
 
-      // const results = await (
-      //   prisma[modelName] as Prisma.ClientDelegate
-      // ).findMany({
-      //   ...query,
-      //   take: input.itemsPerPage,
-      //   skip: (input.currentPage - 1) * input.itemsPerPage,
-      // });
-      // const totalItems = await (
-      //   prisma[modelName] as Prisma.ClientDelegate
-      // ).count(query);
+      const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
+
+      const search = queryParam
+        ? keys.map((key) => ilike(products[key as keyof Product], queryParam))
+        : [];
+
       const results = await db.query.products.findMany({
+        where: queryParam
+          ? or(...search)
+          : not(
+              ilike(products[excludeKey as keyof Product], `${excludeValue}%`),
+            ),
         limit: itemsPerPage,
-        offset: (input.currentPage - 1) * input.itemsPerPage,
+        offset: (currentPage - 1) * itemsPerPage,
+        orderBy: (products, handlers) => [
+          handlers[sort](products[sortColumn as keyof Product]),
+        ],
       });
-      const totalItems = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(products);
+
+      const totalItems = await getTotalProducts();
 
       return {
         results,
-        totalItems: totalItems?.[0]?.count ?? 0,
+        totalItems: totalItems ?? 0,
       };
     }),
 });

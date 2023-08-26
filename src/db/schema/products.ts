@@ -28,3 +28,6 @@ export const selectProductSchema = createSelectSchema(products, {
   colors: z.string().array(),
   sizes: z.string().array(),
 });
+
+export type Product = typeof products.$inferSelect; // return type when queried
+export type NewProduct = typeof products.$inferInsert; // insert type
