@@ -23,6 +23,7 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import SuperJSON from "superjson";
+import { db } from "@/db/db";
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
   const user = req.session.user;
@@ -38,7 +39,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 
   const ssg = createServerSideHelpers({
     router: appRouter,
-    ctx: { prisma, session: req.session },
+    ctx: { session: req.session, db },
     transformer: SuperJSON,
   });
 

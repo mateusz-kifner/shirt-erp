@@ -17,7 +17,7 @@ interface FileListItemProps {
   onPreview?: (
     url: string,
     width?: number | null,
-    height?: number | null
+    height?: number | null,
   ) => void;
   style?: CSSProperties;
   contextMenuContent?: ReactNode;
@@ -81,7 +81,7 @@ const FileListItem = (props: FileListItemProps) => {
                         ? "?token=" + value?.token
                         : ""),
                     value?.width,
-                    value?.height
+                    value?.height,
                   );
               }}
             >
@@ -114,6 +114,7 @@ const FileListItem = (props: FileListItemProps) => {
                 ? "?token=" + value?.token + "&download"
                 : "?download"
             }`}
+            legacyBehavior={false}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
               `absolute 
@@ -124,7 +125,7 @@ const FileListItem = (props: FileListItemProps) => {
             -translate-y-1/2
             rounded-full
             hover:bg-black/15
-            dark:hover:bg-white/10`
+            dark:hover:bg-white/10`,
             )}
           >
             <IconDownload size={26} />

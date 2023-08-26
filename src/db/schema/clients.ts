@@ -9,6 +9,7 @@ import {
 import { metadata } from "./_metadata";
 import { addresses } from "./addresses";
 import { relations } from "drizzle-orm";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
@@ -30,14 +31,9 @@ export const clients_relations = relations(clients, ({ one }) => ({
   }),
 }));
 
+export const insertClientSchema = createInsertSchema(clients, {});
 
-export const insertClientSchema = createInsertSchema(clients, {
-
-});
-
-export const selectClientSchema = createSelectSchema(clients, {
-
-});
+export const selectClientSchema = createSelectSchema(clients, {});
 
 export type ClientType = typeof clients.$inferSelect;
 export type NewClientType = typeof clients.$inferInsert;

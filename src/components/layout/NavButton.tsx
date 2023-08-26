@@ -32,6 +32,7 @@ function NavButton(props: NavButtonProps) {
   return (
     <Link
       href={href}
+      legacyBehavior={false}
       id={uuid}
       className={cn(
         `overflow-hidden 

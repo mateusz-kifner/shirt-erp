@@ -99,6 +99,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               {linkEntry && value && value?.id && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Link
+                    legacyBehavior={false}
                     href={`/erp/${entryName}/${value?.id as string}`}
                     className={cn(
                       buttonVariants({ size: "icon", variant: "ghost" }),

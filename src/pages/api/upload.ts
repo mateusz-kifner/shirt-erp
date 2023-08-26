@@ -1,7 +1,6 @@
 import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
-import { type Prisma } from "@prisma/client";
 import formidable from "formidable";
 import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";

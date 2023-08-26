@@ -198,6 +198,7 @@ function EmailViewApi(props: EmailViewApiProps) {
             </Tooltip>
 
             <Link
+              legacyBehavior={false}
               href={`/api/email/${emailConfig.user}/${mailbox}/${id}/download/${file.name}`}
               className={cn(
                 buttonVariants({ variant: "ghost", size: "icon" }),

@@ -1,9 +1,6 @@
+import { db } from "@/db/db";
 import { emailCredentialSchema } from "@/schema/emailCredential";
-import {
-  authenticatedProcedure,
-  createTRPCRouter,
-  privilegedProcedure,
-} from "@/server/api/trpc";
+import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { TRPCError } from "@trpc/server";
 import { omit } from "lodash";
@@ -12,17 +9,14 @@ import { z } from "zod";
 const emailCredentialSchemaWithoutId = emailCredentialSchema.omit({ id: true });
 
 export const settingsRouter = createTRPCRouter({
-  // getAll: privilegedProcedure.query(({ ctx }) => {
-  //   return { message: "privilegedProcedure" };
-  // }),
-
-  // getAllMailCredentials: authenticatedProcedure.query(async ({ ctx }) => {
-  //   const data = await prisma.user.findUnique({
-  //     where: { id: ctx.session!.user!.id },
-  //     include: { emailCredentials: true },
-  //   });
-  //   return data?.emailCredentials.map((val) => omit(val, ["password"]));
-  // }),
+  getAllMailCredentials: authenticatedProcedure.query(async ({ ctx }) => {
+    const currentUserId = ctx.session!.user!.id;
+    const result = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, currentUserId),
+      with: { emailCredentials: { with: { emailCredentials: true } } },
+    });
+    return result?.emailCredentials.map((v) => v.emailCredentials);
+  }),
 
   // createMailCredential: authenticatedProcedure
   //   .input(
