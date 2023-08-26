@@ -2,11 +2,7 @@ import { omit } from "lodash";
 import { z } from "zod";
 
 import { userSchema } from "@/schema/userSchema";
-import {
-  authenticatedProcedure,
-  createTRPCRouter,
-  privilegedProcedure,
-} from "@/server/api/trpc";
+import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 const userSchemaWithoutId = userSchema.omit({ id: true });
 
@@ -17,32 +13,32 @@ export const userIncludeAll = {
 
 export const userRouter = createTRPCRouter({
   // getAll: createProcedureGetAll("user"),
-  getById: privilegedProcedure.input(z.number()).query(async ({ input }) => {
-    const data = await prisma.user.findUnique({
-      where: { id: input },
-    });
-    return omit(data, ["password"]);
-  }),
-  create: privilegedProcedure
-    .input(userSchemaWithoutId)
-    .mutation(async ({ input: userData }) => {
-      const newUser = await prisma.user.create({
-        data: { ...userData },
-      });
-      return omit(newUser, ["password"]);
-    }),
+  // getById: privilegedProcedure.input(z.number()).query(async ({ input }) => {
+  //   const data = await prisma.user.findUnique({
+  //     where: { id: input },
+  //   });
+  //   return omit(data, ["password"]);
+  // }),
+  // create: privilegedProcedure
+  //   .input(userSchemaWithoutId)
+  //   .mutation(async ({ input: userData }) => {
+  //     const newUser = await prisma.user.create({
+  //       data: { ...userData },
+  //     });
+  //     return omit(newUser, ["password"]);
+  //   }),
   // deleteById: createProcedureDeleteById("user"),
-  update: privilegedProcedure
-    .input(userSchema)
-    .mutation(async ({ input: userData }) => {
-      const updatedUser = await prisma.user.update({
-        where: { id: userData.id },
-        data: {
-          ...omit({ ...userData }, ["id"]),
-        },
-      });
-      return omit(updatedUser, ["password"]);
-    }),
+  // update: privilegedProcedure
+  //   .input(userSchema)
+  //   .mutation(async ({ input: userData }) => {
+  //     const updatedUser = await prisma.user.update({
+  //       where: { id: userData.id },
+  //       data: {
+  //         ...omit({ ...userData }, ["id"]),
+  //       },
+  //     });
+  //     return omit(updatedUser, ["password"]);
+  //   }),
   // search: createProcedureSearch("user"),
   searchWithPagination: authenticatedProcedure
     .input(

@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
-import _, { omit } from "lodash";
+import _ from "lodash";
 import { z } from "zod";
 
 import {
@@ -9,7 +9,9 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { userIncludeAll } from "./user";
+import { db } from "@/db/db";
+import { users } from "@/db/schema/users";
+import { eq } from "drizzle-orm";
 
 export const sessionRouter = createTRPCRouter({
   status: publicProcedure.query(({ ctx }) => {
@@ -26,11 +28,25 @@ export const sessionRouter = createTRPCRouter({
     }
   }),
   me: authenticatedProcedure.query(async ({ ctx }) => {
-    const data = await prisma.user.findUnique({
-      where: { id: ctx.session?.user?.id },
-      include: userIncludeAll,
+    const result = await db.query.users.findFirst({
+      where: eq(users.id, ctx.session?.user?.id),
+      with: {
+        emailCredentials: { with: { emailCredentials: true } },
+        orders: { with: { orders: true } },
+      },
     });
-    return omit(data, ["password"]);
+    if (!result)
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "FORBIDDEN: user not found",
+      });
+    const { emailCredentials, orders, password, ...simpleUser } = result;
+
+    return {
+      ...simpleUser,
+      emailCredentials: emailCredentials.map((v) => v.emailCredentials),
+      orders: orders.map((v) => v.orders),
+    };
   }),
   login: publicProcedure
     .input(
@@ -43,9 +59,10 @@ export const sessionRouter = createTRPCRouter({
       const { username, password } = input;
 
       try {
-        const user = await prisma.user.findFirst({
-          where: { username: username },
+        const user = await db.query.users.findFirst({
+          where: eq(users.username, username),
         });
+
         if (!user || !user.password) {
           throw new Error("Username or password is incorrect");
           return;
