@@ -11,6 +11,7 @@ import { orders_to_files } from "./orders_to_files";
 import { relations } from "drizzle-orm";
 import { email_messages } from "./email_messages";
 import { email_messages_to_files } from "./email_messages_to_files";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const files = pgTable("files", {
   id: serial("id").primaryKey(),
@@ -32,3 +33,10 @@ export const files_relations = relations(files, ({ many }) => ({
   emailMessages: many(email_messages_to_files),
   orders: many(orders_to_files),
 }));
+
+export const insertFileSchema = createInsertSchema(files);
+
+export const selectFileSchema = createSelectSchema(files);
+
+export type File = typeof files.$inferSelect;
+export type NewFile = typeof files.$inferInsert;

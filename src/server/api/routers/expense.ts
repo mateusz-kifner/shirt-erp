@@ -27,21 +27,21 @@ export const expenseRouter = createTRPCRouter({
     }),
   deleteById: authenticatedProcedure
     .input(z.number())
-    .mutation(async ({ input: clientId }) => {
+    .mutation(async ({ input: id }) => {
       const deletedClient = await db
         .delete(expenses)
-        .where(eq(expenses.id, clientId))
+        .where(eq(expenses.id, id))
         .returning();
       return deletedClient[0];
     }),
   update: authenticatedProcedure
     .input(insertExpenseSchema.merge(z.object({ id: z.number() })))
     .mutation(async ({ input: clientData, ctx }) => {
-      const { id: clientId, ...dataToUpdate } = clientData;
+      const { id, ...dataToUpdate } = clientData;
       const updatedClient = await db
         .update(expenses)
         .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
-        .where(eq(expenses.id, clientId))
+        .where(eq(expenses.id, id))
         .returning();
       return updatedClient[0];
     }),

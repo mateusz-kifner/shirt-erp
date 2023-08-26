@@ -26,21 +26,21 @@ export const productRouter = createTRPCRouter({
     }),
   deleteById: authenticatedProcedure
     .input(z.number())
-    .mutation(async ({ input: productId }) => {
+    .mutation(async ({ input: id }) => {
       const deletedProduct = await db
         .delete(products)
-        .where(eq(products.id, productId))
+        .where(eq(products.id, id))
         .returning();
       return deletedProduct[0];
     }),
   update: authenticatedProcedure
     .input(insertProductSchema.merge(z.object({ id: z.number() })))
     .mutation(async ({ input: productData, ctx }) => {
-      const { id: productId, ...dataToUpdate } = productData;
+      const { id, ...dataToUpdate } = productData;
       const updatedProduct = await db
         .update(products)
         .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
-        .where(eq(products.id, productId))
+        .where(eq(products.id, id))
         .returning();
       return updatedProduct[0];
     }),

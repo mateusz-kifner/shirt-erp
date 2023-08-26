@@ -1,21 +1,19 @@
-import { omit } from "lodash";
-
 import Vector2Schema from "@/schema/Vector2Schema";
 import { spreadsheetSchema } from "@/schema/spreadsheetSchema";
 import {
-  createProcedureDeleteById,
-  createProcedureGetAll,
-  createProcedureSearch,
+  createProcedureGetById,
   createProcedureSearchWithPagination,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { Prisma } from "@prisma/client";
-import { TRPCError } from "@trpc/server";
-import SuperJSON from "superjson";
 import { z } from "zod";
+import { db } from "@/db/db";
+import { eq } from "drizzle-orm";
+import {
+  insertSpreadsheetSchema,
+  spreadsheets,
+} from "@/db/schema/spreadsheets";
 
-const spreadsheetSchemaWithoutId = spreadsheetSchema.omit({ id: true });
 const partialSpreadsheetData = z.object({
   id: z.number(),
   partialData: z.array(
@@ -26,55 +24,42 @@ const partialSpreadsheetData = z.object({
 type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
-  // getAll: createProcedureGetAll("spreadsheet"),
-
-  // getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
-  //   const data = await prisma.spreadsheet.findUnique({
-  //     where: { id: input },
-  //   });
-  //   return data;
-  // }),
-
-  // create: authenticatedProcedure
-  //   .input(
-  //     spreadsheetSchemaWithoutId.merge(
-  //       z.object({ orderId: z.number().optional() }),
-  //     ),
-  //   )
-  //   .mutation(async ({ input }) => {
-  //     const { orderId, data, ...spreadsheetData } = input;
-  //     const newSpreadsheet = await prisma.spreadsheet.create({
-  //       data: {
-  //         ...spreadsheetData,
-  //         data: data as Prisma.InputJsonValue,
-  //         orders: { connect: { id: orderId } },
-  //       },
-  //     });
-  //     return newSpreadsheet;
-  //   }),
-
-  // deleteById: createProcedureDeleteById("spreadsheet"),
-
-  // update: authenticatedProcedure
-  //   .input(spreadsheetSchema)
-  //   .mutation(async ({ input: spreadsheetData }) => {
-  //     const {
-  //       id: spreadsheetId,
-  //       data,
-  //       ...simpleSpreadsheetData
-  //     } = spreadsheetData;
-
-  //     const updateData: Prisma.SpreadsheetUpdateInput = {
-  //       ...simpleSpreadsheetData,
-  //       data: data as Prisma.InputJsonValue,
-  //     };
-
-  //     const updatedSpreadsheet = await prisma.spreadsheet.update({
-  //       where: { id: spreadsheetId },
-  //       data: updateData,
-  //     });
-  //     return updatedSpreadsheet;
-  //   }),
+  getById: createProcedureGetById("spreadsheet"),
+  create: authenticatedProcedure
+    .input(insertSpreadsheetSchema)
+    .mutation(async ({ input: userData, ctx }) => {
+      const currentUserId = ctx.session!.user!.id;
+      const newUser = await db
+        .insert(spreadsheets)
+        .values({
+          ...userData,
+          createdById: currentUserId,
+          updatedById: currentUserId,
+        })
+        .returning();
+      return newUser[0];
+    }),
+  deleteById: authenticatedProcedure
+    .input(z.number())
+    .mutation(async ({ input: id }) => {
+      const deletedSpreadsheet = await db
+        .delete(spreadsheets)
+        .where(eq(spreadsheets.id, id))
+        .returning();
+      return deletedSpreadsheet[0];
+    }),
+  update: authenticatedProcedure
+    .input(insertSpreadsheetSchema.merge(z.object({ id: z.number() })))
+    .mutation(async ({ input: userData, ctx }) => {
+      const { id, ...dataToUpdate } = userData;
+      const updatedUser = await db
+        .update(spreadsheets)
+        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .where(eq(spreadsheets.id, id))
+        .returning();
+      return updatedUser[0];
+    }),
+  search: createProcedureSearchWithPagination(spreadsheets),
 
   // updatePartial: authenticatedProcedure
   //   .input(partialSpreadsheetData)
@@ -98,9 +83,4 @@ export const spreadsheetRouter = createTRPCRouter({
   //     });
   //     return updatedSpreadsheet;
   //   }),
-
-  // search: createProcedureSearch("spreadsheet"),
-
-  // searchWithPagination: createProcedureSearchWithPagination("spreadsheet"),
-
 });
