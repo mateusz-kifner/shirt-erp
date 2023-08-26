@@ -6,7 +6,7 @@ import { email_credentials } from "./email_credentials";
 export const email_credentials_to_users = pgTable(
   "email_credentials_to_users",
   {
-    emailCredentialsId: integer("order_id")
+    emailCredentialsId: integer("email_credentials_id")
       .notNull()
       .references(() => email_credentials.id),
     userId: integer("user_id")

@@ -23,8 +23,9 @@ export const emailRouter = createTRPCRouter({
       with: { emailCredentials: { with: { emailCredentials: true } } },
     });
 
-    if (!result || result?.emailCredentials.length === 0) return [];
-    return result.emailCredentials;
+    if (result === undefined || result?.emailCredentials.length === 0)
+      return [];
+    return result.emailCredentials.map((v) => v.emailCredentials);
   }),
 
   getFolders: authenticatedProcedure

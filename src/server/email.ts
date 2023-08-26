@@ -14,6 +14,11 @@ import { ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import sharp from "sharp";
+import { db } from "@/db/db";
+import { and, eq } from "drizzle-orm";
+import { email_messages } from "@/db/schema/email_messages";
+import { files as filesSchema } from "@/db/schema/files";
+import { email_messages_to_files } from "@/db/schema/email_messages_to_files";
 
 const mailDir = "./cache/email/";
 const uploadDir = "./uploads/";
@@ -384,18 +389,21 @@ export async function transferEmailToDbByUId(
     const auth: { user: string; pass?: string; accessToken?: string } =
       // @ts-ignore
       client.options.auth;
-    const alreadyTransferred = await prisma.emailMessage.findFirst({
-      where: {
-        AND: [
-          { messageUid: parseInt(uid) },
-          { clientUser: auth.user },
-          { mailbox },
-        ],
-      },
-      include: { attachments: true, messageFile: true },
+    const alreadyTransferred = await db.query.email_messages.findFirst({
+      where: and(
+        eq(email_messages.messageUid, parseInt(uid)),
+        eq(email_messages.clientUser, auth.user),
+        eq(email_messages.mailbox, mailbox),
+      ),
+      with: { attachments: { with: { files: true } }, messageFile: true },
     });
 
-    if (alreadyTransferred !== null) return alreadyTransferred;
+    if (alreadyTransferred !== undefined) {
+      return {
+        ...alreadyTransferred,
+        attachments: alreadyTransferred.attachments.map((v) => v.files),
+      };
+    }
 
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
@@ -477,29 +485,47 @@ export async function transferEmailToDbByUId(
       // @ts-ignore
       // eslint-disable-next-line
       .map((val) => val.value);
+    // FIXME: make this work
+    const newMail = (
+      await db
+        .insert(email_messages)
+        .values({
+          to: Array.isArray(parsed.to)
+            ? parsed.to.map((v) => v.text).reduce((p, n, i) => `${p}, ${n}`, "")
+            : parsed.to?.text,
+          from: parsed.from?.text,
+          subject: parsed.subject,
+          date: parsed.date,
+          html: parsed.html ? parsed.html : null,
+          mailbox,
+          text: parsed.text,
+          textAsHtml: parsed.textAsHtml,
+          messageUid: parseInt(uid),
+          headerLines: parsed.headerLines.map((val) => val.line),
+          clientUser: auth.user,
+          messageId: parsed.messageId,
+          // attachments: { create: resolvedFiles },
+        })
+        .returning()
+    )[0];
+    if (newMail === undefined) throw new Error("email failed to be created");
+    const attachments = await db
+      .insert(filesSchema)
+      .values(resolvedFiles)
+      .returning();
+    console.log(attachments);
+    const attachmentsRelation = await db
+      .insert(email_messages_to_files)
+      .values(
+        attachments.map((val) => ({
+          emailMessageId: newMail.id,
+          fileId: val.id,
+        })),
+      )
+      .returning();
+    console.log(attachmentsRelation);
 
-    const newMail = await prisma.emailMessage.create({
-      data: {
-        to: Array.isArray(parsed.to)
-          ? parsed.to.map((v) => v.text).reduce((p, n, i) => `${p}, ${n}`, "")
-          : parsed.to?.text,
-        from: parsed.from?.text,
-        subject: parsed.subject,
-        date: parsed.date,
-        html: parsed.html ? parsed.html : null,
-        mailbox,
-        text: parsed.text,
-        textAsHtml: parsed.textAsHtml,
-        messageUid: parseInt(uid),
-        headerLines: parsed.headerLines.map((val) => val.line),
-        clientUser: auth.user,
-        messageId: parsed.messageId,
-        attachments: { create: resolvedFiles },
-      },
-      include: { attachments: true, messageFile: true },
-    });
-
-    return newMail;
+    return { ...newMail, attachments };
   } catch (error) {
     console.error("Error fetching email attachment:", error);
     throw new Error("Failed to fetch email attachment.");

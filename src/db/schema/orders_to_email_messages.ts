@@ -9,7 +9,7 @@ export const orders_to_email_messages = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => orders.id),
-    emailMessagesId: integer("product_id")
+    emailMessagesId: integer("email_messages_id")
       .notNull()
       .references(() => email_messages.id),
   },

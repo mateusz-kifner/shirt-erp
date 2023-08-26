@@ -9,7 +9,7 @@ export const orders_to_spreadsheets = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => orders.id),
-    spreadsheetId: integer("file_id")
+    spreadsheetId: integer("spreadsheet_id")
       .notNull()
       .references(() => spreadsheets.id),
   },

@@ -6,7 +6,7 @@ import { email_messages } from "./email_messages";
 export const email_messages_to_files = pgTable(
   "email_messages_to_files",
   {
-    emailMessageId: integer("order_id")
+    emailMessageId: integer("email_messages_id")
       .notNull()
       .references(() => email_messages.id),
     fileId: integer("file_id")
