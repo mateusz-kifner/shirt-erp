@@ -1,5 +1,4 @@
 import Vector2Schema from "@/schema/Vector2Schema";
-import { spreadsheetSchema } from "@/schema/spreadsheetSchema";
 import {
   createProcedureGetById,
   createProcedureSearchWithPagination,

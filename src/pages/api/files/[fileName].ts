@@ -1,4 +1,7 @@
+import { db } from "@/db/db";
+import { files } from "@/db/schema/files";
 import HTTPError from "@/utils/HTTPError";
+import { eq } from "drizzle-orm";
 import { createReadStream } from "fs";
 import fs from "fs/promises";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -19,7 +22,9 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
     const { fileName, token } = req.query;
     const download = req.query.download === "";
 
-    const file = await prisma.file.findFirst({ where: { filename: fileName } });
+    const file = await db.query.files.findFirst({
+      where: eq(files.filename, fileName),
+    });
     if (!file) {
       throw new HTTPError(404, `File not found`);
     }

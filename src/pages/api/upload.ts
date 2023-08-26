@@ -1,3 +1,4 @@
+import { db } from "@/db/db";
 import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
@@ -6,6 +7,7 @@ import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";
 import { getIronSession, type IronSession } from "iron-session";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { files as filesSchema } from "@/db/schema/files";
 
 /**
  * Upload using multiform data, requires using name file
@@ -65,7 +67,7 @@ export default async function Upload(
 
     const fileArray = Array.isArray(files) ? files : [files];
 
-    const newFiles: Prisma.FileCreateInput[] = fileArray.map((file) => {
+    const newFiles = fileArray.map((file) => {
       const originalFilenameExtDot = file.originalFilename!.lastIndexOf(".");
       const extWithDot = file.originalFilename!.substring(
         originalFilenameExtDot,
@@ -93,13 +95,16 @@ export default async function Upload(
       };
     });
 
-    await prisma.file.createMany({ data: newFiles, skipDuplicates: false });
+    const filesFromDb = await db
+      .insert(filesSchema)
+      .values(newFiles)
+      .returning();
 
-    const filenames = newFiles.map((val) => val.filename) as string[];
+    // const filenames = newFiles.map((val) => val.filename) as string[];
 
-    const filesFromDb = await prisma.file.findMany({
-      where: { filename: { in: filenames } },
-    });
+    // const filesFromDb = await prisma.file.findMany({
+    //   where: { filename: { in: filenames } },
+    // });
 
     // const { originalFilename, filepath: tempFilePath } = file;
     // const ext = (originalFilename ?? "unknown.unknown").split(".").pop();
