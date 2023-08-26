@@ -29,7 +29,7 @@ export const sessionRouter = createTRPCRouter({
   }),
   me: authenticatedProcedure.query(async ({ ctx }) => {
     const result = await db.query.users.findFirst({
-      where: eq(users.id, ctx.session?.user?.id),
+      where: eq(users.id, ctx.session!.user!.id),
       with: {
         emailCredentials: { with: { emailCredentials: true } },
         orders: { with: { orders: true } },
