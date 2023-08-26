@@ -1,11 +1,13 @@
 import { db } from "@/db/db";
-import { Product, insertProductSchema, products } from "@/db/schema/products";
-import { productSchema } from "@/schema/productSchema";
+import {
+  ProductType,
+  insertProductSchema,
+  products,
+} from "@/db/schema/products";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq, ilike, not, or, sql } from "drizzle-orm";
 import { z } from "zod";
 
-const productSchemaWithoutId = productSchema.omit({ id: true });
 const preparedTotalProducts = db
   .select({ count: sql<number>`count(*)` })
   .from(products)
@@ -17,10 +19,6 @@ async function getTotalProducts() {
 }
 
 export const productRouter = createTRPCRouter({
-  getAll: authenticatedProcedure.query(async () => {
-    const data = await db.query.products.findMany();
-    return data;
-  }),
   getById: authenticatedProcedure
     .input(z.number())
     .query(async ({ input: productId }) => {
@@ -63,7 +61,7 @@ export const productRouter = createTRPCRouter({
         .returning();
       return updatedProduct[0];
     }),
-  searchWithPagination: authenticatedProcedure
+  search: authenticatedProcedure
     .input(
       z.object({
         keys: z.array(z.string()),
@@ -72,7 +70,7 @@ export const productRouter = createTRPCRouter({
         sortColumn: z.string().default("name"),
         excludeKey: z.string().optional(),
         excludeValue: z.string().optional(),
-        currentPage: z.number(),
+        currentPage: z.number().default(1),
         itemsPerPage: z.number().default(10),
       }),
     )
@@ -91,19 +89,26 @@ export const productRouter = createTRPCRouter({
       const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
 
       const search = queryParam
-        ? keys.map((key) => ilike(products[key as keyof Product], queryParam))
+        ? keys.map((key) =>
+            ilike(products[key as keyof ProductType], queryParam),
+          )
         : [];
 
       const results = await db.query.products.findMany({
         where: queryParam
           ? or(...search)
-          : not(
-              ilike(products[excludeKey as keyof Product], `${excludeValue}%`),
-            ),
+          : excludeKey && excludeValue
+          ? not(
+              ilike(
+                products[excludeKey as keyof ProductType],
+                `${excludeValue}%`,
+              ),
+            )
+          : undefined,
         limit: itemsPerPage,
         offset: (currentPage - 1) * itemsPerPage,
         orderBy: (products, handlers) => [
-          handlers[sort](products[sortColumn as keyof Product]),
+          handlers[sort](products[sortColumn as keyof ProductType]),
         ],
       });
 

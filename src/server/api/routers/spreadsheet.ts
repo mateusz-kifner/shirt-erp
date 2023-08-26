@@ -26,80 +26,81 @@ const partialSpreadsheetData = z.object({
 type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
-  getAll: createProcedureGetAll("spreadsheet"),
+  // getAll: createProcedureGetAll("spreadsheet"),
 
-  getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
-    const data = await prisma.spreadsheet.findUnique({
-      where: { id: input },
-    });
-    return data;
-  }),
+  // getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
+  //   const data = await prisma.spreadsheet.findUnique({
+  //     where: { id: input },
+  //   });
+  //   return data;
+  // }),
 
-  create: authenticatedProcedure
-    .input(
-      spreadsheetSchemaWithoutId.merge(
-        z.object({ orderId: z.number().optional() }),
-      ),
-    )
-    .mutation(async ({ input }) => {
-      const { orderId, data, ...spreadsheetData } = input;
-      const newSpreadsheet = await prisma.spreadsheet.create({
-        data: {
-          ...spreadsheetData,
-          data: data as Prisma.InputJsonValue,
-          orders: { connect: { id: orderId } },
-        },
-      });
-      return newSpreadsheet;
-    }),
+  // create: authenticatedProcedure
+  //   .input(
+  //     spreadsheetSchemaWithoutId.merge(
+  //       z.object({ orderId: z.number().optional() }),
+  //     ),
+  //   )
+  //   .mutation(async ({ input }) => {
+  //     const { orderId, data, ...spreadsheetData } = input;
+  //     const newSpreadsheet = await prisma.spreadsheet.create({
+  //       data: {
+  //         ...spreadsheetData,
+  //         data: data as Prisma.InputJsonValue,
+  //         orders: { connect: { id: orderId } },
+  //       },
+  //     });
+  //     return newSpreadsheet;
+  //   }),
 
-  deleteById: createProcedureDeleteById("spreadsheet"),
+  // deleteById: createProcedureDeleteById("spreadsheet"),
 
-  update: authenticatedProcedure
-    .input(spreadsheetSchema)
-    .mutation(async ({ input: spreadsheetData }) => {
-      const {
-        id: spreadsheetId,
-        data,
-        ...simpleSpreadsheetData
-      } = spreadsheetData;
+  // update: authenticatedProcedure
+  //   .input(spreadsheetSchema)
+  //   .mutation(async ({ input: spreadsheetData }) => {
+  //     const {
+  //       id: spreadsheetId,
+  //       data,
+  //       ...simpleSpreadsheetData
+  //     } = spreadsheetData;
 
-      const updateData: Prisma.SpreadsheetUpdateInput = {
-        ...simpleSpreadsheetData,
-        data: data as Prisma.InputJsonValue,
-      };
+  //     const updateData: Prisma.SpreadsheetUpdateInput = {
+  //       ...simpleSpreadsheetData,
+  //       data: data as Prisma.InputJsonValue,
+  //     };
 
-      const updatedSpreadsheet = await prisma.spreadsheet.update({
-        where: { id: spreadsheetId },
-        data: updateData,
-      });
-      return updatedSpreadsheet;
-    }),
+  //     const updatedSpreadsheet = await prisma.spreadsheet.update({
+  //       where: { id: spreadsheetId },
+  //       data: updateData,
+  //     });
+  //     return updatedSpreadsheet;
+  //   }),
 
-  updatePartial: authenticatedProcedure
-    .input(partialSpreadsheetData)
-    .mutation(async ({ input: partialData }) => {
-      const dataSpreadsheet = await prisma.spreadsheet.findUnique({
-        where: { id: partialData.id },
-      });
-      if (!dataSpreadsheet?.data)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "NOT_FOUND",
-        });
-      //  eslint-disable-next-line
-      const dataDecoded = SuperJSON.parse(dataSpreadsheet.data.toString());
-      console.log(dataDecoded);
-      for (const cell of partialData.partialData) {
-      }
-      const updatedSpreadsheet = await prisma.spreadsheet.update({
-        where: { id: partialData.id },
-        data: omit({ ...partialData }, ["id"]),
-      });
-      return updatedSpreadsheet;
-    }),
+  // updatePartial: authenticatedProcedure
+  //   .input(partialSpreadsheetData)
+  //   .mutation(async ({ input: partialData }) => {
+  //     const dataSpreadsheet = await prisma.spreadsheet.findUnique({
+  //       where: { id: partialData.id },
+  //     });
+  //     if (!dataSpreadsheet?.data)
+  //       throw new TRPCError({
+  //         code: "NOT_FOUND",
+  //         message: "NOT_FOUND",
+  //       });
+  //     //  eslint-disable-next-line
+  //     const dataDecoded = SuperJSON.parse(dataSpreadsheet.data.toString());
+  //     console.log(dataDecoded);
+  //     for (const cell of partialData.partialData) {
+  //     }
+  //     const updatedSpreadsheet = await prisma.spreadsheet.update({
+  //       where: { id: partialData.id },
+  //       data: omit({ ...partialData }, ["id"]),
+  //     });
+  //     return updatedSpreadsheet;
+  //   }),
 
-  search: createProcedureSearch("spreadsheet"),
+  // search: createProcedureSearch("spreadsheet"),
 
-  searchWithPagination: createProcedureSearchWithPagination("spreadsheet"),
+  // searchWithPagination: createProcedureSearchWithPagination("spreadsheet"),
+
 });

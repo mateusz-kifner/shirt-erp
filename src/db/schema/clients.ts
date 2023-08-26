@@ -29,3 +29,15 @@ export const clients_relations = relations(clients, ({ one }) => ({
     references: [addresses.id],
   }),
 }));
+
+
+export const insertClientSchema = createInsertSchema(clients, {
+
+});
+
+export const selectClientSchema = createSelectSchema(clients, {
+
+});
+
+export type ClientType = typeof clients.$inferSelect;
+export type NewClientType = typeof clients.$inferInsert;
