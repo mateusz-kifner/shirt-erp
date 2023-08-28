@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import {
   createProcedureGetById,
-  createProcedureSearchWithPagination,
+  createProcedureSearch,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { db } from "@/db/db";
@@ -46,5 +46,5 @@ export const clientRouter = createTRPCRouter({
       return updatedClient[0];
     }),
 
-  searchWithPagination: createProcedureSearchWithPagination(clients),
+  Search: createProcedureSearch(clients),
 });

@@ -1,15 +1,4 @@
-import {
-  boolean,
-  integer,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-  varchar,
-  doublePrecision,
-  date,
-} from "drizzle-orm/pg-core";
-import { metadata } from "./_metadata";
+import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { clients } from "./clients";
 import { orders } from "./orders";
@@ -35,5 +24,5 @@ export const insertAddressSchema = createInsertSchema(addresses);
 
 export const selectAddressSchema = createSelectSchema(addresses);
 
-export type Address = typeof addresses.$inferSelect; // return type when queried
-export type NewAddress = typeof addresses.$inferInsert; // insert type
+export type Address = typeof addresses.$inferSelect;
+export type NewAddress = typeof addresses.$inferInsert;

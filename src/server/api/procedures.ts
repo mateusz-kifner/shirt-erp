@@ -16,9 +16,7 @@ export function createProcedureGetById(schemaName: string) {
     });
 }
 
-export function createProcedureSearchWithPagination(
-  pgTable: PgTable<TableConfig>,
-) {
+export function createProcedureSearch(pgTable: PgTable<TableConfig>) {
   return authenticatedProcedure
     .input(
       z.object({

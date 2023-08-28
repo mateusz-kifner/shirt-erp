@@ -1,7 +1,7 @@
 import Vector2Schema from "@/schema/Vector2Schema";
 import {
   createProcedureGetById,
-  createProcedureSearchWithPagination,
+  createProcedureSearch,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
@@ -58,7 +58,7 @@ export const spreadsheetRouter = createTRPCRouter({
         .returning();
       return updatedUser[0];
     }),
-  search: createProcedureSearchWithPagination(spreadsheets),
+  search: createProcedureSearch(spreadsheets),
 
   // updatePartial: authenticatedProcedure
   //   .input(partialSpreadsheetData)

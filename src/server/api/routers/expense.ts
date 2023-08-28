@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import {
   createProcedureGetById,
-  createProcedureSearchWithPagination,
+  createProcedureSearch,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { expenses, insertExpenseSchema } from "@/db/schema/expenses";
@@ -45,5 +45,5 @@ export const expenseRouter = createTRPCRouter({
         .returning();
       return updatedClient[0];
     }),
-  search: createProcedureSearchWithPagination(expenses),
+  search: createProcedureSearch(expenses),
 });

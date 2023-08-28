@@ -3,10 +3,7 @@ import { insertProductSchema, products } from "@/db/schema/products";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import {
-  createProcedureGetById,
-  createProcedureSearchWithPagination,
-} from "../procedures";
+import { createProcedureGetById, createProcedureSearch } from "../procedures";
 
 export const productRouter = createTRPCRouter({
   getById: createProcedureGetById("products"),
@@ -44,5 +41,5 @@ export const productRouter = createTRPCRouter({
         .returning();
       return updatedProduct[0];
     }),
-  search: createProcedureSearchWithPagination(products),
+  search: createProcedureSearch(products),
 });

@@ -1,4 +1,4 @@
-import { createProcedureSearchWithPagination } from "@/server/api/procedures";
+import { createProcedureSearch } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { z } from "zod";
@@ -42,5 +42,5 @@ export const fileRouter = createTRPCRouter({
       return updatedClient[0];
     }),
 
-  searchWithPagination: createProcedureSearchWithPagination(files),
+  Search: createProcedureSearch(files),
 });

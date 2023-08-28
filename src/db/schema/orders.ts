@@ -26,6 +26,8 @@ import { insertUserSchema } from "./users";
 import { insertEmailMessageSchema } from "./email_messages";
 import { insertSpreadsheetSchema } from "./spreadsheets";
 
+addresses.getSQL();
+
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }),
@@ -73,6 +75,6 @@ export const insertOrderSchemaWithRelations = insertOrderSchema.merge(
 export const selectOrderSchema = createSelectSchema(orders);
 
 export type Order = typeof orders.$inferSelect;
-export type OrderWithRelations = z.infer<typeof insertOrderSchemaWithRelations>;
-export type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
+// export type OrderWithRelations = z.infer<typeof insertOrderSchemaWithRelations>;
+// export type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
 export type NewOrder = typeof orders.$inferInsert;

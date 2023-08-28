@@ -64,9 +64,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
   const [query, setQuery] = useState<string | undefined>(defaultSearch);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const [page, setPage] = useState<number>(1);
-  const { data, refetch } = api[
-    entryName as "client"
-  ].searchWithPagination.useQuery({
+  const { data, refetch } = api[entryName as "client"].search.useQuery({
     sort: sortOrder,
     keys: filterKeys,
     query: debouncedQuery,

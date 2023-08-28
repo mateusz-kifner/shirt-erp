@@ -1,8 +1,5 @@
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import {
-  createProcedureGetById,
-  createProcedureSearchWithPagination,
-} from "../procedures";
+import { createProcedureGetById, createProcedureSearch } from "../procedures";
 import { db } from "@/db/db";
 import { insertUserSchema, users } from "@/db/schema/users";
 import { z } from "zod";
@@ -47,5 +44,5 @@ export const userRouter = createTRPCRouter({
         .returning();
       return updatedUser[0];
     }),
-  search: createProcedureSearchWithPagination(users),
+  search: createProcedureSearch(users),
 });

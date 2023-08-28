@@ -1,5 +1,5 @@
 import { env } from "@/env.mjs";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as addresses from "./schema/addresses";
 import * as clients from "./schema/clients";
@@ -50,12 +50,10 @@ export const migrationDb = drizzle(migrationClient);
 
 // for query purposes
 const queryClient = postgres(env.DATABASE_URL);
-export const db = drizzle(queryClient, {
+export var db = drizzle(queryClient, {
   schema,
 });
 
+// export type SchemaNames = SchemaType;
 
-
-export type SchemaType  = Array<keyof typeof db.query>
-
-export type SchemaNames = SchemaType
+// export type SchemaType = Array<keyof typeof db.query>;

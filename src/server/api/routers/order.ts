@@ -1,4 +1,4 @@
-import { createProcedureSearchWithPagination } from "@/server/api/procedures";
+import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
@@ -53,7 +53,7 @@ export const orderRouter = createTRPCRouter({
       };
     }),
   create: authenticatedProcedure
-    .input(insertOrderSchemaWithRelations)
+    .input(insertOrderSchema)
     .mutation(async ({ input: orderData }) => {
       const {
         spreadsheets,
@@ -184,82 +184,83 @@ export const orderRouter = createTRPCRouter({
 
       return deletedOrder[0];
     }),
-  update: authenticatedProcedure
-    .input(insertOrderSchemaWithRelations.merge(z.object({ id: z.number() })))
-    .mutation(async ({ input: orderData }) => {
-      const {
-        id,
-        spreadsheets,
-        files,
-        client,
-        address,
-        products,
-        employees,
-        emails,
-        ...simpleOrderData
-      } = orderData;
+  // update: authenticatedProcedure
+  //   .input(insertOrderSchemaWithRelations.merge(z.object({ id: z.number() })))
+  //   .mutation(async ({ input: orderData }) => {
+  //     const {
+  //       id,
+  //       spreadsheets,
+  //       files,
+  //       client,
+  //       address,
+  //       products,
+  //       employees,
+  //       emails,
+  //       ...simpleOrderData
+  //     } = orderData;
 
-      const order = await db.query.orders.findFirst({
-        where: eq(orders.id, id),
-        with: {
-          address: true,
-          client: true,
-          emails: { with: { emailMessages: true } },
-          employees: { with: { users: true } },
-          files: { with: { files: true } },
-          products: { with: { products: true } },
-          spreadsheets: { with: { spreadsheets: true } },
-        },
-      });
-      if (!order) throw new Error("Order not found");
+  //     const order = await db.query.orders.findFirst({
+  //       where: eq(orders.id, id),
+  //       with: {
+  //         address: true,
+  //         client: true,
+  //         emails: { with: { emailMessages: true } },
+  //         employees: { with: { users: true } },
+  //         files: { with: { files: true } },
+  //         products: { with: { products: true } },
+  //         spreadsheets: { with: { spreadsheets: true } },
+  //       },
+  //     });
+  //     if (!order) throw new Error("Order not found");
 
-      const {
-        id: oldId,
-        spreadsheets: oldSpreadsheets,
-        files: oldFiles,
-        client: oldClient,
-        address: oldAddress,
-        products: oldProducts,
-        employees: oldEmployees,
-        emails: oldEmails,
-        ...oldSimpleOrderData
-      } = order;
+  //     const {
+  //       id: oldId,
+  //       spreadsheets: oldSpreadsheets,
+  //       files: oldFiles,
+  //       client: oldClient,
+  //       address: oldAddress,
+  //       products: oldProducts,
+  //       employees: oldEmployees,
+  //       emails: oldEmails,
+  //       ...oldSimpleOrderData
+  //     } = order;
 
-      // if (!isEqual(oldSimpleOrderData, simpleOrderData) || client !== undefined) {
-      //   await db.update(orders).set({
-      //     ...simpleOrderData,
-      //     clientId:
-      //       client?.id !== undefined ? client.id : simpleOrderData.clientId,
-      //   });
-      // }
+  //     // if (!isEqual(oldSimpleOrderData, simpleOrderData) || client !== undefined) {
+  //     //   await db.update(orders).set({
+  //     //     ...simpleOrderData,
+  //     //     clientId:
+  //     //       client?.id !== undefined ? client.id : simpleOrderData.clientId,
+  //     //   });
+  //     // }
 
-      // if (Array.isArray(products)) {
-      //   const alreadyInDB = await db.query.orders_to_products.findMany({
-      //     where: inArray(
-      //       orders_to_products.productId,
-      //       products.map((v) => v.id!),
-      //     ),
-      //   });
-      //   // const toBeMade = products.filter((v)=>al)
-      // }
+  //     // if (Array.isArray(products)) {
+  //     //   const alreadyInDB = await db.query.orders_to_products.findMany({
+  //     //     where: inArray(
+  //     //       orders_to_products.productId,
+  //     //       products.map((v) => v.id!),
+  //     //     ),
+  //     //   });
+  //     //   // const toBeMade = products.filter((v)=>al)
+  //     // }
 
-      // if (employees && Array.isArray(employees)) {
-      //   updateData.employees = {
-      //     set: employees.map((val) => ({ id: val.id })),
-      //   };
-      // }
+  //     // if (employees && Array.isArray(employees)) {
+  //     //   updateData.employees = {
+  //     //     set: employees.map((val) => ({ id: val.id })),
+  //     //   };
+  //     // }
 
-      // if (files && Array.isArray(files))
-      //   updateData.files = { set: files.map((val) => ({ id: val.id })) };
+  //     // if (files && Array.isArray(files))
+  //     //   updateData.files = { set: files.map((val) => ({ id: val.id })) };
 
-      // if (emails && Array.isArray(emails))
-      //   updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
+  //     // if (emails && Array.isArray(emails))
+  //     //   updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
 
-      // if (address) updateData.address = { update: address };
+  //     // if (address) updateData.address = { update: address };
 
-      return {};
-    }),
-  search: createProcedureSearchWithPagination(orders),
+  //     return {};
+  //   }),
+  //
+  search: createProcedureSearch(orders),
   // archiveById: authenticatedProcedure
   //   .input(z.number())
   //   .mutation(async ({ input: orderId }) => {
