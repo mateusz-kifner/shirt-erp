@@ -5,8 +5,6 @@ import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { db } from "@/db/db";
 import { eq, inArray } from "drizzle-orm";
 import {
-  insertOrderSchema,
-  insertOrderSchemaWithRelations,
   orders,
 } from "@/db/schema/orders";
 import { orders_to_files } from "@/db/schema/orders_to_files";
@@ -23,6 +21,7 @@ import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import { addresses as addressesSchema } from "@/db/schema/addresses";
 import { orders_to_spreadsheets } from "@/db/schema/orders_to_spreadsheets";
 import { isEqual } from "lodash";
+import { insertOrderSchema, insertOrderSchemaWithRelations } from "@/db/zod/orders";
 
 export const orderRouter = createTRPCRouter({
   getById: authenticatedProcedure
@@ -53,7 +52,7 @@ export const orderRouter = createTRPCRouter({
       };
     }),
   create: authenticatedProcedure
-    .input(insertOrderSchema)
+    .input(insertOrderSchemaWithRelations)
     .mutation(async ({ input: orderData }) => {
       const {
         spreadsheets,

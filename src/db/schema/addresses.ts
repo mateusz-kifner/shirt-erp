@@ -2,7 +2,6 @@ import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { clients } from "./clients";
 import { orders } from "./orders";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const addresses = pgTable("addresses", {
   id: serial("id").primaryKey(),
@@ -20,9 +19,4 @@ export const addresses_relations = relations(addresses, ({ many }) => ({
   order: many(orders),
 }));
 
-export const insertAddressSchema = createInsertSchema(addresses);
 
-export const selectAddressSchema = createSelectSchema(addresses);
-
-export type Address = typeof addresses.$inferSelect;
-export type NewAddress = typeof addresses.$inferInsert;

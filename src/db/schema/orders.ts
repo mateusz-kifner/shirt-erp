@@ -3,30 +3,20 @@ import {
   integer,
   pgTable,
   serial,
-  text,
-  timestamp,
   varchar,
   doublePrecision,
   date,
 } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
-import { addresses, insertAddressSchema } from "./addresses";
+import { addresses } from "./addresses";
 import { relations } from "drizzle-orm";
 import { orders_to_files } from "./orders_to_files";
-import { clients, insertClientSchema } from "./clients";
+import { clients } from "./clients";
 import { orders_to_products } from "./orders_to_products";
 import { orders_to_users } from "./orders_to_users";
 import { orders_to_email_messages } from "./orders_to_email_messages";
 import { orders_to_spreadsheets } from "./orders_to_spreadsheets";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
-import { insertFileSchema } from "./files";
-import { insertProductSchema } from "./products";
-import { insertUserSchema } from "./users";
-import { insertEmailMessageSchema } from "./email_messages";
-import { insertSpreadsheetSchema } from "./spreadsheets";
 
-addresses.getSQL();
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
@@ -58,23 +48,3 @@ export const orders_relations = relations(orders, ({ one, many }) => ({
   spreadsheets: many(orders_to_spreadsheets),
 }));
 
-export const insertOrderSchema = createInsertSchema(orders);
-export const insertOrderSchemaRelations = z.object({
-  files: insertFileSchema.array().optional(),
-  products: insertProductSchema.array().optional(),
-  employees: insertUserSchema.array().optional(),
-  emails: insertEmailMessageSchema.array().optional(),
-  spreadsheets: insertSpreadsheetSchema.array().optional(),
-  client: insertClientSchema.optional(),
-  address: insertAddressSchema.optional(),
-});
-export const insertOrderSchemaWithRelations = insertOrderSchema.merge(
-  insertOrderSchemaRelations,
-);
-
-export const selectOrderSchema = createSelectSchema(orders);
-
-export type Order = typeof orders.$inferSelect;
-// export type OrderWithRelations = z.infer<typeof insertOrderSchemaWithRelations>;
-// export type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
-export type NewOrder = typeof orders.$inferInsert;
