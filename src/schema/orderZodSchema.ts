@@ -1,13 +1,13 @@
+import { insertClientSchema } from "@/db/schema/clients";
+import { insertEmailMessageSchema } from "@/db/schema/email_messages";
+import { insertFileSchema } from "@/db/schema/files";
+import { orders } from "@/db/schema/orders";
+import { insertProductSchema } from "@/db/schema/products";
+import { insertSpreadsheetSchema } from "@/db/schema/spreadsheets";
+import { insertUserSchema } from "@/db/schema/users";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { orders } from "../schema/orders";
-import { insertFileSchema } from "../schema/files";
 import { z } from "zod";
-import { insertAddressSchema } from "./addresses";
-import { insertClientSchema } from "../schema/clients";
-import { insertSpreadsheetSchema } from "../schema/spreadsheets";
-import { insertEmailMessageSchema } from "../schema/email_messages";
-import { insertUserSchema } from "../schema/users";
-import { insertProductSchema } from "../schema/products";
+import { insertAddressSchema } from "./addressZodSchema";
 
 
 export const insertOrderSchema = createInsertSchema(orders);
