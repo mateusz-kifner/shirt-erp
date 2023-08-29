@@ -7,26 +7,32 @@ import { insertSpreadsheetSchema } from "@/db/schema/spreadsheets";
 import { insertUserSchema } from "@/db/schema/users";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
-import { insertAddressSchema } from "./addressZodSchema";
+import { insertAddressZodSchema } from "./addressZodSchema";
+import idRequiredZodSchema from "./idRequiredZodSchema";
 
-
-export const insertOrderSchema = createInsertSchema(orders);
-export const insertOrderSchemaRelations = z.object({
+export const selectOrderZodSchemaWithoutRelations = createSelectSchema(orders);
+export const insertOrderZodSchemaWithoutRelations = createInsertSchema(orders);
+const insertOrderSchemaRelations = z.object({
   files: insertFileSchema.array().optional(),
   products: insertProductSchema.array().optional(),
   employees: insertUserSchema.array().optional(),
   emails: insertEmailMessageSchema.array().optional(),
   spreadsheets: insertSpreadsheetSchema.array().optional(),
   client: insertClientSchema.optional(),
-  address: insertAddressSchema.optional(),
+  address: insertAddressZodSchema.optional(),
 });
-export const insertOrderSchemaWithRelations = insertOrderSchema.merge(
+
+
+
+
+export const insertOrderZodSchema = insertOrderZodSchemaWithoutRelations.merge(
   insertOrderSchemaRelations,
 );
+export const updateOrderZodSchema = insertOrderZodSchemaWithoutRelations.merge(idRequiredZodSchema)
 
-export const selectOrderSchema = createSelectSchema(orders);
 
-export type Order = typeof orders.$inferSelect;
-export type OrderWithRelations = z.infer<typeof insertOrderSchemaWithRelations>;
-export type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
-export type NewOrder = typeof orders.$inferInsert;
+
+export type OrderWithoutRelations = typeof orders.$inferSelect;
+export type NewOrder = z.infer<typeof insertOrderZodSchema>;
+// type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
+// export type NewOrder = typeof orders.$inferInsert;

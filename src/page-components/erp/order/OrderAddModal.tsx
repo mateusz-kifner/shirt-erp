@@ -83,9 +83,11 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
               console.log;
               const newOrder = {
                 ...(data ? omit(data, "id") : {}),
-                address: data?.address ? omit(data.address, "id") : null,
                 name: orderName,
               } as any;
+              if ( data?.address){
+              newOrder.address = omit(data.address, "id")
+              }
               createOrder(newOrder);
             }}
             className="mt-4"

@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 
 // import * as XLSX from "xlsx"
-import Design from "@/components/Design/Design";
+//import Design from "@/components/Design/Design";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
@@ -20,7 +20,7 @@ import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderEditable from "@/page-components/erp/order/OrderEditable";
 import OrderList from "@/page-components/erp/order/OrderList";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
-import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
+//import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import {
@@ -58,9 +58,9 @@ const OrdersPage: NextPage = () => {
   const { mutateAsync: deleteSpreadsheetMutation } =
     api.spreadsheet.deleteById.useMutation({});
 
-  const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
-    {},
-  );
+  // const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
+  //   {},
+  // );
   const t = useTranslation();
 
   const [status, setStatus] = useState<
@@ -199,15 +199,15 @@ const OrdersPage: NextPage = () => {
       .catch(console.log);
   };
 
-  const addDesign = () => {
-    createDesignMutation({
-      name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
-      data: [],
-      orderId: id ?? undefined,
-    })
-      .then(() => router.reload())
-      .catch(console.log);
-  };
+  // const addDesign = () => {
+  //   createDesignMutation({
+  //     name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
+  //     data: [],
+  //     orderId: id ?? undefined,
+  //   })
+  //     .then(() => router.reload())
+  //     .catch(console.log);
+  // };
 
   return (
     <>
@@ -291,7 +291,7 @@ const OrdersPage: NextPage = () => {
             </div>
           ))}
 
-        {orderData &&
+        {/* {orderData &&
           orderData.designs.map((val, index) => (
             <Design
               key={`${uuid}design:${index}:`}
@@ -299,7 +299,7 @@ const OrdersPage: NextPage = () => {
               backgrounds={designBackgrounds}
               files={orderData.files}
             />
-          ))}
+          ))} */}
       </Workspace>
       <OrderAddModal
         opened={openAddModal}

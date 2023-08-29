@@ -1,27 +1,24 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { db } from "@/db/db";
-import { eq, inArray } from "drizzle-orm";
+import { addresses as addressesSchema } from "@/db/schema/addresses";
 import {
   orders,
 } from "@/db/schema/orders";
-import { orders_to_files } from "@/db/schema/orders_to_files";
 import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
+import { orders_to_files } from "@/db/schema/orders_to_files";
 import {
-  orders_to_products,
-  orders_to_products_relations,
+  orders_to_products
 } from "@/db/schema/orders_to_products";
+import { orders_to_spreadsheets } from "@/db/schema/orders_to_spreadsheets";
 import {
-  orders_to_users,
-  orders_to_users_relations,
+  orders_to_users
 } from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
-import { addresses as addressesSchema } from "@/db/schema/addresses";
-import { orders_to_spreadsheets } from "@/db/schema/orders_to_spreadsheets";
-import { isEqual } from "lodash";
-import { insertOrderSchema, insertOrderSchemaWithRelations } from "@/db/validators/orders";
+import { insertOrderZodSchema } from "@/schema/orderZodSchema";
+import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { eq, inArray } from "drizzle-orm";
 
 export const orderRouter = createTRPCRouter({
   getById: authenticatedProcedure
@@ -52,7 +49,7 @@ export const orderRouter = createTRPCRouter({
       };
     }),
   create: authenticatedProcedure
-    .input(insertOrderSchemaWithRelations)
+    .input(insertOrderZodSchema)
     .mutation(async ({ input: orderData }) => {
       const {
         spreadsheets,
