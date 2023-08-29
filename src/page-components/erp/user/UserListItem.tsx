@@ -1,10 +1,10 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { type UserType } from "@/schema/userSchema";
+import { User } from "@/schema/userZodSchema";
 import { truncString } from "@/utils/truncString";
 
 interface UserListItemProps {
-  onChange?: (item: Partial<UserType>) => void;
-  value: Partial<UserType>;
+  onChange?: (item: Partial<User>) => void;
+  value: Partial<User>;
   active?: boolean;
   disabled?: boolean;
 }

@@ -1,5 +1,5 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { Product } from "@/db/schema/products";
+import { Product } from "@/schema/productZodSchema";
 import { truncString } from "@/utils/truncString";
 
 interface ProductListItemProps {

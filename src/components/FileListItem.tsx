@@ -4,10 +4,10 @@ import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 
+import { File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
-import { File } from "@/db/schema/files";
 
 interface FileListItemProps {
   onChange?: (file: Partial<File>) => void;

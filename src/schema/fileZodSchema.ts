@@ -3,11 +3,16 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";
 
-export const selectFileZodSchema = createSelectSchema(files);
+export const selectFileZodSchema = createSelectSchema(files).merge(
+  z.object({ url: z.string() }),
+);
 export const insertFileZodSchema = createInsertSchema(files);
 
 export const updateFileZodSchema =
   insertFileZodSchema.merge(idRequiredZodSchema);
 
-export type File = typeof files.$inferSelect;
-export type NewFile = z.infer<typeof insertFileZodSchema>;
+export type File = Merge<typeof files.$inferSelect, { url: string }>;
+export type NewFile = Merge<
+  z.infer<typeof insertFileZodSchema>,
+  { url: string }
+>;

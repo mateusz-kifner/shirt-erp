@@ -20,7 +20,7 @@ import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { OrderType } from "@/schema/orderSchema";
+import { OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -150,17 +150,21 @@ function ClientEditable(props: ClientEditableProps) {
           leftSection={<IconAddressBook />}
         />
 
-        <EditableArray<OrderType> label="Zamówienia" keyName="orders" disabled>
+        <EditableArray<OrderWithoutRelations>
+          label="Zamówienia"
+          keyName="orders"
+          disabled
+        >
           <EditableApiEntry
             linkEntry
             entryName="order"
             Element={OrderListItem}
-            copyProvider={(value: OrderType) =>
+            copyProvider={(value: OrderWithoutRelations) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
           />
         </EditableArray>
-        <EditableArray<OrderType>
+        <EditableArray<OrderWithoutRelations>
           label="Zamówienia archiwizowane"
           keyName="ordersArchive"
           disabled
@@ -169,7 +173,7 @@ function ClientEditable(props: ClientEditableProps) {
             linkEntry
             entryName="order-archive"
             Element={OrderListItem}
-            copyProvider={(value: OrderType) =>
+            copyProvider={(value: OrderWithoutRelations) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
           />

@@ -3,8 +3,12 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";
 
-export const selectEmailMessageZodSchema = createSelectSchema(email_messages);
-export const insertEmailMessageZodSchema = createInsertSchema(email_messages);
+export const selectEmailMessageZodSchema = createSelectSchema(email_messages, {
+  headerLines: z.string().array(),
+});
+export const insertEmailMessageZodSchema = createInsertSchema(email_messages, {
+  headerLines: z.string().array(),
+});
 
 export const updateEmailMessageZodSchema =
   insertEmailMessageZodSchema.merge(idRequiredZodSchema);

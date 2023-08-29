@@ -1,4 +1,4 @@
-import { EmailCredential } from "@/db/schema/email_credentials";
+import { EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { useState } from "react";
 
 interface EmailClientProps {

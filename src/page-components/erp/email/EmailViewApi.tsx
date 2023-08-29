@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/Tooltip";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
+import { EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -22,7 +23,6 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
-import { EmailCredential } from "@/db/schema/email_credentials";
 
 interface EmailViewApiProps {
   emailConfig: EmailCredential;

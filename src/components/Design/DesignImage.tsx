@@ -1,4 +1,4 @@
-import { File } from "@/db/schema/files";
+import { File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";

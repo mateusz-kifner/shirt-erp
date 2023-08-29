@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/Label";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import type EditableInput from "@/schema/EditableInput";
-import { type FileType } from "@/schema/fileSchema";
+import { File as FileType } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";

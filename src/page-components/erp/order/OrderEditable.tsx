@@ -30,9 +30,6 @@ import {
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { ClientType } from "@/schema/clientSchema";
-import { ProductType } from "@/schema/productSchema";
-import { UserType } from "@/schema/userSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {

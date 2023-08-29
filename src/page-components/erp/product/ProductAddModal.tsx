@@ -7,10 +7,10 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import { Product } from "@/schema/productZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ProductListItem from "./ProductListItem";
-import { Product } from "@/db/schema/products";
 
 interface ProductAddModalProps {
   opened: boolean;

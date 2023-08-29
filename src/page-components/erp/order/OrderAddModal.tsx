@@ -7,6 +7,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import { OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import OrderListItem from "./OrderListItem";
@@ -19,7 +20,8 @@ interface OrderAddModalProps {
 const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   const router = useRouter();
   const [orderName, setOrderName] = useState<string>("Klient");
-  const [template, setTemplate] = useState<Partial<Order> | null>(null);
+  const [template, setTemplate] =
+    useState<Partial<OrderWithoutRelations> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const { data } = api.order.getById.useQuery(template?.id as number, {
@@ -85,8 +87,8 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
                 ...(data ? omit(data, "id") : {}),
                 name: orderName,
               } as any;
-              if ( data?.address){
-              newOrder.address = omit(data.address, "id")
+              if (data?.address) {
+                newOrder.address = omit(data.address, "id");
               }
               createOrder(newOrder);
             }}

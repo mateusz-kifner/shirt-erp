@@ -25,6 +25,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 import TablerIconType from "@/schema/TablerIconType";
+import { File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import { isMimeImage } from "@/utils/isMimeImage";
 import {
@@ -49,7 +50,6 @@ import FileListItem from "../FileListItem";
 import EditableColor from "../editable/EditableColor";
 import { Label } from "../ui/Label";
 import DesignImage from "./DesignImage";
-import { File } from "@/db/schema/files";
 
 const colorPickerSwatches = [
   "#000e1c",
