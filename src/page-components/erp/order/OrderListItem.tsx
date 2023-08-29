@@ -1,13 +1,13 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
 import useTranslation from "@/hooks/useTranslation";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { NewOrder } from "@/schema/orderZodSchema";
 import { truncString } from "@/utils/truncString";
 import { IconCalendarTime } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
 interface OrderListItemProps {
-  onChange?: (item: Partial<OrderWithoutRelations>) => void;
-  value: Partial<OrderWithoutRelations>;
+  onChange?: (item: Partial<NewOrder>) => void;
+  value: Partial<NewOrder>;
   active?: boolean;
   disabled?: boolean;
 }

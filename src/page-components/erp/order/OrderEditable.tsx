@@ -45,6 +45,10 @@ import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
 import ProductListItem from "../product/ProductListItem";
 import UserListItem from "../user/UserListItem";
+import {User} from '@/schema/userZodSchema';
+import {Product} from '@/schema/productZodSchema';
+import {ClientWithRelations} from '@/schema/clientZodSchema';
+
 
 interface OrderEditableProps {
   id: number | null;
@@ -68,7 +72,7 @@ function OrderEditable(props: OrderEditableProps) {
     },
   });
   const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
-  const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
+  // const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
@@ -87,11 +91,11 @@ function OrderEditable(props: OrderEditableProps) {
 
   const apiArchive = () => {
     if (!data) return;
-    archiveById(data.id)
-      .then(() => {
-        router.push(`/erp/order-archive`).catch(console.log);
-      })
-      .catch(console.log);
+    // archiveById(data.id)
+    //   .then(() => {
+    //     router.push(`/erp/order-archive`).catch(console.log);
+    //   })
+    //   .catch(console.log);
   };
 
   // update address if it's not set to client one
@@ -100,8 +104,8 @@ function OrderEditable(props: OrderEditableProps) {
       orderAddressFromClient !== null &&
       data?.clientId == orderAddressFromClient
     ) {
-      data.client?.address &&
-        apiUpdate("address", omit(data.client.address, ["id"]));
+      (data.client as ClientWithRelations).address &&
+        apiUpdate("address", omit((data.client as ClientWithRelations).address, ["id"]));
       setOrderAddressFromClient(null);
     }
   }, [orderAddressFromClient, data?.clientId]);
@@ -168,7 +172,7 @@ function OrderEditable(props: OrderEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
-          onSubmit={(value: ClientType) => {
+          onSubmit={(value: {id:number}) => {
             // check if address is set
             if (
               data.address === null ||
@@ -196,7 +200,7 @@ function OrderEditable(props: OrderEditableProps) {
                     onClick={() => {
                       console.log(data.client);
                       !!data.client &&
-                        apiUpdate("address", omit(data.client.address, ["id"]));
+                        apiUpdate("address", omit((data.client as ClientWithRelations).address, ["id"]));
                     }}
                   >
                     <IconCopy />
@@ -223,23 +227,23 @@ function OrderEditable(props: OrderEditableProps) {
           />
         </Wrapper>
 
-        <EditableArray<ProductType> label="Produkty" keyName="products">
+        <EditableArray<Product> label="Produkty" keyName="products">
           <EditableApiEntry
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: ProductType) =>
+            copyProvider={(value: Product) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
           />
         </EditableArray>
-        <EditableArray<UserType> label="Pracownicy" keyName="employees">
+        <EditableArray<User> label="Pracownicy" keyName="employees">
           <EditableApiEntry
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: any) =>
+            copyProvider={(value: User) =>
               value?.username ? truncString(value.username, 40) : undefined
             }
             allowClear

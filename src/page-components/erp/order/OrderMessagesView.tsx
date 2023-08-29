@@ -11,15 +11,15 @@ import {
   DialogTitle,
 } from "@/components/ui/Dialog";
 import useTranslation from "@/hooks/useTranslation";
-import { EmailMessageType } from "@/schema/emailMessage";
-import { OrderType } from "@/schema/orderSchema";
+import { NewEmailMessage } from "@/schema/emailMessageZodSchema";
+import { NewOrder } from "@/schema/orderZodSchema";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { omit } from "lodash";
 import { useId, useMemo, useState } from "react";
 import EmailView from "../email/EmailView";
 
 interface OrderMessagesViewProps {
-  order?: Partial<OrderType>;
+  order?: Partial<NewOrder>;
   refetch?: () => void;
 }
 
@@ -30,7 +30,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   const [opened, setOpened] = useState<boolean>(false);
   const t = useTranslation();
 
-  const emailMessagesSorted: EmailMessageType[] | null = useMemo(
+  const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
     () =>
       (order &&
         order.emails &&
