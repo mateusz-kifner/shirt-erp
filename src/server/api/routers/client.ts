@@ -31,7 +31,7 @@ export const clientRouter = createTRPCRouter({
         .returning();
       if (newAddress[0] === undefined)
         throw new Error("Could not create address in client");
-      const newProduct = await db
+      const newClient = await db
         .insert(clients)
         .values({
           ...clientData,
@@ -39,7 +39,9 @@ export const clientRouter = createTRPCRouter({
           updatedById: currentUserId,
         })
         .returning();
-      return newProduct[0];
+      if (newClient[0] === undefined)
+        throw new Error("Could not create client");
+      return newClient[0];
     }),
   deleteById: authenticatedProcedure
     .input(z.number())

@@ -20,4 +20,7 @@ export const updateClientWithRelationZodSchema =
   insertClientWithRelationZodSchema.merge(idRequiredZodSchema);
 
 export type Client = typeof clients.$inferSelect;
+export type ClientWithRelations = z.infer<
+  typeof insertClientWithRelationZodSchema
+>;
 export type NewClient = z.infer<typeof insertClientZodSchema>;
