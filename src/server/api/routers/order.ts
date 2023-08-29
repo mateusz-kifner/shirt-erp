@@ -21,7 +21,7 @@ import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import { addresses as addressesSchema } from "@/db/schema/addresses";
 import { orders_to_spreadsheets } from "@/db/schema/orders_to_spreadsheets";
 import { isEqual } from "lodash";
-import { insertOrderSchema, insertOrderSchemaWithRelations } from "@/db/zod/orders";
+import { insertOrderSchema, insertOrderSchemaWithRelations } from "@/db/validators/orders";
 
 export const orderRouter = createTRPCRouter({
   getById: authenticatedProcedure
