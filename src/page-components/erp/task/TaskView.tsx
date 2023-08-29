@@ -13,8 +13,8 @@ import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { ProductType } from "@/schema/productSchema";
-import { UserType } from "@/schema/userSchema";
+import { Product } from "@/schema/productZodSchema";
+import { User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -153,26 +153,18 @@ function TaskView(props: TaskViewProps) {
           disabled
         />
 
-        <EditableArray<ProductType>
-          label="Produkty"
-          keyName="products"
-          disabled
-        >
+        <EditableArray<Product> label="Produkty" keyName="products" disabled>
           <EditableApiEntry
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: ProductType) =>
+            copyProvider={(value: Product) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
           />
         </EditableArray>
-        <EditableArray<UserType>
-          label="Pracownicy"
-          keyName="employees"
-          disabled
-        >
+        <EditableArray<User> label="Pracownicy" keyName="employees" disabled>
           <EditableApiEntry
             linkEntry
             entryName="user"

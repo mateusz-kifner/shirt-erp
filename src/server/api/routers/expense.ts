@@ -17,17 +17,20 @@ export const expenseRouter = createTRPCRouter({
   getById: createProcedureGetById("expenses"),
   create: authenticatedProcedure
     .input(insertExpenseZodSchema)
-    .mutation(async ({ input: clientData, ctx }) => {
+    .mutation(async ({ input: expenseData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
-      const newProduct = await db
+      const newExpense = await db
         .insert(expenses)
         .values({
-          ...clientData,
+          ...expenseData,
           createdById: currentUserId,
           updatedById: currentUserId,
         })
         .returning();
-      return newProduct[0];
+      if (newExpense[0] === undefined) {
+        throw new Error("Could not create Expense");
+      }
+      return newExpense[0];
     }),
   deleteById: authenticatedProcedure
     .input(z.number())

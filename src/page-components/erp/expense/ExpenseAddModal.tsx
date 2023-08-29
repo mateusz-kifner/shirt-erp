@@ -7,10 +7,10 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import { Expense } from "@/schema/expenseZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ExpenseListItem from "./ExpenseListItem";
-import { Expense } from "@/db/schema/expenses";
 
 interface ExpenseAddModalProps {
   opened: boolean;

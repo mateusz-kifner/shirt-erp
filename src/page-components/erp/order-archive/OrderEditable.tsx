@@ -30,9 +30,9 @@ import {
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { ClientType } from "@/schema/clientSchema";
-import { ProductType } from "@/schema/productSchema";
-import { UserType } from "@/schema/userSchema";
+import { Client } from "@/schema/clientZodSchema";
+import { Product } from "@/schema/productZodSchema";
+import { User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -176,7 +176,7 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
-          onSubmit={(value: ClientType) => {
+          onSubmit={(value: Client) => {
             // check if address is set
             if (
               data.address === null ||
@@ -231,18 +231,18 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
           />
         </Wrapper>
 
-        <EditableArray<ProductType> label="Produkty" keyName="products">
+        <EditableArray<Product> label="Produkty" keyName="products">
           <EditableApiEntry
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: ProductType) =>
+            copyProvider={(value: Product) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
           />
         </EditableArray>
-        <EditableArray<UserType> label="Pracownicy" keyName="employees">
+        <EditableArray<User> label="Pracownicy" keyName="employees">
           <EditableApiEntry
             linkEntry
             entryName="user"

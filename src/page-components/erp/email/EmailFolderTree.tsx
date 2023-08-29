@@ -1,7 +1,7 @@
 import Button, { ButtonProps } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
-import { EmailCredential } from "@/db/schema/email_credentials";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
