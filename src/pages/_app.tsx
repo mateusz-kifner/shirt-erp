@@ -19,6 +19,7 @@ import "dayjs/locale/pl";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
 
 import { Toaster } from "@/components/layout/Toaster";
 import { TooltipProvider } from "@/components/ui/Tooltip";
@@ -32,6 +33,7 @@ dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
+dayjs.extend(utc);
 
 // TODO: refactor logger
 

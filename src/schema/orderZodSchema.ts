@@ -36,7 +36,9 @@ export const insertOrderZodSchema = insertOrderWithoutRelationsZodSchema.merge(
 export const updateOrderZodSchema =
   insertOrderZodSchema.merge(idRequiredZodSchema);
 
-export type OrderWithoutRelations = typeof orders.$inferSelect;
+export type OrderWithoutRelations = z.infer<
+  typeof selectOrderWithoutRelationsZodSchema
+>;
 export type NewOrder = z.infer<typeof insertOrderZodSchema>;
 // type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
 // export type NewOrder = typeof orders.$inferInsert;

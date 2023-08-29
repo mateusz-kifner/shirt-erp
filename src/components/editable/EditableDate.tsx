@@ -20,7 +20,7 @@ import Calendar from "react-calendar";
 
 type InputDateProps = EditableInput<Date>;
 
-//todo : make this use dates instead
+//todo : refactor dates to use string date
 
 const EditableDate = (props: InputDateProps) => {
   const {
@@ -37,7 +37,7 @@ const EditableDate = (props: InputDateProps) => {
   const router = useRouter();
   const [focus, setFocus] = useState<boolean>(false);
   const dateFormat = router.locale === "pl" ? "DD.MM.YYYY" : "YYYY-MM-DD";
-  const dateFromValue = dayjs(value ?? null);
+  const dateFromValue = dayjs(value ?? null).utcOffset(0);
   const [text, setText] = useState(
     dateFromValue.isValid() ? dateFromValue.format("L").toString() : "",
   );
@@ -75,7 +75,10 @@ const EditableDate = (props: InputDateProps) => {
       dayjs(value).format("YYYY-MM-DD").toString()
     ) {
       setError(false);
-      onSubmit?.(dayjs(newDate.format("YYYY-MM-DD").toString()).toDate());
+      onSubmit?.(
+        //@ts-ignore
+        newDate.format("YYYY-MM-DD").toString(), /// HACK FIXME: this should work with strings
+      );
     }
   }, [debouncedText]);
 

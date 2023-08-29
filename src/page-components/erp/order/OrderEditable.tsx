@@ -30,6 +30,9 @@ import {
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
+import { ClientWithRelations } from "@/schema/clientZodSchema";
+import { Product } from "@/schema/productZodSchema";
+import { User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -45,10 +48,6 @@ import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
 import ProductListItem from "../product/ProductListItem";
 import UserListItem from "../user/UserListItem";
-import {User} from '@/schema/userZodSchema';
-import {Product} from '@/schema/productZodSchema';
-import {ClientWithRelations} from '@/schema/clientZodSchema';
-
 
 interface OrderEditableProps {
   id: number | null;
@@ -105,7 +104,10 @@ function OrderEditable(props: OrderEditableProps) {
       data?.clientId == orderAddressFromClient
     ) {
       (data.client as ClientWithRelations).address &&
-        apiUpdate("address", omit((data.client as ClientWithRelations).address, ["id"]));
+        apiUpdate(
+          "address",
+          omit((data.client as ClientWithRelations).address, ["id"]),
+        );
       setOrderAddressFromClient(null);
     }
   }, [orderAddressFromClient, data?.clientId]);
@@ -172,7 +174,7 @@ function OrderEditable(props: OrderEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
-          onSubmit={(value: {id:number}) => {
+          onSubmit={(value: { id: number }) => {
             // check if address is set
             if (
               data.address === null ||
@@ -200,7 +202,12 @@ function OrderEditable(props: OrderEditableProps) {
                     onClick={() => {
                       console.log(data.client);
                       !!data.client &&
-                        apiUpdate("address", omit((data.client as ClientWithRelations).address, ["id"]));
+                        apiUpdate(
+                          "address",
+                          omit((data.client as ClientWithRelations).address, [
+                            "id",
+                          ]),
+                        );
                     }}
                   >
                     <IconCopy />

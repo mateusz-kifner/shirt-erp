@@ -1,22 +1,21 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
+  date,
+  doublePrecision,
   integer,
   pgTable,
   serial,
   varchar,
-  doublePrecision,
-  date,
 } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 import { addresses } from "./addresses";
-import { relations } from "drizzle-orm";
-import { orders_to_files } from "./orders_to_files";
 import { clients } from "./clients";
-import { orders_to_products } from "./orders_to_products";
-import { orders_to_users } from "./orders_to_users";
 import { orders_to_email_messages } from "./orders_to_email_messages";
+import { orders_to_files } from "./orders_to_files";
+import { orders_to_products } from "./orders_to_products";
 import { orders_to_spreadsheets } from "./orders_to_spreadsheets";
-
+import { orders_to_users } from "./orders_to_users";
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
@@ -47,4 +46,3 @@ export const orders_relations = relations(orders, ({ one, many }) => ({
   emails: many(orders_to_email_messages),
   spreadsheets: many(orders_to_spreadsheets),
 }));
-
