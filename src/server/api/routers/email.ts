@@ -12,7 +12,6 @@ import {
 import { TRPCError } from "@trpc/server";
 import { ImapFlow } from "imapflow";
 import Logger from "js-logger";
-import { omit } from "lodash";
 import { z } from "zod";
 
 export const emailRouter = createTRPCRouter({
@@ -38,8 +37,7 @@ export const emailRouter = createTRPCRouter({
       });
       const auth = result?.emailCredentials
         .map((val) => val.emailCredentials)
-        .filter((val) => val.id === input)
-        .filter((auth) => auth.protocol === "imap")[0];
+        .find((auth) => auth.id === input && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -70,9 +68,7 @@ export const emailRouter = createTRPCRouter({
       });
       const auth = result?.emailCredentials
         .map((val) => val.emailCredentials)
-
-        .filter((val) => val.id === input)
-        .filter((auth) => auth.protocol === "imap")[0];
+        .find((auth) => auth.id === input && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -112,9 +108,7 @@ export const emailRouter = createTRPCRouter({
 
       const auth = result?.emailCredentials
         .map((val) => val.emailCredentials)
-        .filter(
-          (val) => val.id === emailClientId && val.protocol === "imap",
-        )[0];
+        .find((auth) => auth.id === emailClientId && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -152,9 +146,7 @@ export const emailRouter = createTRPCRouter({
       });
       const auth = result?.emailCredentials
         .map((val) => val.emailCredentials)
-
-        .filter((val) => val.id === emailClientId)
-        .filter((auth) => auth.protocol === "imap")[0];
+        .find((auth) => auth.id === emailClientId && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -198,9 +190,7 @@ export const emailRouter = createTRPCRouter({
 
       const auth = result?.emailCredentials
         .map((val) => val.emailCredentials)
-
-        .filter((val) => val.id === emailClientId)
-        .filter((auth) => auth.protocol === "imap")[0];
+        .find((auth) => auth.id === emailClientId && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -246,9 +236,7 @@ export const emailRouter = createTRPCRouter({
 
       const auth = result?.emailCredentials
         .map((val) => val.emailCredentials)
-        .filter(
-          (val) => val.id === emailClientId && val.protocol === "imap",
-        )[0];
+        .find((val) => val.id === emailClientId && val.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({

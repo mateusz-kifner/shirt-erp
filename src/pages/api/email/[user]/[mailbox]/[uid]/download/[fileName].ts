@@ -1,3 +1,4 @@
+import { db } from "@/db/db";
 import { downloadEmailAttachment } from "@/server/email";
 import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
@@ -33,14 +34,15 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
 
     const { fileName, user, mailbox, uid } = req.query;
 
-    const data = await prisma.user.findUnique({
-      where: { id: session.user!.id },
-      include: { emailCredentials: true },
+    const currentUserId = session.user!.id;
+    const result = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, currentUserId),
+      with: { emailCredentials: { with: { emailCredentials: true } } },
     });
 
-    const auth = data?.emailCredentials.find(
-      (val) => val.user === user && val.protocol === "imap",
-    );
+    const auth = result?.emailCredentials
+      .map((val) => val.emailCredentials)
+      .find((val) => val.user === user && val.protocol === "imap");
 
     if (!auth) throw new Error("emailCredentials not found");
 

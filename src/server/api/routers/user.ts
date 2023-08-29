@@ -25,6 +25,7 @@ export const userRouter = createTRPCRouter({
           updatedById: currentUserId,
         })
         .returning();
+      if (newUser[0] === undefined) throw new Error("Could not create User");
       return newUser[0];
     }),
   deleteById: privilegedProcedure
