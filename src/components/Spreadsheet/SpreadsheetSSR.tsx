@@ -83,7 +83,8 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     const new_data = data.map((row) =>
       row.map((value) => (value === undefined ? { value: "" } : value)),
     );
-    update({ ...value, data: new_data }).catch(console.log);
+    value?.id !== undefined &&
+      update({ ...value, data: new_data }).catch(console.log);
   };
 
   const setDataWhenNEQ = (new_data: UniversalMatrix) => {

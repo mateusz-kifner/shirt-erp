@@ -1,8 +1,5 @@
 import Vector2Schema from "@/schema/Vector2Schema";
-import {
-  createProcedureGetById,
-  createProcedureSearch,
-} from "@/server/api/procedures";
+import { createProcedureSearch } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { db } from "@/db/db";
@@ -24,7 +21,14 @@ const partialSpreadsheetData = z.object({
 type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
-  getById: createProcedureGetById("spreadsheet"),
+  getById: authenticatedProcedure
+    .input(z.number())
+    .query(async ({ input: id }) => {
+      const data = await db.query.spreadsheets.findFirst({
+        where: (schema, { eq }) => eq(schema.id, id),
+      });
+      return data;
+    }),
   create: authenticatedProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
