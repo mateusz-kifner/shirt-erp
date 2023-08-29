@@ -1,7 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
   integer,
-  json,
   pgTable,
   serial,
   text,
@@ -25,7 +24,7 @@ export const email_messages = pgTable("email_messages", {
   messageUid: integer("message_uid"),
   mailbox: varchar("mailbox"),
   clientUser: varchar("client_user"),
-  headerLines: json("header_lines").default([]),
+  headerLines: varchar("header_lines").array().default([]),
   textAsHtml: text("text_as_html"),
   messageFileId: integer("message_file_id").references(() => files.id),
   ...metadata,

@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
+import { OrderWithoutRelations } from "@/schema/orderZodSchema";
 
 interface EmailViewApiProps {
   emailConfig: EmailCredential;
@@ -130,7 +131,7 @@ function EmailViewApi(props: EmailViewApiProps) {
                 ListItem={OrderListItem}
                 entryName={"order"}
                 label={capitalize(t.order.plural)}
-                onChange={(val: Order) => {
+                onChange={(val: OrderWithoutRelations) => {
                   setOrderId(val.id);
                 }}
                 listItemProps={
