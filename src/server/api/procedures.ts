@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 import { db } from "@/db/db";
-import { authenticatedProcedure } from "./trpc";
+import { ilike, not, or, sql } from "drizzle-orm";
 import { PgTable, TableConfig } from "drizzle-orm/pg-core";
-import { sql, or, not, ilike } from "drizzle-orm";
+import { authenticatedProcedure } from "./trpc";
 
 export function createProcedureGetById(schemaName: string) {
   return authenticatedProcedure
@@ -16,7 +16,10 @@ export function createProcedureGetById(schemaName: string) {
     });
 }
 
-export function createProcedureSearch(pgTable: PgTable<TableConfig>) {
+export function createProcedureSearch(
+  pgTable: PgTable<TableConfig>,
+  tableName: string,
+) {
   return authenticatedProcedure
     .input(
       z.object({
@@ -50,8 +53,8 @@ export function createProcedureSearch(pgTable: PgTable<TableConfig>) {
             ilike(pgTable[key], queryParam),
           )
         : [];
-
-      const results = await db.query.products.findMany({
+      // @ts-ignore
+      const results = await db.query[tableName].findMany({
         where: queryParam
           ? or(...search)
           : excludeKey && excludeValue
@@ -65,6 +68,7 @@ export function createProcedureSearch(pgTable: PgTable<TableConfig>) {
           : undefined,
         limit: itemsPerPage,
         offset: (currentPage - 1) * itemsPerPage,
+        // @ts-ignore
         orderBy: (_, handlers) => [
           // @ts-ignore
           handlers[sort](pgTable[sortColumn]),

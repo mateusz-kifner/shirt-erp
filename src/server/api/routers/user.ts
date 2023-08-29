@@ -1,17 +1,20 @@
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { createProcedureGetById, createProcedureSearch } from "../procedures";
 import { db } from "@/db/db";
-import { insertUserSchema, users } from "@/db/schema/users";
-import { z } from "zod";
+import { users } from "@/db/schema/users";
+import {
+  insertUserZodSchema,
+  updateUserZodSchema,
+} from "@/schema/userZodSchema";
+import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
-import { insertProductSchema } from "@/db/schema/products";
+import { z } from "zod";
+import { createProcedureGetById, createProcedureSearch } from "../procedures";
 
 const privilegedProcedure = authenticatedProcedure;
 
 export const userRouter = createTRPCRouter({
   getById: createProcedureGetById("users"),
   create: privilegedProcedure
-    .input(insertUserSchema)
+    .input(insertUserZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
       const newUser = await db
@@ -34,7 +37,7 @@ export const userRouter = createTRPCRouter({
       return deletedProduct[0];
     }),
   update: privilegedProcedure
-    .input(insertProductSchema.merge(z.object({ id: z.number() })))
+    .input(updateUserZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
       const updatedUser = await db
@@ -44,5 +47,5 @@ export const userRouter = createTRPCRouter({
         .returning();
       return updatedUser[0];
     }),
-  search: createProcedureSearch(users),
+  search: createProcedureSearch(users, "users"),
 });

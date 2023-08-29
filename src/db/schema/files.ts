@@ -1,18 +1,9 @@
-import {
-  integer,
-  pgTable,
-  serial,
-  text,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
-import { metadata } from "./_metadata";
-import { orders_to_files } from "./orders_to_files";
 import { relations } from "drizzle-orm";
+import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { metadata } from "./_metadata";
 import { email_messages } from "./email_messages";
 import { email_messages_to_files } from "./email_messages_to_files";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
+import { orders_to_files } from "./orders_to_files";
 
 export const files = pgTable("files", {
   id: serial("id").primaryKey(),
@@ -34,13 +25,3 @@ export const files_relations = relations(files, ({ many }) => ({
   emailMessages: many(email_messages_to_files),
   orders: many(orders_to_files),
 }));
-
-export const insertFileSchema = createInsertSchema(files);
-
-export const selectFileSchema = createSelectSchema(files);
-const selectFileSchemaWithUrl = selectFileSchema.merge(
-  z.object({ url: z.string() }),
-);
-
-export type File = z.infer<typeof selectFileSchemaWithUrl>;
-export type NewFile = typeof files.$inferInsert;

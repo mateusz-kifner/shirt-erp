@@ -5,13 +5,14 @@ import {
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { z } from "zod";
 import { db } from "@/db/db";
-import { eq } from "drizzle-orm";
+import { spreadsheets } from "@/db/schema/spreadsheets";
 import {
-  insertSpreadsheetSchema,
-  spreadsheets,
-} from "@/db/schema/spreadsheets";
+  insertSpreadsheetZodSchema,
+  updateSpreadsheetZodSchema,
+} from "@/schema/spreadsheetZodSchema";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 const partialSpreadsheetData = z.object({
   id: z.number(),
@@ -25,7 +26,7 @@ type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 export const spreadsheetRouter = createTRPCRouter({
   getById: createProcedureGetById("spreadsheet"),
   create: authenticatedProcedure
-    .input(insertSpreadsheetSchema)
+    .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
       const newUser = await db
@@ -48,7 +49,7 @@ export const spreadsheetRouter = createTRPCRouter({
       return deletedSpreadsheet[0];
     }),
   update: authenticatedProcedure
-    .input(insertSpreadsheetSchema.merge(z.object({ id: z.number() })))
+    .input(updateSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
       const updatedUser = await db
@@ -58,7 +59,7 @@ export const spreadsheetRouter = createTRPCRouter({
         .returning();
       return updatedUser[0];
     }),
-  search: createProcedureSearch(spreadsheets),
+  search: createProcedureSearch(spreadsheets, "spreadsheets"),
 
   // updatePartial: authenticatedProcedure
   //   .input(partialSpreadsheetData)

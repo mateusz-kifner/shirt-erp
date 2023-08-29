@@ -1,16 +1,13 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
   integer,
   pgTable,
   serial,
-  text,
-  timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
-import { relations } from "drizzle-orm";
 import { email_credentials_to_users } from "./email_credentials_to_users";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const email_credentials = pgTable("email_credentials", {
   id: serial("id").primaryKey(),
@@ -29,12 +26,3 @@ export const email_credentials_relations = relations(
     users: many(email_credentials_to_users),
   }),
 );
-
-export const insertEmailCredentialSchema =
-  createInsertSchema(email_credentials);
-
-export const selectEmailCredentialSchema =
-  createSelectSchema(email_credentials);
-
-export type EmailCredential = typeof email_credentials.$inferSelect;
-export type NewEmailCredential = typeof email_credentials.$inferInsert;

@@ -1,5 +1,9 @@
 import { db } from "@/db/db";
-import { insertProductSchema, products } from "@/db/schema/products";
+import { products } from "@/db/schema/products";
+import {
+  insertProductZodSchema,
+  updateProductZodSchema,
+} from "@/schema/productZodSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
@@ -8,7 +12,7 @@ import { createProcedureGetById, createProcedureSearch } from "../procedures";
 export const productRouter = createTRPCRouter({
   getById: createProcedureGetById("products"),
   create: authenticatedProcedure
-    .input(insertProductSchema)
+    .input(insertProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
       const newProduct = await db
@@ -31,7 +35,7 @@ export const productRouter = createTRPCRouter({
       return deletedProduct[0];
     }),
   update: authenticatedProcedure
-    .input(insertProductSchema.merge(z.object({ id: z.number() })))
+    .input(updateProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
       const { id, ...dataToUpdate } = productData;
       const updatedProduct = await db
@@ -41,5 +45,5 @@ export const productRouter = createTRPCRouter({
         .returning();
       return updatedProduct[0];
     }),
-  search: createProcedureSearch(products),
+  search: createProcedureSearch(products, "products"),
 });

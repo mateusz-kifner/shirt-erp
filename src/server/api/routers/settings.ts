@@ -1,14 +1,11 @@
 import { db } from "@/db/db";
-import {
-  email_credentials,
-  insertEmailCredentialSchema,
-} from "@/db/schema/email_credentials";
+import { email_credentials } from "@/db/schema/email_credentials";
 import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
+import { insertEmailCredentialZodSchema } from "@/schema/emailCredentialZodSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
-import { omit } from "lodash";
 import { z } from "zod";
 
 export const settingsRouter = createTRPCRouter({
@@ -22,7 +19,7 @@ export const settingsRouter = createTRPCRouter({
   }),
 
   createMailCredential: authenticatedProcedure
-    .input(insertEmailCredentialSchema)
+    .input(insertEmailCredentialZodSchema)
     .mutation(async ({ ctx, input: emailCredentialData }) => {
       const currentUserId = ctx.session!.user!.id;
       const EmailCredential = await db

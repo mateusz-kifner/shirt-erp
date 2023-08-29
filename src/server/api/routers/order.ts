@@ -3,21 +3,21 @@ import { z } from "zod";
 
 import { db } from "@/db/db";
 import { addresses as addressesSchema } from "@/db/schema/addresses";
-import {
-  orders,
-} from "@/db/schema/orders";
+import { orders } from "@/db/schema/orders";
 import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
 import { orders_to_files } from "@/db/schema/orders_to_files";
-import {
-  orders_to_products
-} from "@/db/schema/orders_to_products";
+import { orders_to_products } from "@/db/schema/orders_to_products";
 import { orders_to_spreadsheets } from "@/db/schema/orders_to_spreadsheets";
-import {
-  orders_to_users
-} from "@/db/schema/orders_to_users";
+import { orders_to_users } from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
-import { insertOrderZodSchema } from "@/schema/orderZodSchema";
+import {
+  NewOrder,
+  OrderWithoutRelations,
+  insertOrderZodSchema,
+  updateOrderZodSchema,
+} from "@/schema/orderZodSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import getObjectChanges from "@/utils/getObjectChanges";
 import { eq, inArray } from "drizzle-orm";
 
 export const orderRouter = createTRPCRouter({
@@ -180,83 +180,92 @@ export const orderRouter = createTRPCRouter({
 
       return deletedOrder[0];
     }),
-  // update: authenticatedProcedure
-  //   .input(insertOrderSchemaWithRelations.merge(z.object({ id: z.number() })))
-  //   .mutation(async ({ input: orderData }) => {
-  //     const {
-  //       id,
-  //       spreadsheets,
-  //       files,
-  //       client,
-  //       address,
-  //       products,
-  //       employees,
-  //       emails,
-  //       ...simpleOrderData
-  //     } = orderData;
+  update: authenticatedProcedure
+    .input(updateOrderZodSchema)
+    .mutation(async ({ input: orderData }) => {
+      const {
+        id,
+        spreadsheets,
+        files,
+        client,
+        address,
+        products,
+        employees,
+        emails,
+        ...simpleOrderData
+      } = orderData;
 
-  //     const order = await db.query.orders.findFirst({
-  //       where: eq(orders.id, id),
-  //       with: {
-  //         address: true,
-  //         client: true,
-  //         emails: { with: { emailMessages: true } },
-  //         employees: { with: { users: true } },
-  //         files: { with: { files: true } },
-  //         products: { with: { products: true } },
-  //         spreadsheets: { with: { spreadsheets: true } },
-  //       },
-  //     });
-  //     if (!order) throw new Error("Order not found");
+      const order = await db.query.orders.findFirst({
+        where: eq(orders.id, id),
+        with: {
+          address: true,
+          client: true,
+          emails: { with: { emailMessages: true } },
+          employees: { with: { users: true } },
+          files: { with: { files: true } },
+          products: { with: { products: true } },
+          spreadsheets: { with: { spreadsheets: true } },
+        },
+      });
+      if (!order) throw new Error("Order not found");
 
-  //     const {
-  //       id: oldId,
-  //       spreadsheets: oldSpreadsheets,
-  //       files: oldFiles,
-  //       client: oldClient,
-  //       address: oldAddress,
-  //       products: oldProducts,
-  //       employees: oldEmployees,
-  //       emails: oldEmails,
-  //       ...oldSimpleOrderData
-  //     } = order;
+      const {
+        id: oldId,
+        spreadsheets: oldSpreadsheets,
+        files: oldFiles,
+        client: oldClient,
+        address: oldAddress,
+        products: oldProducts,
+        employees: oldEmployees,
+        emails: oldEmails,
+        ...oldSimpleOrderData
+      } = order;
 
-  //     // if (!isEqual(oldSimpleOrderData, simpleOrderData) || client !== undefined) {
-  //     //   await db.update(orders).set({
-  //     //     ...simpleOrderData,
-  //     //     clientId:
-  //     //       client?.id !== undefined ? client.id : simpleOrderData.clientId,
-  //     //   });
-  //     // }
+      console.log(order, simpleOrderData, spreadsheets);
 
-  //     // if (Array.isArray(products)) {
-  //     //   const alreadyInDB = await db.query.orders_to_products.findMany({
-  //     //     where: inArray(
-  //     //       orders_to_products.productId,
-  //     //       products.map((v) => v.id!),
-  //     //     ),
-  //     //   });
-  //     //   // const toBeMade = products.filter((v)=>al)
-  //     // }
+      const changes = getObjectChanges<Partial<OrderWithoutRelations>>(
+        oldSimpleOrderData,
+        simpleOrderData,
+      );
+      console.log(changes);
+      let result: Partial<NewOrder> = {};
+      if (!!changes) {
+        const updated = await db
+          .update(orders)
+          .set(changes)
+          .where(eq(orders.id, id))
+          .returning();
+        if (!!updated[0]) result = updated[0];
+      }
 
-  //     // if (employees && Array.isArray(employees)) {
-  //     //   updateData.employees = {
-  //     //     set: employees.map((val) => ({ id: val.id })),
-  //     //   };
-  //     // }
+      // if (Array.isArray(products)) {
+      //   const alreadyInDB = await db.query.orders_to_products.findMany({
+      //     where: inArray(
+      //       orders_to_products.productId,
+      //       products.map((v) => v.id!),
+      //     ),
+      //   });
+      //   // const toBeMade = products.filter((v)=>al)
+      // }
 
-  //     // if (files && Array.isArray(files))
-  //     //   updateData.files = { set: files.map((val) => ({ id: val.id })) };
+      // if (employees && Array.isArray(employees)) {
+      //   updateData.employees = {
+      //     set: employees.map((val) => ({ id: val.id })),
+      //   };
+      // }
 
-  //     // if (emails && Array.isArray(emails))
-  //     //   updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
+      // if (files && Array.isArray(files))
+      //   updateData.files = { set: files.map((val) => ({ id: val.id })) };
 
-  //     // if (address) updateData.address = { update: address };
+      // if (emails && Array.isArray(emails))
+      //   updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
 
-  //     return {};
-  //   }),
-  //
-  search: createProcedureSearch(orders),
+      // if (address) updateData.address = { update: address };
+
+      return result;
+    }),
+
+  search: createProcedureSearch(orders, "orders"),
   // archiveById: authenticatedProcedure
   //   .input(z.number())
   //   .mutation(async ({ input: orderId }) => {

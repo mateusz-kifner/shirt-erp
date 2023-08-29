@@ -1,10 +1,11 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { z } from "zod";
 import { db } from "@/db/db";
-import { File, files, insertFileSchema } from "@/db/schema/files";
+import { files } from "@/db/schema/files";
+import { File, updateFileZodSchema } from "@/schema/fileZodSchema";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 const baseUrl = "/api/files/";
 
@@ -31,7 +32,7 @@ export const fileRouter = createTRPCRouter({
       return deletedClient[0];
     }),
   update: authenticatedProcedure
-    .input(insertFileSchema.merge(z.object({ id: z.number() })))
+    .input(updateFileZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
       const updatedClient = await db
@@ -42,5 +43,5 @@ export const fileRouter = createTRPCRouter({
       return updatedClient[0];
     }),
 
-  Search: createProcedureSearch(files),
+  search: createProcedureSearch(files, "files"),
 });
