@@ -23,6 +23,8 @@ export const productRouter = createTRPCRouter({
           updatedById: currentUserId,
         })
         .returning();
+      if (newProduct[0] === undefined)
+        throw new Error("Could not create Product");
       return newProduct[0];
     }),
   deleteById: authenticatedProcedure
