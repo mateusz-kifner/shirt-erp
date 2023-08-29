@@ -6,7 +6,12 @@ import idRequiredZodSchema from "./idRequiredZodSchema";
 export const selectFileZodSchema = createSelectSchema(files).merge(
   z.object({ url: z.string() }),
 );
-export const insertFileZodSchema = createInsertSchema(files);
+export const insertFileZodSchema = createInsertSchema(files).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
+});
 
 export const updateFileZodSchema =
   insertFileZodSchema.merge(idRequiredZodSchema);

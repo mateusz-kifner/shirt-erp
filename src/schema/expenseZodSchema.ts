@@ -12,6 +12,11 @@ export const insertExpenseZodSchema = createInsertSchema(expenses, {
   expenseData: z
     .object({ name: z.string().optional(), cost: z.number().optional() })
     .array(),
+}).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
 });
 
 export const updateExpenseZodSchema =

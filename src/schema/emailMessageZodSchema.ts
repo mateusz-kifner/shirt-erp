@@ -8,6 +8,11 @@ export const selectEmailMessageZodSchema = createSelectSchema(email_messages, {
 });
 export const insertEmailMessageZodSchema = createInsertSchema(email_messages, {
   headerLines: z.string().array(),
+}).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
 });
 
 export const updateEmailMessageZodSchema =

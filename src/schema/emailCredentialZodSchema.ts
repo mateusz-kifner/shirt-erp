@@ -5,8 +5,14 @@ import idRequiredZodSchema from "./idRequiredZodSchema";
 
 export const selectEmailCredentialZodSchema =
   createSelectSchema(email_credentials);
-export const insertEmailCredentialZodSchema =
-  createInsertSchema(email_credentials);
+export const insertEmailCredentialZodSchema = createInsertSchema(
+  email_credentials,
+).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
+});
 
 export const updateEmailCredentialZodSchema =
   insertEmailCredentialZodSchema.merge(idRequiredZodSchema);

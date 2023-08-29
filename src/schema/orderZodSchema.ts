@@ -11,7 +11,14 @@ import { insertSpreadsheetZodSchema } from "./spreadsheetZodSchema";
 import { insertUserZodSchema } from "./userZodSchema";
 
 export const selectOrderWithoutRelationsZodSchema = createSelectSchema(orders);
-export const insertOrderWithoutRelationsZodSchema = createInsertSchema(orders);
+export const insertOrderWithoutRelationsZodSchema = createInsertSchema(
+  orders,
+).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
+});
 
 const insertOrderRelationsZodSchema = z.object({
   files: insertFileZodSchema.array().optional(),

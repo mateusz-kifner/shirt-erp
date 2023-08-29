@@ -5,7 +5,12 @@ import { insertAddressZodSchema } from "./addressZodSchema";
 import idRequiredZodSchema from "./idRequiredZodSchema";
 
 export const selectClientZodSchema = createSelectSchema(clients);
-export const insertClientZodSchema = createInsertSchema(clients);
+export const insertClientZodSchema = createInsertSchema(clients).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
+});
 export const updateClientZodSchema =
   insertClientZodSchema.merge(idRequiredZodSchema);
 

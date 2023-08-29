@@ -11,6 +11,11 @@ export const selectProductZodSchema = createSelectSchema(products, {
 export const insertProductZodSchema = createInsertSchema(products, {
   colors: z.string().array(),
   sizes: z.string().array(),
+}).omit({
+  createdAt: true,
+  createdById: true,
+  updatedAt: true,
+  updatedById: true,
 });
 
 export const updateProductZodSchema =
