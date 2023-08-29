@@ -1,5 +1,5 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { Expense } from "@/db/schema/expenses";
+import { Expense } from "@/schema/expenseZodSchema";
 import { truncString } from "@/utils/truncString";
 
 interface ExpenseListItemProps {
