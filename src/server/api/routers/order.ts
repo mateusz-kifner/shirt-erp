@@ -2,7 +2,7 @@ import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
 import { db } from "@/db/db";
-import { addresses as addressesSchema } from "@/db/schema/addresses";
+import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
 import { orders } from "@/db/schema/orders";
 import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
 import { orders_to_files } from "@/db/schema/orders_to_files";
@@ -17,7 +17,8 @@ import {
 } from "@/schema/orderZodSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import getObjectChanges from "@/utils/getObjectChanges";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
+import { omit } from "lodash";
 
 export const orderRouter = createTRPCRouter({
   getById: authenticatedProcedure
@@ -48,7 +49,7 @@ export const orderRouter = createTRPCRouter({
     }),
   create: authenticatedProcedure
     .input(insertOrderZodSchema)
-    .mutation(async ({ input: orderData }) => {
+    .mutation(async ({ input: orderData, ctx }) => {
       const {
         spreadsheets,
         files,
@@ -59,7 +60,7 @@ export const orderRouter = createTRPCRouter({
         emails,
         ...simpleOrderData
       } = orderData;
-
+      const currentUserId = ctx.session!.user!.id;
       const newAddress = await db
         .insert(addressesSchema)
         .values(address ?? {})
@@ -73,6 +74,8 @@ export const orderRouter = createTRPCRouter({
           ...simpleOrderData,
           clientId: client ? client.id : undefined,
           addressId: newAddress[0].id,
+          createdById: currentUserId,
+          updatedById: currentUserId,
         })
         .returning();
       if (result[0] === undefined) throw new Error("Could not create order");
@@ -123,8 +126,8 @@ export const orderRouter = createTRPCRouter({
           .values({
             ...spreadsheets,
             orderId: newOrder.id,
-            updatedById: newOrder.id,
-            createdById: newOrder.id,
+            updatedById: currentUserId,
+            createdById: currentUserId,
           })
           .returning();
         console.log(newSpreadsheets);
@@ -170,7 +173,7 @@ export const orderRouter = createTRPCRouter({
     }),
   update: authenticatedProcedure
     .input(updateOrderZodSchema)
-    .mutation(async ({ input: orderData }) => {
+    .mutation(async ({ input: orderData, ctx }) => {
       const {
         id,
         spreadsheets,
@@ -182,12 +185,12 @@ export const orderRouter = createTRPCRouter({
         emails,
         ...simpleOrderData
       } = orderData;
-
+      const currentUserId = ctx.session!.user!.id;
       const oldOrder = await db.query.orders.findFirst({
         where: eq(orders.id, id),
         with: {
           address: true,
-          client: true,
+          client: { with: { address: true } },
           emails: { with: { emailMessages: true } },
           employees: { with: { users: true } },
           files: { with: { files: true } },
@@ -195,7 +198,7 @@ export const orderRouter = createTRPCRouter({
           spreadsheets: true,
         },
       });
-      if (!oldOrder) throw new Error("Order not found");
+      if (!oldOrder) throw new Error("Order.update: Order not found");
 
       const {
         id: oldId,
@@ -220,12 +223,65 @@ export const orderRouter = createTRPCRouter({
       if (!!changes) {
         const updated = await db
           .update(orders)
-          .set(changes)
+          .set({ ...changes, updatedById: currentUserId })
           .where(eq(orders.id, id))
           .returning();
         if (!!updated[0]) result = updated[0];
       }
 
+      // update address
+      if (address !== undefined) {
+        if (oldAddress === null)
+          throw new Error("Order.update: Order doesn't have address");
+        const addressResult = await db
+          .update(addresses)
+          .set(omit(address, ["id"]))
+          .where(eq(addresses.id, oldAddress.id))
+          .returning();
+        if (addressResult[0] === undefined)
+          throw new Error("Order.update: address doesn't return value");
+        result.address = addressResult[0];
+      }
+
+      if (products !== undefined) {
+        const productIds = products
+          .filter((v) => v.id !== undefined)
+          .map((v) => v.id as number);
+        const oldProductIds = oldProducts.map((v) => v.productId);
+
+        const productsToBeAdded: number[] = productIds.filter(
+          (productId) => !oldProductIds.includes(productId),
+        );
+        const productsToBeRemoved: number[] = oldProductIds.filter(
+          (oldProductId) => !productIds.includes(oldProductId),
+        );
+
+        const ordersToProductsAdded =
+          productsToBeAdded.length > 0
+            ? db.insert(orders_to_products).values(
+                productsToBeAdded.map((productId) => ({
+                  productId,
+                  orderId: id,
+                })),
+              )
+            : [];
+        const ordersToProductsRemoved =
+          productsToBeRemoved.length > 0
+            ? db
+                .delete(orders_to_products)
+                .where(
+                  and(
+                    eq(orders_to_products.orderId, id),
+                    inArray(orders_to_products.productId, productsToBeRemoved),
+                  ),
+                )
+            : [];
+        const productResult = await Promise.allSettled([
+          ordersToProductsAdded,
+          ordersToProductsRemoved,
+        ]);
+        console.log(productResult);
+      }
       // if (Array.isArray(products)) {
       //   const alreadyInDB = await db.query.orders_to_products.findMany({
       //     where: inArray(
