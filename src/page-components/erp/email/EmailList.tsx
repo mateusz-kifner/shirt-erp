@@ -1,6 +1,6 @@
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
-import { EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { api } from "@/utils/api";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useId, useState } from "react";
@@ -20,7 +20,7 @@ function EmailList(props: EmailListProps) {
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const t = useTranslation();
-  const { data, refetch } = api.email.getAll.useQuery(
+  const { data } = api.email.getAll.useQuery(
     {
       mailbox,
       emailClientId: emailConfig.id,
@@ -48,20 +48,21 @@ function EmailList(props: EmailListProps) {
       enabled: query.length > 2,
     },
   );
-
   const searchMessages =
     dataSearch && dataSearch.results
       ? dataSearch.results?.sort(
-          // @ts-ignore
-          (a, b) => new Date(b.envelope.date) - new Date(a.envelope.date),
+          (a, b) =>
+            new Date(b.envelope.date).getTime() -
+            new Date(a.envelope.date).getTime(),
         )
       : [];
 
   const normalMessages =
     data && data?.results
       ? data.results?.sort(
-          // @ts-ignore
-          (a, b) => new Date(b.envelope.date) - new Date(a.envelope.date),
+          (a, b) =>
+            new Date(b.envelope.date).getTime() -
+            new Date(a.envelope.date).getTime(),
         )
       : [];
 

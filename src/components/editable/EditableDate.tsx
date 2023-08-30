@@ -31,7 +31,7 @@ const EditableDate = (props: InputDateProps) => {
     required,
     leftSection,
     rightSection,
-    keyName,
+    // keyName,
   } = props;
   const uuid = useId();
   const router = useRouter();
@@ -42,7 +42,7 @@ const EditableDate = (props: InputDateProps) => {
     dateFromValue.isValid() ? dateFromValue.format("L").toString() : "",
   );
 
-  const [debouncedText, cancel] = useDebouncedValue(text, 300);
+  const [debouncedText] = useDebouncedValue(text, 300);
   const inputDateRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<boolean>(false);
   const [calendarOpened, setCalendarOpened] = useState<boolean>(false);
@@ -53,6 +53,7 @@ const EditableDate = (props: InputDateProps) => {
     if (focus && !calendarOpened) {
       inputFocusAtEndOfLine(inputDateRef);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focus]);
 
   useEffect(() => {
@@ -80,6 +81,7 @@ const EditableDate = (props: InputDateProps) => {
         newDate.format("YYYY-MM-DD").toString(), /// HACK FIXME: this should work with strings
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedText]);
 
   return (

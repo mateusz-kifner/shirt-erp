@@ -24,8 +24,7 @@ const EditableApiEntryId = (props: EditableApiEntryIdProps) => {
     <EditableApiEntry
       {...props}
       onSubmit={(value) => value?.id !== undefined && onSubmit?.(value.id)}
-      // @ts-ignore
-      value={value ? data : null}
+      value={value ? data : undefined}
     />
   );
 };

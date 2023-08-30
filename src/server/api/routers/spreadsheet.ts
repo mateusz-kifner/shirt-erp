@@ -1,4 +1,4 @@
-import Vector2Schema from "@/schema/Vector2Schema";
+// import Vector2Schema from "@/schema/Vector2Schema";
 import { createProcedureSearch } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
@@ -11,14 +11,14 @@ import {
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-const partialSpreadsheetData = z.object({
-  id: z.number(),
-  partialData: z.array(
-    z.object({ position: Vector2Schema, data: z.record(z.any()) }),
-  ),
-});
+// const partialSpreadsheetData = z.object({
+//   id: z.number(),
+//   partialData: z.array(
+//     z.object({ position: Vector2Schema, data: z.record(z.any()) }),
+//   ),
+// });
 
-type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
+// type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
   getById: authenticatedProcedure

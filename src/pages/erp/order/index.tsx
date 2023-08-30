@@ -14,7 +14,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderEditable from "@/page-components/erp/order/OrderEditable";
@@ -44,7 +43,6 @@ const entryName = "order";
 const OrdersPage: NextPage = () => {
   const uuid = useId();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");

@@ -37,13 +37,14 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
         Array.isArray(order?.emails) &&
         order.emails.sort(sortObjectByDateOrNull("date"))) ||
       null,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [order?.emails],
   );
   return (
     <div className="relative">
       {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
         <Accordion type="multiple" defaultValue={["email0"]}>
-          {emailMessagesSorted.map((val, index, arr) => (
+          {emailMessagesSorted.map((val, index) => (
             <AccordionItem value={"email" + index} key={`${uuid}mail:${index}`}>
               <AccordionTrigger className=" text-xl font-bold">
                 {val.subject}

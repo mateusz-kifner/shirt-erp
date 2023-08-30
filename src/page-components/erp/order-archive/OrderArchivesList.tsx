@@ -19,7 +19,7 @@ interface OrderListProps {
   onAddElement?: () => void;
 }
 
-const OrderArchivesList = ({ selectedId, onAddElement }: OrderListProps) => {
+const OrderArchivesList = ({ selectedId }: OrderListProps) => {
   const router = useRouter();
   const t = useTranslation();
 

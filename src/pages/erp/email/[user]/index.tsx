@@ -10,6 +10,7 @@ function EmailClient(props: EmailClientProps) {
   useEffect(() => {
     if (router.query.user !== undefined)
       router.replace(`./${router.query.user}/INBOX`).catch(console.log);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.user]);
 
   return (

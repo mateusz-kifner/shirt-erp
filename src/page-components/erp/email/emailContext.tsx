@@ -1,4 +1,4 @@
-import { EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
 import {
   createContext,
   useContext,

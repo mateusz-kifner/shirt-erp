@@ -10,12 +10,12 @@ import { cn } from "@/utils/cn";
 import { getQueryAsIntOrNull, getQueryAsStringOrNull } from "@/utils/query";
 import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useId, useState } from "react";
+import { type Dispatch, type SetStateAction, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-interface EmailMessageProps {}
+// interface EmailMessageProps {}
 
-function EmailMessage(props: EmailMessageProps) {
+function EmailMessage() {
   const router = useRouter();
   const { user } = router.query;
   const uuid = useId();
@@ -26,19 +26,16 @@ function EmailMessage(props: EmailMessageProps) {
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);
   const isMobile = useIsMobile();
 
-  const { data: emailClients, isLoading } = api.email.getAllConfigs.useQuery(
-    undefined,
-    {
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const { data: emailClients } = api.email.getAllConfigs.useQuery(undefined, {
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
   const emailClientsIMAP = emailClients
     ? emailClients.filter((client) => client.protocol === "imap")
     : [];
-  const emailClientsSMTP = emailClients
-    ? emailClients.filter((client) => client.protocol === "smtp")
-    : [];
+  // const emailClientsSMTP = emailClients
+  //   ? emailClients.filter((client) => client.protocol === "smtp")
+  //   : [];
 
   const emailConfig = emailClientsIMAP.filter(
     (emailClient) => emailClient.user === user,

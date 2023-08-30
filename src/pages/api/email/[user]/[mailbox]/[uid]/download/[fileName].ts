@@ -3,7 +3,7 @@ import { downloadEmailAttachment } from "@/server/email";
 import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { ImapFlow } from "imapflow";
-import { IronSession, getIronSession } from "iron-session";
+import { type IronSession, getIronSession } from "iron-session";
 import Logger from "js-logger";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Readable } from "node:stream";

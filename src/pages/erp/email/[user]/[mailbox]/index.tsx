@@ -11,7 +11,7 @@ import { cn } from "@/utils/cn";
 import { getQueryAsStringOrNull } from "@/utils/query";
 import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useId, useState } from "react";
+import { type Dispatch, type SetStateAction, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface EmailMailboxProps {}
@@ -24,24 +24,21 @@ function EmailMailbox(props: EmailMailboxProps) {
   const mailbox: string = (
     getQueryAsStringOrNull(router, "mailbox") ?? "INBOX"
   ).replace("-", "/");
-  const { data: emailClients, isLoading } = api.email.getAllConfigs.useQuery(
-    undefined,
-    {
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    },
-  );
+  const { data: emailClients } = api.email.getAllConfigs.useQuery(undefined, {
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
   const isMobile = useIsMobile();
 
-  const [refreshCounter, setRefreshCounter] = useState(0); // this is hack
+  const [refreshCounter] = useState(0); // this is hack
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);
 
   const emailClientsIMAP = emailClients
     ? emailClients.filter((client) => client.protocol === "imap")
     : [];
-  const emailClientsSMTP = emailClients
-    ? emailClients.filter((client) => client.protocol === "smtp")
-    : [];
+  // const emailClientsSMTP = emailClients
+  //   ? emailClients.filter((client) => client.protocol === "smtp")
+  //   : [];
 
   const emailConfig = emailClientsIMAP.filter(
     (emailClient) => emailClient.user === user,

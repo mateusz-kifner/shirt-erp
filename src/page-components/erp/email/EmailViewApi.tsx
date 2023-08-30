@@ -6,9 +6,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import { useLoaded } from "@/hooks/useLoaded";
+// import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 
 interface EmailViewApiProps {
   emailConfig: EmailCredential;
@@ -33,7 +33,7 @@ interface EmailViewApiProps {
 
 function EmailViewApi(props: EmailViewApiProps) {
   const { id, mailbox, emailConfig } = props;
-  const isLoaded = useLoaded();
+  // const isLoaded = useLoaded();
   const router = useRouter();
   const uuid = useId();
   const { data } = api.email.getByUid.useQuery(
@@ -76,6 +76,7 @@ function EmailViewApi(props: EmailViewApiProps) {
         })
         .catch(console.log);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, isSuccess]);
 
   if (!data)

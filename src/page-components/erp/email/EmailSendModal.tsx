@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
@@ -12,8 +11,7 @@ interface EmailSendModalProps {
 }
 
 const EmailSendModal = ({ opened, onClose }: EmailSendModalProps) => {
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   // const { mutate: createEmail } = api.product.create.useMutation({
   //   onSuccess(data) {
   //     //void  router.push(`/erp/product/${data.id}`)
