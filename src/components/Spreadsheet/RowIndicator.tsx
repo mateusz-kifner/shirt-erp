@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useCallback, type FC, type MouseEvent, type ReactNode } from "react";
 
-import { RowIndicatorProps } from "react-spreadsheet";
+import { type RowIndicatorProps } from "react-spreadsheet";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -11,14 +11,14 @@ import {
 const RowIndicator = (
   props: RowIndicatorProps & {
     contextMenu: (row: number) => ReactNode;
-  }
+  },
 ) => {
   const { row, label, selected, contextMenu, onSelect } = props;
   const handleClick = useCallback(
     (event: MouseEvent) => {
       onSelect(row, event.shiftKey);
     },
-    [onSelect, row]
+    [onSelect, row],
   );
   return (
     <ContextMenu>
@@ -46,7 +46,7 @@ export const enhance = (
       contextMenu: (row: number) => ReactNode;
     }
   >,
-  contextMenu: (row: number) => ReactNode
+  contextMenu: (row: number) => ReactNode,
 ): FC<
   RowIndicatorProps & {
     contextMenu: (row: number) => ReactNode;

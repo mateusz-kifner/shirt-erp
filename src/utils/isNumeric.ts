@@ -1,8 +1,12 @@
-function isNumeric(value: number | string) {
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function isNumeric(value: any) {
   if (typeof value === "number") return true;
-  const str = (value || "").toString();
+  const str = (value || "")?.toString();
   if (!str) return false;
-  // @ts-ignore
   return !isNaN(str);
 }
 

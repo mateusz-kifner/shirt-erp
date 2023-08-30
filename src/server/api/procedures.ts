@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 import { db } from "@/db/db";
-import { ilike, not, or, sql } from "drizzle-orm";
-import { PgTable, TableConfig } from "drizzle-orm/pg-core";
+import { asc, ilike, not, or, sql, desc } from "drizzle-orm";
+import { type PgTable, type TableConfig } from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";
 
 export function createProcedureGetById(schemaName: string) {
@@ -50,7 +50,7 @@ export function createProcedureSearch(
       const search = queryParam
         ? keys.map((key) =>
             // @ts-ignore
-            ilike(pgTable[key], queryParam),
+            ilike(pgTable[key as keyof typeof pgTable], queryParam),
           )
         : [];
       // @ts-ignore
@@ -69,10 +69,7 @@ export function createProcedureSearch(
         limit: itemsPerPage,
         offset: (currentPage - 1) * itemsPerPage,
         // @ts-ignore
-        orderBy: (_, handlers) => [
-          // @ts-ignore
-          handlers[sort](pgTable[sortColumn]),
-        ],
+        orderBy: (sort === "asc" ? asc : desc)(pgTable[sortColumn]),
       });
 
       const totalItems = await db

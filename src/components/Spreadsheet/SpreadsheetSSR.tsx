@@ -11,14 +11,14 @@ import type {
   RowIndicatorComponent,
 } from "react-spreadsheet";
 import ReactSpreadsheet from "react-spreadsheet";
-import { UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
+import { type UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
 import Button from "@/components/ui/Button";
 import { ScrollArea, ScrollBar } from "@/components/ui/ScrollArea";
 import useTranslation from "@/hooks/useTranslation";
-import TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/schema/TablerIconType";
 import { api } from "@/utils/api";
 import TableCenterIcon from "../icons/TableCenterIcon";
 import TableEdgeIcon from "../icons/TableEdgeIcon";
@@ -33,6 +33,7 @@ import RowIndicator, { enhance as enhanceRowIndicator } from "./RowIndicator";
 
 interface SpreadsheetProps {
   id: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: { [key: string]: { id: number; [key: string]: any } };
   metadataVisuals: {
     icon: TablerIconType;
@@ -44,6 +45,7 @@ interface SpreadsheetProps {
     action: (
       table: UniversalMatrix,
       metaId: number,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => [UniversalMatrix, string, any, any];
   }[];
 }
@@ -117,6 +119,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     value.length != 0 && setSelection(value);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const setMetadataOnSelection = (metadata: { [key: string]: any }) => {
     setMetadata(selection, metadata);
     incrementUpdateCount();
@@ -133,18 +136,15 @@ const Spreadsheet = (props: SpreadsheetProps) => {
       let eq = true;
       if (
         value?.data &&
-        (value.data as UniversalMatrix).length === data.length &&
-        (value.data as UniversalMatrix)[0]!.length === data[0]!.length
+        value.data.length === data.length &&
+        value.data[0]!.length === data[0]!.length
       ) {
         for (let y = 0; y < data.length; y++) {
           for (let x = 0; x < data[0]!.length; x++) {
             if (
-              (value.data as UniversalMatrix)[y]![x]?.value !==
-                data[y]![x]?.value ||
-              (value.data as UniversalMatrix)[y]![x]?.metaId !==
-                data[y]![x]?.metaId ||
-              (value.data as UniversalMatrix)[y]![x]?.metaPropertyId !==
-                data[y]![x]?.metaPropertyId
+              value.data[y]![x]?.value !== data[y]![x]?.value ||
+              value.data[y]![x]?.metaId !== data[y]![x]?.metaId ||
+              value.data[y]![x]?.metaPropertyId !== data[y]![x]?.metaPropertyId
             ) {
               eq = false;
             }
@@ -159,13 +159,14 @@ const Spreadsheet = (props: SpreadsheetProps) => {
         setUpdateCount(0);
       }
     }
-    //eslint-disable-next-line
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateCount, canUpdate]);
 
   useEffect(() => {
     if (!!value?.data) {
-      setData(value.data as UniversalMatrix);
+      setData(value.data);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value?.data]);
 
   // useEffect(() => {}, [disabled]);
@@ -213,6 +214,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as ColumnIndicatorComponent,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -269,6 +271,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as RowIndicatorComponent,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

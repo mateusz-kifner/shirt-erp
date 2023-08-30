@@ -3,7 +3,7 @@ import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { db } from "@/db/db";
 import { files } from "@/db/schema/files";
-import { File, updateFileZodSchema } from "@/schema/fileZodSchema";
+import { type File, updateFileZodSchema } from "@/schema/fileZodSchema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
@@ -20,7 +20,7 @@ export const fileRouter = createTRPCRouter({
       return {
         ...data,
         url: `${baseUrl}${data?.filename}?token=${data?.token}`,
-      } as File;
+      } as unknown as File; // check why it is complaining about any when not cast as unknown first
     }),
   deleteById: authenticatedProcedure
     .input(z.number())

@@ -11,7 +11,6 @@ import { emailRouter } from "./routers/email";
 import { expenseRouter } from "./routers/expense";
 import { settingsRouter } from "./routers/settings";
 import { orderArchiveRouter } from "./routers/orderArchive";
-import { db } from "@/db/db";
 /**
  * This is the primary router for your server.
  *

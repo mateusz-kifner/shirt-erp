@@ -24,8 +24,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import TablerIconType from "@/schema/TablerIconType";
-import { File } from "@/schema/fileZodSchema";
+import type TablerIconType from "@/schema/TablerIconType";
+import { type File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import { isMimeImage } from "@/utils/isMimeImage";
 import {

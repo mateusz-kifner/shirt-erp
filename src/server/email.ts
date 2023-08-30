@@ -498,7 +498,7 @@ export async function transferEmailToDbByUId(
         .insert(email_messages)
         .values({
           to: Array.isArray(parsed.to)
-            ? parsed.to.map((v) => v.text).reduce((p, n, i) => `${p}, ${n}`, "")
+            ? parsed.to.map((v) => v.text).reduce((p, n) => `${p}, ${n}`, "")
             : parsed.to?.text,
           from: parsed.from?.text,
           subject: parsed.subject,

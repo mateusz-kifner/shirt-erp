@@ -28,9 +28,6 @@ interface FileListItemProps {
 const FileListItem = (props: FileListItemProps) => {
   const {
     value,
-    onChange,
-    active,
-    disabled,
     onPreview,
     style,
     contextMenuContent,

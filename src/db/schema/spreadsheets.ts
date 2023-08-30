@@ -7,7 +7,7 @@ import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetDat
 export const spreadsheets = pgTable("spreadsheets", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }),
-  data: json("data").$type<UniversalMatrix[][]>().default([]),
+  data: json("data").$type<UniversalMatrix>().default([]),
   orderId: integer("order_id").references(() => orders.id),
   ...metadata,
 });
