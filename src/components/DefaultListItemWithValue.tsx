@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { truncString } from "@/utils/truncString";
 import { DefaultListItem } from "./DefaultListItem";
 
@@ -11,10 +12,10 @@ interface DefaultListItemWithValueProps<T> {
 }
 
 export function makeDefaultListItem<
-  T extends { id?: number | null; [key: string]: any }
+  T extends { id?: number | null; [key: string]: any },
 >(entryKey?: string, entryKey2?: string) {
   const ListItem = (
-    props: Omit<DefaultListItemWithValueProps<T>, "entryKey">
+    props: Omit<DefaultListItemWithValueProps<T>, "entryKey">,
   ) => (
     <DefaultListItemWithValue<T>
       {...props}
@@ -26,25 +27,21 @@ export function makeDefaultListItem<
 }
 
 export function DefaultListItemWithValue<
-  T extends { id?: number | null; [key: string]: any }
->({
-  value,
-  entryKey,
-  entryKey2,
-  ...moreProps
-}: DefaultListItemWithValueProps<T>) {
+  T extends { id?: number | null; [key: string]: any },
+>(props: DefaultListItemWithValueProps<T>) {
+  const value = props.value;
+  const entryKey = props.entryKey;
+  const entryKey2 = props.entryKey2;
   // start from 1, because 0 is id
   const firstElement: string | null = value
     ? entryKey
-      ? value[entryKey]
-      : // @ts-ignore
-        value[Object.keys(value)[1]]
+      ? value[entryKey as keyof typeof value]
+      : value[Object.keys(value)[1] as keyof typeof value]
     : null;
   const secondElement: string | null = value
     ? entryKey2
-      ? value[entryKey2]
-      : // @ts-ignore
-        value[Object.keys(value)[2]]
+      ? value[entryKey2 as keyof typeof value]
+      : value[Object.keys(value)[2] as keyof typeof value]
     : null;
 
   return (

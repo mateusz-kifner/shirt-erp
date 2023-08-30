@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useId, useState, type ReactNode } from "react";
 
 import { useDebouncedValue, useToggle } from "@mantine/hooks";
@@ -20,7 +21,7 @@ interface ApiListProps<T = any> {
   label?: string | ReactNode;
   onChange?: (val: T) => void;
   onRefresh?: () => void;
-  listItemProps?: any; //{ linkTo: (val: T) => string } |
+  listItemProps?: Record<string, any>;
   selectedId?: number | null;
   filterKeys?: string[];
   excludeKey?: string;
@@ -37,7 +38,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
     entryName,
     ListItem,
     label = "",
-    onChange = (val: T) => {
+    onChange = (_val: T) => {
       /* no-op */
     },
     onRefresh = () => {
@@ -75,13 +76,14 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
     itemsPerPage,
   });
 
-  const items = data?.results;
+  const items = data?.results as Record<string, any>[] | undefined;
   const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
 
   useEffect(() => {
     refetch().catch((e) => {
       throw e;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
   return (
