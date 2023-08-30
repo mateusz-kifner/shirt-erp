@@ -17,7 +17,7 @@ import {
 } from "@/schema/orderZodSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import getObjectChanges from "@/utils/getObjectChanges";
-import { eq, inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 export const orderRouter = createTRPCRouter({
   getById: authenticatedProcedure
@@ -120,18 +120,14 @@ export const orderRouter = createTRPCRouter({
       if (spreadsheets?.length && spreadsheets.length > 0) {
         const newSpreadsheets = await db
           .insert(spreadsheetsSchema)
-          .values(spreadsheets)
+          .values({
+            ...spreadsheets,
+            orderId: newOrder.id,
+            updatedById: newOrder.id,
+            createdById: newOrder.id,
+          })
           .returning();
-
-        const newSpreadsheetsRelation = await db
-          .insert(orders_to_spreadsheets)
-          .values(
-            newSpreadsheets.map((v) => ({
-              spreadsheetId: v.id!,
-              orderId: newOrder.id,
-            })),
-          );
-        console.log(newSpreadsheetsRelation);
+        console.log(newSpreadsheets);
       }
 
       return newOrder;
@@ -150,16 +146,10 @@ export const orderRouter = createTRPCRouter({
           .where(eq(addressesSchema.id, order.addressId));
       }
       // remove spreadsheet
-      const deletedSpreadsheets = await db
-        .delete(orders_to_spreadsheets)
-        .where(eq(orders_to_spreadsheets.orderId, id))
-        .returning();
-      await db.delete(spreadsheetsSchema).where(
-        inArray(
-          spreadsheetsSchema.id,
-          deletedSpreadsheets.map((v) => v.spreadsheetId),
-        ),
-      );
+      await db
+        .delete(spreadsheetsSchema)
+        .where(eq(spreadsheetsSchema.orderId, id));
+
       // remove associated relation
       await db.delete(orders_to_files).where(eq(orders_to_files.orderId, id));
       await db

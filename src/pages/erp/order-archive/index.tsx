@@ -16,8 +16,8 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
+import OrderArchiveEditable from "@/page-components/erp/order-archive/OrderArchiveEditable";
 import OrderArchivesList from "@/page-components/erp/order-archive/OrderArchivesList";
-import OrderArchiveEditable from "@/page-components/erp/order-archive/OrderEditable";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 //import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
