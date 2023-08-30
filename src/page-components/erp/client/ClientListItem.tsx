@@ -1,15 +1,9 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { Client } from "@/schema/clientZodSchema";
+import { type Client } from "@/schema/clientZodSchema";
+import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
-interface ClientListItemProps {
-  onChange?: (item: Partial<Client>) => void;
-  value: Partial<Client>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-const ClientListItem = (props: ClientListItemProps) => {
+const ClientListItem = (props: ListItemProps<Client>) => {
   const value = props.value;
   return (
     <DefaultListItem

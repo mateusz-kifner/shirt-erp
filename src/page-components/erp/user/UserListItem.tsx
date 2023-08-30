@@ -1,15 +1,9 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { User } from "@/schema/userZodSchema";
+import { type User } from "@/schema/userZodSchema";
+import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
-interface UserListItemProps {
-  onChange?: (item: Partial<User>) => void;
-  value: Partial<User>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-const UserListItem = (props: UserListItemProps) => {
+const UserListItem = (props: ListItemProps<User>) => {
   const value = props.value;
   return (
     <DefaultListItem

@@ -1,15 +1,9 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { Expense } from "@/schema/expenseZodSchema";
+import { type Expense } from "@/schema/expenseZodSchema";
+import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
-interface ExpenseListItemProps {
-  onChange?: (item: Partial<Expense>) => void;
-  value: Partial<Expense>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-const ExpenseListItem = (props: ExpenseListItemProps) => {
+const ExpenseListItem = (props: ListItemProps<Expense>) => {
   const value = props.value;
   return (
     <DefaultListItem

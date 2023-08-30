@@ -1,10 +1,10 @@
-import useTranslation from "@/hooks/useTranslation";
+// import useTranslation from "@/hooks/useTranslation";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 
-import { File } from "@/schema/fileZodSchema";
+import { type File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
@@ -38,7 +38,7 @@ const FileListItem = (props: FileListItemProps) => {
     draggable,
   } = props;
 
-  const t = useTranslation();
+  // const t = useTranslation();
 
   const preview = value.mimetype?.startsWith("image")
     ? `/api/files/${value.filename}${
