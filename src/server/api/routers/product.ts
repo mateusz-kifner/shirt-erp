@@ -40,9 +40,14 @@ export const productRouter = createTRPCRouter({
     .input(updateProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
       const { id, ...dataToUpdate } = productData;
+      const currentUserId = ctx.session!.user!.id;
       const updatedProduct = await db
         .update(products)
-        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
         .where(eq(products.id, id))
         .returning();
       return updatedProduct[0];

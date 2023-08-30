@@ -223,7 +223,11 @@ export const orderRouter = createTRPCRouter({
       if (!!changes) {
         const updated = await db
           .update(orders)
-          .set({ ...changes, updatedById: currentUserId })
+          .set({
+            ...changes,
+            updatedById: currentUserId,
+            updatedAt: new Date(),
+          })
           .where(eq(orders.id, id))
           .returning();
         if (!!updated[0]) result = updated[0];

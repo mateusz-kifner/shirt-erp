@@ -21,8 +21,8 @@ export const clientRouter = createTRPCRouter({
   create: authenticatedProcedure
     .input(insertClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
-      const currentUserId = ctx.session!.user!.id;
       const { address, ...simpleClientData } = clientData;
+      const currentUserId = ctx.session!.user!.id;
       console.log(clientData);
 
       const newAddress = await db
@@ -34,7 +34,7 @@ export const clientRouter = createTRPCRouter({
       const newClient = await db
         .insert(clients)
         .values({
-          ...clientData,
+          ...simpleClientData,
           createdById: currentUserId,
           updatedById: currentUserId,
         })
@@ -56,9 +56,14 @@ export const clientRouter = createTRPCRouter({
     .input(updateClientZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
+      const currentUserId = ctx.session!.user!.id;
       const updatedClient = await db
         .update(clients)
-        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
         .where(eq(clients.id, id))
         .returning();
       return updatedClient[0];

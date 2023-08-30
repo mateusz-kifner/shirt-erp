@@ -56,9 +56,14 @@ export const spreadsheetRouter = createTRPCRouter({
     .input(updateSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
+      const currentUserId = ctx.session!.user!.id;
       const updatedUser = await db
         .update(spreadsheets)
-        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
         .where(eq(spreadsheets.id, id))
         .returning();
       return updatedUser[0];

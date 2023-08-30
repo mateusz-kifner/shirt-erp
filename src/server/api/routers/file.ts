@@ -35,9 +35,14 @@ export const fileRouter = createTRPCRouter({
     .input(updateFileZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
+      const currentUserId = ctx.session!.user!.id;
       const updatedClient = await db
         .update(files)
-        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
         .where(eq(files.id, id))
         .returning();
       return updatedClient[0];

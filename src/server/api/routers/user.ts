@@ -41,9 +41,14 @@ export const userRouter = createTRPCRouter({
     .input(updateUserZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
+      const currentUserId = ctx.session!.user!.id;
       const updatedUser = await db
         .update(users)
-        .set({ ...dataToUpdate, updatedById: ctx.session!.user!.id })
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
         .where(eq(users.id, id))
         .returning();
       return updatedUser[0];
