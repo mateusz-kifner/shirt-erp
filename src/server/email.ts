@@ -207,11 +207,21 @@ export async function downloadEmailByUid(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const auth: { user: string; pass?: string; accessToken?: string } =
-      // @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      client.options.auth;
+    const auth = (
+      client as unknown as {
+        options: {
+          auth: {
+            user: string;
+            pass?: string;
+            accessToken?: string;
+          };
+        };
+      }
+    ).options.auth;
+
+    if (!auth.user) {
+      throw new Error("User was not attached to imapFlow Client");
+    }
 
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
@@ -327,11 +337,21 @@ export async function downloadEmailAttachment(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const auth: { user: string; pass?: string; accessToken?: string } =
-      // @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      client.options.auth;
+    const auth = (
+      client as unknown as {
+        options: {
+          auth: {
+            user: string;
+            pass?: string;
+            accessToken?: string;
+          };
+        };
+      }
+    ).options.auth;
+
+    if (!auth.user) {
+      throw new Error("User was not attached to imapFlow Client");
+    }
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
     try {
@@ -390,11 +410,21 @@ export async function transferEmailToDbByUId(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const auth: { user: string; pass?: string; accessToken?: string } =
-      // @ts-ignore
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      client.options.auth;
+    const auth = (
+      client as unknown as {
+        options: {
+          auth: {
+            user: string;
+            pass?: string;
+            accessToken?: string;
+          };
+        };
+      }
+    ).options.auth;
+
+    if (!auth.user) {
+      throw new Error("User was not attached to imapFlow Client");
+    }
     const alreadyTransferred = await db.query.email_messages.findFirst({
       where: and(
         eq(email_messages.messageUid, parseInt(uid)),
@@ -475,8 +505,8 @@ export async function transferEmailToDbByUId(
         token: genRandomStringServerOnly(32),
       };
     });
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const resolvedFiles: {
+
+    type ResolvedFile = {
       size: number;
       filepath: string;
       originalFilename: string | undefined;
@@ -487,12 +517,14 @@ export async function transferEmailToDbByUId(
       height: number | undefined;
       hash: string;
       token: string;
-    }[] = (await Promise.allSettled(newFiles))
-      .filter((val) => val.status === "fulfilled")
-      // @ts-ignore
-      // eslint-disable-next-line
+    };
+    const resolvedFiles: ResolvedFile[] = (await Promise.allSettled(newFiles))
+      .filter(
+        (val): val is PromiseFulfilledResult<ResolvedFile> =>
+          val.status === "fulfilled",
+      )
       .map((val) => val.value);
-    // FIXME: make this work
+
     const newMail = (
       await db
         .insert(email_messages)

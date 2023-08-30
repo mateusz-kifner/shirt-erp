@@ -1,11 +1,13 @@
 import { z } from "zod";
 
-import { db } from "@/db/db";
+import { db, type inferSchemaKeys, type schemaNames } from "@/db/db";
 import { asc, ilike, not, or, sql, desc } from "drizzle-orm";
-import { type PgTable, type TableConfig } from "drizzle-orm/pg-core";
+import {
+  type PgTable,
+} from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";
 
-export function createProcedureGetById(schemaName: string) {
+export function createProcedureGetById(schemaName: schemaNames) {
   return authenticatedProcedure
     .input(z.number())
     .query(async ({ input: id }) => {
@@ -17,8 +19,8 @@ export function createProcedureGetById(schemaName: string) {
 }
 
 export function createProcedureSearch(
-  pgTable: PgTable<TableConfig>,
-  tableName: string,
+  pgTable: PgTable,
+  tableName: schemaNames,
 ) {
   return authenticatedProcedure
     .input(
@@ -49,27 +51,26 @@ export function createProcedureSearch(
 
       const search = queryParam
         ? keys.map((key) =>
-            // @ts-ignore
-            ilike(pgTable[key as keyof typeof pgTable], queryParam),
+            ilike(pgTable[key as inferSchemaKeys<typeof pgTable>], queryParam),
           )
         : [];
-      // @ts-ignore
+        // @ts-ignore
       const results = await db.query[tableName].findMany({
         where: queryParam
           ? or(...search)
           : excludeKey && excludeValue
           ? not(
               ilike(
-                // @ts-ignore
-                pgTable[excludeKey],
+                pgTable[excludeKey as inferSchemaKeys<typeof pgTable>],
                 `${excludeValue}%`,
               ),
             )
           : undefined,
         limit: itemsPerPage,
         offset: (currentPage - 1) * itemsPerPage,
-        // @ts-ignore
-        orderBy: (sort === "asc" ? asc : desc)(pgTable[sortColumn]),
+        orderBy: (sort === "asc" ? asc : desc)(
+          pgTable[sortColumn as inferSchemaKeys<typeof pgTable>],
+        ),
       });
 
       const totalItems = await db

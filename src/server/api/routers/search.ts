@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { db } from "@/db/db";
+import { db, type inferSchemaKeys } from "@/db/db";
 import { clients } from "@/db/schema/clients";
 import { orders } from "@/db/schema/orders";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
@@ -30,8 +30,12 @@ export const searchRouter = createTRPCRouter({
               "companyName",
               "email",
             ]) {
-              // @ts-ignore
-              searchClients.push(ilike(clients[key], `%${queryPart}%`));
+              searchClients.push(
+                ilike(
+                  clients[key as inferSchemaKeys<typeof clients>],
+                  `%${queryPart}%`,
+                ),
+              );
             }
           }
         }
