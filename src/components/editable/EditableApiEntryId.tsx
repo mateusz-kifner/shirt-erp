@@ -8,13 +8,14 @@ import type EditableInput from "@/schema/EditableInput";
 interface EditableApiEntryIdProps extends EditableInput<number> {
   entryName: string;
   Element: React.ElementType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   copyProvider?: (value: any) => string | undefined;
   style?: CSSProperties;
   withErase?: boolean;
 }
 
 const EditableApiEntryId = (props: EditableApiEntryIdProps) => {
-  const { value, onSubmit, entryName, keyName } = props;
+  const { value, onSubmit, entryName } = props;
   const { data } = api[entryName as "client"].getById.useQuery(
     value as number,
     { enabled: !!value },
@@ -22,7 +23,8 @@ const EditableApiEntryId = (props: EditableApiEntryIdProps) => {
   return (
     <EditableApiEntry
       {...props}
-      onSubmit={(value) => onSubmit && onSubmit(value.id)}
+      onSubmit={(value) => value !== null && onSubmit?.(value.id)}
+      // @ts-ignore
       value={value ? data : null}
     />
   );

@@ -1,18 +1,18 @@
 import React, { useId, useMemo } from "react";
 
-import { CellBase } from "react-spreadsheet";
+import { type CellBase } from "react-spreadsheet";
 import {
   getColorByName,
   getRandomColorByNumber,
 } from "../../utils/getRandomColor";
 import isNumeric from "../../utils/isNumeric";
 
-import { TypeAABB2D } from "@/schema/AABB";
-import TablerIconType from "@/schema/TablerIconType";
+import { type TypeAABB2D } from "@/schema/AABB";
+import type TablerIconType from "@/schema/TablerIconType";
 import { api } from "@/utils/api";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
-import { UniversalMatrix } from "./useSpreadSheetData";
+import { type UniversalMatrix } from "./useSpreadSheetData";
 
 function expandAABB(aabb: TypeAABB2D, row: number, col: number) {
   const new_aabb = { ...aabb };
@@ -33,6 +33,7 @@ function expandAABB(aabb: TypeAABB2D, row: number, col: number) {
 
 interface EditableTableProps {
   id: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata: { [key: string]: { id: number; [key: string]: any } };
   metadataVisuals: {
     icon: TablerIconType;

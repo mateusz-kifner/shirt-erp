@@ -13,7 +13,7 @@ import { isEqual } from "lodash";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
-import { Address } from "@/schema/addressZodSchema";
+import { type Address } from "@/schema/addressZodSchema";
 import { Input } from "../ui/Input";
 import EditableEnum from "./EditableEnum";
 

@@ -1,8 +1,9 @@
-import EditableInput from "@/schema/EditableInput";
-import { Children, ReactElement, cloneElement, useId } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type EditableInput from "@/schema/EditableInput";
+import { Children, type ReactElement, cloneElement, useId } from "react";
 
 interface EditableProps {
-  data: { [key: string]: any };
+  data: Record<string, any>;
   onSubmit?: (key: string, value: any) => void;
   children:
     | ReactElement<EditableInput<any>>[]
@@ -21,12 +22,14 @@ function Editable(props: EditableProps) {
         if (keyName === undefined || !Object.keys(data).includes(keyName))
           return child;
         return cloneElement(child, {
-          value: data[keyName as keyof typeof data],
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          value: data[keyName],
           onSubmit: ((value) => {
             onSubmit?.(keyName, value);
             child.props?.onSubmit?.(value);
           }) as typeof child.props.onSubmit,
           disabled: disabled || child.props.disabled,
+          key: `${uuid}${index}`,
         });
       })}
     </>

@@ -30,6 +30,7 @@ type CellWithIcons = CellComponentProps<
     metaId?: number;
     metaPropertyId?: number;
     style?: CSSProperties;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     active?: any;
   }
 > & {
@@ -48,7 +49,7 @@ export const Cell = ({
   select,
   activate,
   evaluatedData,
-  copied,
+  // copied,
   setCellData,
   setCellDimensions,
   icons,

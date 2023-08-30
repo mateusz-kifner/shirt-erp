@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState, type CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
@@ -14,7 +16,8 @@ import type EditableInput from "@/schema/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
 
-interface EditableApiEntryProps extends EditableInput<any> {
+interface EditableApiEntryProps
+  extends EditableInput<{ id: number; [key: string]: any }> {
   entryName: string;
   Element: React.ElementType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
@@ -36,11 +39,12 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     Element,
     entryName,
     copyProvider = () => "",
-    style,
+    // style,
     listProps,
     linkEntry = true,
     helpTooltip,
     allowClear = false,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
   } = props;
 
@@ -59,6 +63,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
 
   useEffect(() => {
     if (isEqual(apiEntry, prev)) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     onSubmit?.(apiEntry);
     setPrev(apiEntry);
     // eslint-disable-next-line
@@ -100,7 +105,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Link
                     legacyBehavior={false}
-                    href={`/erp/${entryName}/${value?.id as string}`}
+                    href={`/erp/${entryName}/${value?.id}`}
                     className={cn(
                       buttonVariants({ size: "icon", variant: "ghost" }),
                       "",
