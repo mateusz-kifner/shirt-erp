@@ -22,7 +22,7 @@ export const email_credentials = pgTable("email_credentials", {
 
 export const email_credentials_relations = relations(
   email_credentials,
-  ({ one, many }) => ({
+  ({ many }) => ({
     users: many(email_credentials_to_users),
   }),
 );

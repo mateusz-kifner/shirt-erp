@@ -1,5 +1,5 @@
 import { env } from "@/env.mjs";
-import { PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
+import { type PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as addresses from "./schema/addresses";
 import * as clients from "./schema/clients";
@@ -17,7 +17,7 @@ import * as email_messages_to_files from "./schema/email_messages_to_files";
 import * as orders_to_email_messages from "./schema/orders_to_email_messages";
 import * as orders_to_products from "./schema/orders_to_products";
 import * as orders_to_users from "./schema/orders_to_users";
-import Logger from "js-logger";
+// import Logger from "js-logger";
 
 const schema = {
   ...addresses,
@@ -53,7 +53,3 @@ export const db: PostgresJsDatabase<typeof schema> = drizzle(queryClient, {
   schema,
   // logger: env.NODE_ENV !== "production",
 });
-
-// export type SchemaNames = SchemaType;
-
-// export type SchemaType = Array<keyof typeof db.query>;
