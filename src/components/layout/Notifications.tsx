@@ -16,7 +16,7 @@ import OrderListItem from "@/page-components/erp/order/OrderListItem";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();
-  const [opened, setOpened] = useState<boolean>();
+  const [open, setOpen] = useState<boolean>();
   const [prevActiveOrders, setPrevActiveOrders] = useLocalStorage<number>({
     key: "prevActiveOrders",
     defaultValue: 0,
@@ -36,6 +36,7 @@ const Notifications = () => {
     ) {
       void router.push("/login");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   const activeOrders = data?.orders
@@ -63,18 +64,19 @@ const Notifications = () => {
       audio.play().catch(() => {});
     }
     setPrevActiveOrders(activeOrders);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOrders]);
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           size="icon"
           variant="outline"
           className="rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
-          onClick={() => {
-            // refetch();
-            setOpened((val) => !val);
-          }}
+          // onClick={() => {
+          //   // refetch();
+          //   setOpened((val) => !val);
+          // }}
         >
           <IconBell className="stroke-gray-200" />
         </Button>
@@ -114,7 +116,7 @@ const Notifications = () => {
                     value={val}
                     onChange={(val) => {
                       router.push(`/erp/task/${val.id}`).catch(console.log);
-                      setOpened(false);
+                      setOpen(false);
                     }}
                     key={uuid + index}
                   />

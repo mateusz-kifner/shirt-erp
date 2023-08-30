@@ -35,15 +35,16 @@ const EditableNumber = (props: EditableNumberProps) => {
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
     fixed = 2,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
     ...moreProps
   } = props;
   const uuid = useId();
   const toText = (num?: number | null) => {
-    if (value === null) return "";
-    if (value === undefined) return "";
-    if (isNaN(value)) return "";
-    return Number(value).toFixed(fixed); // no idea why this conversion is nesesery TODO: investigate missing toFixed on 'number'
+    if (num === null) return "";
+    if (num === undefined) return "";
+    if (isNaN(num)) return "";
+    return Number(num).toFixed(fixed); // no idea why this conversion is nesesery TODO: investigate missing toFixed on 'number'
   };
   const [text, setText] = useState<string>(toText(value));
   const isLoaded = useLoaded();
@@ -89,6 +90,7 @@ const EditableNumber = (props: EditableNumberProps) => {
       const new_value = toText(value);
       setText(new_value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {

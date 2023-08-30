@@ -1,13 +1,13 @@
 import Button from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
-import { useMergedRef, useResizeObserver } from "@mantine/hooks";
+// import { useMergedRef, useResizeObserver } from "@mantine/hooks";
 import { IconPinned } from "@tabler/icons-react";
 import {
-  ComponentPropsWithoutRef,
-  MouseEvent,
-  ReactElement,
-  ReactNode,
+  type ComponentPropsWithoutRef,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
   cloneElement,
   forwardRef,
   isValidElement,
@@ -36,7 +36,9 @@ export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
       leftSection,
       rightSection,
       className,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       small = false,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onMiddleClick,
       ...moreProps
     } = props;
@@ -79,14 +81,16 @@ export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
         }>,
         {
           color:
-            typeof rightSection.props.color !== undefined
-              ? rightSection.props.color
+            typeof (rightSection as { props: Record<string, unknown> })?.props
+              ?.color !== undefined
+              ? (rightSection as { props: { color: string } }).props.color
               : isActive || isPinned
               ? color
               : undefined,
           size:
-            typeof rightSection.props.size === "number"
-              ? rightSection.props.size
+            typeof (rightSection as { props: Record<string, unknown> }).props
+              .size === "number"
+              ? (rightSection as { props: { size: number } }).props.size
               : 16,
         },
       );
@@ -99,8 +103,8 @@ export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
     } else {
       right = rightSection;
     }
-    const [observerRef, rect] = useResizeObserver();
-    const mergedRef = useMergedRef(ref, observerRef);
+    // const [observerRef, rect] = useResizeObserver();
+    // const mergedRef = useMergedRef(ref, observerRef);
 
     return (
       <Button
@@ -113,7 +117,7 @@ export const MobileTab = forwardRef<HTMLButtonElement, MobileTabProps>(
         )}
         variant="outline"
         size="lg"
-        ref={mergedRef}
+        ref={ref}
         style={{
           borderColor: isActive || isPinned ? color : undefined,
         }}

@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  //useRef,
+  useState,
+} from "react";
 
-import { useClickOutside, useClipboard, useId } from "@mantine/hooks";
+// import { useClickOutside, useClipboard, useId } from "@mantine/hooks";
 import { IconCalendar, IconClock } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
@@ -23,30 +27,30 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
     label,
     value,
     onSubmit,
-    disabled,
-    required,
+    // disabled,
+    // required,
     collapse = false,
-    keyName,
+    // keyName,
   } = props;
 
   // let new_props = { ...props }
   // delete new_label
   // delete new_value
-  const uuid = useId();
+  // const uuid = useId();
   const [date, setDate] = useState<Date | null>(value ? new Date(value) : null);
   const [prevDate, setPrevDate] = useState<Date | null>(date);
-  const [lock, setLock] = useState<boolean>(false);
+  // const [lock, setLock] = useState<boolean>(false);
   const [active, setActive] = useState<boolean>(false);
-  const clipboard = useClipboard();
-  const dateRef = useRef<HTMLButtonElement>(null);
-  const activate = () => {
-    setActive(true);
-  };
-  const deactivate = () => {
-    !lock && setActive(false);
-  };
+  // const clipboard = useClipboard();
+  // const dateRef = useRef<HTMLButtonElement>(null);
+  // const activate = () => {
+  //   setActive(true);
+  // };
+  // const deactivate = () => {
+  //   !lock && setActive(false);
+  // };
 
-  const ref = useClickOutside(deactivate);
+  // const ref = useClickOutside(deactivate);
 
   useEffect(() => {
     if (active) {
@@ -75,19 +79,19 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
     setPrevDate(new_value);
   }, [value]);
 
-  const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
-    if (active) {
-      if (e.code == "Enter") {
-        deactivate();
-        e.preventDefault();
-      }
-      if (e.code == "Escape") {
-        setDate(prevDate);
-        deactivate();
-        e.preventDefault();
-      }
-    }
-  };
+  // const onKeyDownDate = (e: React.KeyboardEvent<any>) => {
+  //   if (active) {
+  //     if (e.code == "Enter") {
+  //       deactivate();
+  //       e.preventDefault();
+  //     }
+  //     if (e.code == "Escape") {
+  //       setDate(prevDate);
+  //       deactivate();
+  //       e.preventDefault();
+  //     }
+  //   }
+  // };
 
   return (
     <div

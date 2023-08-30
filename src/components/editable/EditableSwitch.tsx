@@ -29,12 +29,12 @@ const EditableSwitch = (props: EditableSwitchProps) => {
     value,
     onSubmit,
     disabled,
-    required,
+    // required,
     stateLabels = { checked: "Tak", unchecked: "Nie" },
-    stateColors = { checked: "#2f9e44", unchecked: "#e03131" },
+    // stateColors = { checked: "#2f9e44", unchecked: "#e03131" },
     rightSection,
     leftSection,
-    keyName,
+    // keyName,
   } = props;
 
   // const switchRef = useRef(null);

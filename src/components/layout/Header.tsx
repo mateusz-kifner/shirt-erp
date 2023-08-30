@@ -10,7 +10,7 @@ import Search from "./Search";
 
 const Header = () => {
   const { ref, width: actionButtonsWidth } = useElementSize();
-  const { navigationCollapsed, setMobileOpen, mobileOpen } = useUserContext();
+  const { navigationCollapsed, setMobileOpen } = useUserContext();
   const isMobile = useIsMobile();
 
   return (

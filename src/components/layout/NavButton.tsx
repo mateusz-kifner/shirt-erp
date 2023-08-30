@@ -1,4 +1,4 @@
-import TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { useId, type ButtonHTMLAttributes, type ComponentType } from "react";

@@ -50,6 +50,7 @@ const EditableEnum = ({
   disabled,
   required,
   collapse = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   keyName,
   ...moreProps
 }: EditableEnumProps) => {

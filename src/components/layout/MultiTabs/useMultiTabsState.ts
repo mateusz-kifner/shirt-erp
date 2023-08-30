@@ -1,11 +1,11 @@
-import { UseListStateHandlers, useListState } from "@mantine/hooks";
+import { type UseListStateHandlers, useListState } from "@mantine/hooks";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 
-function useMultiTabsState<T>(
+function useMultiTabsState(
   initialActive?: number,
   initialPinned?: number[],
-  cacheKey?: string,
+  // cacheKey?: string,
 ): {
   active: number;
   pinned: number[];

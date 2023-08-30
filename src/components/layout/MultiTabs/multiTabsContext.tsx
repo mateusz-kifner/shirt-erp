@@ -1,4 +1,4 @@
-import { UseListStateHandlers, useListState } from "@mantine/hooks";
+import { type UseListStateHandlers, useListState } from "@mantine/hooks";
 import {
   createContext,
   useContext,

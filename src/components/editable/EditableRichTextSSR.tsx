@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useId, useState } from "react";
+import { type ReactNode, useEffect, useId, useState } from "react";
 
 import { useClickOutside } from "@mantine/hooks";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -48,13 +48,17 @@ const controls: (
   | {
       label: string;
       icon: ReactNode;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       isActive?: { name: string; [key: string]: any };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       operation: { name: string; [key: string]: any };
     }
   | {
       label: string;
       icon: ReactNode;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       isActive?: { name: string; [key: string]: any };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       operation: { name: string; [key: string]: any };
     }[]
 )[] = [
@@ -232,9 +236,9 @@ const EditableRichText = ({
   required,
   leftSection,
   rightSection,
-  maxLength = Number.MAX_SAFE_INTEGER,
-  keyName,
-}: EditableRichTextProps) => {
+} // maxLength = Number.MAX_SAFE_INTEGER,
+// keyName,
+: EditableRichTextProps) => {
   const uuid = useId();
   const [text, setText] = useState<string>(
     value ? DOMPurify.sanitize(value) : "",

@@ -1,7 +1,7 @@
 import {
   useEffect,
   useId,
-  useMemo,
+  // useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -53,7 +53,7 @@ export const getColorNameFromHex = (hex: string) => {
       const weight = Math.sqrt(
         (val_r - hex_r) * (val_r - hex_r) +
           (val_g - hex_g) * (val_g - hex_g) +
-          (val_b - hex_b) * (val_b - hex_b)
+          (val_b - hex_b) * (val_b - hex_b),
       );
       if (min > weight) {
         min = weight;
@@ -80,14 +80,14 @@ const EditableColor = (props: EditableColorProps) => {
     onSubmit,
     disabled,
     required,
-    style,
+    // style,
     leftSection,
     rightSection,
-    keyName,
+    // keyName,
   } = props;
   const uuid = useId();
   const [colorText, setColorText] = useState<string | null>(
-    !!value && value.length > 3 ? value : null
+    !!value && value.length > 3 ? value : null,
   );
 
   const ref = useClickOutside(() => setFocus(false));
@@ -102,10 +102,10 @@ const EditableColor = (props: EditableColorProps) => {
   const [focus, setFocus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const colorName = useMemo(
-    () => (colorText !== null ? getColorNameFromHex(colorText) : ""),
-    [colorText]
-  );
+  // const colorName = useMemo(
+  //   () => (colorText !== null ? getColorNameFromHex(colorText) : ""),
+  //   [colorText]
+  // );
 
   const setColorViaString = (val: string) => {
     setColorText(val);
@@ -165,6 +165,7 @@ const EditableColor = (props: EditableColorProps) => {
     if (equalHSV(valueHSV, color)) {
       setColorViaHSVObj(valueHSV);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
@@ -196,7 +197,7 @@ const EditableColor = (props: EditableColorProps) => {
             <PopoverTrigger
               className={cn(
                 buttonVariants({ size: "icon", variant: "ghost" }),
-                "h-8 w-8 text-stone-900 dark:text-stone-200"
+                "h-8 w-8 text-stone-900 dark:text-stone-200",
               )}
             >
               {!!rightSection ? (
