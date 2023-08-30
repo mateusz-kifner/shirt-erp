@@ -14,8 +14,8 @@ import { clients } from "./clients";
 import { orders_to_email_messages } from "./orders_to_email_messages";
 import { orders_to_files } from "./orders_to_files";
 import { orders_to_products } from "./orders_to_products";
-import { orders_to_spreadsheets } from "./orders_to_spreadsheets";
 import { orders_to_users } from "./orders_to_users";
+import { spreadsheets } from "./spreadsheets";
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
@@ -44,5 +44,5 @@ export const orders_relations = relations(orders, ({ one, many }) => ({
   products: many(orders_to_products),
   employees: many(orders_to_users),
   emails: many(orders_to_email_messages),
-  spreadsheets: many(orders_to_spreadsheets),
+  spreadsheets: many(spreadsheets),
 }));

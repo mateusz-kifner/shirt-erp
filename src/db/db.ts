@@ -17,7 +17,7 @@ import * as email_messages_to_files from "./schema/email_messages_to_files";
 import * as orders_to_email_messages from "./schema/orders_to_email_messages";
 import * as orders_to_products from "./schema/orders_to_products";
 import * as orders_to_users from "./schema/orders_to_users";
-import * as orders_to_spreadsheets from "./schema/orders_to_spreadsheets";
+import Logger from "js-logger";
 
 const schema = {
   ...addresses,
@@ -35,7 +35,6 @@ const schema = {
   ...orders_to_email_messages,
   ...orders_to_files,
   ...orders_to_products,
-  ...orders_to_spreadsheets,
   ...orders_to_users,
   ...orders,
 
@@ -50,8 +49,9 @@ export const migrationDb = drizzle(migrationClient);
 
 // for query purposes
 const queryClient = postgres(env.DATABASE_URL);
-export var db = drizzle(queryClient, {
+export const db: PostgresJsDatabase<typeof schema> = drizzle(queryClient, {
   schema,
+  // logger: env.NODE_ENV !== "production",
 });
 
 // export type SchemaNames = SchemaType;

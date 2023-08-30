@@ -7,7 +7,6 @@ import { orders } from "@/db/schema/orders";
 import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
 import { orders_to_files } from "@/db/schema/orders_to_files";
 import { orders_to_products } from "@/db/schema/orders_to_products";
-import { orders_to_spreadsheets } from "@/db/schema/orders_to_spreadsheets";
 import { orders_to_users } from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import {
@@ -33,19 +32,18 @@ export const orderRouter = createTRPCRouter({
           employees: { with: { users: true } },
           files: { with: { files: true } },
           products: { with: { products: true } },
-          spreadsheets: { with: { spreadsheets: true } },
+          spreadsheets: true,
         },
       });
       if (!data) return undefined;
-      const { emails, employees, files, products, spreadsheets, ...moreData } =
-        data;
+      console.log(data);
+      const { emails, employees, files, products, ...moreData } = data;
       return {
         ...moreData,
         emails: emails.map((v) => v.emailMessages),
         employees: employees.map((v) => v.users),
         files: files.map((v) => v.files),
         products: products.map((v) => v.products),
-        spreadsheets: spreadsheets.map((v) => v.spreadsheets),
       };
     }),
   create: authenticatedProcedure
@@ -195,7 +193,7 @@ export const orderRouter = createTRPCRouter({
         ...simpleOrderData
       } = orderData;
 
-      const order = await db.query.orders.findFirst({
+      const oldOrder = await db.query.orders.findFirst({
         where: eq(orders.id, id),
         with: {
           address: true,
@@ -204,10 +202,10 @@ export const orderRouter = createTRPCRouter({
           employees: { with: { users: true } },
           files: { with: { files: true } },
           products: { with: { products: true } },
-          spreadsheets: { with: { spreadsheets: true } },
+          spreadsheets: true,
         },
       });
-      if (!order) throw new Error("Order not found");
+      if (!oldOrder) throw new Error("Order not found");
 
       const {
         id: oldId,
@@ -219,9 +217,9 @@ export const orderRouter = createTRPCRouter({
         employees: oldEmployees,
         emails: oldEmails,
         ...oldSimpleOrderData
-      } = order;
+      } = oldOrder;
 
-      console.log(order, simpleOrderData, spreadsheets);
+      console.log(oldOrder, simpleOrderData, spreadsheets);
 
       const changes = getObjectChanges<Partial<OrderWithoutRelations>>(
         oldSimpleOrderData,
@@ -259,8 +257,6 @@ export const orderRouter = createTRPCRouter({
 
       // if (emails && Array.isArray(emails))
       //   updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
-
-      // if (address) updateData.address = { update: address };
 
       return result;
     }),
