@@ -20,7 +20,7 @@ import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -57,9 +57,11 @@ function ClientEditable(props: ClientEditableProps) {
   });
   const { mutateAsync: deleteById } = api.client.deleteById.useMutation();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     update({ id: data.id, [key]: val }).catch(console.log);
   };
 

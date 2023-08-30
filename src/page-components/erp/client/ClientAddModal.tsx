@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
@@ -18,7 +17,6 @@ interface ClientAddModalProps {
 }
 
 const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
-  const router = useRouter();
   const [username, setUsername] = useState<string>("Klient");
   const [template, setTemplate] = useState<Partial<ClientWithRelations> | null>(
     null,
@@ -31,7 +29,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
       // });
       onClose(data.id);
     },
-    onError(error) {
+    onError(_error) {
       setError("Klient o takiej nazwie istnieje.");
     },
   });
@@ -54,7 +52,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
             entryName="clients"
             Element={ClientListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />

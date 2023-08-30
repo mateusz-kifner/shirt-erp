@@ -52,7 +52,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
             entryName="products"
             Element={ProductListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />

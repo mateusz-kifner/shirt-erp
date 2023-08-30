@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { Expense } from "@/schema/expenseZodSchema";
+import { type Expense } from "@/schema/expenseZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ExpenseListItem from "./ExpenseListItem";
@@ -18,21 +17,10 @@ interface ExpenseAddModalProps {
 }
 
 const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
-  const router = useRouter();
   const [expenseName, setExpenseName] = useState<string>("Wydatek");
   const [template, setTemplate] = useState<Partial<Expense> | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { mutate: createExpense } = api.expense.create.useMutation({
-    onSuccess(data) {
-      // router.push(`/erp/expense/${data.id}`).catch((e) => {
-      //   throw e;
-      // });
-      onClose(data.id);
-    },
-    onError(error) {
-      setError("Wydatek o takiej nazwie istnieje.");
-    },
-  });
+  const { mutateAsync: createExpense } = api.expense.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
@@ -52,7 +40,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
             entryName="expense"
             Element={ExpenseListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
           />
@@ -73,7 +61,12 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
                 ...(template ? omit(template, "id") : {}),
                 name: expenseName,
               };
-              createExpense(new_expense);
+              createExpense(new_expense)
+                .then((data: { id: number }) => onClose(data.id))
+                .catch((e) => {
+                  console.log(e);
+                  setError("Wydatek o takiej nazwie istnieje.");
+                });
             }}
             className="mt-4"
           >

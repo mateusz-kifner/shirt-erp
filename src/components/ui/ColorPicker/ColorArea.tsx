@@ -17,7 +17,7 @@ interface ColorAreaProps {
 function ColorArea(props: ColorAreaProps) {
   const { value, disabled, onChange, onActive } = props;
   const { ref, active } = useMove(
-    ({ x, y }) => !disabled && onChange?.({ ...value, s: x, v: 1 - y })
+    ({ x, y }) => !disabled && onChange?.({ ...value, s: x, v: 1 - y }),
   );
 
   const areaColor = tinycolor2.fromRatio({
@@ -30,6 +30,7 @@ function ColorArea(props: ColorAreaProps) {
 
   useEffect(() => {
     onActive?.(active);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   return (
@@ -60,7 +61,7 @@ function ColorArea(props: ColorAreaProps) {
       />
       <div
         role="presentation"
-        className="absolute box-border -translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height] duration-[50ms] ease-in-out"
+        className="duration-[50ms] absolute box-border -translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height] ease-in-out"
         style={{
           background: disabled
             ? "rgb(142, 142, 142)"

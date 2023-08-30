@@ -30,9 +30,9 @@ import {
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { ClientWithRelations } from "@/schema/clientZodSchema";
-import { Product } from "@/schema/productZodSchema";
-import { User } from "@/schema/userZodSchema";
+import { type ClientWithRelations } from "@/schema/clientZodSchema";
+import { type Product } from "@/schema/productZodSchema";
+import { type User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -73,9 +73,11 @@ function OrderEditable(props: OrderEditableProps) {
   const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
   // const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     update({ id: data.id, [key]: val }).catch(console.log);
   };
 
@@ -110,6 +112,7 @@ function OrderEditable(props: OrderEditableProps) {
         );
       setOrderAddressFromClient(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderAddressFromClient, data?.clientId]);
 
   if (!data)
@@ -174,7 +177,7 @@ function OrderEditable(props: OrderEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
-          onSubmit={(value: { id: number }) => {
+          onSubmit={(value) => {
             // check if address is set
             if (
               data.address === null ||
@@ -185,7 +188,7 @@ function OrderEditable(props: OrderEditableProps) {
                 !data.address.city &&
                 !data.address.secondLine)
             )
-              setOrderAddressFromClient(value.id);
+              value?.id && setOrderAddressFromClient(value.id);
           }}
         />
         <Wrapper

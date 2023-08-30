@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type ListItemProps } from "@/types/ListItemProps";
 import { useId } from "react";
 
 interface ListProps<T = any> {
   ListItem: React.ElementType;
   onChange?: (val: T) => void;
-  listItemProps?: ListItemProps<any>; // { linkTo: (val: T) => string } |
+  listItemProps?: Record<string, any>; // { linkTo: (val: T) => string } |
   selectedId?: number | null;
   data?: T[];
 }

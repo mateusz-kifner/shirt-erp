@@ -102,10 +102,10 @@ const EditableAddress = (props: EditableAddressProps) => {
     onSubmit,
     disabled,
     required,
-    maxLength,
+    // maxLength,
     leftSection,
     rightSection,
-    keyName,
+    // keyName,
   } = props;
   // console.log(value);
   const [address, setAddress] = useState<Address>(value!);

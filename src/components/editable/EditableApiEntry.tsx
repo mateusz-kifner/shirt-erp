@@ -17,7 +17,7 @@ import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
 
 interface EditableApiEntryProps
-  extends EditableInput<{ id: number; [key: string]: any }> {
+  extends EditableInput<{ id?: number; [key: string]: any }> {
   entryName: string;
   Element: React.ElementType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents

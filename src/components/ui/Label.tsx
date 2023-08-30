@@ -3,9 +3,9 @@ import * as LabelPrimitive from "@radix-ui/react-label";
 import { IconCopy, IconQuestionMark } from "@tabler/icons-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  ReactNode,
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type ReactNode,
   forwardRef,
 } from "react";
 
@@ -24,13 +24,13 @@ export interface LabelProps
 }
 
 const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex h-8 items-center py-1 text-stone-950 dark:text-stone-200"
+  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex h-8 items-center py-1 text-stone-950 dark:text-stone-200",
 );
 
 const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
   (
     { className, label, required, copyValue, helpTooltip, children, ...props },
-    ref
+    ref,
   ) => {
     const clipboard = useClipboard();
     return label ? (
@@ -71,7 +71,7 @@ const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
         {children}
       </LabelPrimitive.Root>
     ) : null;
-  }
+  },
 );
 Label.displayName = LabelPrimitive.Root.displayName;
 

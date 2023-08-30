@@ -1,18 +1,18 @@
 import {
   Children,
-  ReactElement,
+  type ReactElement,
   useEffect,
   useId,
   useRef,
   type ReactNode,
 } from "react";
 
-import { useElementSize } from "@mantine/hooks";
+// import { useElementSize } from "@mantine/hooks";
 import { useRouter } from "next/router";
 
 import { useIsMobile } from "@/hooks/useIsMobile";
-import useTranslation from "@/hooks/useTranslation";
-import TablerIconType from "@/schema/TablerIconType";
+// import useTranslation from "@/hooks/useTranslation";
+import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import * as Portal from "@radix-ui/react-portal";
 import { IconAlertCircle } from "@tabler/icons-react";
@@ -25,7 +25,8 @@ import useMultiTabsState from "./MultiTabs/useMultiTabsState";
 interface WorkspaceItemMetadata {
   label: string;
   icon: TablerIconType;
-  props?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  props?: Record<string, any>;
 }
 
 interface WorkspaceProps {
@@ -37,7 +38,7 @@ interface WorkspaceProps {
 }
 
 const Workspace = ({
-  cacheKey,
+  // cacheKey,
   navigation,
   navigationMetadata,
   childrenMetadata,
@@ -47,7 +48,7 @@ const Workspace = ({
   const uuid = useId();
   const router = useRouter();
   const isMobile = useIsMobile();
-  const t = useTranslation();
+  // const t = useTranslation();
 
   const childArray = Children.toArray(children);
   const childrenCount = Children.count(children);
@@ -59,11 +60,11 @@ const Workspace = ({
   const multiTabsState = useMultiTabsState(
     initialActive,
     initialPinned,
-    cacheKey,
+    // cacheKey,
   );
 
   // refs / callbacks
-  const { ref, width } = useElementSize();
+  // const { ref, width } = useElementSize();
   const portalContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -108,7 +109,7 @@ const Workspace = ({
   return (
     <div
       className="flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4"
-      ref={ref}
+      // ref={ref}
     >
       <MultiTabs
         {...multiTabsState}

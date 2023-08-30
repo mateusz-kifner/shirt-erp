@@ -33,7 +33,7 @@ interface ApiListProps<T = any> {
   buttonSection?: ReactNode;
 }
 
-const ApiList = <T,>(props: ApiListProps<T>) => {
+const ApiList = <T extends { id: number }>(props: ApiListProps<T>) => {
   const {
     entryName,
     ListItem,
@@ -44,6 +44,7 @@ const ApiList = <T,>(props: ApiListProps<T>) => {
     onRefresh = () => {
       /* no-op */
     },
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     listItemProps = {},
     selectedId,
     filterKeys = [],

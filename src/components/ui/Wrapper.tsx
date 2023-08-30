@@ -1,10 +1,11 @@
-import { ReactElement, ReactNode, cloneElement } from "react";
+import { type ReactElement, type ReactNode, cloneElement } from "react";
 
 interface WrapperProps {
   children: ReactElement;
   wrapperClassName?: string;
   wrapperLeftSection?: ReactNode;
   wrapperRightSection?: ReactNode;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 

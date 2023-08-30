@@ -227,7 +227,7 @@ export const emailRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { mailbox, emailClientId, query, take, skip } = input;
+      const { mailbox, emailClientId, query, take } = input;
       const currentUserId = ctx.session!.user!.id;
       const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
@@ -254,6 +254,12 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      return await emailSearch(client, mailbox, query, take, skip);
+      return await emailSearch(
+        client,
+        mailbox,
+        query,
+        take,
+        //  skip
+      );
     }),
 });
