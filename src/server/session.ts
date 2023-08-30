@@ -1,6 +1,6 @@
 // this file is a wrapper with defaults to be used in both API routes and `getServerSideProps` functions
 import { env } from "@/env.mjs";
-import { User } from "@/schema/userZodSchema";
+import { type User } from "@/schema/userZodSchema";
 import type { IronSessionOptions } from "iron-session";
 
 export const sessionOptions: IronSessionOptions = {

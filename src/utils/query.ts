@@ -3,32 +3,32 @@ import type { NextRouter } from "next/router";
 /** next router helper functions for managing query params */
 
 /**
- * function sets query params
+ * function sets query params, maps arrays to comma separated values
  */
 
 const setQuery = (
   router: NextRouter,
   query: {
     [key: string]: string | string[] | number | number[] | undefined;
-  }
+  },
 ) => {
   if (router.isReady) {
     const new_query: { [key: string]: string } = {};
     for (const key in query) {
       const elem = query[key];
       new_query[key] = Array.isArray(elem)
-        ? elem.length !== 0
-          ? (elem as any[]).reduce(
+        ? elem.length > 0
+          ? (elem as (string | number)[]).reduce(
               (
                 prev: string,
                 next: string | number,
                 index: number,
-                arr: (string | number)[]
+                arr: (string | number)[],
               ) => prev + next.toString() + (index < arr.length - 1 ? "," : ""),
-              ""
+              "",
             )
           : ""
-        : elem?.toString();
+        : elem?.toString() ?? "";
     }
     router
       .replace(
@@ -36,7 +36,7 @@ const setQuery = (
         undefined,
         {
           shallow: true,
-        }
+        },
       )
       .catch((err) => console.log(err));
   }
@@ -68,7 +68,7 @@ const getQueryAsArray = (router: NextRouter, key: string): string[] => {
  */
 const getQueryAsIntOrNull = (
   router: NextRouter,
-  key: string
+  key: string,
 ): number | null => {
   const query = router.query[key];
   if (Array.isArray(query)) {
@@ -111,7 +111,7 @@ const getQueryAsString = (router: NextRouter, key: string): string => {
  */
 const getQueryAsStringOrNull = (
   router: NextRouter,
-  key: string
+  key: string,
 ): string | null => {
   const query = router.query[key];
   if (Array.isArray(query)) {

@@ -1,7 +1,8 @@
-function isNumeric(value: any) {
+function isNumeric(value: number | string) {
   if (typeof value === "number") return true;
   const str = (value || "").toString();
   if (!str) return false;
+  // @ts-ignore
   return !isNaN(str);
 }
 

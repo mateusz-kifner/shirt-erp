@@ -4,6 +4,7 @@ import { startCase, toLower } from "lodash";
 class HTTPError extends Error {
   statusCode: number;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(code: number, message: string, extras?: any) {
     super(message || STATUS_CODES[code]);
     if (arguments.length >= 3 && extras) {
@@ -27,6 +28,6 @@ export function toHTTPErrorName(code: number): string {
   const suffix =
     ((code / 100) | 0) === 4 || ((code / 100) | 0) === 5 ? " error" : "";
   return startCase(
-    toLower(String(STATUS_CODES[code]).replace(/error$/i, "") + suffix)
+    toLower(String(STATUS_CODES[code]).replace(/error$/i, "") + suffix),
   );
 }

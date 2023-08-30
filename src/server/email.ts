@@ -1,7 +1,7 @@
-import { ImapFlow } from "imapflow";
+import { type ImapFlow } from "imapflow";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import { Readable, Stream } from "node:stream";
+import { Readable, type Stream } from "node:stream";
 
 import { env } from "@/env.mjs";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
@@ -10,7 +10,7 @@ import NodeClam from "clamscan";
 import imageSize from "image-size";
 import Logger from "js-logger";
 import { omit } from "lodash";
-import { ParsedMail, simpleParser } from "mailparser";
+import { type ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import sharp from "sharp";
@@ -57,7 +57,7 @@ export async function emailSearch(
   mailbox: string = "INBOX",
   query: string = "",
   take: number = 10,
-  skip: number = 0,
+  // skip: number = 0,
 ) {
   try {
     await client.connect();
@@ -82,7 +82,7 @@ export async function emailSearch(
     if (!mails) return { results: [], totalItems: 0 };
 
     const seq: string = mails
-      .filter((_, i) => i < 10)
+      .filter((_, i) => i < take)
       .reduce((p, n, i) => (i == 0 ? `${n}` : `${p},${n}`), "");
 
     for await (const msg of client.fetch(
@@ -121,7 +121,7 @@ export async function fetchEmails(
 
     // console.log(mailboxObj);
     const messages = [];
-    let query: number[] | string;
+    // let query: number[] | string;
 
     const last_message = await client.fetchOne("*", { envelope: true });
 
@@ -207,8 +207,10 @@ export async function downloadEmailByUid(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const auth: { user: string; pass?: string; accessToken?: string } =
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       client.options.auth;
 
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
@@ -269,7 +271,7 @@ export async function downloadEmailByUid(
     };
     if (env.ENABLE_CLAMAV) result["avIsInfected"] = false;
 
-    const files = parsed.attachments.map(async (attachment, index) => {
+    const files = parsed.attachments.map(async (attachment) => {
       let preview;
       if (isMimeImage(attachment.contentType)) {
         preview = await sharp(attachment.content)
@@ -291,7 +293,7 @@ export async function downloadEmailByUid(
     const data = await Promise.allSettled(files);
     return {
       ...result,
-      attachments: data.map((val, index) =>
+      attachments: data.map((val) =>
         val.status === "fulfilled"
           ? val.value
           : {
@@ -325,8 +327,10 @@ export async function downloadEmailAttachment(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const auth: { user: string; pass?: string; accessToken?: string } =
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       client.options.auth;
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
@@ -386,8 +390,10 @@ export async function transferEmailToDbByUId(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const auth: { user: string; pass?: string; accessToken?: string } =
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       client.options.auth;
     const alreadyTransferred = await db.query.email_messages.findFirst({
       where: and(
@@ -469,6 +475,7 @@ export async function transferEmailToDbByUId(
         token: genRandomStringServerOnly(32),
       };
     });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const resolvedFiles: {
       size: number;
       filepath: string;
