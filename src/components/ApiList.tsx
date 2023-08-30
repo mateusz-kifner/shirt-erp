@@ -81,9 +81,7 @@ const ApiList = <T extends { id: number }>(props: ApiListProps<T>) => {
   const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
 
   useEffect(() => {
-    refetch().catch((e) => {
-      throw e;
-    });
+    void refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 

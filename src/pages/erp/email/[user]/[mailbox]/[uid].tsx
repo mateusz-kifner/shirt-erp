@@ -125,15 +125,11 @@ function EmailMessage(props: EmailMessageProps) {
         onClose={(id?: number) => {
           setOpenSendModal(false);
           id !== undefined &&
-            router
-              .push(
-                `/erp/email/${user}/${
-                  mailbox ? mailbox.replace("/", "-") : "INBOX"
-                }`,
-              )
-              .catch((e) => {
-                throw e;
-              });
+            void router.push(
+              `/erp/email/${user}/${
+                mailbox ? mailbox.replace("/", "-") : "INBOX"
+              }`,
+            );
         }}
       />
     </div>

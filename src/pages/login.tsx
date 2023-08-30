@@ -15,27 +15,27 @@ export default function Login() {
   const t = useTranslation();
   const isLoaded = useLoaded();
 
-  const login = api.session.login.useMutation({
-    onSuccess() {
-      void router.push("/erp/task");
-    },
-    onError(err) {
-      setErrorMsg(t.error_sign_in);
-    },
-  });
+  const login = api.session.login.useMutation();
 
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const body = {
-      username: e.currentTarget.username.value,
-      password: e.currentTarget.password.value,
+    const target = e.currentTarget as {
+      username?: { value?: string };
+      password?: { value?: string };
     };
-    login.mutate(body);
+    const body = {
+      username: target?.username?.value ?? "",
+      password: target?.password?.value ?? "",
+    };
+    login
+      .mutateAsync(body)
+      .then(() => {
+        void router.push("/erp/task");
+      })
+      .catch(() => setErrorMsg(t.error_sign_in));
   };
-
-  console.log(env.NEXT_PUBLIC_DEMO);
 
   return (
     <Dialog open={isLoaded}>

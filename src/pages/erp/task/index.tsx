@@ -18,7 +18,6 @@ import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
@@ -29,17 +28,16 @@ import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { useToggle } from "@mantine/hooks";
 import { capitalize } from "lodash";
 import { useId, useState } from "react";
+import { type NewOrder } from "@/schema/orderZodSchema";
 
 const entryName = "task";
 
 const itemsPerPage = 10;
 
 const TasksPage = () => {
-  const isMobile = useIsMobile();
-
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { data, refetch } = api.session.me.useQuery();
+  const { data } = api.session.me.useQuery();
   const uuid = useId();
   const t = useTranslation();
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
@@ -58,7 +56,7 @@ const TasksPage = () => {
     { label: "Właściwości", icon: IconNotebook },
     { label: "E-maile", icon: IconMail },
     ...(orderData && Array.isArray(orderData?.spreadsheets)
-      ? orderData.spreadsheets.map((sheet, index) => ({
+      ? orderData.spreadsheets.map((sheet) => ({
           label: sheet.name ?? `[${t.sheet}]`,
           icon: IconTable,
         }))
@@ -234,7 +232,9 @@ const TasksPage = () => {
           </div>
         )}
         <div className="relative p-4">
-          {orderData && <OrderMessagesView order={orderData as any} />}
+          {orderData && (
+            <OrderMessagesView order={orderData as Partial<NewOrder>} />
+          )}
         </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (

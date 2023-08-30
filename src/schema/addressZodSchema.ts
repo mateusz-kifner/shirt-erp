@@ -1,6 +1,6 @@
 import { addresses } from "@/db/schema/addresses";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
+import { type z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";
 
 export const selectAddressZodSchema = createSelectSchema(addresses);

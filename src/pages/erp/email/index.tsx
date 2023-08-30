@@ -69,10 +69,7 @@ function EmailPage(props: EmailPageProps) {
             opened={openSendModal}
             onClose={(id?: number) => {
               setOpenSendModal(false);
-              id !== undefined &&
-                router.push(`/erp/client/${id}`).catch((e) => {
-                  throw e;
-                });
+              id !== undefined && void router.push(`/erp/client/${id}`);
             }}
           />
         </div>

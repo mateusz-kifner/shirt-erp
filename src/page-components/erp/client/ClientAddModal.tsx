@@ -22,17 +22,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
     null,
   );
   const [error, setError] = useState<string | null>(null);
-  const { mutate: createClient } = api.client.create.useMutation({
-    onSuccess(data) {
-      // router.push(`/erp/client/${data.id}`).catch((e) => {
-      //   throw e;
-      // });
-      onClose(data.id);
-    },
-    onError(_error) {
-      setError("Klient o takiej nazwie istnieje.");
-    },
-  });
+  const { mutateAsync: createClient } = api.client.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
@@ -79,7 +69,11 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
                 new_client.address = omit(template.address, "id");
               }
 
-              createClient(new_client);
+              createClient(new_client)
+                .then((data) => onClose(data.id))
+                .catch(() => {
+                  setError("Klient o takiej nazwie istnieje.");
+                });
             }}
             className="mt-4"
           >

@@ -46,10 +46,7 @@ const ProductsPage = () => {
         opened={openAddModal}
         onClose={(id?: number) => {
           setOpenAddModal(false);
-          id !== undefined &&
-            router.push(`/erp/product/${id}`).catch((e) => {
-              throw e;
-            });
+          id !== undefined && void router.push(`/erp/product/${id}`);
         }}
       />
     </div>

@@ -11,8 +11,8 @@ import {
   DialogTitle,
 } from "@/components/ui/Dialog";
 import useTranslation from "@/hooks/useTranslation";
-import { NewEmailMessage } from "@/schema/emailMessageZodSchema";
-import { NewOrder } from "@/schema/orderZodSchema";
+import { type NewEmailMessage } from "@/schema/emailMessageZodSchema";
+import { type NewOrder } from "@/schema/orderZodSchema";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { omit } from "lodash";
 import { useId, useMemo, useState } from "react";

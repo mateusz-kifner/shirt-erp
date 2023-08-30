@@ -305,10 +305,7 @@ const OrdersPage: NextPage = () => {
         opened={openAddModal}
         onClose={(id?: number) => {
           setOpenAddModal(false);
-          id !== undefined &&
-            router.push(`/erp/order/${id}`).catch((e) => {
-              throw e;
-            });
+          id !== undefined && void router.push(`/erp/order/${id}`);
         }}
       />
     </>

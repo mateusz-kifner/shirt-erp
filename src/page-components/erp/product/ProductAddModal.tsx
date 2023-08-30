@@ -24,9 +24,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
   const [error, setError] = useState<string | null>(null);
   const { mutate: createProduct } = api.product.create.useMutation({
     onSuccess(data) {
-      // router.push(`/erp/product/${data.id}`).catch((e) => {
-      //   throw e;
-      // });
+      // void router.push(`/erp/product/${data.id}`).
       onClose(data.id);
     },
     onError(error) {

@@ -16,9 +16,7 @@ const EmailSendModal = ({ opened, onClose }: EmailSendModalProps) => {
   const [error, setError] = useState<string | null>(null);
   // const { mutate: createEmail } = api.product.create.useMutation({
   //   onSuccess(data) {
-  //     // router.push(`/erp/product/${data.id}`).catch((e) => {
-  //     //   throw e;
-  //     // });
+  //     //void  router.push(`/erp/product/${data.id}`)
   //     onClose(data.id);
   //   },
   //   onError(error) {

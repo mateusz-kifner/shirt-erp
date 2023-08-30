@@ -71,9 +71,7 @@ function Search(props: SearchProps) {
               key={"order" + uuid + index}
               value={order}
               onChange={(order) => {
-                router.push(`/erp/order/${order.id}`).catch((e) => {
-                  throw e;
-                });
+                void router.push(`/erp/order/${order.id}`);
                 setOpen(false);
               }}
             />
@@ -88,9 +86,7 @@ function Search(props: SearchProps) {
               key={"client" + uuid + index}
               value={client}
               onChange={(client) => {
-                router.push(`/erp/client/${client.id}`).catch((e) => {
-                  throw e;
-                });
+                void router.push(`/erp/client/${client.id}`);
                 setOpen(false);
               }}
             />

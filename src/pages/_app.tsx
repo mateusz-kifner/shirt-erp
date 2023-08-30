@@ -88,9 +88,7 @@ const App: AppType = ({ Component, pageProps }) => {
   }, []);
 
   const changeLocale = (value: string) => {
-    router.push("/", "/", { locale: value }).catch((e) => {
-      throw e;
-    });
+    void router.push("/", "/", { locale: value });
   };
 
   // force Polish for now
