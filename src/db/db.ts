@@ -54,7 +54,7 @@ export const db: PostgresJsDatabase<typeof schema> = drizzle(queryClient, {
   // logger: env.NODE_ENV !== "production",
 });
 
-type ExtractStringLiterals<T> = T extends `${string}` ? T : never;
+export type ExtractStringLiterals<T> = T extends `${string}` ? T : never;
 
 export type inferSchemaKeys<T> = Exclude<
   ExtractStringLiterals<keyof T>,

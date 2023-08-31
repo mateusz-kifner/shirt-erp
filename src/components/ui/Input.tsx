@@ -1,9 +1,9 @@
-import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
+import { type ComponentProps, forwardRef, type ReactNode } from "react";
 
 import { cn } from "@/utils/cn";
 import DisplayCell from "./DisplayCell";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends ComponentProps<"input"> {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   focus?: boolean;
@@ -21,7 +21,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       type,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <DisplayCell
@@ -47,14 +47,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             outline-none
             focus-visible:border-transparent
             focus-visible:outline-none`,
-            className
+            className,
           )}
           ref={ref}
           {...props}
         />
       </DisplayCell>
     );
-  }
+  },
 );
 Input.displayName = "Input";
 

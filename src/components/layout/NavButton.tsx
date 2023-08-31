@@ -1,9 +1,9 @@
 import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
-import { useId, type ButtonHTMLAttributes, type ComponentType } from "react";
+import { useId, type ComponentProps, type ComponentType } from "react";
 
-interface NavButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface NavButtonProps extends ComponentProps<"button"> {
   className?: string;
   label: string;
   Icon: TablerIconType;

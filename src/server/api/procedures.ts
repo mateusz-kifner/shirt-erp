@@ -2,9 +2,7 @@ import { z } from "zod";
 
 import { db, type inferSchemaKeys, type schemaNames } from "@/db/db";
 import { asc, ilike, not, or, sql, desc } from "drizzle-orm";
-import {
-  type PgTable,
-} from "drizzle-orm/pg-core";
+import { type PgTable } from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";
 
 export function createProcedureGetById(schemaName: schemaNames) {
@@ -54,7 +52,8 @@ export function createProcedureSearch(
             ilike(pgTable[key as inferSchemaKeys<typeof pgTable>], queryParam),
           )
         : [];
-        // @ts-ignore
+
+      // @ts-ignore
       const results = await db.query[tableName].findMany({
         where: queryParam
           ? or(...search)
