@@ -311,7 +311,7 @@ export const orderRouter = createTRPCRouter({
       return result;
     }),
 
-  search: createProcedureSearch(orders, "orders"),
+  search: createProcedureSearch(orders),
   // archiveById: authenticatedProcedure
   //   .input(z.number())
   //   .mutation(async ({ input: orderId }) => {

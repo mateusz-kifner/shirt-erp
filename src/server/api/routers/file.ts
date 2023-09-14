@@ -48,5 +48,5 @@ export const fileRouter = createTRPCRouter({
       return updatedClient[0];
     }),
 
-  search: createProcedureSearch(files, "files"),
+  search: createProcedureSearch(files),
 });

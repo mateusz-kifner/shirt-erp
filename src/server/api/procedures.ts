@@ -1,37 +1,27 @@
 import { z } from "zod";
 
-import {
-  db,
-  type schemaType,
-  type inferSchemaKeys,
-  type schemaNames,
-} from "@/db/db";
+import { db, type schemaType, type inferSchemaKeys } from "@/db/db";
 import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
 import { type PgTable } from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";
-
-async function queryById<T extends schemaType>(schema: T, id: number) {
-  if (!(schema && "id" in schema)) {
-    throw new Error(
-      `ProcedureGetById: Schema ${schema._.name} does not have property id`,
-    );
-  }
-  const data = await db.select().from<T>(schema).where(eq(schema.id, id));
-  if (data.length === 0) throw new Error("NotFound");
-  return data[0];
-}
 
 export function createProcedureGetById<T extends schemaType>(schema: T) {
   return authenticatedProcedure
     .input(z.number())
     .query(async ({ input: id }) => {
-      return await queryById(schema, id);
+      if (!(schema && "id" in schema)) {
+        throw new Error(
+          `GetById: Schema ${schema._.name} does not have property id`,
+        );
+      }
+      const data = await db.select().from<T>(schema).where(eq(schema.id, id));
+      if (data.length === 0) throw new Error("NotFound");
+      return data[0];
     });
 }
 
-export function createProcedureSearch(
-  pgTable: PgTable,
-  tableName: schemaNames,
+export function createProcedureSearch<TSchema extends schemaType>(
+  schema: TSchema,
 ) {
   return authenticatedProcedure
     .input(
@@ -62,32 +52,53 @@ export function createProcedureSearch(
 
       const search = queryParam
         ? keys.map((key) =>
-            ilike(pgTable[key as inferSchemaKeys<typeof pgTable>], queryParam),
+            ilike(schema[key as inferSchemaKeys<PgTable>], queryParam),
           )
         : [];
-
-      // @ts-ignore
-      const results = await db.query[tableName].findMany({
-        where: queryParam
-          ? or(...search)
-          : excludeKey && excludeValue
-          ? not(
-              ilike(
-                pgTable[excludeKey as inferSchemaKeys<typeof pgTable>],
-                `${excludeValue}%`,
-              ),
-            )
-          : undefined,
-        limit: itemsPerPage,
-        offset: (currentPage - 1) * itemsPerPage,
-        orderBy: (sort === "asc" ? asc : desc)(
-          pgTable[sortColumn as inferSchemaKeys<typeof pgTable>],
-        ),
-      });
+      const results = await db
+        .select()
+        .from<TSchema>(schema)
+        .where(
+          queryParam
+            ? or(...search)
+            : excludeKey && excludeValue
+            ? not(
+                ilike(
+                  schema[excludeKey as inferSchemaKeys<PgTable>],
+                  `${excludeValue}%`,
+                ),
+              )
+            : undefined,
+        )
+        .limit(itemsPerPage)
+        .offset((currentPage - 1) * itemsPerPage)
+        .orderBy(
+          (sort === "asc" ? asc : desc)(
+            schema[sortColumn as inferSchemaKeys<PgTable>],
+          ),
+        );
+      // // @ts-ignore
+      // const results = await db.query[tableName].findMany({
+      //   where: queryParam
+      //     ? or(...search)
+      //     : excludeKey && excludeValue
+      //     ? not(
+      //         ilike(
+      //           pgTable[excludeKey as inferSchemaKeys<typeof pgTable>],
+      //           `${excludeValue}%`,
+      //         ),
+      //       )
+      //     : undefined,
+      //   limit: itemsPerPage,
+      //   offset: (currentPage - 1) * itemsPerPage,
+      //   orderBy: (sort === "asc" ? asc : desc)(
+      //     pgTable[sortColumn as inferSchemaKeys<typeof pgTable>],
+      //   ),
+      // });
 
       const totalItems = await db
         .select({ count: sql<number>`count(*)` })
-        .from(pgTable);
+        .from<TSchema>(schema);
 
       return {
         results,

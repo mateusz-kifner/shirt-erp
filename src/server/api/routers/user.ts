@@ -53,5 +53,5 @@ export const userRouter = createTRPCRouter({
         .returning();
       return updatedUser[0];
     }),
-  search: createProcedureSearch(users, "users"),
+  search: createProcedureSearch(users),
 });

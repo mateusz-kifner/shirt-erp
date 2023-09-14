@@ -68,7 +68,7 @@ export const spreadsheetRouter = createTRPCRouter({
         .returning();
       return updatedUser[0];
     }),
-  search: createProcedureSearch(spreadsheets, "spreadsheets"),
+  search: createProcedureSearch(spreadsheets),
 
   // updatePartial: authenticatedProcedure
   //   .input(partialSpreadsheetData)

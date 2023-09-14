@@ -52,5 +52,5 @@ export const productRouter = createTRPCRouter({
         .returning();
       return updatedProduct[0];
     }),
-  search: createProcedureSearch(products, "products"),
+  search: createProcedureSearch(products),
 });

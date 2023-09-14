@@ -57,5 +57,5 @@ export const expenseRouter = createTRPCRouter({
         .returning();
       return updatedClient[0];
     }),
-  search: createProcedureSearch(expenses, "expenses"),
+  search: createProcedureSearch(expenses),
 });

@@ -14,8 +14,6 @@ import {
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 
-db;
-
 export const clientRouter = createTRPCRouter({
   getById: createProcedureGetById(clients),
   create: authenticatedProcedure
@@ -69,5 +67,5 @@ export const clientRouter = createTRPCRouter({
       return updatedClient[0];
     }),
 
-  search: createProcedureSearch(clients, "clients"),
+  search: createProcedureSearch(clients),
 });
