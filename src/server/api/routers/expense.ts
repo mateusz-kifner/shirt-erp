@@ -14,7 +14,7 @@ import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 
 export const expenseRouter = createTRPCRouter({
-  getById: createProcedureGetById("expenses"),
+  getById: createProcedureGetById(expenses),
   create: authenticatedProcedure
     .input(insertExpenseZodSchema)
     .mutation(async ({ input: expenseData, ctx }) => {

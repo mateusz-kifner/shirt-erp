@@ -61,21 +61,5 @@ export type inferSchemaKeys<T> = Exclude<
   "_" | "getSQL" | "$inferSelect" | "$inferInsert"
 >;
 
-// ExtractStringLiterals<keyof typeof db.query>
-export type schemaNames =
-  | "addresses"
-  | "clients"
-  | "email_credentials_to_users"
-  | "email_credentials"
-  | "email_messages_to_files"
-  | "email_messages"
-  | "expenses"
-  | "files"
-  | "orders_to_email_messages"
-  | "orders_to_files"
-  | "orders_to_products"
-  | "orders_to_users"
-  | "orders"
-  | "products"
-  | "spreadsheets"
-  | "users";
+export type schemaNames = ExtractStringLiterals<keyof typeof db.query>;
+export type schemaType = (typeof schema)[schemaNames];

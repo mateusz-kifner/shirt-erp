@@ -1,18 +1,31 @@
 import { z } from "zod";
 
-import { db, type inferSchemaKeys, type schemaNames } from "@/db/db";
-import { asc, ilike, not, or, sql, desc } from "drizzle-orm";
+import {
+  db,
+  type schemaType,
+  type inferSchemaKeys,
+  type schemaNames,
+} from "@/db/db";
+import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
 import { type PgTable } from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";
 
-export function createProcedureGetById(schemaName: schemaNames) {
+async function queryById<T extends schemaType>(schema: T, id: number) {
+  if (!(schema && "id" in schema)) {
+    throw new Error(
+      `ProcedureGetById: Schema ${schema._.name} does not have property id`,
+    );
+  }
+  const data = await db.select().from<T>(schema).where(eq(schema.id, id));
+  if (data.length === 0) throw new Error("NotFound");
+  return data[0];
+}
+
+export function createProcedureGetById<T extends schemaType>(schema: T) {
   return authenticatedProcedure
     .input(z.number())
     .query(async ({ input: id }) => {
-      const data = await db.query[schemaName as "users"].findFirst({
-        where: (schema, { eq }) => eq(schema.id, id),
-      });
-      return data;
+      return await queryById(schema, id);
     });
 }
 

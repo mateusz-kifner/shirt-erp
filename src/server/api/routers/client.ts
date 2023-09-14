@@ -17,7 +17,7 @@ import { eq } from "drizzle-orm";
 db;
 
 export const clientRouter = createTRPCRouter({
-  getById: createProcedureGetById("clients"),
+  getById: createProcedureGetById(clients),
   create: authenticatedProcedure
     .input(insertClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {

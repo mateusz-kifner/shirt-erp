@@ -12,7 +12,7 @@ import { createProcedureGetById, createProcedureSearch } from "../procedures";
 const privilegedProcedure = authenticatedProcedure;
 
 export const userRouter = createTRPCRouter({
-  getById: createProcedureGetById("users"),
+  getById: createProcedureGetById(users),
   create: privilegedProcedure
     .input(insertUserZodSchema)
     .mutation(async ({ input: userData, ctx }) => {

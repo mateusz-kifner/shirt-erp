@@ -10,7 +10,7 @@ import { z } from "zod";
 import { createProcedureGetById, createProcedureSearch } from "../procedures";
 
 export const productRouter = createTRPCRouter({
-  getById: createProcedureGetById("products"),
+  getById: createProcedureGetById(products),
   create: authenticatedProcedure
     .input(insertProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
