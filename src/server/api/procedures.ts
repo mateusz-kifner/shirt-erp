@@ -15,7 +15,6 @@ export function createProcedureGetById<T extends schemaType>(schema: T) {
         );
       }
       const data = await db.select().from<T>(schema).where(eq(schema.id, id));
-      if (data.length === 0) throw new Error("NotFound");
       return data[0];
     });
 }
@@ -77,24 +76,6 @@ export function createProcedureSearch<TSchema extends schemaType>(
             schema[sortColumn as inferSchemaKeys<PgTable>],
           ),
         );
-      // // @ts-ignore
-      // const results = await db.query[tableName].findMany({
-      //   where: queryParam
-      //     ? or(...search)
-      //     : excludeKey && excludeValue
-      //     ? not(
-      //         ilike(
-      //           pgTable[excludeKey as inferSchemaKeys<typeof pgTable>],
-      //           `${excludeValue}%`,
-      //         ),
-      //       )
-      //     : undefined,
-      //   limit: itemsPerPage,
-      //   offset: (currentPage - 1) * itemsPerPage,
-      //   orderBy: (sort === "asc" ? asc : desc)(
-      //     pgTable[sortColumn as inferSchemaKeys<typeof pgTable>],
-      //   ),
-      // });
 
       const totalItems = await db
         .select({ count: sql<number>`count(*)` })
