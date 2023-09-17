@@ -71,7 +71,7 @@ function OrderEditable(props: OrderEditableProps) {
     },
   });
   const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
-  // const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
+  const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
@@ -85,18 +85,18 @@ function OrderEditable(props: OrderEditableProps) {
     if (!data) return;
     deleteById(data.id)
       .then(() => {
-        router.push(`/erp/order`).catch(console.log);
+        void router.push(`/erp/order`);
       })
       .catch(console.log);
   };
 
   const apiArchive = () => {
     if (!data) return;
-    // archiveById(data.id)
-    //   .then(() => {
-    //     router.push(`/erp/order-archive`).catch(console.log);
-    //   })
-    //   .catch(console.log);
+    archiveById(data.id)
+      .then(() => {
+        void router.push(`/erp/order`);
+      })
+      .catch(console.log);
   };
 
   // update address if it's not set to client one

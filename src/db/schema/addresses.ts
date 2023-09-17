@@ -1,7 +1,7 @@
 import { pgTable, serial, varchar } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { clients } from "./clients";
-import { orders } from "./orders";
+import { archive_orders, orders } from "./orders";
 
 export const addresses = pgTable("addresses", {
   id: serial("id").primaryKey(),
@@ -17,6 +17,5 @@ export const addresses = pgTable("addresses", {
 export const addresses_relations = relations(addresses, ({ many }) => ({
   clients: many(clients),
   order: many(orders),
+  archiveOrder: many(archive_orders),
 }));
-
-

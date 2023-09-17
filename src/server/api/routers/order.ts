@@ -3,11 +3,23 @@ import { z } from "zod";
 
 import { db } from "@/db/db";
 import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
-import { orders } from "@/db/schema/orders";
-import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
-import { orders_to_files } from "@/db/schema/orders_to_files";
-import { orders_to_products } from "@/db/schema/orders_to_products";
-import { orders_to_users } from "@/db/schema/orders_to_users";
+import { archive_orders, orders } from "@/db/schema/orders";
+import {
+  archive_orders_to_email_messages,
+  orders_to_email_messages,
+} from "@/db/schema/orders_to_email_messages";
+import {
+  archive_orders_to_files,
+  orders_to_files,
+} from "@/db/schema/orders_to_files";
+import {
+  archive_orders_to_products,
+  orders_to_products,
+} from "@/db/schema/orders_to_products";
+import {
+  archive_orders_to_users,
+  orders_to_users,
+} from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import {
   type NewOrder,
@@ -176,6 +188,7 @@ export const orderRouter = createTRPCRouter({
     .mutation(async ({ input: orderData, ctx }) => {
       const {
         id,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         spreadsheets,
         files,
         client,
@@ -215,7 +228,6 @@ export const orderRouter = createTRPCRouter({
         ...oldSimpleOrderData
       } = oldOrder;
 
-      console.log(oldOrder, simpleOrderData, spreadsheets);
       if (client?.id !== undefined) {
         simpleOrderData.clientId = client?.id;
       }
@@ -225,7 +237,6 @@ export const orderRouter = createTRPCRouter({
         simpleOrderData,
       );
 
-      console.log(changes);
       if (!!changes) {
         await db
           .update(orders)
@@ -407,62 +418,100 @@ export const orderRouter = createTRPCRouter({
     }),
 
   search: createProcedureSearch(orders),
-  // archiveById: authenticatedProcedure
-  //   .input(z.number())
-  //   .mutation(async ({ input: orderId }) => {
-  //     const orderData = await prisma.order.findUniqueOrThrow({
-  //       where: { id: orderId },
-  //       include: includeAll,
-  //     });
+  archiveById: authenticatedProcedure
+    .input(z.number())
+    .mutation(async ({ input: orderId }) => {
+      const orderData = await db.query.orders.findFirst({
+        where: eq(orders.id, orderId),
+        with: {
+          emails: true,
+          employees: true,
+          files: true,
+          products: true,
+          spreadsheets: true,
+        },
+      });
+      if (!orderData) throw new Error("Order.update: Order not found");
 
-  //     const {
-  //       id,
-  //       address,
-  //       emails,
-  //       files,
-  //       employees,
-  //       client,
-  //       designs,
-  //       products,
-  //       spreadsheets,
-  //       clientId,
-  //       addressId,
-  //       ...simpleOrderData
-  //     } = orderData;
+      const {
+        id,
+        emails,
+        files,
+        employees,
+        products,
+        spreadsheets,
+        ...simpleOrderData
+      } = orderData;
+      await db.transaction(async (tx) => {
+        // create archive order
+        const newOrderData = await tx
+          .insert(archive_orders)
+          .values(simpleOrderData)
+          .returning();
+        if (newOrderData[0] === undefined)
+          throw new Error("Could not create archive order");
 
-  //     const newOrderArchiveData: Prisma.OrderArchiveCreateInput = {
-  //       ...simpleOrderData,
-  //     };
+        // reconnect all files
+        if (files.length > 0) {
+          await tx.delete(orders_to_files).where(
+            and(
+              eq(orders_to_files.orderId, id),
+              inArray(
+                orders_to_files.fileId,
+                files.map((v) => v.fileId),
+              ),
+            ),
+          );
+          await tx.insert(archive_orders_to_files).values(files);
+        }
+        // reconnect all emails
+        if (emails.length > 0) {
+          await tx.delete(orders_to_email_messages).where(
+            and(
+              eq(orders_to_email_messages.orderId, id),
+              inArray(
+                orders_to_email_messages.emailMessagesId,
+                emails.map((v) => v.emailMessagesId),
+              ),
+            ),
+          );
+          await tx.insert(archive_orders_to_email_messages).values(emails);
+        }
+        // reconnect all employees
+        if (employees.length > 0) {
+          await tx.delete(orders_to_users).where(
+            and(
+              eq(orders_to_users.orderId, id),
+              inArray(
+                orders_to_users.userId,
+                employees.map((v) => v.userId),
+              ),
+            ),
+          );
+          await tx.insert(archive_orders_to_users).values(employees);
+        }
+        // reconnect all products
+        if (products.length > 0) {
+          await tx.delete(orders_to_products).where(
+            and(
+              eq(orders_to_products.orderId, id),
+              inArray(
+                orders_to_products.productId,
+                products.map((v) => v.productId),
+              ),
+            ),
+          );
+          await tx.insert(archive_orders_to_products).values(products);
+        }
 
-  //     if (address?.id !== undefined)
-  //       newOrderArchiveData.address = { connect: { id: address.id } };
-  //     newOrderArchiveData.emails = {
-  //       connect: emails.map((v) => ({ id: v.id })),
-  //     };
-  //     newOrderArchiveData.files = { connect: files.map((v) => ({ id: v.id })) };
-  //     newOrderArchiveData.employees = {
-  //       connect: employees.map((v) => ({ id: v.id })),
-  //     };
-  //     if (client?.id !== undefined)
-  //       newOrderArchiveData.client = { connect: { id: client.id } };
-  //     newOrderArchiveData.designs = {
-  //       connect: designs.map((v) => ({ id: v.id })),
-  //     };
-  //     newOrderArchiveData.products = {
-  //       connect: products.map((v) => ({ id: v.id })),
-  //     };
-  //     newOrderArchiveData.spreadsheets = {
-  //       connect: spreadsheets.map((v) => ({ id: v.id })),
-  //     };
+        // change all spreadsheets
+        await tx
+          .update(spreadsheetsSchema)
+          .set({ orderId: null, archiveOrderId: newOrderData[0].id });
 
-  //     const orderArchiveData = await prisma.orderArchive.create({
-  //       data: newOrderArchiveData,
-  //     });
-  //     if (orderArchiveData) {
-  //       await prisma.order.delete({
-  //         where: { id },
-  //       });
-  //     }
-  //     return orderArchiveData;
-  //   }),
+        // delete original order
+        await tx.delete(orders).where(eq(orders.id, id));
+        return newOrderData;
+      });
+    }),
 });
