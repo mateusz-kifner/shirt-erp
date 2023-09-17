@@ -37,7 +37,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
         <div className="flex flex-col gap-2">
           <EditableApiEntry
             label="Szablon"
-            entryName="products"
+            entryName="product"
             Element={ProductListItem}
             onSubmit={setTemplate}
             value={template ?? undefined}

@@ -10,8 +10,8 @@ import { orders_to_products } from "@/db/schema/orders_to_products";
 import { orders_to_users } from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import {
-  NewOrder,
-  OrderWithoutRelations,
+  type NewOrder,
+  type OrderWithoutRelations,
   insertOrderZodSchema,
   updateOrderZodSchema,
 } from "@/schema/orderZodSchema";
@@ -191,19 +191,22 @@ export const orderRouter = createTRPCRouter({
         with: {
           address: true,
           client: { with: { address: true } },
-          emails: { with: { emailMessages: true } },
-          employees: { with: { users: true } },
-          files: { with: { files: true } },
-          products: { with: { products: true } },
+          emails: true,
+          employees: true,
+          files: true,
+          products: true,
           spreadsheets: true,
         },
       });
       if (!oldOrder) throw new Error("Order.update: Order not found");
 
       const {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         id: oldId,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         spreadsheets: oldSpreadsheets,
         files: oldFiles,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         client: oldClient,
         address: oldAddress,
         products: oldProducts,
@@ -213,38 +216,35 @@ export const orderRouter = createTRPCRouter({
       } = oldOrder;
 
       console.log(oldOrder, simpleOrderData, spreadsheets);
+      if (client?.id !== undefined) {
+        simpleOrderData.clientId = client?.id;
+      }
 
       const changes = getObjectChanges<Partial<OrderWithoutRelations>>(
         oldSimpleOrderData,
         simpleOrderData,
       );
+
       console.log(changes);
-      let result: Partial<NewOrder> = {};
       if (!!changes) {
-        const updated = await db
+        await db
           .update(orders)
           .set({
             ...changes,
             updatedById: currentUserId,
             updatedAt: new Date(),
           })
-          .where(eq(orders.id, id))
-          .returning();
-        if (!!updated[0]) result = updated[0];
+          .where(eq(orders.id, id));
       }
 
       // update address
       if (address !== undefined) {
         if (oldAddress === null)
           throw new Error("Order.update: Order doesn't have address");
-        const addressResult = await db
+        await db
           .update(addresses)
           .set(omit(address, ["id"]))
-          .where(eq(addresses.id, oldAddress.id))
-          .returning();
-        if (addressResult[0] === undefined)
-          throw new Error("Order.update: address doesn't return value");
-        result.address = addressResult[0];
+          .where(eq(addresses.id, oldAddress.id));
       }
 
       if (products !== undefined) {
@@ -280,35 +280,130 @@ export const orderRouter = createTRPCRouter({
                   ),
                 )
             : [];
-        const productResult = await Promise.allSettled([
+        await Promise.allSettled([
           ordersToProductsAdded,
           ordersToProductsRemoved,
         ]);
-        console.log(productResult);
       }
-      // if (Array.isArray(products)) {
-      //   const alreadyInDB = await db.query.orders_to_products.findMany({
-      //     where: inArray(
-      //       orders_to_products.productId,
-      //       products.map((v) => v.id!),
-      //     ),
-      //   });
-      //   // const toBeMade = products.filter((v)=>al)
-      // }
 
-      // if (employees && Array.isArray(employees)) {
-      //   updateData.employees = {
-      //     set: employees.map((val) => ({ id: val.id })),
-      //   };
-      // }
+      if (employees !== undefined) {
+        const employeeIds = employees
+          .filter((v) => v.id !== undefined)
+          .map((v) => v.id as number);
+        const oldEmployeeIds = oldEmployees.map((v) => v.userId);
 
-      // if (files && Array.isArray(files))
-      //   updateData.files = { set: files.map((val) => ({ id: val.id })) };
+        const employeesToBeAdded: number[] = employeeIds.filter(
+          (employeeId) => !oldEmployeeIds.includes(employeeId),
+        );
+        const employeesToBeRemoved: number[] = oldEmployeeIds.filter(
+          (oldEmployeeId) => !employeeIds.includes(oldEmployeeId),
+        );
 
-      // if (emails && Array.isArray(emails))
-      //   updateData.emails = { set: emails.map((val) => ({ id: val.id })) };
+        const ordersToEmployeesAdded =
+          employeesToBeAdded.length > 0
+            ? db.insert(orders_to_users).values(
+                employeesToBeAdded.map((employeeId) => ({
+                  userId: employeeId,
+                  orderId: id,
+                })),
+              )
+            : [];
+        const ordersToEmployeesRemoved =
+          employeesToBeRemoved.length > 0
+            ? db
+                .delete(orders_to_users)
+                .where(
+                  and(
+                    eq(orders_to_users.orderId, id),
+                    inArray(orders_to_users.userId, employeesToBeRemoved),
+                  ),
+                )
+            : [];
+        await Promise.allSettled([
+          ordersToEmployeesAdded,
+          ordersToEmployeesRemoved,
+        ]);
+      }
+      if (emails !== undefined) {
+        const emailIds = emails
+          .filter((v) => v.id !== undefined)
+          .map((v) => v.id as number);
+        const oldEmailIds = oldEmails.map((v) => v.emailMessagesId);
 
-      return result;
+        const emailsToBeAdded: number[] = emailIds.filter(
+          (emailId) => !oldEmailIds.includes(emailId),
+        );
+        const emailsToBeRemoved: number[] = oldEmailIds.filter(
+          (oldEmailId) => !emailIds.includes(oldEmailId),
+        );
+
+        const ordersToEmailsAdded =
+          emailsToBeAdded.length > 0
+            ? db.insert(orders_to_email_messages).values(
+                emailsToBeAdded.map((emailMessagesId) => ({
+                  emailMessagesId,
+                  orderId: id,
+                })),
+              )
+            : [];
+
+        const ordersToEmailsRemoved =
+          emailsToBeRemoved.length > 0
+            ? db
+                .delete(orders_to_email_messages)
+                .where(
+                  and(
+                    eq(orders_to_email_messages.orderId, id),
+                    inArray(
+                      orders_to_email_messages.emailMessagesId,
+                      emailsToBeRemoved,
+                    ),
+                  ),
+                )
+            : [];
+
+        await Promise.allSettled([ordersToEmailsAdded, ordersToEmailsRemoved]);
+      }
+
+      if (files !== undefined) {
+        const fileIds = files
+          .filter((v) => v.id !== undefined)
+          .map((v) => v.id as number);
+        const oldFileIds = oldFiles.map((v) => v.fileId);
+
+        const filesToBeAdded: number[] = fileIds.filter(
+          (fileId) => !oldFileIds.includes(fileId),
+        );
+        const filesToBeRemoved: number[] = oldFileIds.filter(
+          (oldFileId) => !fileIds.includes(oldFileId),
+        );
+
+        const ordersToFilesAdded =
+          filesToBeAdded.length > 0
+            ? db.insert(orders_to_files).values(
+                filesToBeAdded.map((fileId) => ({
+                  fileId,
+                  orderId: id,
+                })),
+              )
+            : [];
+
+        const ordersToFilesRemoved =
+          filesToBeRemoved.length > 0
+            ? db
+                .delete(orders_to_files)
+                .where(
+                  and(
+                    eq(orders_to_files.orderId, id),
+                    inArray(orders_to_files.fileId, filesToBeRemoved),
+                  ),
+                )
+            : [];
+
+        await Promise.allSettled([ordersToFilesAdded, ordersToFilesRemoved]);
+      }
+
+      return { ok: true };
     }),
 
   search: createProcedureSearch(orders),

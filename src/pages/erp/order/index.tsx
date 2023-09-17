@@ -240,7 +240,7 @@ const OrdersPage: NextPage = () => {
       >
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4 ">
-            <OrderEditable id={id} />
+            <OrderEditable id={id} key={`${uuid}order:${id}`} />
           </div>
         )}
         {orderData && (
