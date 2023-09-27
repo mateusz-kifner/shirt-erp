@@ -4,9 +4,9 @@ import { IconX } from "@tabler/icons-react";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
   forwardRef,
+  type ComponentProps,
   type ComponentPropsWithoutRef,
   type ElementRef,
-  type ComponentProps,
 } from "react";
 
 const Sheet = SheetPrimitive.Root;
@@ -15,12 +15,7 @@ const SheetTrigger = SheetPrimitive.Trigger;
 
 const SheetClose = SheetPrimitive.Close;
 
-const SheetPortal = ({
-  className,
-  ...props
-}: SheetPrimitive.DialogPortalProps) => (
-  <SheetPrimitive.Portal className={cn(className)} {...props} />
-);
+const SheetPortal = SheetPrimitive.Portal;
 SheetPortal.displayName = SheetPrimitive.Portal.displayName;
 
 const SheetOverlay = forwardRef<

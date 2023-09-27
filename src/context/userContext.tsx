@@ -10,9 +10,9 @@ import {
 import { useLocalStorage } from "@mantine/hooks";
 
 interface UserContextType {
-  debug: boolean;
-  navigationCollapsed: boolean;
-  theme: number;
+  debug?: boolean;
+  navigationCollapsed?: boolean;
+  theme?: number;
   toggleTheme: () => void;
   toggleNavigationCollapsed: () => void;
   setNavigationCollapsed: Dispatch<SetStateAction<boolean>>;

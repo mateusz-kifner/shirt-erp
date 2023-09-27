@@ -1,4 +1,10 @@
-import { type ReactNode, useEffect, useId, useState } from "react";
+import {
+  MutableRefObject,
+  useEffect,
+  useId,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { useClickOutside } from "@mantine/hooks";
 import { EditorContent, useEditor } from "@tiptap/react";
@@ -235,9 +241,8 @@ const EditableRichText = ({
   disabled,
   required,
   leftSection,
-  rightSection,
-} // maxLength = Number.MAX_SAFE_INTEGER,
-// keyName,
+  rightSection, // maxLength = Number.MAX_SAFE_INTEGER,
+} // keyName,
 : EditableRichTextProps) => {
   const uuid = useId();
   const [text, setText] = useState<string>(
@@ -306,7 +311,7 @@ const EditableRichText = ({
 
   return (
     <div
-      ref={clickOutsideRef}
+      ref={clickOutsideRef as MutableRefObject<HTMLDivElement | null>}
       onClick={() => !disabled && setFocus(true)}
       onFocus={() => !disabled && setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}

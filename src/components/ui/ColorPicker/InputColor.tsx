@@ -145,10 +145,13 @@ function InputColor(props: InputColorProps) {
 
   const pickColor = async () => {
     try {
-      const { sRGBHex } = await open();
-      setHex(sRGBHex);
-      const newColor = tinycolor2(sRGBHex);
-      updateRGBATextandHSVText(newColor.toHsv());
+      const eyeDropper = await open();
+      if (eyeDropper?.sRGBHex !== undefined) {
+        const { sRGBHex } = eyeDropper;
+        setHex(sRGBHex);
+        const newColor = tinycolor2(sRGBHex);
+        updateRGBATextandHSVText(newColor.toHsv());
+      }
     } catch (e) {
       console.log(e);
     }

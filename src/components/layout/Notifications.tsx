@@ -58,7 +58,7 @@ const Notifications = () => {
     : 0;
 
   useEffect(() => {
-    if (prevActiveOrders < activeOrders) {
+    if ((prevActiveOrders ?? 0) < activeOrders) {
       const audio = new Audio("/notification.ogg");
       audio.loop = false;
       audio.play().catch(() => {});
