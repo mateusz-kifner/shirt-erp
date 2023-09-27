@@ -15,7 +15,7 @@ interface ColorSliderProps {
 function HueSlider(props: ColorSliderProps) {
   const { value, onChange, onActive, disabled } = props;
   const { ref, active } = useMove(
-    ({ x }) => !disabled && onChange?.({ ...value, h: x })
+    ({ x }) => !disabled && onChange?.({ ...value, h: x }),
   );
   const thumbColor = tinycolor2.fromRatio({
     h: value.h,
@@ -25,6 +25,7 @@ function HueSlider(props: ColorSliderProps) {
 
   useEffect(() => {
     onActive?.(active);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   return (
@@ -53,7 +54,7 @@ function HueSlider(props: ColorSliderProps) {
         }}
       >
         <div
-          className="absolute box-border -translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height] duration-[50ms] ease-in-out"
+          className="duration-[50ms] absolute box-border -translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height] ease-in-out"
           style={{
             top: TRACK_THICKNESS / 2,
             border: "2px solid white",

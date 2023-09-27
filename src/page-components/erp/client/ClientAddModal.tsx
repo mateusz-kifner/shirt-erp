@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type ClientType } from "@/schema/clientSchema";
+import { type ClientWithRelations } from "@/schema/clientZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ClientListItem from "./ClientListItem";
@@ -18,21 +17,12 @@ interface ClientAddModalProps {
 }
 
 const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
-  const router = useRouter();
   const [username, setUsername] = useState<string>("Klient");
-  const [template, setTemplate] = useState<Partial<ClientType> | null>(null);
+  const [template, setTemplate] = useState<Partial<ClientWithRelations> | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
-  const { mutate: createClient } = api.client.create.useMutation({
-    onSuccess(data) {
-      // router.push(`/erp/client/${data.id}`).catch((e) => {
-      //   throw e;
-      // });
-      onClose(data.id);
-    },
-    onError(error) {
-      setError("Klient o takiej nazwie istnieje.");
-    },
-  });
+  const { mutateAsync: createClient } = api.client.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
@@ -52,7 +42,7 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
             entryName="clients"
             Element={ClientListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
@@ -71,14 +61,19 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
                 return setError("Musisz podać nie pustą nazwę użytkownika");
               const new_client = {
                 ...(template ? omit(template, "id") : {}),
-                address: template?.address
-                  ? omit(template.address, "id")
-                  : null,
                 username: username,
                 orders: [],
                 "orders-archive": [],
               };
-              createClient(new_client);
+              if (template?.address) {
+                new_client.address = omit(template.address, "id");
+              }
+
+              createClient(new_client)
+                .then((data) => onClose(data.id))
+                .catch(() => {
+                  setError("Klient o takiej nazwie istnieje.");
+                });
             }}
             className="mt-4"
           >

@@ -1,6 +1,6 @@
-import { TypeAABB2D } from "../../schema/AABB";
+import { type TypeAABB2D } from "../../schema/AABB";
 import isNumeric from "../../utils/isNumeric";
-import { UniversalMatrix } from "./useSpreadSheetData";
+import { type UniversalMatrix } from "./useSpreadSheetData";
 
 function verifyMetadata(
   table: UniversalMatrix,

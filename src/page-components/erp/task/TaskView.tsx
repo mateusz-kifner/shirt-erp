@@ -12,9 +12,8 @@ import EditableSwitch from "@/components/editable/EditableSwitch";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
-import useTranslation from "@/hooks/useTranslation";
-import { ProductType } from "@/schema/productSchema";
-import { UserType } from "@/schema/userSchema";
+import { type Product } from "@/schema/productZodSchema";
+import { type User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -36,7 +35,6 @@ function TaskView(props: TaskViewProps) {
   const { id } = props;
   const isLoaded = useLoaded();
   const router = useRouter();
-  const t = useTranslation();
 
   const { data, refetch } = api.order.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -46,21 +44,13 @@ function TaskView(props: TaskViewProps) {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     update({ id: data.id, [key]: val }).catch(console.log);
-  };
-
-  const apiDelete = () => {
-    if (!data) return;
-    deleteById(data.id)
-      .then(() => {
-        router.push(`/erp/order`).catch(console.log);
-      })
-      .catch(console.log);
   };
 
   if (!data)
@@ -153,31 +143,23 @@ function TaskView(props: TaskViewProps) {
           disabled
         />
 
-        <EditableArray<ProductType>
-          label="Produkty"
-          keyName="products"
-          disabled
-        >
+        <EditableArray<Product> label="Produkty" keyName="products" disabled>
           <EditableApiEntry
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: ProductType) =>
+            copyProvider={(value: Product) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
           />
         </EditableArray>
-        <EditableArray<UserType>
-          label="Pracownicy"
-          keyName="employees"
-          disabled
-        >
+        <EditableArray<User> label="Pracownicy" keyName="employees" disabled>
           <EditableApiEntry
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: any) =>
+            copyProvider={(value: { username?: string }) =>
               value?.username ? truncString(value.username, 40) : undefined
             }
             allowClear

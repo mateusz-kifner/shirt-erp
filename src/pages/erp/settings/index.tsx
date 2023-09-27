@@ -7,7 +7,7 @@ import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { appRouter } from "@/server/api/root";
-import { prisma } from "@/server/db";
+
 import { sessionOptions } from "@/server/session";
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
@@ -23,6 +23,7 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import SuperJSON from "superjson";
+import { db } from "@/db/db";
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
   const user = req.session.user;
@@ -38,7 +39,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 
   const ssg = createServerSideHelpers({
     router: appRouter,
-    ctx: { prisma, session: req.session },
+    ctx: { session: req.session, db },
     transformer: SuperJSON,
   });
 
@@ -52,16 +53,9 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
-  const { locale } = router;
+  // const { locale } = router;
   const { data: userData } = api.session.me.useQuery();
-  const logout = api.session.logout.useMutation({
-    onSuccess() {
-      void router.push("/login");
-    },
-    onError(err) {
-      console.log(err.message);
-    },
-  });
+  const logout = api.session.logout.useMutation();
   const t = useTranslation();
   const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
   const [remSize, setRemSize] = useLocalStorage({
@@ -74,13 +68,12 @@ function Settings() {
       const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
       html.style.fontSize = "" + remSize + "px";
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remSize]);
 
   if (!userData) return null;
   const changeLocale = (value: string) => {
-    router.push("", "", { locale: value }).catch((e) => {
-      throw e;
-    });
+    void router.push("", "", { locale: value });
   };
 
   return (
@@ -92,7 +85,17 @@ function Settings() {
         </div>
         <hr className="mt-8 dark:border-stone-600 " />
         <div className="flex flex-col gap-3 p-4 ">
-          <Button onClick={() => logout.mutate()} leftSection={<IconLogout />}>
+          <Button
+            onClick={() => {
+              logout
+                .mutateAsync()
+                .then(() => {
+                  void router.push("/login");
+                })
+                .catch((err: { message: string }) => console.log(err.message));
+            }}
+            leftSection={<IconLogout />}
+          >
             {t.sign_out}
           </Button>
           <div className="flex flex-grow items-center gap-2">

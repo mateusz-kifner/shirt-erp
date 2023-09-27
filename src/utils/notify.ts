@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from "@/hooks/useToast";
 import Logger from "js-logger";
 
@@ -10,7 +11,7 @@ import Logger from "js-logger";
 const notify = (
   fn: ((...args: any[]) => any) | undefined,
   msg: string,
-  status: "error" | "warn" | "success" | "info" | "debug" = "error"
+  status: "error" | "warn" | "success" | "info" | "debug" = "error",
 ) => {
   return (...args: any[]) => {
     // Exclue error and warn, because Logger is handling display of errors
@@ -27,7 +28,7 @@ const notify = (
     if (status == "success") status = "info";
     Logger[status]({ ...args, message: msg });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument
     if (fn) return fn(...args);
   };
 };

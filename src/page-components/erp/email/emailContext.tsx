@@ -1,3 +1,4 @@
+import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
 import {
   createContext,
   useContext,
@@ -7,11 +8,9 @@ import {
   type SetStateAction,
 } from "react";
 
-import { EmailCredentialType } from "@/schema/emailCredential";
-
 interface EmailContextType {
-  emailConfig: EmailCredentialType;
-  setEmailConfig: Dispatch<SetStateAction<EmailCredentialType>>;
+  emailConfig: EmailCredential;
+  setEmailConfig: Dispatch<SetStateAction<EmailCredential>>;
 }
 
 export const EmailContext = createContext<EmailContextType | null>(null);
@@ -21,10 +20,10 @@ export const EmailContextProvider = ({
   emailConfig: initialEmailConfig,
 }: {
   children: ReactNode;
-  emailConfig: EmailCredentialType;
+  emailConfig: EmailCredential;
 }) => {
   const [emailConfig, setEmailConfig] =
-    useState<EmailCredentialType>(initialEmailConfig);
+    useState<EmailCredential>(initialEmailConfig);
 
   return (
     <EmailContext.Provider

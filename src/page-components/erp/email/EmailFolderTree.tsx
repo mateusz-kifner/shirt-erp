@@ -1,7 +1,7 @@
-import Button, { ButtonProps } from "@/components/ui/Button";
+import Button, { type ButtonProps } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { EmailCredentialType } from "@/schema/emailCredential";
+import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -12,7 +12,7 @@ import {
   IconSend,
   IconTrash,
 } from "@tabler/icons-react";
-import { ListTreeResponse } from "imapflow";
+import { type ListTreeResponse } from "imapflow";
 import { useId, useState } from "react";
 
 function getIcon(specialUse: string) {
@@ -48,7 +48,7 @@ function EmailTreeButton(props: EmailTreeButtonProps) {
 }
 
 interface EmailFolderTreeProps {
-  emailConfig: EmailCredentialType;
+  emailConfig: EmailCredential;
   active?: string;
   onActive?: (active?: string) => void;
   onRefetch?: () => void;

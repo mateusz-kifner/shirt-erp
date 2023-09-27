@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 
 // import * as XLSX from "xlsx"
-import Design from "@/components/Design/Design";
+//import Design from "@/components/Design/Design";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
 import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
@@ -14,13 +14,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import useTranslation from "@/hooks/useTranslation";
 import OrderAddModal from "@/page-components/erp/order/OrderAddModal";
 import OrderEditable from "@/page-components/erp/order/OrderEditable";
 import OrderList from "@/page-components/erp/order/OrderList";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
-import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
+//import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import {
@@ -44,7 +43,6 @@ const entryName = "order";
 const OrdersPage: NextPage = () => {
   const uuid = useId();
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
@@ -58,9 +56,9 @@ const OrdersPage: NextPage = () => {
   const { mutateAsync: deleteSpreadsheetMutation } =
     api.spreadsheet.deleteById.useMutation({});
 
-  const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
-    {},
-  );
+  // const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
+  //   {},
+  // );
   const t = useTranslation();
 
   const [status, setStatus] = useState<
@@ -199,15 +197,15 @@ const OrdersPage: NextPage = () => {
       .catch(console.log);
   };
 
-  const addDesign = () => {
-    createDesignMutation({
-      name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
-      data: [],
-      orderId: id ?? undefined,
-    })
-      .then(() => router.reload())
-      .catch(console.log);
-  };
+  // const addDesign = () => {
+  //   createDesignMutation({
+  //     name: `${t.design} ${(orderData?.designs?.length ?? 0) + 1}`,
+  //     data: [],
+  //     orderId: id ?? undefined,
+  //   })
+  //     .then(() => router.reload())
+  //     .catch(console.log);
+  // };
 
   return (
     <>
@@ -242,7 +240,7 @@ const OrdersPage: NextPage = () => {
       >
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4 ">
-            <OrderEditable id={id} />
+            <OrderEditable id={id} key={`${uuid}order:${id}`} />
           </div>
         )}
         {orderData && (
@@ -291,7 +289,7 @@ const OrdersPage: NextPage = () => {
             </div>
           ))}
 
-        {orderData &&
+        {/* {orderData &&
           orderData.designs.map((val, index) => (
             <Design
               key={`${uuid}design:${index}:`}
@@ -299,16 +297,13 @@ const OrdersPage: NextPage = () => {
               backgrounds={designBackgrounds}
               files={orderData.files}
             />
-          ))}
+          ))} */}
       </Workspace>
       <OrderAddModal
         opened={openAddModal}
         onClose={(id?: number) => {
           setOpenAddModal(false);
-          id !== undefined &&
-            router.push(`/erp/order/${id}`).catch((e) => {
-              throw e;
-            });
+          id !== undefined && void router.push(`/erp/order/${id}`);
         }}
       />
     </>

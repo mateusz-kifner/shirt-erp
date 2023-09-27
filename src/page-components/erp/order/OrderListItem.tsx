@@ -1,18 +1,12 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
 import useTranslation from "@/hooks/useTranslation";
-import { type OrderType } from "@/schema/orderSchema";
+import { type NewOrder } from "@/schema/orderZodSchema";
+import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 import { IconCalendarTime } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
-interface OrderListItemProps {
-  onChange?: (item: Partial<OrderType>) => void;
-  value: Partial<OrderType>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-const OrderListItem = (props: OrderListItemProps) => {
+const OrderListItem = (props: ListItemProps<NewOrder>) => {
   const value = props.value;
   const t = useTranslation();
   const todayDate = dayjs().format("YYYY-MM-DD");

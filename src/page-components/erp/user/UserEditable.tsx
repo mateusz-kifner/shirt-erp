@@ -4,7 +4,6 @@ import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableShortText from "@/components/editable/EditableShortText";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
-import { useLoaded } from "@/hooks/useLoaded";
 import { api } from "@/utils/api";
 import { IconRefresh } from "@tabler/icons-react";
 
@@ -14,7 +13,6 @@ interface UserEditableProps {
 
 function UserEditable(props: UserEditableProps) {
   const { id } = props;
-  const isLoaded = useLoaded();
 
   const { data, refetch } = api.user.getById.useQuery(id as number, {
     enabled: id !== null,

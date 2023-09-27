@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { type CSSProperties } from "react";
 
 import { useUserContext } from "@/context/userContext";
@@ -16,7 +17,6 @@ const EditableDebugInfo = (props: EditableDebugInfoProps) => {
     disabled,
     required,
     maxLength,
-    style,
     className,
     leftSection,
     rightSection,
@@ -26,7 +26,7 @@ const EditableDebugInfo = (props: EditableDebugInfoProps) => {
   const { debug } = useUserContext();
 
   return debug ? (
-    <div>
+    <div {...moreProps}>
       {label} {value}
     </div>
   ) : null;

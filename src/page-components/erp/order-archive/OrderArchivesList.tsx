@@ -19,7 +19,7 @@ interface OrderListProps {
   onAddElement?: () => void;
 }
 
-const OrderArchivesList = ({ selectedId, onAddElement }: OrderListProps) => {
+const OrderArchivesList = ({ selectedId }: OrderListProps) => {
   const router = useRouter();
   const t = useTranslation();
 
@@ -30,9 +30,7 @@ const OrderArchivesList = ({ selectedId, onAddElement }: OrderListProps) => {
       label={entryName ? capitalize(t[entryName].plural) : undefined}
       selectedId={selectedId}
       onChange={(val: { id: number }) => {
-        router.push(`/erp/${entryName}/${val.id}`).catch((e) => {
-          throw e;
-        });
+        void router.push(`/erp/${entryName}/${val.id}`);
       }}
       listItemProps={{
         linkTo: (val: { id: number }) => `/erp/${entryName}/${val.id}`,

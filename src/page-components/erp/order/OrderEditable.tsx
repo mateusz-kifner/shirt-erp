@@ -30,9 +30,9 @@ import {
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { ClientType } from "@/schema/clientSchema";
-import { ProductType } from "@/schema/productSchema";
-import { UserType } from "@/schema/userSchema";
+import { type ClientWithRelations } from "@/schema/clientZodSchema";
+import { type Product } from "@/schema/productZodSchema";
+import { type User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
@@ -73,9 +73,11 @@ function OrderEditable(props: OrderEditableProps) {
   const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
   const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     update({ id: data.id, [key]: val }).catch(console.log);
   };
 
@@ -83,7 +85,7 @@ function OrderEditable(props: OrderEditableProps) {
     if (!data) return;
     deleteById(data.id)
       .then(() => {
-        router.push(`/erp/order`).catch(console.log);
+        void router.push(`/erp/order`);
       })
       .catch(console.log);
   };
@@ -92,7 +94,7 @@ function OrderEditable(props: OrderEditableProps) {
     if (!data) return;
     archiveById(data.id)
       .then(() => {
-        router.push(`/erp/order-archive`).catch(console.log);
+        void router.push(`/erp/order`);
       })
       .catch(console.log);
   };
@@ -103,10 +105,14 @@ function OrderEditable(props: OrderEditableProps) {
       orderAddressFromClient !== null &&
       data?.clientId == orderAddressFromClient
     ) {
-      data.client?.address &&
-        apiUpdate("address", omit(data.client.address, ["id"]));
+      (data.client as ClientWithRelations).address &&
+        apiUpdate(
+          "address",
+          omit((data.client as ClientWithRelations).address, ["id"]),
+        );
       setOrderAddressFromClient(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderAddressFromClient, data?.clientId]);
 
   if (!data)
@@ -171,7 +177,7 @@ function OrderEditable(props: OrderEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
-          onSubmit={(value: ClientType) => {
+          onSubmit={(value) => {
             // check if address is set
             if (
               data.address === null ||
@@ -182,7 +188,7 @@ function OrderEditable(props: OrderEditableProps) {
                 !data.address.city &&
                 !data.address.secondLine)
             )
-              setOrderAddressFromClient(value.id);
+              value?.id && setOrderAddressFromClient(value.id);
           }}
         />
         <Wrapper
@@ -199,7 +205,12 @@ function OrderEditable(props: OrderEditableProps) {
                     onClick={() => {
                       console.log(data.client);
                       !!data.client &&
-                        apiUpdate("address", omit(data.client.address, ["id"]));
+                        apiUpdate(
+                          "address",
+                          omit((data.client as ClientWithRelations).address, [
+                            "id",
+                          ]),
+                        );
                     }}
                   >
                     <IconCopy />
@@ -226,23 +237,23 @@ function OrderEditable(props: OrderEditableProps) {
           />
         </Wrapper>
 
-        <EditableArray<ProductType> label="Produkty" keyName="products">
+        <EditableArray<Product> label="Produkty" keyName="products">
           <EditableApiEntry
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: ProductType) =>
+            copyProvider={(value: Product) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
           />
         </EditableArray>
-        <EditableArray<UserType> label="Pracownicy" keyName="employees">
+        <EditableArray<User> label="Pracownicy" keyName="employees">
           <EditableApiEntry
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: any) =>
+            copyProvider={(value: User) =>
               value?.username ? truncString(value.username, 40) : undefined
             }
             allowClear

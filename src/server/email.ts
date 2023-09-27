@@ -1,7 +1,7 @@
-import { ImapFlow } from "imapflow";
+import { type ImapFlow } from "imapflow";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import { Readable, Stream } from "node:stream";
+import { Readable, type Stream } from "node:stream";
 
 import { env } from "@/env.mjs";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
@@ -10,11 +10,15 @@ import NodeClam from "clamscan";
 import imageSize from "image-size";
 import Logger from "js-logger";
 import { omit } from "lodash";
-import { ParsedMail, simpleParser } from "mailparser";
+import { type ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import sharp from "sharp";
-import { prisma } from "./db";
+import { db } from "@/db/db";
+import { and, eq } from "drizzle-orm";
+import { email_messages } from "@/db/schema/email_messages";
+import { files as filesSchema } from "@/db/schema/files";
+import { email_messages_to_files } from "@/db/schema/email_messages_to_files";
 
 const mailDir = "./cache/email/";
 const uploadDir = "./uploads/";
@@ -53,7 +57,7 @@ export async function emailSearch(
   mailbox: string = "INBOX",
   query: string = "",
   take: number = 10,
-  skip: number = 0,
+  // skip: number = 0,
 ) {
   try {
     await client.connect();
@@ -78,7 +82,7 @@ export async function emailSearch(
     if (!mails) return { results: [], totalItems: 0 };
 
     const seq: string = mails
-      .filter((_, i) => i < 10)
+      .filter((_, i) => i < take)
       .reduce((p, n, i) => (i == 0 ? `${n}` : `${p},${n}`), "");
 
     for await (const msg of client.fetch(
@@ -117,7 +121,7 @@ export async function fetchEmails(
 
     // console.log(mailboxObj);
     const messages = [];
-    let query: number[] | string;
+    // let query: number[] | string;
 
     const last_message = await client.fetchOne("*", { envelope: true });
 
@@ -203,9 +207,21 @@ export async function downloadEmailByUid(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
-    const auth: { user: string; pass?: string; accessToken?: string } =
-      // @ts-ignore
-      client.options.auth;
+    const auth = (
+      client as unknown as {
+        options: {
+          auth: {
+            user: string;
+            pass?: string;
+            accessToken?: string;
+          };
+        };
+      }
+    ).options.auth;
+
+    if (!auth.user) {
+      throw new Error("User was not attached to imapFlow Client");
+    }
 
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
@@ -265,7 +281,7 @@ export async function downloadEmailByUid(
     };
     if (env.ENABLE_CLAMAV) result["avIsInfected"] = false;
 
-    const files = parsed.attachments.map(async (attachment, index) => {
+    const files = parsed.attachments.map(async (attachment) => {
       let preview;
       if (isMimeImage(attachment.contentType)) {
         preview = await sharp(attachment.content)
@@ -287,7 +303,7 @@ export async function downloadEmailByUid(
     const data = await Promise.allSettled(files);
     return {
       ...result,
-      attachments: data.map((val, index) =>
+      attachments: data.map((val) =>
         val.status === "fulfilled"
           ? val.value
           : {
@@ -321,9 +337,21 @@ export async function downloadEmailAttachment(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
-    const auth: { user: string; pass?: string; accessToken?: string } =
-      // @ts-ignore
-      client.options.auth;
+    const auth = (
+      client as unknown as {
+        options: {
+          auth: {
+            user: string;
+            pass?: string;
+            accessToken?: string;
+          };
+        };
+      }
+    ).options.auth;
+
+    if (!auth.user) {
+      throw new Error("User was not attached to imapFlow Client");
+    }
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
     try {
@@ -382,21 +410,36 @@ export async function transferEmailToDbByUId(
     if (!client.authenticated)
       throw new Error("Email server authentication failed");
 
-    const auth: { user: string; pass?: string; accessToken?: string } =
-      // @ts-ignore
-      client.options.auth;
-    const alreadyTransferred = await prisma.emailMessage.findFirst({
-      where: {
-        AND: [
-          { messageUid: parseInt(uid) },
-          { clientUser: auth.user },
-          { mailbox },
-        ],
-      },
-      include: { attachments: true, messageFile: true },
+    const auth = (
+      client as unknown as {
+        options: {
+          auth: {
+            user: string;
+            pass?: string;
+            accessToken?: string;
+          };
+        };
+      }
+    ).options.auth;
+
+    if (!auth.user) {
+      throw new Error("User was not attached to imapFlow Client");
+    }
+    const alreadyTransferred = await db.query.email_messages.findFirst({
+      where: and(
+        eq(email_messages.messageUid, parseInt(uid)),
+        eq(email_messages.clientUser, auth.user),
+        eq(email_messages.mailbox, mailbox),
+      ),
+      with: { attachments: { with: { files: true } }, messageFile: true },
     });
 
-    if (alreadyTransferred !== null) return alreadyTransferred;
+    if (alreadyTransferred !== undefined) {
+      return {
+        ...alreadyTransferred,
+        attachments: alreadyTransferred.attachments.map((v) => v.files),
+      };
+    }
 
     const { outputFilePath } = resolveEmailCacheFileName(auth, uid);
 
@@ -462,7 +505,8 @@ export async function transferEmailToDbByUId(
         token: genRandomStringServerOnly(32),
       };
     });
-    const resolvedFiles: {
+
+    type ResolvedFile = {
       size: number;
       filepath: string;
       originalFilename: string | undefined;
@@ -473,34 +517,54 @@ export async function transferEmailToDbByUId(
       height: number | undefined;
       hash: string;
       token: string;
-    }[] = (await Promise.allSettled(newFiles))
-      .filter((val) => val.status === "fulfilled")
-      // @ts-ignore
-      // eslint-disable-next-line
+    };
+    const resolvedFiles: ResolvedFile[] = (await Promise.allSettled(newFiles))
+      .filter(
+        (val): val is PromiseFulfilledResult<ResolvedFile> =>
+          val.status === "fulfilled",
+      )
       .map((val) => val.value);
 
-    const newMail = await prisma.emailMessage.create({
-      data: {
-        to: Array.isArray(parsed.to)
-          ? parsed.to.map((v) => v.text).reduce((p, n, i) => `${p}, ${n}`, "")
-          : parsed.to?.text,
-        from: parsed.from?.text,
-        subject: parsed.subject,
-        date: parsed.date,
-        html: parsed.html ? parsed.html : null,
-        mailbox,
-        text: parsed.text,
-        textAsHtml: parsed.textAsHtml,
-        messageUid: parseInt(uid),
-        headerLines: parsed.headerLines.map((val) => val.line),
-        clientUser: auth.user,
-        messageId: parsed.messageId,
-        attachments: { create: resolvedFiles },
-      },
-      include: { attachments: true, messageFile: true },
-    });
+    const newMail = (
+      await db
+        .insert(email_messages)
+        .values({
+          to: Array.isArray(parsed.to)
+            ? parsed.to.map((v) => v.text).reduce((p, n) => `${p}, ${n}`, "")
+            : parsed.to?.text,
+          from: parsed.from?.text,
+          subject: parsed.subject,
+          date: parsed.date,
+          html: parsed.html ? parsed.html : null,
+          mailbox,
+          text: parsed.text,
+          textAsHtml: parsed.textAsHtml,
+          messageUid: parseInt(uid),
+          headerLines: parsed.headerLines.map((val) => val.line),
+          clientUser: auth.user,
+          messageId: parsed.messageId,
+          // attachments: { create: resolvedFiles },
+        })
+        .returning()
+    )[0];
+    if (newMail === undefined) throw new Error("email failed to be created");
+    const attachments = await db
+      .insert(filesSchema)
+      .values(resolvedFiles)
+      .returning();
+    console.log(attachments);
+    const attachmentsRelation = await db
+      .insert(email_messages_to_files)
+      .values(
+        attachments.map((val) => ({
+          emailMessageId: newMail.id,
+          fileId: val.id,
+        })),
+      )
+      .returning();
+    console.log(attachmentsRelation);
 
-    return newMail;
+    return { ...newMail, attachments };
   } catch (error) {
     console.error("Error fetching email attachment:", error);
     throw new Error("Failed to fetch email attachment.");

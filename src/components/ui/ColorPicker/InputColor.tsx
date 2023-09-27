@@ -38,7 +38,7 @@ function InputColor(props: InputColorProps) {
 
   const { color, getRGBA, setHSV, getHSV, setHex, getHex8 } = useColor(
     value,
-    onChange
+    onChange,
   );
 
   const colorRGBA = getRGBA();
@@ -72,6 +72,7 @@ function InputColor(props: InputColorProps) {
     if (!!value && !equalHSV(colorHSV, value)) {
       setHSV(value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const updateHSVandHSVText = (RGBAText: {

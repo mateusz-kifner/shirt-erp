@@ -1,14 +1,14 @@
 import {
-  CSSProperties,
-  MouseEvent,
+  type CSSProperties,
+  type MouseEvent,
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from "react";
-import { Dimensions, Point } from "react-spreadsheet";
+import { type Dimensions, type Point } from "react-spreadsheet";
 
-import TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/schema/TablerIconType";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { merge } from "lodash";
 import type { FC } from "react";
@@ -30,6 +30,7 @@ type CellWithIcons = CellComponentProps<
     metaId?: number;
     metaPropertyId?: number;
     style?: CSSProperties;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     active?: any;
   }
 > & {
@@ -48,7 +49,7 @@ export const Cell = ({
   select,
   activate,
   evaluatedData,
-  copied,
+  // copied,
   setCellData,
   setCellDimensions,
   icons,
@@ -59,7 +60,7 @@ export const Cell = ({
       row,
       column,
     }),
-    [row, column]
+    [row, column],
   );
 
   const handleMouseDown = useCallback(
@@ -74,7 +75,7 @@ export const Cell = ({
         }
       }
     },
-    [mode, setCellDimensions, point, select, activate]
+    [mode, setCellDimensions, point, select, activate],
   );
 
   const handleMouseOver = useCallback(
@@ -84,7 +85,7 @@ export const Cell = ({
         select(point);
       }
     },
-    [setCellDimensions, select, dragging, point]
+    [setCellDimensions, select, dragging, point],
   );
   useEffect(() => {
     const root = rootRef.current;
@@ -141,7 +142,7 @@ export const Cell = ({
 
 export const enhance = (
   CellComponent: FC<CellWithIcons>,
-  icons: TablerIconType[]
+  icons: TablerIconType[],
 ): FC<CellWithIcons> => {
   return function CellWrapper(props) {
     return <CellComponent {...props} icons={icons} />;

@@ -1,84 +1,71 @@
 import { z } from "zod";
 
-import { clientSchema } from "@/schema/clientSchema";
+import { db } from "@/db/db";
+import { addresses } from "@/db/schema/addresses";
+import { clients } from "@/db/schema/clients";
 import {
-  createProcedureDeleteById,
-  createProcedureGetAll,
+  insertClientWithRelationZodSchema,
+  updateClientZodSchema,
+} from "@/schema/clientZodSchema";
+import {
+  createProcedureGetById,
   createProcedureSearch,
-  createProcedureSearchWithPagination,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
-import { Prisma } from "@prisma/client";
-
-const includeAll = {
-  address: true,
-  orders: true,
-  ordersArchive: true,
-};
-
-const clientSchemaWithoutId = clientSchema
-  .omit({ id: true, address: true })
-  .merge(
-    z.object({
-      address: z
-        .object({
-          streetName: z.string().max(255).nullable().optional(),
-          streetNumber: z.string().max(255).nullable().optional(),
-          apartmentNumber: z.string().max(255).nullable().optional(),
-          secondLine: z.string().max(255).nullable().optional(),
-          postCode: z.string().max(255).nullable().optional(),
-          city: z.string().max(255).nullable().optional(),
-          province: z.string().max(255).nullable().optional(),
-        })
-        .optional()
-        .nullable(),
-    }),
-  );
+import { eq } from "drizzle-orm";
 
 export const clientRouter = createTRPCRouter({
-  getAll: createProcedureGetAll("client"),
-  getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
-    const data = await prisma.client.findUnique({
-      where: { id: input },
-      include: includeAll,
-    });
-    return data;
-  }),
+  getById: createProcedureGetById(clients),
   create: authenticatedProcedure
-    .input(clientSchemaWithoutId)
-    .mutation(async ({ input: clientData }) => {
+    .input(insertClientWithRelationZodSchema)
+    .mutation(async ({ input: clientData, ctx }) => {
       const { address, ...simpleClientData } = clientData;
+      const currentUserId = ctx.session!.user!.id;
+      console.log(clientData);
 
-      const createData: Prisma.ClientCreateInput = { ...simpleClientData };
-
-      createData.address = { create: address ?? {} };
-
-      const newClient = await prisma.client.create({
-        data: createData,
-        include: includeAll,
-      });
-
-      return newClient;
+      const newAddress = await db
+        .insert(addresses)
+        .values(address ?? {})
+        .returning();
+      if (newAddress[0] === undefined)
+        throw new Error("Could not create address in client");
+      const newClient = await db
+        .insert(clients)
+        .values({
+          ...simpleClientData,
+          createdById: currentUserId,
+          updatedById: currentUserId,
+        })
+        .returning();
+      if (newClient[0] === undefined)
+        throw new Error("Could not create client");
+      return newClient[0];
     }),
-  deleteById: createProcedureDeleteById("client"),
+  deleteById: authenticatedProcedure
+    .input(z.number())
+    .mutation(async ({ input: id }) => {
+      const deletedClient = await db
+        .delete(clients)
+        .where(eq(clients.id, id))
+        .returning();
+      return deletedClient[0];
+    }),
   update: authenticatedProcedure
-    .input(clientSchema)
-    .mutation(async ({ input: clientData }) => {
-      const { id: clientId, address, ...simpleClientData } = clientData;
-
-      const updateData: Prisma.ClientUpdateInput = { ...simpleClientData };
-
-      if (address) updateData.address = { update: address };
-
-      console.log(updateData);
-      const updatedClient = await prisma.client.update({
-        where: { id: clientId },
-        data: updateData,
-        include: includeAll,
-      });
-      return updatedClient;
+    .input(updateClientZodSchema)
+    .mutation(async ({ input: clientData, ctx }) => {
+      const { id, ...dataToUpdate } = clientData;
+      const currentUserId = ctx.session!.user!.id;
+      const updatedClient = await db
+        .update(clients)
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
+        .where(eq(clients.id, id))
+        .returning();
+      return updatedClient[0];
     }),
-  search: createProcedureSearch("client"),
-  searchWithPagination: createProcedureSearchWithPagination("client"),
+
+  search: createProcedureSearch(clients),
 });

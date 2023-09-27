@@ -1,19 +1,17 @@
 import { useState } from "react";
-// import { useTranslation } from "../../../i18n"
 import useTranslation from "@/hooks/useTranslation";
 import { IconTrashX } from "@tabler/icons-react";
-import Button from "./ui/Button";
+import Button, { type ButtonProps } from "./ui/Button";
 import { Dialog, DialogTitle } from "./ui/Dialog";
+import { type DialogProps } from "@radix-ui/react-dialog";
 
 interface DeleteButtonProps {
-  label: string;
   onDelete: () => void;
-  buttonProps?: any;
-  modalProps?: any;
+  buttonProps?: ButtonProps;
+  modalProps?: DialogProps;
 }
 
 const DeleteButton = ({
-  label,
   onDelete,
   buttonProps,
   modalProps,
@@ -26,8 +24,8 @@ const DeleteButton = ({
     <>
       <Button
         color="red"
-        variant="subtle"
-        leftIcon={<IconTrashX size={18} />}
+        variant="outline"
+        leftSection={<IconTrashX size={18} />}
         onClick={() => setOpenedDelete(true)}
         className="erase_on_print"
         {...buttonProps}
@@ -36,10 +34,8 @@ const DeleteButton = ({
       </Button>
 
       <Dialog
-        opened={openedDelete}
-        onClose={() => setOpenedDelete(false)}
-        title={t.delete}
-        centered
+        open={openedDelete}
+        onOpenChange={setOpenedDelete}
         {...modalProps}
       >
         <DialogTitle>{t.operation_not_reversible}</DialogTitle>

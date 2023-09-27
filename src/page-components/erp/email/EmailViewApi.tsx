@@ -6,10 +6,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import { useLoaded } from "@/hooks/useLoaded";
+// import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { EmailCredentialType } from "@/schema/emailCredential";
-import { OrderType } from "@/schema/orderSchema";
+import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -24,16 +23,17 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
+import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 
 interface EmailViewApiProps {
-  emailConfig: EmailCredentialType;
+  emailConfig: EmailCredential;
   id: number | null;
   mailbox: string;
 }
 
 function EmailViewApi(props: EmailViewApiProps) {
   const { id, mailbox, emailConfig } = props;
-  const isLoaded = useLoaded();
+  // const isLoaded = useLoaded();
   const router = useRouter();
   const uuid = useId();
   const { data } = api.email.getByUid.useQuery(
@@ -76,6 +76,7 @@ function EmailViewApi(props: EmailViewApiProps) {
         })
         .catch(console.log);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, isSuccess]);
 
   if (!data)
@@ -131,7 +132,7 @@ function EmailViewApi(props: EmailViewApiProps) {
                 ListItem={OrderListItem}
                 entryName={"order"}
                 label={capitalize(t.order.plural)}
-                onChange={(val: OrderType) => {
+                onChange={(val: OrderWithoutRelations) => {
                   setOrderId(val.id);
                 }}
                 listItemProps={
@@ -198,6 +199,7 @@ function EmailViewApi(props: EmailViewApiProps) {
             </Tooltip>
 
             <Link
+              legacyBehavior={false}
               href={`/api/email/${emailConfig.user}/${mailbox}/${id}/download/${file.name}`}
               className={cn(
                 buttonVariants({ variant: "ghost", size: "icon" }),

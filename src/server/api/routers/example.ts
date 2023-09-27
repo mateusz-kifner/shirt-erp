@@ -3,7 +3,6 @@ import { z } from "zod";
 import {
   authenticatedProcedure,
   createTRPCRouter,
-  privilegedProcedure,
   publicProcedure,
 } from "@/server/api/trpc";
 
@@ -20,9 +19,9 @@ export const exampleRouter = createTRPCRouter({
       message: "authenticated",
     };
   }),
-  privileged: privilegedProcedure.query(() => {
-    return {
-      message: "privileged",
-    };
-  }),
+  // privileged: privilegedProcedure.query(() => {
+  //   return {
+  //     message: "privileged",
+  //   };
+  // }),
 });

@@ -1,50 +1,61 @@
 import { z } from "zod";
 
-import { expenseSchema } from "@/schema/expenseSchema";
+import { db } from "@/db/db";
+import { expenses } from "@/db/schema/expenses";
 import {
-  createProcedureDeleteById,
-  createProcedureGetAll,
+  insertExpenseZodSchema,
+  updateExpenseZodSchema,
+} from "@/schema/expenseZodSchema";
+import {
+  createProcedureGetById,
   createProcedureSearch,
-  createProcedureSearchWithPagination,
 } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
-
-const includeAll = {};
-
-const expenseSchemaWithoutId = expenseSchema.omit({ id: true });
+import { eq } from "drizzle-orm";
 
 export const expenseRouter = createTRPCRouter({
-  getAll: createProcedureGetAll("expense"),
-  getById: authenticatedProcedure.input(z.number()).query(async ({ input }) => {
-    const data = await prisma.expense.findUnique({
-      where: { id: input },
-    });
-    return data;
-  }),
+  getById: createProcedureGetById(expenses),
   create: authenticatedProcedure
-    .input(
-      expenseSchemaWithoutId
-        .omit({ name: true })
-        .merge(z.object({ name: z.string().max(255) })),
-    )
-    .mutation(async ({ input: expenseData }) => {
-      const newExpense = await prisma.expense.create({
-        data: expenseData,
-      });
-
-      return newExpense;
+    .input(insertExpenseZodSchema)
+    .mutation(async ({ input: expenseData, ctx }) => {
+      const currentUserId = ctx.session!.user!.id;
+      const newExpense = await db
+        .insert(expenses)
+        .values({
+          ...expenseData,
+          createdById: currentUserId,
+          updatedById: currentUserId,
+        })
+        .returning();
+      if (newExpense[0] === undefined) {
+        throw new Error("Could not create Expense");
+      }
+      return newExpense[0];
     }),
-  deleteById: createProcedureDeleteById("expense"),
+  deleteById: authenticatedProcedure
+    .input(z.number())
+    .mutation(async ({ input: id }) => {
+      const deletedClient = await db
+        .delete(expenses)
+        .where(eq(expenses.id, id))
+        .returning();
+      return deletedClient[0];
+    }),
   update: authenticatedProcedure
-    .input(expenseSchema)
-    .mutation(async ({ input: expenseData }) => {
-      const updatedExpense = await prisma.expense.update({
-        where: { id: expenseData.id },
-        data: expenseData,
-      });
-      return updatedExpense;
+    .input(updateExpenseZodSchema)
+    .mutation(async ({ input: clientData, ctx }) => {
+      const { id, ...dataToUpdate } = clientData;
+      const currentUserId = ctx.session!.user!.id;
+      const updatedClient = await db
+        .update(expenses)
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
+        .where(eq(expenses.id, id))
+        .returning();
+      return updatedClient[0];
     }),
-  search: createProcedureSearch("expense"),
-  searchWithPagination: createProcedureSearchWithPagination("expense"),
+  search: createProcedureSearch(expenses),
 });

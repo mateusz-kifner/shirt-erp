@@ -1,39 +1,56 @@
-import { omit } from "lodash";
-
-import { productSchema } from "@/schema/productSchema";
+import { db } from "@/db/db";
+import { products } from "@/db/schema/products";
 import {
-  createProcedureDeleteById,
-  createProcedureGetAll,
-  createProcedureGetById,
-  createProcedureSearch,
-  createProcedureSearchWithPagination,
-} from "@/server/api/procedures";
+  insertProductZodSchema,
+  updateProductZodSchema,
+} from "@/schema/productZodSchema";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
-
-const productSchemaWithoutId = productSchema.omit({ id: true });
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+import { createProcedureGetById, createProcedureSearch } from "../procedures";
 
 export const productRouter = createTRPCRouter({
-  getAll: createProcedureGetAll("product"),
-  getById: createProcedureGetById("product"),
+  getById: createProcedureGetById(products),
   create: authenticatedProcedure
-    .input(productSchemaWithoutId)
-    .mutation(async ({ input: productData }) => {
-      const newProduct = await prisma.product.create({
-        data: { ...productData },
-      });
-      return newProduct;
+    .input(insertProductZodSchema)
+    .mutation(async ({ input: productData, ctx }) => {
+      const currentUserId = ctx.session!.user!.id;
+      const newProduct = await db
+        .insert(products)
+        .values({
+          ...productData,
+          createdById: currentUserId,
+          updatedById: currentUserId,
+        })
+        .returning();
+      if (newProduct[0] === undefined)
+        throw new Error("Could not create Product");
+      return newProduct[0];
     }),
-  deleteById: createProcedureDeleteById("product"),
+  deleteById: authenticatedProcedure
+    .input(z.number())
+    .mutation(async ({ input: id }) => {
+      const deletedProduct = await db
+        .delete(products)
+        .where(eq(products.id, id))
+        .returning();
+      return deletedProduct[0];
+    }),
   update: authenticatedProcedure
-    .input(productSchema)
-    .mutation(async ({ input: productData }) => {
-      const updatedProduct = await prisma.product.update({
-        where: { id: productData.id },
-        data: omit({ ...productData }, ["id"]),
-      });
-      return updatedProduct;
+    .input(updateProductZodSchema)
+    .mutation(async ({ input: productData, ctx }) => {
+      const { id, ...dataToUpdate } = productData;
+      const currentUserId = ctx.session!.user!.id;
+      const updatedProduct = await db
+        .update(products)
+        .set({
+          ...dataToUpdate,
+          updatedById: currentUserId,
+          updatedAt: new Date(),
+        })
+        .where(eq(products.id, id))
+        .returning();
+      return updatedProduct[0];
     }),
-  search: createProcedureSearch("product"),
-  searchWithPagination: createProcedureSearchWithPagination("product"),
+  search: createProcedureSearch(products),
 });

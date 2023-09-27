@@ -1,16 +1,10 @@
 import Button from "@/components/ui/Button";
-import { FetchMessageObject } from "imapflow";
+import { type ListItemProps } from "@/types/ListItemProps";
+import { type FetchMessageObject } from "imapflow";
 import { useId } from "react";
 
-interface EmailListItemProps {
-  onChange?: (item: Partial<FetchMessageObject>) => void;
-  value: Partial<FetchMessageObject>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-function EmailListItem(props: EmailListItemProps) {
-  const { onChange, value, active, disabled } = props;
+function EmailListItem(props: ListItemProps<FetchMessageObject>) {
+  const { onChange, value } = props;
   const uuid = useId();
   return (
     <Button

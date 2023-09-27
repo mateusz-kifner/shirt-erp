@@ -1,10 +1,9 @@
 import Workspace from "@/components/layout/Workspace";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import { api } from "@/utils/api";
-import { getQueryAsIntOrNull } from "@/utils/query";
+// import { getQueryAsIntOrNull } from "@/utils/query";
 import { useRouter } from "next/router";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 
 const entryName = "email";
 
@@ -12,7 +11,6 @@ interface EmailPageProps {}
 
 function EmailPage(props: EmailPageProps) {
   const {} = props;
-  const uuid = useId();
   const { data: emailClients, isLoading } = api.email.getAllConfigs.useQuery(
     undefined,
     {
@@ -21,22 +19,22 @@ function EmailPage(props: EmailPageProps) {
     },
   );
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);
-  const isMobile = useIsMobile();
 
   const router = useRouter();
-  const id = getQueryAsIntOrNull(router, "id");
+  // const id = getQueryAsIntOrNull(router, "id");
 
   const emailClientsIMAP = emailClients
     ? emailClients.filter((client) => client.protocol === "imap")
     : [];
-  const emailClientsSMTP = emailClients
-    ? emailClients.filter((client) => client.protocol === "smtp")
-    : [];
+  // const emailClientsSMTP = emailClients
+  //   ? emailClients.filter((client) => client.protocol === "smtp")
+  //   : [];
   useEffect(() => {
     if (emailClientsIMAP.length > 0 && emailClientsIMAP[0]?.user !== undefined)
       router
         .replace(`./email/${emailClientsIMAP[0].user}/INBOX`)
         .catch(console.log);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailClientsIMAP.length]);
 
   return (
@@ -69,10 +67,7 @@ function EmailPage(props: EmailPageProps) {
             opened={openSendModal}
             onClose={(id?: number) => {
               setOpenSendModal(false);
-              id !== undefined &&
-                router.push(`/erp/client/${id}`).catch((e) => {
-                  throw e;
-                });
+              id !== undefined && void router.push(`/erp/client/${id}`);
             }}
           />
         </div>

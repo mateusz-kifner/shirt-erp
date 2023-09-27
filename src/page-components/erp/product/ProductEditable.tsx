@@ -29,11 +29,13 @@ function ProductEditable(props: ProductEditableProps) {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.product.deleteById.useMutation();
+  // const { mutateAsync: deleteById } = api.product.deleteById.useMutation();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     update({ id: data.id, [key]: val }).catch(console.log);
   };
 

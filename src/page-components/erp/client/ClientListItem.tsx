@@ -1,15 +1,9 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { type ClientType } from "@/schema/clientSchema";
+import { type Client } from "@/schema/clientZodSchema";
+import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
-interface ClientListItemProps {
-  onChange?: (item: Partial<ClientType>) => void;
-  value: Partial<ClientType>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-const ClientListItem = (props: ClientListItemProps) => {
+const ClientListItem = (props: ListItemProps<Client>) => {
   const value = props.value;
   return (
     <DefaultListItem
@@ -19,7 +13,7 @@ const ClientListItem = (props: ClientListItemProps) => {
             (value?.lastname && value.lastname?.length > 0)
             ? truncString(
                 `${value.firstname ?? ""} ${value.lastname ?? ""}`,
-                40
+                40,
               )
             : truncString(value?.username ?? "", 40)
           : "⸺"

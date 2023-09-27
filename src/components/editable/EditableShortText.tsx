@@ -25,6 +25,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
     className,
     leftSection,
     rightSection,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
     ...moreProps
   } = props;

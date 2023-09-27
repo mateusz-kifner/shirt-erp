@@ -13,7 +13,7 @@ import { isEqual } from "lodash";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
-import { type AddressType } from "@/schema/addressSchema";
+import { type Address } from "@/schema/addressZodSchema";
 import { Input } from "../ui/Input";
 import EditableEnum from "./EditableEnum";
 
@@ -36,9 +36,8 @@ const provinces = [
   "zachodniopomorskie",
 ];
 
-interface EditableAddressProps
-  extends Omit<EditableInput<AddressType>, "label"> {
-  label?: Omit<AddressType & { name: string }, "id">;
+interface EditableAddressProps extends Omit<EditableInput<Address>, "label"> {
+  label?: Omit<Address & { name: string }, "id">;
   maxLength?: number;
 }
 
@@ -103,13 +102,13 @@ const EditableAddress = (props: EditableAddressProps) => {
     onSubmit,
     disabled,
     required,
-    maxLength,
+    // maxLength,
     leftSection,
     rightSection,
-    keyName,
+    // keyName,
   } = props;
   // console.log(value);
-  const [address, setAddress] = useState<AddressType>(value);
+  const [address, setAddress] = useState<Address>(value!);
   const [focus, setFocus] = useState<boolean>(false);
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
 
@@ -151,7 +150,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   };
 
   const setAddressField = (key: string, val: string) => {
-    const new_address = { ...address, [key]: val } as AddressType;
+    const new_address = { ...address, [key]: val } as Address;
     const prevAddress = value;
 
     if (!isEqual(prevAddress, new_address)) {

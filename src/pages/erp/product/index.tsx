@@ -4,7 +4,6 @@ import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import Workspace from "@/components/layout/Workspace";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import ProductAddModal from "@/page-components/erp/product/ProductAddModal";
 import ProductEditable from "@/page-components/erp/product/ProductEditable";
 import ProductsList from "@/page-components/erp/product/ProductList";
@@ -14,7 +13,6 @@ const entryName = "product";
 
 const ProductsPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
@@ -46,10 +44,7 @@ const ProductsPage = () => {
         opened={openAddModal}
         onClose={(id?: number) => {
           setOpenAddModal(false);
-          id !== undefined &&
-            router.push(`/erp/product/${id}`).catch((e) => {
-              throw e;
-            });
+          id !== undefined && void router.push(`/erp/product/${id}`);
         }}
       />
     </div>

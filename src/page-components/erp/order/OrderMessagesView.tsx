@@ -11,15 +11,15 @@ import {
   DialogTitle,
 } from "@/components/ui/Dialog";
 import useTranslation from "@/hooks/useTranslation";
-import { EmailMessageType } from "@/schema/emailMessage";
-import { OrderType } from "@/schema/orderSchema";
+import { type NewEmailMessage } from "@/schema/emailMessageZodSchema";
+import { type NewOrder } from "@/schema/orderZodSchema";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { omit } from "lodash";
 import { useId, useMemo, useState } from "react";
 import EmailView from "../email/EmailView";
 
 interface OrderMessagesViewProps {
-  order?: Partial<OrderType>;
+  order?: Partial<NewOrder>;
   refetch?: () => void;
 }
 
@@ -30,20 +30,21 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   const [opened, setOpened] = useState<boolean>(false);
   const t = useTranslation();
 
-  const emailMessagesSorted: EmailMessageType[] | null = useMemo(
+  const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
     () =>
       (order &&
         order.emails &&
         Array.isArray(order?.emails) &&
         order.emails.sort(sortObjectByDateOrNull("date"))) ||
       null,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [order?.emails],
   );
   return (
     <div className="relative">
       {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
         <Accordion type="multiple" defaultValue={["email0"]}>
-          {emailMessagesSorted.map((val, index, arr) => (
+          {emailMessagesSorted.map((val, index) => (
             <AccordionItem value={"email" + index} key={`${uuid}mail:${index}`}>
               <AccordionTrigger className=" text-xl font-bold">
                 {val.subject}

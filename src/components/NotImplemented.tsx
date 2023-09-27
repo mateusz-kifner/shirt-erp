@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const NotImplemented = (props: any) => {
   return (
     <div

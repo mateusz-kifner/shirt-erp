@@ -1,23 +1,23 @@
-import useTranslation from "@/hooks/useTranslation";
-import { type FileType } from "@/schema/fileSchema";
+// import useTranslation from "@/hooks/useTranslation";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 
+import { type File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
 
 interface FileListItemProps {
-  onChange?: (file: Partial<FileType>) => void;
-  value: Partial<FileType>;
+  onChange?: (file: Partial<File>) => void;
+  value: Partial<File>;
   active?: boolean;
   disabled?: boolean;
   onPreview?: (
     url: string,
     width?: number | null,
-    height?: number | null
+    height?: number | null,
   ) => void;
   style?: CSSProperties;
   contextMenuContent?: ReactNode;
@@ -28,9 +28,6 @@ interface FileListItemProps {
 const FileListItem = (props: FileListItemProps) => {
   const {
     value,
-    onChange,
-    active,
-    disabled,
     onPreview,
     style,
     contextMenuContent,
@@ -38,7 +35,7 @@ const FileListItem = (props: FileListItemProps) => {
     draggable,
   } = props;
 
-  const t = useTranslation();
+  // const t = useTranslation();
 
   const preview = value.mimetype?.startsWith("image")
     ? `/api/files/${value.filename}${
@@ -81,7 +78,7 @@ const FileListItem = (props: FileListItemProps) => {
                         ? "?token=" + value?.token
                         : ""),
                     value?.width,
-                    value?.height
+                    value?.height,
                   );
               }}
             >
@@ -114,6 +111,7 @@ const FileListItem = (props: FileListItemProps) => {
                 ? "?token=" + value?.token + "&download"
                 : "?download"
             }`}
+            legacyBehavior={false}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
               `absolute 
@@ -124,7 +122,7 @@ const FileListItem = (props: FileListItemProps) => {
             -translate-y-1/2
             rounded-full
             hover:bg-black/15
-            dark:hover:bg-white/10`
+            dark:hover:bg-white/10`,
             )}
           >
             <IconDownload size={26} />

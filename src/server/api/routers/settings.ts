@@ -1,64 +1,66 @@
-import { emailCredentialSchema } from "@/schema/emailCredential";
-import {
-  authenticatedProcedure,
-  createTRPCRouter,
-  privilegedProcedure,
-} from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+import { db } from "@/db/db";
+import { email_credentials } from "@/db/schema/email_credentials";
+import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
+import { insertEmailCredentialZodSchema } from "@/schema/emailCredentialZodSchema";
+import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+
 import { TRPCError } from "@trpc/server";
-import { omit } from "lodash";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-const emailCredentialSchemaWithoutId = emailCredentialSchema.omit({ id: true });
-
 export const settingsRouter = createTRPCRouter({
-  getAll: privilegedProcedure.query(({ ctx }) => {
-    return { message: "privilegedProcedure" };
-  }),
-
   getAllMailCredentials: authenticatedProcedure.query(async ({ ctx }) => {
-    const data = await prisma.user.findUnique({
-      where: { id: ctx.session!.user!.id },
-      include: { emailCredentials: true },
+    const currentUserId = ctx.session!.user!.id;
+    const result = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, currentUserId),
+      with: { emailCredentials: { with: { emailCredentials: true } } },
     });
-    return data?.emailCredentials.map((val) => omit(val, ["password"]));
+    return result?.emailCredentials.map((v) => v.emailCredentials);
   }),
 
   createMailCredential: authenticatedProcedure
-    .input(
-      emailCredentialSchemaWithoutId.merge(
-        z.object({ password: z.string().max(255) }),
-      ),
-    )
-    .mutation(async ({ ctx, input: mailCredential }) => {
-      const newMailCredential = await prisma.emailCredential.create({
-        data: {
-          ...mailCredential,
-          secure: mailCredential.secure ?? false,
-          users: { connect: [{ id: ctx.session!.user!.id }] },
-        },
+    .input(insertEmailCredentialZodSchema)
+    .mutation(async ({ ctx, input: emailCredentialData }) => {
+      const currentUserId = ctx.session!.user!.id;
+      const EmailCredential = await db
+        .insert(email_credentials)
+        .values({
+          ...emailCredentialData,
+          createdById: currentUserId,
+          updatedById: currentUserId,
+        })
+        .returning();
+      if (EmailCredential[0] === undefined)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "INTERNAL_SERVER_ERROR: could not create email credential",
+        });
+      await db.insert(email_credentials_to_users).values({
+        userId: currentUserId,
+        emailCredentialsId: EmailCredential[0].id,
       });
-      return newMailCredential;
+      return EmailCredential[0];
     }),
-  updateMailCredential: authenticatedProcedure
-    .input(emailCredentialSchema)
-    .mutation(async ({ input: mailCredential }) => {
-      const updatedProduct = await prisma.product.update({
-        where: { id: mailCredential.id },
-        data: { ...mailCredential },
-      });
-      return updatedProduct;
-    }),
+  // updateMailCredential: authenticatedProcedure
+  //   .input(emailCredentialSchema)
+  //   .mutation(async ({ input: mailCredential }) => {
+  //     const updatedProduct = await prisma.product.update({
+  //       where: { id: mailCredential.id },
+  //       data: { ...mailCredential },
+  //     });
+  //     return updatedProduct;
+  //   }),
   deleteMailCredential: authenticatedProcedure
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => {
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: true },
       });
 
-      const found = data?.emailCredentials.findIndex(
-        (credential) => credential.id === id,
+      const found = result?.emailCredentials.findIndex(
+        (credential) => credential.emailCredentialsId === id,
       );
       if (found === undefined) {
         throw new TRPCError({
@@ -66,7 +68,14 @@ export const settingsRouter = createTRPCRouter({
           message: "You don't have permissions to delete this credential",
         });
       }
-      const deleted = await prisma.emailCredential.delete({ where: { id } });
-      return deleted;
+      await db
+        .delete(email_credentials_to_users)
+        .where(eq(email_credentials_to_users.emailCredentialsId, id));
+
+      const deletedEmailCredential = await db
+        .delete(email_credentials)
+        .where(eq(email_credentials.id, id))
+        .returning();
+      return deletedEmailCredential[0];
     }),
 });

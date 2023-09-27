@@ -1,5 +1,6 @@
+import { db } from "@/db/db";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+
 import {
   downloadEmailByUid,
   emailSearch,
@@ -11,29 +12,32 @@ import {
 import { TRPCError } from "@trpc/server";
 import { ImapFlow } from "imapflow";
 import Logger from "js-logger";
-import { omit } from "lodash";
 import { z } from "zod";
 
 export const emailRouter = createTRPCRouter({
   getAllConfigs: authenticatedProcedure.query(async ({ ctx }) => {
-    const data = await prisma.user.findUnique({
-      where: { id: ctx.session!.user!.id },
-      include: { emailCredentials: true },
+    const currentUserId = ctx.session!.user!.id;
+    const result = await db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.id, currentUserId),
+      with: { emailCredentials: { with: { emailCredentials: true } } },
     });
-    return data?.emailCredentials.map((val) => omit(val, ["password"]));
+
+    if (result === undefined || result?.emailCredentials.length === 0)
+      return [];
+    return result.emailCredentials.map((v) => v.emailCredentials);
   }),
 
   getFolders: authenticatedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: { with: { emailCredentials: true } } },
       });
-
-      const auth = data?.emailCredentials
-        .filter((val) => val.id === input)
-        .filter((auth) => auth.protocol === "imap")[0];
+      const auth = result?.emailCredentials
+        .map((val) => val.emailCredentials)
+        .find((auth) => auth.id === input && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -57,14 +61,14 @@ export const emailRouter = createTRPCRouter({
   getFolderTree: authenticatedProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: { with: { emailCredentials: true } } },
       });
-
-      const auth = data?.emailCredentials
-        .filter((val) => val.id === input)
-        .filter((auth) => auth.protocol === "imap")[0];
+      const auth = result?.emailCredentials
+        .map((val) => val.emailCredentials)
+        .find((auth) => auth.id === input && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -96,14 +100,15 @@ export const emailRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { mailbox, emailClientId, take, skip } = input;
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: { with: { emailCredentials: true } } },
       });
 
-      const auth = data?.emailCredentials.filter(
-        (val) => val.id === emailClientId && val.protocol === "imap",
-      )[0];
+      const auth = result?.emailCredentials
+        .map((val) => val.emailCredentials)
+        .find((auth) => auth.id === emailClientId && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -134,14 +139,14 @@ export const emailRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const { mailbox, emailClientId, emailId } = input;
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: { with: { emailCredentials: true } } },
       });
-
-      const auth = data?.emailCredentials
-        .filter((val) => val.id === emailClientId)
-        .filter((auth) => auth.protocol === "imap")[0];
+      const auth = result?.emailCredentials
+        .map((val) => val.emailCredentials)
+        .find((auth) => auth.id === emailClientId && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -177,14 +182,15 @@ export const emailRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { mailbox, emailClientId, emailId } = input;
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: { with: { emailCredentials: true } } },
       });
 
-      const auth = data?.emailCredentials
-        .filter((val) => val.id === emailClientId)
-        .filter((auth) => auth.protocol === "imap")[0];
+      const auth = result?.emailCredentials
+        .map((val) => val.emailCredentials)
+        .find((auth) => auth.id === emailClientId && auth.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -210,24 +216,6 @@ export const emailRouter = createTRPCRouter({
       return mail;
     }),
 
-  // create: authenticatedProcedure
-  //   .input(z.number())
-  //   .mutation(async ({ input: productData }) => {
-  //     return {};
-  //   }),
-  // deleteById: authenticatedProcedure
-
-  //   .input(z.number())
-  //   .mutation(async ({ input: id }) => {
-  //     return {};
-  //   }),
-  // update: authenticatedProcedure
-  //   .input(emailMessageSchema)
-  //   .mutation(async ({ input: emailData }) => {
-  //     const { id: emailId, ...simpleEmailData } = emailData;
-
-  //     return {};
-  //   }),
   search: authenticatedProcedure
     .input(
       z.object({
@@ -239,15 +227,16 @@ export const emailRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      const { mailbox, emailClientId, query, take, skip } = input;
-      const data = await prisma.user.findUnique({
-        where: { id: ctx.session!.user!.id },
-        include: { emailCredentials: true },
+      const { mailbox, emailClientId, query, take } = input;
+      const currentUserId = ctx.session!.user!.id;
+      const result = await db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.id, currentUserId),
+        with: { emailCredentials: { with: { emailCredentials: true } } },
       });
 
-      const auth = data?.emailCredentials.filter(
-        (val) => val.id === emailClientId && val.protocol === "imap",
-      )[0];
+      const auth = result?.emailCredentials
+        .map((val) => val.emailCredentials)
+        .find((val) => val.id === emailClientId && val.protocol === "imap");
 
       if (auth === undefined)
         throw new TRPCError({
@@ -265,6 +254,12 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      return await emailSearch(client, mailbox, query, take, skip);
+      return await emailSearch(
+        client,
+        mailbox,
+        query,
+        take,
+        //  skip
+      );
     }),
 });

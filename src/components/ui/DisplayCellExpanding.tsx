@@ -1,8 +1,8 @@
 import { cn } from "@/utils/cn";
-import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+import React, { type ComponentProps, forwardRef, type ReactNode } from "react";
 import { displayCellVariants } from "./DisplayCell";
 
-interface DisplayCellProps extends HTMLAttributes<HTMLDivElement> {
+interface DisplayCellProps extends ComponentProps<"div"> {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   children: React.ReactNode;

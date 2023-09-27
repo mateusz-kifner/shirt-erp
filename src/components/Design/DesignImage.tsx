@@ -1,11 +1,11 @@
-import { type FileType } from "@/schema/fileSchema";
+import { type File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 import { type HTMLAttributes } from "react";
 
 interface DesignImageProps extends HTMLAttributes<HTMLDivElement> {
-  file: Partial<FileType>;
+  file: Partial<File>;
   active?: boolean;
   onActive?: (active: boolean) => void;
 }
@@ -32,7 +32,7 @@ function DesignImage(props: DesignImageProps) {
 
     {
       bounds: { left: -width, right: 800, top: -height, bottom: 800 },
-    }
+    },
   );
 
   return (
@@ -46,7 +46,7 @@ function DesignImage(props: DesignImageProps) {
       }}
       className={cn(
         "absolute left-0 top-0 touch-none border-2 border-solid",
-        active && "border-sky-600"
+        active && "border-sky-600",
       )}
       {...moreProps}
     ></animated.div>

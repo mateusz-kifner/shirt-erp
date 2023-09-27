@@ -1,17 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useId } from "react";
 
 interface ListProps<T = any> {
   ListItem: React.ElementType;
   onChange?: (val: T) => void;
-  listItemProps?: any; // { linkTo: (val: T) => string } |
+  listItemProps?: Record<string, any>; // { linkTo: (val: T) => string } |
   selectedId?: number | null;
   data?: T[];
 }
 
-function List<T>(props: ListProps<T>) {
+function List<T extends { id: number }>(props: ListProps<T>) {
   const {
     ListItem,
-    onChange = (val: T) => {
+    onChange = (_val: T) => {
       /* no-op */
     },
     listItemProps = {},
@@ -23,7 +24,7 @@ function List<T>(props: ListProps<T>) {
   return (
     <div className="flex flex-col gap-2">
       {data &&
-        data.map((val: any, index: number) => (
+        data.map((val, index) => (
           <ListItem
             key={uuid + "_" + index}
             value={val}

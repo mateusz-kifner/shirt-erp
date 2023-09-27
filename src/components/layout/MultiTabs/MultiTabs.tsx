@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { UseListStateHandlers, useResizeObserver } from "@mantine/hooks";
+import { type UseListStateHandlers, useResizeObserver } from "@mantine/hooks";
 import { Portal } from "@radix-ui/react-portal";
 import {
   Children,
-  Dispatch,
-  MouseEvent,
-  ReactElement,
-  SetStateAction,
+  type Dispatch,
+  type MouseEvent,
+  type ReactElement,
+  type SetStateAction,
   cloneElement,
   useEffect,
   useRef,
@@ -114,23 +116,33 @@ function MultiTabsContent(props: {
           (isMobile ? <MobileTab /> : child) as ReactElement,
           {
             index:
-              typeof child.props.index === "number" ? child.props.index : index,
+              typeof (child as { props: Record<string, any> }).props?.index ===
+              "number"
+                ? (child as { props: { index: number } }).props.index
+                : index,
             onContextMenu: (e: MouseEvent<HTMLButtonElement>) => {
               e.preventDefault();
               togglePin(index);
             },
             onClick:
-              typeof child.props.onClick === "function"
-                ? child.props.onClick
+              typeof (child as { props: Record<string, any> }).props
+                ?.onClick === "function"
+                ? (child as { props: { onClick: () => void } }).props.onClick
                 : () => {
                     !isPinned && setActive(index);
                   },
             onMouseDown:
-              typeof child.props.onMouseDown === "function"
-                ? child.props.onMouseDown
+              typeof (child as { props: Record<string, any> }).props
+                ?.onMouseDown === "function"
+                ? (child as { props: { onMouseDown: () => void } }).props
+                    .onMouseDown
                 : (e: MouseEvent<HTMLButtonElement>) => {
                     if (e.button === 1) {
-                      child.props.onMiddleClick?.(e);
+                      (
+                        child as {
+                          props?: { onMiddleClick?: (e: any) => void };
+                        }
+                      ).props?.onMiddleClick?.(e);
                     }
                   },
             small,

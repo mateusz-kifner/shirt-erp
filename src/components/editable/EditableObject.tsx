@@ -1,5 +1,8 @@
-import EditableInput from "@/schema/EditableInput";
-import { Children, ReactElement, cloneElement } from "react";
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import type EditableInput from "@/schema/EditableInput";
+import { Children, type ReactElement, cloneElement } from "react";
 
 // TODO: make it work
 
@@ -12,7 +15,7 @@ function EditableObject(props: EditableObjectProps) {
 
   return (
     <div className={className}>
-      {Children.map(children, (child, index) => {
+      {Children.map(children, (child) => {
         const keyName = child.props.keyName;
         if (keyName === undefined) return child;
         return cloneElement(child, {

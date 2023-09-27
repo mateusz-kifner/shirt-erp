@@ -43,9 +43,11 @@ function ExpenseEditable(props: ExpenseEditableProps) {
   });
   const { mutateAsync: deleteById } = api.expense.deleteById.useMutation();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     update({ id: data.id, [key]: val }).catch(console.log);
   };
 

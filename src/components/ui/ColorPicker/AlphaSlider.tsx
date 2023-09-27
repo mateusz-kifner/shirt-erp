@@ -16,7 +16,7 @@ interface ColorSliderProps {
 function HueSlider(props: ColorSliderProps) {
   const { value, onChange, onActive, disabled } = props;
   const { ref, active } = useMove(
-    ({ x }) => !disabled && onChange?.({ ...value, a: x })
+    ({ x }) => !disabled && onChange?.({ ...value, a: x }),
   );
 
   const sliderColor = tinycolor2.fromRatio(omit(value, ["a"]));
@@ -25,6 +25,7 @@ function HueSlider(props: ColorSliderProps) {
 
   useEffect(() => {
     onActive?.(active);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   return (

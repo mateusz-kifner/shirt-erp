@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 import { cva } from "class-variance-authority";
-import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
+import React, { forwardRef, type ComponentProps, type ReactNode } from "react";
 
 export const displayCellVariants = cva(
   `relative
@@ -52,7 +52,7 @@ export const displayCellVariants = cva(
   },
 );
 
-interface DisplayCellProps extends HTMLAttributes<HTMLDivElement> {
+interface DisplayCellProps extends ComponentProps<"div"> {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   children: React.ReactNode;

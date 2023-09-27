@@ -19,16 +19,16 @@ import * as trpc from "@trpc/server";
 import type * as trpcNext from "@trpc/server/adapters/next";
 
 export async function createTRPCContext(
-  opts: trpcNext.CreateNextContextOptions
-): Promise<{ prisma: PrismaClient; session: IronSession | null }> {
+  opts: trpcNext.CreateNextContextOptions,
+): Promise<{ db: typeof db; session: IronSession | null }> {
   const session: IronSession = await getIronSession(
     opts.req,
     opts.res,
-    sessionOptions
+    sessionOptions,
   );
 
   return {
-    prisma,
+    db,
     session,
   };
 }
@@ -72,14 +72,13 @@ export type Context = trpc.inferAsyncReturnType<typeof createTRPCContext>;
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-import type { PrismaClient } from "@prisma/client";
 import { initTRPC } from "@trpc/server";
 import type { IronSession } from "iron-session";
 import { getIronSession } from "iron-session";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { prisma } from "@/server/db";
+import { db } from "@/db/db";
 import { sessionOptions } from "@/server/session";
 
 const t = initTRPC.context<Context>().create({
@@ -133,36 +132,36 @@ export const isAuthenticated = middleware(async ({ ctx, next }) => {
 
 export const authenticatedProcedure = t.procedure.use(isAuthenticated);
 
-export const isPrivileged = middleware(async ({ ctx, path, type, next }) => {
-  if (!ctx?.session?.user) {
-    throw new trpc.TRPCError({
-      code: "FORBIDDEN",
-      message: "User not authenticated",
-    });
-  }
-  const user = await prisma.user.findFirst({
-    where: { id: ctx.session.user.id },
-    include: { userPermissions: true },
-  });
-  if (!user?.userPermissions) {
-    throw new trpc.TRPCError({
-      code: "FORBIDDEN",
-      message: "User doesn't have access privileges",
-    });
-  }
+// export const isPrivileged = middleware(async ({ ctx, path, type, next }) => {
+//   if (!ctx?.session?.user) {
+//     throw new trpc.TRPCError({
+//       code: "FORBIDDEN",
+//       message: "User not authenticated",
+//     });
+//   }
+//   const user = await prisma.user.findFirst({
+//     where: { id: ctx.session.user.id },
+//     include: { userPermissions: true },
+//   });
+//   if (!user?.userPermissions) {
+//     throw new trpc.TRPCError({
+//       code: "FORBIDDEN",
+//       message: "User doesn't have access privileges",
+//     });
+//   }
 
-  const apiPermission = `${type}::api.${path}`;
-  for (const permission of user?.userPermissions) {
-    if (permission.action === "super") return next();
-    if (permission.action === apiPermission) return next();
-  }
+//   const apiPermission = `${type}::api.${path}`;
+//   for (const permission of user?.userPermissions) {
+//     if (permission.action === "super") return next();
+//     if (permission.action === apiPermission) return next();
+//   }
 
-  throw new trpc.TRPCError({
-    code: "FORBIDDEN",
-    message: "User doesn't have access privileges",
-  });
-});
+//   throw new trpc.TRPCError({
+//     code: "FORBIDDEN",
+//     message: "User doesn't have access privileges",
+//   });
+// });
 
-export const privilegedProcedure = t.procedure
-  .use(isAuthenticated)
-  .use(isPrivileged);
+// export const privilegedProcedure = t.procedure
+//   .use(isAuthenticated)
+//   .use(isPrivileged);

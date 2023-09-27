@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/Label";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import type EditableInput from "@/schema/EditableInput";
-import { type FileType } from "@/schema/fileSchema";
+import { type File as FileType } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
@@ -38,7 +38,7 @@ const EditableFiles = (props: EditableFilesProps) => {
     value,
     disabled,
     maxCount = 128,
-    keyName,
+    // keyName,
   } = props;
   const t = useTranslation();
   const uuid = useId();
@@ -53,11 +53,14 @@ const EditableFiles = (props: EditableFilesProps) => {
   }>({ url: "", width: 100, height: 100 });
   const [dragActive, setDragActive] = useState<boolean>(false);
   const { mutate: uploadMutate } = useUploadMutation({
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data, _variables, _context) => {
       data
         .json()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((res: any) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (res?.statusCode === 201 && Array.isArray(res?.data)) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             const filesData = res.data as FileType[];
             onSubmit?.([...files, ...filesData]);
             setFiles((files) => [...files, ...filesData]);
@@ -91,23 +94,23 @@ const EditableFiles = (props: EditableFilesProps) => {
     uploadMutate(formData);
   };
 
-  const onDelete = (index: number) => {
-    // axios
-    //   .delete(env.NEXT_PUBLIC_SERVER_API_URL + `/api/upload/files/${index}`)
-    //   .then((res) => {
-    //     if (res?.data?.id !== undefined) {
-    //       setFiles((files) => files.filter((file) => file.id !== res.data.id));
-    //       onSubmit?.(files.filter((file) => file.id !== res.data.id));
-    //     }
-    //     setError(undefined);
-    //     //        console.log(res)
-    //   })
-    //   .catch((err: AxiosError) => {
-    //     setFiles((files) => files.filter((val) => val.id !== index));
-    //     setError(err.response?.statusText);
-    //     console.log(err);
-    //   });
-  };
+  //const onDelete = (index: number) => {
+  // axios
+  //   .delete(env.NEXT_PUBLIC_SERVER_API_URL + `/api/upload/files/${index}`)
+  //   .then((res) => {
+  //     if (res?.data?.id !== undefined) {
+  //       setFiles((files) => files.filter((file) => file.id !== res.data.id));
+  //       onSubmit?.(files.filter((file) => file.id !== res.data.id));
+  //     }
+  //     setError(undefined);
+  //     //        console.log(res)
+  //   })
+  //   .catch((err: AxiosError) => {
+  //     setFiles((files) => files.filter((val) => val.id !== index));
+  //     setError(err.response?.statusText);
+  //     console.log(err);
+  //   });
+  //};
 
   useEffect(() => {
     if (value === undefined || value === null) return;
@@ -185,7 +188,7 @@ const EditableFiles = (props: EditableFilesProps) => {
           onDrop={handleDrop}
         >
           {files.length > 0 ? (
-            files.map((file, index) => (
+            files.map((file) => (
               <FileListItem
                 key={`${uuid}_${file.id}_${file.filename}`}
                 value={file}

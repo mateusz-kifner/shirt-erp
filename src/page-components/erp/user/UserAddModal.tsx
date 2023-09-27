@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
-
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type UserType } from "@/schema/userSchema";
-import { api } from "@/utils/api";
+import { type User } from "@/schema/userZodSchema";
+// import { api } from "@/utils/api";
 import UserListItem from "./UserListItem";
 
 interface UserAddModalProps {
@@ -15,25 +13,14 @@ interface UserAddModalProps {
 }
 
 const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
-  const router = useRouter();
-  const [username, setUsername] = useState<string>("Klient");
-  const [template, setTemplate] = useState<Partial<UserType> | null>(null);
+  const [username, setUsername] = useState<string>("Użytkownik");
+  const [template, setTemplate] = useState<Partial<User> | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { mutate: createUser } = api.user.create.useMutation({
-    onSuccess(data) {
-      // router.push(`/erp/user/${data.id}`).catch((e) => {
-      //   throw e;
-      // });
-      onClose(data.id);
-    },
-    onError(error) {
-      setError("Klient o takiej nazwie istnieje.");
-    },
-  });
+  // const { mutateAsync: createUser } = api.user.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
-      setUsername("Klient");
+      setUsername("Użytkownik");
       // setTemplate(null);
       setError(null);
     }
@@ -42,14 +29,14 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
   return (
     <Dialog open={opened} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
-        <DialogTitle>Utwórz nowego klienta</DialogTitle>
+        <DialogTitle>Utwórz nowego użytkownika</DialogTitle>
         <div className="flex flex-col gap-2">
           <EditableApiEntry
             label="Szablon"
             entryName="users"
             Element={UserListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
@@ -70,7 +57,10 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
               ...(template ? omit(template, "id") : {}),
               username: username,
             };
-            createUser(new_user);
+            createUser(new_user).then((data)=>onClose(data.id)).catch((e)=>{
+              console.log(e)
+              setError("Użytkownik o takiej nazwie istnieje.");
+            })
           }}
           className="mt-4"
         >

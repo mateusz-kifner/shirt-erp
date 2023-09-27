@@ -1,15 +1,9 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
-import { type ProductType } from "@/schema/productSchema";
+import { type Product } from "@/schema/productZodSchema";
+import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
-interface ProductListItemProps {
-  onChange?: (item: Partial<ProductType>) => void;
-  value: Partial<ProductType>;
-  active?: boolean;
-  disabled?: boolean;
-}
-
-const ProductListItem = (props: ProductListItemProps) => {
+const ProductListItem = (props: ListItemProps<Product>) => {
   const value = props.value;
   return (
     <DefaultListItem

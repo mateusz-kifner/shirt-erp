@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type OrderType } from "@/schema/orderSchema";
+import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import OrderListItem from "./OrderListItem";
@@ -18,28 +17,16 @@ interface OrderAddModalProps {
 }
 
 const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
-  const router = useRouter();
   const [orderName, setOrderName] = useState<string>("Klient");
-  const [template, setTemplate] = useState<Partial<OrderType> | null>(null);
+  const [template, setTemplate] =
+    useState<Partial<OrderWithoutRelations> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const { data } = api.order.getById.useQuery(template?.id as number, {
     enabled: template !== null && template.id !== undefined,
   });
 
-  const { mutate: createOrder } = api.order.create.useMutation({
-    onSuccess(data) {
-      // setTimeout(() => {
-      //   router.push(`/erp/order/${data.id}`).catch((e) => {
-      //     throw e;
-      //   });
-      // }, 400);
-      onClose(data.id);
-    },
-    onError(error) {
-      // setError("Klient o takiej nazwie istnieje.");
-    },
-  });
+  const { mutateAsync: createOrder } = api.order.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
@@ -59,7 +46,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
             entryName="order"
             Element={OrderListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{
               defaultSearch: "Szablon",
@@ -84,10 +71,16 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
               console.log;
               const newOrder = {
                 ...(data ? omit(data, "id") : {}),
-                address: data?.address ? omit(data.address, "id") : null,
                 name: orderName,
               } as any;
-              createOrder(newOrder);
+              if (data?.address) {
+                newOrder.address = omit(data.address, "id");
+              }
+              createOrder(newOrder)
+                .then((data) => {
+                  onClose(data.id);
+                })
+                .catch((e) => console.log(e));
             }}
             className="mt-4"
           >

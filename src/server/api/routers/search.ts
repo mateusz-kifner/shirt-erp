@@ -1,7 +1,10 @@
 import { z } from "zod";
 
+import { db, type inferSchemaKeys } from "@/db/db";
+import { clients } from "@/db/schema/clients";
+import { orders } from "@/db/schema/orders";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { prisma } from "@/server/db";
+import { ilike, or } from "drizzle-orm";
 
 export const searchRouter = createTRPCRouter({
   all: authenticatedProcedure
@@ -10,10 +13,10 @@ export const searchRouter = createTRPCRouter({
         query: z.string().optional(),
         sort: z.enum(["desc", "asc"]).default("desc"),
         itemsPerPage: z.number().default(5),
-      })
+      }),
     )
     .query(async ({ input }) => {
-      const searchClient = [];
+      const searchClients = [];
       const searchOrders = [];
 
       if (input.query && input.query.length > 0) {
@@ -27,77 +30,31 @@ export const searchRouter = createTRPCRouter({
               "companyName",
               "email",
             ]) {
-              searchClient.push({
-                [key]: { contains: queryPart, mode: "insensitive" },
-              });
+              searchClients.push(
+                ilike(
+                  clients[key as inferSchemaKeys<typeof clients>],
+                  `%${queryPart}%`,
+                ),
+              );
             }
           }
         }
 
         for (const queryPart of splitQuery) {
           if (queryPart.length > 0) {
-            for (const key of ["name"]) {
-              searchOrders.push({
-                [key]: { contains: queryPart, mode: "insensitive" },
-              });
-            }
+            searchOrders.push(ilike(orders.name, `%${queryPart}%`));
           }
         }
       }
-      const queryClient = {
-        orderBy: {
-          updatedAt: input.sort,
-        },
-        where:
-          searchClient.length > 0
-            ? {
-                OR: searchClient,
-                NOT: {
-                  username: {
-                    contains: "Szablon",
-                  },
-                },
-              }
-            : {
-                NOT: {
-                  username: {
-                    contains: "Szablon",
-                  },
-                },
-              },
-      };
 
-      const queryOrder = {
-        orderBy: {
-          updatedAt: input.sort,
-        },
-        where:
-          searchOrders.length > 0
-            ? {
-                OR: searchOrders,
-                NOT: {
-                  name: {
-                    contains: "Szablon",
-                  },
-                },
-              }
-            : {
-                NOT: {
-                  name: {
-                    contains: "Szablon",
-                  },
-                },
-              },
-      };
-
-      const resultsClient = prisma.client.findMany({
-        ...queryClient,
-        take: input.itemsPerPage,
+      const resultsClient = db.query.clients.findMany({
+        where: or(...searchClients),
+        limit: input.itemsPerPage,
       });
 
-      const resultsOrder = prisma.order.findMany({
-        ...queryOrder,
-        take: input.itemsPerPage,
+      const resultsOrder = db.query.orders.findMany({
+        where: or(...searchOrders),
+        limit: input.itemsPerPage,
       });
 
       const results = await Promise.all([resultsClient, resultsOrder]);

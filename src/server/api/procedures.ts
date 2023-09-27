@@ -1,81 +1,26 @@
-import { type Prisma } from "@prisma/client";
 import { z } from "zod";
 
-import { prisma } from "@/server/db";
+import { db, type schemaType, type inferSchemaKeys } from "@/db/db";
+import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
+import { type PgTable } from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";
 
-type PrismaModelName = keyof typeof prisma;
-
-export function createProcedureGetById(modelName: PrismaModelName) {
-  return authenticatedProcedure.input(z.number()).query(async ({ input }) => {
-    const data = await (prisma[modelName] as Prisma.ClientDelegate).findUnique({
-      where: { id: input },
-    });
-    return data;
-  });
-}
-
-export function createProcedureGetAll(modelName: PrismaModelName) {
-  return authenticatedProcedure
-    .input(
-      z.object({
-        sortColumn: z.string().default("id"),
-        sort: z.enum(["desc", "asc"]).default("desc"),
-      }),
-    )
-    .query(async ({ input }) => {
-      const sortParam = { orderBy: { [input.sortColumn]: input.sort } };
-      const data = await (prisma[modelName] as Prisma.ClientDelegate).findMany({
-        ...sortParam,
-      });
-      return data;
-    });
-}
-
-export function createProcedureDeleteById(modelName: PrismaModelName) {
+export function createProcedureGetById<T extends schemaType>(schema: T) {
   return authenticatedProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => {
-      const data = await (prisma[modelName] as Prisma.ClientDelegate).delete({
-        where: { id: id },
-      });
-      return data;
+    .query(async ({ input: id }) => {
+      if (!(schema && "id" in schema)) {
+        throw new Error(
+          `GetById: Schema ${schema._.name} does not have property id`,
+        );
+      }
+      const data = await db.select().from<T>(schema).where(eq(schema.id, id));
+      return data[0];
     });
 }
 
-export function createProcedureSearch(modelName: PrismaModelName) {
-  return authenticatedProcedure
-    .input(
-      z.object({
-        keys: z.array(z.string()),
-        query: z.string().default(""),
-        sort: z.enum(["desc", "asc"]).default("desc"),
-        sortColumn: z.string().default("id"),
-        excludeKey: z.string().optional(),
-        excludeValue: z.string().optional(),
-      }),
-    )
-    .query(async ({ input }) => {
-      const results = await (
-        prisma[modelName] as Prisma.ClientDelegate
-      ).findMany({
-        orderBy: {
-          [input.sortColumn]: input.sort,
-        },
-        where: {
-          OR: input.keys.map((key) => ({ [key]: { contains: input.query } })),
-          NOT:
-            input.excludeKey && input.excludeValue
-              ? { [input.excludeKey]: input.excludeValue }
-              : {},
-        },
-      });
-      return results;
-    });
-}
-
-export function createProcedureSearchWithPagination(
-  modelName: PrismaModelName,
+export function createProcedureSearch<TSchema extends schemaType>(
+  schema: TSchema,
 ) {
   return authenticatedProcedure
     .input(
@@ -86,59 +31,59 @@ export function createProcedureSearchWithPagination(
         sortColumn: z.string().default("name"),
         excludeKey: z.string().optional(),
         excludeValue: z.string().optional(),
-        currentPage: z.number(),
+        currentPage: z.number().default(1),
         itemsPerPage: z.number().default(10),
       }),
     )
     .query(async ({ input }) => {
-      console.log(input);
-      const search = [];
-      if (input.query && input.query.length > 0) {
-        const splitQuery = input.query.split(" ");
-        for (const queryPart of splitQuery) {
-          if (queryPart.length > 0) {
-            for (const key of input.keys) {
-              search.push({
-                [key]: { contains: queryPart, mode: "insensitive" },
-              });
-            }
-          }
-        }
-      }
-      const query = {
-        orderBy: {
-          [input.sortColumn]: input.sort,
-        },
-        where:
-          search.length > 0
-            ? {
-                OR: search,
-              }
-            : {
-                NOT:
-                  input.excludeKey && input.excludeValue
-                    ? {
-                        [input.excludeKey]: {
-                          contains: input.excludeValue,
-                        },
-                      }
-                    : undefined,
-              },
-      };
+      const {
+        keys,
+        query,
+        sort,
+        sortColumn,
+        excludeKey,
+        excludeValue,
+        currentPage,
+        itemsPerPage,
+      } = input;
 
-      const results = await (
-        prisma[modelName] as Prisma.ClientDelegate
-      ).findMany({
-        ...query,
-        take: input.itemsPerPage,
-        skip: (input.currentPage - 1) * input.itemsPerPage,
-      });
-      const totalItems = await (
-        prisma[modelName] as Prisma.ClientDelegate
-      ).count(query);
+      const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
+
+      const search = queryParam
+        ? keys.map((key) =>
+            ilike(schema[key as inferSchemaKeys<PgTable>], queryParam),
+          )
+        : [];
+      const results = await db
+        .select()
+        .from<TSchema>(schema)
+        .where(
+          queryParam
+            ? or(...search)
+            : excludeKey && excludeValue
+            ? not(
+                ilike(
+                  schema[excludeKey as inferSchemaKeys<PgTable>],
+                  `${excludeValue}%`,
+                ),
+              )
+            : undefined,
+        )
+        .limit(itemsPerPage)
+        .offset((currentPage - 1) * itemsPerPage)
+        .orderBy(
+          (sort === "asc" ? asc : desc)(
+            schema[sortColumn as inferSchemaKeys<PgTable>],
+          ),
+        );
+
+      const totalItems = await db
+        .select({ count: sql<number>`count(*)` })
+        .from<TSchema>(schema);
+
       return {
         results,
-        totalItems: totalItems,
+        totalItems: totalItems?.[0]?.count ?? 0,
       };
     });
 }

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
-import { useRouter } from "next/router";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type ProductType } from "@/schema/productSchema";
+import { type Product } from "@/schema/productZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ProductListItem from "./ProductListItem";
@@ -18,21 +17,10 @@ interface ProductAddModalProps {
 }
 
 const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
-  const router = useRouter();
   const [productName, setProductName] = useState<string>("Produkt");
-  const [template, setTemplate] = useState<Partial<ProductType> | null>(null);
+  const [template, setTemplate] = useState<Partial<Product> | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { mutate: createProduct } = api.product.create.useMutation({
-    onSuccess(data) {
-      // router.push(`/erp/product/${data.id}`).catch((e) => {
-      //   throw e;
-      // });
-      onClose(data.id);
-    },
-    onError(error) {
-      setError("Produkt o takiej nazwie już istnieje.");
-    },
-  });
+  const { mutateAsync: createProduct } = api.product.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
@@ -49,10 +37,10 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
         <div className="flex flex-col gap-2">
           <EditableApiEntry
             label="Szablon"
-            entryName="products"
+            entryName="product"
             Element={ProductListItem}
             onSubmit={setTemplate}
-            value={template}
+            value={template ?? undefined}
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
@@ -76,7 +64,9 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
                 "orders-archive": [],
               };
 
-              createProduct({ name: productName });
+              createProduct(new_product)
+                .then((data) => onClose(data.id))
+                .catch(() => setError("Produkt o takiej nazwie już istnieje."));
             }}
             className="mt-4"
           >

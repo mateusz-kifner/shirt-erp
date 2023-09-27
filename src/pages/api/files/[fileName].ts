@@ -1,5 +1,7 @@
-import { prisma } from "@/server/db";
+import { db } from "@/db/db";
+import { files } from "@/db/schema/files";
 import HTTPError from "@/utils/HTTPError";
+import { eq } from "drizzle-orm";
 import { createReadStream } from "fs";
 import fs from "fs/promises";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -20,7 +22,9 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
     const { fileName, token } = req.query;
     const download = req.query.download === "";
 
-    const file = await prisma.file.findFirst({ where: { filename: fileName } });
+    const file = await db.query.files.findFirst({
+      where: eq(files.filename, fileName),
+    });
     if (!file) {
       throw new HTTPError(404, `File not found`);
     }
@@ -34,14 +38,14 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       res.setHeader(
         "Content-Disposition",
         `attachment; filename="${encodeURIComponent(
-          file?.originalFilename ?? ""
-        )}"`
+          file?.originalFilename ?? "",
+        )}"`,
       );
       res.setHeader("Content-Type", "application/octet-stream");
 
       try {
         const fileStream = createReadStream(
-          `./uploads/${file?.newFilename as string}`
+          `./uploads/${file?.newFilename as string}`,
         );
         fileStream.pipe(res);
       } catch (e) {
@@ -51,11 +55,11 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       // View headers
       res.setHeader(
         "Content-Type",
-        file.mimetype ?? "application/octet-stream"
+        file.mimetype ?? "application/octet-stream",
       );
       try {
         const imageData = await fs.readFile(
-          `./uploads/${file?.newFilename as string}`
+          `./uploads/${file?.newFilename as string}`,
         );
 
         res.send(imageData);

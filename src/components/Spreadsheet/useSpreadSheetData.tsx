@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { type CellBase, type Matrix, type Point } from "react-spreadsheet";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type UniversalCell = CellBase & { [key: string]: any };
 
 export type UniversalMatrix = Matrix<UniversalCell>;
@@ -11,6 +12,7 @@ export interface UseSpreadSheetDataHandlers {
   removeColumn: (column: number) => void;
   addRow: (row: number) => void;
   removeRow: (row: number) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setMetadata: (selection: Point[], metadata: { [key: string]: any }) => void;
   clearMetadata: (selection: Point[]) => void;
   clearAllMetadata: () => void;
@@ -24,13 +26,13 @@ export function useSpreadSheetData(
   initialValue: UniversalMatrix = [
     [undefined, undefined],
     [undefined, undefined],
-  ]
+  ],
 ): UseSpreadSheetData {
   const [data, setData] = useState<UniversalMatrix>(initialValue);
 
   const addColumn = (column: number) => {
     setData((data) => [
-      ...data.map((val, index) => [
+      ...data.map((val) => [
         ...val.slice(0, column),
         undefined,
         ...val.slice(column),
@@ -55,14 +57,15 @@ export function useSpreadSheetData(
   const removeColumn = (column: number) => {
     if (data[0]!.length > 2) {
       setData((data) =>
-        data.map((val) => val.filter((_, index) => column !== index))
+        data.map((val) => val.filter((_, index) => column !== index)),
       );
     }
   };
 
   const setMetadata = (
     selection: Point[],
-    metadata: { [key: string]: any }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    metadata: { [key: string]: any },
   ) => {
     const new_data: UniversalMatrix = [
       ...data.map((val) => [
@@ -71,7 +74,7 @@ export function useSpreadSheetData(
             ? {
                 ...val2,
               }
-            : undefined
+            : undefined,
         ),
       ]),
     ];
@@ -93,7 +96,7 @@ export function useSpreadSheetData(
             ? {
                 ...val2,
               }
-            : undefined
+            : undefined,
         ),
       ]),
     ];
@@ -101,7 +104,10 @@ export function useSpreadSheetData(
     for (const point of selection) {
       new_data[point.row]![point.column] = new_data[point.row]![point.column]
         ? {
-            value: (new_data[point.row]![point.column] as any).value ?? "",
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+            value:
+              (new_data[point.row]![point.column] as { value: string }).value ??
+              "",
           }
         : undefined;
     }
@@ -114,9 +120,10 @@ export function useSpreadSheetData(
         ...val.map((val2) =>
           val2
             ? {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value: val2?.value ?? "",
               }
-            : undefined
+            : undefined,
         ),
       ]),
     ];

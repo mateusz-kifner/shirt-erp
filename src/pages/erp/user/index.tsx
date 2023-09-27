@@ -4,7 +4,6 @@ import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import Workspace from "@/components/layout/Workspace";
-import { useIsMobile } from "@/hooks/useIsMobile";
 import UserAddModal from "@/page-components/erp/user/UserAddModal";
 import UserEditable from "@/page-components/erp/user/UserEditable";
 import UsersList from "@/page-components/erp/user/UserList";
@@ -14,7 +13,6 @@ const entryName = "user";
 
 const UsersPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-  const isMobile = useIsMobile();
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
@@ -46,10 +44,7 @@ const UsersPage = () => {
         opened={openAddModal}
         onClose={(id?: number) => {
           setOpenAddModal(false);
-          id !== undefined &&
-            router.push(`/erp/user/${id}`).catch((e) => {
-              throw e;
-            });
+          id !== undefined && void router.push(`/erp/user/${id}`);
         }}
       />
     </div>

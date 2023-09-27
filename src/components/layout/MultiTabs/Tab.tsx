@@ -8,10 +8,10 @@ import { simpleColors } from "@/utils/getRandomColor";
 import { useMergedRef, useResizeObserver } from "@mantine/hooks";
 import { IconPinned } from "@tabler/icons-react";
 import {
-  ComponentPropsWithoutRef,
-  MouseEvent,
-  ReactElement,
-  ReactNode,
+  type ComponentPropsWithoutRef,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
   cloneElement,
   forwardRef,
   isValidElement,
@@ -42,6 +42,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       rightSection,
       className,
       small = false,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       onMiddleClick,
 
       ...moreProps
@@ -86,14 +87,16 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         }>,
         {
           color:
-            typeof rightSection.props.color !== undefined
-              ? rightSection.props.color
+            typeof (rightSection as { props: Record<string, unknown> })?.props
+              ?.color !== undefined
+              ? (rightSection as { props: { color: string } }).props.color
               : isActive || isPinned
               ? color
               : undefined,
           size:
-            typeof rightSection.props.size === "number"
-              ? rightSection.props.size
+            typeof (rightSection as { props: Record<string, unknown> }).props
+              .size === "number"
+              ? (rightSection as { props: { size: number } }).props.size
               : 16,
         },
       );
@@ -114,6 +117,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         (getTabMaxWidth(index) ?? 0) < rect.width &&
           setTabMaxWidth(index, rect.width);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rect.width]);
 
     return (

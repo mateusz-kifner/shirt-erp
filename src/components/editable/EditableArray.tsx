@@ -1,9 +1,15 @@
-import EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { cn } from "@/utils/cn";
 import { useListState } from "@mantine/hooks";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import { isEqual } from "lodash";
-import { ReactElement, cloneElement, useEffect, useId, useState } from "react";
+import {
+  type ReactElement,
+  cloneElement,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import Button, { buttonVariants } from "../ui/Button";
 import {
   ContextMenu,
@@ -19,17 +25,18 @@ interface EditableArrayProps<T> extends EditableInput<T[]> {
   children: ReactElement<EditableInput<T>>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function EditableArray<T = any>(props: EditableArrayProps<T>) {
   const {
     label,
     value,
     onSubmit,
     disabled,
-    required,
+    // required,
     maxCount,
-    uniqueItems,
+    // uniqueItems,
     children,
-    keyName,
+    // keyName,
   } = props;
 
   const [items, handlers] = useListState<T | null>(value ?? []);
