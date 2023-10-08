@@ -3,13 +3,14 @@
 # ShirtERP
 
 System do zarządzania zamówieniami i produktami dostosowany do potrzeb drukarni odzieży. Został  on zaprojektowany tak, aby umożliwić zarządzanie procesami związanymi z zamówieniami, obsługą klientów oraz kontrolą wydatków, dodatkowo pozwala on na:
-·	Edycję arkuszy kalkulacyjnych związanych z zamówieniami oraz oznaczanie zapakowanych towarów na podstawie tych tabel
-·	Dodawanie emaili oraz załączonych w nich plików do zamówień
+- Edycję arkuszy kalkulacyjnych związanych z zamówieniami oraz oznaczanie zapakowanych towarów na podstawie tych tabel
+- Dodawanie emaili oraz załączonych w nich plików do zamówień
 System został zakupiony przez firmie Wentaprint.
-Tech:  Next.js, tRPC, Tailwindcss, Radix-ui(shadcn), DrizzleORM, imapflow, mailparser
+<br/>
+<b>Tech:</b>  Next.js, tRPC, Tailwindcss, Radix-ui(shadcn), DrizzleORM, imapflow, mailparser
 
 <br/>
-**DEMO:** [shirterp.eu](https://shirterp.eu/)
+<b>DEMO:</b> [shirterp.eu](https://shirterp.eu/)
 <br/>
 
 
