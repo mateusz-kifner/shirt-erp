@@ -50,3 +50,4 @@ cache/*
 cache/email/*
 !cache/email
 !cache/email/.gitkeep
+tsconfig.tsbuildinfo
