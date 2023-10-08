@@ -2,22 +2,19 @@
 
 # ShirtERP
 
-System do zarządzania drukarnią koszulek.
+System do zarządzania zamówieniami i produktami dostosowany do potrzeb drukarni odzieży. Został  on zaprojektowany tak, aby umożliwić zarządzanie procesami związanymi z zamówieniami, obsługą klientów oraz kontrolą wydatków, dodatkowo pozwala on na:
+·	Edycję arkuszy kalkulacyjnych związanych z zamówieniami oraz oznaczanie zapakowanych towarów na podstawie tych tabel
+·	Dodawanie emaili oraz załączonych w nich plików do zamówień
+System został zakupiony przez firmie Wentaprint.
+Tech:  Next.js, tRPC, Tailwindcss, Radix-ui(shadcn), DrizzleORM, imapflow, mailparser
+
 <br/>
-**DEMO:**[shirterp.eu](https://shirterp.eu/)
+**DEMO:** [shirterp.eu](https://shirterp.eu/)
 <br/>
 
 
 ![Produkty](.github/ShirtERP.png)
 ![Zamówienia](.github/ShirtERP2.png)
-
-### Licencja komercyjna
-
-### License Proprietary
-
-### W przypadku chęci kupna systemu proszę o kontakt przez mail: kifner.mateusz(αt)gmail.com
-
-### For business deals please contact me via mail: kifner.mateusz(αt)gmail.com
 
 ## Installation instructions
 
@@ -27,5 +24,11 @@ System do zarządzania drukarnią koszulek.
 4. Run `yarn` in cloned folder to install dependencies, then run `yarn build` to build application UI.
 5. Set env variables in .env file
 6. Server is now ready and can be started with `yarn prod` command
+
+#### Licencja komercyjna
+W przypadku chęci kupna systemu proszę o kontakt przez mail: kifner.mateusz(αt)gmail.com
+
+#### License Proprietary
+For business deals please contact me via mail: kifner.mateusz(αt)gmail.com
 
 ShirtERP is Copyright (c) Mateusz Kifner kifner.mateusz(αt)gmail.com
