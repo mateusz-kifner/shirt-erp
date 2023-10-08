@@ -102,17 +102,17 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
       .catch(console.log);
   };
 
-  // update address if it's not set to client one
-  useEffect(() => {
-    if (
-      orderAddressFromClient !== null &&
-      data?.clientId == orderAddressFromClient
-    ) {
-      data.client?.address &&
-        apiUpdate("address", omit(data.client.address, ["id"]));
-      setOrderAddressFromClient(null);
-    }
-  }, [orderAddressFromClient, data?.clientId]);
+  // // update address if it's not set to client one
+  // useEffect(() => {
+  //   if (
+  //     orderAddressFromClient !== null &&
+  //     data?.clientId == orderAddressFromClient
+  //   ) {
+  //     data.client?.address &&
+  //       apiUpdate("address", omit(data.client.address, ["id"]));
+  //     setOrderAddressFromClient(null);
+  //   }
+  // }, [orderAddressFromClient, data?.clientId]);
 
   if (!data)
     return (
@@ -176,7 +176,9 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
           allowClear
           listProps={clientListSearchParams}
           Element={ClientListItem}
-          onSubmit={(value: Client) => {
+          onSubmit={(
+            value: { [key: string]: any; id?: number | undefined } | null,
+          ) => {
             // check if address is set
             if (
               data.address === null ||
@@ -187,7 +189,7 @@ function OrderArchiveEditable(props: OrderArchiveEditableProps) {
                 !data.address.city &&
                 !data.address.secondLine)
             )
-              setOrderAddressFromClient(value.id);
+              setOrderAddressFromClient(value?.id ?? null);
           }}
         />
         <Wrapper

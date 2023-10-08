@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { type CellBase, type Matrix, type Point } from "react-spreadsheet";
+import {
+  PointRange,
+  type CellBase,
+  type Matrix,
+  type Selection,
+} from "react-spreadsheet";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type UniversalCell = CellBase & { [key: string]: any };
@@ -13,8 +18,11 @@ export interface UseSpreadSheetDataHandlers {
   addRow: (row: number) => void;
   removeRow: (row: number) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setMetadata: (selection: Point[], metadata: { [key: string]: any }) => void;
-  clearMetadata: (selection: Point[]) => void;
+  setMetadata: (
+    selection: PointRange,
+    metadata: { [key: string]: any },
+  ) => void;
+  clearMetadata: (selection: PointRange) => void;
   clearAllMetadata: () => void;
 }
 
@@ -63,7 +71,7 @@ export function useSpreadSheetData(
   };
 
   const setMetadata = (
-    selection: Point[],
+    selection: PointRange,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     metadata: { [key: string]: any },
   ) => {
@@ -88,7 +96,7 @@ export function useSpreadSheetData(
     setData(new_data);
   };
 
-  const clearMetadata = (selection: Point[]) => {
+  const clearMetadata = (selection: PointRange) => {
     const new_data: UniversalMatrix = [
       ...data.map((val) => [
         ...val.map((val2) =>

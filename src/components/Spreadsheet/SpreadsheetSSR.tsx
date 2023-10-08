@@ -9,8 +9,10 @@ import type {
   ColumnIndicatorComponent,
   Point,
   RowIndicatorComponent,
+  Selection,
+  PointRange,
 } from "react-spreadsheet";
-import ReactSpreadsheet from "react-spreadsheet";
+import ReactSpreadsheet, { EmptySelection } from "react-spreadsheet";
 import { type UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
@@ -75,7 +77,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     ],
   );
 
-  const [selection, setSelection] = useState<Point[]>([]);
+  const [selection, setSelection] = useState<PointRange | null>(null);
   const [updateCount, setUpdateCount] = useState<number>(0);
   const [canUpdate, setCanUpdate] = useState<boolean>(true);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
@@ -115,20 +117,21 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     }
   };
 
-  const setSelectionIfNotNull = (value: Point[]) => {
-    value.length != 0 && setSelection(value);
+  const setSelectionIfNotNull = (value: Selection) => {
+    const range = value.toRange(data);
+    !(value instanceof EmptySelection) && setSelection(range);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const setMetadataOnSelection = (metadata: { [key: string]: any }) => {
-    setMetadata(selection, metadata);
+    selection !== null && setMetadata(selection, metadata);
     incrementUpdateCount();
-    setSelection([]);
+    setSelection(null);
   };
   const clearMetadataOnSelection = () => {
-    clearMetadata(selection);
+    selection !== null && clearMetadata(selection);
     incrementUpdateCount();
-    setSelection([]);
+    setSelection(null);
   };
 
   useEffect(() => {

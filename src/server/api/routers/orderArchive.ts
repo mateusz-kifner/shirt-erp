@@ -39,7 +39,7 @@ export const orderArchiveRouter = createTRPCRouter({
         where: eq(orders.id, id),
         with: {
           address: true,
-          client: true,
+          client: { with: { address: true } },
           emails: { with: { emailMessages: true } },
           employees: { with: { users: true } },
           files: { with: { files: true } },
