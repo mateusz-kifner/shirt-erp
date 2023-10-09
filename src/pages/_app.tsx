@@ -28,6 +28,8 @@ import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -77,7 +79,11 @@ Logger.setLevel(
   env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN,
 );
 
-const App: AppType = ({ Component, pageProps }) => {
+const App: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps,
+}) => {
+  const { session } = pageProps;
   const router = useRouter();
   dayjs.locale(router.locale);
 
@@ -98,20 +104,22 @@ const App: AppType = ({ Component, pageProps }) => {
   }, [router.locale]);
 
   return (
-    <UserContextProvider>
-      <TooltipProvider>
-        <AppLayout>
-          <Head>
-            <title>ShirtERP</title>
-          </Head>
-          <ErrorBoundary fallback={<h1>Application crashed</h1>}>
-            <Component {...pageProps} />
-          </ErrorBoundary>
-        </AppLayout>
-        <Toaster />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </TooltipProvider>
-    </UserContextProvider>
+    <SessionProvider session={session}>
+      <UserContextProvider>
+        <TooltipProvider>
+          <AppLayout>
+            <Head>
+              <title>ShirtERP</title>
+            </Head>
+            <ErrorBoundary fallback={<h1>Application crashed</h1>}>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          </AppLayout>
+          <Toaster />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </TooltipProvider>
+      </UserContextProvider>
+    </SessionProvider>
   );
 };
 

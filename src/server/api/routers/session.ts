@@ -9,7 +9,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
 

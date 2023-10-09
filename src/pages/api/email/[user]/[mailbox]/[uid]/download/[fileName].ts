@@ -1,9 +1,8 @@
-import { db } from "@/db/db";
+import { db } from "@/db";
+import { getServerAuthSession } from "@/server/auth";
 import { downloadEmailAttachment } from "@/server/email";
-import { sessionOptions } from "@/server/session";
 import HTTPError from "@/utils/HTTPError";
 import { ImapFlow } from "imapflow";
-import { type IronSession, getIronSession } from "iron-session";
 import Logger from "js-logger";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Readable } from "node:stream";
@@ -13,9 +12,11 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
       throw new HTTPError(405, `Method ${req.method as string} not allowed`);
     }
-    const session: IronSession = await getIronSession(req, res, sessionOptions);
+    const session = await getServerAuthSession({ req, res });
 
-    if (!session.isLoggedIn) throw new HTTPError(401, `Unauthenticated`);
+    // const session: IronSession = await getIronSession(req, res, sessionOptions);
+
+    if (!session?.user) throw new HTTPError(401, `Unauthenticated`);
     console.log(req.query);
 
     if (req.query.fileName === undefined || Array.isArray(req.query.fileName)) {

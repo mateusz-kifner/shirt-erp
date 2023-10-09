@@ -4,6 +4,7 @@ import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
+import { signOut } from "next-auth/react";
 
 import Button from "@/components/ui/Button";
 import {
@@ -34,7 +35,8 @@ const Notifications = () => {
       error?.data?.httpStatus === 403 &&
       error.message === "User not authenticated"
     ) {
-      void router.push("/login");
+      void signOut();
+      // void router.push("/login");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);

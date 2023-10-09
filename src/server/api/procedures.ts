@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { db, type schemaType, type inferSchemaKeys } from "@/db/db";
+import { db, type schemaType, type inferSchemaKeys } from "@/db";
 import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
 import { type PgTable } from "drizzle-orm/pg-core";
 import { authenticatedProcedure } from "./trpc";

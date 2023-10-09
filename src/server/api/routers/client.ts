@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { addresses } from "@/db/schema/addresses";
 import { clients } from "@/db/schema/clients";
 import {

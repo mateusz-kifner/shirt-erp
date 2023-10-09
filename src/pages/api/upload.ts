@@ -1,13 +1,12 @@
-import { db } from "@/db/db";
-import { sessionOptions } from "@/server/session";
+import { db } from "@/db";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import formidable from "formidable";
 import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";
-import { getIronSession, type IronSession } from "iron-session";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { files as filesSchema } from "@/db/schema/files";
+import { getServerAuthSession } from "@/server/auth";
 
 /**
  * Upload using multiform data, requires using name file
@@ -31,10 +30,10 @@ export default async function Upload(
     if (req.method !== "POST") {
       throw new HTTPError(405, `Method ${req.method as string} not allowed`);
     }
-    const session: IronSession = await getIronSession(req, res, sessionOptions);
+    const session = await getServerAuthSession({ req, res });
     console.log(session);
 
-    if (!session.isLoggedIn) throw new HTTPError(401, `Unauthenticated`);
+    if (!session?.user) throw new HTTPError(401, `Unauthenticated`);
 
     const form = new formidable.IncomingForm({
       multiples: true,

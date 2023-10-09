@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { expenses } from "@/db/schema/expenses";
 import {
   insertExpenseZodSchema,

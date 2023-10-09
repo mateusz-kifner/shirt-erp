@@ -8,7 +8,6 @@ import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { appRouter } from "@/server/api/root";
 
-import { sessionOptions } from "@/server/session";
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
 import {
@@ -20,35 +19,34 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import { createServerSideHelpers } from "@trpc/react-query/server";
-import { withIronSessionSsr } from "iron-session/next";
 import { useRouter } from "next/router";
 import SuperJSON from "superjson";
-import { db } from "@/db/db";
+import { db } from "@/db";
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
-  const user = req.session.user;
+// export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
+//   const user = req.session.user;
 
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
 
-  const ssg = createServerSideHelpers({
-    router: appRouter,
-    ctx: { session: req.session, db },
-    transformer: SuperJSON,
-  });
+//   const ssg = createServerSideHelpers({
+//     router: appRouter,
+//     ctx: { session: req.session, db },
+//     transformer: SuperJSON,
+//   });
 
-  await ssg.session.me.prefetch();
+//   await ssg.session.me.prefetch();
 
-  return {
-    props: { trpcState: ssg.dehydrate() },
-  };
-}, sessionOptions);
+//   return {
+//     props: { trpcState: ssg.dehydrate() },
+//   };
+// }, sessionOptions);
 
 function Settings() {
   const router = useRouter();
@@ -87,12 +85,12 @@ function Settings() {
         <div className="flex flex-col gap-3 p-4 ">
           <Button
             onClick={() => {
-              logout
-                .mutateAsync()
-                .then(() => {
-                  void router.push("/login");
-                })
-                .catch((err: { message: string }) => console.log(err.message));
+              // logout
+              //   .mutateAsync()
+              //   .then(() => {
+              //     // void router.push("/login");
+              //   })
+              //   .catch((err: { message: string }) => console.log(err.message));
             }}
             leftSection={<IconLogout />}
           >

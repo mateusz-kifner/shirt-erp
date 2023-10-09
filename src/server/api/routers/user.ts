@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import {
   insertUserZodSchema,

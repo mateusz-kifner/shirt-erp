@@ -2,7 +2,7 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { spreadsheets } from "@/db/schema/spreadsheets";
 import {
   insertSpreadsheetZodSchema,

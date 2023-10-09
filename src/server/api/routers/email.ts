@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import {

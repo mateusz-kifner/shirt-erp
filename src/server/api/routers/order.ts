@@ -1,7 +1,7 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
 import { archive_orders, orders } from "@/db/schema/orders";
 import {

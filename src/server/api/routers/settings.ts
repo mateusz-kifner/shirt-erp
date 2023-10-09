@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { email_credentials } from "@/db/schema/email_credentials";
 import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
 import { insertEmailCredentialZodSchema } from "@/schema/emailCredentialZodSchema";

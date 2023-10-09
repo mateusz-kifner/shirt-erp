@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { db, type inferSchemaKeys } from "@/db/db";
+import { db, type inferSchemaKeys } from "@/db";
 import { clients } from "@/db/schema/clients";
 import { orders } from "@/db/schema/orders";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";

@@ -1,7 +1,7 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { files } from "@/db/schema/files";
 import { type File, updateFileZodSchema } from "@/schema/fileZodSchema";
 import { eq } from "drizzle-orm";
