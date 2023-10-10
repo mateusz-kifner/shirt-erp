@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import {
   downloadEmailByUid,
@@ -15,7 +15,7 @@ import Logger from "js-logger";
 import { z } from "zod";
 
 export const emailRouter = createTRPCRouter({
-  getAllConfigs: authenticatedProcedure.query(async ({ ctx }) => {
+  getAllConfigs: employeeProcedure.query(async ({ ctx }) => {
     const currentUserId = ctx.session!.user!.id;
     const result = await db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, currentUserId),
@@ -27,7 +27,7 @@ export const emailRouter = createTRPCRouter({
     return result.emailCredentials.map((v) => v.emailCredentials);
   }),
 
-  getFolders: authenticatedProcedure
+  getFolders: employeeProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
       const currentUserId = ctx.session!.user!.id;
@@ -58,7 +58,7 @@ export const emailRouter = createTRPCRouter({
       return await fetchFolders(client);
     }),
 
-  getFolderTree: authenticatedProcedure
+  getFolderTree: employeeProcedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
       const currentUserId = ctx.session!.user!.id;
@@ -89,7 +89,7 @@ export const emailRouter = createTRPCRouter({
       return await fetchFolderTree(client);
     }),
 
-  getAll: authenticatedProcedure
+  getAll: employeeProcedure
     .input(
       z.object({
         mailbox: z.string().default("INBOX"),
@@ -129,7 +129,7 @@ export const emailRouter = createTRPCRouter({
       return await fetchEmails(client, mailbox, take, skip);
     }),
 
-  getByUid: authenticatedProcedure
+  getByUid: employeeProcedure
     .input(
       z.object({
         mailbox: z.string().default("INBOX"),
@@ -172,7 +172,7 @@ export const emailRouter = createTRPCRouter({
       );
       return mail;
     }),
-  downloadByUid: authenticatedProcedure
+  downloadByUid: employeeProcedure
     .input(
       z.object({
         mailbox: z.string().default("INBOX"),
@@ -216,7 +216,7 @@ export const emailRouter = createTRPCRouter({
       return mail;
     }),
 
-  search: authenticatedProcedure
+  search: employeeProcedure
     .input(
       z.object({
         mailbox: z.string().default("INBOX"),

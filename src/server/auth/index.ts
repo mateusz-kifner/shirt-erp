@@ -12,6 +12,7 @@ import { env } from "@/env.mjs";
 import { db } from "@/db";
 import { pgTable } from "drizzle-orm/pg-core";
 import { sendVerificationRequest } from "./email";
+import { UserRole } from "@/db/schema/users";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -24,7 +25,7 @@ declare module "next-auth" {
     user: {
       id: string;
       // ...other properties
-      // role: UserRole;
+      role: UserRole;
     } & DefaultSession["user"];
   }
 

@@ -2,14 +2,14 @@ import { db } from "@/db";
 import { email_credentials } from "@/db/schema/email_credentials";
 import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
 import { insertEmailCredentialZodSchema } from "@/schema/emailCredentialZodSchema";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 export const settingsRouter = createTRPCRouter({
-  getAllMailCredentials: authenticatedProcedure.query(async ({ ctx }) => {
+  getAllMailCredentials: employeeProcedure.query(async ({ ctx }) => {
     const currentUserId = ctx.session!.user!.id;
     const result = await db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, currentUserId),
@@ -18,7 +18,7 @@ export const settingsRouter = createTRPCRouter({
     return result?.emailCredentials.map((v) => v.emailCredentials);
   }),
 
-  createMailCredential: authenticatedProcedure
+  createMailCredential: employeeProcedure
     .input(insertEmailCredentialZodSchema)
     .mutation(async ({ ctx, input: emailCredentialData }) => {
       const currentUserId = ctx.session!.user!.id;
@@ -41,7 +41,7 @@ export const settingsRouter = createTRPCRouter({
       });
       return EmailCredential[0];
     }),
-  // updateMailCredential: authenticatedProcedure
+  // updateMailCredential: employeeProcedure
   //   .input(emailCredentialSchema)
   //   .mutation(async ({ input: mailCredential }) => {
   //     const updatedProduct = await prisma.product.update({
@@ -50,7 +50,7 @@ export const settingsRouter = createTRPCRouter({
   //     });
   //     return updatedProduct;
   //   }),
-  deleteMailCredential: authenticatedProcedure
+  deleteMailCredential: employeeProcedure
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => {
       const currentUserId = ctx.session!.user!.id;

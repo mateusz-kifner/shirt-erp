@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import {
   index,
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   text,
@@ -13,12 +14,20 @@ import { email_credentials_to_users } from "./email_credentials_to_users";
 import { archive_orders_to_users, orders_to_users } from "./orders_to_users";
 import { AdapterAccount } from "next-auth/adapters";
 
+export const roleEnum = pgEnum("role", [
+  "normal",
+  "employee",
+  "manager",
+  "admin",
+]);
+
 export const users = pgTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: varchar("image", { length: 255 }),
+  role: roleEnum("role").default("normal"),
   ...metadata,
 });
 
@@ -76,3 +85,5 @@ export const verificationTokens = pgTable(
     compoundKey: primaryKey(vt.identifier, vt.token),
   }),
 );
+
+export type UserRole = (typeof roleEnum.enumValues)[number];

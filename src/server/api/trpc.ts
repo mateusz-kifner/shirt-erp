@@ -126,7 +126,7 @@ export const middleware = t.middleware;
  */
 export const publicProcedure = t.procedure;
 
-export const isAuthenticated = middleware(async ({ ctx, next }) => {
+export const isAuthenticatedNormal = middleware(async ({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw new trpc.TRPCError({
       code: "FORBIDDEN",
@@ -141,7 +141,92 @@ export const isAuthenticated = middleware(async ({ ctx, next }) => {
   });
 });
 
-export const authenticatedProcedure = t.procedure.use(isAuthenticated);
+export const isAuthenticatedEmployee = middleware(async ({ ctx, next }) => {
+  if (!ctx.session?.user) {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message: "User not authenticated",
+    });
+  }
+
+  if (
+    !(
+      ctx.session?.user.role === "employee" ||
+      ctx.session?.user.role === "manager" ||
+      ctx.session?.user.role === "admin"
+    )
+  ) {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message:
+        "User doesn't have permissions to access resource of Employee role",
+    });
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+export const isAuthenticatedManager = middleware(async ({ ctx, next }) => {
+  if (!ctx.session?.user) {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message: "User not authenticated",
+    });
+  }
+
+  if (
+    !(
+      ctx.session?.user.role === "manager" || ctx.session?.user.role === "admin"
+    )
+  ) {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message:
+        "User doesn't have permissions to access resource of Employee role",
+    });
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+export const isAuthenticatedAdmin = middleware(async ({ ctx, next }) => {
+  if (!ctx.session?.user) {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message: "User not authenticated",
+    });
+  }
+
+  if (!(ctx.session?.user.role === "admin")) {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message:
+        "User doesn't have permissions to access resource of Employee role",
+    });
+  }
+
+  return next({
+    ctx: {
+      // infers the `session` as non-nullable
+      session: { ...ctx.session, user: ctx.session.user },
+    },
+  });
+});
+
+export const normalProcedure = t.procedure.use(isAuthenticatedNormal);
+export const employeeProcedure = t.procedure.use(isAuthenticatedEmployee);
+export const managerProcedure = t.procedure.use(isAuthenticatedManager);
+export const adminProcedure = t.procedure.use(isAuthenticatedAdmin);
 
 // export const isPrivileged = middleware(async ({ ctx, path, type, next }) => {
 //   if (!ctx?.session?.user) {

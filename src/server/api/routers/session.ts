@@ -4,7 +4,7 @@ import _ from "lodash";
 import { z } from "zod";
 
 import {
-  authenticatedProcedure,
+  employeeProcedure,
   createTRPCRouter,
   publicProcedure,
 } from "@/server/api/trpc";
@@ -25,7 +25,7 @@ export const sessionRouter = createTRPCRouter({
       };
     }
   }),
-  me: authenticatedProcedure.query(async ({ ctx }) => {
+  me: employeeProcedure.query(async ({ ctx }) => {
     const result = await db.query.users.findFirst({
       where: eq(users.id, ctx.session!.user!.id),
       with: {

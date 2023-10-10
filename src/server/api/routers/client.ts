@@ -11,12 +11,12 @@ import {
   createProcedureGetById,
   createProcedureSearch,
 } from "@/server/api/procedures";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 
 export const clientRouter = createTRPCRouter({
   getById: createProcedureGetById(clients),
-  create: authenticatedProcedure
+  create: employeeProcedure
     .input(insertClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { address, ...simpleClientData } = clientData;
@@ -41,7 +41,7 @@ export const clientRouter = createTRPCRouter({
         throw new Error("Could not create client");
       return newClient[0];
     }),
-  deleteById: authenticatedProcedure
+  deleteById: employeeProcedure
     .input(z.number())
     .mutation(async ({ input: id }) => {
       const deletedClient = await db
@@ -50,7 +50,7 @@ export const clientRouter = createTRPCRouter({
         .returning();
       return deletedClient[0];
     }),
-  update: authenticatedProcedure
+  update: employeeProcedure
     .input(updateClientZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;

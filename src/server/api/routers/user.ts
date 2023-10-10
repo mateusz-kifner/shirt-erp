@@ -4,12 +4,12 @@ import {
   insertUserZodSchema,
   updateUserZodSchema,
 } from "@/schema/userZodSchema";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createProcedureGetById, createProcedureSearch } from "../procedures";
 
-const privilegedProcedure = authenticatedProcedure;
+const privilegedProcedure = employeeProcedure;
 
 export const userRouter = createTRPCRouter({
   getById: createProcedureGetById(users),
