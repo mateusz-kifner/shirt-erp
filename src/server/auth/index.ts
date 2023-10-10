@@ -11,6 +11,7 @@ import EmailProvider from "next-auth/providers/email";
 import { env } from "@/env.mjs";
 import { db } from "@/db";
 import { pgTable } from "drizzle-orm/pg-core";
+import { sendVerificationRequest } from "./email";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -64,6 +65,7 @@ export const authOptions: NextAuthOptions = {
         },
       },
       from: process.env.EMAIL_FROM,
+      sendVerificationRequest,
     }),
     /**
      * ...add more providers here.
@@ -75,6 +77,16 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  theme: {
+    colorScheme: "dark",
+    brandColor: "#3355ff",
+    buttonText: "#eee",
+    logo: `${
+      env.NEXTAUTH_URL.slice(-1) !== "/"
+        ? env.NEXTAUTH_URL + "/"
+        : env.NEXTAUTH_URL
+    }logo.png`,
+  },
 };
 
 /**
