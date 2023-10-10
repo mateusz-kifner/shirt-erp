@@ -7,6 +7,8 @@
  * need to use are documented accordingly near the end.
  */
 
+import { eq } from "drizzle-orm";
+
 interface CreateContextOptions {
   session: Session | null;
 }
@@ -86,6 +88,7 @@ import { ZodError } from "zod";
 import { db } from "@/db";
 import { getServerAuthSession } from "../auth";
 import { Session } from "next-auth";
+import { users } from "@/db/schema/users";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -151,9 +154,9 @@ export const isAuthenticatedEmployee = middleware(async ({ ctx, next }) => {
 
   if (
     !(
-      ctx.session?.user.role === "employee" ||
-      ctx.session?.user.role === "manager" ||
-      ctx.session?.user.role === "admin"
+      ctx.session.user.role === "employee" ||
+      ctx.session.user.role === "manager" ||
+      ctx.session.user.role === "admin"
     )
   ) {
     throw new trpc.TRPCError({
@@ -180,9 +183,7 @@ export const isAuthenticatedManager = middleware(async ({ ctx, next }) => {
   }
 
   if (
-    !(
-      ctx.session?.user.role === "manager" || ctx.session?.user.role === "admin"
-    )
+    !(ctx.session.user.role === "manager" || ctx.session.user.role === "admin")
   ) {
     throw new trpc.TRPCError({
       code: "FORBIDDEN",
@@ -207,13 +208,24 @@ export const isAuthenticatedAdmin = middleware(async ({ ctx, next }) => {
     });
   }
 
-  if (!(ctx.session?.user.role === "admin")) {
+  if (!(ctx.session.user.role === "admin")) {
     throw new trpc.TRPCError({
       code: "FORBIDDEN",
       message: "User doesn't have permissions to access resource of Admin role",
     });
   }
 
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, ctx.session.user.id));
+  if (user[0] === undefined || user[0].role !== "admin") {
+    throw new trpc.TRPCError({
+      code: "FORBIDDEN",
+      message:
+        "CRITICAL ERROR: User doesn't have permissions to access resource of Admin role but session.role is set to admin",
+    });
+  }
   return next({
     ctx: {
       // infers the `session` as non-nullable
@@ -226,37 +238,3 @@ export const normalProcedure = t.procedure.use(isAuthenticatedNormal);
 export const employeeProcedure = t.procedure.use(isAuthenticatedEmployee);
 export const managerProcedure = t.procedure.use(isAuthenticatedManager);
 export const adminProcedure = t.procedure.use(isAuthenticatedAdmin);
-
-// export const isPrivileged = middleware(async ({ ctx, path, type, next }) => {
-//   if (!ctx?.session?.user) {
-//     throw new trpc.TRPCError({
-//       code: "FORBIDDEN",
-//       message: "User not authenticated",
-//     });
-//   }
-//   const user = await prisma.user.findFirst({
-//     where: { id: ctx.session.user.id },
-//     include: { userPermissions: true },
-//   });
-//   if (!user?.userPermissions) {
-//     throw new trpc.TRPCError({
-//       code: "FORBIDDEN",
-//       message: "User doesn't have access privileges",
-//     });
-//   }
-
-//   const apiPermission = `${type}::api.${path}`;
-//   for (const permission of user?.userPermissions) {
-//     if (permission.action === "super") return next();
-//     if (permission.action === apiPermission) return next();
-//   }
-
-//   throw new trpc.TRPCError({
-//     code: "FORBIDDEN",
-//     message: "User doesn't have access privileges",
-//   });
-// });
-
-// export const privilegedProcedure = t.procedure
-//   .use(isAuthenticated)
-//   .use(isPrivileged);
