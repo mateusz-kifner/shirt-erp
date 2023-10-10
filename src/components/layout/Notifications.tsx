@@ -4,7 +4,7 @@ import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
-import { signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 import Button from "@/components/ui/Button";
 import {
@@ -17,6 +17,7 @@ import OrderListItem from "@/page-components/erp/order/OrderListItem";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();
+  const { data: session, status } = useSession();
   const [open, setOpen] = useState<boolean>();
   const [prevActiveOrders, setPrevActiveOrders] = useLocalStorage<number>({
     key: "prevActiveOrders",
@@ -30,16 +31,11 @@ const Notifications = () => {
   });
   const isMobile = useIsMobile();
   useEffect(() => {
-    if (
-      isError &&
-      error?.data?.httpStatus === 403 &&
-      error.message === "User not authenticated"
-    ) {
-      void signOut();
+    if (status === "unauthenticated") {
+      signIn();
       // void router.push("/login");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [status]);
 
   const activeOrders = data?.orders
     ? data?.orders.filter((val) => {

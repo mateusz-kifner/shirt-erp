@@ -9,7 +9,7 @@ export const email_credentials_to_users = pgTable(
     emailCredentialsId: integer("email_credentials_id")
       .notNull()
       .references(() => email_credentials.id),
-    userId: varchar("id", { length: 255 })
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
   },

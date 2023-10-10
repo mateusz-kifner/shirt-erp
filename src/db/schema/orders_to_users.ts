@@ -9,7 +9,7 @@ export const orders_to_users = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => orders.id),
-    userId: integer("user_id")
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
   },
@@ -38,7 +38,7 @@ export const archive_orders_to_users = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => archive_orders.id),
-    userId: varchar("id", { length: 255 })
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
   },
