@@ -3,14 +3,20 @@ import { Input } from "@/components/ui/Input";
 import { env } from "@/env.mjs";
 import useTranslation from "@/hooks/useTranslation";
 import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/utils/api";
+import { router } from "@trpc/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import type React from "react";
+import { useState } from "react";
 
 /**
  * The following errors are passed as error query parameters to the default or overridden sign-in page.
  *
  * [Documentation](https://next-auth.js.org/configuration/pages#sign-in-page) */
+
+// app will crash in DEMO mode if two people wants to signin at the same time
+
 export type SignInErrorTypes =
   | "Signin"
   | "OAuthSignin"
@@ -27,10 +33,13 @@ export type SignInErrorTypes =
 export default function SigninPage(
   props: InferGetServerSidePropsType<typeof getServerSideProps>,
 ) {
+  const { csrfToken, providers, callbackUrl, email, error: errorType } = props;
+  const [purged, setPurged] = useState(false);
   const t = useTranslation();
   const isDemo = env.NEXT_PUBLIC_DEMO;
 
-  const { csrfToken, providers, callbackUrl, email, error: errorType } = props;
+  const { mutateAsync } = api.admin.purgeAuthTokens.useMutation();
+
   // We only want to render providers
   const providersToRender = Object.values(providers).filter((provider) => {
     if (provider.type === "oauth" || provider.type === "email") {
@@ -60,6 +69,12 @@ export default function SigninPage(
   const error = errorType && (errors[errorType] ?? errors.default);
 
   const logos = "https://authjs.dev/img/providers";
+
+  // app will crash if two people wants to signin at the same time
+  if (isDemo && !purged && errorType === "EmailSignin") {
+    mutateAsync();
+    setPurged(true);
+  }
 
   if (isDemo) {
     return (
