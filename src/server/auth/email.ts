@@ -15,7 +15,10 @@ export async function sendVerificationRequest(
   const result = await transport.sendMail({
     to: identifier,
     from: provider.from,
-    subject: `Sign in to ${env.ORGANIZATION_NAME}`,
+    subject:
+      lang === "pl"
+        ? `Zaloguj się do ${env.NEXT_PUBLIC_ORGANIZATION_NAME}`
+        : `Sign in to ${env.NEXT_PUBLIC_ORGANIZATION_NAME}`,
     text: text({ url, host, lang }),
     html: html({ url, host, theme, lang }),
   });
@@ -45,8 +48,8 @@ function html(params: {
 
   return `
 <body style="background: #141213;">
-  <table width="100%" border="0" cellspacing="20" cellpadding="0"
-    style="background: #141213; max-width: 600px; margin: auto; border-radius: 10px;">
+  <table width="100%" border="0" cellspacing="20" cellpadding="0" 
+    style="background: #141213; max-width: 600px; margin: auto; padding:42px 0; border-radius: 10px;">
     <tr>
       <td align="center" style="padding: 10px 0px">
         <img src="https://shirterp.eu/logo.png" alt="ShirtERP"
@@ -58,8 +61,8 @@ function html(params: {
         style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: #eee;">
         ${
           lang === "pl"
-            ? `Zaloguj się do <strong>${env.ORGANIZATION_NAME}</strong>`
-            : `Sign in to <strong>${env.ORGANIZATION_NAME}</strong>`
+            ? `Zaloguj się do organizacji <strong>${env.NEXT_PUBLIC_ORGANIZATION_NAME}</strong>`
+            : `Sign in to organization <strong>${env.NEXT_PUBLIC_ORGANIZATION_NAME}</strong>`
         }
       </td>
     </tr>
@@ -102,8 +105,8 @@ function text({
   lang: "en" | "pl";
 }) {
   if (lang === "pl") {
-    return `Zaloguj się do ${env.ORGANIZATION_NAME}\n${url}\n\n`;
+    return `Zaloguj się do organizacji ${env.NEXT_PUBLIC_ORGANIZATION_NAME}\n${url}\n\n`;
   }
 
-  return `Sign in to ${env.ORGANIZATION_NAME}\n${url}\n\n`;
+  return `Sign in to organization ${env.NEXT_PUBLIC_ORGANIZATION_NAME}\n${url}\n\n`;
 }

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/Popover";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
+import { env } from "@/env.mjs";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();
@@ -30,10 +31,10 @@ const Notifications = () => {
     retry: false,
   });
   const isMobile = useIsMobile();
+
   useEffect(() => {
     if (status === "unauthenticated") {
       signIn();
-      // void router.push("/login");
     }
   }, [status]);
 

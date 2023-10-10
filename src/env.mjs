@@ -21,7 +21,6 @@ export const env = createEnv({
     EMAIL_SERVER_PORT: z.string(),
     EMAIL_FROM: z.string(),
     REGISTER_CODE: z.string(),
-    ORGANIZATION_NAME: z.string().default("ShirtERP"),
   },
   /**
    * Specify your client-side environment variables schema here. This way you can ensure the app
@@ -35,6 +34,7 @@ export const env = createEnv({
       (v) => v === "true" || v === "1",
       z.boolean(),
     ),
+    NEXT_PUBLIC_ORGANIZATION_NAME: z.string().default("ShirtERP"),
   },
 
   /**
@@ -57,7 +57,7 @@ export const env = createEnv({
     EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT,
     EMAIL_FROM: process.env.EMAIL_FROM,
     REGISTER_CODE: process.env.REGISTER_CODE,
-    ORGANIZATION_NAME: process.env.ORGANIZATION_NAME,
+    NEXT_PUBLIC_ORGANIZATION_NAME: process.env.NEXT_PUBLIC_ORGANIZATION_NAME,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },

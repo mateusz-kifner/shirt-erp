@@ -66,7 +66,14 @@ export const authOptions: NextAuthOptions = {
       },
       from: process.env.EMAIL_FROM,
       sendVerificationRequest,
+      generateVerificationToken: env.NEXT_PUBLIC_DEMO
+        ? async () => {
+            return "testuser";
+          }
+        : undefined,
+      maxAge: env.NEXT_PUBLIC_DEMO ? 30 : 86400,
     }),
+
     /**
      * ...add more providers here.
      *
@@ -86,6 +93,13 @@ export const authOptions: NextAuthOptions = {
         ? env.NEXTAUTH_URL + "/"
         : env.NEXTAUTH_URL
     }logo.png`,
+  },
+  pages: {
+    signIn: "/auth/signin",
+    // signOut: '/auth/signout',
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    verifyRequest: "/auth/verify-request", // (used for check email message)
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 };
 

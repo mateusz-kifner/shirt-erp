@@ -19,6 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       rightSection,
       focus,
       type,
+      disabled,
       ...props
     },
     ref,
@@ -28,6 +29,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
+        disabled={disabled}
         className={displayCellClassName}
       >
         <input
@@ -48,8 +50,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             focus-visible:border-transparent
             focus-visible:outline-none`,
             className,
+            disabled && "cursor-not-allowed",
           )}
           ref={ref}
+          disabled={disabled}
           {...props}
         />
       </DisplayCell>

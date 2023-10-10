@@ -26,7 +26,6 @@ export const users_relations = relations(users, ({ many }) => ({
   orders: many(orders_to_users),
   archiveOrders: many(archive_orders_to_users),
   emailCredentials: many(email_credentials_to_users),
-  accounts: many(accounts),
   sessions: many(sessions),
 }));
 
@@ -51,6 +50,9 @@ export const accounts = pgTable(
     compoundKey: primaryKey(account.provider, account.providerAccountId),
   }),
 );
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  user: one(users, { fields: [accounts.userId], references: [users.id] }),
+}));
 
 export const sessions = pgTable("session", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
@@ -59,6 +61,9 @@ export const sessions = pgTable("session", {
     .references(() => users.id, { onDelete: "cascade" }),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  user: one(users, { fields: [sessions.userId], references: [users.id] }),
+}));
 
 export const verificationTokens = pgTable(
   "verificationToken",

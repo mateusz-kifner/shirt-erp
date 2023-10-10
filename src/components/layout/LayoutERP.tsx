@@ -6,7 +6,7 @@ import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useRouter } from "next/router";
 
-function Layout({ children }: PropsWithChildren) {
+function LayoutERP({ children }: PropsWithChildren) {
   const { navigationCollapsed } = useUserContext();
   const isMobile = useIsMobile();
   const router = useRouter();
@@ -49,4 +49,4 @@ function Layout({ children }: PropsWithChildren) {
   );
 }
 
-export default Layout;
+export default LayoutERP;

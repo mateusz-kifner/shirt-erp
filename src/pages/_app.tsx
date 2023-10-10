@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Logger from "js-logger";
 import Head from "next/head";
 
-import AppLayout from "@/components/layout/AppLayout";
+import AppLayout from "@/components/layout/LayoutERP";
 import { UserContextProvider } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { api } from "@/utils/api";
@@ -30,6 +30,8 @@ import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import LayoutAuth from "@/components/layout/LayoutAuth";
+import LayoutERP from "@/components/layout/LayoutERP";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -99,22 +101,24 @@ const App: AppType<{ session: Session | null }> = ({
 
   // force Polish for now
   useEffect(() => {
-    if (router.locale !== "pl") changeLocale("pl");
+    // if (router.locale !== "pl") changeLocale("pl");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.locale]);
+
+  const Layout = router.pathname.startsWith("/erp") ? LayoutERP : LayoutAuth;
 
   return (
     <SessionProvider session={session}>
       <UserContextProvider>
         <TooltipProvider>
-          <AppLayout>
+          <Layout>
             <Head>
               <title>ShirtERP</title>
             </Head>
             <ErrorBoundary fallback={<h1>Application crashed</h1>}>
               <Component {...pageProps} />
             </ErrorBoundary>
-          </AppLayout>
+          </Layout>
           <Toaster />
           <ReactQueryDevtools initialIsOpen={false} />
         </TooltipProvider>
