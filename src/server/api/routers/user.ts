@@ -29,7 +29,7 @@ export const userRouter = createTRPCRouter({
       return newUser[0];
     }),
   deleteById: privilegedProcedure
-    .input(z.number())
+    .input(z.string())
     .mutation(async ({ input: id }) => {
       const deletedProduct = await db
         .delete(users)

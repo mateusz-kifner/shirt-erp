@@ -187,7 +187,7 @@ export const isAuthenticatedManager = middleware(async ({ ctx, next }) => {
     throw new trpc.TRPCError({
       code: "FORBIDDEN",
       message:
-        "User doesn't have permissions to access resource of Employee role",
+        "User doesn't have permissions to access resource of Manager role",
     });
   }
 
@@ -210,8 +210,7 @@ export const isAuthenticatedAdmin = middleware(async ({ ctx, next }) => {
   if (!(ctx.session?.user.role === "admin")) {
     throw new trpc.TRPCError({
       code: "FORBIDDEN",
-      message:
-        "User doesn't have permissions to access resource of Employee role",
+      message: "User doesn't have permissions to access resource of Admin role",
     });
   }
 

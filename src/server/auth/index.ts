@@ -12,7 +12,8 @@ import { env } from "@/env.mjs";
 import { db } from "@/db";
 import { pgTable } from "drizzle-orm/pg-core";
 import { sendVerificationRequest } from "./email";
-import { UserRole } from "@/db/schema/users";
+import { UserRole, users } from "@/db/schema/users";
+import { eq } from "drizzle-orm";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -29,10 +30,10 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    role?: UserRole;
+  }
 }
 
 /**
@@ -42,13 +43,30 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    signIn: async ({ user, account, profile, email, credentials }) => {
+      const userData = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, user.id));
+
+      console.log(userData[0]);
+      return (user as unknown as { role: UserRole }).role !== "normal";
+    },
+
+    session: async ({ session, user }) => {
+      const userData = await db
+        .select({ role: users.role })
+        .from(users)
+        .where(eq(users.id, user.id));
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          role: userData[0]!.role,
+        },
+      };
+    },
   },
   adapter: DrizzleAdapter(db, pgTable),
   providers: [
