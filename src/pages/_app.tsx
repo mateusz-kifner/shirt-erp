@@ -93,6 +93,19 @@ const App: AppType<{ session: Session | null }> = ({
     const remSize = localStorage.getItem("remSize");
     const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
     html.style.fontSize = `${remSize}px`;
+
+    // initialize theme
+    const theme = localStorage.getItem("user-theme");
+    const htmlElement = document.querySelector("html") as HTMLHtmlElement;
+    htmlElement.classList.add(theme === "0" ? "light" : "dark");
+
+    // enable transitions after page load
+    const timeout = setTimeout(() => {
+      const bodyElement = document.querySelector("body") as HTMLBodyElement;
+      bodyElement.classList.remove("preload");
+    }, 200);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const changeLocale = (value: string) => {
@@ -101,11 +114,14 @@ const App: AppType<{ session: Session | null }> = ({
 
   // force Polish for now
   useEffect(() => {
-    // if (router.locale !== "pl") changeLocale("pl");
+    if (router.locale !== "pl") changeLocale("pl");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.locale]);
 
-  const Layout = router.pathname.startsWith("/erp") ? LayoutERP : LayoutAuth;
+  const Layout =
+    !router.pathname.startsWith("/erp") || router.query["no-ui"] === "1"
+      ? LayoutAuth
+      : LayoutERP;
 
   return (
     <SessionProvider session={session}>
