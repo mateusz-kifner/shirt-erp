@@ -1,13 +1,10 @@
 import { useEffect } from "react";
-
 import EditableEnum from "@/components/editable/EditableEnum";
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { appRouter } from "@/server/api/root";
-
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
 import {
@@ -18,15 +15,10 @@ import {
   IconSun,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { useRouter } from "next/router";
-import SuperJSON from "superjson";
-import { db } from "@/db";
-import { signOut } from "next-auth/react";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
-
 //   if (!user) {
 //     return {
 //       redirect: {
@@ -35,21 +27,17 @@ import { signOut } from "next-auth/react";
 //       },
 //     };
 //   }
-
 //   const ssg = createServerSideHelpers({
 //     router: appRouter,
 //     ctx: { session: req.session, db },
 //     transformer: SuperJSON,
 //   });
-
 //   await ssg.session.me.prefetch();
-
 //   return {
 //     props: { trpcState: ssg.dehydrate() },
 //   };
 // }, sessionOptions);
-
-function Settings() {
+export function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
   // const { locale } = router;
@@ -158,5 +146,3 @@ function Settings() {
     </div>
   );
 }
-
-export default Settings;

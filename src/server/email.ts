@@ -14,7 +14,7 @@ import { type ParsedMail, simpleParser } from "mailparser";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import sharp from "sharp";
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { and, eq } from "drizzle-orm";
 import { email_messages } from "@/db/schema/email_messages";
 import { files as filesSchema } from "@/db/schema/files";

@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, primaryKey } from "drizzle-orm/pg-core";
+import { integer, pgTable, primaryKey, varchar } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { archive_orders, orders } from "./orders";
 
@@ -9,7 +9,7 @@ export const orders_to_users = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => orders.id),
-    userId: integer("user_id")
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
   },
@@ -38,7 +38,7 @@ export const archive_orders_to_users = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => archive_orders.id),
-    userId: integer("user_id")
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
   },

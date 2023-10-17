@@ -1,7 +1,6 @@
 import { users } from "@/db/schema/users";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { type z } from "zod";
-import idRequiredZodSchema from "./idRequiredZodSchema";
+import { z } from "zod";
 
 export const selectUserZodSchema = createSelectSchema(users);
 export const insertUserZodSchema = createInsertSchema(users).omit({
@@ -11,8 +10,9 @@ export const insertUserZodSchema = createInsertSchema(users).omit({
   updatedById: true,
 });
 
-export const updateUserZodSchema =
-  insertUserZodSchema.merge(idRequiredZodSchema);
+export const updateUserZodSchema = insertUserZodSchema.merge(
+  z.object({ id: z.string() }),
+);
 
 export type User = typeof users.$inferSelect;
 export type NewUser = z.infer<typeof insertUserZodSchema>;

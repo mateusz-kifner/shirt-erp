@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, primaryKey } from "drizzle-orm/pg-core";
+import { integer, pgTable, primaryKey, varchar } from "drizzle-orm/pg-core";
 import { users } from "./users";
 import { email_credentials } from "./email_credentials";
 
@@ -9,7 +9,7 @@ export const email_credentials_to_users = pgTable(
     emailCredentialsId: integer("email_credentials_id")
       .notNull()
       .references(() => email_credentials.id),
-    userId: integer("user_id")
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
   },

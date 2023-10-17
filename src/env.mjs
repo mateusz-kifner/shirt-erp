@@ -11,8 +11,17 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "test", "production"]),
     SECRET_COOKIE_PASSWORD: z.string().min(32),
     ENABLE_CLAMAV: z.boolean().default(false),
+    NEXTAUTH_URL: z.string().url(),
+    NEXTAUTH_SECRET: z.string(),
+    DISCORD_CLIENT_ID: z.string(),
+    DISCORD_CLIENT_SECRET: z.string(),
+    EMAIL_SERVER_USER: z.string(),
+    EMAIL_SERVER_PASSWORD: z.string(),
+    EMAIL_SERVER_HOST: z.string(),
+    EMAIL_SERVER_PORT: z.string(),
+    EMAIL_FROM: z.string(),
+    REGISTER_CODE: z.string(),
   },
-
   /**
    * Specify your client-side environment variables schema here. This way you can ensure the app
    * isn't built with invalid env vars. To expose them to the client, prefix them with
@@ -25,6 +34,7 @@ export const env = createEnv({
       (v) => v === "true" || v === "1",
       z.boolean(),
     ),
+    NEXT_PUBLIC_ORGANIZATION_NAME: z.string().default("ShirtERP"),
   },
 
   /**
@@ -39,6 +49,17 @@ export const env = createEnv({
     NEXT_PUBLIC_START_MESSAGE: process.env.NEXT_PUBLIC_START_MESSAGE,
     NEXT_PUBLIC_DEMO: process.env.NEXT_PUBLIC_DEMO,
     ENABLE_CLAMAV: process.env.ENABLE_CLAMAV,
+    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+    EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER,
+    EMAIL_SERVER_PASSWORD: process.env.EMAIL_SERVER_PASSWORD,
+    EMAIL_SERVER_HOST: process.env.EMAIL_SERVER_HOST,
+    EMAIL_SERVER_PORT: process.env.EMAIL_SERVER_PORT,
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    REGISTER_CODE: process.env.REGISTER_CODE,
+    NEXT_PUBLIC_ORGANIZATION_NAME: process.env.NEXT_PUBLIC_ORGANIZATION_NAME,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

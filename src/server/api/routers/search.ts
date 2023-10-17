@@ -1,13 +1,13 @@
 import { z } from "zod";
 
-import { db, type inferSchemaKeys } from "@/db/db";
+import { db, type inferSchemaKeys } from "@/db";
 import { clients } from "@/db/schema/clients";
 import { orders } from "@/db/schema/orders";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { ilike, or } from "drizzle-orm";
 
 export const searchRouter = createTRPCRouter({
-  all: authenticatedProcedure
+  all: employeeProcedure
     .input(
       z.object({
         query: z.string().optional(),

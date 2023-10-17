@@ -6,7 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Logger from "js-logger";
 import Head from "next/head";
 
-import AppLayout from "@/components/layout/AppLayout";
+import AppLayout from "@/components/layout/LayoutERP";
 import { UserContextProvider } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { api } from "@/utils/api";
@@ -28,6 +28,10 @@ import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+import LayoutAuth from "@/components/layout/LayoutAuth";
+import LayoutERP from "@/components/layout/LayoutERP";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -77,7 +81,11 @@ Logger.setLevel(
   env.NEXT_PUBLIC_NODE_ENV === "development" ? Logger.INFO : Logger.WARN,
 );
 
-const App: AppType = ({ Component, pageProps }) => {
+const App: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps,
+}) => {
+  const { session } = pageProps;
   const router = useRouter();
   dayjs.locale(router.locale);
 
@@ -85,6 +93,19 @@ const App: AppType = ({ Component, pageProps }) => {
     const remSize = localStorage.getItem("remSize");
     const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
     html.style.fontSize = `${remSize}px`;
+
+    // initialize theme
+    const theme = localStorage.getItem("user-theme");
+    const htmlElement = document.querySelector("html") as HTMLHtmlElement;
+    htmlElement.classList.add(theme === "0" ? "light" : "dark");
+
+    // enable transitions after page load
+    const timeout = setTimeout(() => {
+      const bodyElement = document.querySelector("body") as HTMLBodyElement;
+      bodyElement.classList.remove("preload");
+    }, 200);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const changeLocale = (value: string) => {
@@ -97,21 +118,28 @@ const App: AppType = ({ Component, pageProps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.locale]);
 
+  const Layout =
+    !router.pathname.startsWith("/erp") || router.query["no-ui"] === "1"
+      ? LayoutAuth
+      : LayoutERP;
+
   return (
-    <UserContextProvider>
-      <TooltipProvider>
-        <AppLayout>
-          <Head>
-            <title>ShirtERP</title>
-          </Head>
-          <ErrorBoundary fallback={<h1>Application crashed</h1>}>
-            <Component {...pageProps} />
-          </ErrorBoundary>
-        </AppLayout>
-        <Toaster />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </TooltipProvider>
-    </UserContextProvider>
+    <SessionProvider session={session}>
+      <UserContextProvider>
+        <TooltipProvider>
+          <Layout>
+            <Head>
+              <title>ShirtERP</title>
+            </Head>
+            <ErrorBoundary fallback={<h1>Application crashed</h1>}>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          </Layout>
+          <Toaster />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </TooltipProvider>
+      </UserContextProvider>
+    </SessionProvider>
   );
 };
 

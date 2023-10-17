@@ -1,7 +1,7 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
 import { archive_orders, orders } from "@/db/schema/orders";
 import {
@@ -26,39 +26,37 @@ import {
   updateOrderZodSchema,
   type OrderWithoutRelations,
 } from "@/schema/orderZodSchema";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import getObjectChanges from "@/utils/getObjectChanges";
 import { and, eq, inArray } from "drizzle-orm";
 import { omit } from "lodash";
 
 export const orderArchiveRouter = createTRPCRouter({
-  getById: authenticatedProcedure
-    .input(z.number())
-    .query(async ({ input: id }) => {
-      const data = await db.query.archive_orders.findFirst({
-        where: eq(orders.id, id),
-        with: {
-          address: true,
-          client: { with: { address: true } },
-          emails: { with: { emailMessages: true } },
-          employees: { with: { users: true } },
-          files: { with: { files: true } },
-          products: { with: { products: true } },
-          spreadsheets: true,
-        },
-      });
-      if (!data) return undefined;
-      console.log(data);
-      const { emails, employees, files, products, ...moreData } = data;
-      return {
-        ...moreData,
-        emails: emails.map((v) => v.emailMessages),
-        employees: employees.map((v) => v.users),
-        files: files.map((v) => v.files),
-        products: products.map((v) => v.products),
-      };
-    }),
-  create: authenticatedProcedure
+  getById: employeeProcedure.input(z.number()).query(async ({ input: id }) => {
+    const data = await db.query.archive_orders.findFirst({
+      where: eq(orders.id, id),
+      with: {
+        address: true,
+        client: { with: { address: true } },
+        emails: { with: { emailMessages: true } },
+        employees: { with: { users: true } },
+        files: { with: { files: true } },
+        products: { with: { products: true } },
+        spreadsheets: true,
+      },
+    });
+    if (!data) return undefined;
+    console.log(data);
+    const { emails, employees, files, products, ...moreData } = data;
+    return {
+      ...moreData,
+      emails: emails.map((v) => v.emailMessages),
+      employees: employees.map((v) => v.users),
+      files: files.map((v) => v.files),
+      products: products.map((v) => v.products),
+    };
+  }),
+  create: employeeProcedure
     .input(insertOrderZodSchema)
     .mutation(async ({ input: orderData, ctx }) => {
       const {
@@ -150,7 +148,7 @@ export const orderArchiveRouter = createTRPCRouter({
 
       return newOrder;
     }),
-  deleteById: authenticatedProcedure
+  deleteById: employeeProcedure
     .input(z.number())
     .mutation(async ({ input: id }) => {
       const archiveOrder = await db.query.archive_orders.findFirst({
@@ -190,7 +188,7 @@ export const orderArchiveRouter = createTRPCRouter({
 
       return deletedArchiveOrder[0];
     }),
-  update: authenticatedProcedure
+  update: employeeProcedure
     .input(updateOrderZodSchema)
     .mutation(async ({ input: orderData, ctx }) => {
       const {
@@ -431,7 +429,7 @@ export const orderArchiveRouter = createTRPCRouter({
     }),
 
   search: createProcedureSearch(archive_orders),
-  unarchiveById: authenticatedProcedure
+  unarchiveById: employeeProcedure
     .input(z.number())
     .mutation(async ({ input: orderId }) => {
       const archiveOrderData = await db.query.archive_orders.findFirst({

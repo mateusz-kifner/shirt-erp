@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import {
-  authenticatedProcedure,
+  employeeProcedure,
   createTRPCRouter,
   publicProcedure,
 } from "@/server/api/trpc";
@@ -14,7 +14,7 @@ export const exampleRouter = createTRPCRouter({
         message: `Hello ${input.text}`,
       };
     }),
-  authenticated: authenticatedProcedure.query(() => {
+  authenticated: employeeProcedure.query(() => {
     return {
       message: "authenticated",
     };

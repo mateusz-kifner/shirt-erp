@@ -107,5 +107,7 @@
   "properties": "Properties",
   "width": "Width",
   "height": "Height",
-  "credentials": "credentials"
+  "credentials": "credentials",
+  "with": "with",
+  "to": "to"
 }

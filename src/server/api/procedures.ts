@@ -1,28 +1,26 @@
 import { z } from "zod";
 
-import { db, type schemaType, type inferSchemaKeys } from "@/db/db";
+import { db, type schemaType, type inferSchemaKeys } from "@/db";
 import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
 import { type PgTable } from "drizzle-orm/pg-core";
-import { authenticatedProcedure } from "./trpc";
+import { employeeProcedure } from "./trpc";
 
 export function createProcedureGetById<T extends schemaType>(schema: T) {
-  return authenticatedProcedure
-    .input(z.number())
-    .query(async ({ input: id }) => {
-      if (!(schema && "id" in schema)) {
-        throw new Error(
-          `GetById: Schema ${schema._.name} does not have property id`,
-        );
-      }
-      const data = await db.select().from<T>(schema).where(eq(schema.id, id));
-      return data[0];
-    });
+  return employeeProcedure.input(z.number()).query(async ({ input: id }) => {
+    if (!(schema && "id" in schema)) {
+      throw new Error(
+        `GetById: Schema ${schema._.name} does not have property id`,
+      );
+    }
+    const data = await db.select().from<T>(schema).where(eq(schema.id, id));
+    return data[0];
+  });
 }
 
 export function createProcedureSearch<TSchema extends schemaType>(
   schema: TSchema,
 ) {
-  return authenticatedProcedure
+  return employeeProcedure
     .input(
       z.object({
         keys: z.array(z.string()),

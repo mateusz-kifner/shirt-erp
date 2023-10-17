@@ -1,8 +1,8 @@
 // import Vector2Schema from "@/schema/Vector2Schema";
 import { createProcedureSearch } from "@/server/api/procedures";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { spreadsheets } from "@/db/schema/spreadsheets";
 import {
   insertSpreadsheetZodSchema,
@@ -21,15 +21,13 @@ import { z } from "zod";
 // type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
-  getById: authenticatedProcedure
-    .input(z.number())
-    .query(async ({ input: id }) => {
-      const data = await db.query.spreadsheets.findFirst({
-        where: (schema, { eq }) => eq(schema.id, id),
-      });
-      return data;
-    }),
-  create: authenticatedProcedure
+  getById: employeeProcedure.input(z.number()).query(async ({ input: id }) => {
+    const data = await db.query.spreadsheets.findFirst({
+      where: (schema, { eq }) => eq(schema.id, id),
+    });
+    return data;
+  }),
+  create: employeeProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
@@ -43,7 +41,7 @@ export const spreadsheetRouter = createTRPCRouter({
         .returning();
       return newUser[0];
     }),
-  deleteById: authenticatedProcedure
+  deleteById: employeeProcedure
     .input(z.number())
     .mutation(async ({ input: id }) => {
       const deletedSpreadsheet = await db
@@ -52,7 +50,7 @@ export const spreadsheetRouter = createTRPCRouter({
         .returning();
       return deletedSpreadsheet[0];
     }),
-  update: authenticatedProcedure
+  update: employeeProcedure
     .input(updateSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
@@ -70,7 +68,7 @@ export const spreadsheetRouter = createTRPCRouter({
     }),
   search: createProcedureSearch(spreadsheets),
 
-  // updatePartial: authenticatedProcedure
+  // updatePartial: employeeProcedure
   //   .input(partialSpreadsheetData)
   //   .mutation(async ({ input: partialData }) => {
   //     const dataSpreadsheet = await prisma.spreadsheet.findUnique({

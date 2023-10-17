@@ -41,7 +41,7 @@ export const displayCellVariants = cva(
           "hover:animate-border-from-bottom text-gray-400 dark:text-stone-600",
       },
       disabled: {
-        true: "bg-transparent text-gray-500 before:inset-0",
+        true: "bg-transparent text-gray-500 before:inset-0 cursor-not-allowed dark:cursor-not-allowed",
         false: "",
       },
     },

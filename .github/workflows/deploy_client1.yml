@@ -1,0 +1,60 @@
+name: Deploy Client1
+
+on: [workflow_dispatch]
+
+environment: Client1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./
+
+    env:
+      CI: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set .env
+        run: |
+          echo "${{secrets.CLIENT1_ENV_FILE}}" > .env
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: yarn && yarn build
+        run: |
+          node --version
+          yarn
+          yarn build --no-lint
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i --delete"
+          SOURCE: "."
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          EXCLUDE: "/node_modules/"
+      - name: Setup server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ${{ secrets.REMOTE_TARGET }}/repo
+            yarn
+            yarn build-prod
+            cd ..
+            rm -dr public_nodejs
+            mv repo/backend public_nodejs
+            cp .env public_nodejs/.env
+            cp database.js public_nodejs/config/database.js 
+            cd public_nodejs
+            ls
+            devil www restart ${{ secrets.HOST_URL }}

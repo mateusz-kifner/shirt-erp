@@ -1,4 +1,4 @@
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { files } from "@/db/schema/files";
 import HTTPError from "@/utils/HTTPError";
 import { eq } from "drizzle-orm";

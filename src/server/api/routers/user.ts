@@ -1,15 +1,15 @@
-import { db } from "@/db/db";
+import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import {
   insertUserZodSchema,
   updateUserZodSchema,
 } from "@/schema/userZodSchema";
-import { authenticatedProcedure, createTRPCRouter } from "@/server/api/trpc";
+import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createProcedureGetById, createProcedureSearch } from "../procedures";
 
-const privilegedProcedure = authenticatedProcedure;
+const privilegedProcedure = employeeProcedure;
 
 export const userRouter = createTRPCRouter({
   getById: createProcedureGetById(users),
@@ -29,7 +29,7 @@ export const userRouter = createTRPCRouter({
       return newUser[0];
     }),
   deleteById: privilegedProcedure
-    .input(z.number())
+    .input(z.string())
     .mutation(async ({ input: id }) => {
       const deletedProduct = await db
         .delete(users)
