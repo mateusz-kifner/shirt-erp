@@ -1,4 +1,4 @@
-name: Deploy shirterp.eu
+name: Deploy Client1
 
 on: [workflow_dispatch]
 
