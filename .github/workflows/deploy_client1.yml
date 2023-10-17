@@ -2,11 +2,10 @@ name: Deploy Client1
 
 on: [workflow_dispatch]
 
-environment: Client1
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: Client1
 
     defaults:
       run:
