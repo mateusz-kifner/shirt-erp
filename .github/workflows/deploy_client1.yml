@@ -48,7 +48,6 @@ jobs:
           script: |
             cd ${{ secrets.REMOTE_TARGET }}/repo
             yarn
-            yarn build
             cd ..
             rm -dr public_nodejs
             mv repo public_nodejs
