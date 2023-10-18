@@ -16,6 +16,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
+import { signOut } from "next-auth/react";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;

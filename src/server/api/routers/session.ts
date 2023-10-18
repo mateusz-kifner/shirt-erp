@@ -39,7 +39,7 @@ export const sessionRouter = createTRPCRouter({
         message: "FORBIDDEN: user not found",
       });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { emailCredentials, orders, password, ...simpleUser } = result;
+    const { emailCredentials, orders, ...simpleUser } = result;
 
     return {
       ...simpleUser,

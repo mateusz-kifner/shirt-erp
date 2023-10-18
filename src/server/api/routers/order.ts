@@ -298,13 +298,13 @@ export const orderRouter = createTRPCRouter({
       if (employees !== undefined) {
         const employeeIds = employees
           .filter((v) => v.id !== undefined)
-          .map((v) => v.id as number);
+          .map((v) => v.id as string);
         const oldEmployeeIds = oldEmployees.map((v) => v.userId);
 
-        const employeesToBeAdded: number[] = employeeIds.filter(
+        const employeesToBeAdded: string[] = employeeIds.filter(
           (employeeId) => !oldEmployeeIds.includes(employeeId),
         );
-        const employeesToBeRemoved: number[] = oldEmployeeIds.filter(
+        const employeesToBeRemoved: string[] = oldEmployeeIds.filter(
           (oldEmployeeId) => !employeeIds.includes(oldEmployeeId),
         );
 

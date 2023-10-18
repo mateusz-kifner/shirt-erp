@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 
-import { getRandomColorByNumber } from "@/utils/getRandomColor";
+import {
+  getRandomColorByNumber,
+  getRandomColorByString,
+} from "@/utils/getRandomColor";
 import Button from "./ui/Button";
 
 interface DefaultListItemProps<T> {
@@ -15,7 +18,7 @@ interface DefaultListItemProps<T> {
   disabled?: boolean;
 }
 
-export function DefaultListItem<T extends { id?: number | null }>({
+export function DefaultListItem<T extends { id?: number | string | null }>({
   value,
   onChange,
   firstElement,
@@ -56,9 +59,11 @@ export function DefaultListItem<T extends { id?: number | null }>({
             text-stone-800 
             dark:text-stone-200"
           style={{
-            background: `radial-gradient(circle, transparent 58%, ${getRandomColorByNumber(
-              value.id
-            )}  60%)`,
+            background: `radial-gradient(circle, transparent 58%, ${
+              typeof value.id === "number"
+                ? getRandomColorByNumber(value.id)
+                : getRandomColorByString(value.id)
+            }  60%)`,
           }}
         >
           {avatarElement ? avatarElement : " "}

@@ -254,7 +254,7 @@ function OrderEditable(props: OrderEditableProps) {
             entryName="user"
             Element={UserListItem}
             copyProvider={(value: User) =>
-              value?.username ? truncString(value.username, 40) : undefined
+              value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
           />

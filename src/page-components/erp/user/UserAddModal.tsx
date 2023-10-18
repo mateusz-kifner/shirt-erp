@@ -31,15 +31,15 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
       <DialogContent>
         <DialogTitle>Utwórz nowego użytkownika</DialogTitle>
         <div className="flex flex-col gap-2">
-          <EditableApiEntry
+          {/* <EditableApiEntry
             label="Szablon"
             entryName="users"
             Element={UserListItem}
             onSubmit={setTemplate}
             value={template ?? undefined}
             allowClear
-            listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
-          />
+            listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
+          /> */}
           <EditableText
             label="Nazwa użytkownika"
             onSubmit={(val) => {
