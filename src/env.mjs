@@ -10,7 +10,10 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     SECRET_COOKIE_PASSWORD: z.string().min(32),
-    ENABLE_CLAMAV: z.boolean().default(false),
+    ENABLE_CLAMAV: z.preprocess(
+      (v) => v === "true" || v === "1",
+      z.boolean().default(false),
+    ),
     NEXTAUTH_URL: z.string().url(),
     NEXTAUTH_SECRET: z.string(),
     DISCORD_CLIENT_ID: z.string().optional(),
@@ -32,7 +35,7 @@ export const env = createEnv({
     NEXT_PUBLIC_START_MESSAGE: z.string().optional(),
     NEXT_PUBLIC_DEMO: z.preprocess(
       (v) => v === "true" || v === "1",
-      z.boolean(),
+      z.boolean().default(false),
     ),
     NEXT_PUBLIC_ORGANIZATION_NAME: z.string().default("ShirtERP"),
   },
