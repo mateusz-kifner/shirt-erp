@@ -49,11 +49,10 @@ jobs:
             cd ${{ secrets.REMOTE_TARGET }}/repo
             yarn
             yarn build
-            # cd ..
-            # rm -dr public_nodejs
-            # mv repo/backend public_nodejs
+            cd ..
+            rm -dr public_nodejs
+            mv repo public_nodejs
             # cp .env public_nodejs/.env
-            # cp database.js public_nodejs/config/database.js 
             # cd public_nodejs
             # ls
-            # devil www restart ${{ secrets.HOST_URL }}
+            devil www restart ${{ secrets.HOST_URL }}
