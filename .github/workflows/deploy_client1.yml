@@ -37,7 +37,7 @@ jobs:
           SOURCE: "."
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}/repo
           EXCLUDE: "/node_modules/"
       - name: Setup server
         uses: appleboy/ssh-action@master
@@ -48,12 +48,12 @@ jobs:
           script: |
             cd ${{ secrets.REMOTE_TARGET }}/repo
             yarn
-            yarn build-prod
-            cd ..
-            rm -dr public_nodejs
-            mv repo/backend public_nodejs
-            cp .env public_nodejs/.env
-            cp database.js public_nodejs/config/database.js 
-            cd public_nodejs
-            ls
-            devil www restart ${{ secrets.HOST_URL }}
+            yarn build
+            # cd ..
+            # rm -dr public_nodejs
+            # mv repo/backend public_nodejs
+            # cp .env public_nodejs/.env
+            # cp database.js public_nodejs/config/database.js 
+            # cd public_nodejs
+            # ls
+            # devil www restart ${{ secrets.HOST_URL }}
