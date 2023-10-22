@@ -49,9 +49,9 @@ jobs:
             cd ${{ secrets.REMOTE_TARGET }}/repo
             yarn
             cd ..
+            cp -r public_nodejs/uploads/ uploads
             rm -dr public_nodejs
             mv repo public_nodejs
-            # cp .env public_nodejs/.env
-            # cd public_nodejs
-            # ls
+            rm -dr public_nodejs/uploads/
+            mv uploads/ public_nodejs/uploads
             devil www restart ${{ secrets.HOST_URL }}
