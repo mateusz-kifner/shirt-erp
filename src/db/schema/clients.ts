@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, serial, text, varchar} from "drizzle-orm/pg-core";
+import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 import { addresses } from "./addresses";
 
@@ -12,7 +12,7 @@ export const clients = pgTable("clients", {
   phoneNumber: varchar("phone_number", { length: 255 }),
   companyName: varchar("company_name", { length: 255 }),
   notes: text("notes"),
-  addressId: integer("addressId"),
+  addressId: integer("address_id"),
   ...metadata,
 });
 
