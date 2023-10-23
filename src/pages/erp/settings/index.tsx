@@ -22,7 +22,7 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import { useRouter } from "next/router";
 import SuperJSON from "superjson";
 import { db } from "@/db";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -52,6 +52,7 @@ import { signOut } from "next-auth/react";
 function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
+  const { data: session } = useSession();
   // const { locale } = router;
   const { data: userData } = api.session.me.useQuery();
   const t = useTranslation();
@@ -150,6 +151,17 @@ function Settings() {
               leftSection={<IconBug />}
             >
               Debug {debug ? "ON" : "OFF"}
+            </Button>
+          )}
+          {(session?.user.role === "manager" ||
+            session?.user.role === "admin") && (
+            <Button
+              onClick={() => {
+                router.push("user");
+              }}
+              leftSection={<IconBug />}
+            >
+              <span className="capitalize"> {t.manage}</span> {t.user.plural}
             </Button>
           )}
           {debug && <></>}

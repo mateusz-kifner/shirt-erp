@@ -4,33 +4,28 @@ import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import Workspace from "@/components/layout/Workspace";
-import UserAddModal from "@/page-components/erp/user/UserAddModal";
 import UserEditable from "@/page-components/erp/user/UserEditable";
 import UsersList from "@/page-components/erp/user/UserList";
-import { getQueryAsIntOrNull } from "@/utils/query";
+import { getQueryAsStringOrNull } from "@/utils/query";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { getServerAuthSession } from "@/server/auth";
 
 const entryName = "user";
 
 const UsersPage = () => {
-  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-
   const router = useRouter();
-  const id = getQueryAsIntOrNull(router, "id");
-
+  const id = getQueryAsStringOrNull(router, "id");
   return (
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        navigationMetadata={[{ label: "Lista klientów", icon: IconList }]}
+        navigationMetadata={[{ label: "Lista użytkowników", icon: IconList }]}
         childrenMetadata={
           id !== null ? [{ label: "Właściwości", icon: IconNotebook }] : []
         }
         navigation={
           <div className="relative p-4 ">
-            <UsersList
-              selectedId={id}
-              onAddElement={() => setOpenAddModal(true)}
-            />
+            <UsersList selectedId={id} />
           </div>
         }
       >
@@ -40,15 +35,22 @@ const UsersPage = () => {
           </div>
         )}
       </Workspace>
-      <UserAddModal
-        opened={openAddModal}
-        onClose={(id?: number) => {
-          setOpenAddModal(false);
-          id !== undefined && void router.push(`/erp/user/${id}`);
-        }}
-      />
     </div>
   );
+};
+
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const session = await getServerAuthSession(context);
+  if (
+    session === undefined ||
+    !(session?.user.role === "manager" || session?.user.role === "admin")
+  ) {
+    return { redirect: { destination: "/" } };
+  }
+
+  return { props: {} };
 };
 
 export default UsersPage;

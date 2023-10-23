@@ -6,6 +6,10 @@ function ErrorPage({ statusCode }: { statusCode: number }) {
       {statusCode
         ? `${statusCode} | ${toHTTPErrorName(statusCode)}`
         : "An error occurred on client"}
+      <br />
+      <a href="/" className="bold text-lg">
+        Go back
+      </a>
     </div>
   );
 }

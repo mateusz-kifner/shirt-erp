@@ -5,11 +5,11 @@ interface ListProps<T = any> {
   ListItem: React.ElementType;
   onChange?: (val: T) => void;
   listItemProps?: Record<string, any>; // { linkTo: (val: T) => string } |
-  selectedId?: number | null;
+  selectedId?: string | number | null;
   data?: T[];
 }
 
-function List<T extends { id: number }>(props: ListProps<T>) {
+function List<T extends { id: number | string }>(props: ListProps<T>) {
   const {
     ListItem,
     onChange = (_val: T) => {

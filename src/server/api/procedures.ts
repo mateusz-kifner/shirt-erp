@@ -6,15 +6,17 @@ import { type PgTable } from "drizzle-orm/pg-core";
 import { employeeProcedure } from "./trpc";
 
 export function createProcedureGetById<T extends schemaType>(schema: T) {
-  return employeeProcedure.input(z.number()).query(async ({ input: id }) => {
-    if (!(schema && "id" in schema)) {
-      throw new Error(
-        `GetById: Schema ${schema._.name} does not have property id`,
-      );
-    }
-    const data = await db.select().from<T>(schema).where(eq(schema.id, id));
-    return data[0];
-  });
+  return employeeProcedure
+    .input(z.number().or(z.string()))
+    .query(async ({ input: id }) => {
+      if (!(schema && "id" in schema)) {
+        throw new Error(
+          `GetById: Schema ${schema._.name} does not have property id`,
+        );
+      }
+      const data = await db.select().from<T>(schema).where(eq(schema.id, id));
+      return data[0];
+    });
 }
 
 export function createProcedureSearch<TSchema extends schemaType>(
@@ -74,7 +76,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
             schema[sortColumn as inferSchemaKeys<PgTable>],
           ),
         );
-
+      console.log(results);
       const totalItems = await db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);

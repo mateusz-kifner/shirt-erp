@@ -234,7 +234,7 @@ export const isAuthenticatedAdmin = middleware(async ({ ctx, next }) => {
   });
 });
 
-export const normalProcedure = t.procedure.use(isAuthenticatedNormal);
-export const employeeProcedure = t.procedure.use(isAuthenticatedEmployee);
-export const managerProcedure = t.procedure.use(isAuthenticatedManager);
-export const adminProcedure = t.procedure.use(isAuthenticatedAdmin);
+export const normalProcedure = t.procedure.use(isAuthenticatedNormal); // Normal
+export const employeeProcedure = t.procedure.use(isAuthenticatedEmployee); // Employee
+export const managerProcedure = t.procedure.use(isAuthenticatedManager); // Manager
+export const adminProcedure = t.procedure.use(isAuthenticatedAdmin); // Admin

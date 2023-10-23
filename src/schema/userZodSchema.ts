@@ -11,7 +11,7 @@ export const insertUserZodSchema = createInsertSchema(users).omit({
 });
 
 export const updateUserZodSchema = insertUserZodSchema.merge(
-  z.object({ id: z.string() }),
+  z.object({ id: z.string(), email: z.string().email().optional() }),
 );
 
 export type User = typeof users.$inferSelect;

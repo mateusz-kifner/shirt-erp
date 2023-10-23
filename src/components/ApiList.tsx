@@ -22,7 +22,7 @@ interface ApiListProps<T = any> {
   onChange?: (val: T) => void;
   onRefresh?: () => void;
   listItemProps?: Record<string, any>;
-  selectedId?: number | null;
+  selectedId?: number | string | null;
   filterKeys?: string[];
   excludeKey?: string;
   excludeValue?: string;
@@ -33,7 +33,7 @@ interface ApiListProps<T = any> {
   buttonSection?: ReactNode;
 }
 
-const ApiList = <T extends { id: number }>(props: ApiListProps<T>) => {
+const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
   const {
     entryName,
     ListItem,

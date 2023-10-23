@@ -9,14 +9,14 @@ import UserListItem from "./UserListItem";
 const entryName: RouterNames = "user";
 
 export const userListSearchParams = {
-  filterKeys: ["username", "name", "email"],
-  sortColumn: "username",
-  excludeKey: "username",
+  filterKeys: ["name", "email"],
+  sortColumn: "name",
+  excludeKey: "name",
   excludeValue: "Szablon",
 };
 
 interface UserListProps {
-  selectedId: number | null;
+  selectedId: string | null;
   onAddElement?: () => void;
 }
 
