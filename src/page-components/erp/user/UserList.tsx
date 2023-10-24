@@ -30,11 +30,11 @@ const UsersList = ({ selectedId, onAddElement }: UserListProps) => {
       entryName={entryName}
       label={entryName ? capitalize(t[entryName].plural) : undefined}
       selectedId={selectedId}
-      onChange={(val: { id: number }) => {
+      onChange={(val: { id: string }) => {
         void router.push(`/erp/${entryName}/${val.id}`);
       }}
       listItemProps={{
-        linkTo: (val: { id: number }) => `/erp/${entryName}/${val.id}`,
+        linkTo: (val: { id: string }) => `/erp/${entryName}/${val.id}`,
       }}
       onAddElement={onAddElement}
       showAddButton
