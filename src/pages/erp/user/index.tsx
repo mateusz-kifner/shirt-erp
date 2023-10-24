@@ -9,12 +9,14 @@ import UsersList from "@/page-components/erp/user/UserList";
 import { getQueryAsStringOrNull } from "@/utils/query";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getServerAuthSession } from "@/server/auth";
+import UserAddModal from "@/page-components/erp/user/UserAddModal";
 
 const entryName = "user";
 
 const UsersPage = () => {
   const router = useRouter();
   const id = getQueryAsStringOrNull(router, "id");
+  const [openAddModal, setOpenAddModal] = useState(false);
   return (
     <div className="flex gap-4">
       <Workspace
@@ -25,7 +27,10 @@ const UsersPage = () => {
         }
         navigation={
           <div className="relative p-4 ">
-            <UsersList selectedId={id} />
+            <UsersList
+              selectedId={id}
+              onAddElement={() => setOpenAddModal(true)}
+            />
           </div>
         }
       >
@@ -35,6 +40,13 @@ const UsersPage = () => {
           </div>
         )}
       </Workspace>
+      <UserAddModal
+        opened={openAddModal}
+        onClose={(id?: string) => {
+          setOpenAddModal(false);
+          id !== undefined && void router.push(`/erp/user/${id}`);
+        }}
+      />
     </div>
   );
 };

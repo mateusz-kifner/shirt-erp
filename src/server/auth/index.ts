@@ -36,6 +36,8 @@ declare module "next-auth" {
   }
 }
 
+export const authDBAdapter = DrizzleAdapter(db, pgTable);
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -112,7 +114,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
   },
-  adapter: DrizzleAdapter(db, pgTable),
+  adapter: authDBAdapter,
   providers,
   theme: {
     colorScheme: "dark",

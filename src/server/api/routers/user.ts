@@ -6,32 +6,37 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createProcedureGetById, createProcedureSearch } from "../procedures";
 import { TRPCError } from "@trpc/server";
+import { authDBAdapter } from "@/server/auth";
 
 export const userRouter = createTRPCRouter({
   getById: createProcedureGetById(users),
-  // create: managerProcedure
-  //   .input(insertUserZodSchema)
-  //   .mutation(async ({ input: userData, ctx }) => {
-  //     const currentUserId = ctx.session!.user!.id;
-  //     const newUser = await db
-  //       .insert(users)
-  //       .values({
-  //         ...userData,
-  //         createdById: currentUserId,
-  //         updatedById: currentUserId,
-  //       })
-  //       .returning();
-  //     if (newUser[0] === undefined) throw new Error("Could not create User");
-  //     return newUser[0];
-  //   }),
+  create: managerProcedure
+    .input(z.object({ name: z.string().optional(), email: z.string().email() }))
+    .mutation(async ({ input: userData, ctx }) => {
+      const data = await authDBAdapter.createUser?.({
+        ...userData,
+        emailVerified: new Date(),
+      });
+
+      return data;
+    }),
   deleteById: managerProcedure
     .input(z.string())
-    .mutation(async ({ input: id }) => {
-      const deletedProduct = await db
-        .delete(users)
-        .where(eq(users.id, id))
-        .returning();
-      return deletedProduct[0];
+    .mutation(async ({ input: id, ctx }) => {
+      const user = await db.select().from(users).where(eq(users.id, id));
+      const currentUser = ctx.session!.user;
+      if (user[0] === undefined)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User cannot be found",
+        });
+      if (currentUser.role === "manager" && user[0].role === "admin")
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Cannot delete user with higher role",
+        });
+      const data = await authDBAdapter.deleteUser?.(id);
+      return data;
     }),
   update: managerProcedure
     .input(updateUserZodSchema)
@@ -45,10 +50,12 @@ export const userRouter = createTRPCRouter({
           code: "NOT_FOUND",
           message: "User cannot be found",
         });
-      if (
-        currentUser.role === "manager" &&
-        (dataToUpdate.role === "admin" || user[0].role === "admin")
-      )
+      if (currentUser.role === "manager" && user[0].role === "admin")
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Cannot update data of user with higher role",
+        });
+      if (currentUser.role === "manager" && dataToUpdate.role === "admin")
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "Cannot set role higher than your own!!!",
