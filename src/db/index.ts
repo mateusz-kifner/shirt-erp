@@ -17,6 +17,7 @@ import * as email_messages_to_files from "./schema/email_messages_to_files";
 import * as orders_to_email_messages from "./schema/orders_to_email_messages";
 import * as orders_to_products from "./schema/orders_to_products";
 import * as orders_to_users from "./schema/orders_to_users";
+import { PgColumn, PgTable } from "drizzle-orm/pg-core";
 // import Logger from "js-logger";
 
 const schema = {
@@ -56,10 +57,13 @@ export const db: PostgresJsDatabase<typeof schema> = drizzle(queryClient, {
 
 export type ExtractStringLiterals<T> = T extends `${string}` ? T : never;
 
-export type inferSchemaKeys<T> = Exclude<
-  ExtractStringLiterals<keyof T>,
-  "_" | "getSQL" | "$inferSelect" | "$inferInsert"
->;
-
 export type schemaNames = ExtractStringLiterals<keyof typeof db.query>;
 export type schemaType = (typeof schema)[schemaNames];
+
+// export type InferSQLSelectModel<T extends PgTable> = {
+//   [K in keyof T as T[K] extends PgColumn
+//     ? T[K]["_"]["name"]
+//     : never]: T[K] extends PgColumn
+//     ? T[K]["_"]["data"] | (T[K]["_"]["notNull"] extends true ? never : null)
+//     : never;
+// };

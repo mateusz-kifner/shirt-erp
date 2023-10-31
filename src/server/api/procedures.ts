@@ -1,8 +1,7 @@
 import { z } from "zod";
 
-import { db, type schemaType, type inferSchemaKeys } from "@/db";
+import { db, type schemaType } from "@/db";
 import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
-import { type PgTable } from "drizzle-orm/pg-core";
 import { employeeProcedure } from "./trpc";
 
 export function createProcedureGetById<T extends schemaType>(schema: T) {
@@ -51,7 +50,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
 
       const search = queryParam
         ? keys.map((key) =>
-            ilike(schema[key as inferSchemaKeys<PgTable>], queryParam),
+            ilike(schema[key as keyof typeof schema.$inferSelect], queryParam),
           )
         : [];
       const results = await db
@@ -63,7 +62,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
             : excludeKey && excludeValue
             ? not(
                 ilike(
-                  schema[excludeKey as inferSchemaKeys<PgTable>],
+                  schema[excludeKey as keyof typeof schema.$inferSelect],
                   `${excludeValue}%`,
                 ),
               )
@@ -73,7 +72,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
         .offset((currentPage - 1) * itemsPerPage)
         .orderBy(
           (sort === "asc" ? asc : desc)(
-            schema[sortColumn as inferSchemaKeys<PgTable>],
+            schema[sortColumn as keyof typeof schema.$inferSelect],
           ),
         );
       console.log(results);
