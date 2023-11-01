@@ -55,6 +55,7 @@ export const clientRouter = createTRPCRouter({
         .where(eq(clients.id, id))
         .returning();
       if (updatedClient[0] === undefined) throw new Error("Could not update");
+      console.log(updatedClient);
       return updatedClient[0];
     }),
 

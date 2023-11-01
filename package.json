@@ -9,7 +9,7 @@
     "lint": "next lint",
     "clean": "rm -dr node_modules",
     "node_version": "node --version",
-    "test": "export SKIP_ENV_VALIDATION=1 && bun test"
+    "test": "export SKIP_ENV_VALIDATION=1 && vitest"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.3.5",
@@ -94,9 +94,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.5.1",
+    "@babel/core": "^7.23.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.0",
     "@types/bcrypt": "^5.0.1",
     "@types/clamscan": "^2.0.6",
     "@types/eslint": "^8.44.6",
@@ -112,20 +111,21 @@
     "@types/turndown": "^5.0.3",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
+    "@vitejs/plugin-react": "^4.1.0",
     "autoprefixer": "^10.4.16",
     "drizzle-kit": "^0.19.13",
     "eslint": "^8.52.0",
     "eslint-config-next": "^14.0.1",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^22.1.0",
     "pg": "^8.11.3",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "tailwindcss": "^3.3.5",
-    "ts-jest": "^29.1.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "tsconfig-paths-jest": "^0.0.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "vitest": "^0.34.6"
   },
   "browserslist": {
     "production": [
