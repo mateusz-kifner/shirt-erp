@@ -1,4 +1,3 @@
-import { db } from "@/db";
 import { products } from "@/db/schema/products";
 import {
   insertProductZodSchema,
@@ -7,7 +6,11 @@ import {
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { createProcedureGetById, createProcedureSearch,createProcedureDeleteById } from "../procedures";
+import {
+  createProcedureGetById,
+  createProcedureSearch,
+  createProcedureDeleteById,
+} from "../procedures";
 
 export const productRouter = createTRPCRouter({
   getById: createProcedureGetById(products),
@@ -15,7 +18,7 @@ export const productRouter = createTRPCRouter({
     .input(insertProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
-      const newProduct = await db
+      const newProduct = await ctx.db
         .insert(products)
         .values({
           ...productData,
@@ -33,7 +36,7 @@ export const productRouter = createTRPCRouter({
     .mutation(async ({ input: productData, ctx }) => {
       const { id, ...dataToUpdate } = productData;
       const currentUserId = ctx.session!.user!.id;
-      const updatedProduct = await db
+      const updatedProduct = await ctx.db
         .update(products)
         .set({
           ...dataToUpdate,

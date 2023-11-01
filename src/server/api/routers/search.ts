@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-import { db, type inferSchemaKeys } from "@/db";
 import { clients } from "@/db/schema/clients";
 import { orders } from "@/db/schema/orders";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
@@ -15,7 +14,7 @@ export const searchRouter = createTRPCRouter({
         itemsPerPage: z.number().default(5),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const searchClients = [];
       const searchOrders = [];
 
@@ -32,7 +31,7 @@ export const searchRouter = createTRPCRouter({
             ]) {
               searchClients.push(
                 ilike(
-                  clients[key as inferSchemaKeys<typeof clients>],
+                  clients[key as keyof typeof clients.$inferSelect],
                   `%${queryPart}%`,
                 ),
               );
@@ -47,12 +46,12 @@ export const searchRouter = createTRPCRouter({
         }
       }
 
-      const resultsClient = db.query.clients.findMany({
+      const resultsClient = ctx.db.query.clients.findMany({
         where: or(...searchClients),
         limit: input.itemsPerPage,
       });
 
-      const resultsOrder = db.query.orders.findMany({
+      const resultsOrder = ctx.db.query.orders.findMany({
         where: or(...searchOrders),
         limit: input.itemsPerPage,
       });

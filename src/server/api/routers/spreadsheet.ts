@@ -2,7 +2,6 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { db } from "@/db";
 import { spreadsheets } from "@/db/schema/spreadsheets";
 import {
   insertSpreadsheetZodSchema,
@@ -21,17 +20,19 @@ import { z } from "zod";
 // type typePartialSpreadsheetData = z.infer<typeof partialSpreadsheetData>;
 
 export const spreadsheetRouter = createTRPCRouter({
-  getById: employeeProcedure.input(z.number()).query(async ({ input: id }) => {
-    const data = await db.query.spreadsheets.findFirst({
-      where: (schema, { eq }) => eq(schema.id, id),
-    });
-    return data;
-  }),
+  getById: employeeProcedure
+    .input(z.number())
+    .query(async ({ input: id, ctx }) => {
+      const data = await ctx.db.query.spreadsheets.findFirst({
+        where: (schema, { eq }) => eq(schema.id, id),
+      });
+      return data;
+    }),
   create: employeeProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
-      const newUser = await db
+      const newUser = await ctx.db
         .insert(spreadsheets)
         .values({
           ...userData,
@@ -43,8 +44,8 @@ export const spreadsheetRouter = createTRPCRouter({
     }),
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => {
-      const deletedSpreadsheet = await db
+    .mutation(async ({ input: id, ctx }) => {
+      const deletedSpreadsheet = await ctx.db
         .delete(spreadsheets)
         .where(eq(spreadsheets.id, id))
         .returning();
@@ -55,7 +56,7 @@ export const spreadsheetRouter = createTRPCRouter({
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
       const currentUserId = ctx.session!.user!.id;
-      const updatedUser = await db
+      const updatedUser = await ctx.db
         .update(spreadsheets)
         .set({
           ...dataToUpdate,

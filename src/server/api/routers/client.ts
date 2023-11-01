@@ -1,6 +1,3 @@
-import { z } from "zod";
-
-import { db } from "@/db";
 import { addresses } from "@/db/schema/addresses";
 import { clients } from "@/db/schema/clients";
 import {
@@ -24,13 +21,13 @@ export const clientRouter = createTRPCRouter({
       const currentUserId = ctx.session!.user!.id;
       console.log(clientData);
 
-      const newAddress = await db
+      const newAddress = await ctx.db
         .insert(addresses)
         .values(address ?? {})
         .returning();
       if (newAddress[0] === undefined)
         throw new Error("Could not create address in client");
-      const newClient = await db
+      const newClient = await ctx.db
         .insert(clients)
         .values({
           ...simpleClientData,
@@ -48,7 +45,7 @@ export const clientRouter = createTRPCRouter({
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
       const currentUserId = ctx.session!.user!.id;
-      const updatedClient = await db
+      const updatedClient = await ctx.db
         .update(clients)
         .set({
           ...dataToUpdate,

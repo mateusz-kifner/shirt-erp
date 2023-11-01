@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { db, type schemaType } from "@/db";
+import { type schemaType } from "@/db";
 import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
 import { employeeProcedure } from "./trpc";
 import { createInsertSchema } from "drizzle-zod";
@@ -9,13 +9,16 @@ import idRequiredZodSchema from "@/schema/idRequiredZodSchema";
 export function createProcedureGetById<T extends schemaType>(schema: T) {
   return employeeProcedure
     .input(z.number().or(z.string()))
-    .query(async ({ input: id }) => {
+    .query(async ({ input: id, ctx }) => {
       if (!(schema && "id" in schema)) {
         throw new Error(
           `GetById: Schema ${schema._.name} does not have property id`,
         );
       }
-      const data = await db.select().from<T>(schema).where(eq(schema.id, id));
+      const data = await ctx.db
+        .select()
+        .from<T>(schema)
+        .where(eq(schema.id, id));
       return data[0];
     });
 }
@@ -25,13 +28,13 @@ export function createProcedureDeleteById<TSchema extends schemaType>(
 ) {
   return employeeProcedure
     .input(z.number().or(z.string()))
-    .query(async ({ input: id }) => {
+    .mutation(async ({ input: id, ctx }) => {
       if (!(schema && "id" in schema)) {
         throw new Error(
           `DeleteById: Schema ${schema._.name} does not have property id`,
         );
       }
-      const deleted = await db
+      const deleted = await ctx.db
         .delete(schema)
         .where(eq(schema.id, id))
         .returning();
@@ -51,7 +54,7 @@ export function createProcedureUpdate<TSchema extends schemaType>(
     }
     const { id, ...dataToUpdate } = input;
     const currentUserId = ctx.session!.user!.id;
-    const updatedClient = await db
+    const updatedClient = await ctx.db
       .update(schema)
       .set({
         ...dataToUpdate,
@@ -82,7 +85,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
         itemsPerPage: z.number().default(10),
       }),
     )
-    .query(async ({ input }) => {
+    .query(async ({ input, ctx }) => {
       const {
         keys,
         query,
@@ -101,7 +104,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
             ilike(schema[key as keyof typeof schema.$inferSelect], queryParam),
           )
         : [];
-      const results = await db
+      const results = await ctx.db
         .select()
         .from<TSchema>(schema)
         .where(
@@ -124,7 +127,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
           ),
         );
       console.log(results);
-      const totalItems = await db
+      const totalItems = await ctx.db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);
 

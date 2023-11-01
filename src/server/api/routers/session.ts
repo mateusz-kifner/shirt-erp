@@ -9,7 +9,6 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
 
@@ -26,7 +25,7 @@ export const sessionRouter = createTRPCRouter({
     }
   }),
   me: employeeProcedure.query(async ({ ctx }) => {
-    const result = await db.query.users.findFirst({
+    const result = await ctx.db.query.users.findFirst({
       where: eq(users.id, ctx.session!.user!.id),
       with: {
         emailCredentials: { with: { emailCredentials: true } },

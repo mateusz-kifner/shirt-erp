@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-import { db } from "@/db";
 import { expenses } from "@/db/schema/expenses";
 import {
   insertExpenseZodSchema,
@@ -19,7 +18,7 @@ export const expenseRouter = createTRPCRouter({
     .input(insertExpenseZodSchema)
     .mutation(async ({ input: expenseData, ctx }) => {
       const currentUserId = ctx.session!.user!.id;
-      const newExpense = await db
+      const newExpense = await ctx.db
         .insert(expenses)
         .values({
           ...expenseData,
@@ -34,8 +33,8 @@ export const expenseRouter = createTRPCRouter({
     }),
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => {
-      const deletedClient = await db
+    .mutation(async ({ input: id, ctx }) => {
+      const deletedClient = await ctx.db
         .delete(expenses)
         .where(eq(expenses.id, id))
         .returning();
@@ -46,7 +45,7 @@ export const expenseRouter = createTRPCRouter({
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
       const currentUserId = ctx.session!.user!.id;
-      const updatedClient = await db
+      const updatedClient = await ctx.db
         .update(expenses)
         .set({
           ...dataToUpdate,

@@ -1,4 +1,3 @@
-import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import { updateUserZodSchema } from "@/schema/userZodSchema";
 import { createTRPCRouter, managerProcedure } from "@/server/api/trpc";
@@ -23,7 +22,7 @@ export const userRouter = createTRPCRouter({
   deleteById: managerProcedure
     .input(z.string())
     .mutation(async ({ input: id, ctx }) => {
-      const user = await db.select().from(users).where(eq(users.id, id));
+      const user = await ctx.db.select().from(users).where(eq(users.id, id));
       const currentUser = ctx.session!.user;
       if (user[0] === undefined)
         throw new TRPCError({
@@ -44,7 +43,7 @@ export const userRouter = createTRPCRouter({
       const { id, ...dataToUpdate } = userData;
       const currentUser = ctx.session!.user;
       const currentUserId = currentUser.id;
-      const user = await db.select().from(users).where(eq(users.id, id));
+      const user = await ctx.db.select().from(users).where(eq(users.id, id));
       if (user[0] === undefined)
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -60,7 +59,7 @@ export const userRouter = createTRPCRouter({
           code: "UNAUTHORIZED",
           message: "Cannot set role higher than your own!!!",
         });
-      const updatedUser = await db
+      const updatedUser = await ctx.db
         .update(users)
         .set({
           ...dataToUpdate,

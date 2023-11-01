@@ -1,7 +1,6 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
-import { db } from "@/db";
 import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
 import { archive_orders, orders } from "@/db/schema/orders";
 import {
@@ -33,30 +32,32 @@ import { and, eq, inArray } from "drizzle-orm";
 import { omit } from "lodash";
 
 export const orderRouter = createTRPCRouter({
-  getById: employeeProcedure.input(z.number()).query(async ({ input: id }) => {
-    const data = await db.query.orders.findFirst({
-      where: eq(orders.id, id),
-      with: {
-        address: true,
-        client: true,
-        emails: { with: { emailMessages: true } },
-        employees: { with: { users: true } },
-        files: { with: { files: true } },
-        products: { with: { products: true } },
-        spreadsheets: true,
-      },
-    });
-    if (!data) return undefined;
-    console.log(data);
-    const { emails, employees, files, products, ...moreData } = data;
-    return {
-      ...moreData,
-      emails: emails.map((v) => v.emailMessages),
-      employees: employees.map((v) => v.users),
-      files: files.map((v) => v.files),
-      products: products.map((v) => v.products),
-    };
-  }),
+  getById: employeeProcedure
+    .input(z.number())
+    .query(async ({ input: id, ctx }) => {
+      const data = await ctx.db.query.orders.findFirst({
+        where: eq(orders.id, id),
+        with: {
+          address: true,
+          client: true,
+          emails: { with: { emailMessages: true } },
+          employees: { with: { users: true } },
+          files: { with: { files: true } },
+          products: { with: { products: true } },
+          spreadsheets: true,
+        },
+      });
+      if (!data) return undefined;
+      console.log(data);
+      const { emails, employees, files, products, ...moreData } = data;
+      return {
+        ...moreData,
+        emails: emails.map((v) => v.emailMessages),
+        employees: employees.map((v) => v.users),
+        files: files.map((v) => v.files),
+        products: products.map((v) => v.products),
+      };
+    }),
   create: employeeProcedure
     .input(insertOrderZodSchema)
     .mutation(async ({ input: orderData, ctx }) => {
@@ -71,14 +72,14 @@ export const orderRouter = createTRPCRouter({
         ...simpleOrderData
       } = orderData;
       const currentUserId = ctx.session!.user!.id;
-      const newAddress = await db
+      const newAddress = await ctx.db
         .insert(addressesSchema)
         .values(address ?? {})
         .returning();
       if (newAddress[0] === undefined)
         throw new Error("Could not create address in order");
 
-      const result = await db
+      const result = await ctx.db
         .insert(orders)
         .values({
           ...simpleOrderData,
@@ -92,14 +93,14 @@ export const orderRouter = createTRPCRouter({
       const newOrder = result[0];
 
       if (files?.length && files.length > 0) {
-        const newFilesRelation = await db
+        const newFilesRelation = await ctx.db
           .insert(orders_to_files)
           .values(files.map((v) => ({ fileId: v.id!, orderId: newOrder.id })));
         console.log(newFilesRelation);
       }
 
       if (emails?.length && emails.length > 0) {
-        const newEmailsRelation = await db
+        const newEmailsRelation = await ctx.db
           .insert(orders_to_email_messages)
           .values(
             emails.map((v) => ({
@@ -111,27 +112,31 @@ export const orderRouter = createTRPCRouter({
       }
 
       if (products?.length && products.length > 0) {
-        const newProductsRelation = await db.insert(orders_to_products).values(
-          products.map((v) => ({
-            productId: v.id!,
-            orderId: newOrder.id,
-          })),
-        );
+        const newProductsRelation = await ctx.db
+          .insert(orders_to_products)
+          .values(
+            products.map((v) => ({
+              productId: v.id!,
+              orderId: newOrder.id,
+            })),
+          );
         console.log(newProductsRelation);
       }
 
       if (employees?.length && employees.length > 0) {
-        const newEmployeesRelation = await db.insert(orders_to_users).values(
-          employees.map((v) => ({
-            userId: v.id!,
-            orderId: newOrder.id,
-          })),
-        );
+        const newEmployeesRelation = await ctx.db
+          .insert(orders_to_users)
+          .values(
+            employees.map((v) => ({
+              userId: v.id!,
+              orderId: newOrder.id,
+            })),
+          );
         console.log(newEmployeesRelation);
       }
 
       if (spreadsheets?.length && spreadsheets.length > 0) {
-        const newSpreadsheets = await db
+        const newSpreadsheets = await ctx.db
           .insert(spreadsheetsSchema)
           .values({
             ...spreadsheets,
@@ -147,34 +152,38 @@ export const orderRouter = createTRPCRouter({
     }),
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => {
-      const order = await db.query.orders.findFirst({
+    .mutation(async ({ input: id, ctx }) => {
+      const order = await ctx.db.query.orders.findFirst({
         where: eq(orders.id, id),
       });
       if (!order) throw new Error("Order not found");
       // remove address
       if (order.addressId !== null) {
-        await db
+        await ctx.db
           .delete(addressesSchema)
           .where(eq(addressesSchema.id, order.addressId));
       }
       // remove spreadsheet
-      await db
+      await ctx.db
         .delete(spreadsheetsSchema)
         .where(eq(spreadsheetsSchema.orderId, id));
 
       // remove associated relation
-      await db.delete(orders_to_files).where(eq(orders_to_files.orderId, id));
-      await db
+      await ctx.db
+        .delete(orders_to_files)
+        .where(eq(orders_to_files.orderId, id));
+      await ctx.db
         .delete(orders_to_email_messages)
         .where(eq(orders_to_email_messages.orderId, id));
-      await db
+      await ctx.db
         .delete(orders_to_products)
         .where(eq(orders_to_products.orderId, id));
-      await db.delete(orders_to_users).where(eq(orders_to_users.orderId, id));
+      await ctx.db
+        .delete(orders_to_users)
+        .where(eq(orders_to_users.orderId, id));
 
       // delete order
-      const deletedOrder = await db
+      const deletedOrder = await ctx.db
         .delete(orders)
         .where(eq(orders.id, id))
         .returning();
@@ -197,7 +206,7 @@ export const orderRouter = createTRPCRouter({
         ...simpleOrderData
       } = orderData;
       const currentUserId = ctx.session!.user!.id;
-      const oldOrder = await db.query.orders.findFirst({
+      const oldOrder = await ctx.db.query.orders.findFirst({
         where: eq(orders.id, id),
         with: {
           address: true,
@@ -236,7 +245,7 @@ export const orderRouter = createTRPCRouter({
       );
 
       if (!!changes) {
-        await db
+        await ctx.db
           .update(orders)
           .set({
             ...changes,
@@ -250,7 +259,7 @@ export const orderRouter = createTRPCRouter({
       if (address !== undefined) {
         if (oldAddress === null)
           throw new Error("Order.update: Order doesn't have address");
-        await db
+        await ctx.db
           .update(addresses)
           .set(omit(address, ["id"]))
           .where(eq(addresses.id, oldAddress.id));
@@ -271,7 +280,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToProductsAdded =
           productsToBeAdded.length > 0
-            ? db.insert(orders_to_products).values(
+            ? ctx.db.insert(orders_to_products).values(
                 productsToBeAdded.map((productId) => ({
                   productId,
                   orderId: id,
@@ -280,7 +289,7 @@ export const orderRouter = createTRPCRouter({
             : [];
         const ordersToProductsRemoved =
           productsToBeRemoved.length > 0
-            ? db
+            ? ctx.db
                 .delete(orders_to_products)
                 .where(
                   and(
@@ -310,7 +319,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToEmployeesAdded =
           employeesToBeAdded.length > 0
-            ? db.insert(orders_to_users).values(
+            ? ctx.db.insert(orders_to_users).values(
                 employeesToBeAdded.map((employeeId) => ({
                   userId: employeeId,
                   orderId: id,
@@ -319,7 +328,7 @@ export const orderRouter = createTRPCRouter({
             : [];
         const ordersToEmployeesRemoved =
           employeesToBeRemoved.length > 0
-            ? db
+            ? ctx.db
                 .delete(orders_to_users)
                 .where(
                   and(
@@ -348,7 +357,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToEmailsAdded =
           emailsToBeAdded.length > 0
-            ? db.insert(orders_to_email_messages).values(
+            ? ctx.db.insert(orders_to_email_messages).values(
                 emailsToBeAdded.map((emailMessagesId) => ({
                   emailMessagesId,
                   orderId: id,
@@ -358,7 +367,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToEmailsRemoved =
           emailsToBeRemoved.length > 0
-            ? db
+            ? ctx.db
                 .delete(orders_to_email_messages)
                 .where(
                   and(
@@ -389,7 +398,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToFilesAdded =
           filesToBeAdded.length > 0
-            ? db.insert(orders_to_files).values(
+            ? ctx.db.insert(orders_to_files).values(
                 filesToBeAdded.map((fileId) => ({
                   fileId,
                   orderId: id,
@@ -399,7 +408,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToFilesRemoved =
           filesToBeRemoved.length > 0
-            ? db
+            ? ctx.db
                 .delete(orders_to_files)
                 .where(
                   and(
@@ -418,8 +427,8 @@ export const orderRouter = createTRPCRouter({
   search: createProcedureSearch(orders),
   archiveById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: orderId }) => {
-      const orderData = await db.query.orders.findFirst({
+    .mutation(async ({ input: orderId, ctx }) => {
+      const orderData = await ctx.db.query.orders.findFirst({
         where: eq(orders.id, orderId),
         with: {
           emails: true,
@@ -440,7 +449,7 @@ export const orderRouter = createTRPCRouter({
         spreadsheets,
         ...simpleOrderData
       } = orderData;
-      await db.transaction(async (tx) => {
+      await ctx.db.transaction(async (tx) => {
         // create archive order
         const newOrderData = await tx
           .insert(archive_orders)
