@@ -3,6 +3,8 @@ import { z } from "zod";
 import { db, type schemaType } from "@/db";
 import { asc, ilike, not, or, sql, desc, eq } from "drizzle-orm";
 import { employeeProcedure } from "./trpc";
+import { createInsertSchema } from "drizzle-zod";
+import idRequiredZodSchema from "@/schema/idRequiredZodSchema";
 
 export function createProcedureGetById<T extends schemaType>(schema: T) {
   return employeeProcedure
@@ -16,6 +18,52 @@ export function createProcedureGetById<T extends schemaType>(schema: T) {
       const data = await db.select().from<T>(schema).where(eq(schema.id, id));
       return data[0];
     });
+}
+
+export function createProcedureDeleteById<TSchema extends schemaType>(
+  schema: TSchema,
+) {
+  return employeeProcedure
+    .input(z.number().or(z.string()))
+    .query(async ({ input: id }) => {
+      if (!(schema && "id" in schema)) {
+        throw new Error(
+          `DeleteById: Schema ${schema._.name} does not have property id`,
+        );
+      }
+      const deleted = await db
+        .delete(schema)
+        .where(eq(schema.id, id))
+        .returning();
+      return deleted[0];
+    });
+}
+
+export function createProcedureUpdate<TSchema extends schemaType>(
+  schema: TSchema,
+) {
+  const zodSchema = createInsertSchema(schema).merge(idRequiredZodSchema);
+  return employeeProcedure.input(zodSchema).query(async ({ input, ctx }) => {
+    if (!(schema && "id" in schema && typeof input?.id === "number")) {
+      throw new Error(
+        `Update: Schema ${schema._.name} does not have property id`,
+      );
+    }
+    const { id, ...dataToUpdate } = input;
+    const currentUserId = ctx.session!.user!.id;
+    const updatedClient = await db
+      .update(schema)
+      .set({
+        ...dataToUpdate,
+        updatedById: currentUserId,
+        updatedAt: new Date(),
+      })
+      .where(eq(schema.id, id))
+      .returning();
+    if (updatedClient[0] === undefined)
+      throw new Error("Update: update failed, requested object not found");
+    return updatedClient[0];
+  });
 }
 
 export function createProcedureSearch<TSchema extends schemaType>(

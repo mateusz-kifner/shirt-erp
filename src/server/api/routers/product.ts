@@ -7,7 +7,7 @@ import {
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { createProcedureGetById, createProcedureSearch } from "../procedures";
+import { createProcedureGetById, createProcedureSearch,createProcedureDeleteById } from "../procedures";
 
 export const productRouter = createTRPCRouter({
   getById: createProcedureGetById(products),
@@ -27,15 +27,7 @@ export const productRouter = createTRPCRouter({
         throw new Error("Could not create Product");
       return newProduct[0];
     }),
-  deleteById: employeeProcedure
-    .input(z.number())
-    .mutation(async ({ input: id }) => {
-      const deletedProduct = await db
-        .delete(products)
-        .where(eq(products.id, id))
-        .returning();
-      return deletedProduct[0];
-    }),
+  deleteById: createProcedureDeleteById(products),
   update: employeeProcedure
     .input(updateProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {

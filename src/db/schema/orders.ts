@@ -33,7 +33,9 @@ export const orders = pgTable("orders", {
   dateOfCompletion: date("date_of_completion"),
   workTime: doublePrecision("work_time"),
   clientId: integer("client_id").references(() => clients.id),
-  addressId: integer("address_id").references(() => addresses.id),
+  addressId: integer("address_id").references(() => addresses.id, {
+    onDelete: "cascade",
+  }),
   ...metadata,
 });
 

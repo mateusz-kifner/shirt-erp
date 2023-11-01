@@ -8,6 +8,7 @@ import {
   updateClientZodSchema,
 } from "@/schema/clientZodSchema";
 import {
+  createProcedureDeleteById,
   createProcedureGetById,
   createProcedureSearch,
 } from "@/server/api/procedures";
@@ -41,15 +42,7 @@ export const clientRouter = createTRPCRouter({
         throw new Error("Could not create client");
       return newClient[0];
     }),
-  deleteById: employeeProcedure
-    .input(z.number())
-    .mutation(async ({ input: id }) => {
-      const deletedClient = await db
-        .delete(clients)
-        .where(eq(clients.id, id))
-        .returning();
-      return deletedClient[0];
-    }),
+  deleteById: createProcedureDeleteById(clients),
   update: employeeProcedure
     .input(updateClientZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {

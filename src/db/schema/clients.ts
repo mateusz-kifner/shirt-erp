@@ -12,7 +12,9 @@ export const clients = pgTable("clients", {
   phoneNumber: varchar("phone_number", { length: 255 }),
   companyName: varchar("company_name", { length: 255 }),
   notes: text("notes"),
-  addressId: integer("address_id"),
+  addressId: integer("address_id").references(() => addresses.id, {
+    onDelete: "cascade",
+  }),
   ...metadata,
 });
 

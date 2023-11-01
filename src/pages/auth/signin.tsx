@@ -4,7 +4,6 @@ import { env } from "@/env.mjs";
 import useTranslation from "@/hooks/useTranslation";
 import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/utils/api";
-import { router } from "@trpc/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import type React from "react";
