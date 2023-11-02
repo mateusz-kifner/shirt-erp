@@ -2,18 +2,28 @@ import { addresses } from "@/db/schema/addresses";
 import { clients } from "@/db/schema/clients";
 import {
   insertClientWithRelationZodSchema,
-  updateClientZodSchema,
+  updateClientWithRelationZodSchema,
 } from "@/schema/clientZodSchema";
 import {
   createProcedureDeleteById,
-  createProcedureGetById,
   createProcedureSearch,
 } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 export const clientRouter = createTRPCRouter({
-  getById: createProcedureGetById(clients),
+  getById: employeeProcedure
+    .input(z.number())
+    .query(async ({ input: id, ctx }) => {
+      const data = await ctx.db.query.clients.findFirst({
+        where: eq(clients.id, id),
+        with: {
+          address: true,
+        },
+      });
+      return data;
+    }),
   create: employeeProcedure
     .input(insertClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
@@ -30,6 +40,7 @@ export const clientRouter = createTRPCRouter({
         .insert(clients)
         .values({
           ...simpleClientData,
+          addressId: newAddress[0].id,
           createdById: currentUserId,
           updatedById: currentUserId,
         })
@@ -40,10 +51,25 @@ export const clientRouter = createTRPCRouter({
     }),
   deleteById: createProcedureDeleteById(clients),
   update: employeeProcedure
-    .input(updateClientZodSchema)
+    .input(updateClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
-      const { id, ...dataToUpdate } = clientData;
+      const { id, address, ...dataToUpdate } = clientData;
       const currentUserId = ctx.session!.user!.id;
+
+      if (!!address) {
+        const data = await ctx.db
+          .select()
+          .from(clients)
+          .where(eq(clients.id, id));
+        if (data[0] === undefined) throw new Error("Client: Client Not Found");
+        if (data[0]?.addressId === undefined || data[0]?.addressId === null)
+          throw new Error("Client: Address Not Found");
+        await ctx.db
+          .update(addresses)
+          .set(address)
+          .where(eq(addresses.id, data[0].addressId));
+      }
+
       const updatedClient = await ctx.db
         .update(clients)
         .set({

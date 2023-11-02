@@ -12,6 +12,7 @@ import { expenseRouter } from "./routers/expense";
 import { settingsRouter } from "./routers/settings";
 import { orderArchiveRouter } from "./routers/orderArchive";
 import { adminRouter } from "./routers/admin";
+import { addressRouter } from "./routers/address";
 /**
  * This is the primary router for your server.
  *
@@ -19,6 +20,7 @@ import { adminRouter } from "./routers/admin";
  */
 
 export const appRouter = createTRPCRouter({
+  address: addressRouter,
   example: exampleRouter,
   session: sessionRouter,
   product: productRouter,

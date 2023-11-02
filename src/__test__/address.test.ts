@@ -4,7 +4,7 @@ import { session } from "./_test.session";
 import { createInnerTRPCContext } from "@/server/api/trpc";
 import { afterAll, beforeAll, describe, test, expect } from "vitest";
 
-const entryName = "client";
+const entryName = "address";
 
 const ctx = createInnerTRPCContext({ session });
 
@@ -14,8 +14,9 @@ let ids: number[] = [];
 
 beforeAll(async () => {
   const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
-    firstname: "Ala",
-    lastname: "Kowalska",
+    streetName: "Lawendowa",
+    streetNumber: "234",
+    apartmentNumber: "567",
   };
   const create = await caller[entryName].create(input);
   ids.push(create.id);
@@ -27,11 +28,12 @@ afterAll(async () => {
   }
 });
 
-describe("Client", () => {
+describe("Address", () => {
   test("create and delete", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
-      firstname: "Ala",
-      lastname: "Kowalska",
+      streetName: "Tymiankowa",
+      streetNumber: "123",
+      apartmentNumber: "456",
     };
     const create = await caller[entryName].create(input);
     const byId = await caller[entryName].getById(create.id);
@@ -44,32 +46,16 @@ describe("Client", () => {
   });
 
   test("update", async () => {
-    if (ids[0] === undefined) throw new Error("No Clients in test");
+    if (ids[0] === undefined) throw new Error("No Address in test");
     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
       id: ids[0],
-      firstname: "Test",
-      lastname: "Test",
+      streetName: "Test",
+      streetNumber: "Test",
+      apartmentNumber: "Test",
     };
 
     const update = await caller[entryName].update(input);
 
-    if (update?.id === undefined) throw new Error("Update failed");
-    const byId = await caller[entryName].getById(update.id);
-    expect(byId).toMatchObject(input);
-  });
-
-  test("update address", async () => {
-    if (ids[0] === undefined) throw new Error("No Clients in test");
-    const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
-      id: ids[0],
-      address: {
-        streetName: "Lawendowa",
-        streetNumber: "123",
-        apartmentNumber: "456",
-      },
-    };
-
-    const update = await caller[entryName].update(input);
     if (update?.id === undefined) throw new Error("Update failed");
     const byId = await caller[entryName].getById(update.id);
     expect(byId).toMatchObject(input);
@@ -78,8 +64,7 @@ describe("Client", () => {
   test("update id not found", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
       id: 9999999,
-      firstname: "Test",
-      lastname: "Test",
+      city: "Gdańsk",
     };
     await expect(() => caller[entryName].update(input)).rejects.toThrow();
   });
