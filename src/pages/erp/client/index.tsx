@@ -4,7 +4,7 @@ import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import Workspace from "@/components/layout/Workspace";
-import ClientAddModal from "@/pages/erp/client/_ClientAddModal";
+import ClientAddModal from "@/page-components/erp/client/ClientAddModal";
 import ClientEditable from "@/page-components/erp/client/ClientEditable";
 import ClientsList from "@/page-components/erp/client/ClientList";
 import { getQueryAsIntOrNull } from "@/utils/query";
