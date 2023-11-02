@@ -27,7 +27,7 @@ export const productRouter = createTRPCRouter({
         })
         .returning();
       if (newProduct[0] === undefined)
-        throw new Error("Could not create Product");
+        throw new Error("Product: Product could not be created");
       return newProduct[0];
     }),
   deleteById: createProcedureDeleteById(products),
@@ -45,6 +45,8 @@ export const productRouter = createTRPCRouter({
         })
         .where(eq(products.id, id))
         .returning();
+      if (updatedProduct[0] === undefined)
+        throw new Error("Product: Product could not be updated");
       return updatedProduct[0];
     }),
   search: createProcedureSearch(products),
