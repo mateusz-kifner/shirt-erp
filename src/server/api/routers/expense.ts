@@ -54,6 +54,8 @@ export const expenseRouter = createTRPCRouter({
         })
         .where(eq(expenses.id, id))
         .returning();
+      if (updatedClient[0] === undefined)
+        throw new Error("Expense: Expense could not be updated");
       return updatedClient[0];
     }),
   search: createProcedureSearch(expenses),

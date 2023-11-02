@@ -4,7 +4,7 @@ import { session } from "../../../_test.session";
 import { createInnerTRPCContext } from "@/server/api/trpc";
 import { afterAll, beforeAll, describe, test, expect } from "vitest";
 
-const entryName = "product";
+const entryName = "expense";
 
 const ctx = createInnerTRPCContext({ session });
 
@@ -14,11 +14,9 @@ const ids: number[] = [];
 
 beforeAll(async () => {
   const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
-    name: "Product 1",
-    category: "koszulka",
-    description: "category of product 1",
-    colors: ["#fff", "#f00"],
-    sizes: ["XL", "L"],
+    name: "test",
+    cost: "123.0",
+    expenseData: [{ name: "Farba", amount: 4 }],
   };
   const create = await caller[entryName].create(input);
   ids.push(create.id);
@@ -30,10 +28,12 @@ afterAll(async () => {
   }
 });
 
-describe("Product", () => {
+describe("Expense", () => {
   test("create and delete", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
-      name: "Product 2",
+      name: "test2",
+      cost: "1234.00",
+      expenseData: [{ name: "Farba2", amount: 5 }],
     };
     const create = await caller[entryName].create(input);
     const byId = await caller[entryName].getById(create.id);
@@ -49,7 +49,8 @@ describe("Product", () => {
     if (ids[0] === undefined) throw new Error("No Address in test");
     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
       id: ids[0],
-      name: "Product 3",
+      name: "Ala nie ma kota",
+      cost: "567.00",
     };
 
     const update = await caller[entryName].update(input);
@@ -62,7 +63,7 @@ describe("Product", () => {
   test("update id not found", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
       id: 9999999,
-      name: "Product 4",
+      name: "test",
     };
     await expect(() => caller[entryName].update(input)).rejects.toThrow();
   });

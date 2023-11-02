@@ -6,7 +6,7 @@ export const expenses = pgTable("expenses", {
   name: varchar("name", { length: 255 }),
   cost: decimal("cost", { precision: 10, scale: 2 }),
   expenseData: json("expense_data")
-    .$type<{ name?: string; cost?: number }[]>()
+    .$type<{ name?: string; amount?: number }[]>()
     .default([]),
   ...metadata,
 });

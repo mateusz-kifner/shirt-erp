@@ -5,12 +5,12 @@ import idRequiredZodSchema from "./idRequiredZodSchema";
 
 export const selectExpenseZodSchema = createSelectSchema(expenses, {
   expenseData: z
-    .object({ name: z.string().optional(), cost: z.number().optional() })
+    .object({ name: z.string().optional(), amount: z.number().optional() })
     .array(),
 });
 export const insertExpenseZodSchema = createInsertSchema(expenses, {
   expenseData: z
-    .object({ name: z.string().optional(), cost: z.number().optional() })
+    .object({ name: z.string().optional(), amount: z.number().optional() })
     .array(),
 }).omit({
   createdAt: true,

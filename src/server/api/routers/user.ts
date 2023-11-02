@@ -34,8 +34,14 @@ export const userRouter = createTRPCRouter({
           code: "UNAUTHORIZED",
           message: "Cannot delete user with higher role",
         });
-      const data = await authDBAdapter.deleteUser?.(id);
-      return data;
+      //const data = await authDBAdapter.deleteUser?.(id); // TODO: use this when available
+      const data = await ctx.db
+        .delete(users)
+        .where(eq(users.id, id))
+        .returning();
+      if (data[0] === undefined)
+        throw new Error("User: User deletion cannot be confirmed");
+      return data[0];
     }),
   update: managerProcedure
     .input(updateUserZodSchema)
