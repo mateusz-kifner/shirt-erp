@@ -28,7 +28,7 @@ export const clientRouter = createTRPCRouter({
     .input(insertClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { address, ...simpleClientData } = clientData;
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
 
       // All clients must have address
       const newAddress = await ctx.db
@@ -73,7 +73,7 @@ export const clientRouter = createTRPCRouter({
     .input(updateClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, address, ...dataToUpdate } = clientData;
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
 
       if (!!address) {
         const data = await ctx.db

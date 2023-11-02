@@ -10,7 +10,7 @@ const ctx = createInnerTRPCContext({ session });
 
 const caller = appRouter.createCaller(ctx);
 
-let ids: number[] = [];
+const ids: number[] = [];
 
 beforeAll(async () => {
   const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
@@ -36,7 +36,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  for (let id of ids) {
+  for (const id of ids) {
     await caller[entryName].deleteById(id);
   }
 });

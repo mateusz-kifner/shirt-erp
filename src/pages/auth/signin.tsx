@@ -71,7 +71,7 @@ export default function SigninPage(
 
   // app will crash if two people wants to signin at the same time
   if (isDemo && !purged && errorType === "EmailSignin") {
-    mutateAsync();
+    void mutateAsync();
     setPurged(true);
   }
 
@@ -92,7 +92,7 @@ export default function SigninPage(
             className="flex-grow py-8 text-lg"
             size="lg"
             onClick={() =>
-              signIn("email", {
+              void signIn("email", {
                 email: "noreply@shirterp.eu",
               })
             }

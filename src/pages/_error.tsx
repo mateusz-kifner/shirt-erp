@@ -1,4 +1,5 @@
 import { toHTTPErrorName } from "@/utils/HTTPError";
+import Link from "next/link";
 
 function ErrorPage({ statusCode }: { statusCode: number }) {
   return (
@@ -7,9 +8,9 @@ function ErrorPage({ statusCode }: { statusCode: number }) {
         ? `${statusCode} | ${toHTTPErrorName(statusCode)}`
         : "An error occurred on client"}
       <br />
-      <a href="/" className="bold text-lg">
+      <Link href="/" className="bold text-lg">
         Go back
-      </a>
+      </Link>
     </div>
   );
 }

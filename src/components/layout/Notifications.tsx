@@ -34,7 +34,7 @@ const Notifications = () => {
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      signIn();
+      void signIn();
     }
   }, [status]);
 

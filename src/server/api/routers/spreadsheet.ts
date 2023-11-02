@@ -31,7 +31,7 @@ export const spreadsheetRouter = createTRPCRouter({
   create: employeeProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const newUser = await ctx.db
         .insert(spreadsheets)
         .values({
@@ -55,7 +55,7 @@ export const spreadsheetRouter = createTRPCRouter({
     .input(updateSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const { id, ...dataToUpdate } = userData;
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const updatedUser = await ctx.db
         .update(spreadsheets)
         .set({

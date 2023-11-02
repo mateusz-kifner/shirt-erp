@@ -9,7 +9,7 @@ import { z } from "zod";
 
 export const settingsRouter = createTRPCRouter({
   getAllMailCredentials: employeeProcedure.query(async ({ ctx }) => {
-    const currentUserId = ctx.session!.user!.id;
+    const currentUserId = ctx.session.user.id;
     const result = await ctx.db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, currentUserId),
       with: { emailCredentials: { with: { emailCredentials: true } } },
@@ -20,7 +20,7 @@ export const settingsRouter = createTRPCRouter({
   createMailCredential: employeeProcedure
     .input(insertEmailCredentialZodSchema)
     .mutation(async ({ ctx, input: emailCredentialData }) => {
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const EmailCredential = await ctx.db
         .insert(email_credentials)
         .values({
@@ -52,7 +52,7 @@ export const settingsRouter = createTRPCRouter({
   deleteMailCredential: employeeProcedure
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => {
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const result = await ctx.db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: true },

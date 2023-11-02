@@ -17,7 +17,7 @@ export const expenseRouter = createTRPCRouter({
   create: employeeProcedure
     .input(insertExpenseZodSchema)
     .mutation(async ({ input: expenseData, ctx }) => {
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const newExpense = await ctx.db
         .insert(expenses)
         .values({
@@ -44,7 +44,7 @@ export const expenseRouter = createTRPCRouter({
     .input(updateExpenseZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const updatedClient = await ctx.db
         .update(expenses)
         .set({

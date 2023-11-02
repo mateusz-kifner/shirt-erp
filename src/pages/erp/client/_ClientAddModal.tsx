@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type ClientWithRelations } from "@/schema/clientZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
-import ClientListItem from "./ClientListItem";
+import ClientListItem from "../../../page-components/erp/client/ClientListItem";
 
 interface ClientAddModalProps {
   opened: boolean;

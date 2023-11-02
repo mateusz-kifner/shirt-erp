@@ -12,7 +12,7 @@ import { env } from "@/env.mjs";
 import { db } from "@/db";
 import { pgTable } from "drizzle-orm/pg-core";
 import { sendVerificationRequest } from "./email";
-import { UserRole, users } from "@/db/schema/users";
+import { type UserRole, users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
 
 /**
@@ -78,7 +78,7 @@ if (
       from: env.EMAIL_FROM,
       sendVerificationRequest,
       generateVerificationToken: env.NEXT_PUBLIC_DEMO
-        ? async () => {
+        ? () => {
             return "testuser";
           }
         : undefined,

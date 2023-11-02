@@ -40,7 +40,7 @@ export default function VerifyRequestPage(
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export function getServerSideProps(context: GetServerSidePropsContext) {
   if (env.NEXT_PUBLIC_DEMO) {
     return {
       redirect: {

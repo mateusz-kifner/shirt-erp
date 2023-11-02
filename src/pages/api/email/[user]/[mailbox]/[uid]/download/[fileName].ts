@@ -35,7 +35,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
 
     const { fileName, user, mailbox, uid } = req.query;
 
-    const currentUserId = session.user!.id;
+    const currentUserId = session.user.id;
     const result = await db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, currentUserId),
       with: { emailCredentials: { with: { emailCredentials: true } } },

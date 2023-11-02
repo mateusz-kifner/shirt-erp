@@ -53,7 +53,7 @@ export function createProcedureUpdate<TSchema extends schemaType>(
       );
     }
     const { id, ...dataToUpdate } = input;
-    const currentUserId = ctx.session!.user!.id;
+    const currentUserId = ctx.session.user.id;
     const updatedClient = await ctx.db
       .update(schema)
       .set({

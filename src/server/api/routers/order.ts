@@ -71,7 +71,7 @@ export const orderRouter = createTRPCRouter({
         emails,
         ...simpleOrderData
       } = orderData;
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const newAddress = await ctx.db
         .insert(addressesSchema)
         .values(address ?? {})
@@ -205,7 +205,7 @@ export const orderRouter = createTRPCRouter({
         emails,
         ...simpleOrderData
       } = orderData;
-      const currentUserId = ctx.session!.user!.id;
+      const currentUserId = ctx.session.user.id;
       const oldOrder = await ctx.db.query.orders.findFirst({
         where: eq(orders.id, id),
         with: {
@@ -307,7 +307,7 @@ export const orderRouter = createTRPCRouter({
       if (employees !== undefined) {
         const employeeIds = employees
           .filter((v) => v.id !== undefined)
-          .map((v) => v.id as string);
+          .map((v) => v.id);
         const oldEmployeeIds = oldEmployees.map((v) => v.userId);
 
         const employeesToBeAdded: string[] = employeeIds.filter(

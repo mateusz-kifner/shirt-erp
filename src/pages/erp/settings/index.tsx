@@ -86,7 +86,7 @@ function Settings() {
         <div className="flex flex-col gap-3 p-4 ">
           <Button
             onClick={() => {
-              signOut();
+              void signOut();
               // logout
               //   .mutateAsync()
               //   .then(() => {
@@ -157,7 +157,7 @@ function Settings() {
             session?.user.role === "admin") && (
             <Button
               onClick={() => {
-                router.push("user");
+                void router.push("user");
               }}
               leftSection={<IconBug />}
             >
