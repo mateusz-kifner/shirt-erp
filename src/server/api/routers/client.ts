@@ -30,6 +30,7 @@ export const clientRouter = createTRPCRouter({
       const { address, ...simpleClientData } = clientData;
       const currentUserId = ctx.session!.user!.id;
 
+      // All clients must have address
       const newAddress = await ctx.db
         .insert(addresses)
         .values(address ?? {})
@@ -47,9 +48,27 @@ export const clientRouter = createTRPCRouter({
         .returning();
       if (newClient[0] === undefined)
         throw new Error("Could not create client");
-      return newClient[0];
+      return { ...newClient[0], address: newAddress[0] };
     }),
-  deleteById: createProcedureDeleteById(clients),
+  deleteById: employeeProcedure
+    .input(z.number())
+    .mutation(async ({ input: id, ctx }) => {
+      const data = await ctx.db.query.clients.findFirst({
+        where: eq(clients.id, id),
+      });
+      // Delete address to cascade delete related client, All clients must have address
+      if (data?.addressId === undefined || data?.addressId === null)
+        throw new Error("Client: Address not found");
+      const deletedAddress = await ctx.db
+        .delete(addresses)
+        .where(eq(addresses.id, data.addressId))
+        .returning();
+      if (deletedAddress[0] === undefined)
+        throw new Error(
+          "Client: Address could not be deleted (or doesn't exist)",
+        );
+      return { ...data, address: deletedAddress[0] };
+    }),
   update: employeeProcedure
     .input(updateClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {

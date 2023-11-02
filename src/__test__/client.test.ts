@@ -16,6 +16,20 @@ beforeAll(async () => {
   const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
     firstname: "Ala",
     lastname: "Kowalska",
+    companyName: "Kowalska Sp.z.o.o.",
+    email: "ala.kowlaska@example.pl",
+    notes: "test<br/>test",
+    phoneNumber: "+48 123 123 123",
+    username: "ala.kowalska",
+    address: {
+      streetName: "Barniewicka",
+      streetNumber: "633",
+      apartmentNumber: "244",
+      city: "Gdańsk",
+      postCode: "12-345",
+      province: "pomorskie",
+      secondLine: "",
+    },
   };
   const create = await caller[entryName].create(input);
   ids.push(create.id);
@@ -30,8 +44,22 @@ afterAll(async () => {
 describe("Client", () => {
   test("create and delete", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
-      firstname: "Ala",
-      lastname: "Kowalska",
+      firstname: "Jan",
+      lastname: "Malinowski",
+      companyName: "Kowalska Sp.z.o.o.",
+      email: "jan.malinowski@example.pl",
+      notes: "test<br/>test",
+      phoneNumber: "+48 123 123 123",
+      username: "jan.malinowski",
+      address: {
+        streetName: "Barniewicka",
+        streetNumber: "633",
+        apartmentNumber: "244",
+        city: "Gdańsk",
+        postCode: "12-345",
+        province: "pomorskie",
+        secondLine: "",
+      },
     };
     const create = await caller[entryName].create(input);
     const byId = await caller[entryName].getById(create.id);
@@ -41,6 +69,8 @@ describe("Client", () => {
 
     const deleteData = await caller[entryName].deleteById(byId!.id);
     expect(deleteData).toMatchObject(input);
+    const byId2 = await caller[entryName].getById(create.id);
+    expect(byId2).toBeUndefined();
   });
 
   test("update", async () => {
@@ -64,8 +94,8 @@ describe("Client", () => {
       id: ids[0],
       address: {
         streetName: "Lawendowa",
-        streetNumber: "123",
-        apartmentNumber: "456",
+        streetNumber: "1234",
+        apartmentNumber: "4567",
       },
     };
 
@@ -78,8 +108,8 @@ describe("Client", () => {
   test("update id not found", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
       id: 9999999,
-      firstname: "Test",
-      lastname: "Test",
+      firstname: "Test2",
+      lastname: "Test2",
     };
     await expect(() => caller[entryName].update(input)).rejects.toThrow();
   });
