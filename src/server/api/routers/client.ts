@@ -19,7 +19,6 @@ export const clientRouter = createTRPCRouter({
     .mutation(async ({ input: clientData, ctx }) => {
       const { address, ...simpleClientData } = clientData;
       const currentUserId = ctx.session!.user!.id;
-      console.log(clientData);
 
       const newAddress = await ctx.db
         .insert(addresses)
@@ -55,7 +54,6 @@ export const clientRouter = createTRPCRouter({
         .where(eq(clients.id, id))
         .returning();
       if (updatedClient[0] === undefined) throw new Error("Could not update");
-      console.log(updatedClient);
       return updatedClient[0];
     }),
 

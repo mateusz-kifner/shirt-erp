@@ -2,7 +2,7 @@ import { appRouter, AppRouter } from "@/server/api/root";
 import { inferProcedureInput, TRPCError } from "@trpc/server";
 import { session } from "./_test.session";
 import { createInnerTRPCContext } from "@/server/api/trpc";
-import { afterAll, beforeAll, describe, it, expect } from "vitest";
+import { afterAll, beforeAll, describe, test, expect } from "vitest";
 
 const entryName = "client";
 
@@ -28,7 +28,7 @@ afterAll(async () => {
 });
 
 describe("Client", () => {
-  it("create and delete", async () => {
+  test("create and delete", async () => {
     const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
       firstname: "Ala",
       lastname: "Kowalska",
@@ -37,13 +37,13 @@ describe("Client", () => {
     const byId = await caller[entryName].getById(create.id);
 
     expect(byId).toMatchObject(input);
-    if (byId?.id) {
-      const deleteData = await caller[entryName].deleteById(byId.id);
-      expect(deleteData).toMatchObject(input);
-    }
+    expect(byId?.id).toBeTypeOf("number");
+
+    const deleteData = await caller[entryName].deleteById(byId!.id);
+    expect(deleteData).toMatchObject(input);
   });
 
-  it("update", async () => {
+  test("update", async () => {
     if (ids[0] === undefined) throw new Error("No Clients in test");
     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
       id: ids[0],
@@ -58,14 +58,12 @@ describe("Client", () => {
     expect(byId).toMatchObject(input);
   });
 
-  // it("update id not found", async () => {
-  //   const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
-  //     id: 9999999,
-  //     firstname: "Test",
-  //     lastname: "Test",
-  //   };
-  //   // expect(async () => {
-  //   //   await caller[entryName].update(input);
-  //   // }).rejects.toThrow();
-  // });
+  test("update id not found", async () => {
+    const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
+      id: 9999999,
+      firstname: "Test",
+      lastname: "Test",
+    };
+    await expect(() => caller[entryName].update(input)).rejects.toThrow();
+  });
 });
