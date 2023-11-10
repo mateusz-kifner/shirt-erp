@@ -8,12 +8,10 @@ export const products = pgTable("products", {
   name: varchar("name", { length: 255 }).unique(),
   category: varchar("category", { length: 255 }),
   description: text("description"),
-  colors: varchar("colors", { length: 64 })
-    .array()
-    .default(sql`ARRAY[]::varchar[]`),
-  sizes: varchar("sizes", { length: 255 })
-    .array()
-    .default(sql`ARRAY[]::varchar[]`),
+  colors: varchar("colors", { length: 64 }).array()
+  .default(sql`ARRAY[]::varchar[]`),
+  sizes: varchar("sizes", { length: 255 }).array()
+  .default(sql`ARRAY[]::varchar[]`),
   ...metadata,
 });
 

@@ -10,7 +10,6 @@ import { searchRouter } from "./routers/search";
 import { emailRouter } from "./routers/email";
 import { expenseRouter } from "./routers/expense";
 import { settingsRouter } from "./routers/settings";
-import { orderArchiveRouter } from "./routers/orderArchive";
 import { adminRouter } from "./routers/admin";
 import { addressRouter } from "./routers/address";
 /**
@@ -27,7 +26,6 @@ export const appRouter = createTRPCRouter({
   settings: settingsRouter,
   client: clientRouter,
   order: orderRouter,
-  "order-archive": orderArchiveRouter,
   spreadsheet: spreadsheetRouter,
   user: userRouter,
   search: searchRouter,

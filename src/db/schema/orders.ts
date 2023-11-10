@@ -30,6 +30,8 @@ export const orders = pgTable("orders", {
   addressId: integer("address_id").references(() => addresses.id, {
     onDelete: "cascade",
   }),
+  isArchived: boolean("is_archived").default(false),
+  isTemplate: boolean("is_template").default(false),
   ...metadata,
 });
 

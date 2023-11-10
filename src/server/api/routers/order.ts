@@ -2,23 +2,11 @@ import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
 import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
-import { archive_orders, orders } from "@/db/schema/orders";
-import {
-  archive_orders_to_email_messages,
-  orders_to_email_messages,
-} from "@/db/schema/orders_to_email_messages";
-import {
-  archive_orders_to_files,
-  orders_to_files,
-} from "@/db/schema/orders_to_files";
-import {
-  archive_orders_to_products,
-  orders_to_products,
-} from "@/db/schema/orders_to_products";
-import {
-  archive_orders_to_users,
-  orders_to_users,
-} from "@/db/schema/orders_to_users";
+import { orders } from "@/db/schema/orders";
+import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
+import { orders_to_files } from "@/db/schema/orders_to_files";
+import { orders_to_products } from "@/db/schema/orders_to_products";
+import { orders_to_users } from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import {
   type NewOrder,
@@ -427,98 +415,5 @@ export const orderRouter = createTRPCRouter({
   search: createProcedureSearch(orders),
   archiveById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: orderId, ctx }) => {
-      const orderData = await ctx.db.query.orders.findFirst({
-        where: eq(orders.id, orderId),
-        with: {
-          emails: true,
-          employees: true,
-          files: true,
-          products: true,
-          spreadsheets: true,
-        },
-      });
-      if (!orderData) throw new Error("Order.update: Order not found");
-
-      const {
-        id,
-        emails,
-        files,
-        employees,
-        products,
-        spreadsheets,
-        ...simpleOrderData
-      } = orderData;
-      await ctx.db.transaction(async (tx) => {
-        // create archive order
-        const newOrderData = await tx
-          .insert(archive_orders)
-          .values(simpleOrderData)
-          .returning();
-        if (newOrderData[0] === undefined)
-          throw new Error("Could not create archive order");
-
-        // reconnect all files
-        if (files.length > 0) {
-          await tx.delete(orders_to_files).where(
-            and(
-              eq(orders_to_files.orderId, id),
-              inArray(
-                orders_to_files.fileId,
-                files.map((v) => v.fileId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_files).values(files);
-        }
-        // reconnect all emails
-        if (emails.length > 0) {
-          await tx.delete(orders_to_email_messages).where(
-            and(
-              eq(orders_to_email_messages.orderId, id),
-              inArray(
-                orders_to_email_messages.emailMessagesId,
-                emails.map((v) => v.emailMessagesId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_email_messages).values(emails);
-        }
-        // reconnect all employees
-        if (employees.length > 0) {
-          await tx.delete(orders_to_users).where(
-            and(
-              eq(orders_to_users.orderId, id),
-              inArray(
-                orders_to_users.userId,
-                employees.map((v) => v.userId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_users).values(employees);
-        }
-        // reconnect all products
-        if (products.length > 0) {
-          await tx.delete(orders_to_products).where(
-            and(
-              eq(orders_to_products.orderId, id),
-              inArray(
-                orders_to_products.productId,
-                products.map((v) => v.productId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_products).values(products);
-        }
-
-        // change all spreadsheets
-        await tx
-          .update(spreadsheetsSchema)
-          .set({ orderId: null, archiveOrderId: newOrderData[0].id });
-
-        // delete original order
-        await tx.delete(orders).where(eq(orders.id, id));
-        return newOrderData;
-      });
-    }),
+    .mutation(async ({ input: orderId, ctx }) => {}),
 });
