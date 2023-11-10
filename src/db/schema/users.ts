@@ -11,7 +11,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 import { email_credentials_to_users } from "./email_credentials_to_users";
-import { archive_orders_to_users, orders_to_users } from "./orders_to_users";
+import { orders_to_users } from "./orders_to_users";
 import { AdapterAccount } from "next-auth/adapters";
 
 export const roleEnum = pgEnum("role", [
@@ -33,7 +33,6 @@ export const users = pgTable("user", {
 
 export const users_relations = relations(users, ({ many }) => ({
   orders: many(orders_to_users),
-  archiveOrders: many(archive_orders_to_users),
   emailCredentials: many(email_credentials_to_users),
   sessions: many(sessions),
 }));
