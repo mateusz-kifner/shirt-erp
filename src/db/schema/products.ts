@@ -1,5 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { boolean, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 import { orders_to_products } from "./orders_to_products";
 
@@ -8,10 +8,14 @@ export const products = pgTable("products", {
   name: varchar("name", { length: 255 }).unique(),
   category: varchar("category", { length: 255 }),
   description: text("description"),
-  colors: varchar("colors", { length: 64 }).array()
-  .default(sql`ARRAY[]::varchar[]`),
-  sizes: varchar("sizes", { length: 255 }).array()
-  .default(sql`ARRAY[]::varchar[]`),
+  colors: varchar("colors", { length: 64 })
+    .array()
+    .default(sql`ARRAY[]::varchar[]`),
+  sizes: varchar("sizes", { length: 255 })
+    .array()
+    .default(sql`ARRAY[]::varchar[]`),
+  isTemplate: boolean("is_template").default(false),
+
   ...metadata,
 });
 

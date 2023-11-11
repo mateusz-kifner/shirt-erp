@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  integer,
+  pgTable,
+  serial,
+  text,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 import { addresses } from "./addresses";
 
@@ -15,6 +22,7 @@ export const clients = pgTable("clients", {
   addressId: integer("address_id").references(() => addresses.id, {
     onDelete: "cascade",
   }),
+  isTemplate: boolean("is_template").default(false),
   ...metadata,
 });
 

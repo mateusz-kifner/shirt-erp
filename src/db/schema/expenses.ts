@@ -1,4 +1,11 @@
-import { decimal, json, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  decimal,
+  json,
+  pgTable,
+  serial,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 
 export const expenses = pgTable("expenses", {
@@ -8,5 +15,7 @@ export const expenses = pgTable("expenses", {
   expenseData: json("expense_data")
     .$type<{ name?: string; amount?: number }[]>()
     .default([]),
+  isTemplate: boolean("is_template").default(false),
+
   ...metadata,
 });
