@@ -105,6 +105,7 @@ function ProductEditable(props: ProductEditableProps) {
         disabled
         collapse
       />
+      <EditableSwitch keyName="isTemplate" label="Szablon" />
     </Editable>
   );
 }

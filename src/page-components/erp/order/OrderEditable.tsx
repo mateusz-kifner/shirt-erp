@@ -280,6 +280,7 @@ function OrderEditable(props: OrderEditableProps) {
           disabled
           collapse
         />
+        <EditableSwitch keyName="isTemplate" label="Szablon" />
       </Editable>
       <AlertDialog>
         <AlertDialogTrigger asChild className="mt-6">

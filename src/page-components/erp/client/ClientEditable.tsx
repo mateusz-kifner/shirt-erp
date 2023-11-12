@@ -193,6 +193,7 @@ function ClientEditable(props: ClientEditableProps) {
           disabled
           collapse
         />
+        <EditableSwitch keyName="isTemplate" label="Szablon" />
       </Editable>
       <AlertDialog>
         <AlertDialogTrigger asChild className="mt-6">

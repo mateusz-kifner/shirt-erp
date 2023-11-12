@@ -118,6 +118,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
           disabled
           collapse
         />
+        <EditableSwitch keyName="isTemplate" label="Szablon" />
       </Editable>
       <AlertDialog>
         <AlertDialogTrigger asChild className="mt-6">
