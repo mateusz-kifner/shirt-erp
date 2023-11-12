@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import SuperJSON from "superjson";
 import { db } from "@/db";
 import { signOut, useSession } from "next-auth/react";
+import { useExperimentalContext } from "@/context/experimentalContext";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -61,6 +62,8 @@ function Settings() {
     key: "remSize",
     defaultValue: 10,
   });
+
+  const { toggleExtendedList, extendedList } = useExperimentalContext();
 
   useEffect(() => {
     if (loaded) {
@@ -164,7 +167,18 @@ function Settings() {
               <span className="capitalize"> {t.manage}</span> {t.user.plural}
             </Button>
           )}
-          {debug && <></>}
+          {debug && (
+            <>
+              <Button
+                onClick={() => {
+                  toggleExtendedList();
+                }}
+                leftSection={<IconBug />}
+              >
+                ExtendedList {extendedList ? "ON" : "OFF"}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

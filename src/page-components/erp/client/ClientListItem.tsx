@@ -1,12 +1,18 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
+import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
+import { useExperimentalContext } from "@/context/experimentalContext";
 import { type Client } from "@/schema/clientZodSchema";
 import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
 const ClientListItem = (props: ListItemProps<Client>) => {
   const value = props.value;
+
+  const { extendedList } = useExperimentalContext();
+  const ListItem = extendedList ? DefaultListItemExtended : DefaultListItem;
+
   return (
-    <DefaultListItem
+    <ListItem
       firstElement={
         value
           ? (value?.firstname && value.firstname?.length > 0) ||

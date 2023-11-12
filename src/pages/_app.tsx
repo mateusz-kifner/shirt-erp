@@ -8,6 +8,7 @@ import Head from "next/head";
 
 import AppLayout from "@/components/layout/LayoutERP";
 import { UserContextProvider } from "@/context/userContext";
+import { ExperimentalContextProvider } from "@/context/experimentalContext";
 import { env } from "@/env.mjs";
 import { api } from "@/utils/api";
 
@@ -125,20 +126,22 @@ const App: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <UserContextProvider>
-        <TooltipProvider>
-          <Layout>
-            <Head>
-              <title>ShirtERP</title>
-            </Head>
-            <ErrorBoundary fallback={<h1>Application crashed</h1>}>
-              <Component {...pageProps} />
-            </ErrorBoundary>
-          </Layout>
-          <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </TooltipProvider>
-      </UserContextProvider>
+      <ExperimentalContextProvider>
+        <UserContextProvider>
+          <TooltipProvider>
+            <Layout>
+              <Head>
+                <title>ShirtERP</title>
+              </Head>
+              <ErrorBoundary fallback={<h1>Application crashed</h1>}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            </Layout>
+            <Toaster />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </TooltipProvider>
+        </UserContextProvider>
+      </ExperimentalContextProvider>
     </SessionProvider>
   );
 };
