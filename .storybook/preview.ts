@@ -1,7 +1,7 @@
-import type { Preview } from "@storybook/react";
+import type { Preview, ReactRenderer } from "@storybook/react";
 import "@/styles/globals.css";
 
-import { withThemeByClassName } from "@storybook/addon-styling";
+import { withThemeByClassName } from "@storybook/addon-themes";
 
 /* TODO: update import to your tailwind styles file */
 
@@ -19,12 +19,12 @@ const preview: Preview = {
   decorators: [
     // Adds theme switching support.
     // NOTE: requires setting "darkMode" to "class" in your tailwind config
-    withThemeByClassName({
+    withThemeByClassName<ReactRenderer>({
       themes: {
-        light: "light",
+        light: "",
         dark: "dark",
       },
-      defaultTheme: "dark",
+      defaultTheme: "light",
     }),
   ],
 };
