@@ -7,6 +7,7 @@ import EditableEnum from "@/components/editable/EditableEnum";
 import EditableFiles from "@/components/editable/EditableFiles";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
+import EditableSwitch from "@/components/editable/EditableSwitch";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
