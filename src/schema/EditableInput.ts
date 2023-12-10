@@ -3,13 +3,14 @@ import { type ReactNode } from "react";
 interface EditableInput<T> {
   label?: string;
   value?: T;
-  onSubmit?: (value: T | null) => void | boolean;
   disabled?: boolean;
   required?: boolean;
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   className?: string;
-  keyName?: string;
+  keyName?: string | number;
+  data?: T;
+  onSubmit?: (key: string | number, value: T) => void;
 }
 
 export default EditableInput;

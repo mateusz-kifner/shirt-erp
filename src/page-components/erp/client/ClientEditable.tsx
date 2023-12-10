@@ -58,11 +58,12 @@ function ClientEditable(props: ClientEditableProps) {
   const { mutateAsync: deleteById } = api.client.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const apiUpdate = (key: string, val: any) => {
-    if (!isLoaded) return;
-    if (!data) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    update({ id: data.id, [key]: val }).catch(console.log);
+  const apiUpdate = (key: string | number, val: any) => {
+    console.log(key, val);
+    // if (!isLoaded) return;
+    // if (!data) return;
+    // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    // update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
