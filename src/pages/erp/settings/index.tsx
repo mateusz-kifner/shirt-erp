@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import EditableEnum from "@/components/editable/EditableEnum";
 import Button from "@/components/ui/Button";
@@ -24,6 +24,8 @@ import SuperJSON from "superjson";
 import { db } from "@/db";
 import { signOut, useSession } from "next-auth/react";
 import { useExperimentalContext } from "@/context/experimentalContext";
+import Editable from "@/components/editable/Editable";
+import EditableText from "@/components/editable/EditableText";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -62,6 +64,7 @@ function Settings() {
     key: "remSize",
     defaultValue: 10,
   });
+  const [demoVal, setDemoVal] = useState({ test: "test" });
 
   const { toggleExtendedList, extendedList } = useExperimentalContext();
 
@@ -177,6 +180,14 @@ function Settings() {
               >
                 ExtendedList {extendedList ? "ON" : "OFF"}
               </Button>
+              <Editable
+                data={demoVal}
+                onSubmit={(key, value) => {
+                  console.log(key, value);
+                }}
+              >
+                <EditableText keyName="test" />
+              </Editable>
             </>
           )}
         </div>

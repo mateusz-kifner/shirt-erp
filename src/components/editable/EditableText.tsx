@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { useClickOutside } from "@mantine/hooks";
+import { Key, useEditableContext } from "./Editable";
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -15,20 +16,20 @@ interface EditableTextProps extends EditableInput<string> {
 
 const EditableText = (props: EditableTextProps) => {
   const {
-    label,
-    value,
-    onSubmit,
-    disabled,
-    required,
-    maxLength,
-    style,
-    className,
-    leftSection,
-    rightSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    data,
     keyName,
+    value,
+    disabled,
+    onSubmit,
+    className,
+    label,
+    leftSection,
+    maxLength,
+    required,
+    rightSection,
+    style,
     ...moreProps
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const [text, setText] = useState<string>(value ?? "");
   const [focus, setFocus] = useState<boolean>(false);
@@ -39,7 +40,7 @@ const EditableText = (props: EditableTextProps) => {
   const onSubmitValue = (text: string) => {
     // if text empty submit null
     if (text.length === 0 && value !== null) {
-      onSubmit?.(null);
+      onSubmit?.(undefined);
     } else if (text !== (value ?? "")) {
       onSubmit?.(text);
     }

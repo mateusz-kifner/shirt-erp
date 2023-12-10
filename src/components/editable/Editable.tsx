@@ -1,12 +1,14 @@
 import { createContext, useContext, type ReactNode } from "react";
 
-export interface EditableContextType {
-  data: Record<string, any>;
-  onSubmit?: (key: string | number, value: any) => void;
+export type Key = string | number;
+
+export interface EditableContextType<TData extends Record<Key, any>> {
+  data: TData;
+  onSubmit?: (key: Key, value: TData[Key]) => void;
   disabled?: boolean;
 }
 
-export const EditableContext = createContext<EditableContextType>({
+export const EditableContext = createContext<EditableContextType<any>>({
   data: {},
   onSubmit: () => console.log("Not ready yet"),
   disabled: false,
@@ -15,7 +17,7 @@ export const EditableContext = createContext<EditableContextType>({
 export function Editable<T extends Record<string, any>>(props: {
   children: ReactNode;
   data: T;
-  onSubmit?: (key: string | number, value: any) => void;
+  onSubmit?: (key: Key, value: any) => void;
   disabled?: boolean;
 }) {
   const { children, disabled = false, ...moreProps } = props;
@@ -27,26 +29,40 @@ export function Editable<T extends Record<string, any>>(props: {
   );
 }
 
-export function useEditableContextWithoutOverride(): EditableContextType {
+export function useEditableContextWithoutOverride<
+  T extends Record<string, any>,
+>(): EditableContextType<T> {
   const state = useContext(EditableContext);
   return state;
 }
 
 export function useEditableContext<
-  TValue,
-  TData extends Record<string | number, TValue>,
->(props: {
-  data?: TData;
-  onSubmit?: (key: string | number, value: TValue) => void;
-  keyName?: string | number;
-}): EditableContextType & { keyName: string | number; value: TValue } {
-  const keyName = props?.keyName;
+  T extends Record<Key, any> & {
+    data?: Record<Key, any>;
+    onSubmit?: (key: Key, value: TValue) => void; // initial onSubmit
+    keyName?: Key;
+    value?: TValue;
+  },
+  TValue extends any = any, // Need this to coerce onSubmit to have proper value
+>(props: T) {
+  const {
+    data: data_props,
+    onSubmit: onSubmit_props,
+    keyName,
+    ...moreProps
+  } = props;
   if (keyName === undefined) throw new Error("keyName not defined");
   const state = useContext(EditableContext);
-  const data = props.data ?? state.data;
-  const onSubmit = props.onSubmit ?? state.onSubmit;
-  const value = data[keyName];
-  return { data, onSubmit, keyName, value };
+  const data = data_props ?? state.data;
+  const onSubmit = onSubmit_props ?? state.onSubmit;
+  const value: TValue = data[keyName];
+  return {
+    data,
+    onSubmit: (value) => onSubmit?.(keyName, value as TValue),
+    keyName,
+    value,
+    ...moreProps,
+  } as Omit<T, "onSubmit"> & { onSubmit: (value: T["value"]) => void }; // Simple onSubmit with proper types
 }
 
 export { Editable as default };

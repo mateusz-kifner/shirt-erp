@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { useClickOutside } from "@mantine/hooks";
+import { useEditableContext } from "./Editable";
 
 interface EditableShortTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -25,10 +26,9 @@ const EditableShortText = (props: EditableShortTextProps) => {
     className,
     leftSection,
     rightSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
     ...moreProps
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const [text, setText] = useState<string>(value ?? "");
   const [focus, setFocus] = useState<boolean>(false);
