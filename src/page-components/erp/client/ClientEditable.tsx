@@ -152,7 +152,7 @@ function ClientEditable(props: ClientEditableProps) {
           leftSection={<IconAddressBook />}
         />
 
-        {/* <EditableArray<OrderWithoutRelations>
+        <EditableArray<OrderWithoutRelations>
           label="Zamówienia"
           keyName="orders"
           disabled
@@ -179,7 +179,7 @@ function ClientEditable(props: ClientEditableProps) {
               value?.name ? truncString(value.name, 40) : undefined
             }
           />
-        </EditableArray> */}
+        </EditableArray>
 
         <EditableDateTime
           keyName="createdAt"

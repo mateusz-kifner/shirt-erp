@@ -182,8 +182,9 @@ interface EditableArrayProps<T> extends EditableInput<T> {
 }
 
 function EditableArray<T = any>(props: EditableArrayProps<T[]>) {
-  const { children, keyName, label } = props;
-  if (keyName === undefined || typeof keyName === "string")
+  const { children, keyName, label, disabled } = props;
+  console.log(keyName);
+  if (keyName === undefined || typeof keyName === "number")
     throw new Error("keyName not defined");
   const context = useEditableContextWithoutOverride();
   const uuid = useId();
@@ -220,6 +221,15 @@ function EditableArray<T = any>(props: EditableArrayProps<T[]>) {
                 keyName: index,
               });
             })}
+            {!disabled && (
+              <button
+                onClick={() => {
+                  onSubmit(data.length, null);
+                }}
+              >
+                +
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -245,13 +255,15 @@ function EditableArray<T = any>(props: EditableArrayProps<T[]>) {
               key: `${uuid}${index}:`,
             });
           })}
-          <button
-            onClick={() => {
-              onSubmit(data.length, null);
-            }}
-          >
-            +
-          </button>
+          {!disabled && (
+            <button
+              onClick={() => {
+                onSubmit(data.length, null);
+              }}
+            >
+              +
+            </button>
+          )}
         </div>
       </div>
     </div>
