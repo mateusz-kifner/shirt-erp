@@ -6,6 +6,7 @@ import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
+import EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -59,11 +60,9 @@ function ClientEditable(props: ClientEditableProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string | number, val: any) => {
-    console.log(key, val);
-    // if (!isLoaded) return;
-    // if (!data) return;
-    // // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    // update({ id: data.id, [key]: val }).catch(console.log);
+    if (!isLoaded) return;
+    if (!data) return;
+    update({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {
@@ -153,7 +152,7 @@ function ClientEditable(props: ClientEditableProps) {
           leftSection={<IconAddressBook />}
         />
 
-        <EditableArray<OrderWithoutRelations>
+        {/* <EditableArray<OrderWithoutRelations>
           label="Zamówienia"
           keyName="orders"
           disabled
@@ -180,7 +179,7 @@ function ClientEditable(props: ClientEditableProps) {
               value?.name ? truncString(value.name, 40) : undefined
             }
           />
-        </EditableArray>
+        </EditableArray> */}
 
         <EditableDateTime
           keyName="createdAt"

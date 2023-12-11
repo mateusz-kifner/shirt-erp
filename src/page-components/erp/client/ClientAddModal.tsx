@@ -10,24 +10,26 @@ import { type ClientWithRelations } from "@/schema/clientZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ClientListItem from "./ClientListItem";
+import Editable from "@/components/editable/Editable";
 
 interface ClientAddModalProps {
   opened: boolean;
   onClose: (id?: number) => void;
 }
 
+const defaultData = { username: "Klient", template: null };
+
 const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
-  const [username, setUsername] = useState<string>("Klient");
-  const [template, setTemplate] = useState<Partial<ClientWithRelations> | null>(
-    null,
-  );
+  const [data, setData] = useState<{
+    username: string;
+    template: Partial<ClientWithRelations> | null;
+  }>(defaultData);
   const [error, setError] = useState<string | null>(null);
   const { mutateAsync: createClient } = api.client.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
-      setUsername("Klient");
-      // setTemplate(null);
+      setData(defaultData);
       setError(null);
     }
   }, [opened]);
@@ -37,36 +39,39 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
       <DialogContent>
         <DialogTitle>Utwórz nowego klienta</DialogTitle>
         <div className="flex flex-col gap-2">
-          <EditableApiEntry
-            label="Szablon"
-            entryName="clients"
-            Element={ClientListItem}
-            onSubmit={setTemplate}
-            value={template ?? undefined}
-            allowClear
-            listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
-          />
-          <EditableText
-            label="Nazwa użytkownika"
-            onSubmit={(val) => {
-              val && setUsername(val);
+          <Editable
+            data={data}
+            onSubmit={(key, val) => {
+              setData((prev) => ({ ...prev, [key]: val }));
             }}
-            value={username}
-            required
-          />
+          >
+            <EditableApiEntry
+              label="Szablon"
+              keyName="template"
+              entryName="clients"
+              Element={ClientListItem}
+              allowClear
+              listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
+            />
+            <EditableText
+              label="Nazwa użytkownika"
+              keyName="username"
+              required
+            />
+          </Editable>
 
           <Button
             onClick={() => {
-              if (username.length == 0)
+              if (data.username.length == 0)
                 return setError("Musisz podać nie pustą nazwę użytkownika");
               const new_client = {
-                ...(template ? omit(template, "id") : {}),
-                username: username,
+                ...(data.template ? omit(data.template, "id") : {}),
+                username: data.username,
                 orders: [],
                 "orders-archive": [],
               };
-              if (template?.address) {
-                new_client.address = omit(template.address, "id");
+              if (data.template?.address) {
+                new_client.address = omit(data.template.address, "id");
               }
 
               createClient(new_client)
