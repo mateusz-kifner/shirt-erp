@@ -23,6 +23,7 @@ import { type File as FileType } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
+import { useEditableContext } from "./Editable";
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -39,7 +40,7 @@ const EditableFiles = (props: EditableFilesProps) => {
     disabled,
     maxCount = 128,
     // keyName,
-  } = props;
+  } = useEditableContext(props);
   const t = useTranslation();
   const uuid = useId();
   const [files, setFiles] = useState<FileType[]>(value ?? []);

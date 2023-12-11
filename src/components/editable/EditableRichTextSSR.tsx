@@ -47,6 +47,7 @@ import {
   IconSuperscript,
   IconUnderline,
 } from "@tabler/icons-react";
+import { useEditableContext } from "./Editable";
 
 // TODO: refactor buttons rendering
 
@@ -234,16 +235,18 @@ interface EditableRichTextProps extends EditableInput<string> {
   maxLength?: number;
 }
 
-const EditableRichText = ({
-  label,
-  value,
-  onSubmit,
-  disabled,
-  required,
-  leftSection,
-  rightSection, // maxLength = Number.MAX_SAFE_INTEGER,
-} // keyName,
-: EditableRichTextProps) => {
+const EditableRichText = (props: EditableRichTextProps) => {
+  const {
+    label,
+    value,
+    onSubmit,
+    disabled,
+    required,
+    leftSection,
+    rightSection,
+    // maxLength = Number.MAX_SAFE_INTEGER,
+    // keyName
+  } = useEditableContext(props);
   const uuid = useId();
   const [text, setText] = useState<string>(
     value ? DOMPurify.sanitize(value) : "",

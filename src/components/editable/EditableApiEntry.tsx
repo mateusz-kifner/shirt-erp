@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
+import { useEditableContext } from "./Editable";
 
 interface EditableApiEntryProps
   extends EditableInput<{ id?: number; [key: string]: any }> {
@@ -46,7 +47,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     allowClear = false,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
-  } = props;
+  } = useEditableContext(props);
 
   const [apiEntry, setApiEntry] = useState<any>(value);
   const [prev, setPrev] = useState<any>(apiEntry);
@@ -129,7 +130,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               <Button
                 onClick={() => {
                   setOpen(false);
-                  onSubmit?.(null);
+                  onSubmit?.(undefined);
                 }}
                 leftSection={<IconTrashX size={12} />}
                 className="h-8 p-3 text-xs"

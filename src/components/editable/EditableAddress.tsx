@@ -16,6 +16,7 @@ import type EditableInput from "@/schema/EditableInput";
 import { type Address } from "@/schema/addressZodSchema";
 import { Input } from "../ui/Input";
 import EditableEnum from "./EditableEnum";
+import { useEditableContext } from "./Editable";
 
 const provinces = [
   "dolnośląskie",
@@ -106,7 +107,7 @@ const EditableAddress = (props: EditableAddressProps) => {
     leftSection,
     rightSection,
     // keyName,
-  } = props;
+  } = useEditableContext(props);
   // console.log(value);
   const [address, setAddress] = useState<Address>(value!);
   const [focus, setFocus] = useState<boolean>(false);
@@ -269,7 +270,7 @@ const EditableAddress = (props: EditableAddressProps) => {
               <Label label={label?.province} />
               <EditableEnum
                 value={address?.province ?? ""}
-                onSubmit={(value) =>
+                onSubmit={(key, value) =>
                   value !== null && setAddressField("province", value)
                 }
                 enum_data={provinces}

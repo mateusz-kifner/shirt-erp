@@ -7,6 +7,7 @@ import { useLoaded } from "@/hooks/useLoaded";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import preventLeave from "@/utils/preventLeave";
+import { useEditableContext } from "./Editable";
 
 const isNumRegex = /^[\d|\+|\.|\,]+$/;
 
@@ -37,8 +38,10 @@ const EditableNumber = (props: EditableNumberProps) => {
     fixed = 2,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    data,
     ...moreProps
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const toText = (num?: number | null) => {
     if (num === null) return "";
@@ -59,7 +62,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     const num = parseFloat(text);
     if (isNaN(num)) {
       if (!isNaN(value ?? NaN)) {
-        onSubmit?.(null);
+        onSubmit?.(undefined);
       }
     } else if (num !== value) {
       onSubmit?.(num);

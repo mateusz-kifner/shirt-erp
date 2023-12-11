@@ -4,6 +4,7 @@ import { Switch } from "@/components/ui/Switch";
 import { useHover } from "@mantine/hooks";
 
 import type EditableInput from "@/schema/EditableInput";
+import { useEditableContext } from "./Editable";
 
 // FIXME: respect disabled state
 
@@ -35,7 +36,7 @@ const EditableSwitch = (props: EditableSwitchProps) => {
     rightSection,
     leftSection,
     // keyName,
-  } = props;
+  } = useEditableContext(props);
 
   // const switchRef = useRef(null);
   const [bool, setBool] = useState<boolean>(value ?? false);

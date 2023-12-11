@@ -27,6 +27,7 @@ import equalHSV from "@/utils/equalHSV";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconColorSwatch } from "@tabler/icons-react";
 import tinycolor, { type ColorFormats } from "tinycolor2";
+import { useEditableContext } from "./Editable";
 
 // Scroll in color palette will not work in modal due to radix bug (25.05.2023)
 
@@ -84,7 +85,7 @@ const EditableColor = (props: EditableColorProps) => {
     leftSection,
     rightSection,
     // keyName,
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const [colorText, setColorText] = useState<string | null>(
     !!value && value.length > 3 ? value : null,
@@ -126,7 +127,7 @@ const EditableColor = (props: EditableColorProps) => {
   const onLoseFocus = () => {
     if (colorText !== value) {
       if (!colorText || colorText === null) {
-        onSubmit?.(null);
+        onSubmit?.(undefined);
         setColorText(null);
         return;
       }

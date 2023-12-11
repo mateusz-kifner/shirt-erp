@@ -64,7 +64,7 @@ function Settings() {
     key: "remSize",
     defaultValue: 10,
   });
-  const [demoVal, setDemoVal] = useState({ test: "test" });
+  const [demoVal, setDemoVal] = useState({ test: "test", date: "" });
 
   const { toggleExtendedList, extendedList } = useExperimentalContext();
 
@@ -124,13 +124,13 @@ function Settings() {
           </div>
           <div className="flex items-center justify-stretch">
             <span className="w-1/2">{t.language}</span>
-            <EditableEnum
+            {/* <EditableEnum
               enum_data={["pl", "en"]}
               // defaultValue={locale ?? "pl"}
               defaultValue={"pl"}
               onValueChange={changeLocale}
               disabled
-            />
+            /> */}
           </div>
           <Button
             onClick={toggleTheme}
@@ -184,9 +184,11 @@ function Settings() {
                 data={demoVal}
                 onSubmit={(key, value) => {
                   console.log(key, value);
+                  setDemoVal((prev) => ({ ...prev, [key]: value }));
                 }}
               >
                 <EditableText keyName="test" />
+                <EditableText keyName="test2" disabled />
               </Editable>
             </>
           )}

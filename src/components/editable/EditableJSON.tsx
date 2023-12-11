@@ -1,13 +1,13 @@
-import { Input } from "@/components/ui/Input";
 import type EditableInput from "@/schema/EditableInput";
+import { useEditableContext } from "./Editable";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableJSONProps extends EditableInput<string> {}
 
-const EditableJSON = ({ value }: EditableJSONProps) => {
+const EditableJSON = (props: EditableJSONProps) => {
+  const { value } = useEditableContext(props);
   return (
     <div className="flex-grow">
-      <Input />
       <code
         style={{
           overflow: "hidden",
