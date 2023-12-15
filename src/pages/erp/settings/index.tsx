@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import EditableEnum from "@/components/editable/EditableEnum";
 import Button from "@/components/ui/Button";
@@ -26,6 +26,14 @@ import { signOut, useSession } from "next-auth/react";
 import { useExperimentalContext } from "@/context/experimentalContext";
 import Editable from "@/components/editable/Editable";
 import EditableText from "@/components/editable/EditableText";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
+import { IconUser } from "@tabler/icons-react";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -55,8 +63,9 @@ import EditableText from "@/components/editable/EditableText";
 function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
+  const uuid = useId();
   const { data: session } = useSession();
-  // const { locale } = router;
+  const { locale } = router;
   const { data: userData } = api.session.me.useQuery();
   const t = useTranslation();
   const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
@@ -124,13 +133,22 @@ function Settings() {
           </div>
           <div className="flex items-center justify-stretch">
             <span className="w-1/2">{t.language}</span>
-            {/* <EditableEnum
-              enum_data={["pl", "en"]}
-              // defaultValue={locale ?? "pl"}
-              defaultValue={"pl"}
+            <Select
+              value={locale ?? "pl"}
               onValueChange={changeLocale}
-              disabled
-            /> */}
+              disabled={true}
+            >
+              <SelectTrigger className="w-1/2">
+                <SelectValue placeholder={`${t.select} ...`} />
+              </SelectTrigger>
+              <SelectContent>
+                {["pl", "en"].map((val, index) => (
+                  <SelectItem value={val} key={`${uuid}:${index}`}>
+                    {(t[val as keyof typeof t] as string | undefined) ?? val}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <Button
             onClick={toggleTheme}
@@ -165,7 +183,7 @@ function Settings() {
               onClick={() => {
                 void router.push("user");
               }}
-              leftSection={<IconBug />}
+              leftSection={<IconUser />}
             >
               <span className="capitalize"> {t.manage}</span> {t.user.plural}
             </Button>

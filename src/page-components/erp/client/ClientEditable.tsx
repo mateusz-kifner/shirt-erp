@@ -35,6 +35,7 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import OrderListItem from "../order/OrderListItem";
+import PullToRefresh from "@/components/PullToRefresh";
 
 //TODO: Remake Array type
 
@@ -82,6 +83,7 @@ function ClientEditable(props: ClientEditableProps) {
     );
 
   return (
+    // <PullToRefresh onRefresh={() => refetch()}>
     <>
       <Editable data={data} onSubmit={apiUpdate}>
         <EditableDebugInfo label="ID: " keyName="id" />
@@ -217,6 +219,7 @@ function ClientEditable(props: ClientEditableProps) {
         </AlertDialogContent>
       </AlertDialog>
     </>
+    // </PullToRefresh>
   );
 }
 

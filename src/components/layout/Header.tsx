@@ -10,11 +10,11 @@ import Search from "./Search";
 
 const Header = () => {
   const { ref, width: actionButtonsWidth } = useElementSize();
-  const { navigationCollapsed, setMobileOpen } = useUserContext();
+  const { setMobileOpen } = useUserContext();
   const isMobile = useIsMobile();
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 px-4">
+    <div className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 pr-4">
       <div className="flex h-full flex-nowrap items-center justify-between gap-3">
         {isMobile && (
           <Button
@@ -26,29 +26,19 @@ const Header = () => {
             <IconMenu2 />
           </Button>
         )}
-        {navigationCollapsed || isMobile ? (
+        <div className="flex w-[5.5rem] items-center justify-center">
           <img
             src="/assets/logo_micro.png"
             alt="Shirt Dip ERP"
             className="h-10"
           />
-        ) : (
-          <img
-            src="/assets/logo_small.png"
-            alt="Shirt Dip ERP"
-            className="h-10"
-          />
-        )}
+        </div>
       </div>
       <div
         id="HeaderTabs"
-        className={`absolute left-0 top-0 h-14  transition-all ${
-          navigationCollapsed ? "ml-20" : "ml-64"
-        }`}
+        className={`absolute left-0 top-0 h-14  transition-all ${"ml-20"}`}
         style={{
-          width: `calc(100% - ${actionButtonsWidth}px - 1rem - ${
-            navigationCollapsed ? "5rem" : "16rem"
-          })`,
+          width: `calc(100% - ${actionButtonsWidth}px - 1rem - ${"5.5rem"})`,
         }}
       ></div>
       <div className="flex justify-end gap-3" ref={ref}>
@@ -58,7 +48,6 @@ const Header = () => {
 
         <Link
           href={"/erp/settings"}
-          legacyBehavior={false}
           className={cn(
             buttonVariants({ size: "icon", variant: "outline" }),
             "rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50",

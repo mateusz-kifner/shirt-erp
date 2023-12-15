@@ -111,7 +111,6 @@ const FileListItem = (props: FileListItemProps) => {
                 ? "?token=" + value?.token + "&download"
                 : "?download"
             }`}
-            legacyBehavior={false}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
               `absolute 
