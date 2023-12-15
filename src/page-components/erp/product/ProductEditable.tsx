@@ -1,4 +1,4 @@
-import Editable from "@/components/editable/Editable";
+import Editable, { Key } from "@/components/editable/Editable";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableColor from "@/components/editable/EditableColor";
 import EditableDateTime from "@/components/editable/EditableDateTime";
@@ -33,7 +33,7 @@ function ProductEditable(props: ProductEditableProps) {
   // const { mutateAsync: deleteById } = api.product.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const apiUpdate = (key: string, val: any) => {
+  const apiUpdate = (key: Key, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

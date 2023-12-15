@@ -341,7 +341,7 @@ const Design = (props: DesignProps) => {
                   {t.item_color}
                   <EditableColor
                     value={itemColor}
-                    onSubmit={(value) => {
+                    onSubmit={(key, value) => {
                       value && setItemColor(value);
                     }}
                   />
@@ -350,7 +350,7 @@ const Design = (props: DesignProps) => {
                   {t.background_color}
                   <EditableColor
                     value={backgroundColor}
-                    onSubmit={(value) => {
+                    onSubmit={(key, value) => {
                       value && setBackgroundColor(value);
                     }}
                   />

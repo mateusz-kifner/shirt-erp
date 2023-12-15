@@ -10,22 +10,26 @@ import { type Expense } from "@/schema/expenseZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ExpenseListItem from "./ExpenseListItem";
+import Editable from "@/components/editable/Editable";
 
 interface ExpenseAddModalProps {
   opened: boolean;
   onClose: (id?: number) => void;
 }
 
+const defaultExpense: {
+  expenseName: string;
+  template: Partial<Expense> | null;
+} = { expenseName: "Wydatek", template: null };
+
 const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
-  const [expenseName, setExpenseName] = useState<string>("Wydatek");
-  const [template, setTemplate] = useState<Partial<Expense> | null>(null);
+  const [data, setData] = useState(defaultExpense);
   const [error, setError] = useState<string | null>(null);
   const { mutateAsync: createExpense } = api.expense.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
-      setExpenseName("Wydatek");
-      // setTemplate(null);
+      setData(defaultExpense);
       setError(null);
     }
   }, [opened]);
@@ -34,32 +38,29 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
     <Dialog open={opened} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <DialogTitle>Utwórz nowy wydatek</DialogTitle>
-        <div className="flex flex-col gap-2">
+        <Editable
+          data={data}
+          onSubmit={(key, val) => {
+            setData((prev) => ({ ...prev, [key]: val }));
+          }}
+        >
           <EditableApiEntry
             label="Szablon"
             entryName="expense"
             Element={ExpenseListItem}
-            onSubmit={setTemplate}
-            value={template ?? undefined}
+            keyName="template"
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}
           />
-          <EditableText
-            label="Nazwa wydatku"
-            onSubmit={(val) => {
-              val && setExpenseName(val);
-            }}
-            value={expenseName}
-            required
-          />
+          <EditableText label="Nazwa wydatku" keyName="expenseName" required />
 
           <Button
             onClick={() => {
-              if (expenseName.length == 0)
+              if (data.expenseName.length == 0)
                 return setError("Musisz podać nie pustą nazwę wydatku");
               const new_expense = {
-                ...(template ? omit(template, "id") : {}),
-                name: expenseName,
+                ...(data.template ? omit(data.template, "id") : {}),
+                name: data.expenseName,
               };
               createExpense(new_expense)
                 .then((data: { id: number }) => onClose(data.id))
@@ -74,7 +75,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
             Utwórz wydatek
           </Button>
           <div className="text-red-600">{error}</div>
-        </div>
+        </Editable>
       </DialogContent>
     </Dialog>
   );

@@ -1,10 +1,11 @@
-import Editable from "@/components/editable/Editable";
+import Editable, { Key } from "@/components/editable/Editable";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableNumber from "@/components/editable/EditableNumber";
 import EditableObject from "@/components/editable/EditableObject";
 import EditableShortText from "@/components/editable/EditableShortText";
+import EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,7 +45,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
   const { mutateAsync: deleteById } = api.expense.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const apiUpdate = (key: string, val: any) => {
+  const apiUpdate = (key: Key, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -100,7 +101,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
         />
 
         <EditableArray keyName="expensesData" label="Paragon">
-          <EditableObject className="flex gap-2">
+          <EditableObject>
             <EditableShortText keyName="name" className="flex-grow" />
             <EditableNumber leftSection={<IconCash />} keyName="amount" />
           </EditableObject>

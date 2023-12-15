@@ -1,5 +1,6 @@
 import { Children, ReactElement, ReactNode, cloneElement, useId } from "react";
 import { useEditableContextWithoutOverride } from "./Editable";
+import { cn } from "@/utils/cn";
 
 interface EditableObjectProps {
   children:
@@ -12,10 +13,11 @@ interface EditableObjectProps {
   data?: Record<string | number, any>;
   onSubmit?: (key: string | number, value: any) => void;
   keyName?: string | number;
+  className?: string;
 }
 
 function EditableObject(props: EditableObjectProps) {
-  const { children, keyName } = props;
+  const { children, keyName, className } = props;
   if (keyName === undefined) throw new Error("keyName not defined");
   const context = useEditableContextWithoutOverride();
   const uuid = useId();
@@ -32,7 +34,7 @@ function EditableObject(props: EditableObjectProps) {
 
   if (Array.isArray(children))
     return (
-      <div className="flex gap-2">
+      <div className={cn("flex gap-2", className)}>
         {Children.map(children, (child, index) => {
           return cloneElement(child, {
             data,
@@ -43,20 +45,16 @@ function EditableObject(props: EditableObjectProps) {
       </div>
     );
   return (
-    <div className="flex gap-2">
-      {typeof children === "function" ? (
-        <div className="flex gap-2">
-          {children({
+    <div className={cn("flex gap-2", className)}>
+      {typeof children === "function"
+        ? children({
+            data,
+            onSubmit,
+          })
+        : cloneElement(children, {
             data,
             onSubmit,
           })}
-        </div>
-      ) : (
-        cloneElement(children, {
-          data,
-          onSubmit,
-        })
-      )}
     </div>
   );
 }

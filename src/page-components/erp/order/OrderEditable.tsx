@@ -1,4 +1,4 @@
-import Editable from "@/components/editable/Editable";
+import Editable, { Key } from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableArray from "@/components/editable/EditableArray";
@@ -74,7 +74,7 @@ function OrderEditable(props: OrderEditableProps) {
   const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const apiUpdate = (key: string, val: any) => {
+  const apiUpdate = (key: Key, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
