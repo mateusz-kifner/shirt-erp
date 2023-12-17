@@ -34,6 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { IconUser } from "@tabler/icons-react";
+import { cn } from "@/utils/cn";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -115,20 +116,54 @@ function Settings() {
           </Button>
           <div className="flex flex-grow items-center gap-2">
             <span className="flex-grow">{t.zoom}</span>
-            <Button onClick={() => setRemSize(12)} className="w-12">
+            <Button
+              onClick={() => setRemSize(10)}
+              className="w-8"
+              disabled={remSize === 10}
+            >
+              -3
+            </Button>
+            <Button
+              onClick={() => setRemSize(12)}
+              className="w-8"
+              disabled={remSize === 12}
+            >
               -2
             </Button>
-            <Button onClick={() => setRemSize(14)} className="w-12">
+            <Button
+              onClick={() => setRemSize(14)}
+              className="w-8"
+              disabled={remSize === 14}
+            >
               -1
             </Button>
-            <Button onClick={() => setRemSize(16)} className="w-12">
+            <Button
+              onClick={() => setRemSize(16)}
+              className="w-8"
+              disabled={remSize === 16}
+            >
               0
             </Button>
-            <Button onClick={() => setRemSize(18)} className="w-12">
+            <Button
+              onClick={() => setRemSize(18)}
+              className="w-8"
+              disabled={remSize === 18}
+            >
               1
             </Button>
-            <Button onClick={() => setRemSize(20)} className="w-12">
+            <Button
+              onClick={() => setRemSize(20)}
+              className="w-8"
+              disabled={remSize === 20}
+            >
               2
+            </Button>
+            <Button
+              onClick={() => setRemSize(22)}
+              className="w-8"
+              disabled={remSize === 22}
+            >
+              3
             </Button>
           </div>
           <div className="flex items-center justify-stretch">
