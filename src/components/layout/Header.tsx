@@ -27,11 +27,13 @@ const Header = () => {
           </Button>
         )}
         <div className="flex w-[5.5rem] items-center justify-center">
-          <img
-            src="/assets/logo_micro.png"
-            alt="Shirt Dip ERP"
-            className="h-10"
-          />
+          <Link href="/erp/task" className="cursor-default">
+            <img
+              src="/assets/logo_micro.png"
+              alt="Shirt Dip ERP"
+              className="h-10"
+            />
+          </Link>
         </div>
       </div>
       <div

@@ -26,7 +26,7 @@ function Navigation() {
       )}
     >
       <ScrollArea>
-        <div className="flex  flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <div
             className={cn(
               " py-1",
