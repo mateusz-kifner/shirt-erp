@@ -10,6 +10,7 @@
   "remove_row": "Usuń wiersz",
   "cancel": "Anuluj",
   "sign_in": "Zaloguj się",
+  "sign_in_error": "Błąd logowania",
   "sign_out": "Wyloguj",
   "light_theme": "Jasna skórka",
   "dark_theme": "Ciemna skórka",
@@ -110,5 +111,7 @@
   "credentials": "dane logowania",
   "with": "z",
   "to": "do",
-  "manage": "zarządzaj"
+  "manage": "zarządzaj",
+  "enter": "Wejdź",
+  "home": "Idż do strony głównej"
 }

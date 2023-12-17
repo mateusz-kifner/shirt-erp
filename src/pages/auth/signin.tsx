@@ -78,7 +78,7 @@ export default function SigninPage(
   if (isDemo) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center">
-        <div className="flex w-[30rem] flex-col gap-4 rounded border border-solid border-stone-600 bg-stone-800 p-8">
+        <div className="flex max-w-lg flex-col gap-4 rounded border border-solid border-stone-600 bg-stone-800 p-8">
           <img
             src="https://shirterp.eu/logo.png"
             alt="ShirtERP"

@@ -10,6 +10,7 @@
   "remove_row": "Remove row",
   "cancel": "Cancel",
   "sign_in": "Sign In",
+  "sign_in_error": "Sign In error",
   "sign_out": "Sign Out",
   "light_theme": "Light theme",
   "dark_theme": "Dark theme",
@@ -110,5 +111,7 @@
   "credentials": "credentials",
   "with": "with",
   "to": "to",
-  "manage": "Manage"
+  "manage": "Manage",
+  "enter": "Enter",
+  "home": "Go home"
 }
