@@ -18,7 +18,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
-import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
@@ -30,12 +29,22 @@ import {
   IconMail,
   IconNote,
   IconPhone,
-  IconRefresh,
   IconUser,
+  IconDotsVertical,
+  IconTrashX,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import OrderListItem from "../order/OrderListItem";
-import PullToRefresh from "@/components/PullToRefresh";
+import RefetchButton from "@/components/ui/RefetchButton";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/DropdownMenu";
+import { useState } from "react";
 
 //TODO: Remake Array type
 
@@ -49,6 +58,7 @@ function ClientEditable(props: ClientEditableProps) {
   const router = useRouter();
   const t = useTranslation();
 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const { data, refetch } = api.client.getById.useQuery(id as number, {
     enabled: id !== null,
   });
@@ -83,32 +93,43 @@ function ClientEditable(props: ClientEditableProps) {
     );
 
   return (
-    // <PullToRefresh onRefresh={() => refetch()}>
     <>
       <Editable data={data} onSubmit={apiUpdate}>
         <EditableDebugInfo label="ID: " keyName="id" />
-        <Wrapper
-          keyName="username" // hint for Editable
-          wrapperClassName="flex gap-2 items-center"
-          wrapperRightSection={
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full"
-              onClick={() => {
-                refetch().catch(console.log);
-              }}
-            >
-              <IconRefresh />
-            </Button>
-          }
-        >
+        <div className="flex items-center gap-2">
+          <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
             keyName="username"
             required
             style={{ fontSize: "1.4em" }}
           />
-        </Wrapper>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="rounded-full direction-reverse"
+              >
+                <IconDotsVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-9 max-w-md">
+              <DropdownMenuCheckboxItem
+                onClick={() => apiUpdate("isTemplate", !data.isTemplate)}
+                checked={data.isTemplate ?? false}
+              >
+                {t.template}
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => setDeleteModalOpen(true)}
+                className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
+              >
+                {t.delete} {t.client.singular} <IconTrashX size={18} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <EditableShortText
           keyName="firstname"
           label="Imie"
@@ -195,17 +216,10 @@ function ClientEditable(props: ClientEditableProps) {
           disabled
           collapse
         />
-        <EditableSwitch keyName="isTemplate" label="Szablon" />
       </Editable>
-      <AlertDialog>
-        <AlertDialogTrigger asChild className="mt-6">
-          <Button variant="destructive">
-            {t.delete} {t.client.singular}
-          </Button>
-        </AlertDialogTrigger>
+      <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
             <AlertDialogDescription>
               {t.operation_not_reversible}
             </AlertDialogDescription>
@@ -219,7 +233,6 @@ function ClientEditable(props: ClientEditableProps) {
         </AlertDialogContent>
       </AlertDialog>
     </>
-    // </PullToRefresh>
   );
 }
 

@@ -119,7 +119,7 @@ const EditableAddress = (props: EditableAddressProps) => {
     <div className="flex-grow">
       <Label label={label?.name} copyValue={toString()} required={required} />
       <DisplayCellExpanding
-        className={`px-2 ${
+        className={`h-auto bg-transparent px-2 py-2 focus-within:ring-0 ${
           !valueString
             ? "text-gray-400 dark:text-stone-600"
             : "text-stone-950 dark:text-stone-200"

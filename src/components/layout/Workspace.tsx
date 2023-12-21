@@ -20,6 +20,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import MultiTabs from "./MultiTabs/MultiTabs";
 import { Tab } from "./MultiTabs/Tab";
 import useMultiTabsState from "./MultiTabs/useMultiTabsState";
+import { Card } from "../ui/Card";
 
 // import MultiTabs from "./MultiTabs"
 interface WorkspaceItemMetadata {
@@ -154,10 +155,10 @@ const Workspace = ({
         navigation &&
         Children.map(navigation, (child, childIndex) =>
           allActive.includes(childIndex) ? (
-            <div
+            <Card
               key={`${uuid} ${childIndex}`}
               className={cn(
-                "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
+                // "flex  flex-col rounded shadow-lg ",
                 isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
               )}
               {...(navigationMetadata &&
@@ -177,16 +178,16 @@ const Workspace = ({
               >
                 {child}
               </ErrorBoundary>
-            </div>
+            </Card>
           ) : null,
         )}
       {children &&
         Children.map(children, (child, childIndex) =>
           allActive.includes(childIndex + navigationChildrenCount) ? (
-            <div
+            <Card
               key={`${uuid} ${childIndex}`}
               className={cn(
-                "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
+                // "flex  flex-col rounded bg-white shadow-lg dark:bg-stone-800",
                 isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
               )}
               {...(childrenMetadata &&
@@ -206,7 +207,7 @@ const Workspace = ({
               >
                 {child}
               </ErrorBoundary>
-            </div>
+            </Card>
           ) : null,
         )}
     </div>

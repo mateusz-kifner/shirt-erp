@@ -3,52 +3,37 @@ import { cva } from "class-variance-authority";
 import React, { forwardRef, type ComponentProps, type ReactNode } from "react";
 
 export const displayCellVariants = cva(
-  `relative
-  z-10
-  flex
-  min-h-[2.75rem]
+  `flex
+  h-10
   w-full
-  resize-none
-  items-center
-  gap-2
-  overflow-hidden
-  whitespace-pre-line
-  break-words
-  rounded
-  px-2
+  rounded-md
+  border
+  border-input
+  bg-background
+  px-3
   text-sm
-  leading-normal
-  outline-none
-  transition-all
-  before:absolute
-  before:inset-px
-  before:-z-10
-  before:rounded
-  before:bg-white
-  read-only:bg-transparent
-  read-only:outline-none
-  focus:border-sky-600 
-  dark:outline-none
-  dark:before:bg-stone-800
-  dark:read-only:bg-transparent
-  dark:read-only:outline-none
-  dark:focus:border-sky-600`,
+  ring-offset-background
+  file:border-0
+  file:bg-transparent
+  file:text-sm
+  file:font-medium
+  placeholder:text-muted-foreground
+  focus-within:outline-none
+  focus-within:ring-1
+  focus-within:ring-ring
+  disabled:cursor-not-allowed
+  disabled:opacity-50
+  disabled:bg-transparent 
+  disabled:text-gray-500
+  dark:disabled:cursor-not-allowed
+  whitespace-pre-line
+  gap-2
+  items-center
+  `,
+
   {
-    variants: {
-      focus: {
-        true: "",
-        false:
-          "hover:animate-border-from-bottom text-gray-400 dark:text-stone-600",
-      },
-      disabled: {
-        true: "bg-transparent text-gray-500 before:inset-0 cursor-not-allowed dark:cursor-not-allowed",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      focus: false,
-      disabled: false,
-    },
+    variants: {},
+    defaultVariants: {},
   },
 );
 
@@ -71,25 +56,11 @@ const DisplayCell = forwardRef<HTMLDivElement, DisplayCellProps>(
       focus = false,
       error = false,
       className,
-      style,
       ...moreProps
     } = props;
     return (
       <div
-        className={cn(displayCellVariants({ focus, disabled }), className)}
-        style={{
-          backgroundColor: focus
-            ? error
-              ? "#ef4444"
-              : "#0284c7"
-            : "transparent",
-          backgroundImage: focus
-            ? "none"
-            : "radial-gradient(ellipse at top, #292524 0%, #292524 50%, rgba(0,0,0,0) 70%),radial-gradient(ellipse at bottom, #57534e 0%, #57534e 50%, rgba(0,0,0,0) 70%)",
-          backgroundPosition: focus ? "top" : "top, bottom",
-          backgroundRepeat: focus ? "no-repeat" : "no-repeat, no-repeat",
-          ...style,
-        }}
+        className={cn(displayCellVariants(), className)}
         {...moreProps}
         ref={ref}
       >

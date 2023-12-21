@@ -328,7 +328,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
       <DisplayCellExpanding
         leftSection={!focus && leftSection}
         rightSection={!focus && rightSection}
-        className="py-2.5"
+        className="h-auto py-2.5"
         focus={focus}
         disabled={disabled}
       >
@@ -419,11 +419,12 @@ const EditableRichText = (props: EditableRichTextProps) => {
               editor={editor}
               name={"rich_text" + uuid}
               id={"rich_text" + uuid}
+              className="leading-normal "
             />
           </div>
         ) : (
           <div
-            className={`plain-html editor w-full ${
+            className={`plain-html editor w-full leading-normal ${
               text.length === 0 ||
               text === "<p></p>" ||
               text === "<p></p><p></p>"
