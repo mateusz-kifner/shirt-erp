@@ -18,6 +18,7 @@ import { Input } from "../ui/Input";
 import EditableEnum from "./EditableEnum";
 import Editable, { useEditableContext } from "./Editable";
 import EditableText from "./EditableText";
+import { cn } from "@/utils/cn";
 
 const provinces = [
   "dolnośląskie",
@@ -119,11 +120,13 @@ const EditableAddress = (props: EditableAddressProps) => {
     <div className="flex-grow">
       <Label label={label?.name} copyValue={toString()} required={required} />
       <DisplayCellExpanding
-        className={`h-auto bg-transparent px-2 py-2 focus-within:ring-0 ${
+        className={cn(
+          "h-auto  px-2 py-2 focus-within:ring-0",
           !valueString
             ? "text-gray-400 dark:text-stone-600"
-            : "text-stone-950 dark:text-stone-200"
-        }`}
+            : "text-stone-950 dark:text-stone-200",
+          focus && "bg-transparent",
+        )}
         ref={ref}
         onClick={onFocus}
         onFocus={onFocus}

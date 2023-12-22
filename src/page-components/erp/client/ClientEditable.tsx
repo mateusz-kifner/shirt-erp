@@ -184,7 +184,7 @@ function ClientEditable(props: ClientEditableProps) {
             linkEntry
             entryName="order"
             Element={OrderListItem}
-            copyProvider={(value: OrderWithoutRelations) =>
+            copyProvider={(value: OrderWithoutRelations | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
           />
@@ -198,7 +198,7 @@ function ClientEditable(props: ClientEditableProps) {
             linkEntry
             entryName="order-archive"
             Element={OrderListItem}
-            copyProvider={(value: OrderWithoutRelations) =>
+            copyProvider={(value: OrderWithoutRelations | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
           />
