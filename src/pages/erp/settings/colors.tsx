@@ -13,9 +13,10 @@ function Colors(props: ColorsProps) {
     <div className="flex flex-col gap-3">
       <Button
         onClick={toggleTheme}
-        leftSection={theme === 1 ? <IconSun /> : <IconMoonStars />}
+        size="icon"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full"
       >
-        {theme === 1 ? t.light_theme : t.dark_theme}
+        {theme === 1 ? <IconSun /> : <IconMoonStars />}
       </Button>
       <div className="flex flex-col flex-wrap gap-2 p-2">
         <div className="flex gap-2">

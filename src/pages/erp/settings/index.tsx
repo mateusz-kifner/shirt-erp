@@ -1,7 +1,7 @@
 import { useEffect, useId, useState } from "react";
 
 import EditableEnum from "@/components/editable/EditableEnum";
-import Button from "@/components/ui/Button";
+import Button, { buttonVariants } from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/Select";
 import { IconUser } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -233,6 +234,12 @@ function Settings() {
               >
                 ExtendedList {extendedList ? "ON" : "OFF"}
               </Button>
+              <Link className={buttonVariants({})} href="/erp/settings/colors">
+                Test Colors
+              </Link>
+              <Link className={buttonVariants({})} href="/erp/settings/shadcn">
+                Test Basic UI
+              </Link>
               <Editable
                 data={demoVal}
                 onSubmit={(key, value) => {
