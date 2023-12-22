@@ -21,6 +21,10 @@ export const displayCellVariants = cva(
   focus-within:outline-none
   focus-within:ring-1
   focus-within:ring-ring
+  focus-within:text-stone-800 
+  dark:focus-within:text-stone-200
+  text-gray-400 
+dark:text-stone-600
   disabled:cursor-not-allowed
   disabled:opacity-50
   disabled:bg-transparent 

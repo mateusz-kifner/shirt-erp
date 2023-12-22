@@ -148,26 +148,35 @@ const EditableAddress = (props: EditableAddressProps) => {
               <EditableText
                 label={label?.streetName ?? undefined}
                 keyName="streetName"
+                className="text-stone-800 dark:text-stone-200"
               />
               <div className="flex flex-grow gap-2">
                 <EditableText
                   label={label?.streetNumber ?? undefined}
                   keyName="streetNumber"
+                  className="text-stone-800 dark:text-stone-200"
                 />
                 <EditableText
                   label={label?.apartmentNumber ?? undefined}
                   keyName="apartmentNumber"
+                  className="text-stone-800 dark:text-stone-200"
                 />
               </div>
               <EditableText
                 label={label?.secondLine ?? undefined}
                 keyName="secondLine"
+                className="text-stone-800 dark:text-stone-200"
               />
               <EditableText
                 label={label?.postCode ?? undefined}
                 keyName="postCode"
+                className="text-stone-800 dark:text-stone-200"
               />
-              <EditableText label={label?.city ?? undefined} keyName="city" />
+              <EditableText
+                label={label?.city ?? undefined}
+                keyName="city"
+                className="text-stone-800 dark:text-stone-200"
+              />
               <div className="flex flex-grow flex-col">
                 <Label label={label?.province} />
                 <EditableEnum

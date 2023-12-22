@@ -5,7 +5,7 @@ import { displayCellVariants } from "./DisplayCell";
 interface DisplayCellProps extends ComponentProps<"div"> {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
-  children: React.ReactNode;
+  children: ReactNode;
   focus?: boolean;
   disabled?: boolean;
   error?: boolean;
