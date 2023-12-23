@@ -234,12 +234,26 @@ function Settings() {
               >
                 ExtendedList {extendedList ? "ON" : "OFF"}
               </Button>
-              <Link className={buttonVariants({})} href="/erp/settings/colors">
-                Test Colors
-              </Link>
-              <Link className={buttonVariants({})} href="/erp/settings/shadcn">
-                Test Basic UI
-              </Link>
+              <div className="flex">
+                <Link
+                  className={buttonVariants({})}
+                  href="/erp/settings/colors"
+                >
+                  Test Colors
+                </Link>
+                <Link
+                  className={buttonVariants({})}
+                  href="/erp/settings/shadcn"
+                >
+                  Test Basic UI
+                </Link>
+                <Link
+                  className={buttonVariants({})}
+                  href="/erp/settings/editable"
+                >
+                  Test Form UI
+                </Link>
+              </div>
               <Editable
                 data={demoVal}
                 onSubmit={(key, value) => {
