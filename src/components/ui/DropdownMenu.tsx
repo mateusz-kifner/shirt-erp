@@ -9,6 +9,8 @@ import {
   IconX,
 } from "@tabler/icons-react";
 
+import { type DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
@@ -189,6 +191,8 @@ const DropdownMenuShortcut = ({
 };
 DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
 
+type Checked = DropdownMenuCheckboxItemProps["checked"];
+
 export {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -205,4 +209,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  type Checked,
 };

@@ -22,9 +22,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
-import { Toaster } from "@/components/layout/Toaster";
 import { TooltipProvider } from "@/components/ui/Tooltip";
-import { toast } from "@/hooks/useToast";
 import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -33,6 +31,8 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import LayoutAuth from "@/components/layout/LayoutAuth";
 import LayoutERP from "@/components/layout/LayoutERP";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/Sonner";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -49,15 +49,15 @@ if (typeof window !== "undefined") {
     console.log(messages[0]?.message ?? "Nieznany błąd", messages[0]);
     if (context.level === Logger.ERROR)
       if (context.level === Logger.WARN)
-        toast({
-          title: "Błąd",
+        toast.message("Błąd", {
           description:
             messages[0]?.message ??
             "Nieznany błąd: sprawdź szczegóły w logu serwera",
         });
+
     if (typeof messages[0] === "string") {
-      toast({
-        title: "Ostrzeżenie",
+      toast("Warn", {
+        description: "Ostrzeżenie",
         // description:
         //   messages[0].message ??
         //   "Nieznany błąd: sprawdź szczegóły w logu serwera",
