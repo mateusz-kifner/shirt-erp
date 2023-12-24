@@ -36,6 +36,7 @@ import {
 import { IconUser } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
+import { useFlagContext } from "@/context/flagContext";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -78,6 +79,7 @@ function Settings() {
   const [demoVal, setDemoVal] = useState({ test: "test", date: "" });
 
   const { toggleExtendedList, extendedList } = useExperimentalContext();
+  const { editableAddressMode, setEditableAddressMode } = useFlagContext();
 
   useEffect(() => {
     if (loaded) {
@@ -224,6 +226,16 @@ function Settings() {
               <span className="capitalize"> {t.manage}</span> {t.user.plural}
             </Button>
           )}
+          <Button
+            onClick={() => {
+              setEditableAddressMode((prev) =>
+                prev === "popup" ? "always_visible" : "popup",
+              );
+            }}
+            leftSection={<IconBug />}
+          >
+            Address input mode: {editableAddressMode}
+          </Button>
           {debug && (
             <>
               <Button

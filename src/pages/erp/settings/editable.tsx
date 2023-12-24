@@ -2,12 +2,22 @@ import Editable, { Key } from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
 import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
 import { Card, CardContent } from "@/components/ui/Card";
-import { useState } from "react";
+import { useLocalStorage } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 
 function TestEditablePage() {
-  const [data, setData] = useState<Record<Key, any>>({
-    EditableAddress: undefined,
-    MultiSelect: ["XL"],
+  const [data, setData] = useLocalStorage<Record<Key, any>>({
+    key: "test data",
+    defaultValue: {
+      EditableAddress: undefined,
+      MultiSelect: ["XL"],
+    },
+  });
+
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("test data");
+    };
   });
 
   return (

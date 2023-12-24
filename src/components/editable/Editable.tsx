@@ -14,12 +14,16 @@ export const EditableContext = createContext<EditableContextType<any>>({
   disabled: false,
 });
 
-export function Editable<T extends Record<string, any>>(props: {
+export interface EditableProps<TData> {
   children: ReactNode;
-  data: T;
+  data: TData;
   onSubmit?: (key: Key, value: any) => void;
   disabled?: boolean;
-}) {
+}
+
+export function Editable<T extends Record<string, any>>(
+  props: EditableProps<T>,
+) {
   const { children, disabled = false, ...moreProps } = props;
 
   return (
