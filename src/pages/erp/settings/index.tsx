@@ -229,7 +229,11 @@ function Settings() {
           <Button
             onClick={() => {
               setEditableAddressMode((prev) =>
-                prev === "popup" ? "always_visible" : "popup",
+                prev === "popup"
+                  ? "always_visible"
+                  : prev === "always_visible"
+                    ? "extend"
+                    : "popup",
               );
             }}
             leftSection={<IconBug />}
@@ -246,36 +250,26 @@ function Settings() {
               >
                 ExtendedList {extendedList ? "ON" : "OFF"}
               </Button>
-              <div className="flex">
+              <div className="flex gap-2">
                 <Link
-                  className={buttonVariants({})}
+                  className={buttonVariants({ className: "w-1/3" })}
                   href="/erp/settings/colors"
                 >
                   Test Colors
                 </Link>
                 <Link
-                  className={buttonVariants({})}
+                  className={buttonVariants({ className: "w-1/3" })}
                   href="/erp/settings/shadcn"
                 >
                   Test Basic UI
                 </Link>
                 <Link
-                  className={buttonVariants({})}
+                  className={buttonVariants({ className: "w-1/3" })}
                   href="/erp/settings/editable"
                 >
                   Test Form UI
                 </Link>
               </div>
-              <Editable
-                data={demoVal}
-                onSubmit={(key, value) => {
-                  console.log(key, value);
-                  setDemoVal((prev) => ({ ...prev, [key]: value }));
-                }}
-              >
-                <EditableText keyName="test" />
-                <EditableText keyName="test2" disabled />
-              </Editable>
             </>
           )}
         </div>

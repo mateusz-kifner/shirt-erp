@@ -2,6 +2,7 @@ import Editable, { Key } from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
 import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
 import { Card, CardContent } from "@/components/ui/Card";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 function TestEditablePage() {
@@ -32,6 +33,7 @@ function TestEditablePage() {
             <EditableAddress
               keyName="EditableAddress"
               label="EditableAddress"
+              leftSection={<IconAlertCircle />}
             />
 
             <EditableMultiSelect
