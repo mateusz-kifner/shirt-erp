@@ -23,7 +23,7 @@ export const FlagContextProvider = ({ children }: { children: ReactNode }) => {
   const [editableAddressMode, setEditableAddressMode] = useLocalStorage<
     "popup" | "extend" | "always_visible"
   >({
-    key: "flag-extended-list",
+    key: "flag-editable-address-mode",
     defaultValue: "popup",
   });
 

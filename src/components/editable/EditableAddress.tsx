@@ -69,21 +69,53 @@ function EditableAddressAlwaysVisible(props: EditableAddressProps) {
     rightSection,
     // keyName,
   } = useEditableContext(props);
+
+  const toString = () => {
+    if (!value) return undefined;
+    return (
+      (value.streetName ? `ul. ${value.streetName} ` : "") +
+      (value.streetNumber || "") +
+      (value.apartmentNumber ? ` / ${value.apartmentNumber}` : "") +
+      (value.streetName || value.streetNumber || value.apartmentNumber
+        ? "\n"
+        : "") +
+      (value.secondLine ? value.secondLine + "\n" : "") +
+      (value.postCode ? value.postCode + " " : "") +
+      (value.city || "") +
+      (value.postCode || value.city ? "\n" : "") +
+      value.province
+    );
+  };
+
+  const valueString = toString();
   return (
-    <Card>
-      <CardContent>
-        <EditableAddressContent
-          data={value ?? defaultValue}
-          onSubmit={(key, val) => {
-            if (value !== undefined) {
-              onSubmit({ ...value, [key]: val });
-              return;
-            }
-            onSubmit({ ...defaultValue, [key]: val });
-          }}
-        />
-      </CardContent>
-    </Card>
+    <div className="flex-grow">
+      <Label label={label} copyValue={valueString} required={required} />
+      <DisplayCellExpanding
+        className={cn(
+          " h-auto  bg-transparent px-2 py-2 focus-within:ring-0",
+          !valueString
+            ? "text-gray-400 dark:text-stone-600"
+            : "text-stone-950 dark:text-stone-200",
+        )}
+        disabled={disabled}
+        leftSection={!focus && leftSection}
+        rightSection={rightSection}
+      >
+        <div className="flex flex-grow flex-col gap-2 pb-3">
+          <EditableAddressContent
+            data={value ?? defaultValue}
+            onSubmit={(key, val) => {
+              if (value !== undefined) {
+                onSubmit({ ...value, [key]: val });
+                return;
+              }
+              onSubmit({ ...defaultValue, [key]: val });
+            }}
+          />
+        </div>
+      </DisplayCellExpanding>
+    </div>
   );
 }
 

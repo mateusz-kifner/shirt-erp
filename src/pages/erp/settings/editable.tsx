@@ -2,16 +2,12 @@ import Editable, { Key } from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
 import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
 import { Card, CardContent } from "@/components/ui/Card";
-import { useLocalStorage } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 function TestEditablePage() {
-  const [data, setData] = useLocalStorage<Record<Key, any>>({
-    key: "test data",
-    defaultValue: {
-      EditableAddress: undefined,
-      MultiSelect: ["XL"],
-    },
+  const [data, setData] = useState<Record<Key, any>>({
+    EditableAddress: null,
+    MultiSelect: ["XL"],
   });
 
   useEffect(() => {
@@ -26,18 +22,25 @@ function TestEditablePage() {
         <div className="min-h-28 whitespace-pre-wrap font-mono">
           {JSON.stringify(data, null, 2)}
         </div>
-        <Editable
-          data={data}
-          onSubmit={(key, val) => setData((prev) => ({ ...prev, [key]: val }))}
-        >
-          <EditableAddress keyName="EditableAddress" label="EditableAddress" />
+        <div className="flex flex-col gap-4">
+          <Editable
+            data={data}
+            onSubmit={(key, val) =>
+              setData((prev) => ({ ...prev, [key]: val }))
+            }
+          >
+            <EditableAddress
+              keyName="EditableAddress"
+              label="EditableAddress"
+            />
 
-          <EditableMultiSelect
-            label="EditableMultiSelect"
-            enum_data={["XL", "XS", "SM", "164"]}
-            keyName="MultiSelect"
-          />
-        </Editable>
+            <EditableMultiSelect
+              label="EditableMultiSelect"
+              enum_data={["XL", "XS", "SM", "164"]}
+              keyName="MultiSelect"
+            />
+          </Editable>
+        </div>
       </CardContent>
     </Card>
   );
