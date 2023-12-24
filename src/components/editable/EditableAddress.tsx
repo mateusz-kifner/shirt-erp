@@ -19,6 +19,7 @@ import EditableEnum from "./EditableEnum";
 import Editable, { useEditableContext } from "./Editable";
 import EditableText from "./EditableText";
 import { cn } from "@/utils/cn";
+import useTranslation from "@/hooks/useTranslation";
 
 const provinces = [
   "dolnośląskie",
@@ -39,8 +40,7 @@ const provinces = [
   "zachodniopomorskie",
 ];
 
-interface EditableAddressProps extends Omit<EditableInput<Address>, "label"> {
-  label?: Omit<Address & { name: string }, "id">;
+interface EditableAddressProps extends EditableInput<Address> {
   maxLength?: number;
 }
 
@@ -60,6 +60,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   const [address, setAddress] = useState<Address>(value!);
   const [focus, setFocus] = useState<boolean>(false);
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
+  const t = useTranslation();
 
   const returnFocus = useFocusReturn({
     opened: enumOpen,
@@ -118,7 +119,7 @@ const EditableAddress = (props: EditableAddressProps) => {
 
   return (
     <div className="flex-grow">
-      <Label label={label?.name} copyValue={toString()} required={required} />
+      <Label label={label} copyValue={toString()} required={required} />
       <DisplayCellExpanding
         className={cn(
           "h-auto  px-2 py-2 focus-within:ring-0",
@@ -146,39 +147,39 @@ const EditableAddress = (props: EditableAddressProps) => {
               onSubmit={(key, value) => setAddressField(key as string, value)}
             >
               <EditableText
-                label={label?.streetName ?? undefined}
+                label={t.streetName}
                 keyName="streetName"
                 className="text-stone-800 dark:text-stone-200"
               />
               <div className="flex flex-grow gap-2">
                 <EditableText
-                  label={label?.streetNumber ?? undefined}
+                  label={t.streetNumber}
                   keyName="streetNumber"
                   className="text-stone-800 dark:text-stone-200"
                 />
                 <EditableText
-                  label={label?.apartmentNumber ?? undefined}
+                  label={t.apartmentNumber}
                   keyName="apartmentNumber"
                   className="text-stone-800 dark:text-stone-200"
                 />
               </div>
               <EditableText
-                label={label?.secondLine ?? undefined}
+                label={t.secondLine}
                 keyName="secondLine"
                 className="text-stone-800 dark:text-stone-200"
               />
               <EditableText
-                label={label?.postCode ?? undefined}
+                label={t.postCode}
                 keyName="postCode"
                 className="text-stone-800 dark:text-stone-200"
               />
               <EditableText
-                label={label?.city ?? undefined}
+                label={t.city}
                 keyName="city"
                 className="text-stone-800 dark:text-stone-200"
               />
               <div className="flex flex-grow flex-col">
-                <Label label={label?.province} />
+                <Label label={t.province} />
                 <EditableEnum
                   keyName="provinces"
                   enum_data={provinces}

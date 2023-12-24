@@ -114,5 +114,12 @@
   "manage": "Manage",
   "enter": "Enter",
   "home": "Go home",
-  "template": "Szablon"
+  "template": "Szablon",
+  "streetName": "Street name",
+  "streetNumber": "No. building",
+  "apartmentNumber": "No. apartment",
+  "secondLine": "Other",
+  "city": "City",
+  "province": "Province",
+  "postCode": "Post code"
 }

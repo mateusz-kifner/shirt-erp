@@ -114,5 +114,12 @@
   "manage": "zarządzaj",
   "enter": "Wejdź",
   "home": "Idż do strony głównej",
-  "template": "Szablon"
+  "template": "Szablon",
+  "streetName": "Ulica",
+  "streetNumber": "Nr. bloku",
+  "apartmentNumber": "Nr. mieszkania",
+  "secondLine": "Dodatkowe dane adresata",
+  "city": "Miasto",
+  "province": "Województwo",
+  "postCode": "Kod pocztowy"
 }
