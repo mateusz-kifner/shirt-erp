@@ -1,7 +1,9 @@
 import Editable, { Key } from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
+import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
 import { Card, CardContent } from "@/components/ui/Card";
+import ClientListItem from "@/page-components/erp/client/ClientListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
@@ -35,7 +37,12 @@ function TestEditablePage() {
               label="EditableAddress"
               leftSection={<IconAlertCircle />}
             />
-
+            <EditableApiEntry
+              keyName="EditableApiEntry"
+              label="EditableApiEntry"
+              entryName="client"
+              Element={ClientListItem}
+            />
             <EditableMultiSelect
               label="EditableMultiSelect"
               enum_data={["XL", "XS", "SM", "164"]}
