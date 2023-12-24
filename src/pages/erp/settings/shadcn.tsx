@@ -11,114 +11,118 @@ import { Suspense, lazy } from "react";
 import { useUserContext } from "@/context/userContext";
 
 const TestAccordion = lazy(
-  () => import("@/page-components/erp/settings/TestAccordion"),
+  () => import("@/page-components/erp/settings/shadcn/TestAccordion"),
 );
 const TestAlert = lazy(
-  () => import("@/page-components/erp/settings/TestAlert"),
+  () => import("@/page-components/erp/settings/shadcn/TestAlert"),
 );
 const TestAlertDialog = lazy(
-  () => import("@/page-components/erp/settings/TestAlertDialog"),
+  () => import("@/page-components/erp/settings/shadcn/TestAlertDialog"),
 );
 const TestAspectRatio = lazy(
-  () => import("@/page-components/erp/settings/TestAspectRatio"),
+  () => import("@/page-components/erp/settings/shadcn/TestAspectRatio"),
 );
 const TestBadge = lazy(
-  () => import("@/page-components/erp/settings/TestBadge"),
+  () => import("@/page-components/erp/settings/shadcn/TestBadge"),
 );
 const TestButton = lazy(
-  () => import("@/page-components/erp/settings/TestButton"),
+  () => import("@/page-components/erp/settings/shadcn/TestButton"),
 );
 const TestCalendar = lazy(
-  () => import("@/page-components/erp/settings/TestCalendar"),
+  () => import("@/page-components/erp/settings/shadcn/TestCalendar"),
 );
-const TestCard = lazy(() => import("@/page-components/erp/settings/TestCard"));
+const TestCard = lazy(
+  () => import("@/page-components/erp/settings/shadcn/TestCard"),
+);
 const TestCarousel = lazy(
-  () => import("@/page-components/erp/settings/TestCarusel"),
+  () => import("@/page-components/erp/settings/shadcn/TestCarusel"),
 );
 const TestCheckbox = lazy(
-  () => import("@/page-components/erp/settings/TestCheckbox"),
+  () => import("@/page-components/erp/settings/shadcn/TestCheckbox"),
 );
 const TestCollapsible = lazy(
-  () => import("@/page-components/erp/settings/TestCollapsible"),
+  () => import("@/page-components/erp/settings/shadcn/TestCollapsible"),
 );
 const TestCombobox = lazy(
-  () => import("@/page-components/erp/settings/TestCombobox"),
+  () => import("@/page-components/erp/settings/shadcn/TestCombobox"),
 );
 const TestCommand = lazy(
-  () => import("@/page-components/erp/settings/TestCommand"),
+  () => import("@/page-components/erp/settings/shadcn/TestCommand"),
 );
 const TestContextMenu = lazy(
-  () => import("@/page-components/erp/settings/TestContextMenu"),
+  () => import("@/page-components/erp/settings/shadcn/TestContextMenu"),
 );
 const TestDialog = lazy(
-  () => import("@/page-components/erp/settings/TestDialog"),
+  () => import("@/page-components/erp/settings/shadcn/TestDialog"),
 );
 const TestDrawer = lazy(
-  () => import("@/page-components/erp/settings/TestDrawer"),
+  () => import("@/page-components/erp/settings/shadcn/TestDrawer"),
 );
 const TestDropdownMenu = lazy(
-  () => import("@/page-components/erp/settings/TestDropdownMenu"),
+  () => import("@/page-components/erp/settings/shadcn/TestDropdownMenu"),
 );
 const TestHoverCard = lazy(
-  () => import("@/page-components/erp/settings/TestHoverCard"),
+  () => import("@/page-components/erp/settings/shadcn/TestHoverCard"),
 );
 const TestInput = lazy(
-  () => import("@/page-components/erp/settings/TestInput"),
+  () => import("@/page-components/erp/settings/shadcn/TestInput"),
 );
 const TestLabel = lazy(
-  () => import("@/page-components/erp/settings/TestLabel"),
+  () => import("@/page-components/erp/settings/shadcn/TestLabel"),
 );
 const TestPagination = lazy(
-  () => import("@/page-components/erp/settings/TestPagination"),
+  () => import("@/page-components/erp/settings/shadcn/TestPagination"),
 );
 const TestPopover = lazy(
-  () => import("@/page-components/erp/settings/TestPopover"),
+  () => import("@/page-components/erp/settings/shadcn/TestPopover"),
 );
 const TestProgress = lazy(
-  () => import("@/page-components/erp/settings/TestProgress"),
+  () => import("@/page-components/erp/settings/shadcn/TestProgress"),
 );
 const TestRatioGroup = lazy(
-  () => import("@/page-components/erp/settings/TestRatioGroup"),
+  () => import("@/page-components/erp/settings/shadcn/TestRatioGroup"),
 );
 const TestResizable = lazy(
-  () => import("@/page-components/erp/settings/TestResizable"),
+  () => import("@/page-components/erp/settings/shadcn/TestResizable"),
 );
 const TestScrollArea = lazy(
-  () => import("@/page-components/erp/settings/TestScrollArea"),
+  () => import("@/page-components/erp/settings/shadcn/TestScrollArea"),
 );
 const TestSelect = lazy(
-  () => import("@/page-components/erp/settings/TestSelect"),
+  () => import("@/page-components/erp/settings/shadcn/TestSelect"),
 );
 const TestSeparator = lazy(
-  () => import("@/page-components/erp/settings/TestSeparator"),
+  () => import("@/page-components/erp/settings/shadcn/TestSeparator"),
 );
 const TestSheet = lazy(
-  () => import("@/page-components/erp/settings/TestSheet"),
+  () => import("@/page-components/erp/settings/shadcn/TestSheet"),
 );
 const TestSkeleton = lazy(
-  () => import("@/page-components/erp/settings/TestSkeleton"),
+  () => import("@/page-components/erp/settings/shadcn/TestSkeleton"),
 );
 const TestSlider = lazy(
-  () => import("@/page-components/erp/settings/TestSlider"),
+  () => import("@/page-components/erp/settings/shadcn/TestSlider"),
 );
 const TestSonner = lazy(
-  () => import("@/page-components/erp/settings/TestSonner"),
+  () => import("@/page-components/erp/settings/shadcn/TestSonner"),
 );
 const TestSwitch = lazy(
-  () => import("@/page-components/erp/settings/TestSwitch"),
+  () => import("@/page-components/erp/settings/shadcn/TestSwitch"),
 );
 const TestTable = lazy(
-  () => import("@/page-components/erp/settings/TestTable"),
+  () => import("@/page-components/erp/settings/shadcn/TestTable"),
 );
-const TestTabs = lazy(() => import("@/page-components/erp/settings/TestTabs"));
+const TestTabs = lazy(
+  () => import("@/page-components/erp/settings/shadcn/TestTabs"),
+);
 const TestTextarea = lazy(
-  () => import("@/page-components/erp/settings/TestTextarea"),
+  () => import("@/page-components/erp/settings/shadcn/TestTextarea"),
 );
 const TestToggle = lazy(
-  () => import("@/page-components/erp/settings/TestToggle"),
+  () => import("@/page-components/erp/settings/shadcn/TestToggle"),
 );
 const TestTooltip = lazy(
-  () => import("@/page-components/erp/settings/TestTooltip"),
+  () => import("@/page-components/erp/settings/shadcn/TestTooltip"),
 );
 
 import { cn } from "@/utils/cn";
