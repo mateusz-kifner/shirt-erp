@@ -1,6 +1,7 @@
 import { Children, ReactElement, ReactNode, cloneElement, useId } from "react";
 import Editable, { useEditableContextWithoutOverride } from "./Editable";
 import { cn } from "@/utils/cn";
+import { Label } from "../ui/Label";
 
 interface EditableObjectProps {
   children: ReactNode;
@@ -8,10 +9,11 @@ interface EditableObjectProps {
   onSubmit?: (key: string | number, value: any) => void;
   keyName?: string | number;
   className?: string;
+  label?: string;
 }
 
 function EditableObject(props: EditableObjectProps) {
-  const { children, keyName, className } = props;
+  const { children, keyName, className, label } = props;
   if (keyName === undefined) throw new Error("keyName not defined");
   const context = useEditableContextWithoutOverride();
   const uuid = useId();
@@ -28,9 +30,12 @@ function EditableObject(props: EditableObjectProps) {
   };
 
   return (
-    <Editable onSubmit={onSubmit} data={data}>
-      {children}
-    </Editable>
+    <>
+      <Label label={label} />
+      <Editable onSubmit={onSubmit} data={data}>
+        {children}
+      </Editable>
+    </>
   );
 }
 

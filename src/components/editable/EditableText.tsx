@@ -121,7 +121,7 @@ const EditableText = (props: EditableTextProps) => {
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
-        className={className}
+        className={cn("h-fit", className)}
       >
         <textarea
           id={"textarea_" + uuid}

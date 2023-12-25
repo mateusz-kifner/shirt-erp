@@ -8,6 +8,7 @@ import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { useClickOutside } from "@mantine/hooks";
 import { useEditableContext } from "./Editable";
+import { cn } from "@/utils/cn";
 
 interface EditableShortTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -102,7 +103,8 @@ const EditableShortText = (props: EditableShortTextProps) => {
           required={required}
           readOnly={disabled}
           ref={InputRef}
-          className={`
+          className={cn(
+            `
           data-disabled:text-gray-500
           dark:data-disabled:text-gray-500
           w-full
@@ -116,7 +118,9 @@ const EditableShortText = (props: EditableShortTextProps) => {
           outline-none
           focus-visible:border-transparent
           focus-visible:outline-none
-          ${className ?? ""}`}
+          `,
+            className,
+          )}
           style={style}
           value={text}
           onFocus={onFocus}

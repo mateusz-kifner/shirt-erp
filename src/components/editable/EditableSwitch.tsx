@@ -7,6 +7,7 @@ import type EditableInput from "@/schema/EditableInput";
 import { useEditableContext } from "./Editable";
 
 // FIXME: respect disabled state
+// TODO: center text on button and add color variant
 
 // EditableInput<T> {
 //   label?: string;
