@@ -7,8 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Suspense, lazy } from "react";
-
 import { useUserContext } from "@/context/userContext";
+import { cn } from "@/utils/cn";
+import { IconLoader2, IconMoonStars, IconSun } from "@tabler/icons-react";
+import { ComponentType, useId } from "react";
 
 const TestAccordion = lazy(
   () => import("@/page-components/erp/settings/shadcn/TestAccordion"),
@@ -124,10 +126,6 @@ const TestToggle = lazy(
 const TestTooltip = lazy(
   () => import("@/page-components/erp/settings/shadcn/TestTooltip"),
 );
-
-import { cn } from "@/utils/cn";
-import { IconLoader2, IconMoonStars, IconSun } from "@tabler/icons-react";
-import { ComponentType, useId } from "react";
 
 const UIElements: {
   title: string;

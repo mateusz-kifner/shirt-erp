@@ -1,26 +1,49 @@
 import Editable, { Key } from "@/components/editable/Editable";
-import EditableAddress from "@/components/editable/EditableAddress";
-import EditableApiEntry from "@/components/editable/EditableApiEntry";
-import EditableApiEntryId from "@/components/editable/EditableApiEntryId";
-import EditableArray from "@/components/editable/EditableArray";
-import EditableColor from "@/components/editable/EditableColor";
-import EditableDate from "@/components/editable/EditableDate";
-import EditableDateTime from "@/components/editable/EditableDateTime";
-import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
-import EditableEnum from "@/components/editable/EditableEnum";
-import EditableFiles from "@/components/editable/EditableFiles";
-import EditableJSON from "@/components/editable/EditableJSON";
-import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
-import EditableNumber from "@/components/editable/EditableNumber";
-import EditableObject from "@/components/editable/EditableObject";
-import EditableRichText from "@/components/editable/EditableRichText";
-import EditableShortText from "@/components/editable/EditableShortText";
-import EditableSwitch from "@/components/editable/EditableSwitch";
-import EditableText from "@/components/editable/EditableText";
+import { lazy, useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import ClientListItem from "@/page-components/erp/client/ClientListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+
+const EditableAddress = lazy(
+  () => import("@/components/editable/EditableAddress"),
+);
+const EditableApiEntry = lazy(
+  () => import("@/components/editable/EditableApiEntry"),
+);
+const EditableApiEntryId = lazy(
+  () => import("@/components/editable/EditableApiEntryId"),
+);
+const EditableArray = lazy(() => import("@/components/editable/EditableArray"));
+const EditableColor = lazy(() => import("@/components/editable/EditableColor"));
+const EditableDate = lazy(() => import("@/components/editable/EditableDate"));
+const EditableDateTime = lazy(
+  () => import("@/components/editable/EditableDateTime"),
+);
+const EditableDebugInfo = lazy(
+  () => import("@/components/editable/EditableDebugInfo"),
+);
+const EditableEnum = lazy(() => import("@/components/editable/EditableEnum"));
+const EditableFiles = lazy(() => import("@/components/editable/EditableFiles"));
+const EditableJSON = lazy(() => import("@/components/editable/EditableJSON"));
+const EditableMultiSelect = lazy(
+  () => import("@/components/editable/EditableMultiSelect"),
+);
+const EditableNumber = lazy(
+  () => import("@/components/editable/EditableNumber"),
+);
+const EditableObject = lazy(
+  () => import("@/components/editable/EditableObject"),
+);
+const EditableRichText = lazy(
+  () => import("@/components/editable/EditableRichText"),
+);
+const EditableShortText = lazy(
+  () => import("@/components/editable/EditableShortText"),
+);
+const EditableSwitch = lazy(
+  () => import("@/components/editable/EditableSwitch"),
+);
+const EditableText = lazy(() => import("@/components/editable/EditableText"));
 
 function TestEditablePage() {
   const [data, setData] = useState<Record<Key, any>>({
