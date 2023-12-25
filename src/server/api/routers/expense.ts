@@ -34,18 +34,18 @@ export const expenseRouter = createTRPCRouter({
   deleteById: employeeProcedure
     .input(z.number())
     .mutation(async ({ input: id, ctx }) => {
-      const deletedClient = await ctx.db
+      const deletedExpense = await ctx.db
         .delete(expenses)
         .where(eq(expenses.id, id))
         .returning();
-      return deletedClient[0];
+      return deletedExpense[0];
     }),
   update: employeeProcedure
     .input(updateExpenseZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const { id, ...dataToUpdate } = clientData;
       const currentUserId = ctx.session.user.id;
-      const updatedClient = await ctx.db
+      const updatedExpense = await ctx.db
         .update(expenses)
         .set({
           ...dataToUpdate,
@@ -54,9 +54,9 @@ export const expenseRouter = createTRPCRouter({
         })
         .where(eq(expenses.id, id))
         .returning();
-      if (updatedClient[0] === undefined)
+      if (updatedExpense[0] === undefined)
         throw new Error("Expense: Expense could not be updated");
-      return updatedClient[0];
+      return updatedExpense[0];
     }),
   search: createProcedureSearch(expenses),
 });

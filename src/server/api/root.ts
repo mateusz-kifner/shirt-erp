@@ -12,6 +12,7 @@ import { expenseRouter } from "./routers/expense";
 import { settingsRouter } from "./routers/settings";
 import { adminRouter } from "./routers/admin";
 import { addressRouter } from "./routers/address";
+import { globalPropertiesRouter } from "./routers/global_properties";
 /**
  * This is the primary router for your server.
  *
@@ -32,6 +33,7 @@ export const appRouter = createTRPCRouter({
   email: emailRouter,
   expense: expenseRouter,
   admin: adminRouter,
+  globalProperties: globalPropertiesRouter,
 });
 
 // export type definition of API
