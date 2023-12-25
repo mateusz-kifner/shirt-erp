@@ -21,9 +21,9 @@ import useUploadMutation from "@/hooks/useUploadMutation";
 import type EditableInput from "@/schema/EditableInput";
 import { type File as FileType } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
-import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import FileListItem from "../FileListItem";
 import { useEditableContext } from "./Editable";
+import { ContextMenuItem } from "../ui/ContextMenu";
 
 // FIXME: ENFORCE FILE LIMIT
 
@@ -178,7 +178,7 @@ const EditableFiles = (props: EditableFilesProps) => {
         </Dialog>
 
         <div
-          className={`relative min-h-[44px]  rounded border border-solid transition-all before:absolute before:inset-0  ${
+          className={`relative min-h-[44px]  rounded border border-solid bg-background transition-all before:absolute before:inset-0  ${
             dragActive
               ? "border-sky-600  before:bg-sky-600 before:bg-opacity-20"
               : "border-transparent before:bg-opacity-0"
@@ -189,7 +189,7 @@ const EditableFiles = (props: EditableFilesProps) => {
           onDrop={handleDrop}
         >
           {files.length > 0 ? (
-            files.map((file) => (
+            files.map((file, index) => (
               <FileListItem
                 key={`${uuid}_${file.id}_${file.filename}`}
                 value={file}
@@ -217,9 +217,14 @@ const EditableFiles = (props: EditableFilesProps) => {
                         >
                           <IconArrowDown /> Down
                         </RadixContextMenu.Item> */}
-                      <RadixContextMenu.Item className="button flex-grow justify-start bg-stone-800 hover:bg-stone-600">
+                      <ContextMenuItem
+                        className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
+                        onClick={() => {
+                          onSubmit(files.filter((val, i) => i != index));
+                        }}
+                      >
                         <IconTrashX /> Delete
-                      </RadixContextMenu.Item>
+                      </ContextMenuItem>
                     </>
                   )
                 }
@@ -227,7 +232,7 @@ const EditableFiles = (props: EditableFilesProps) => {
             ))
           ) : (
             <div
-              className={`flex h-24 items-center justify-center gap-2 rounded-t border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600 ${
+              className={`flex h-24 items-center justify-center gap-2 rounded-t  border-l border-r border-t border-solid border-input first:rounded-t last:rounded-b last:border-b  ${
                 dragActive ? "text-xl" : ""
               }`}
             >

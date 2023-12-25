@@ -5,6 +5,7 @@ import { useHover } from "@mantine/hooks";
 
 import type EditableInput from "@/schema/EditableInput";
 import { useEditableContext } from "./Editable";
+import { VariantProps, cva } from "class-variance-authority";
 
 // FIXME: respect disabled state
 // TODO: center text on button and add color variant
@@ -20,10 +21,28 @@ import { useEditableContext } from "./Editable";
 //   className?: string;
 // }
 
-interface EditableSwitchProps extends EditableInput<boolean> {
+interface EditableSwitchProps
+  extends EditableInput<boolean>,
+    VariantProps<typeof editableSwitchVariants> {
   stateLabels?: { checked: string; unchecked: string };
   stateColors?: { checked: string; unchecked: string };
 }
+
+const editableSwitchVariants = cva(
+  "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default: "",
+        color:
+          "data-[state=checked]:dark:border-green-500 data-[state=checked]:border-green-800 data-[state=unchecked]:dark:border-red-500 data-[state=unchecked]:border-red-800",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
+);
 
 const EditableSwitch = (props: EditableSwitchProps) => {
   const {
@@ -36,6 +55,7 @@ const EditableSwitch = (props: EditableSwitchProps) => {
     // stateColors = { checked: "#2f9e44", unchecked: "#e03131" },
     rightSection,
     leftSection,
+    variant,
     // keyName,
   } = useEditableContext(props);
 
@@ -67,15 +87,27 @@ const EditableSwitch = (props: EditableSwitchProps) => {
       {!!leftSection && leftSection}
       <div>{label}</div>
       {active ? (
-        <Switch checked={value} onCheckedChange={handleChange} />
+        <Switch
+          checked={value}
+          onCheckedChange={handleChange}
+          variant={variant}
+        />
       ) : (
         <div
-          className={`px relative rounded-md font-bold after:absolute after:bottom-0.5 after:left-0 after:h-px after:w-full after:shadow ${
-            bool ? "after:shadow-green-700" : "after:shadow-red-700"
-          }`}
+          className={editableSwitchVariants({
+            variant,
+          })}
+          data-state={value ?? false ? "checked" : "unchecked"}
         >
           {bool ? stateLabels.checked : stateLabels.unchecked}
         </div>
+        //   <div
+        //   className={`px relative rounded-md font-bold after:absolute after:bottom-0.5 after:left-0 after:h-px after:w-full after:shadow ${
+        //     bool ? "after:shadow-green-700" : "after:shadow-red-700"
+        //   }`}
+        // >
+        //   {bool ? stateLabels.checked : stateLabels.unchecked}
+        // </div>
       )}
       {!!rightSection && rightSection}
     </div>

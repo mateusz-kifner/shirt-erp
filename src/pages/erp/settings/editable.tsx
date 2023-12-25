@@ -3,6 +3,7 @@ import { lazy, useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import ClientListItem from "@/page-components/erp/client/ClientListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
+import EditableArray from "@/components/editable/EditableArray";
 
 const EditableAddress = lazy(
   () => import("@/components/editable/EditableAddress"),
@@ -13,7 +14,6 @@ const EditableApiEntry = lazy(
 const EditableApiEntryId = lazy(
   () => import("@/components/editable/EditableApiEntryId"),
 );
-const EditableArray = lazy(() => import("@/components/editable/EditableArray"));
 const EditableColor = lazy(() => import("@/components/editable/EditableColor"));
 const EditableDate = lazy(() => import("@/components/editable/EditableDate"));
 const EditableDateTime = lazy(
@@ -93,6 +93,17 @@ function TestEditablePage() {
               <EditableText />
             </EditableArray>
 
+            <EditableArray<string>
+              keyName="EditableArray2"
+              label="EditableArray2"
+            >
+              {(key, overrideProps) => (
+                <div className="border border-solid border-red-500" key={key}>
+                  <EditableText {...overrideProps} />
+                </div>
+              )}
+            </EditableArray>
+
             <EditableColor keyName="EditableColor" label="EditableColor" />
             <EditableDate keyName="EditableDate" label="EditableDate" />
             <EditableDateTime
@@ -132,7 +143,11 @@ function TestEditablePage() {
               keyName="EditableShortText"
               label="EditableShortText"
             />
-            <EditableSwitch keyName="EditableSwitch" label="EditableSwitch" />
+            <EditableSwitch
+              keyName="EditableSwitch"
+              label="EditableSwitch"
+              variant="color"
+            />
             <EditableText keyName="EditableText" label="EditableText" />
           </Editable>
         </div>
