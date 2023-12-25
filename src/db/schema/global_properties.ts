@@ -7,6 +7,5 @@ export const global_properties = pgTable("global_properties", {
   name: varchar("name", { length: 255 }).unique().notNull(),
   data: varchar("data", { length: 255 })
     .array()
-    .default(sql`ARRAY[]::varchar[]`)
-    .notNull(),
+    .default(sql`ARRAY[]::varchar[]`),
 });

@@ -38,6 +38,10 @@
     "singular": "expense",
     "plural": "expenses"
   },
+  "global-properties": {
+    "singular": "Global properties",
+    "plural": "Global properties"
+  },
   "log": {
     "singular": "log",
     "plural": "logs"

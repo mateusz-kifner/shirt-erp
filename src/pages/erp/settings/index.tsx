@@ -1,12 +1,10 @@
 import { useEffect, useId, useState } from "react";
 
-import EditableEnum from "@/components/editable/EditableEnum";
 import Button, { buttonVariants } from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { appRouter } from "@/server/api/root";
 
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
@@ -15,17 +13,13 @@ import {
   IconLogout,
   IconMail,
   IconMoonStars,
+  IconSettings,
   IconSun,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { useRouter } from "next/router";
-import SuperJSON from "superjson";
-import { db } from "@/db";
 import { signOut, useSession } from "next-auth/react";
 import { useExperimentalContext } from "@/context/experimentalContext";
-import Editable from "@/components/editable/Editable";
-import EditableText from "@/components/editable/EditableText";
 import {
   Select,
   SelectContent,
@@ -34,7 +28,6 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { IconUser } from "@tabler/icons-react";
-import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { useFlagContext } from "@/context/flagContext";
 
@@ -217,14 +210,25 @@ function Settings() {
           )}
           {(session?.user.role === "manager" ||
             session?.user.role === "admin") && (
-            <Button
-              onClick={() => {
-                void router.push("user");
-              }}
-              leftSection={<IconUser />}
-            >
-              <span className="capitalize"> {t.manage}</span> {t.user.plural}
-            </Button>
+            <>
+              <Button
+                onClick={() => {
+                  void router.push("user");
+                }}
+                leftSection={<IconUser />}
+              >
+                <span className="capitalize"> {t.manage}</span>
+                {t.user.plural}
+              </Button>
+              <Button
+                onClick={() => {
+                  void router.push("/erp/global-properties");
+                }}
+                leftSection={<IconSettings />}
+              >
+                {t["global-properties"].plural}
+              </Button>
+            </>
           )}
           <Button
             onClick={() => {

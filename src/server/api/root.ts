@@ -33,7 +33,7 @@ export const appRouter = createTRPCRouter({
   email: emailRouter,
   expense: expenseRouter,
   admin: adminRouter,
-  globalProperties: globalPropertiesRouter,
+  "global-properties": globalPropertiesRouter,
 });
 
 // export type definition of API

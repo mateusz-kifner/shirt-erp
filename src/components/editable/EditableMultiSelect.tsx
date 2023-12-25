@@ -1,5 +1,5 @@
 import EditableInput from "@/schema/EditableInput";
-import { useCallback, useId, useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useEditableContext } from "./Editable";
 import { Label } from "../ui/Label";
 import { IconX } from "@tabler/icons-react";
@@ -7,15 +7,17 @@ import { IconX } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/Badge";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/Command";
 import { CommandInput as CommandPrimitiveInput } from "cmdk";
+import { api } from "@/utils/api";
 
 interface EditableMultiSelectProps extends EditableInput<string[]> {
-  enum_data: string[];
+  enumData?: string[];
+  entryCategory?: string;
   collapse?: boolean;
 }
 
 function EditableMultiSelect(props: EditableMultiSelectProps) {
   const {
-    enum_data,
+    enumData,
     label,
     value,
     onSubmit,
@@ -30,6 +32,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
     leftSection,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data,
+    entryCategory,
     ...moreProps
   } = useEditableContext(props);
   console.log(value);
@@ -41,9 +44,16 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
   const setSelected = (data: string[]) => onSubmit(data);
   const [inputValue, setInputValue] = useState("");
 
+  const { data: globalPropertiesData } =
+    api["global-properties"].getByCategory.useQuery(entryCategory as string, {
+      enabled: entryCategory !== undefined,
+    });
+
+  console.log(globalPropertiesData);
+
   const handleUnselect = (enum_string: string) => {
     console.log(enum_string, selected);
-    setSelected(selected.filter((s) => s !== enum_string));
+    setSelected(selected.filter((s: string) => s !== enum_string));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -64,8 +74,8 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
     }
   };
 
-  const selectables = enum_data.filter(
-    (enum_string) => !selected.includes(enum_string),
+  const selectables = (enumData ?? []).filter(
+    (enumString) => !selected.includes(enumString),
   );
 
   const value_str = value?.reduce(

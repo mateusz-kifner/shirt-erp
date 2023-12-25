@@ -1,11 +1,4 @@
-import {
-  useEffect,
-  useId,
-  // useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
 import { useClickOutside } from "@mantine/hooks";
 

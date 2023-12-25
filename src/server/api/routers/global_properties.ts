@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { createProcedureGetById } from "@/server/api/procedures";
+import {
+  createProcedureGetById,
+  createProcedureSearch,
+} from "@/server/api/procedures";
 import {
   employeeProcedure,
   createTRPCRouter,
@@ -18,6 +21,15 @@ export const globalPropertiesRouter = createTRPCRouter({
     const properties = await ctx.db.select().from(global_properties);
     return properties;
   }),
+  getByCategory: employeeProcedure
+    .input(z.string())
+    .query(async ({ input: category, ctx }) => {
+      const properties = await ctx.db
+        .select()
+        .from(global_properties)
+        .where(eq(global_properties.category, category));
+      return properties;
+    }),
   create: managerProcedure
     .input(insertGlobalPropertiesZodSchema)
     .mutation(async ({ input: globalPropertiesData, ctx }) => {
@@ -52,4 +64,5 @@ export const globalPropertiesRouter = createTRPCRouter({
         throw new Error("Expense: Expense could not be updated");
       return updatedGlobalProperties[0];
     }),
+  search: createProcedureSearch(global_properties),
 });

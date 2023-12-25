@@ -38,6 +38,10 @@
     "singular": "wydatek",
     "plural": "wydatki"
   },
+  "global-properties": {
+    "singular": "Globalne właściwości",
+    "plural": "Globalne właściwości"
+  },
   "log": {
     "singular": "log",
     "plural": "logi"

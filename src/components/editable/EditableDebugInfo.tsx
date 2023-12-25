@@ -28,7 +28,7 @@ const EditableDebugInfo = (props: EditableDebugInfoProps) => {
 
   return debug ? (
     <div {...moreProps}>
-      <span className="text-yellow-800 dark:text-yellow-400">{label}</span>
+      <span className="text-yellow-800 dark:text-yellow-400 pr-2">{label}</span>
       {value}
     </div>
   ) : null;

@@ -16,9 +16,14 @@ export const insertGlobalPropertiesZodSchema = createInsertSchema(
   },
 );
 
-export const updateGlobalPropertiesZodSchema =
-  insertGlobalPropertiesZodSchema.merge(idRequiredZodSchema);
-
+export const updateGlobalPropertiesZodSchema = createInsertSchema(
+  global_properties,
+  {
+    data: z.string().array(),
+    name: z.string().optional(),
+    category: z.string().optional(),
+  },
+).merge(idRequiredZodSchema);
 export type GlobalProperties = z.infer<typeof selectGlobalPropertiesZodSchema>;
 export type NewGlobalProperties = z.infer<
   typeof insertGlobalPropertiesZodSchema
