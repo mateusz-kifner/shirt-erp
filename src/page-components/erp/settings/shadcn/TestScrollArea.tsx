@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/ScrollArea";
-import { lorem } from "./lorem";
+import { lorem } from "../lorem";
 import { Separator } from "@/components/ui/Separator";
 
 const tags = Array.from({ length: 50 }).map(

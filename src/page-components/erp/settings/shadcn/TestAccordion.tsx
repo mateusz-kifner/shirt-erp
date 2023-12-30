@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/Accordion";
 import { Card } from "@/components/ui/Card";
-import { lorem } from "./lorem";
+import { lorem } from "../lorem";
 
 function TestAccordion() {
   return (
