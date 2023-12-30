@@ -18,7 +18,7 @@ function Navigation() {
   return (
     <div
       className={cn(
-        "fixed left-0  flex   flex-col  border-r-[1px] border-stone-400  bg-white transition-all dark:border-stone-600 dark:bg-stone-900",
+        "fixed left-0 flex flex-col border-r bg-white transition-all  dark:bg-stone-900",
         isMobile
           ? "top-2 z-[99999] h-[calc(100vh-1rem)] w-full"
           : "top-14  h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] w-[5.5rem] justify-between",

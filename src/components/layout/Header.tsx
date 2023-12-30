@@ -14,7 +14,7 @@ const Header = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b-[1px] border-stone-700 bg-stone-900 pr-4">
+    <div className="fixed left-0 top-0 z-50 flex h-14 w-full items-center justify-between border-b bg-stone-900 pr-4">
       <div className="flex h-full flex-nowrap items-center justify-between gap-3">
         {isMobile && (
           <Button
@@ -52,7 +52,7 @@ const Header = () => {
           href={"/erp/settings"}
           className={cn(
             buttonVariants({ size: "icon", variant: "outline" }),
-            "rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50",
+            "rounded-full border-stone-800 bg-stone-800 hover:bg-stone-700 hover:text-stone-50",
           )}
         >
           <IconSettings className="stroke-gray-200" />
