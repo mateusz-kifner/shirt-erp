@@ -95,10 +95,10 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
       >
         <div className="group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring ">
           <div className="flex flex-wrap gap-1">
-            {selected.map((s) => {
+            {selected.map((s, index) => {
               return (
                 <Badge
-                  key={`${uuid}${s}`}
+                  key={`${uuid}${s}:${index}:`}
                   variant="secondary"
                   className={
                     s === inputValue
@@ -159,10 +159,10 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
                     {inputValue}
                   </CommandItem>
                 ) : null}
-                {selectables.map((s) => {
+                {selectables.map((s, index) => {
                   return (
                     <CommandItem
-                      key={`${uuid}${s}`}
+                      key={`${uuid}${s}:${index}`}
                       onMouseDown={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
