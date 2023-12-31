@@ -114,7 +114,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
       <DropdownMenuPrimitive.ItemIndicator>
         <IconCheck className="h-4 w-4" />
       </DropdownMenuPrimitive.ItemIndicator>
-      {checked && (
+      {!checked && (
         <div>
           <IconX className="h-4 w-4" />
         </div>
