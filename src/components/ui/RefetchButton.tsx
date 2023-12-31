@@ -15,7 +15,7 @@ function RefetchButton(props: ButtonProps) {
       size="icon"
       variant="ghost"
       className={cn(
-        "rounded-full direction-reverse",
+        "rounded-full border-stone-800 bg-stone-800  direction-reverse hover:bg-stone-700  hover:text-stone-50",
         isRotating && "animate-spin",
         className,
       )}

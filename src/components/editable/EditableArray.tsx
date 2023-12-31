@@ -3,7 +3,9 @@ import {
   ReactNode,
   cloneElement,
   isValidElement,
+  useEffect,
   useId,
+  useState,
 } from "react";
 import { useEditableContextWithoutOverride } from "./Editable";
 import { Label } from "../ui/Label";
@@ -17,8 +19,7 @@ import {
   ContextMenuTrigger,
 } from "../ui/ContextMenu";
 import useTranslation from "@/hooks/useTranslation";
-
-// TODO: add delete
+import { useListState } from "@mantine/hooks";
 
 interface EditableArrayProps<T> extends EditableInput<T[]> {
   children:
@@ -47,59 +48,61 @@ function EditableArrayWrapper(props: { label?: string; children: ReactNode }) {
 
 function EditableArray<T = any>(props: EditableArrayProps<T>) {
   const { children, keyName, label, disabled } = props;
+  const context = useEditableContextWithoutOverride();
+
   const t = useTranslation();
   if (keyName === undefined || typeof keyName === "number")
     throw new Error("keyName not defined");
-  const context = useEditableContextWithoutOverride();
   const uuid = useId();
   const data = props?.data?.[keyName] ?? context.data?.[keyName] ?? [];
   const superOnSubmit = props.onSubmit ?? context.onSubmit;
-  const onSubmit = (key: string | number, value: any) => {
+  const [values, handlers] = useListState<T | undefined>(data);
+  const [update, setUpdate] = useState(false);
+
+  const onSubmit = (key: string | number, value?: T) => {
     if (typeof key === "string")
       throw new Error("EditableArray received string key");
-    const newData = [...data];
-    newData[key] = value;
-    superOnSubmit?.(keyName, newData);
-    console.log("Array: ", key, value);
+    handlers.setItem(key, value);
+    setUpdate(true);
   };
+  const val = values.filter((val): val is T => val !== undefined);
+  useEffect(() => {
+    if (update) {
+      superOnSubmit?.(keyName, val);
+    }
+  }, [update]);
 
-  const onDelete = (index: number) => {
-    console.log(data, index);
-    const newData = data.filter((_: any, i: number) => i !== index);
-    superOnSubmit?.(keyName, newData);
-  };
-  console.log("Array: ", data);
+  console.log("Array: ", values);
+
   if (typeof children === "function" && !isValidElement(children))
     return (
       <EditableArrayWrapper label={label}>
-        {data.length == 0 && "⸺"}
+        {values.length == 0 && "⸺"}
 
-        {data.map((_: any, index: number) => {
-          return (
-            <ContextMenu>
-              <ContextMenuTrigger>
-                {children(`${uuid}${index}:`, {
-                  data,
-                  onSubmit,
-                  keyName: index,
-                })}
-              </ContextMenuTrigger>
-              <ContextMenuContent>
-                <ContextMenuItem
-                  className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
-                  onClick={() => onDelete(index)}
-                >
-                  <IconTrashX /> {t.delete}
-                </ContextMenuItem>
-              </ContextMenuContent>
-            </ContextMenu>
-          );
-        })}
+        {values.map((_: any, index: number) => (
+          <ContextMenu key={`${uuid}${index}:wrapper:`}>
+            <ContextMenuTrigger>
+              {children(`${uuid}${index}:`, {
+                data: values,
+                onSubmit,
+                keyName: index,
+              })}
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+              <ContextMenuItem
+                className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
+                onClick={() => handlers.remove(index)}
+              >
+                <IconTrashX /> {t.delete}
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        ))}
         {!disabled && (
           <Button
             variant="ghost"
             onClick={() => {
-              onSubmit(data.length, null);
+              onSubmit(data.length, undefined);
             }}
           >
             <IconPlus />
@@ -109,34 +112,32 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
     );
   return (
     <EditableArrayWrapper label={label}>
-      {data.length == 0 && "⸺"}
-      {data.map((_: any, index: number) => {
-        return (
-          <ContextMenu>
-            <ContextMenuTrigger>
-              {cloneElement(children, {
-                keyName: index,
-                data,
-                onSubmit,
-                key: `${uuid}${index}:`,
-              })}
-            </ContextMenuTrigger>
-            <ContextMenuContent>
-              <ContextMenuItem
-                className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
-                onClick={() => onDelete(index)}
-              >
-                <IconTrashX /> {t.delete}
-              </ContextMenuItem>
-            </ContextMenuContent>
-          </ContextMenu>
-        );
-      })}
+      {values.length == 0 && "⸺"}
+      {values.map((_: any, index: number) => (
+        <ContextMenu key={`${uuid}${index}:wrapper:`}>
+          <ContextMenuTrigger>
+            {cloneElement(children, {
+              keyName: index,
+              data: values,
+              onSubmit,
+              key: `${uuid}${index}:`,
+            })}
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem
+              className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
+              onClick={() => handlers.remove(index)}
+            >
+              <IconTrashX /> {t.delete}
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+      ))}
       {!disabled && (
         <Button
           variant="ghost"
           onClick={() => {
-            onSubmit(data.length, null);
+            onSubmit(data.length, undefined);
           }}
         >
           <IconPlus />

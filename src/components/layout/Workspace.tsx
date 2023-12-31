@@ -109,7 +109,7 @@ const Workspace = ({
 
   return (
     <div
-      className="flex flex-grow flex-nowrap items-start gap-4 overflow-hidden p-1 sm:p-4"
+      className="flex flex-grow flex-nowrap items-start gap-4 p-1 sm:p-4"
       // ref={ref}
     >
       <MultiTabs

@@ -98,7 +98,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
         onKeyDown={handleKeyDown}
         className="overflow-visible bg-transparent"
       >
-        <div className="group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring ">
+        <div className="group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-1 focus-within:ring-ring ">
           <div className="flex flex-wrap gap-1">
             {selected.map((s, index) => {
               return (
@@ -113,7 +113,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
                 >
                   {s}
                   <button
-                    className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    className="ml-1 rounded-full outline-none ring-offset-background focus:ring-1 focus:ring-ring"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         handleUnselect(s);
