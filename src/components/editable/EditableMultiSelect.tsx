@@ -13,6 +13,7 @@ interface EditableMultiSelectProps extends EditableInput<string[]> {
   enumData?: string[];
   entryCategory?: string;
   collapse?: boolean;
+  freeInput?: boolean;
 }
 
 function EditableMultiSelect(props: EditableMultiSelectProps) {
@@ -33,6 +34,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data,
     entryCategory,
+    freeInput,
     ...moreProps
   } = useEditableContext(props);
   console.log(value);
@@ -44,10 +46,11 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
   const setSelected = (data: string[]) => onSubmit(data);
   const [inputValue, setInputValue] = useState("");
 
-  const { data: globalPropertiesData } =
-    api["global-properties"].getByCategory.useQuery(entryCategory as string, {
-      enabled: entryCategory !== undefined,
-    });
+  const { data: globalPropertiesData } = api[
+    "global-properties"
+  ].getByCategory.useQuery(entryCategory as string, {
+    enabled: entryCategory !== undefined,
+  });
 
   console.log(globalPropertiesData);
 
@@ -130,6 +133,22 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
           {open && selectables.length > 0 ? (
             <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
               <CommandGroup className="h-full overflow-auto">
+                {freeInput && inputValue.length > 0 ? (
+                  <CommandItem
+                    key={`${uuid}freeinput:`}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onSelect={(_v) => {
+                      setSelected([...selected, inputValue]);
+                      setInputValue("");
+                    }}
+                    className={"cursor-pointer"}
+                  >
+                    {inputValue}
+                  </CommandItem>
+                ) : null}
                 {selectables.map((s) => {
                   return (
                     <CommandItem

@@ -51,6 +51,8 @@ function TestEditablePage() {
     MultiSelect: ["XL"],
     EditableDebugInfo: "Debug something",
     EditableJSON: { "debug JSON": "test" },
+    EditableArray: [],
+    EditableArray2: [],
   });
 
   useEffect(() => {
@@ -123,8 +125,14 @@ function TestEditablePage() {
             <EditableJSON keyName="EditableJSON" label="EditableJSON" />
             <EditableMultiSelect
               label="EditableMultiSelect"
-              enum_data={["XL", "XS", "SM", "164"]}
+              enumData={["XL", "XS", "SM", "164"]}
               keyName="MultiSelect"
+            />
+            <EditableMultiSelect
+              label="EditableMultiSelect2"
+              enumData={["Red", "Green", "Blue", "Yellow"]}
+              keyName="MultiSelect2"
+              freeInput
             />
             <EditableNumber
               keyName="EditableNumber"
