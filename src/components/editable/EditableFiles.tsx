@@ -178,7 +178,7 @@ const EditableFiles = (props: EditableFilesProps) => {
         </Dialog>
 
         <div
-          className={`relative min-h-[44px]  rounded border border-solid bg-background transition-all before:absolute before:inset-0  ${
+          className={`relative min-h-[44px]  rounded border border-solid  transition-all before:absolute before:inset-0  ${
             dragActive
               ? "border-sky-600  before:bg-sky-600 before:bg-opacity-20"
               : "border-transparent before:bg-opacity-0"
@@ -232,7 +232,7 @@ const EditableFiles = (props: EditableFilesProps) => {
             ))
           ) : (
             <div
-              className={`flex h-24 items-center justify-center gap-2 rounded-t  border-l border-r border-t border-solid border-input first:rounded-t last:rounded-b last:border-b  ${
+              className={`flex h-24 items-center justify-center gap-2 rounded-t  border-l border-r border-t border-solid border-input bg-background first:rounded-t last:rounded-b last:border-b   ${
                 dragActive ? "text-xl" : ""
               }`}
             >
@@ -252,7 +252,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                 htmlFor={"file" + uuid}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "h-10 w-full  rounded-b rounded-t-none",
+                  "h-10 w-full  rounded-b rounded-t-none bg-background",
                 )}
               >
                 {uploading ? (

@@ -57,7 +57,7 @@ const FileListItem = (props: FileListItemProps) => {
           e.dataTransfer.setData("application/json", jsonData);
         }}
         style={style}
-        className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-input first:rounded-t last:rounded-b last:border-b "
+        className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-input bg-background first:rounded-t last:rounded-b last:border-b"
       >
         <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden  child-hover:visible">
           <img

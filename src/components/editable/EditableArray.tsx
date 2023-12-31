@@ -20,6 +20,8 @@ import {
 } from "../ui/ContextMenu";
 import useTranslation from "@/hooks/useTranslation";
 import { useListState } from "@mantine/hooks";
+import { Card, CardContent } from "../ui/Card";
+import DisplayCell from "../ui/DisplayCell";
 
 interface EditableArrayProps<T> extends EditableInput<T[]> {
   children:
@@ -40,7 +42,7 @@ function EditableArrayWrapper(props: { label?: string; children: ReactNode }) {
       <Label label={props.label} />
 
       <div className="flex min-h-[2.75rem] flex-col gap-2">
-        <div className=" flex flex-col gap-2">{props.children}</div>
+        <Card className="flex flex-col gap-2 p-2">{props.children}</Card>
       </div>
     </div>
   );
@@ -77,7 +79,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
   if (typeof children === "function" && !isValidElement(children))
     return (
       <EditableArrayWrapper label={label}>
-        {values.length == 0 && "⸺"}
+        {/* {values.length == 0 && <div className="h-12 rounded  p-2">⸺</div>} */}
 
         {values.map((_: any, index: number) => (
           <ContextMenu key={`${uuid}${index}:wrapper:`}>
@@ -112,7 +114,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
     );
   return (
     <EditableArrayWrapper label={label}>
-      {values.length == 0 && "⸺"}
+      {/* {values.length == 0 && <div className="h-12 rounded  p-2">⸺</div>} */}
       {values.map((_: any, index: number) => (
         <ContextMenu key={`${uuid}${index}:wrapper:`}>
           <ContextMenuTrigger>

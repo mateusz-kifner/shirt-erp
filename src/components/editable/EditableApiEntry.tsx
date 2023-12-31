@@ -42,9 +42,9 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
     copyProvider = () => "",
     // style,
     listProps,
-    linkEntry = true,
+    linkEntry,
     helpTooltip,
-    allowClear = false,
+    allowClear,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
   } = useEditableContext(props);
@@ -90,7 +90,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
           {entryName ? (
             <div
               key={uuid}
-              className={` relative flex overflow-hidden rounded border border-solid border-transparent ${
+              className={` relative flex overflow-hidden rounded border border-solid ${
                 open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
