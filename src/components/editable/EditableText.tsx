@@ -1,12 +1,4 @@
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-  type CSSProperties,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import preventLeave from "@/utils/preventLeave";
 import { Label } from "@/components/ui/Label";
@@ -71,7 +63,6 @@ const EditableText = (props: EditableTextProps) => {
     };
     // eslint-disable-next-line
   }, []);
-  console.log(text);
   useEffect(() => {
     const new_value = value ?? "";
     setText(new_value);

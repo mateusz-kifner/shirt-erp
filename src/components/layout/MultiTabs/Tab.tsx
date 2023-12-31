@@ -91,8 +91,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
               ?.color !== undefined
               ? (rightSection as { props: { color: string } }).props.color
               : isActive || isPinned
-              ? color
-              : undefined,
+                ? color
+                : undefined,
           size:
             typeof (rightSection as { props: Record<string, unknown> }).props
               .size === "number"
@@ -133,7 +133,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             border-r
             border-t
             border-solid 
-            border-stone-700
+            border-stone-800
             stroke-gray-200 
             px-4 
             py-0 

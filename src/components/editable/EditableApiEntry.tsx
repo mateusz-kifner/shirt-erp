@@ -91,9 +91,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
             <div
               key={uuid}
               className={` relative flex overflow-hidden rounded border border-solid border-transparent ${
-                open
-                  ? "border-sky-600 dark:border-sky-600"
-                  : "border-gray-400 dark:border-stone-600"
+                open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
               <Element
