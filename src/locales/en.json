@@ -125,5 +125,13 @@
   "secondLine": "Other",
   "city": "City",
   "province": "Province",
-  "postCode": "Post code"
+  "postCode": "Post code",
+  "not_set": "⸺",
+  "screen_printing": "Screen Printing",
+  "foil": "Foil",
+  "dtf": "DTF",
+  "other": "Other",
+  "shipping": "Shipping",
+  "in_person": "In person",
+  "delivery": "Delivery"
 }

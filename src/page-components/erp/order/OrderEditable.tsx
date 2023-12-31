@@ -33,13 +33,16 @@ import useTranslation from "@/hooks/useTranslation";
 import { type ClientWithRelations } from "@/schema/clientZodSchema";
 import { type Product } from "@/schema/productZodSchema";
 import { type User } from "@/schema/userZodSchema";
-import { api } from "@/utils/api";
+import { RouterNames, api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
   IconAddressBook,
+  IconArchive,
   IconCash,
   IconCopy,
+  IconDotsVertical,
   IconRefresh,
+  IconTrashX,
 } from "@tabler/icons-react";
 import { omit } from "lodash";
 import { useRouter } from "next/router";
@@ -48,6 +51,17 @@ import { clientListSearchParams } from "../client/ClientList";
 import ClientListItem from "../client/ClientListItem";
 import ProductListItem from "../product/ProductListItem";
 import UserListItem from "../user/UserListItem";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import RefetchButton from "@/components/ui/RefetchButton";
+
+const entryName = "order";
 
 interface OrderEditableProps {
   id: number | null;
@@ -58,6 +72,8 @@ function OrderEditable(props: OrderEditableProps) {
   const isLoaded = useLoaded();
   const router = useRouter();
   const t = useTranslation();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
   const [orderAddressFromClient, setOrderAddressFromClient] = useState<
     number | null
   >(null);
@@ -126,40 +142,68 @@ function OrderEditable(props: OrderEditableProps) {
     <>
       <Editable data={data} onSubmit={apiUpdate}>
         <EditableDebugInfo label="ID: " keyName="id" />
-        <Wrapper
-          keyName="name" // hint for Editable
-          wrapperClassName="flex gap-2 items-center"
-          wrapperRightSection={
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full"
-              onClick={() => {
-                refetch().catch(console.log);
-              }}
-            >
-              <IconRefresh />
-            </Button>
-          }
-        >
+        <div className="flex gap-2">
+          <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
             keyName="name"
             required
             style={{ fontSize: "1.4em" }}
+            className={data.isArchived ? "border-orange-600" : undefined}
           />
-        </Wrapper>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                size="icon"
+                variant="outline"
+                className="rounded-full border-stone-800 bg-stone-800  hover:bg-stone-700 hover:text-stone-50"
+              >
+                <IconDotsVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-22 max-w-md">
+              <DropdownMenuCheckboxItem
+                onClick={() => apiUpdate("isTemplate", !data.isTemplate)}
+                checked={data.isTemplate ?? false}
+              >
+                {t.template}
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => setDeleteModalOpen(true)}
+                className="flex gap-2 focus:bg-orange-600 focus:text-destructive-foreground dark:focus:bg-orange-800"
+              >
+                <IconArchive size={18} /> {t.archive} {t[entryName].singular}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setDeleteModalOpen(true)}
+                className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
+              >
+                <IconTrashX size={18} /> {t.delete} {t[entryName].singular}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <EditableEnum
           label="Status"
           keyName="status"
           enum_data={[
             "planned",
             "accepted",
-            "in production",
+            "in_production",
             "wrapped",
             "sent",
             "rejected",
-            "archived",
           ]}
+        />
+        <EditableEnum
+          label="Typ druku"
+          keyName="workstationType"
+          enum_data={["not_set", "screen_printing", "foil", "dtf", "other"]}
+        />
+        <EditableEnum
+          label="Odbiór"
+          keyName="pickupMethod"
+          enum_data={["not_set", "shipping", "in_person", "delivery"]}
         />
         <EditableRichText label="Notatki" keyName="notes" />
         <EditableShortText
@@ -167,11 +211,21 @@ function OrderEditable(props: OrderEditableProps) {
           label="Cena"
           leftSection={<IconCash />}
         />
-        <EditableSwitch keyName="isPricePaid" label="Cena zapłacona" />
+        <EditableSwitch
+          keyName="isPricePaid"
+          label="Cena zapłacona: "
+          variant="color"
+        />
+        <EditableSwitch
+          keyName="isInWarehouse"
+          label="W magazynie: "
+          variant="color"
+        />
         <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
         <EditableFiles keyName="files" label="Pliki" />
         <EditableApiEntry
           keyName="client"
+          label="Klient"
           entryName="client"
           linkEntry
           allowClear
@@ -222,16 +276,7 @@ function OrderEditable(props: OrderEditableProps) {
           }
         >
           <EditableAddress
-            label={{
-              streetName: "Ulica",
-              streetNumber: "Nr. bloku",
-              apartmentNumber: "Nr. mieszkania",
-              secondLine: "Dodatkowe dane adresata",
-              city: "Miasto",
-              province: "Województwo",
-              postCode: "Kod pocztowy",
-              name: "Address",
-            }}
+            label="Adres"
             keyName="address"
             leftSection={<IconAddressBook />}
           />
@@ -280,20 +325,10 @@ function OrderEditable(props: OrderEditableProps) {
           disabled
           collapse
         />
-        <EditableSwitch keyName="isTemplate" label="Szablon" />
       </Editable>
-      <AlertDialog>
-        <AlertDialogTrigger asChild className="mt-6">
-          <Button
-            variant="default"
-            className="bg-orange-600 hover:bg-orange-800"
-          >
-            {t.archive} {t.order.singular}
-          </Button>
-        </AlertDialogTrigger>
+      <AlertDialog open={archiveModalOpen} onOpenChange={setArchiveModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
             <AlertDialogDescription>
               {t.archive} {t.order.singular}{" "}
             </AlertDialogDescription>
@@ -306,15 +341,9 @@ function OrderEditable(props: OrderEditableProps) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <AlertDialog>
-        <AlertDialogTrigger asChild className="mt-3">
-          <Button variant="destructive">
-            {t.delete} {t.order.singular}
-          </Button>
-        </AlertDialogTrigger>
+      <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
             <AlertDialogDescription>
               {t.operation_not_reversible}
             </AlertDialogDescription>

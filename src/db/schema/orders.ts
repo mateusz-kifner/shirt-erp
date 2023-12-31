@@ -24,7 +24,15 @@ export const orders = pgTable("orders", {
   notes: varchar("notes", { length: 255 }),
   price: varchar("price", { length: 255 }),
   isPricePaid: boolean("is_price_paid").default(false),
+  isInWarehouse: boolean("is_in_warehouse").default(false),
   dateOfCompletion: date("date_of_completion"),
+  dateOfAdmission: date("date_of_admission"),
+  workstationType: varchar("workstation_type", { length: 255 }).default(
+    "not_set", // not_set/screen_printing/foil/dtf/other
+  ),
+  pickupMethod: varchar("pickup_method", { length: 255 }).default(
+    "not_set", // not_set/shipping/in_person/delivery
+  ),
   workTime: doublePrecision("work_time"),
   clientId: integer("client_id").references(() => clients.id),
   addressId: integer("address_id").references(() => addresses.id, {
