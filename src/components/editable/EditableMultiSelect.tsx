@@ -97,7 +97,15 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
           <div className="flex flex-wrap gap-1">
             {selected.map((s) => {
               return (
-                <Badge key={`${uuid}${s}`} variant="secondary">
+                <Badge
+                  key={`${uuid}${s}`}
+                  variant="secondary"
+                  className={
+                    s === inputValue
+                      ? "border-transparent bg-green-700 hover:bg-green-700/80"
+                      : undefined
+                  }
+                >
                   {s}
                   <button
                     className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
@@ -130,10 +138,12 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
           </div>
         </div>
         <div className="relative mt-2">
-          {open && selectables.length > 0 ? (
+          {open && (selectables.length > 0 || freeInput) ? (
             <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
               <CommandGroup className="h-full overflow-auto">
-                {freeInput && inputValue.length > 0 ? (
+                {freeInput &&
+                inputValue.length > 0 &&
+                !selected.includes(inputValue) ? (
                   <CommandItem
                     key={`${uuid}freeinput:`}
                     onMouseDown={(e) => {
