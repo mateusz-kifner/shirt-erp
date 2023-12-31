@@ -7,12 +7,10 @@ import { IconX } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/Badge";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/Command";
 import { CommandInput as CommandPrimitiveInput } from "cmdk";
-import { api } from "@/utils/api";
 import { ScrollArea } from "../ui/ScrollArea";
 
 interface EditableMultiSelectProps extends EditableInput<string[]> {
   enumData?: string[];
-  entryCategory?: string;
   collapse?: boolean;
   freeInput?: boolean;
 }
@@ -35,18 +33,13 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     data,
     freeInput,
-    entryCategory,
     ...moreProps
   } = useEditableContext(props);
   console.log(value);
   const uuid = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
-  const { data: globalPropertiesData } = api[
-    "global-properties"
-  ].getByCategory.useQuery(entryCategory as string, {
-    enabled: entryCategory !== undefined,
-  });
+
 
   const selected = value ?? [];
   // (globalPropertiesData !== undefined && globalPropertiesData.length > 0
@@ -78,11 +71,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
     }
   };
 
-  const global_selectables = new Set(
-    globalPropertiesData?.map((val) => val?.data ?? []).flat(),
-  );
-
-  const selectables = (Array.from(global_selectables) ?? enumData ?? []).filter(
+  const selectables = ( enumData ?? []).filter(
     (enumString) => !selected.includes(enumString),
   );
 

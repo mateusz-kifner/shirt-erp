@@ -1,6 +1,5 @@
-import { Children, ReactElement, ReactNode, cloneElement, useId } from "react";
+import { ReactNode, useId } from "react";
 import Editable, { useEditableContextWithoutOverride } from "./Editable";
-import { cn } from "@/utils/cn";
 import { Label } from "../ui/Label";
 
 interface EditableObjectProps {
@@ -22,11 +21,10 @@ function EditableObject(props: EditableObjectProps) {
   const onSubmit = (key: string | number, value: any) => {
     if (typeof key === "number")
       throw new Error("EditableObject received number key");
-    console.log(key, value);
     const newData = { ...data };
     newData[key] = value;
     superOnSubmit?.(keyName, newData);
-    console.log("ObjSET: ", key, value);
+    // console.log("ObjSET: ", key, value);
   };
 
   return (

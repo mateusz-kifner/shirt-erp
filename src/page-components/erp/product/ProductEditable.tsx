@@ -8,7 +8,6 @@ import EditableFiles from "@/components/editable/EditableFiles";
 import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
-import EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,7 +30,7 @@ import RefetchButton from "@/components/ui/RefetchButton";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
-import { IconDotsVertical, IconRefresh, IconTrashX } from "@tabler/icons-react";
+import { IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -45,6 +44,13 @@ function ProductEditable(props: ProductEditableProps) {
   const router = useRouter();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const t = useTranslation();
+
+  const { data: globalPropertiesData } =
+    api["global-properties"].getByCategory.useQuery("size");
+
+  const global_selectables = new Set(
+    globalPropertiesData?.map((val) => val?.data ?? []).flat(),
+  );
 
   const { data, refetch } = api.product.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -140,8 +146,9 @@ function ProductEditable(props: ProductEditableProps) {
         <EditableMultiSelect
           label="Rozmiary"
           keyName="sizes"
-          entryCategory="size"
-          enumData={["XS", "S", "M", "L", "XL", "XXL"]}
+          enumData={
+            Array.from(global_selectables) ?? ["XS", "S", "M", "L", "XL", "XXL"]
+          }
         />
 
         <EditableDateTime
