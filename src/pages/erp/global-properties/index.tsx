@@ -7,7 +7,7 @@ import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-const entryName = "globalProperties";
+const entryName = "global-properties";
 
 interface GlobalPropertiesPageProps {}
 

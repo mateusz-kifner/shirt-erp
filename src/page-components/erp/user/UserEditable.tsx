@@ -14,13 +14,21 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import RefetchButton from "@/components/ui/RefetchButton";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
-import { IconRefresh } from "@tabler/icons-react";
+import { IconDotsVertical, IconRefresh, IconTrashX } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 interface UserEditableProps {
   id: number | string | null;
@@ -31,6 +39,7 @@ function UserEditable(props: UserEditableProps) {
   const isLoaded = useLoaded();
   const router = useRouter();
   const t = useTranslation();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const { data: session } = useSession();
 
@@ -82,24 +91,29 @@ function UserEditable(props: UserEditableProps) {
         }
       >
         <EditableDebugInfo label="ID: " keyName="id" />
-        <Wrapper
-          keyName="name" // hint for Editable
-          wrapperClassName="flex gap-2 items-center"
-          wrapperRightSection={
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full"
-              onClick={() => {
-                refetch().catch(console.log);
-              }}
-            >
-              <IconRefresh />
-            </Button>
-          }
-        >
-          <EditableShortText label="Nazwa wyświetlana" keyName="name" />
-        </Wrapper>
+        <div className="flex items-center gap-2">
+          <RefetchButton onClick={() => void refetch()} />
+          <EditableShortText
+            keyName="name"
+            required
+            style={{ fontSize: "1.4em" }}
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" variant="ghost" className="rounded-full">
+                <IconDotsVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-22 max-w-md">
+              <DropdownMenuItem
+                onClick={() => setDeleteModalOpen(true)}
+                className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
+              >
+                {t.delete} {t.client.singular} <IconTrashX size={18} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <EditableShortText label="Email" keyName="email" />
         <EditableDateTime
           label="Email zweryfikowano"
@@ -125,15 +139,9 @@ function UserEditable(props: UserEditableProps) {
           collapse
         />
       </Editable>
-      <AlertDialog>
-        <AlertDialogTrigger asChild className="mt-6">
-          <Button variant="destructive">
-            {t.delete} {t.user.singular}
-          </Button>
-        </AlertDialogTrigger>
+      <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
             <AlertDialogDescription>
               {t.operation_not_reversible}
             </AlertDialogDescription>

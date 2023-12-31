@@ -14,15 +14,23 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
-import Wrapper from "@/components/ui/Wrapper";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/DropdownMenu";
+import RefetchButton from "@/components/ui/RefetchButton";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
-import { IconCash, IconRefresh } from "@tabler/icons-react";
+import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 interface ExpenseEditableProps {
   id: number | null;
@@ -33,6 +41,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
   const isLoaded = useLoaded();
   const t = useTranslation();
   const router = useRouter();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const { data, refetch } = api.expense.getById.useQuery(id as number, {
     enabled: id !== null,
@@ -72,28 +81,37 @@ function ExpenseEditable(props: ExpenseEditableProps) {
     <>
       <Editable data={data} onSubmit={apiUpdate}>
         <EditableDebugInfo label="ID: " keyName="id" />
-        <Wrapper
-          keyName="name" // hint for Editable
-          wrapperClassName="flex gap-2 items-center"
-          wrapperRightSection={
-            <Button
-              size="icon"
-              variant="ghost"
-              className="rounded-full"
-              onClick={() => {
-                refetch().catch(console.log);
-              }}
-            >
-              <IconRefresh />
-            </Button>
-          }
-        >
+        <div className="flex items-center gap-2">
+          <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
             keyName="name"
             required
             style={{ fontSize: "1.4em" }}
           />
-        </Wrapper>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="icon" variant="ghost" className="rounded-full">
+                <IconDotsVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-22 max-w-md">
+              <DropdownMenuCheckboxItem
+                onClick={() => apiUpdate("isTemplate", !data.isTemplate)}
+                checked={data.isTemplate ?? false}
+              >
+                {t.template}
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => setDeleteModalOpen(true)}
+                className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
+              >
+                {t.delete} {t.client.singular} <IconTrashX size={18} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
         <EditableNumber
           keyName="cost"
           label="Cena"
@@ -119,17 +137,10 @@ function ExpenseEditable(props: ExpenseEditableProps) {
           disabled
           collapse
         />
-        <EditableSwitch keyName="isTemplate" label="Szablon" />
       </Editable>
-      <AlertDialog>
-        <AlertDialogTrigger asChild className="mt-6">
-          <Button variant="destructive">
-            {t.delete} {t.expense.singular}
-          </Button>
-        </AlertDialogTrigger>
+      <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle> */}
             <AlertDialogDescription>
               {t.operation_not_reversible}
             </AlertDialogDescription>

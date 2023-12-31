@@ -105,15 +105,11 @@ function ClientEditable(props: ClientEditableProps) {
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="rounded-full direction-reverse"
-              >
+              <Button size="icon" variant="ghost" className="rounded-full">
                 <IconDotsVertical />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-9 max-w-md">
+            <DropdownMenuContent align="end" className="w-22 max-w-md">
               <DropdownMenuCheckboxItem
                 onClick={() => apiUpdate("isTemplate", !data.isTemplate)}
                 checked={data.isTemplate ?? false}
@@ -161,16 +157,7 @@ function ClientEditable(props: ClientEditableProps) {
           leftSection={<IconBuildingFactory />}
         />
         <EditableAddress
-          label={{
-            streetName: "Ulica",
-            streetNumber: "Nr. bloku",
-            apartmentNumber: "Nr. mieszkania",
-            secondLine: "Dodatkowe dane adresata",
-            city: "Miasto",
-            province: "Województwo",
-            postCode: "Kod pocztowy",
-            name: "Address",
-          }}
+          label="Adres"
           keyName="address"
           leftSection={<IconAddressBook />}
         />
