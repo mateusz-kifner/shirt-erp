@@ -55,12 +55,6 @@ function TestEditablePage() {
     EditableArray2: [],
   });
 
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem("test data");
-    };
-  });
-
   return (
     <Card className="m-2 px-2 pb-64 pt-2">
       <CardContent>

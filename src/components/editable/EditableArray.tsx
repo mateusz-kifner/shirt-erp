@@ -67,20 +67,33 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
     handlers.setItem(key, value);
     setUpdate(true);
   };
-  const val = values.filter((val): val is T => val !== undefined);
+
+  const onDelete = (key: number) => {
+    console.log("Delete", key);
+    handlers.remove(key);
+    setUpdate(true);
+  };
+
+  const onAddOne = () => {
+    handlers.append(undefined);
+  };
+  const val = values.filter((val): val is T =>
+    typeof val === "number" ? val !== undefined : !!val,
+  );
+
+  // Forward update
   useEffect(() => {
     if (update) {
       superOnSubmit?.(keyName, val);
+      setUpdate(false);
     }
   }, [update]);
 
-  console.log("Array: ", values);
+  console.log(values)
 
   if (typeof children === "function" && !isValidElement(children))
     return (
       <EditableArrayWrapper label={label}>
-        {/* {values.length == 0 && <div className="h-12 rounded  p-2">⸺</div>} */}
-
         {values.map((_: any, index: number) => (
           <ContextMenu key={`${uuid}${index}:wrapper:`}>
             <ContextMenuTrigger>
@@ -93,7 +106,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
             <ContextMenuContent>
               <ContextMenuItem
                 className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
-                onClick={() => handlers.remove(index)}
+                onClick={() => onDelete(index)}
               >
                 <IconTrashX /> {t.delete}
               </ContextMenuItem>
@@ -101,12 +114,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
           </ContextMenu>
         ))}
         {!disabled && (
-          <Button
-            variant="ghost"
-            onClick={() => {
-              onSubmit(data.length, undefined);
-            }}
-          >
+          <Button variant="ghost" onClick={() => onAddOne()}>
             <IconPlus />
           </Button>
         )}
@@ -128,7 +136,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
           <ContextMenuContent>
             <ContextMenuItem
               className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
-              onClick={() => handlers.remove(index)}
+              onClick={() => onDelete(index)}
             >
               <IconTrashX /> {t.delete}
             </ContextMenuItem>
@@ -136,12 +144,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
         </ContextMenu>
       ))}
       {!disabled && (
-        <Button
-          variant="ghost"
-          onClick={() => {
-            onSubmit(data.length, undefined);
-          }}
-        >
+        <Button variant="ghost" onClick={() => onAddOne()}>
           <IconPlus />
         </Button>
       )}
