@@ -125,7 +125,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     }, [rect.width]);
 
     return (
-      <Tooltip>
+      <Tooltip delayDuration={1500}>
         <TooltipTrigger
           className={cn(
             `inline-flex
