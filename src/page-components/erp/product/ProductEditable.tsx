@@ -174,7 +174,7 @@ function ProductEditable(props: ProductEditableProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
-            <AlertDialogAction onClick={apiDelete}>
+            <AlertDialogAction onClick={apiDelete} variant="destructive">
               {t.delete}
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -301,7 +301,7 @@ function OrderEditable(props: OrderEditableProps) {
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: User | null) =>
+            copyProvider={(value: { name: string } | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
@@ -353,7 +353,7 @@ function OrderEditable(props: OrderEditableProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
-            <AlertDialogAction onClick={apiDelete}>
+            <AlertDialogAction onClick={apiDelete} variant="destructive">
               {t.delete}
             </AlertDialogAction>
           </AlertDialogFooter>

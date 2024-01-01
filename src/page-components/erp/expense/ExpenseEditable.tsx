@@ -153,7 +153,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
-            <AlertDialogAction onClick={apiDelete}>
+            <AlertDialogAction onClick={apiDelete} variant="destructive">
               {t.delete}
             </AlertDialogAction>
           </AlertDialogFooter>
