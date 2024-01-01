@@ -24,7 +24,7 @@ function EditableObject(props: EditableObjectProps) {
     const newData = { ...data };
     newData[key] = value;
     superOnSubmit?.(keyName, newData);
-    // console.log("ObjSET: ", key, value);
+    console.log("ObjSET: ", key, value);
   };
 
   return (

@@ -66,8 +66,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     onSubmit?.(apiEntry);
     setPrev(apiEntry);
-    // eslint-disable-next-line
-  }, [apiEntry]);
+  }, [apiEntry, onSubmit]);
 
   return (
     <div>
@@ -90,7 +89,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
           {entryName ? (
             <div
               key={uuid}
-              className={` relative flex overflow-hidden rounded border border-solid ${
+              className={`relative flex overflow-hidden rounded border border-solid ${
                 open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
@@ -126,7 +125,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
               <Button
                 onClick={() => {
                   setOpen(false);
-                  onSubmit?.(undefined);
+                  onSubmit?.(null);
                 }}
                 leftSection={<IconTrashX size={12} />}
                 className="h-8 p-3 text-xs"
