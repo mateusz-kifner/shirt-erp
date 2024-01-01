@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/Card";
 import ClientListItem from "@/page-components/erp/client/ClientListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
 import EditableArray from "@/components/editable/EditableArray";
+import { GetStaticProps } from "next";
 
 const EditableAddress = lazy(
   () => import("@/components/editable/EditableAddress"),
@@ -159,3 +160,10 @@ function TestEditablePage() {
 }
 
 export default TestEditablePage;
+
+export const getStaticProps: GetStaticProps = () => {
+  if (process.env.NODE_ENV === "production") {
+    return { notFound: true };
+  }
+  return { props: {} };
+};
