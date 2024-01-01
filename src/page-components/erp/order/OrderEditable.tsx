@@ -185,29 +185,6 @@ function OrderEditable(props: OrderEditableProps) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <EditableEnum
-          label="Status"
-          keyName="status"
-          enum_data={[
-            "planned",
-            "accepted",
-            "in_production",
-            "wrapped",
-            "sent",
-            "rejected",
-          ]}
-        />
-        <EditableEnum
-          label="Typ druku"
-          keyName="workstationType"
-          enum_data={["not_set", "screen_printing", "foil", "dtf", "other"]}
-        />
-        <EditableEnum
-          label="Odbiór"
-          keyName="pickupMethod"
-          enum_data={["not_set", "shipping", "in_person", "delivery"]}
-        />
-        <EditableRichText label="Notatki" keyName="notes" />
         <EditableShortText
           keyName="price"
           label="Cena"
@@ -218,15 +195,12 @@ function OrderEditable(props: OrderEditableProps) {
           label="Cena zapłacona: "
           variant="color"
         />
-        <EditableSwitch
-          keyName="isInWarehouse"
-          label="W magazynie: "
-          variant="color"
-        />
+
+        <EditableRichText label="Notatki" keyName="notes" />
+
         <EditableDate keyName="dateOfAdmission" label="Data przyjecia" />
         <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
-        <EditableFiles keyName="files" label="Pliki" />
-        <EditableApiEntry
+        {/* <EditableApiEntry
           keyName="client"
           label="Klient"
           entryName="client"
@@ -247,55 +221,40 @@ function OrderEditable(props: OrderEditableProps) {
             )
               value?.id && setOrderAddressFromClient(value.id);
           }}
-        />
-        <Wrapper
-          keyName="address" // hint for Editable
-          wrapperClassName="flex gap-2 items-end"
-          wrapperRightSection={
-            !!data.client && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="rounded-full"
-                    onClick={() => {
-                      console.log(data.client);
-                      !!data.client &&
-                        apiUpdate(
-                          "address",
-                          omit((data.client as ClientWithRelations).address, [
-                            "id",
-                          ]),
-                        );
-                    }}
-                  >
-                    <IconCopy />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Kopiuj adres z klienta</TooltipContent>
-              </Tooltip>
-            )
-          }
-        >
+        /> */}
+        {/* <div>
           <EditableAddress
             label="Adres"
             keyName="address"
             leftSection={<IconAddressBook />}
           />
-        </Wrapper>
+          {!!data.client && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="rounded-full"
+                  onClick={() => {
+                    console.log(data.client);
+                    !!data.client &&
+                      apiUpdate(
+                        "address",
+                        omit((data.client as ClientWithRelations).address, [
+                          "id",
+                        ]),
+                      );
+                  }}
+                >
+                  <IconCopy />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Kopiuj adres z klienta</TooltipContent>
+            </Tooltip>
+          )}
+        </div>
+*/}
 
-        <EditableArray<Product> label="Produkty" keyName="products">
-          <EditableApiEntry
-            linkEntry
-            entryName="product"
-            Element={ProductListItem}
-            copyProvider={(value: Product | null) =>
-              value?.name ? truncString(value.name, 40) : undefined
-            }
-            allowClear
-          />
-        </EditableArray>
         <EditableArray<User> label="Pracownicy" keyName="employees">
           <EditableApiEntry
             linkEntry
@@ -307,14 +266,6 @@ function OrderEditable(props: OrderEditableProps) {
             allowClear
           />
         </EditableArray>
-
-        <EditableNumber
-          label="Całkowity czas pracy"
-          min={0}
-          increment={1}
-          fixed={0}
-          keyName="workTime"
-        />
 
         <EditableDateTime
           keyName="createdAt"
