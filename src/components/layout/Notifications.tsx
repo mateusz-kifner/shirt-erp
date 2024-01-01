@@ -71,7 +71,7 @@ const Notifications = () => {
         <Button
           size="icon"
           variant="outline"
-          className="rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
+          className="rounded-full border-stone-800 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
           // onClick={() => {
           //   // refetch();
           //   setOpened((val) => !val);
@@ -81,7 +81,7 @@ const Notifications = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white dark:bg-stone-950 md:w-96"
+        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white md:w-96 dark:bg-stone-950"
         sideOffset={10}
         align={isMobile ? "start" : "end"}
         collisionPadding={{ left: 16, right: 16 }}

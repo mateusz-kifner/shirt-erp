@@ -99,11 +99,8 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
                   h-9
                   w-9
                   rounded-full
-                border-gray-400
                   p-1 
-                  text-gray-700
-                  dark:border-stone-600
-                  dark:text-stone-400"
+               "
               onClick={() => {
                 // refetch()
                 onRefresh?.();
@@ -119,11 +116,7 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
                     h-9
                     w-9
                     rounded-full                 
-                    border-gray-400
                     p-1 
-                    text-gray-700
-                    dark:border-stone-600
-                  dark:text-stone-400
                   "
                 onClick={onAddElement}
               >
@@ -141,11 +134,7 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
                   h-9
                   w-9
                   rounded-full
-                  border-gray-400
                   p-1 
-                  text-gray-700
-                  dark:border-stone-600
-                  dark:text-stone-400
                   "
               onClick={() => toggleSortOrder()}
             >
@@ -175,19 +164,17 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
                 rounded-full
                 border
                 border-solid 
-                border-gray-400
-                bg-white
+                bg-background
                 px-4
                 py-2
                 text-sm
                 leading-normal 
                 outline-none 
+                placeholder:text-muted-foreground
                 read-only:bg-transparent
                 read-only:outline-none
                 focus:border-sky-600
-                dark:border-stone-600
-                dark:bg-stone-800 
-                dark:outline-none 
+                dark:outline-none
                 dark:read-only:bg-transparent 
                 dark:read-only:outline-none
                 dark:focus:border-sky-600"

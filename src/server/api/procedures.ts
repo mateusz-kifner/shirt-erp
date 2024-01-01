@@ -111,13 +111,13 @@ export function createProcedureSearch<TSchema extends schemaType>(
           queryParam
             ? or(...search)
             : excludeKey && excludeValue
-            ? not(
-                ilike(
-                  schema[excludeKey as keyof typeof schema.$inferSelect],
-                  `${excludeValue}%`,
-                ),
-              )
-            : undefined,
+              ? not(
+                  ilike(
+                    schema[excludeKey as keyof typeof schema.$inferSelect],
+                    `${excludeValue}%`,
+                  ),
+                )
+              : undefined,
         )
         .limit(itemsPerPage)
         .offset((currentPage - 1) * itemsPerPage)
@@ -126,7 +126,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
             schema[sortColumn as keyof typeof schema.$inferSelect],
           ),
         );
-      console.log(results);
+      // console.log(results);
       const totalItems = await ctx.db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);

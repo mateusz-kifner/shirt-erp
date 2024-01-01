@@ -18,6 +18,7 @@ import {
   useEffect,
 } from "react";
 import { useMultiTabsContext } from "./multiTabsContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   children?: ReactNode;
@@ -50,6 +51,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     // throw if used standalone
     if (index === undefined)
       throw new Error("MultiTabs Error: Tab was not provided valid index");
+    const isMobile = useIsMobile();
 
     const color =
       index !== undefined
@@ -91,8 +93,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
               ?.color !== undefined
               ? (rightSection as { props: { color: string } }).props.color
               : isActive || isPinned
-              ? color
-              : undefined,
+                ? color
+                : undefined,
           size:
             typeof (rightSection as { props: Record<string, unknown> }).props
               .size === "number"
@@ -115,13 +117,15 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     useEffect(() => {
       if (rect.width > 1) {
         (getTabMaxWidth(index) ?? 0) < rect.width &&
+          !small &&
+          !isMobile &&
           setTabMaxWidth(index, rect.width);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rect.width]);
 
     return (
-      <Tooltip>
+      <Tooltip delayDuration={1500}>
         <TooltipTrigger
           className={cn(
             `inline-flex
@@ -133,7 +137,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
             border-r
             border-t
             border-solid 
-            border-stone-700
+            border-stone-800
             stroke-gray-200 
             px-4 
             py-0 

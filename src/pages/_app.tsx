@@ -6,8 +6,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Logger from "js-logger";
 import Head from "next/head";
 
-import AppLayout from "@/components/layout/LayoutERP";
 import { UserContextProvider } from "@/context/userContext";
+import { ExperimentalContextProvider } from "@/context/experimentalContext";
 import { env } from "@/env.mjs";
 import { api } from "@/utils/api";
 
@@ -21,9 +21,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
-import { Toaster } from "@/components/layout/Toaster";
 import { TooltipProvider } from "@/components/ui/Tooltip";
-import { toast } from "@/hooks/useToast";
 import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -32,6 +30,9 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import LayoutAuth from "@/components/layout/LayoutAuth";
 import LayoutERP from "@/components/layout/LayoutERP";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/Sonner";
+import { FlagContextProvider } from "@/context/flagContext";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -48,15 +49,15 @@ if (typeof window !== "undefined") {
     console.log(messages[0]?.message ?? "Nieznany błąd", messages[0]);
     if (context.level === Logger.ERROR)
       if (context.level === Logger.WARN)
-        toast({
-          title: "Błąd",
+        toast.message("Błąd", {
           description:
             messages[0]?.message ??
             "Nieznany błąd: sprawdź szczegóły w logu serwera",
         });
+
     if (typeof messages[0] === "string") {
-      toast({
-        title: "Ostrzeżenie",
+      toast("Warn", {
+        description: "Ostrzeżenie",
         // description:
         //   messages[0].message ??
         //   "Nieznany błąd: sprawdź szczegóły w logu serwera",
@@ -125,20 +126,24 @@ const App: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <UserContextProvider>
-        <TooltipProvider>
-          <Layout>
-            <Head>
-              <title>ShirtERP</title>
-            </Head>
-            <ErrorBoundary fallback={<h1>Application crashed</h1>}>
-              <Component {...pageProps} />
-            </ErrorBoundary>
-          </Layout>
-          <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </TooltipProvider>
-      </UserContextProvider>
+      <FlagContextProvider>
+        <ExperimentalContextProvider>
+          <UserContextProvider>
+            <TooltipProvider>
+              <Layout>
+                <Head>
+                  <title>ShirtERP</title>
+                </Head>
+                <ErrorBoundary fallback={<h1>Application crashed</h1>}>
+                  <Component {...pageProps} />
+                </ErrorBoundary>
+              </Layout>
+              <Toaster />
+              <ReactQueryDevtools initialIsOpen={false} />
+            </TooltipProvider>
+          </UserContextProvider>
+        </ExperimentalContextProvider>
+      </FlagContextProvider>
     </SessionProvider>
   );
 };

@@ -10,10 +10,10 @@ import EmailProvider from "next-auth/providers/email";
 
 import { env } from "@/env.mjs";
 import { db } from "@/db";
-import { pgTable } from "drizzle-orm/pg-core";
 import { sendVerificationRequest } from "./email";
 import { type UserRole, users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
+import { Adapter } from "next-auth/adapters";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -36,7 +36,7 @@ declare module "next-auth" {
   }
 }
 
-export const authDBAdapter = DrizzleAdapter(db, pgTable);
+export const authDBAdapter = DrizzleAdapter(db);
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -114,7 +114,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
   },
-  adapter: authDBAdapter,
+  adapter: authDBAdapter as Adapter, // fix bug with drizzle adapter
   providers,
   theme: {
     colorScheme: "dark",
@@ -129,7 +129,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
     // signOut: '/auth/signout',
-    // error: '/auth/error', // Error code passed in query string as ?error=
+    error: "/auth/error", // Error code passed in query string as ?error=
     verifyRequest: "/auth/verify-request", // (used for check email message)
     // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
   },

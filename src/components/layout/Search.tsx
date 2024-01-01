@@ -43,7 +43,7 @@ function Search(props: SearchProps) {
         <Button
           variant="outline"
           size="icon"
-          className="rounded-full border-stone-600 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
+          className="rounded-full border-stone-800 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
         >
           <IconSearch className="stroke-gray-200" />
         </Button>

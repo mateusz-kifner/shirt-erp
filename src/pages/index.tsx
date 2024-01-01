@@ -1,16 +1,32 @@
-import { useEffect } from "react";
-
 import { useRouter } from "next/router";
+import { env } from "@/env.mjs";
+import Button, { buttonVariants } from "@/components/ui/Button";
+import useTranslation from "@/hooks/useTranslation";
+import Link from "next/link";
+import { cn } from "@/utils/cn";
 
 const Main = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    void router.push("/erp/task");
-  });
+  const { locale } = router;
+
+  const t = useTranslation();
 
   return (
-    <div className="flex justify-center pt-10 font-bold">Redirecting...</div>
+    <div className="mx-auto flex max-w-lg flex-col justify-center gap-8 pt-20 font-bold">
+      <img
+        src="https://shirterp.eu/logo.png"
+        alt={env.NEXT_PUBLIC_ORGANIZATION_NAME}
+      />
+
+      <Link href="/erp" className={cn(buttonVariants({ size: "xl" }))}>
+        {locale === "pl" ? (
+          <div>Wejdź do systemu ERP</div>
+        ) : (
+          <div>Enter ERP system</div>
+        )}
+      </Link>
+    </div>
   );
 };
 

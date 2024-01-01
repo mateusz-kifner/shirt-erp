@@ -1,5 +1,3 @@
-// import useTranslation from "@/hooks/useTranslation";
-import * as RadixContextMenu from "@radix-ui/react-context-menu";
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
@@ -8,6 +6,12 @@ import { type File } from "@/schema/fileZodSchema";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuPortal,
+  ContextMenuTrigger,
+} from "./ui/ContextMenu";
 
 interface FileListItemProps {
   onChange?: (file: Partial<File>) => void;
@@ -44,8 +48,8 @@ const FileListItem = (props: FileListItemProps) => {
     : undefined;
 
   return (
-    <RadixContextMenu.Root>
-      <RadixContextMenu.Trigger
+    <ContextMenu>
+      <ContextMenuTrigger
         draggable={draggable}
         onDragStart={(e) => {
           // console.log(e);
@@ -53,7 +57,7 @@ const FileListItem = (props: FileListItemProps) => {
           e.dataTransfer.setData("application/json", jsonData);
         }}
         style={style}
-        className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600"
+        className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-input bg-background first:rounded-t last:rounded-b last:border-b"
       >
         <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden  child-hover:visible">
           <img
@@ -61,7 +65,7 @@ const FileListItem = (props: FileListItemProps) => {
             alt=""
             width={100}
             height={100}
-            className="h-[100px] w-[100px]  border-b-0 border-l-0 border-r border-t-0 border-gray-400 object-cover dark:border-stone-600"
+            className="h-[100px] w-[100px]  border-b-0 border-l-0 border-r border-t-0 border-input object-cover "
           />
 
           {preview && onPreview && (
@@ -111,7 +115,6 @@ const FileListItem = (props: FileListItemProps) => {
                 ? "?token=" + value?.token + "&download"
                 : "?download"
             }`}
-            legacyBehavior={false}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
               `absolute 
@@ -141,17 +144,15 @@ const FileListItem = (props: FileListItemProps) => {
       >
         {menuNode}
       </div> */}
-      </RadixContextMenu.Trigger>
-      <RadixContextMenu.Portal>
-        <RadixContextMenu.Content
-          className="flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950"
-          // sideOffset={5}
-          // align="end"
-        >
-          {contextMenuContent}
-        </RadixContextMenu.Content>
-      </RadixContextMenu.Portal>
-    </RadixContextMenu.Root>
+      </ContextMenuTrigger>
+      <ContextMenuContent
+        className="flex min-w-[220px] flex-col gap-2 overflow-hidden rounded-md bg-white p-[5px] dark:bg-stone-950"
+        // sideOffset={5}
+        // align="end"
+      >
+        {contextMenuContent}
+      </ContextMenuContent>
+    </ContextMenu>
   );
 };
 

@@ -1,4 +1,6 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
+import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
+import { useExperimentalContext } from "@/context/experimentalContext";
 import useTranslation from "@/hooks/useTranslation";
 import { type NewOrder } from "@/schema/orderZodSchema";
 import { type ListItemProps } from "@/types/ListItemProps";
@@ -8,6 +10,10 @@ import dayjs from "dayjs";
 
 const OrderListItem = (props: ListItemProps<NewOrder>) => {
   const value = props.value;
+
+  const { extendedList } = useExperimentalContext();
+  const ListItem = extendedList ? DefaultListItemExtended : DefaultListItem;
+
   const t = useTranslation();
   const todayDate = dayjs().format("YYYY-MM-DD");
   const timeLeft = value?.dateOfCompletion
@@ -35,7 +41,7 @@ const OrderListItem = (props: ListItemProps<NewOrder>) => {
       : dayjs(value?.dateOfCompletion).from(todayDate)
     : "";
   return (
-    <DefaultListItem
+    <ListItem
       firstElement={value ? value?.name && truncString(value.name, 20) : "⸺"}
       secondElement={
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands

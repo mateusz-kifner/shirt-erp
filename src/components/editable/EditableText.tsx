@@ -1,12 +1,12 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
-
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import preventLeave from "@/utils/preventLeave";
-
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { useClickOutside } from "@mantine/hooks";
+import { useEditableContext } from "./Editable";
+import { cn } from "@/utils/cn";
 
 interface EditableTextProps extends EditableInput<string> {
   maxLength?: number;
@@ -15,20 +15,20 @@ interface EditableTextProps extends EditableInput<string> {
 
 const EditableText = (props: EditableTextProps) => {
   const {
-    label,
-    value,
-    onSubmit,
-    disabled,
-    required,
-    maxLength,
-    style,
-    className,
-    leftSection,
-    rightSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    data,
     keyName,
+    value,
+    disabled,
+    onSubmit,
+    className,
+    label,
+    leftSection,
+    maxLength,
+    required,
+    rightSection,
+    style,
     ...moreProps
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const [text, setText] = useState<string>(value ?? "");
   const [focus, setFocus] = useState<boolean>(false);
@@ -37,14 +37,13 @@ const EditableText = (props: EditableTextProps) => {
   const onFocus = () => !disabled && setFocus(true);
 
   const onSubmitValue = (text: string) => {
-    // if text empty submit null
-    if (text.length === 0 && value !== null) {
-      onSubmit?.(null);
+    // if text empty submit undefined
+    if (text.length === 0 && value !== undefined) {
+      onSubmit?.(undefined);
     } else if (text !== (value ?? "")) {
       onSubmit?.(text);
     }
   };
-  // const t = useTranslation();
   useEffect(() => {
     if (focus) {
       inputFocusAtEndOfLine(textAreaRef);
@@ -58,12 +57,12 @@ const EditableText = (props: EditableTextProps) => {
 
   useEffect(() => {
     return () => {
+      console.log(text);
       onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     };
     // eslint-disable-next-line
   }, []);
-
   useEffect(() => {
     const new_value = value ?? "";
     setText(new_value);
@@ -113,7 +112,7 @@ const EditableText = (props: EditableTextProps) => {
         leftSection={leftSection}
         rightSection={rightSection}
         focus={focus}
-        className={className}
+        className={cn("h-fit", className)}
       >
         <textarea
           id={"textarea_" + uuid}
@@ -121,23 +120,26 @@ const EditableText = (props: EditableTextProps) => {
           required={required}
           readOnly={disabled}
           ref={textAreaRef}
-          className={`
-          data-disabled:text-gray-500
-          dark:data-disabled:text-gray-500
-          w-full
-          resize-none
-          overflow-hidden
-          whitespace-pre-line 
-          break-words
-          bg-transparent
-          py-3
-          text-sm
-          outline-none
-          placeholder:text-gray-400
-          focus-visible:border-transparent
-          focus-visible:outline-none
-          dark:placeholder:text-stone-600
-          ${className ?? ""}`}
+          className={cn(
+            `
+              data-disabled:text-gray-500
+              dark:data-disabled:text-gray-500
+              w-full
+              resize-none
+              overflow-hidden
+              whitespace-pre-line 
+              break-words
+              bg-transparent
+              py-3
+              text-sm
+              outline-none
+              placeholder:text-gray-400
+              focus-visible:border-transparent
+              focus-visible:outline-none
+              dark:placeholder:text-stone-600
+              `,
+            className,
+          )}
           style={style}
           value={text}
           onFocus={onFocus}

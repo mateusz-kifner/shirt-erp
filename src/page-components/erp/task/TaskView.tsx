@@ -1,4 +1,4 @@
-import Editable from "@/components/editable/Editable";
+import Editable, { Key } from "@/components/editable/Editable";
 import EditableAddress from "@/components/editable/EditableAddress";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableArray from "@/components/editable/EditableArray";
@@ -46,7 +46,7 @@ function TaskView(props: TaskViewProps) {
   });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const apiUpdate = (key: string, val: any) => {
+  const apiUpdate = (key: Key, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -119,6 +119,7 @@ function TaskView(props: TaskViewProps) {
         <EditableFiles keyName="files" label="Pliki" disabled />
         <EditableApiEntry
           keyName="client"
+          label="Klient"
           entryName="client"
           linkEntry
           allowClear
@@ -128,16 +129,7 @@ function TaskView(props: TaskViewProps) {
         />
 
         <EditableAddress
-          label={{
-            streetName: "Ulica",
-            streetNumber: "Nr. bloku",
-            apartmentNumber: "Nr. mieszkania",
-            secondLine: "Dodatkowe dane adresata",
-            city: "Miasto",
-            province: "Województwo",
-            postCode: "Kod pocztowy",
-            name: "Address",
-          }}
+          label="Adres"
           keyName="address"
           leftSection={<IconAddressBook />}
           disabled
@@ -148,7 +140,7 @@ function TaskView(props: TaskViewProps) {
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: Product) =>
+            copyProvider={(value: Product | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
@@ -159,7 +151,7 @@ function TaskView(props: TaskViewProps) {
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: { username?: string }) =>
+            copyProvider={(value: { username?: string } | null) =>
               value?.username ? truncString(value.username, 40) : undefined
             }
             allowClear

@@ -10,22 +10,26 @@ import { type Product } from "@/schema/productZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import ProductListItem from "./ProductListItem";
+import Editable from "@/components/editable/Editable";
 
 interface ProductAddModalProps {
   opened: boolean;
   onClose: (id?: number) => void;
 }
 
+const defaultProduct: {
+  template: Partial<Product> | null;
+  productName: string;
+} = { template: null, productName: "Produkt" };
+
 const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
-  const [productName, setProductName] = useState<string>("Produkt");
-  const [template, setTemplate] = useState<Partial<Product> | null>(null);
+  const [data, setData] = useState(defaultProduct);
   const [error, setError] = useState<string | null>(null);
   const { mutateAsync: createProduct } = api.product.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
-      setProductName("Produkt");
-      // setTemplate(null);
+      setData(defaultProduct);
       setError(null);
     }
   }, [opened]);
@@ -34,32 +38,33 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
     <Dialog open={opened} onOpenChange={() => onClose()}>
       <DialogContent>
         <DialogTitle>Utwórz nowy produkt</DialogTitle>
-        <div className="flex flex-col gap-2">
+        <Editable
+          data={data}
+          onSubmit={(key, val) => {
+            setData((prev) => ({ ...prev, [key]: val }));
+          }}
+        >
           <EditableApiEntry
             label="Szablon"
             entryName="product"
             Element={ProductListItem}
-            onSubmit={setTemplate}
-            value={template ?? undefined}
+            keyName="template"
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
           />
           <EditableText
             label="Nazwa użytkownika"
-            onSubmit={(val) => {
-              val && setProductName(val);
-            }}
-            value={productName}
+            keyName="productName"
             required
           />
 
           <Button
             onClick={() => {
-              if (productName.length == 0)
+              if (data.productName.length == 0)
                 return setError("Musisz podać nie pustą nazwę produktu");
               const new_product = {
-                ...(template ? omit(template, "id") : {}),
-                name: productName,
+                ...(data.template ? omit(data.template, "id") : {}),
+                name: data.productName,
                 orders: [],
                 "orders-archive": [],
               };
@@ -74,7 +79,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
             Utwórz produkt
           </Button>
           <div className="text-red-600">{error}</div>
-        </div>
+        </Editable>
       </DialogContent>
     </Dialog>
   );

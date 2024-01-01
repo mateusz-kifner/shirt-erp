@@ -1,157 +1,152 @@
-import type EditableInput from "@/schema/EditableInput";
-import { cn } from "@/utils/cn";
-import { useListState } from "@mantine/hooks";
-import { IconPlus, IconTrashX } from "@tabler/icons-react";
-import { isEqual } from "lodash";
 import {
-  type ReactElement,
+  ReactElement,
+  ReactNode,
   cloneElement,
+  isValidElement,
   useEffect,
   useId,
   useState,
 } from "react";
-import Button, { buttonVariants } from "../ui/Button";
+import { useEditableContextWithoutOverride } from "./Editable";
+import { Label } from "../ui/Label";
+import EditableInput from "@/schema/EditableInput";
+import Button from "../ui/Button";
+import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
 } from "../ui/ContextMenu";
-import { Label } from "../ui/Label";
+import useTranslation from "@/hooks/useTranslation";
+import { useListState } from "@mantine/hooks";
+import { Card, CardContent } from "../ui/Card";
+import DisplayCell from "../ui/DisplayCell";
 
 interface EditableArrayProps<T> extends EditableInput<T[]> {
-  maxCount?: number;
-  uniqueItems?: boolean;
-  children: ReactElement<EditableInput<T>>;
+  children:
+    | ReactElement
+    | ((
+        key: string,
+        overrideProps: {
+          data?: Record<string, any>;
+          onSubmit?: (key: string | number, value: T) => void;
+          keyName: string | number;
+        },
+      ) => ReactNode);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function EditableArray<T = any>(props: EditableArrayProps<T>) {
-  const {
-    label,
-    value,
-    onSubmit,
-    disabled,
-    // required,
-    maxCount,
-    // uniqueItems,
-    children,
-    // keyName,
-  } = props;
-
-  const [items, handlers] = useListState<T | null>(value ?? []);
-  // const [focus, setFocus] = useState<boolean>(false);
-  const [prev, setPrev] = useState<(T | null)[]>(items);
-  const uuid = useId();
-
-  useEffect(() => {
-    const filtered_items = items.filter((val) => val !== null) as T[];
-    if (
-      isEqual(
-        filtered_items,
-        prev.filter((val) => !!val),
-      )
-    )
-      return;
-    onSubmit?.(filtered_items);
-    // eslint-disable-next-line
-  }, [items]);
-
-  useEffect(() => {
-    if (value === undefined || value === null) return;
-    handlers.setState(value);
-    setPrev(value);
-    // eslint-disable-next-line
-  }, [value]);
-
-  // useEffect(() => {
-  //   // console.log("items append")
-  //   if (
-  //     active &&
-  //     (items.length === 0 || (items.length && !!items[items.length - 1]))
-  //   ) {
-  //     handlers.append(null)
-  //   }
-  //   // console.log(
-  //   //   items.some((item) => !item),
-  //   //   items
-  //   // )
-  //   if (!active && items.some((item) => !item)) {
-  //     handlers.filter((val) => !!val)
-  //     console.log("items filter")
-  //   }
-  //   // console.log("items active")
-  // }, [items, active])
-
+function EditableArrayWrapper(props: { label?: string; children: ReactNode }) {
   return (
-    <div
-      className="flex-grow"
-      // onClick={() => !disabled && setFocus(true)}
-      // onFocus={() => !disabled && setFocus(true)}
-      // onBlur={handleBlurForInnerElements(() => setFocus(false))}
-      // tabIndex={999999}
-    >
-      <Label label={label} />
+    <div className="flex-grow">
+      <Label label={props.label} />
 
       <div className="flex min-h-[2.75rem] flex-col gap-2">
-        <div className=" flex flex-col gap-2">
-          {items.length == 0 && "⸺"}
-          {items.map((val, index) => {
-            // const elementPropsMerge = {
-            //   ...omit(elementProps, ["label", "arrayType"]),
-            //   value: val,
-            //   onSubmit: (itemValue: any) => {
-            //     handlers.setItem(index, itemValue);
-            //   },
-            // };
-            // if (disabled) elementProps.disabled = true;
-            // if (linkEntry) elementProps.linkEntry = true;
+        <Card className="flex flex-col gap-2 p-2">{props.children}</Card>
+      </div>
+    </div>
+  );
+}
 
-            return (
-              <ContextMenu key={uuid + index}>
-                <ContextMenuTrigger asChild>
-                  {cloneElement(children, {
-                    value: val ?? undefined,
-                    onSubmit: (itemValue: T | null) => {
-                      handlers.setItem(index, itemValue);
-                    },
-                    disabled,
-                  })}
-                </ContextMenuTrigger>
-                <ContextMenuContent>
-                  <ContextMenuItem
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "justify-start",
-                    )}
-                    onClick={() => {
-                      handlers.remove(index);
-                    }}
-                  >
-                    <IconTrashX /> Delete
-                  </ContextMenuItem>
-                </ContextMenuContent>
-              </ContextMenu>
-            );
-          })}
-        </div>
+function EditableArray<T = any>(props: EditableArrayProps<T>) {
+  const { children, keyName, label, disabled } = props;
+  const context = useEditableContextWithoutOverride();
 
+  const t = useTranslation();
+  if (keyName === undefined || typeof keyName === "number")
+    throw new Error("keyName not defined");
+  const uuid = useId();
+  const data = props?.data?.[keyName] ?? context.data?.[keyName] ?? [];
+  const superOnSubmit = props.onSubmit ?? context.onSubmit;
+  const [values, handlers] = useListState<T | undefined>(data);
+  const [update, setUpdate] = useState(false);
+
+  const onSubmit = (key: string | number, value?: T) => {
+    if (typeof key === "string")
+      throw new Error("EditableArray received string key");
+    handlers.setItem(key, value);
+    setUpdate(true);
+  };
+
+  const onDelete = (key: number) => {
+    handlers.remove(key);
+    setUpdate(true);
+  };
+
+  const onAddOne = () => {
+    handlers.append(undefined);
+  };
+  const val = values.filter((val): val is T =>
+    typeof val === "number" ? val !== undefined : !!val,
+  );
+
+  // Forward update
+  useEffect(() => {
+    if (update) {
+      superOnSubmit?.(keyName, val);
+      setUpdate(false);
+    }
+  }, [update]);
+
+
+  if (typeof children === "function" && !isValidElement(children))
+    return (
+      <EditableArrayWrapper label={label}>
+        {values.map((_: any, index: number) => (
+          <ContextMenu key={`${uuid}${index}:wrapper:`}>
+            <ContextMenuTrigger>
+              {children(`${uuid}${index}:`, {
+                data: values,
+                onSubmit,
+                keyName: index,
+              })}
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+              <ContextMenuItem
+                className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
+                onClick={() => onDelete(index)}
+              >
+                <IconTrashX /> {t.delete}
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        ))}
         {!disabled && (
-          <Button
-            variant="outline"
-            className=""
-            onClick={
-              () => handlers.append(null)
-              //  setItems((val) => [...val, null])
-            }
-            disabled={maxCount ? maxCount <= items.length : undefined}
-            // style={{ flexGrow: 1 }}
-          >
+          <Button variant="ghost" onClick={() => onAddOne()}>
             <IconPlus />
           </Button>
         )}
-      </div>
-    </div>
+      </EditableArrayWrapper>
+    );
+  return (
+    <EditableArrayWrapper label={label}>
+      {/* {values.length == 0 && <div className="h-12 rounded  p-2">⸺</div>} */}
+      {values.map((_: any, index: number) => (
+        <ContextMenu key={`${uuid}${index}:wrapper:`}>
+          <ContextMenuTrigger>
+            {cloneElement(children, {
+              keyName: index,
+              data: values,
+              onSubmit,
+              key: `${uuid}${index}:`,
+            })}
+          </ContextMenuTrigger>
+          <ContextMenuContent>
+            <ContextMenuItem
+              className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
+              onClick={() => onDelete(index)}
+            >
+              <IconTrashX /> {t.delete}
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+      ))}
+      {!disabled && (
+        <Button variant="ghost" onClick={() => onAddOne()}>
+          <IconPlus />
+        </Button>
+      )}
+    </EditableArrayWrapper>
   );
 }
 

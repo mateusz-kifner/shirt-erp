@@ -14,8 +14,6 @@ interface UserContextType {
   navigationCollapsed?: boolean;
   theme?: number;
   toggleTheme: () => void;
-  toggleNavigationCollapsed: () => void;
-  setNavigationCollapsed: Dispatch<SetStateAction<boolean>>;
   toggleDebug: () => void;
   mobileOpen: boolean;
   setMobileOpen: Dispatch<SetStateAction<boolean>>;
@@ -28,11 +26,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     key: "user-debug",
     defaultValue: false,
   });
-  const [navigationCollapsed, setNavigationCollapsed] =
-    useLocalStorage<boolean>({
-      key: "user-navigation-collapsed",
-      defaultValue: false,
-    });
   const [theme, setTheme] = useLocalStorage<number>({
     key: "user-theme",
     defaultValue: 0,
@@ -50,15 +43,12 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
       value={{
         theme,
         debug,
-        navigationCollapsed,
-        toggleNavigationCollapsed: () => setNavigationCollapsed((val) => !val),
         toggleTheme: () => {
           setTheme((val) => (val === 0 ? 1 : 0));
           const htmlElement = document.querySelector("html") as HTMLHtmlElement;
           htmlElement.classList.remove("light", "dark");
           htmlElement.classList.add(theme === 1 ? "light" : "dark");
         },
-        setNavigationCollapsed,
         toggleDebug: () => setDebug((val) => !val),
         mobileOpen,
         setMobileOpen,

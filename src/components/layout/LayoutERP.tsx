@@ -6,20 +6,20 @@ import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 function LayoutERP({ children }: PropsWithChildren) {
-  const { navigationCollapsed } = useUserContext();
   const isMobile = useIsMobile();
 
   return (
     <div>
+      <Header />
+
       <main
         className={`${
-          isMobile ? "" : navigationCollapsed ? "pl-20" : "pl-64"
+          isMobile ? "" : "pl-[5.5rem]"
         } min-h-screen pt-14 transition-all`}
       >
         {children}
       </main>
       <Navigation />
-      <Header />
     </div>
   );
 }

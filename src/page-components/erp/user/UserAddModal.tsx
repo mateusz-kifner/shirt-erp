@@ -8,23 +8,26 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
 import UserListItem from "./UserListItem";
+import Editable from "@/components/editable/Editable";
 
 interface UserAddModalProps {
   opened: boolean;
   onClose: (id?: string) => void;
 }
 
+const defaultData = { username: "", email: "" };
+
 const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [data, setData] = useState<{ username: string; email: string }>(
+    defaultData,
+  );
 
   const [error, setError] = useState<string | null>(null);
   const { mutateAsync: createUser } = api.user.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
-      setUsername("");
-      setEmail("");
+      setData(defaultData);
       setError(null);
     }
   }, [opened]);
@@ -33,30 +36,21 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
     <Dialog open={opened} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <DialogTitle>Utwórz nowego pracownika</DialogTitle>
-        <div className="flex flex-col gap-2">
-          <EditableText
-            label="Nazwa użytkownika"
-            onSubmit={(val) => {
-              val && setUsername(val);
-            }}
-            value={username}
-            required
-          />
-          <EditableText
-            label="Email"
-            onSubmit={(val) => {
-              val && setEmail(val);
-            }}
-            value={email}
-            required
-          />
+        <Editable
+          data={data}
+          onSubmit={(key, val) => {
+            setData((prev) => ({ ...prev, [key]: val }));
+          }}
+        >
+          <EditableText label="Nazwa użytkownika" keyName="username" required />
+          <EditableText label="Email" keyName="email" required />
 
           <Button
             onClick={() => {
-              if (username.length == 0)
+              if (data.username.length == 0)
                 return setError("Musisz podać nie pustą nazwę użytkownika");
 
-              createUser({ name: username, email })
+              createUser({ name: data.username, email: data.email })
                 .then((data) => data && onClose(data.id))
                 .catch(() => {
                   setError("Klient o takiej nazwie istnieje.");
@@ -68,7 +62,7 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
             Utwórz klienta
           </Button>
           <div className="text-red-600">{error}</div>
-        </div>
+        </Editable>
       </DialogContent>
     </Dialog>
   );

@@ -10,17 +10,7 @@ import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/schema/EditableInput";
 import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
 import { useId } from "react";
-
-// EditableInput<T> {
-//   label?: string;
-//   value?: T;
-//   onSubmit?: (value: T | null) => void | boolean;
-//   disabled?: boolean;
-//   required?: boolean;
-//   leftSection?: ReactNode;
-//   rightSection?: ReactNode;
-//   className?: string;
-// }
+import { useEditableContext } from "./Editable";
 
 //  RadixSelectProps {
 //   children?: React.ReactNode;
@@ -42,18 +32,25 @@ interface EditableEnumProps extends EditableInput<string>, RadixSelectProps {
   collapse?: boolean;
 }
 
-const EditableEnum = ({
-  enum_data,
-  label,
-  value,
-  onSubmit,
-  disabled,
-  required,
-  collapse = false,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  keyName,
-  ...moreProps
-}: EditableEnumProps) => {
+const EditableEnum = (props: EditableEnumProps) => {
+  const {
+    enum_data,
+    label,
+    value,
+    onSubmit,
+    disabled,
+    required,
+    collapse = false,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    keyName,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    rightSection,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    leftSection,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    data,
+    ...moreProps
+  } = useEditableContext(props);
   const t = useTranslation();
   const uuid = useId();
 
@@ -68,7 +65,6 @@ const EditableEnum = ({
         value={value}
         onValueChange={(value) => {
           onSubmit?.(value);
-          console.log(value);
         }}
         disabled={disabled}
         {...moreProps}

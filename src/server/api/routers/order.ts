@@ -2,23 +2,11 @@ import { createProcedureSearch } from "@/server/api/procedures";
 import { z } from "zod";
 
 import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
-import { archive_orders, orders } from "@/db/schema/orders";
-import {
-  archive_orders_to_email_messages,
-  orders_to_email_messages,
-} from "@/db/schema/orders_to_email_messages";
-import {
-  archive_orders_to_files,
-  orders_to_files,
-} from "@/db/schema/orders_to_files";
-import {
-  archive_orders_to_products,
-  orders_to_products,
-} from "@/db/schema/orders_to_products";
-import {
-  archive_orders_to_users,
-  orders_to_users,
-} from "@/db/schema/orders_to_users";
+import { orders } from "@/db/schema/orders";
+import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
+import { orders_to_files } from "@/db/schema/orders_to_files";
+import { orders_to_products } from "@/db/schema/orders_to_products";
+import { orders_to_users } from "@/db/schema/orders_to_users";
 import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import {
   type NewOrder,
@@ -28,7 +16,7 @@ import {
 } from "@/schema/orderZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import getObjectChanges from "@/utils/getObjectChanges";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, inArray, sql, or, not } from "drizzle-orm";
 import { omit } from "lodash";
 
 export const orderRouter = createTRPCRouter({
@@ -424,101 +412,73 @@ export const orderRouter = createTRPCRouter({
       return { ok: true };
     }),
 
-  search: createProcedureSearch(orders),
-  archiveById: employeeProcedure
-    .input(z.number())
-    .mutation(async ({ input: orderId, ctx }) => {
-      const orderData = await ctx.db.query.orders.findFirst({
-        where: eq(orders.id, orderId),
-        with: {
-          emails: true,
-          employees: true,
-          files: true,
-          products: true,
-          spreadsheets: true,
-        },
-      });
-      if (!orderData) throw new Error("Order.update: Order not found");
-
+  search: employeeProcedure
+    .input(
+      z.object({
+        keys: z.array(z.string()),
+        query: z.string().optional(),
+        sort: z.enum(["desc", "asc"]).default("desc"),
+        sortColumn: z.string().default("name"),
+        excludeKey: z.string().optional(),
+        excludeValue: z.string().optional(),
+        currentPage: z.number().default(1),
+        itemsPerPage: z.number().default(10),
+        isArchived: z.boolean().default(false),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
       const {
-        id,
-        emails,
-        files,
-        employees,
-        products,
-        spreadsheets,
-        ...simpleOrderData
-      } = orderData;
-      await ctx.db.transaction(async (tx) => {
-        // create archive order
-        const newOrderData = await tx
-          .insert(archive_orders)
-          .values(simpleOrderData)
-          .returning();
-        if (newOrderData[0] === undefined)
-          throw new Error("Could not create archive order");
+        keys,
+        query,
+        sort,
+        sortColumn,
+        excludeKey,
+        excludeValue,
+        currentPage,
+        itemsPerPage,
+        isArchived,
+      } = input;
 
-        // reconnect all files
-        if (files.length > 0) {
-          await tx.delete(orders_to_files).where(
-            and(
-              eq(orders_to_files.orderId, id),
-              inArray(
-                orders_to_files.fileId,
-                files.map((v) => v.fileId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_files).values(files);
-        }
-        // reconnect all emails
-        if (emails.length > 0) {
-          await tx.delete(orders_to_email_messages).where(
-            and(
-              eq(orders_to_email_messages.orderId, id),
-              inArray(
-                orders_to_email_messages.emailMessagesId,
-                emails.map((v) => v.emailMessagesId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_email_messages).values(emails);
-        }
-        // reconnect all employees
-        if (employees.length > 0) {
-          await tx.delete(orders_to_users).where(
-            and(
-              eq(orders_to_users.orderId, id),
-              inArray(
-                orders_to_users.userId,
-                employees.map((v) => v.userId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_users).values(employees);
-        }
-        // reconnect all products
-        if (products.length > 0) {
-          await tx.delete(orders_to_products).where(
-            and(
-              eq(orders_to_products.orderId, id),
-              inArray(
-                orders_to_products.productId,
-                products.map((v) => v.productId),
-              ),
-            ),
-          );
-          await tx.insert(archive_orders_to_products).values(products);
-        }
+      const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
 
-        // change all spreadsheets
-        await tx
-          .update(spreadsheetsSchema)
-          .set({ orderId: null, archiveOrderId: newOrderData[0].id });
+      const search = queryParam
+        ? keys.map((key) =>
+            ilike(orders[key as keyof typeof orders.$inferSelect], queryParam),
+          )
+        : [];
+      const results = await ctx.db
+        .select()
+        .from(orders)
+        .where(
+          and(
+            queryParam
+              ? or(...search)
+              : excludeKey && excludeValue
+                ? not(
+                    ilike(
+                      orders[excludeKey as keyof typeof orders.$inferSelect],
+                      `${excludeValue}%`,
+                    ),
+                  )
+                : undefined,
+            eq(orders.isArchived, isArchived),
+          ),
+        )
+        .limit(itemsPerPage)
+        .offset((currentPage - 1) * itemsPerPage)
+        .orderBy(
+          (sort === "asc" ? asc : desc)(
+            orders[sortColumn as keyof typeof orders.$inferSelect],
+          ),
+        );
+      // console.log(results);
+      const totalItems = await ctx.db
+        .select({ count: sql<number>`count(*)` })
+        .from(orders);
 
-        // delete original order
-        await tx.delete(orders).where(eq(orders.id, id));
-        return newOrderData;
-      });
+      return {
+        results,
+        totalItems: totalItems?.[0]?.count ?? 0,
+      };
     }),
 });

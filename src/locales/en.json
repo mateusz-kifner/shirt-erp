@@ -10,6 +10,7 @@
   "remove_row": "Remove row",
   "cancel": "Cancel",
   "sign_in": "Sign In",
+  "sign_in_error": "Sign In error",
   "sign_out": "Sign Out",
   "light_theme": "Light theme",
   "dark_theme": "Dark theme",
@@ -36,6 +37,10 @@
   "expense": {
     "singular": "expense",
     "plural": "expenses"
+  },
+  "global-properties": {
+    "singular": "Global properties",
+    "plural": "Global properties"
   },
   "log": {
     "singular": "log",
@@ -110,5 +115,23 @@
   "credentials": "credentials",
   "with": "with",
   "to": "to",
-  "manage": "Manage"
+  "manage": "Manage",
+  "enter": "Enter",
+  "home": "Go home",
+  "template": "Szablon",
+  "streetName": "Street name",
+  "streetNumber": "No. building",
+  "apartmentNumber": "No. apartment",
+  "secondLine": "Other",
+  "city": "City",
+  "province": "Province",
+  "postCode": "Post code",
+  "not_set": "⸺",
+  "screen_printing": "Screen Printing",
+  "foil": "Foil",
+  "dtf": "DTF",
+  "other": "Other",
+  "shipping": "Shipping",
+  "in_person": "In person",
+  "delivery": "Delivery"
 }

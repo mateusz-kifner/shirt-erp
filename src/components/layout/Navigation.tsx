@@ -12,37 +12,26 @@ import navigationData from "./navigationData";
 
 function Navigation() {
   const router = useRouter();
-  const {
-    navigationCollapsed,
-    toggleNavigationCollapsed,
-    debug,
-    mobileOpen,
-    setMobileOpen,
-  } = useUserContext();
+  const { debug, mobileOpen, setMobileOpen } = useUserContext();
   const isMobile = useIsMobile();
 
   return (
     <div
       className={cn(
-        "fixed left-0  flex flex-col  border-r-[1px]  border-stone-400 bg-white  transition-all dark:border-stone-600 dark:bg-stone-900",
-        isMobile ? "w-full" : navigationCollapsed ? "w-[5.0625rem]" : "w-64", // 5.0625rem centers circle around button,
-        isMobile && (mobileOpen ? "translate-x-0" : " -translate-x-full"),
+        "fixed left-0 flex flex-col border-r bg-white transition-all  dark:bg-stone-900",
         isMobile
-          ? "top-2 z-[99999] h-[calc(100vh-1rem)]"
-          : "top-14  h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] justify-between",
+          ? "top-2 z-[99999] h-[calc(100vh-1rem)] w-full"
+          : "top-14  h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)] w-[5.5rem] justify-between",
+        isMobile && (mobileOpen ? "translate-x-0" : " -translate-x-full"),
       )}
     >
       <ScrollArea>
-        <div className="flex  flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <div
             className={cn(
-              " px-3 py-1",
-              isMobile ? "grid grid-cols-3" : "flex flex-col gap-2 py-3",
-              isMobile
-                ? "w-full"
-                : navigationCollapsed
-                ? "w-[5.0625rem]"
-                : "w-64",
+              " py-1",
+              isMobile ? "grid grid-cols-3" : "flex flex-col gap-2 py-2",
+              isMobile ? "w-full" : "w-[5.5rem]",
               isMobile && "pt-10 ",
             )}
           >
@@ -56,7 +45,6 @@ function Navigation() {
                     //   !biggerThanSM && toggleNavigationCollapsed()
                     // }}
                     active={val.entryName === router.pathname.split("/")[2]}
-                    small={isMobile}
                     onClick={() => {
                       setMobileOpen(false);
                     }}
@@ -64,14 +52,10 @@ function Navigation() {
                 ),
             )}
           </div>
-          {isMobile && <Separator />}
-          <div className="flex flex-col gap-2 px-3 py-1" id="MobileMenu"></div>
-          {isMobile && <Separator />}
-          <div className="flex flex-col gap-2" id="MobileMenuPinned"></div>
         </div>
       </ScrollArea>
 
-      {isMobile ? (
+      {isMobile && (
         <Button
           variant="ghost"
           size="icon"
@@ -81,24 +65,6 @@ function Navigation() {
           <IconX className="h-8 w-8 md:h-6 md:w-6" />
           <span className="sr-only">Close</span>
         </Button>
-      ) : (
-        <div className=" relative flex  w-full flex-col items-center justify-center  gap-2 p-2">
-          <Separator />
-          <Button
-            size="icon"
-            variant="ghost"
-            className="h-12 w-12 rounded-full"
-            onClick={() => {
-              toggleNavigationCollapsed();
-            }}
-          >
-            {navigationCollapsed ? (
-              <IconChevronRight className="stroke-stone-600 dark:stroke-gray-200" />
-            ) : (
-              <IconChevronLeft className="stroke-stone-600 dark:stroke-gray-200" />
-            )}
-          </Button>
-        </div>
       )}
     </div>
   );

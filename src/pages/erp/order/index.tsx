@@ -23,11 +23,14 @@ import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import {
+  IconBuildingFactory2,
+  IconCash,
   IconCheck,
   IconColorSwatch,
   IconDotsVertical,
   IconList,
   IconMail,
+  IconMoneybag,
   IconNotebook,
   IconPlus,
   IconRobot,
@@ -37,6 +40,11 @@ import {
 } from "@tabler/icons-react";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
+import { useLoaded } from "@/hooks/useLoaded";
+import { Key } from "@/components/editable/Editable";
+import OrderClientView from "@/page-components/erp/order/OrderClientView";
+import { IconAddressBook } from "@tabler/icons-react";
+import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
 
 const entryName = "order";
 
@@ -46,10 +54,28 @@ const OrdersPage: NextPage = () => {
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { data: orderData } = api.order.getById.useQuery(id as number, {
-    enabled: id !== null,
+  const { data: orderData, refetch } = api.order.getById.useQuery(
+    id as number,
+    {
+      enabled: id !== null,
+    },
+  );
+  const isLoaded = useLoaded();
+
+  const { mutateAsync: update } = api.order.update.useMutation({
+    onSuccess: () => {
+      refetch().catch((err) => console.log(err));
+    },
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const apiUpdate = (key: Key, val: any) => {
+    setStatus("loading");
+    if (!isLoaded) return;
+    if (!orderData) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    update({ id: orderData.id, [key]: val }).catch(console.log);
+  };
   const { mutateAsync: createSpreadsheetMutation } =
     api.spreadsheet.create.useMutation({});
 
@@ -67,6 +93,8 @@ const OrdersPage: NextPage = () => {
 
   const childrenMetadata = [
     { label: "Właściwości", icon: IconNotebook },
+    { label: "Kontakt", icon: IconAddressBook },
+    { label: "Produkcja", icon: IconBuildingFactory2 },
     { label: "E-maile", icon: IconMail },
     ...(orderData && Array.isArray(orderData?.spreadsheets)
       ? orderData.spreadsheets.map((sheet, index) => ({
@@ -75,17 +103,6 @@ const OrdersPage: NextPage = () => {
         }))
       : []),
   ];
-
-  const apiUpdate = (key: string, val: any) => {
-    setStatus("loading");
-    // update({ [key]: val } as Partial<OrderType>)
-    //   .then((val: any) => {
-    //     setStatus("success")
-    //   })
-    //   .catch((err: any) => {
-    //     setStatus("error")
-    //   })
-  };
 
   console.log(orderData?.products);
   const metadata = orderData
@@ -211,7 +228,7 @@ const OrdersPage: NextPage = () => {
     <>
       <Workspace
         cacheKey={entryName}
-        navigationMetadata={[{ label: "Lista zamówień", icon: IconList }]}
+        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={
           id !== null
             ? [
@@ -237,12 +254,24 @@ const OrdersPage: NextPage = () => {
             />
           </div>
         }
+        onChange={() => refetch()}
       >
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4 ">
             <OrderEditable id={id} key={`${uuid}order:${id}`} />
           </div>
         )}
+
+        <OrderClientView
+          orderData={orderData}
+          orderApiUpdate={apiUpdate}
+          refetch={refetch}
+        />
+        <OrderProductionView
+          orderData={orderData}
+          orderApiUpdate={apiUpdate}
+          refetch={refetch}
+        />
         {orderData && (
           <div className="relative p-4">
             <OrderMessagesView order={orderData as any} />

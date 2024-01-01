@@ -3,6 +3,7 @@ import { type CSSProperties } from "react";
 
 import { useUserContext } from "@/context/userContext";
 import type EditableInput from "@/schema/EditableInput";
+import { useEditableContext } from "./Editable";
 
 interface EditableDebugInfoProps extends EditableInput<string> {
   maxLength?: number;
@@ -22,12 +23,13 @@ const EditableDebugInfo = (props: EditableDebugInfoProps) => {
     rightSection,
     keyName,
     ...moreProps
-  } = props;
+  } = useEditableContext(props);
   const { debug } = useUserContext();
 
   return debug ? (
     <div {...moreProps}>
-      {label} {value}
+      <span className="text-yellow-800 dark:text-yellow-400 pr-2">{label}</span>
+      {value}
     </div>
   ) : null;
 };

@@ -9,10 +9,10 @@ import {
   forwardRef,
 } from "react";
 
-import { toast } from "@/hooks/useToast";
 import { cn } from "@/utils/cn";
 import Button from "./Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
+import { toast } from "sonner";
 
 export interface LabelProps
   extends ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,
@@ -48,8 +48,7 @@ const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(
             className="ml-1 h-5 w-5"
             onClick={() => {
               clipboard.copy(copyValue);
-              toast({
-                title: "Skopiowano do schowka",
+              toast("Skopiowano do schowka", {
                 description: copyValue,
               });
             }}

@@ -17,7 +17,7 @@ import * as email_messages_to_files from "./schema/email_messages_to_files";
 import * as orders_to_email_messages from "./schema/orders_to_email_messages";
 import * as orders_to_products from "./schema/orders_to_products";
 import * as orders_to_users from "./schema/orders_to_users";
-import { PgColumn, PgTable } from "drizzle-orm/pg-core";
+import * as global_properties from "./schema/global_properties";
 // import Logger from "js-logger";
 
 const schema = {
@@ -32,6 +32,8 @@ const schema = {
 
   ...expenses,
   ...files,
+
+  ...global_properties,
 
   ...orders_to_email_messages,
   ...orders_to_files,

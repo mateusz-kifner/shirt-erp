@@ -47,6 +47,7 @@ import {
   IconSuperscript,
   IconUnderline,
 } from "@tabler/icons-react";
+import { useEditableContext } from "./Editable";
 
 // TODO: refactor buttons rendering
 
@@ -234,16 +235,18 @@ interface EditableRichTextProps extends EditableInput<string> {
   maxLength?: number;
 }
 
-const EditableRichText = ({
-  label,
-  value,
-  onSubmit,
-  disabled,
-  required,
-  leftSection,
-  rightSection, // maxLength = Number.MAX_SAFE_INTEGER,
-} // keyName,
-: EditableRichTextProps) => {
+const EditableRichText = (props: EditableRichTextProps) => {
+  const {
+    label,
+    value,
+    onSubmit,
+    disabled,
+    required,
+    leftSection,
+    rightSection,
+    // maxLength = Number.MAX_SAFE_INTEGER,
+    // keyName
+  } = useEditableContext(props);
   const uuid = useId();
   const [text, setText] = useState<string>(
     value ? DOMPurify.sanitize(value) : "",
@@ -325,14 +328,14 @@ const EditableRichText = ({
       <DisplayCellExpanding
         leftSection={!focus && leftSection}
         rightSection={!focus && rightSection}
-        className="py-2.5"
+        className="h-auto py-2.5"
         focus={focus}
         disabled={disabled}
       >
         {focus ? (
           <div className="flex flex-grow flex-col">
             <div
-              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-stone-400 px-2 pb-2 dark:border-stone-600 "
+              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-input px-2 pb-2  "
               aria-label="Formatting options"
             >
               {controls.map((value, index) => {
@@ -416,11 +419,12 @@ const EditableRichText = ({
               editor={editor}
               name={"rich_text" + uuid}
               id={"rich_text" + uuid}
+              className="leading-normal "
             />
           </div>
         ) : (
           <div
-            className={`plain-html editor w-full ${
+            className={`plain-html editor w-full leading-normal ${
               text.length === 0 ||
               text === "<p></p>" ||
               text === "<p></p><p></p>"

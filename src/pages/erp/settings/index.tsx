@@ -1,12 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useId, useState } from "react";
 
-import EditableEnum from "@/components/editable/EditableEnum";
-import Button from "@/components/ui/Button";
+import Button, { buttonVariants } from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { appRouter } from "@/server/api/root";
 
 import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
@@ -15,14 +13,23 @@ import {
   IconLogout,
   IconMail,
   IconMoonStars,
+  IconSettings,
   IconSun,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { createServerSideHelpers } from "@trpc/react-query/server";
 import { useRouter } from "next/router";
-import SuperJSON from "superjson";
-import { db } from "@/db";
 import { signOut, useSession } from "next-auth/react";
+import { useExperimentalContext } from "@/context/experimentalContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
+import { IconUser } from "@tabler/icons-react";
+import Link from "next/link";
+import { useFlagContext } from "@/context/flagContext";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -52,8 +59,9 @@ import { signOut, useSession } from "next-auth/react";
 function Settings() {
   const router = useRouter();
   const loaded = useLoaded();
+  const uuid = useId();
   const { data: session } = useSession();
-  // const { locale } = router;
+  const { locale } = router;
   const { data: userData } = api.session.me.useQuery();
   const t = useTranslation();
   const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
@@ -61,6 +69,15 @@ function Settings() {
     key: "remSize",
     defaultValue: 10,
   });
+  const [demoVal, setDemoVal] = useState({ test: "test", date: "" });
+
+  const { toggleExtendedList, extendedList } = useExperimentalContext();
+  const {
+    editableAddressMode,
+    setEditableAddressMode,
+    setMobileOverride,
+    mobileOverride,
+  } = useFlagContext();
 
   useEffect(() => {
     if (loaded) {
@@ -100,31 +117,74 @@ function Settings() {
           </Button>
           <div className="flex flex-grow items-center gap-2">
             <span className="flex-grow">{t.zoom}</span>
-            <Button onClick={() => setRemSize(12)} className="w-12">
+            <Button
+              onClick={() => setRemSize(10)}
+              className="w-8"
+              disabled={remSize === 10}
+            >
+              -3
+            </Button>
+            <Button
+              onClick={() => setRemSize(12)}
+              className="w-8"
+              disabled={remSize === 12}
+            >
               -2
             </Button>
-            <Button onClick={() => setRemSize(14)} className="w-12">
+            <Button
+              onClick={() => setRemSize(14)}
+              className="w-8"
+              disabled={remSize === 14}
+            >
               -1
             </Button>
-            <Button onClick={() => setRemSize(16)} className="w-12">
+            <Button
+              onClick={() => setRemSize(16)}
+              className="w-8"
+              disabled={remSize === 16}
+            >
               0
             </Button>
-            <Button onClick={() => setRemSize(18)} className="w-12">
+            <Button
+              onClick={() => setRemSize(18)}
+              className="w-8"
+              disabled={remSize === 18}
+            >
               1
             </Button>
-            <Button onClick={() => setRemSize(20)} className="w-12">
+            <Button
+              onClick={() => setRemSize(20)}
+              className="w-8"
+              disabled={remSize === 20}
+            >
               2
+            </Button>
+            <Button
+              onClick={() => setRemSize(22)}
+              className="w-8"
+              disabled={remSize === 22}
+            >
+              3
             </Button>
           </div>
           <div className="flex items-center justify-stretch">
             <span className="w-1/2">{t.language}</span>
-            <EditableEnum
-              enum_data={["pl", "en"]}
-              // defaultValue={locale ?? "pl"}
-              defaultValue={"pl"}
+            <Select
+              value={locale ?? "pl"}
               onValueChange={changeLocale}
-              disabled
-            />
+              disabled={true}
+            >
+              <SelectTrigger className="w-1/2">
+                <SelectValue placeholder={`${t.select} ...`} />
+              </SelectTrigger>
+              <SelectContent>
+                {["pl", "en"].map((val, index) => (
+                  <SelectItem value={val} key={`${uuid}:${index}`}>
+                    {(t[val as keyof typeof t] as string | undefined) ?? val}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <Button
             onClick={toggleTheme}
@@ -155,16 +215,87 @@ function Settings() {
           )}
           {(session?.user.role === "manager" ||
             session?.user.role === "admin") && (
-            <Button
-              onClick={() => {
-                void router.push("user");
-              }}
-              leftSection={<IconBug />}
-            >
-              <span className="capitalize"> {t.manage}</span> {t.user.plural}
-            </Button>
+            <>
+              <Button
+                onClick={() => {
+                  void router.push("user");
+                }}
+                leftSection={<IconUser />}
+              >
+                <span className="capitalize"> {t.manage}</span>
+                {t.user.plural}
+              </Button>
+              <Button
+                onClick={() => {
+                  void router.push("/erp/global-properties");
+                }}
+                leftSection={<IconSettings />}
+              >
+                {t["global-properties"].plural}
+              </Button>
+            </>
           )}
-          {debug && <></>}
+
+          <Button
+            onClick={() => {
+              setMobileOverride((prev) =>
+                prev === "auto"
+                  ? "mobile"
+                  : prev === "mobile"
+                    ? "desktop"
+                    : "auto",
+              );
+            }}
+            leftSection={<IconBug />}
+          >
+            Mobile mode: {mobileOverride}
+          </Button>
+          {debug && (
+            <>
+              <Button
+                onClick={() => {
+                  setEditableAddressMode((prev) =>
+                    prev === "popup"
+                      ? "always_visible"
+                      : prev === "always_visible"
+                        ? "extend"
+                        : "popup",
+                  );
+                }}
+                leftSection={<IconBug />}
+              >
+                Address input mode: {editableAddressMode}
+              </Button>
+              <Button
+                onClick={() => {
+                  toggleExtendedList();
+                }}
+                leftSection={<IconBug />}
+              >
+                ExtendedList {extendedList ? "ON" : "OFF"}
+              </Button>
+              <div className="flex gap-2">
+                <Link
+                  className={buttonVariants({ className: "w-1/3" })}
+                  href="/erp/settings/colors"
+                >
+                  Test Colors
+                </Link>
+                <Link
+                  className={buttonVariants({ className: "w-1/3" })}
+                  href="/erp/settings/shadcn"
+                >
+                  Test Basic UI
+                </Link>
+                <Link
+                  className={buttonVariants({ className: "w-1/3" })}
+                  href="/erp/settings/editable"
+                >
+                  Test Form UI
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

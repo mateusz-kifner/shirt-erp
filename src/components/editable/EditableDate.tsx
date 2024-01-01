@@ -17,10 +17,12 @@ import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconCalendar } from "@tabler/icons-react";
 import Calendar from "react-calendar";
+import { useEditableContext } from "./Editable";
 
 type InputDateProps = EditableInput<Date>;
 
 //todo : refactor dates to use string date
+//todo : fix date value
 
 const EditableDate = (props: InputDateProps) => {
   const {
@@ -32,7 +34,7 @@ const EditableDate = (props: InputDateProps) => {
     leftSection,
     rightSection,
     // keyName,
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const router = useRouter();
   const [focus, setFocus] = useState<boolean>(false);
@@ -60,7 +62,7 @@ const EditableDate = (props: InputDateProps) => {
     if (debouncedText.length === 0) {
       setError(false);
       if (value !== null) {
-        onSubmit?.(null);
+        onSubmit?.(undefined);
       }
       return;
     }

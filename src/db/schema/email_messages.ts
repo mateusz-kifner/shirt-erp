@@ -10,10 +10,7 @@ import {
 import { metadata } from "./_metadata";
 import { email_messages_to_files } from "./email_messages_to_files";
 import { files } from "./files";
-import {
-  archive_orders_to_email_messages,
-  orders_to_email_messages,
-} from "./orders_to_email_messages";
+import { orders_to_email_messages } from "./orders_to_email_messages";
 
 export const email_messages = pgTable("email_messages", {
   id: serial("id").primaryKey(),
@@ -44,6 +41,5 @@ export const email_messages_relations = relations(
     }),
     attachments: many(email_messages_to_files),
     orders: many(orders_to_email_messages),
-    archiveOrders: many(archive_orders_to_email_messages),
   }),
 );

@@ -1,26 +1,24 @@
 import { relations, sql } from "drizzle-orm";
-import { pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { boolean, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
-import {
-  archive_orders_to_products,
-  orders_to_products,
-} from "./orders_to_products";
+import { orders_to_products } from "./orders_to_products";
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).unique(),
-  category: varchar("category", { length: 255 }),
-  description: text("description"),
+  category: varchar("category", { length: 255 }).default(""),
+  description: text("description").default(""),
   colors: varchar("colors", { length: 64 })
     .array()
     .default(sql`ARRAY[]::varchar[]`),
   sizes: varchar("sizes", { length: 255 })
     .array()
     .default(sql`ARRAY[]::varchar[]`),
+  isTemplate: boolean("is_template").default(false),
+
   ...metadata,
 });
 
 export const products_relations = relations(products, ({ many }) => ({
   orders: many(orders_to_products),
-  archiveOrders: many(archive_orders_to_products),
 }));

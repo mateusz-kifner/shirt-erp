@@ -1,12 +1,18 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
+import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
+import { useExperimentalContext } from "@/context/experimentalContext";
 import { type User } from "@/schema/userZodSchema";
 import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
 const UserListItem = (props: ListItemProps<User>) => {
   const value = props.value;
+
+  const { extendedList } = useExperimentalContext();
+  const ListItem = extendedList ? DefaultListItemExtended : DefaultListItem;
+
   return (
-    <DefaultListItem
+    <ListItem
       firstElement={value ? truncString(value?.name ?? "", 40) : "⸺"}
       secondElement={value ? truncString(value?.email ?? "", 40) : " "}
       avatarElement={`${value?.name?.[0] ?? ""}${

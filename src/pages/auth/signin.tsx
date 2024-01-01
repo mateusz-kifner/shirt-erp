@@ -78,7 +78,7 @@ export default function SigninPage(
   if (isDemo) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center">
-        <div className="flex w-[30rem] flex-col gap-4 rounded border border-solid border-stone-600 bg-stone-800 p-8">
+        <div className="flex max-w-lg flex-col gap-4 rounded border border-solid border-stone-600 bg-stone-800 p-8">
           <img
             src="https://shirterp.eu/logo.png"
             alt="ShirtERP"
@@ -124,7 +124,11 @@ export default function SigninPage(
           <div key={provider.id} className="">
             {provider.type === "oauth" && (
               <form action={provider.signinUrl} method="POST" className="flex">
-                <input type="hidden" name="csrfToken" value={csrfToken} />
+                <input
+                  type="hidden"
+                  name="csrfToken"
+                  value={csrfToken ?? undefined}
+                />
                 {callbackUrl && (
                   <input type="hidden" name="callbackUrl" value={callbackUrl} />
                 )}
@@ -157,7 +161,11 @@ export default function SigninPage(
                 method="POST"
                 className="flex flex-col gap-4"
               >
-                <input type="hidden" name="csrfToken" value={csrfToken} />
+                <input
+                  type="hidden"
+                  name="csrfToken"
+                  value={csrfToken ?? undefined}
+                />
                 <Input
                   id={`input-email-for-${provider.id}-provider`}
                   autoFocus
@@ -179,7 +187,11 @@ export default function SigninPage(
             )}
             {provider.type === "credentials" && (
               <form action={provider.callbackUrl} method="POST">
-                <input type="hidden" name="csrfToken" value={csrfToken} />
+                <input
+                  type="hidden"
+                  name="csrfToken"
+                  value={csrfToken ?? undefined}
+                />
                 <button type="submit">
                   {t.sign_in} {t.with} {provider.name}
                 </button>
@@ -205,11 +217,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const providers = await getProviders();
+  console.log(providers);
   // console.log(context);
   return {
     props: {
       providers: providers ?? [],
-      csrfToken,
+      csrfToken: csrfToken ?? null,
       error: (context.query?.error ?? null) as SignInErrorTypes | null,
       callbackUrl: context.query?.callbackUrl ?? null,
       email: context.query?.email ?? null,

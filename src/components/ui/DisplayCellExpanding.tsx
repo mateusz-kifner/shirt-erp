@@ -5,7 +5,7 @@ import { displayCellVariants } from "./DisplayCell";
 interface DisplayCellProps extends ComponentProps<"div"> {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
-  children: React.ReactNode;
+  children: ReactNode;
   focus?: boolean;
   disabled?: boolean;
   error?: boolean;
@@ -21,25 +21,11 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
       focus = false,
       error = false,
       className,
-      style,
       ...moreProps
     } = props;
     return (
       <div
-        className={cn(displayCellVariants({ focus, disabled }), className)}
-        style={{
-          backgroundColor: focus
-            ? error
-              ? "#ef4444"
-              : "#0284c7"
-            : "transparent",
-          backgroundImage: focus
-            ? "none"
-            : "radial-gradient(ellipse at top, #292524 0%, #292524 50%, rgba(0,0,0,0) 70%),radial-gradient(ellipse at bottom, #57534e 0%, #57534e 50%, rgba(0,0,0,0) 70%)",
-          backgroundPosition: focus ? "top" : "top, bottom",
-          backgroundRepeat: focus ? "no-repeat" : "no-repeat, no-repeat",
-          ...style,
-        }}
+        className={cn(displayCellVariants(), className)}
         {...moreProps}
         ref={ref}
       >
@@ -53,7 +39,9 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
               {leftSection}
             </div>
           )}
-          <div className="flex flex-grow items-center">{children}</div>
+          <div className="flex flex-grow items-center text-stone-800 dark:text-stone-200">
+            {children}
+          </div>
         </div>
         {!!rightSection && (
           <div

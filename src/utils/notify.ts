@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { toast } from "@/hooks/useToast";
 import Logger from "js-logger";
+import { toast } from "sonner";
 
 // import { showNotification } from "@/lib/notifications";
 
@@ -20,8 +20,7 @@ const notify = (
       (status == "info" || status == "success") &&
       localStorage.getItem("user-debug") === "true"
     ) {
-      toast({
-        title: status,
+      toast(status, {
         description: msg,
       });
     }

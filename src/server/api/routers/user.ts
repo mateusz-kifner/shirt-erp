@@ -6,6 +6,7 @@ import { z } from "zod";
 import { createProcedureGetById, createProcedureSearch } from "../procedures";
 import { TRPCError } from "@trpc/server";
 import { authDBAdapter } from "@/server/auth";
+import { AdapterUser } from "next-auth/adapters";
 
 export const userRouter = createTRPCRouter({
   getById: createProcedureGetById(users),
@@ -15,7 +16,7 @@ export const userRouter = createTRPCRouter({
       const data = await authDBAdapter.createUser?.({
         ...userData,
         emailVerified: new Date(),
-      });
+      } as AdapterUser);
 
       return data;
     }),

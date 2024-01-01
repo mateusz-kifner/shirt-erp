@@ -13,6 +13,7 @@ import preventLeave from "@/utils/preventLeave";
 
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
+import { useEditableContext } from "./Editable";
 
 // TODO: make it editable
 // BUG: clicking on label causes copy onClick to occur.
@@ -31,7 +32,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
     // required,
     collapse = false,
     // keyName,
-  } = props;
+  } = useEditableContext(props);
 
   // let new_props = { ...props }
   // delete new_label
@@ -59,7 +60,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prevDate) {
-        onSubmit && onSubmit(date?.toISOString() ?? null);
+        onSubmit && onSubmit(date?.toISOString() ?? undefined);
         setPrevDate(date);
       }
       window.removeEventListener("beforeunload", preventLeave);
@@ -103,7 +104,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       <Label label={label} copyValue={dayjs(date).format("L LT").toString()} />
       <DisplayCell
         leftSection={<IconCalendar size={18} />}
-        className="border-none text-gray-400 dark:text-stone-600"
+        className="border-none bg-transparent text-gray-400 dark:text-stone-600"
         disabled
       >
         {active ? (

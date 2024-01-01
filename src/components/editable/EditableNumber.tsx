@@ -7,6 +7,8 @@ import { useLoaded } from "@/hooks/useLoaded";
 import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import preventLeave from "@/utils/preventLeave";
+import { useEditableContext } from "./Editable";
+import { cn } from "@/utils/cn";
 
 const isNumRegex = /^[\d|\+|\.|\,]+$/;
 
@@ -37,8 +39,10 @@ const EditableNumber = (props: EditableNumberProps) => {
     fixed = 2,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    data,
     ...moreProps
-  } = props;
+  } = useEditableContext(props);
   const uuid = useId();
   const toText = (num?: number | null) => {
     if (num === null) return "";
@@ -59,7 +63,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     const num = parseFloat(text);
     if (isNaN(num)) {
       if (!isNaN(value ?? NaN)) {
-        onSubmit?.(null);
+        onSubmit?.(undefined);
       }
     } else if (num !== value) {
       onSubmit?.(num);
@@ -143,7 +147,8 @@ const EditableNumber = (props: EditableNumberProps) => {
           required={required}
           readOnly={disabled}
           ref={InputRef}
-          className={`
+          className={cn(
+            `
           data-disabled:text-gray-500
           dark:data-disabled:text-gray-500
           w-full
@@ -156,8 +161,9 @@ const EditableNumber = (props: EditableNumberProps) => {
           text-sm
           outline-none
           focus-visible:border-transparent
-          focus-visible:outline-none
-          ${className ?? ""}`}
+          focus-visible:outline-none`,
+            className,
+          )}
           style={style}
           value={text}
           onFocus={onFocus}

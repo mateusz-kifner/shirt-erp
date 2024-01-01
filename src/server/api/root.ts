@@ -10,9 +10,9 @@ import { searchRouter } from "./routers/search";
 import { emailRouter } from "./routers/email";
 import { expenseRouter } from "./routers/expense";
 import { settingsRouter } from "./routers/settings";
-import { orderArchiveRouter } from "./routers/orderArchive";
 import { adminRouter } from "./routers/admin";
 import { addressRouter } from "./routers/address";
+import { globalPropertiesRouter } from "./routers/global_properties";
 /**
  * This is the primary router for your server.
  *
@@ -27,13 +27,13 @@ export const appRouter = createTRPCRouter({
   settings: settingsRouter,
   client: clientRouter,
   order: orderRouter,
-  "order-archive": orderArchiveRouter,
   spreadsheet: spreadsheetRouter,
   user: userRouter,
   search: searchRouter,
   email: emailRouter,
   expense: expenseRouter,
   admin: adminRouter,
+  "global-properties": globalPropertiesRouter,
 });
 
 // export type definition of API

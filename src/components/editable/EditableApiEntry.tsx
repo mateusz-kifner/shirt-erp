@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState, type CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
@@ -15,13 +13,14 @@ import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
+import { useEditableContext } from "./Editable";
 
-interface EditableApiEntryProps
-  extends EditableInput<{ id?: number; [key: string]: any }> {
+interface EditableApiEntryProps<
+  TEntry extends { id?: number; [key: string]: any },
+> extends EditableInput<TEntry> {
   entryName: string;
   Element: React.ElementType;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
-  copyProvider?: (value: any | null) => string | undefined;
+  copyProvider?: (value: TEntry | null) => string | undefined;
   style?: CSSProperties;
   listProps?: any;
   linkEntry?: boolean;
@@ -29,7 +28,9 @@ interface EditableApiEntryProps
   allowClear?: boolean;
 }
 
-const EditableApiEntry = (props: EditableApiEntryProps) => {
+const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
+  props: EditableApiEntryProps<TEntry>,
+) => {
   const {
     label,
     value,
@@ -41,18 +42,17 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     copyProvider = () => "",
     // style,
     listProps,
-    linkEntry = true,
+    linkEntry,
     helpTooltip,
-    allowClear = false,
+    allowClear,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
-  } = props;
+  } = useEditableContext(props);
 
   const [apiEntry, setApiEntry] = useState<any>(value);
   const [prev, setPrev] = useState<any>(apiEntry);
   const [open, setOpen] = useState<boolean>(false);
   const uuid = useId();
-  // eslint-disable-next-line
   const copyValue = copyProvider(apiEntry);
   const t = useTranslation();
 
@@ -66,8 +66,7 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     onSubmit?.(apiEntry);
     setPrev(apiEntry);
-    // eslint-disable-next-line
-  }, [apiEntry]);
+  }, [apiEntry, onSubmit]);
 
   return (
     <div>
@@ -90,10 +89,8 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
           {entryName ? (
             <div
               key={uuid}
-              className={` relative flex overflow-hidden rounded border border-solid border-transparent ${
-                open
-                  ? "border-sky-600 dark:border-sky-600"
-                  : "border-gray-400 dark:border-stone-600"
+              className={`relative flex overflow-hidden rounded border border-solid ${
+                open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
               <Element
@@ -104,7 +101,6 @@ const EditableApiEntry = (props: EditableApiEntryProps) => {
               {linkEntry && value && value?.id && (
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   <Link
-                    legacyBehavior={false}
                     href={`/erp/${entryName}/${value?.id}`}
                     className={cn(
                       buttonVariants({ size: "icon", variant: "ghost" }),
