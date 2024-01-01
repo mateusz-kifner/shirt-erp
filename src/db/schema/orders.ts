@@ -21,7 +21,7 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).default(""),
   status: varchar("status", { length: 255 }).default("planned"),
-  notes: varchar("notes", { length: 255 }).default(""),
+  notes: varchar("notes", { length: 255 }).default("<p></p>"),
   price: varchar("price", { length: 255 }).default(""),
   isPricePaid: boolean("is_price_paid").default(false),
   isInWarehouse: boolean("is_in_warehouse").default(false),

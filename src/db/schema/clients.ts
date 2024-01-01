@@ -18,7 +18,7 @@ export const clients = pgTable("clients", {
   email: varchar("email", { length: 255 }).default(""),
   phoneNumber: varchar("phone_number", { length: 255 }).default(""),
   companyName: varchar("company_name", { length: 255 }).default(""),
-  notes: text("notes").default(""),
+  notes: text("notes").default("<p></p>"),
   addressId: integer("address_id").references(() => addresses.id, {
     onDelete: "cascade",
   }),
