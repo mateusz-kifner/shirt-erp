@@ -18,6 +18,7 @@ import {
   useEffect,
 } from "react";
 import { useMultiTabsContext } from "./multiTabsContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export interface TabProps extends ComponentPropsWithoutRef<"button"> {
   children?: ReactNode;
@@ -50,6 +51,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     // throw if used standalone
     if (index === undefined)
       throw new Error("MultiTabs Error: Tab was not provided valid index");
+    const isMobile = useIsMobile();
 
     const color =
       index !== undefined
@@ -115,6 +117,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     useEffect(() => {
       if (rect.width > 1) {
         (getTabMaxWidth(index) ?? 0) < rect.width &&
+          !small &&
+          !isMobile &&
           setTabMaxWidth(index, rect.width);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

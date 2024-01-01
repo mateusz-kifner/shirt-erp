@@ -14,7 +14,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { MobileTab } from "./MobileTab";
 import {
   MultiTabsContextProvider,
   useMultiTabsContext,
@@ -30,16 +29,13 @@ interface MultiTabsProps {
 
 function MultiTabs(props: MultiTabsProps) {
   const { children, pinned, pinnedHandler, ...multiTabsState } = props;
-  const portalContainerRef = useRef<HTMLElement | null>(null);
-  const portalMobileContainerRef = useRef<HTMLElement | null>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const [outerRef, outerRect] = useResizeObserver();
 
   const isMobile = useIsMobile();
-  useEffect(() => {
-    portalContainerRef.current = document.querySelector("#HeaderTabs");
-    portalMobileContainerRef.current = document.querySelector("#MobileMenu");
-  }, []);
+  let portalContainer: HTMLElement =
+    globalThis?.document?.querySelector("#HeaderTabs")!;
+  if (!portalContainer) return null;
 
   return (
     <MultiTabsContextProvider
@@ -64,11 +60,7 @@ function MultiTabs(props: MultiTabsProps) {
       {...multiTabsState}
     >
       <Portal
-        container={
-          isMobile
-            ? portalMobileContainerRef.current
-            : portalContainerRef.current
-        }
+        container={portalContainer}
         className="relative overflow-hidden"
         ref={outerRef}
       >
@@ -97,7 +89,6 @@ function MultiTabsContent(props: {
   const { tabsMaxWidth, togglePin, setActive, pinned } = useMultiTabsContext();
   const [small, setSmall] = useState(false);
   const childrenMaxWidth = tabsMaxWidth.reduce((p, n) => p + n, 0);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (parentWidth > 0) {
@@ -112,43 +103,40 @@ function MultiTabsContent(props: {
       {Children.map(children, (child, index) => {
         const isPinned = pinned.indexOf(index) !== -1;
         if (!child) return null;
-        return cloneElement(
-          (isMobile ? <MobileTab /> : child) as ReactElement,
-          {
-            index:
-              typeof (child as { props: Record<string, any> }).props?.index ===
-              "number"
-                ? (child as { props: { index: number } }).props.index
-                : index,
-            onContextMenu: (e: MouseEvent<HTMLButtonElement>) => {
-              e.preventDefault();
-              togglePin(index);
-            },
-            onClick:
-              typeof (child as { props: Record<string, any> }).props
-                ?.onClick === "function"
-                ? (child as { props: { onClick: () => void } }).props.onClick
-                : () => {
-                    !isPinned && setActive(index);
-                  },
-            onMouseDown:
-              typeof (child as { props: Record<string, any> }).props
-                ?.onMouseDown === "function"
-                ? (child as { props: { onMouseDown: () => void } }).props
-                    .onMouseDown
-                : (e: MouseEvent<HTMLButtonElement>) => {
-                    if (e.button === 1) {
-                      (
-                        child as {
-                          props?: { onMiddleClick?: (e: any) => void };
-                        }
-                      ).props?.onMiddleClick?.(e);
-                    }
-                  },
-            small,
-            ...child.props,
+        return cloneElement(child, {
+          index:
+            typeof (child as { props: Record<string, any> }).props?.index ===
+            "number"
+              ? (child as { props: { index: number } }).props.index
+              : index,
+          onContextMenu: (e: MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            togglePin(index);
           },
-        );
+          onClick:
+            typeof (child as { props: Record<string, any> }).props?.onClick ===
+            "function"
+              ? (child as { props: { onClick: () => void } }).props.onClick
+              : () => {
+                  !isPinned && setActive(index);
+                },
+          onMouseDown:
+            typeof (child as { props: Record<string, any> }).props
+              ?.onMouseDown === "function"
+              ? (child as { props: { onMouseDown: () => void } }).props
+                  .onMouseDown
+              : (e: MouseEvent<HTMLButtonElement>) => {
+                  if (e.button === 1) {
+                    (
+                      child as {
+                        props?: { onMiddleClick?: (e: any) => void };
+                      }
+                    ).props?.onMiddleClick?.(e);
+                  }
+                },
+          small,
+          ...child.props,
+        });
       })}
     </>
   );

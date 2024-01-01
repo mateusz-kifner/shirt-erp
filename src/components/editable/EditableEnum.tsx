@@ -65,7 +65,6 @@ const EditableEnum = (props: EditableEnumProps) => {
         value={value}
         onValueChange={(value) => {
           onSubmit?.(value);
-          console.log(value);
         }}
         disabled={disabled}
         {...moreProps}

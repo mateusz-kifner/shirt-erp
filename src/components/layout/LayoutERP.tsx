@@ -10,6 +10,8 @@ function LayoutERP({ children }: PropsWithChildren) {
 
   return (
     <div>
+      <Header />
+
       <main
         className={`${
           isMobile ? "" : "pl-[5.5rem]"
@@ -18,7 +20,6 @@ function LayoutERP({ children }: PropsWithChildren) {
         {children}
       </main>
       <Navigation />
-      <Header />
     </div>
   );
 }

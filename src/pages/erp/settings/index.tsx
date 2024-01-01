@@ -72,7 +72,12 @@ function Settings() {
   const [demoVal, setDemoVal] = useState({ test: "test", date: "" });
 
   const { toggleExtendedList, extendedList } = useExperimentalContext();
-  const { editableAddressMode, setEditableAddressMode } = useFlagContext();
+  const {
+    editableAddressMode,
+    setEditableAddressMode,
+    setMobileOverride,
+    mobileOverride,
+  } = useFlagContext();
 
   useEffect(() => {
     if (loaded) {
@@ -243,6 +248,20 @@ function Settings() {
             leftSection={<IconBug />}
           >
             Address input mode: {editableAddressMode}
+          </Button>
+          <Button
+            onClick={() => {
+              setMobileOverride((prev) =>
+                prev === "auto"
+                  ? "mobile"
+                  : prev === "mobile"
+                    ? "desktop"
+                    : "auto",
+              );
+            }}
+            leftSection={<IconBug />}
+          >
+            Mobile mode: {mobileOverride}
           </Button>
           {debug && (
             <>

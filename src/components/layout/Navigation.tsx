@@ -52,10 +52,6 @@ function Navigation() {
                 ),
             )}
           </div>
-          {isMobile && <Separator />}
-          <div className="flex flex-col gap-2 px-3 py-1" id="MobileMenu"></div>
-          {isMobile && <Separator />}
-          <div className="flex flex-col gap-2" id="MobileMenuPinned"></div>
         </div>
       </ScrollArea>
 

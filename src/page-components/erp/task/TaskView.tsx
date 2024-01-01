@@ -128,16 +128,7 @@ function TaskView(props: TaskViewProps) {
         />
 
         <EditableAddress
-          label={{
-            streetName: "Ulica",
-            streetNumber: "Nr. bloku",
-            apartmentNumber: "Nr. mieszkania",
-            secondLine: "Dodatkowe dane adresata",
-            city: "Miasto",
-            province: "Województwo",
-            postCode: "Kod pocztowy",
-            name: "Address",
-          }}
+          label="Adres"
           keyName="address"
           leftSection={<IconAddressBook />}
           disabled

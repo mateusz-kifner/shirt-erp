@@ -13,6 +13,8 @@ interface FlagEditableAddress {
   setEditableAddressMode: Dispatch<
     SetStateAction<"popup" | "extend" | "always_visible">
   >;
+  mobileOverride?: "auto" | "mobile" | "desktop";
+  setMobileOverride: Dispatch<SetStateAction<"auto" | "mobile" | "desktop">>;
 }
 
 interface FlagContextType extends FlagEditableAddress {}
@@ -27,11 +29,20 @@ export const FlagContextProvider = ({ children }: { children: ReactNode }) => {
     defaultValue: "popup",
   });
 
+  const [mobileOverride, setMobileOverride] = useLocalStorage<
+    "auto" | "mobile" | "desktop"
+  >({
+    key: "flag-mobile-override",
+    defaultValue: "auto",
+  });
+
   return (
     <FlagContext.Provider
       value={{
         editableAddressMode,
         setEditableAddressMode,
+        mobileOverride,
+        setMobileOverride,
       }}
     >
       {children}

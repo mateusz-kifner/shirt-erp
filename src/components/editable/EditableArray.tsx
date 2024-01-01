@@ -69,7 +69,6 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
   };
 
   const onDelete = (key: number) => {
-    console.log("Delete", key);
     handlers.remove(key);
     setUpdate(true);
   };
@@ -89,7 +88,6 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
     }
   }, [update]);
 
-  console.log(values)
 
   if (typeof children === "function" && !isValidElement(children))
     return (
