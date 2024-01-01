@@ -16,7 +16,7 @@ import {
 } from "@/schema/orderZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import getObjectChanges from "@/utils/getObjectChanges";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, inArray, sql, or, not } from "drizzle-orm";
 import { omit } from "lodash";
 
 export const orderRouter = createTRPCRouter({
@@ -412,8 +412,73 @@ export const orderRouter = createTRPCRouter({
       return { ok: true };
     }),
 
-  search: createProcedureSearch(orders),
-  archiveById: employeeProcedure
-    .input(z.number())
-    .mutation(async ({ input: orderId, ctx }) => {}),
+  search: employeeProcedure
+    .input(
+      z.object({
+        keys: z.array(z.string()),
+        query: z.string().optional(),
+        sort: z.enum(["desc", "asc"]).default("desc"),
+        sortColumn: z.string().default("name"),
+        excludeKey: z.string().optional(),
+        excludeValue: z.string().optional(),
+        currentPage: z.number().default(1),
+        itemsPerPage: z.number().default(10),
+        isArchived: z.boolean().default(false),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const {
+        keys,
+        query,
+        sort,
+        sortColumn,
+        excludeKey,
+        excludeValue,
+        currentPage,
+        itemsPerPage,
+        isArchived,
+      } = input;
+
+      const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
+
+      const search = queryParam
+        ? keys.map((key) =>
+            ilike(orders[key as keyof typeof orders.$inferSelect], queryParam),
+          )
+        : [];
+      const results = await ctx.db
+        .select()
+        .from(orders)
+        .where(
+          and(
+            queryParam
+              ? or(...search)
+              : excludeKey && excludeValue
+                ? not(
+                    ilike(
+                      orders[excludeKey as keyof typeof orders.$inferSelect],
+                      `${excludeValue}%`,
+                    ),
+                  )
+                : undefined,
+            eq(orders.isArchived, isArchived),
+          ),
+        )
+        .limit(itemsPerPage)
+        .offset((currentPage - 1) * itemsPerPage)
+        .orderBy(
+          (sort === "asc" ? asc : desc)(
+            orders[sortColumn as keyof typeof orders.$inferSelect],
+          ),
+        );
+      // console.log(results);
+      const totalItems = await ctx.db
+        .select({ count: sql<number>`count(*)` })
+        .from(orders);
+
+      return {
+        results,
+        totalItems: totalItems?.[0]?.count ?? 0,
+      };
+    }),
 });

@@ -1,13 +1,10 @@
 import Editable, { Key } from "@/components/editable/Editable";
-import EditableAddress from "@/components/editable/EditableAddress";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableDate from "@/components/editable/EditableDate";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableEnum from "@/components/editable/EditableEnum";
-import EditableFiles from "@/components/editable/EditableFiles";
-import EditableNumber from "@/components/editable/EditableNumber";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
 import EditableSwitch from "@/components/editable/EditableSwitch";
@@ -19,37 +16,25 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/Tooltip";
-import Wrapper from "@/components/ui/Wrapper";
+
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type ClientWithRelations } from "@/schema/clientZodSchema";
-import { type Product } from "@/schema/productZodSchema";
 import { type User } from "@/schema/userZodSchema";
-import { RouterNames, api } from "@/utils/api";
+import {  api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
-  IconAddressBook,
   IconArchive,
   IconCash,
-  IconCopy,
   IconDotsVertical,
-  IconRefresh,
   IconTrashX,
 } from "@tabler/icons-react";
 import { omit } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { clientListSearchParams } from "../client/ClientList";
-import ClientListItem from "../client/ClientListItem";
-import ProductListItem from "../product/ProductListItem";
+
 import UserListItem from "../user/UserListItem";
 import {
   DropdownMenu,
@@ -87,7 +72,6 @@ function OrderEditable(props: OrderEditableProps) {
     },
   });
   const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
-  const { mutateAsync: archiveById } = api.order.archiveById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
@@ -107,14 +91,6 @@ function OrderEditable(props: OrderEditableProps) {
       .catch(console.log);
   };
 
-  const apiArchive = () => {
-    if (!data) return;
-    archiveById(data.id)
-      .then(() => {
-        void router.push(`/erp/order`);
-      })
-      .catch(console.log);
-  };
 
   // update address if it's not set to client one
   useEffect(() => {
@@ -169,13 +145,14 @@ function OrderEditable(props: OrderEditableProps) {
               >
                 {t.template}
               </DropdownMenuCheckboxItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setDeleteModalOpen(true)}
-                className="flex gap-2 focus:bg-orange-600 focus:text-destructive-foreground dark:focus:bg-orange-800"
+              <DropdownMenuCheckboxItem
+                onClick={() => apiUpdate("isArchived", !data.isArchived)}
+                checked={data.isArchived ?? false}
+                className="focus:bg-orange-600 focus:text-destructive-foreground dark:focus:bg-orange-800"
               >
-                <IconArchive size={18} /> {t.archive} {t[entryName].singular}
-              </DropdownMenuItem>
+                {t.archive}
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => setDeleteModalOpen(true)}
                 className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
@@ -292,21 +269,7 @@ function OrderEditable(props: OrderEditableProps) {
           collapse
         />
       </Editable>
-      <AlertDialog open={archiveModalOpen} onOpenChange={setArchiveModalOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogDescription>
-              {t.archive} {t.order.singular}{" "}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>{t.cancel}</AlertDialogCancel>
-            <AlertDialogAction onClick={apiArchive}>
-              {t.archive}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+
       <AlertDialog open={deleteModalOpen} onOpenChange={setDeleteModalOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
