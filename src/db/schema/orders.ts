@@ -26,7 +26,7 @@ export const orders = pgTable("orders", {
   isPricePaid: boolean("is_price_paid").default(false),
   isInWarehouse: boolean("is_in_warehouse").default(false),
   dateOfCompletion: date("date_of_completion"),
-  dateOfAdmission: date("date_of_admission"),
+  dateOfAdmission: date("date_of_admission").defaultNow(),
   workstationType: varchar("workstation_type", { length: 255 }).default(
     "not_set", // not_set/screen_printing/foil/dtf/other
   ),

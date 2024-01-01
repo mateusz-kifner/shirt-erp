@@ -6,7 +6,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Logger from "js-logger";
 import Head from "next/head";
 
-import AppLayout from "@/components/layout/LayoutERP";
 import { UserContextProvider } from "@/context/userContext";
 import { ExperimentalContextProvider } from "@/context/experimentalContext";
 import { env } from "@/env.mjs";
