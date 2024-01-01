@@ -4,6 +4,7 @@ import { useEffect, useId, useState, type ReactNode } from "react";
 import { useDebouncedValue, useToggle } from "@mantine/hooks";
 import {
   IconArchive,
+  IconArchiveOff,
   IconPlus,
   IconRefresh,
   IconSortAscending,
@@ -15,6 +16,7 @@ import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
 import Button from "./ui/Button";
+import { cn } from "@/utils/cn";
 
 interface ApiListArchiveProps<T = any> {
   entryName: string;
@@ -151,17 +153,20 @@ const ApiListArchive = <T extends { id: number | string }>(
           <Button
             size="icon"
             variant="outline"
-            className="
-            h-9
-            w-9
-            rounded-full
-            p-1 
-         "
+            className={cn(
+              `
+                h-9
+                w-9
+                rounded-full
+                p-1 
+            `,
+              isArchived && "bg-orange-700 hover:bg-orange-700/80",
+            )}
             onClick={() => {
               setIsArchived((v) => !v);
             }}
           >
-            <IconArchive />
+            {isArchived ? <IconArchive /> : <IconArchiveOff />}
           </Button>
 
           <input

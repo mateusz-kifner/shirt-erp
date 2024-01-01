@@ -32,7 +32,7 @@ function OrderProductionView(props: OrderProductionViewProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Rozliczenie</CardTitle>
+        <CardTitle>Produkcja</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 p-4">
         <Editable data={orderData} onSubmit={orderApiUpdate}>
