@@ -8,6 +8,7 @@ import type EditableInput from "@/schema/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import preventLeave from "@/utils/preventLeave";
 import { useEditableContext } from "./Editable";
+import { cn } from "@/utils/cn";
 
 const isNumRegex = /^[\d|\+|\.|\,]+$/;
 
@@ -146,7 +147,8 @@ const EditableNumber = (props: EditableNumberProps) => {
           required={required}
           readOnly={disabled}
           ref={InputRef}
-          className={`
+          className={cn(
+            `
           data-disabled:text-gray-500
           dark:data-disabled:text-gray-500
           w-full
@@ -159,8 +161,9 @@ const EditableNumber = (props: EditableNumberProps) => {
           text-sm
           outline-none
           focus-visible:border-transparent
-          focus-visible:outline-none
-          ${className ?? ""}`}
+          focus-visible:outline-none`,
+            className,
+          )}
           style={style}
           value={text}
           onFocus={onFocus}
