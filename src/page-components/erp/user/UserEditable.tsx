@@ -122,6 +122,7 @@ function UserEditable(props: UserEditableProps) {
         />
 
         <EditableEnum
+          label="Rola"
           keyName="role"
           enum_data={["normal", "employee", "manager", "admin"]}
         />
