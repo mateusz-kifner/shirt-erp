@@ -19,10 +19,10 @@ import { spreadsheets } from "./spreadsheets";
 
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 255 }),
+  name: varchar("name", { length: 255 }).default(""),
   status: varchar("status", { length: 255 }).default("planned"),
-  notes: varchar("notes", { length: 255 }),
-  price: varchar("price", { length: 255 }),
+  notes: varchar("notes", { length: 255 }).default(""),
+  price: varchar("price", { length: 255 }).default(""),
   isPricePaid: boolean("is_price_paid").default(false),
   isInWarehouse: boolean("is_in_warehouse").default(false),
   dateOfCompletion: date("date_of_completion"),
@@ -33,7 +33,7 @@ export const orders = pgTable("orders", {
   pickupMethod: varchar("pickup_method", { length: 255 }).default(
     "not_set", // not_set/shipping/in_person/delivery
   ),
-  workTime: doublePrecision("work_time"),
+  workTime: doublePrecision("work_time").default(0.0),
   clientId: integer("client_id").references(() => clients.id),
   addressId: integer("address_id").references(() => addresses.id, {
     onDelete: "cascade",

@@ -6,8 +6,8 @@ import { orders_to_products } from "./orders_to_products";
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }).unique(),
-  category: varchar("category", { length: 255 }),
-  description: text("description"),
+  category: varchar("category", { length: 255 }).default(""),
+  description: text("description").default(""),
   colors: varchar("colors", { length: 64 })
     .array()
     .default(sql`ARRAY[]::varchar[]`),

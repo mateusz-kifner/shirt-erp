@@ -5,12 +5,12 @@ import { orders } from "./orders";
 
 export const addresses = pgTable("addresses", {
   id: serial("id").primaryKey(),
-  streetName: varchar("street_name", { length: 255 }),
-  streetNumber: varchar("street_number", { length: 255 }),
-  apartmentNumber: varchar("apartment_number", { length: 255 }),
-  secondLine: varchar("second_line", { length: 255 }),
-  postCode: varchar("post_code", { length: 255 }),
-  city: varchar("city", { length: 255 }),
+  streetName: varchar("street_name", { length: 255 }).default(""),
+  streetNumber: varchar("street_number", { length: 255 }).default(""),
+  apartmentNumber: varchar("apartment_number", { length: 255 }).default(""),
+  secondLine: varchar("second_line", { length: 255 }).default(""),
+  postCode: varchar("post_code", { length: 255 }).default(""),
+  city: varchar("city", { length: 255 }).default(""),
   province: varchar("province", { length: 255 }).default("pomorskie"),
 });
 
