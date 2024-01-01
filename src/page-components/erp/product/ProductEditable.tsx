@@ -94,6 +94,7 @@ function ProductEditable(props: ProductEditableProps) {
           <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
             keyName="name"
+            leftSection={data.isTemplate ? "Szablon" : undefined}
             required
             style={{ fontSize: "1.4em" }}
           />

@@ -5,7 +5,6 @@ import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableNumber from "@/components/editable/EditableNumber";
 import EditableObject from "@/components/editable/EditableObject";
 import EditableShortText from "@/components/editable/EditableShortText";
-import EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -85,6 +84,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
           <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
             keyName="name"
+            leftSection={data.isTemplate ? "Szablon" : undefined}
             required
             style={{ fontSize: "1.4em" }}
           />
@@ -112,16 +112,22 @@ function ExpenseEditable(props: ExpenseEditableProps) {
           </DropdownMenu>
         </div>
 
-        <EditableNumber
+        <EditableShortText
           keyName="cost"
           label="Cena"
           leftSection={<IconCash />}
         />
 
-        <EditableArray keyName="expensesData" label="Paragon">
+        <EditableArray keyName="expenseData" label="Paragon">
           <EditableObject>
-            <EditableShortText keyName="name" className="flex-grow" />
-            <EditableNumber leftSection={<IconCash />} keyName="amount" />
+            <div className="flex gap-2">
+              <EditableShortText keyName="name" className="flex-grow" />
+              <EditableNumber
+                leftSection={<IconCash />}
+                keyName="amount"
+                className="w-12"
+              />
+            </div>
           </EditableObject>
         </EditableArray>
 

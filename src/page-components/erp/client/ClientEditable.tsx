@@ -100,6 +100,7 @@ function ClientEditable(props: ClientEditableProps) {
           <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
             keyName="username"
+            leftSection={data.isTemplate ? "Szablon" : undefined}
             required
             style={{ fontSize: "1.4em" }}
           />

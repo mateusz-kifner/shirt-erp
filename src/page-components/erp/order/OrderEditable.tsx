@@ -91,6 +91,7 @@ function OrderEditable(props: OrderEditableProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
+    console.log(key, val);
     if (!isLoaded) return;
     if (!data) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -145,6 +146,7 @@ function OrderEditable(props: OrderEditableProps) {
         <div className="flex gap-2">
           <RefetchButton onClick={() => void refetch()} />
           <EditableShortText
+            leftSection={data.isTemplate ? "Szablon" : undefined}
             keyName="name"
             required
             style={{ fontSize: "1.4em" }}
@@ -221,6 +223,7 @@ function OrderEditable(props: OrderEditableProps) {
           label="W magazynie: "
           variant="color"
         />
+        <EditableDate keyName="dateOfAdmission" label="Data przyjecia" />
         <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
         <EditableFiles keyName="files" label="Pliki" />
         <EditableApiEntry
@@ -287,7 +290,7 @@ function OrderEditable(props: OrderEditableProps) {
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: Product) =>
+            copyProvider={(value: Product | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
@@ -298,7 +301,7 @@ function OrderEditable(props: OrderEditableProps) {
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: User) =>
+            copyProvider={(value: User | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
