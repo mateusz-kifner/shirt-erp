@@ -125,6 +125,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
               <Button
                 onClick={() => {
                   setOpen(false);
+                  //@ts-ignore
                   onSubmit?.(null);
                 }}
                 leftSection={<IconTrashX size={12} />}

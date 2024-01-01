@@ -24,7 +24,7 @@ function AuthErrorPage(props: AuthErrorPageProps) {
           onClick={() => {
             localStorage.clear();
             sessionStorage.clear();
-            signOut({ callbackUrl: "/" });
+            signOut({ callbackUrl: "/" }).catch(console.log);
           }}
         >
           {t.home}

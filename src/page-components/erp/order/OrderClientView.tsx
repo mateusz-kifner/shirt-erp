@@ -43,7 +43,7 @@ interface OrderClientViewProps {
 }
 
 function OrderClientView(props: OrderClientViewProps) {
-  const { orderData, orderApiUpdate } = props;
+  const { orderData, orderApiUpdate, refetch } = props;
 
   const clientId = orderData?.clientId ?? null;
   const addressId = orderData?.addressId ?? null;
@@ -51,7 +51,7 @@ function OrderClientView(props: OrderClientViewProps) {
   const t = useTranslation();
   const isLoaded = useLoaded();
 
-  const { data, refetch } = api.client.getById.useQuery(clientId as number, {
+  const { data } = api.client.getById.useQuery(clientId as number, {
     enabled: clientId !== null,
   });
 
@@ -68,7 +68,8 @@ function OrderClientView(props: OrderClientViewProps) {
 
   const { mutateAsync: updateAddress } = api.address.update.useMutation({
     onSuccess: () => {
-      refetch().catch((err) => console.log(err));
+      refetch?.();
+      // .catch((err) => console.log(err));
     },
   });
 

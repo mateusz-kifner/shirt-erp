@@ -254,7 +254,9 @@ const OrdersPage: NextPage = () => {
             />
           </div>
         }
-        onChange={() => refetch()}
+        onChange={() => {
+          void refetch();
+        }}
       >
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4 ">
@@ -265,12 +267,16 @@ const OrdersPage: NextPage = () => {
         <OrderClientView
           orderData={orderData}
           orderApiUpdate={apiUpdate}
-          refetch={refetch}
+          refetch={() => {
+            void refetch();
+          }}
         />
         <OrderProductionView
           orderData={orderData}
           orderApiUpdate={apiUpdate}
-          refetch={refetch}
+          refetch={() => {
+            void refetch();
+          }}
         />
         {orderData && (
           <div className="relative p-4">

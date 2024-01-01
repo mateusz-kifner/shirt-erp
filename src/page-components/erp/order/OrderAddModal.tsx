@@ -73,9 +73,9 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
                 ...(data.template ? omit(data.template, "id") : {}),
                 name: data.orderName,
               } as OrderWithoutRelations;
-              if (data.template?.address) {
-                newOrder.address = omit(data.template.address, "id");
-              }
+              // if (data.template?.address) {
+              //   newOrder.address = omit(data.template.address, "id");
+              // }
               createOrder(newOrder)
                 .then((data) => {
                   onClose(data.id);

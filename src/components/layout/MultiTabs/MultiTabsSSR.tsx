@@ -33,7 +33,8 @@ function MultiTabs(props: MultiTabsProps) {
   const [outerRef, outerRect] = useResizeObserver();
 
   const isMobile = useIsMobile();
-  let portalContainer: HTMLElement =
+  const portalContainer: HTMLElement =
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     globalThis?.document?.querySelector("#HeaderTabs")!;
   if (!portalContainer) return null;
 

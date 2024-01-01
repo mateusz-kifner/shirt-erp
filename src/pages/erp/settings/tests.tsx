@@ -1,4 +1,3 @@
-import EditableArray2 from "@/components/editable/EditableArray2";
 import EditableShortText from "@/components/editable/EditableShortText";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { useId, useState } from "react";

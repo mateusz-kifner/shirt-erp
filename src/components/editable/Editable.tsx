@@ -37,6 +37,7 @@ export function useEditableContextWithoutOverride<
   T extends Record<string, any>,
 >(): EditableContextType<T> {
   const state = useContext(EditableContext);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return state;
 }
 
@@ -47,7 +48,7 @@ export function useEditableContext<
     keyName?: Key;
     value?: TValue;
   },
-  TValue extends any = any, // Need this to coerce onSubmit to have proper value
+  TValue = any, // Need this to coerce onSubmit to have proper value
 >(props: T) {
   const {
     data: data_props,
