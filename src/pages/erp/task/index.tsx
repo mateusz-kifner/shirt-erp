@@ -90,7 +90,7 @@ const TasksPage = () => {
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        navigationMetadata={[{ label: "Lista zadań", icon: IconList }]}
+        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={id !== null ? childrenMetadata : []}
         navigation={
           <div className="relative flex flex-col gap-2 p-4">

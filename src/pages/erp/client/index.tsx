@@ -21,7 +21,7 @@ const ClientsPage = () => {
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        navigationMetadata={[{ label: "Lista klientów", icon: IconList }]}
+        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={
           id !== null ? [{ label: "Właściwości", icon: IconNotebook }] : []
         }

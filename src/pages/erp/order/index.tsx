@@ -211,7 +211,7 @@ const OrdersPage: NextPage = () => {
     <>
       <Workspace
         cacheKey={entryName}
-        navigationMetadata={[{ label: "Lista zamówień", icon: IconList }]}
+        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={
           id !== null
             ? [

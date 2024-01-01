@@ -21,7 +21,7 @@ function ExpensePage(props: ExpensePageProps) {
     <div className="flex gap-4">
       <Workspace
         cacheKey={entryName}
-        navigationMetadata={[{ label: "Lista wydatków", icon: IconList }]}
+        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={[{ label: "Właściwości", icon: IconNotebook }]}
         navigation={
           <div className="relative p-4">
