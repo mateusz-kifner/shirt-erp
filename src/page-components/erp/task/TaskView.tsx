@@ -119,6 +119,7 @@ function TaskView(props: TaskViewProps) {
         <EditableFiles keyName="files" label="Pliki" disabled />
         <EditableApiEntry
           keyName="client"
+          label="Klient"
           entryName="client"
           linkEntry
           allowClear
@@ -139,7 +140,7 @@ function TaskView(props: TaskViewProps) {
             linkEntry
             entryName="product"
             Element={ProductListItem}
-            copyProvider={(value: Product) =>
+            copyProvider={(value: Product | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
             allowClear
@@ -150,7 +151,7 @@ function TaskView(props: TaskViewProps) {
             linkEntry
             entryName="user"
             Element={UserListItem}
-            copyProvider={(value: { username?: string }) =>
+            copyProvider={(value: { username?: string } | null) =>
               value?.username ? truncString(value.username, 40) : undefined
             }
             allowClear
