@@ -335,7 +335,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
         {focus ? (
           <div className="flex flex-grow flex-col">
             <div
-              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-stone-400 px-2 pb-2 dark:border-stone-600 "
+              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-input px-2 pb-2  "
               aria-label="Formatting options"
             >
               {controls.map((value, index) => {

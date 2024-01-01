@@ -70,7 +70,7 @@ function OrderClientView(props: OrderClientViewProps) {
       <CardHeader>
         <CardTitle>Klient</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
+      <CardContent className="flex flex-col gap-3 p-4">
         <Editable data={orderData} onSubmit={orderApiUpdate}>
           <EditableDebugInfo label="ID: " keyName="id" />
           <EditableApiEntryId

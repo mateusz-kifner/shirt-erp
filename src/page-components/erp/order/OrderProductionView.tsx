@@ -34,7 +34,7 @@ function OrderProductionView(props: OrderProductionViewProps) {
       <CardHeader>
         <CardTitle>Rozliczenie</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-3">
+      <CardContent className="flex flex-col gap-3 p-4">
         <Editable data={orderData} onSubmit={orderApiUpdate}>
           <EditableDebugInfo label="ID: " keyName="id" />
           <EditableEnum
@@ -49,12 +49,12 @@ function OrderProductionView(props: OrderProductionViewProps) {
               "rejected",
             ]}
           />
+          <EditableRichText label="Notatki" keyName="notes" />
           <EditableEnum
             label="Typ druku"
             keyName="workstationType"
             enum_data={["not_set", "screen_printing", "foil", "dtf", "other"]}
           />
-          <EditableRichText label="Notatki" keyName="notes" />
 
           <EditableSwitch
             keyName="isInWarehouse"

@@ -185,6 +185,20 @@ function OrderEditable(props: OrderEditableProps) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+        <EditableEnum
+            label="Status"
+            keyName="status"
+            enum_data={[
+              "planned",
+              "accepted",
+              "in_production",
+              "wrapped",
+              "sent",
+              "rejected",
+            ]}
+          />
+
+        <EditableRichText label="Notatki" keyName="notes" />
         <EditableShortText
           keyName="price"
           label="Cena"
@@ -195,8 +209,6 @@ function OrderEditable(props: OrderEditableProps) {
           label="Cena zapłacona: "
           variant="color"
         />
-
-        <EditableRichText label="Notatki" keyName="notes" />
 
         <EditableDate keyName="dateOfAdmission" label="Data przyjecia" />
         <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
