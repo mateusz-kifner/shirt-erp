@@ -20,19 +20,24 @@ import EditableNumber from "@/components/editable/EditableNumber";
 import { truncString } from "@/utils/truncString";
 import ProductListItem from "../product/ProductListItem";
 import EditableRichText from "@/components/editable/EditableRichText";
+import RefetchButton from "@/components/ui/RefetchButton";
 interface OrderProductionViewProps {
   orderApiUpdate: (key: string | number, value: any) => void;
   orderData?: OrderWithoutRelations;
+  refetch?: () => void;
 }
 
 function OrderProductionView(props: OrderProductionViewProps) {
-  const { orderData, orderApiUpdate } = props;
+  const { orderData, orderApiUpdate, refetch } = props;
   if (orderData === undefined) return <div>Loading ...</div>;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Produkcja</CardTitle>
+        <CardTitle className="flex items-center gap-3">
+          <RefetchButton onClick={() => refetch?.()} />
+          Produkcja
+        </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-3 p-4">
         <Editable data={orderData} onSubmit={orderApiUpdate}>

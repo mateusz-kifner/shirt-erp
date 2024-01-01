@@ -20,7 +20,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useClickOutside } from "@mantine/hooks";
 import { addressToString } from "@/utils/addressToString";
 
-const provinces = [
+export const provinces = [
   "dolnośląskie",
   "kujawsko-pomorskie",
   "lubelskie",

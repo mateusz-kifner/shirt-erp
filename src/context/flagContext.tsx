@@ -26,7 +26,7 @@ export const FlagContextProvider = ({ children }: { children: ReactNode }) => {
     "popup" | "extend" | "always_visible"
   >({
     key: "flag-editable-address-mode",
-    defaultValue: "popup",
+    defaultValue: "always_visible",
   });
 
   const [mobileOverride, setMobileOverride] = useLocalStorage<

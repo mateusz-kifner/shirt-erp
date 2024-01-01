@@ -36,6 +36,7 @@ interface WorkspaceProps {
   navigationMetadata?: WorkspaceItemMetadata[];
   childrenMetadata?: WorkspaceItemMetadata[];
   children?: ReactNode;
+  onChange?: () => void;
 }
 
 const Workspace = ({
@@ -44,6 +45,7 @@ const Workspace = ({
   navigationMetadata,
   childrenMetadata,
   children,
+  onChange,
 }: WorkspaceProps) => {
   // tools
   const uuid = useId();
@@ -114,6 +116,10 @@ const Workspace = ({
     >
       <MultiTabs
         {...multiTabsState}
+        setActive={(v) => {
+          onChange?.();
+          multiTabsState.setActive(v);
+        }}
         key={
           childrenMetadata
             ? childrenMetadata.reduce((prev, next) => prev + next.label, uuid)

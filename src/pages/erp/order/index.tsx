@@ -254,6 +254,7 @@ const OrdersPage: NextPage = () => {
             />
           </div>
         }
+        onChange={() => refetch()}
       >
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4 ">
@@ -261,8 +262,16 @@ const OrdersPage: NextPage = () => {
           </div>
         )}
 
-        <OrderClientView orderData={orderData} orderApiUpdate={apiUpdate} />
-        <OrderProductionView orderData={orderData} orderApiUpdate={apiUpdate} />
+        <OrderClientView
+          orderData={orderData}
+          orderApiUpdate={apiUpdate}
+          refetch={refetch}
+        />
+        <OrderProductionView
+          orderData={orderData}
+          orderApiUpdate={apiUpdate}
+          refetch={refetch}
+        />
         {orderData && (
           <div className="relative p-4">
             <OrderMessagesView order={orderData as any} />

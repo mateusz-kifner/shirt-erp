@@ -235,20 +235,7 @@ function Settings() {
               </Button>
             </>
           )}
-          <Button
-            onClick={() => {
-              setEditableAddressMode((prev) =>
-                prev === "popup"
-                  ? "always_visible"
-                  : prev === "always_visible"
-                    ? "extend"
-                    : "popup",
-              );
-            }}
-            leftSection={<IconBug />}
-          >
-            Address input mode: {editableAddressMode}
-          </Button>
+
           <Button
             onClick={() => {
               setMobileOverride((prev) =>
@@ -265,6 +252,20 @@ function Settings() {
           </Button>
           {debug && (
             <>
+              <Button
+                onClick={() => {
+                  setEditableAddressMode((prev) =>
+                    prev === "popup"
+                      ? "always_visible"
+                      : prev === "always_visible"
+                        ? "extend"
+                        : "popup",
+                  );
+                }}
+                leftSection={<IconBug />}
+              >
+                Address input mode: {editableAddressMode}
+              </Button>
               <Button
                 onClick={() => {
                   toggleExtendedList();

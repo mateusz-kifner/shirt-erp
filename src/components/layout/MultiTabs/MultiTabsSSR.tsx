@@ -90,7 +90,6 @@ function MultiTabsContent(props: {
   const [small, setSmall] = useState(false);
   const childrenMaxWidth =
     tabsMaxWidth.reduce((p, n) => p + n, 0) + tabsMaxWidth.length * 32;
-  console.log(childrenMaxWidth, parentWidth, tabsMaxWidth);
 
   useEffect(() => {
     if (parentWidth > 0) {
