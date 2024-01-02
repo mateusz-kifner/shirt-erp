@@ -23,7 +23,7 @@ import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type ClientWithRelations } from "@/schema/clientZodSchema";
 import { type User } from "@/schema/userZodSchema";
-import {  api } from "@/utils/api";
+import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {
   IconArchive,
@@ -90,7 +90,6 @@ function OrderEditable(props: OrderEditableProps) {
       })
       .catch(console.log);
   };
-
 
   // update address if it's not set to client one
   useEffect(() => {
@@ -163,17 +162,17 @@ function OrderEditable(props: OrderEditableProps) {
           </DropdownMenu>
         </div>
         <EditableEnum
-            label="Status"
-            keyName="status"
-            enum_data={[
-              "planned",
-              "accepted",
-              "in_production",
-              "wrapped",
-              "sent",
-              "rejected",
-            ]}
-          />
+          label="Status"
+          keyName="status"
+          enum_data={[
+            "planned",
+            "accepted",
+            "in_production",
+            "wrapped",
+            "sent",
+            "rejected",
+          ]}
+        />
 
         <EditableRichText label="Notatki" keyName="notes" />
         <EditableShortText
@@ -186,7 +185,11 @@ function OrderEditable(props: OrderEditableProps) {
           label="Cena zapłacona: "
           variant="color"
         />
-
+        <EditableEnum
+          label="Rozliczenie"
+          keyName="settlement"
+          enum_data={["not_set", "invoice", "receipt"]}
+        />
         <EditableDate keyName="dateOfAdmission" label="Data przyjecia" />
         <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
         {/* <EditableApiEntry

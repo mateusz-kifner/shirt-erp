@@ -133,5 +133,7 @@
   "other": "Inne",
   "shipping": "Wysyłka",
   "in_person": "Odbiór własny",
-  "delivery": "Dostawa"
+  "delivery": "Dostawa",
+  "invoice": "Faktura",
+  "receipt": "Paragon"
 }

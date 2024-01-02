@@ -30,7 +30,7 @@ import RefetchButton from "@/components/ui/RefetchButton";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
-import { IconDotsVertical, IconTrashX } from "@tabler/icons-react";
+import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -138,6 +138,11 @@ function ProductEditable(props: ProductEditableProps) {
             "kubek",
             "inne",
           ]}
+        />
+        <EditableShortText
+          keyName="unitPrice"
+          label="Cena jednostkowa"
+          leftSection={<IconCash />}
         />
         <EditableRichText label="Opis" keyName="description" maxLength={4095} />
         <EditableFiles keyName="previewImages" label="Zdjęcia" maxCount={10} />

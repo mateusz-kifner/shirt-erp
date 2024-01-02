@@ -113,6 +113,7 @@ function OrderClientView(props: OrderClientViewProps) {
           <EditableApiEntryId
             keyName="clientId"
             entryName="client"
+            label="Klient"
             linkEntry
             allowClear
             listProps={clientListSearchParams}

@@ -60,7 +60,11 @@ function OrderProductionView(props: OrderProductionViewProps) {
             keyName="workstationType"
             enum_data={["not_set", "screen_printing", "foil", "dtf", "other"]}
           />
-
+          <EditableSwitch
+            keyName="isProductOrdered"
+            label="Koszulki zamówione: "
+            variant="color"
+          />
           <EditableSwitch
             keyName="isInWarehouse"
             label="W magazynie: "

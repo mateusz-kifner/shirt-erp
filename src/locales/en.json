@@ -133,5 +133,7 @@
   "other": "Other",
   "shipping": "Shipping",
   "in_person": "In person",
-  "delivery": "Delivery"
+  "delivery": "Delivery",
+  "invoice": "Invoice",
+  "receipt": "Receipt"
 }

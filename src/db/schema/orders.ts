@@ -25,6 +25,7 @@ export const orders = pgTable("orders", {
   price: varchar("price", { length: 255 }).default(""),
   isPricePaid: boolean("is_price_paid").default(false),
   isInWarehouse: boolean("is_in_warehouse").default(false),
+  isProductOrdered: boolean("is_product_ordered").default(false),
   dateOfCompletion: date("date_of_completion"),
   dateOfAdmission: date("date_of_admission").defaultNow(),
   workstationType: varchar("workstation_type", { length: 255 }).default(
@@ -32,6 +33,9 @@ export const orders = pgTable("orders", {
   ),
   pickupMethod: varchar("pickup_method", { length: 255 }).default(
     "not_set", // not_set/shipping/in_person/delivery
+  ),
+  settlement: varchar("settlement", { length: 64 }).default(
+    "not_set", // not_set/invoice/receipt
   ),
   workTime: doublePrecision("work_time").default(0.0),
   clientId: integer("client_id").references(() => clients.id),
