@@ -6,6 +6,13 @@ import { employeeProcedure } from "./trpc";
 import { createInsertSchema } from "drizzle-zod";
 import idRequiredZodSchema from "@/schema/idRequiredZodSchema";
 
+export function createProcedureGetAll<T extends schemaType>(schema: T) {
+  return employeeProcedure.query(async ({ ctx }) => {
+    const data = await ctx.db.select().from<T>(schema);
+    return data;
+  });
+}
+
 export function createProcedureGetById<T extends schemaType>(schema: T) {
   return employeeProcedure
     .input(z.number().or(z.string()))

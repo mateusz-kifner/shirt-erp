@@ -6,12 +6,13 @@ import {
 import {
   createProcedureGetById,
   createProcedureDeleteById,
-  createProcedureSearch,
+  createProcedureGetAll,
 } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 
 export const addressRouter = createTRPCRouter({
+  getAll: createProcedureGetAll(addresses),
   getById: createProcedureGetById(addresses),
   create: employeeProcedure
     .input(insertAddressZodSchema)
@@ -36,6 +37,4 @@ export const addressRouter = createTRPCRouter({
       if (updatedAddress[0] === undefined) throw new Error("Could not update");
       return updatedAddress[0];
     }),
-
-  search: createProcedureSearch(addresses),
 });
