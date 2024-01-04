@@ -6,8 +6,6 @@ import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { api } from "@/utils/api";
-import { omit } from "lodash";
-import UserListItem from "./UserListItem";
 import Editable from "@/components/editable/Editable";
 
 interface UserAddModalProps {

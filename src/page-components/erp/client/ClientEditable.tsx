@@ -6,7 +6,7 @@ import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
-import EditableSwitch from "@/components/editable/EditableSwitch";
+import type EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +15,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
 import { useLoaded } from "@/hooks/useLoaded";

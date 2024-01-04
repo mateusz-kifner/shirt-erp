@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
-import { VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority";
 
 const AlertDialog = AlertDialogPrimitive.Root;
 

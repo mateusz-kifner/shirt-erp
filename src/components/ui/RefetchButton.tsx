@@ -1,5 +1,5 @@
 import { IconRefresh } from "@tabler/icons-react";
-import Button, { ButtonProps } from "./Button";
+import Button, { type ButtonProps } from "./Button";
 import { cn } from "@/utils/cn";
 import { useTimeout } from "@mantine/hooks";
 import { useState } from "react";

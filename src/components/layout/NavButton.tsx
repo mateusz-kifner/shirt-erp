@@ -2,7 +2,7 @@ import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import { useHover } from "@mantine/hooks";
 import Link from "next/link";
-import { useId, type ComponentProps, type ComponentType } from "react";
+import { useId, type ComponentProps } from "react";
 
 interface NavButtonProps extends ComponentProps<"button"> {
   className?: string;

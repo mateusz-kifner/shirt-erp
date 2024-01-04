@@ -1,4 +1,4 @@
-import EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { useId, useRef, useState } from "react";
 import { useEditableContext } from "./Editable";
 import { Label } from "../ui/Label";
@@ -70,7 +70,7 @@ function EditableMultiSelectGroup(props: EditableMultiSelectGroupProps) {
           setSelected(newSelected);
         }
       }
-      // This is not a default behaviour of the <input /> field
+      // This is not a default behavior of the <input /> field
       if (e.key === "Escape") {
         input.blur();
       }

@@ -1,4 +1,4 @@
-import Editable, { Key } from "@/components/editable/Editable";
+import Editable, { type Key } from "@/components/editable/Editable";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableEnum from "@/components/editable/EditableEnum";
@@ -11,7 +11,6 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
 import {
@@ -21,11 +20,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import RefetchButton from "@/components/ui/RefetchButton";
-import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
-import { IconDotsVertical, IconRefresh, IconTrashX } from "@tabler/icons-react";
+import { IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";

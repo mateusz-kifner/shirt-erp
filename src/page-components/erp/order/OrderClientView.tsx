@@ -1,4 +1,4 @@
-import Editable, { Key } from "@/components/editable/Editable";
+import Editable, { type Key } from "@/components/editable/Editable";
 import {
   Card,
   CardContent,
@@ -6,26 +6,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
 import ClientListItem from "../client/ClientListItem";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import { clientListSearchParams } from "../client/ClientList";
-import {
-  IconAddressBook,
-  IconMail,
-  IconNote,
-  IconPhone,
-  IconUser,
-} from "@tabler/icons-react";
+import { IconMail, IconPhone, IconUser } from "@tabler/icons-react";
 import { Separator } from "@/components/ui/Separator";
 import DOMPurify from "dompurify";
 import EditableApiEntryId from "@/components/editable/EditableApiEntryId";
 import { addressToString } from "@/utils/addressToString";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
-import EditableAddress, {
-  provinces,
-} from "@/components/editable/EditableAddress";
+import { provinces } from "@/components/editable/EditableAddress";
 import EditableEnum from "@/components/editable/EditableEnum";
 import { useClipboard } from "@mantine/hooks";
 import { toast } from "sonner";

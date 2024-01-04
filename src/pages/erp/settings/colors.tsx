@@ -1,13 +1,12 @@
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
-import useTranslation from "@/hooks/useTranslation";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
+import { type GetStaticProps } from "next";
 interface ColorsProps {}
 
 function Colors(props: ColorsProps) {
   const {} = props;
   const { toggleTheme, theme } = useUserContext();
-  const t = useTranslation();
 
   return (
     <div className="flex flex-col gap-3">
@@ -400,3 +399,10 @@ function Colors(props: ColorsProps) {
 }
 
 export default Colors;
+
+export const getStaticProps: GetStaticProps = () => {
+  if (process.env.NODE_ENV === "production") {
+    return { notFound: true };
+  }
+  return { props: {} };
+};

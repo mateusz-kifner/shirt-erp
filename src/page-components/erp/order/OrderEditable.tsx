@@ -1,4 +1,4 @@
-import Editable, { Key } from "@/components/editable/Editable";
+import Editable, { type Key } from "@/components/editable/Editable";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableDate from "@/components/editable/EditableDate";
@@ -25,12 +25,7 @@ import { type ClientWithRelations } from "@/schema/clientZodSchema";
 import { type User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
-import {
-  IconArchive,
-  IconCash,
-  IconDotsVertical,
-  IconTrashX,
-} from "@tabler/icons-react";
+import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { omit } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -58,7 +53,6 @@ function OrderEditable(props: OrderEditableProps) {
   const router = useRouter();
   const t = useTranslation();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [archiveModalOpen, setArchiveModalOpen] = useState(false);
   const [orderAddressFromClient, setOrderAddressFromClient] = useState<
     number | null
   >(null);

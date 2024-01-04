@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-import { IconAlertCircle, IconCactus, IconX } from "@tabler/icons-react";
+import { IconAlertCircle, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 
 function TestSonner() {

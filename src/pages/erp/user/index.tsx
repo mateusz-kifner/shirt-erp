@@ -7,7 +7,7 @@ import Workspace from "@/components/layout/Workspace";
 import UserEditable from "@/page-components/erp/user/UserEditable";
 import UsersList from "@/page-components/erp/user/UserList";
 import { getQueryAsStringOrNull } from "@/utils/query";
-import { GetServerSidePropsContext } from "next";
+import { type GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@/server/auth";
 import UserAddModal from "@/page-components/erp/user/UserAddModal";
 

@@ -2,7 +2,6 @@ import Button from "@/components/ui/Button";
 import { env } from "@/env.mjs";
 import useTranslation from "@/hooks/useTranslation";
 import { signOut } from "next-auth/react";
-import { useTransition } from "react";
 
 interface AuthErrorPageProps {}
 

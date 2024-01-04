@@ -1,4 +1,4 @@
-import { IconChevronLeft, IconChevronRight, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import NavButton from "@/components/layout/NavButton";
@@ -7,7 +7,6 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
-import { Separator } from "../ui/Separator";
 import navigationData from "./navigationData";
 
 function Navigation() {

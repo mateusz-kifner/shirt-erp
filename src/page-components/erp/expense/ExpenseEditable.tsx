@@ -1,4 +1,4 @@
-import Editable, { Key } from "@/components/editable/Editable";
+import Editable, { type Key } from "@/components/editable/Editable";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";

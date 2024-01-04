@@ -13,7 +13,7 @@ import { db } from "@/db";
 import { sendVerificationRequest } from "./email";
 import { type UserRole, users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
-import { Adapter } from "next-auth/adapters";
+import { type Adapter } from "next-auth/adapters";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

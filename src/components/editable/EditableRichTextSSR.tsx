@@ -1,5 +1,5 @@
 import {
-  MutableRefObject,
+  type MutableRefObject,
   useEffect,
   useId,
   useState,

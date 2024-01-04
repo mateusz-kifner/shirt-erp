@@ -4,7 +4,7 @@ import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 import Button from "@/components/ui/Button";
 import {
@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/Popover";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
-import { env } from "@/env.mjs";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();

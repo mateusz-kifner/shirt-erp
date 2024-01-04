@@ -1,6 +1,5 @@
 import { relations } from "drizzle-orm";
 import {
-  index,
   integer,
   pgEnum,
   pgTable,
@@ -12,7 +11,7 @@ import {
 import { metadata } from "./_metadata";
 import { email_credentials_to_users } from "./email_credentials_to_users";
 import { orders_to_users } from "./orders_to_users";
-import { AdapterAccount } from "next-auth/adapters";
+import { type AdapterAccount } from "next-auth/adapters";
 
 export const roleEnum = pgEnum("role", [
   "normal",

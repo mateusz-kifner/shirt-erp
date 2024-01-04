@@ -1,6 +1,6 @@
 import Button from "@/components/ui/Button";
 import {
-  Checked,
+  type Checked,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,

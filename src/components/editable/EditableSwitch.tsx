@@ -5,7 +5,7 @@ import { useHover } from "@mantine/hooks";
 
 import type EditableInput from "@/schema/EditableInput";
 import { useEditableContext } from "./Editable";
-import { VariantProps, cva } from "class-variance-authority";
+import { type VariantProps, cva } from "class-variance-authority";
 
 // FIXME: respect disabled state
 // TODO: center text on button and add color variant

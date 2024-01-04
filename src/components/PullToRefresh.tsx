@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { type ReactNode, useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 import { useGesture } from "@use-gesture/react";
 import { IconLoader2 } from "@tabler/icons-react";

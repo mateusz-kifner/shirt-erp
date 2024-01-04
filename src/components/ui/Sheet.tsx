@@ -2,12 +2,7 @@ import { cn } from "@/utils/cn";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { IconX } from "@tabler/icons-react";
 import { cva, type VariantProps } from "class-variance-authority";
-import {
-  forwardRef,
-  type ComponentProps,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-} from "react";
+import { forwardRef } from "react";
 
 const Sheet = SheetPrimitive.Root;
 

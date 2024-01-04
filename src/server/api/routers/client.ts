@@ -4,10 +4,7 @@ import {
   insertClientWithRelationZodSchema,
   updateClientWithRelationZodSchema,
 } from "@/schema/clientZodSchema";
-import {
-  createProcedureDeleteById,
-  createProcedureSearch,
-} from "@/server/api/procedures";
+import { createProcedureSearch } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";

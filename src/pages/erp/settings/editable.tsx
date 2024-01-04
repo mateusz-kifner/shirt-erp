@@ -1,10 +1,10 @@
-import Editable, { Key } from "@/components/editable/Editable";
-import { lazy, useEffect, useState } from "react";
+import Editable, { type Key } from "@/components/editable/Editable";
+import { lazy, useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
 import ClientListItem from "@/page-components/erp/client/ClientListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
 import EditableArray from "@/components/editable/EditableArray";
-import { GetStaticProps } from "next";
+import { type GetStaticProps } from "next";
 
 const EditableAddress = lazy(
   () => import("@/components/editable/EditableAddress"),

@@ -1,6 +1,9 @@
 import { env } from "@/env.mjs";
 import useTranslation from "@/hooks/useTranslation";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import {
+  type GetServerSidePropsContext,
+  type InferGetServerSidePropsType,
+} from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 

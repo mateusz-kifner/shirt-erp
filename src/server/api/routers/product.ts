@@ -5,7 +5,6 @@ import {
 } from "@/schema/productZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
 import {
   createProcedureGetById,
   createProcedureSearch,

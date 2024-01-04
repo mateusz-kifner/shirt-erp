@@ -24,13 +24,11 @@ import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import {
   IconBuildingFactory2,
-  IconCash,
   IconCheck,
   IconColorSwatch,
   IconDotsVertical,
   IconList,
   IconMail,
-  IconMoneybag,
   IconNotebook,
   IconPlus,
   IconRobot,
@@ -41,7 +39,7 @@ import {
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useLoaded } from "@/hooks/useLoaded";
-import { Key } from "@/components/editable/Editable";
+import { type Key } from "@/components/editable/Editable";
 import OrderClientView from "@/page-components/erp/order/OrderClientView";
 import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";

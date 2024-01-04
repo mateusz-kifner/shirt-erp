@@ -1,9 +1,10 @@
 import EditableShortText from "@/components/editable/EditableShortText";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { useId, useState } from "react";
-import { Key, Editable } from "@/components/editable/Editable";
+import { type Key, Editable } from "@/components/editable/Editable";
 import EditableColor from "@/components/editable/EditableColor";
 import EditableArray from "@/components/editable/EditableArray";
+import { type GetStaticProps } from "next";
 
 function TestsPage() {
   const uuid = useId();
@@ -54,3 +55,10 @@ function TestsPage() {
 }
 
 export default TestsPage;
+
+export const getStaticProps: GetStaticProps = () => {
+  if (process.env.NODE_ENV === "production") {
+    return { notFound: true };
+  }
+  return { props: {} };
+};

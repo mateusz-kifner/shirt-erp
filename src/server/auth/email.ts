@@ -1,6 +1,6 @@
 import { env } from "@/env.mjs";
-import { Theme } from "next-auth";
-import { SendVerificationRequestParams } from "next-auth/providers/email";
+import { type Theme } from "next-auth";
+import { type SendVerificationRequestParams } from "next-auth/providers/email";
 import { createTransport } from "nodemailer";
 
 export async function sendVerificationRequest(

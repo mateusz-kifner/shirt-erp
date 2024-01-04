@@ -10,7 +10,8 @@ import { Suspense, lazy } from "react";
 import { useUserContext } from "@/context/userContext";
 import { cn } from "@/utils/cn";
 import { IconLoader2, IconMoonStars, IconSun } from "@tabler/icons-react";
-import { ComponentType, useId } from "react";
+import { type ComponentType, useId } from "react";
+import { type GetStaticProps } from "next";
 
 const TestAccordion = lazy(
   () => import("@/page-components/erp/settings/shadcn/TestAccordion"),
@@ -346,3 +347,10 @@ function Shadcn(props: ShadcnProps) {
 }
 
 export default Shadcn;
+
+export const getStaticProps: GetStaticProps = () => {
+  if (process.env.NODE_ENV === "production") {
+    return { notFound: true };
+  }
+  return { props: {} };
+};

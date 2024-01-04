@@ -16,6 +16,7 @@ interface EditableTextProps extends EditableInput<string> {
 const EditableText = (props: EditableTextProps) => {
   const {
     data,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     keyName,
     value,
     disabled,

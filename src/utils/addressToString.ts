@@ -1,4 +1,4 @@
-import { Address } from "@/schema/addressZodSchema";
+import { type Address } from "@/schema/addressZodSchema";
 
 export const addressToString = (address?: Omit<Address, "id">) => {
   if (!address) return undefined;

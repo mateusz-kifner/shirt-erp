@@ -1,6 +1,6 @@
 import {
-  ReactElement,
-  ReactNode,
+  type ReactElement,
+  type ReactNode,
   cloneElement,
   isValidElement,
   useEffect,
@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useEditableContextWithoutOverride } from "./Editable";
 import { Label } from "../ui/Label";
-import EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import Button from "../ui/Button";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import {
@@ -87,7 +87,6 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
       setUpdate(false);
     }
   }, [update]);
-
 
   if (typeof children === "function" && !isValidElement(children))
     return (

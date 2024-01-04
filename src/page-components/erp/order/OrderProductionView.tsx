@@ -1,21 +1,13 @@
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
+import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import Editable from "@/components/editable/Editable";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
-import EditableShortText from "@/components/editable/EditableShortText";
-import { IconCash } from "@tabler/icons-react";
 import EditableSwitch from "@/components/editable/EditableSwitch";
 import EditableEnum from "@/components/editable/EditableEnum";
 import EditableFiles from "@/components/editable/EditableFiles";
 import EditableArray from "@/components/editable/EditableArray";
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
-import { Product } from "@/schema/productZodSchema";
+import { type Product } from "@/schema/productZodSchema";
 import EditableNumber from "@/components/editable/EditableNumber";
 import { truncString } from "@/utils/truncString";
 import ProductListItem from "../product/ProductListItem";

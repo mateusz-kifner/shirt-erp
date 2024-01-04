@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  PointRange,
-  type CellBase,
-  type Matrix,
-  type Selection,
-} from "react-spreadsheet";
+import type { PointRange, CellBase, Matrix } from "react-spreadsheet";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type UniversalCell = CellBase & { [key: string]: any };

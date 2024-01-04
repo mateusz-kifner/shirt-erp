@@ -1,4 +1,4 @@
-import EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/schema/EditableInput";
 import { useId, useRef, useState } from "react";
 import { useEditableContext } from "./Editable";
 import { Label } from "../ui/Label";
@@ -40,7 +40,6 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
 
-
   const selected = value ?? [];
   // (globalPropertiesData !== undefined && globalPropertiesData.length > 0
   //   ? globalPropertiesData[0]?.data
@@ -71,7 +70,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
     }
   };
 
-  const selectables = ( enumData ?? []).filter(
+  const selectables = (enumData ?? []).filter(
     (enumString) => !selected.includes(enumString),
   );
 

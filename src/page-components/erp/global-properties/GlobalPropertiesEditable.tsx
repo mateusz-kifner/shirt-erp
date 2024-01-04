@@ -1,12 +1,7 @@
-import Editable, { Key } from "@/components/editable/Editable";
-import EditableArray from "@/components/editable/EditableArray";
-import EditableDateTime from "@/components/editable/EditableDateTime";
+import Editable, { type Key } from "@/components/editable/Editable";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableMultiSelect from "@/components/editable/EditableMultiSelect";
-import EditableNumber from "@/components/editable/EditableNumber";
-import EditableObject from "@/components/editable/EditableObject";
 import EditableShortText from "@/components/editable/EditableShortText";
-import EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,27 +10,18 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTrigger,
 } from "@/components/ui/AlertDialog";
 import Button from "@/components/ui/Button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { api } from "@/utils/api";
-import {
-  IconCash,
-  IconDotsVertical,
-  IconRefresh,
-  IconTrashX,
-} from "@tabler/icons-react";
+import { IconDotsVertical, IconRefresh, IconTrashX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 

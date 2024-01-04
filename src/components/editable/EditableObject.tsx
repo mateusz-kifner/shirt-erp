@@ -1,4 +1,4 @@
-import { ReactNode, useId } from "react";
+import { type ReactNode, useId } from "react";
 import Editable, { useEditableContextWithoutOverride } from "./Editable";
 import { Label } from "../ui/Label";
 

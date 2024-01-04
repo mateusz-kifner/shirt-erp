@@ -6,13 +6,13 @@ import { z } from "zod";
 import { createProcedureGetById, createProcedureSearch } from "../procedures";
 import { TRPCError } from "@trpc/server";
 import { authDBAdapter } from "@/server/auth";
-import { AdapterUser } from "next-auth/adapters";
+import { type AdapterUser } from "next-auth/adapters";
 
 export const userRouter = createTRPCRouter({
   getById: createProcedureGetById(users),
   create: managerProcedure
     .input(z.object({ name: z.string().optional(), email: z.string().email() }))
-    .mutation(async ({ input: userData, ctx }) => {
+    .mutation(async ({ input: userData }) => {
       const data = await authDBAdapter.createUser?.({
         ...userData,
         emailVerified: new Date(),

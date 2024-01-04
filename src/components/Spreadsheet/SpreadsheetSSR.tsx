@@ -7,7 +7,6 @@ import { IconScreenShare, IconTrashX } from "@tabler/icons-react";
 import type {
   CellComponent,
   ColumnIndicatorComponent,
-  Point,
   RowIndicatorComponent,
   Selection,
   PointRange,
@@ -443,8 +442,8 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           (statusText.startsWith("error")
             ? "text-red-500"
             : statusText.startsWith("success")
-            ? "text-green-500"
-            : "text-gray-500")
+              ? "text-green-500"
+              : "text-gray-500")
         }
       >
         {statusText || "⸺"}
