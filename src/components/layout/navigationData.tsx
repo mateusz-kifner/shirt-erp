@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 
 import {
   IconBell,
+  IconCalendar,
   IconChecklist,
   IconCrown,
   IconMail,
@@ -21,6 +22,13 @@ const navigationData: {
   SecondNavigation?: ComponentType;
   debug?: boolean;
 }[] = [
+  {
+    label: "Kalendarz",
+    Icon: IconCalendar,
+    href: "/erp/dashboard",
+    entryName: "dashboard",
+    gradient: { from: "#099268", to: "#66A80F", deg: 105 },
+  },
   {
     label: "Zadania",
     Icon: IconChecklist,

@@ -135,5 +135,8 @@
   "in_person": "In person",
   "delivery": "Delivery",
   "invoice": "Invoice",
-  "receipt": "Receipt"
+  "receipt": "Receipt",
+  "calendar": "Calendar",
+  "next": "Next",
+  "previous": "Previous"
 }

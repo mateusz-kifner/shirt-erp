@@ -135,5 +135,8 @@
   "in_person": "Odbiór własny",
   "delivery": "Dostawa",
   "invoice": "Faktura",
-  "receipt": "Paragon"
+  "receipt": "Paragon",
+  "calendar": "Kalendarz",
+  "next": "Następny",
+  "previous": "Poprzedni"
 }
