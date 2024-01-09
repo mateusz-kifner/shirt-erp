@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
 import { OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
+import { cn } from "@/utils/cn";
 import {
   getRandomColorByNumber,
   getRandomColorByString,
@@ -94,6 +95,8 @@ function CalendarView(props: CalendarViewProps) {
     setCurrentMonth((prevMonth) => prevMonth.add(amount, "month"));
   };
 
+  const currentDay = parseInt(dayjs(currentMonth).format("DD"));
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -131,7 +134,13 @@ function CalendarView(props: CalendarViewProps) {
               className="border-b border-r"
             >
               {day !== null ? (
-                <div className="flex flex-col gap-0.5">
+                <div
+                  className={cn(
+                    "flex flex-col gap-0.5 ",
+                    day === currentDay &&
+                      "bg-sky-700/25 ring-1 ring-sky-700/50 ring-offset-0",
+                  )}
+                >
                   <div className="px-1 py-0.5">{day}</div>
                   <div>
                     {ordersByDay?.[day]?.map((val, indexOrderByDay) => (
@@ -140,8 +149,8 @@ function CalendarView(props: CalendarViewProps) {
                         style={{
                           backgroundColor:
                             typeof val.id === "number"
-                              ? getRandomColorByNumber(val.id)
-                              : getRandomColorByString(val.id),
+                              ? getRandomColorByNumber(val.id) + "aa"
+                              : getRandomColorByString(val.id) + "aa",
                         }}
                         className="cursor-pointer px-1 py-0.5"
                         onClick={() => {
