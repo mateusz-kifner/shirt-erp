@@ -28,7 +28,6 @@ const navigationData: {
     href: "/erp/dashboard",
     entryName: "dashboard",
     gradient: { from: "#E03131", to: "#5F3DC4", deg: 105 },
-    debug: true,
   },
   {
     label: "Zadania",

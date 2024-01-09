@@ -37,7 +37,6 @@ function CalendarView(props: CalendarViewProps) {
       ) => {
         if (val.dateOfCompletion === null) return arr;
         const index = parseInt(dayjs(val.dateOfCompletion).format("DD"));
-        console.log(index, val.dateOfCompletion);
         if (arr[index] === undefined) {
           arr[index] = [val];
         } else {
@@ -147,6 +146,10 @@ function CalendarView(props: CalendarViewProps) {
                         className="cursor-pointer px-1 py-0.5"
                         onClick={() => {
                           void router.push(`/erp/order/${val.id}`);
+                        }}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          void router.push(`/erp/task/${val.id}`);
                         }}
                       >
                         {val.name}
