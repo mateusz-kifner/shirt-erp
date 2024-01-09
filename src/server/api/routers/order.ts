@@ -14,7 +14,19 @@ import {
 } from "@/schema/orderZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import getObjectChanges from "@/utils/getObjectChanges";
-import { and, asc, desc, eq, ilike, inArray, sql, or, not } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  ilike,
+  inArray,
+  sql,
+  or,
+  not,
+  gte,
+  lte,
+} from "drizzle-orm";
 import { omit } from "lodash";
 
 export const orderRouter = createTRPCRouter({
@@ -408,6 +420,28 @@ export const orderRouter = createTRPCRouter({
       }
 
       return { ok: true };
+    }),
+  getByCompletionDateRange: employeeProcedure
+    .input(
+      z.object({
+        rangeStart: z.string(),
+        rangeEnd: z.string(),
+        isArchived: z.boolean().default(false),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const { rangeStart, rangeEnd, isArchived } = input;
+      const results = await ctx.db
+        .select()
+        .from(orders)
+        .where(
+          and(
+            gte(orders.dateOfCompletion, rangeStart),
+            lte(orders.dateOfCompletion, rangeEnd),
+            eq(orders.isArchived, isArchived),
+          ),
+        );
+      return results;
     }),
 
   search: employeeProcedure

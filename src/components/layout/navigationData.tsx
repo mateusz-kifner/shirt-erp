@@ -27,7 +27,8 @@ const navigationData: {
     Icon: IconCalendar,
     href: "/erp/dashboard",
     entryName: "dashboard",
-    gradient: { from: "#099268", to: "#66A80F", deg: 105 },
+    gradient: { from: "#E03131", to: "#5F3DC4", deg: 105 },
+    debug: true,
   },
   {
     label: "Zadania",
@@ -69,7 +70,7 @@ const navigationData: {
     Icon: IconMail,
     href: "/erp/email",
     entryName: "email",
-    gradient: { from: "#3B5BDB", to: "#099268", deg: 105 },
+    gradient: { from: "#099268", to: "#3B5BDB", deg: 105 },
   },
   // {
   //   label: "Logi",

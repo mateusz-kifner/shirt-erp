@@ -1,7 +1,14 @@
 import Button from "@/components/ui/Button";
 import useTranslation from "@/hooks/useTranslation";
+import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { api } from "@/utils/api";
+import {
+  getRandomColorByNumber,
+  getRandomColorByString,
+} from "@/utils/getRandomColor";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import dayjs, { WeekdayNames } from "dayjs";
+import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 
 interface CalendarViewProps {}
@@ -12,6 +19,35 @@ function CalendarView(props: CalendarViewProps) {
   const [localeData, setLocaleData] = useState(dayjs.localeData());
   const uuid = useId();
   const t = useTranslation();
+  const router = useRouter();
+
+  const { data } = api.order.getByCompletionDateRange.useQuery({
+    rangeStart: currentMonth.startOf("month").format("YYYY-MM-DD HH:mm:ss"),
+    rangeEnd: currentMonth
+      .add(1, "month")
+      .startOf("month")
+      .format("YYYY-MM-DD HH:mm:ss"),
+  });
+
+  const ordersByDay =
+    data?.reduce(
+      (
+        arr: Array<Array<OrderWithoutRelations>>,
+        val: OrderWithoutRelations,
+      ) => {
+        if (val.dateOfCompletion === null) return arr;
+        const index = parseInt(dayjs(val.dateOfCompletion).format("DD"));
+        console.log(index, val.dateOfCompletion);
+        if (arr[index] === undefined) {
+          arr[index] = [val];
+        } else {
+          arr[index]?.push(val);
+        }
+
+        return arr;
+      },
+      [] as Array<Array<OrderWithoutRelations>>,
+    ) ?? [];
 
   useEffect(() => {
     // Fetch and set locale data dynamically
@@ -82,9 +118,9 @@ function CalendarView(props: CalendarViewProps) {
           <IconChevronRight />
         </Button>
       </div>
-      <div className="grid grid-cols-7 border-l border-t">
+      <div className="grid grid-cols-7 overflow-hidden rounded border-l border-t">
         {weekdays.map((val) => (
-          <div key={`${uuid}${val}:`} className="border-b border-r">
+          <div key={`${uuid}${val}:`} className="border-b border-r px-1 py-0.5">
             {val}
           </div>
         ))}
@@ -95,7 +131,32 @@ function CalendarView(props: CalendarViewProps) {
               key={`${uuid}${index}:${dayIndex}:`}
               className="border-b border-r"
             >
-              {day !== null ? day : ""}
+              {day !== null ? (
+                <div className="flex flex-col gap-0.5">
+                  <div className="px-1 py-0.5">{day}</div>
+                  <div>
+                    {ordersByDay?.[day]?.map((val, indexOrderByDay) => (
+                      <div
+                        key={`${uuid}${index}:${dayIndex}:${indexOrderByDay}:`}
+                        style={{
+                          backgroundColor:
+                            typeof val.id === "number"
+                              ? getRandomColorByNumber(val.id)
+                              : getRandomColorByString(val.id),
+                        }}
+                        className="cursor-pointer px-1 py-0.5"
+                        onClick={() => {
+                          void router.push(`/erp/order/${val.id}`);
+                        }}
+                      >
+                        {val.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           )),
         )}
