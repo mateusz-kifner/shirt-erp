@@ -7,47 +7,33 @@ import {
   getRandomColorByNumber,
   getRandomColorByString,
 } from "@/utils/getRandomColor";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
+import {
+  IconCalendarMonth,
+  IconCalendarWeek,
+  IconCalendar,
+  IconChevronLeft,
+  IconChevronRight,
+} from "@tabler/icons-react";
 import dayjs, { WeekdayNames } from "dayjs";
 import { useRouter } from "next/router";
-import { useEffect, useId, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useId, useState } from "react";
 
 interface CalendarViewProps {}
 
-function CalendarView(props: CalendarViewProps) {
-  const {} = props;
-  const [currentMonth, setCurrentMonth] = useState(dayjs());
+interface CalendarMonthProps {
+  currentMonth: dayjs.Dayjs;
+  orders: Array<Array<OrderWithoutRelations>>;
+  setCurrentMonth: Dispatch<SetStateAction<dayjs.Dayjs>>;
+}
+
+function CalendarMonth(props: CalendarMonthProps) {
+  const { currentMonth, setCurrentMonth, orders } = props;
+
   const [localeData, setLocaleData] = useState(dayjs.localeData());
+
   const uuid = useId();
   const t = useTranslation();
   const router = useRouter();
-
-  const { data } = api.order.getByCompletionDateRange.useQuery({
-    rangeStart: currentMonth.startOf("month").format("YYYY-MM-DD HH:mm:ss"),
-    rangeEnd: currentMonth
-      .add(1, "month")
-      .startOf("month")
-      .format("YYYY-MM-DD HH:mm:ss"),
-  });
-
-  const ordersByDay =
-    data?.reduce(
-      (
-        arr: Array<Array<OrderWithoutRelations>>,
-        val: OrderWithoutRelations,
-      ) => {
-        if (val.dateOfCompletion === null) return arr;
-        const index = parseInt(dayjs(val.dateOfCompletion).format("DD"));
-        if (arr[index] === undefined) {
-          arr[index] = [val];
-        } else {
-          arr[index]?.push(val);
-        }
-
-        return arr;
-      },
-      [] as Array<Array<OrderWithoutRelations>>,
-    ) ?? [];
 
   useEffect(() => {
     // Fetch and set locale data dynamically
@@ -95,7 +81,14 @@ function CalendarView(props: CalendarViewProps) {
     setCurrentMonth((prevMonth) => prevMonth.add(amount, "month"));
   };
 
-  const currentDay = parseInt(dayjs(currentMonth).format("DD"));
+  const today = dayjs();
+
+  const todayDay = today.date();
+  const todayMonth = today.date();
+  const todayYear = today.date();
+
+  const month = currentMonth.date();
+  const year = currentMonth.date();
 
   return (
     <div className="flex flex-col gap-4">
@@ -109,6 +102,15 @@ function CalendarView(props: CalendarViewProps) {
         >
           <IconChevronLeft />
           {t.previous}
+        </Button>
+        <Button
+          onClick={() => {
+            setCurrentMonth(dayjs());
+          }}
+          variant="ghost"
+          size="icon"
+        >
+          <IconCalendar />
         </Button>
         <Button
           onClick={() => {
@@ -137,13 +139,15 @@ function CalendarView(props: CalendarViewProps) {
                 <div
                   className={cn(
                     "flex flex-col gap-0.5 ",
-                    day === currentDay &&
+                    day === todayDay &&
+                      month == todayMonth &&
+                      year === todayYear &&
                       "bg-sky-700/25 ring-1 ring-sky-700/50 ring-offset-0",
                   )}
                 >
                   <div className="px-1 py-0.5">{day}</div>
                   <div>
-                    {ordersByDay?.[day]?.map((val, indexOrderByDay) => (
+                    {orders?.[day]?.map((val, indexOrderByDay) => (
                       <div
                         key={`${uuid}${index}:${dayIndex}:${indexOrderByDay}:`}
                         style={{
@@ -173,6 +177,198 @@ function CalendarView(props: CalendarViewProps) {
           )),
         )}
       </div>
+    </div>
+  );
+}
+
+function CalendarWeek(props: CalendarMonthProps) {
+  const { currentMonth, setCurrentMonth, orders } = props;
+
+  const [localeData, setLocaleData] = useState(dayjs.localeData());
+
+  const uuid = useId();
+  const t = useTranslation();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Fetch and set locale data dynamically
+    const newLocaleData = dayjs().localeData();
+    setLocaleData(newLocaleData);
+  }, [currentMonth]);
+
+  const firstDayOfWeek = localeData.firstDayOfWeek();
+  let weekdays = localeData.weekdaysShort();
+
+  // realign weekdays
+  if (firstDayOfWeek !== 0) {
+    weekdays = weekdays.map(
+      (_, index, arr) => arr[(index + firstDayOfWeek) % weekdays.length],
+    ) as WeekdayNames;
+  }
+
+  const week: (number | null)[] = [];
+
+  let firstDayOfMonth = currentMonth.startOf("month").day() - firstDayOfWeek; // Adjust for Monday as the first day of the week
+  firstDayOfMonth = firstDayOfMonth < 0 ? 6 : firstDayOfMonth; // Ensure the result is within [0, 6]
+
+  const startOfWeek = currentMonth.startOf("week");
+  const endOfWeek = currentMonth.endOf("week");
+
+  let currentDay = startOfWeek;
+
+  const weekDays = [];
+
+  while (
+    currentDay.isBefore(endOfWeek) ||
+    currentDay.isSame(endOfWeek, "day")
+  ) {
+    for (let i = 0; i < 7; i++) {
+      weekDays.push(currentDay.format("D"));
+      currentDay = currentDay.add(1, "day");
+    }
+  }
+
+  const changeWeek = (amount: number) => {
+    setCurrentMonth((prevWeek) => prevWeek.add(amount, "week"));
+  };
+
+  // display month and year depending on week
+  let monthYearString = startOfWeek.format("MMMM YYYY");
+  if (startOfWeek.month() !== endOfWeek.month()) {
+    if (startOfWeek.month() === 11 && endOfWeek.month() === 0) {
+      monthYearString =
+        startOfWeek.format("MMMM YYYY") +
+        " \\ " +
+        endOfWeek.format("MMMM YYYY");
+    } else {
+      monthYearString =
+        startOfWeek.format("MMMM") + " \\ " + endOfWeek.format("MMMM YYYY");
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center gap-2">
+        <h2 className="flex-grow">{monthYearString}</h2>
+        <Button
+          onClick={() => {
+            changeWeek(-1);
+          }}
+          variant="ghost"
+        >
+          <IconChevronLeft />
+          {t.previous}
+        </Button>
+        <Button
+          onClick={() => {
+            setCurrentMonth(dayjs());
+          }}
+          variant="ghost"
+          size="icon"
+        >
+          <IconCalendar />
+        </Button>
+        <Button
+          onClick={() => {
+            changeWeek(1);
+          }}
+          variant="ghost"
+        >
+          {t.next}
+          <IconChevronRight />
+        </Button>
+      </div>
+      <div className="grid grid-cols-7 overflow-hidden rounded border-l border-t">
+        {weekdays.map((val) => (
+          <div key={`${uuid}${val}:`} className="border-b border-r px-1 py-0.5">
+            {val}
+          </div>
+        ))}
+
+        {weekDays.map((day) => (
+          <div key={`${uuid}${day}`} className="border-b border-r px-1 py-0.5">
+            {day !== null && (
+              <div className="flex flex-col gap-0.5">
+                <div>{day}</div>
+                {/* Add any specific week-related content here */}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CalendarView(props: CalendarViewProps) {
+  const {} = props;
+
+  const [currentMonth, setCurrentMonth] = useState(dayjs());
+  const [mode, setMode] = useState<"month" | "week">("month");
+
+  const { data } = api.order.getByCompletionDateRange.useQuery({
+    rangeStart: currentMonth.startOf("month").format("YYYY-MM-DD HH:mm:ss"),
+    rangeEnd: currentMonth
+      .add(1, "month")
+      .startOf("month")
+      .format("YYYY-MM-DD HH:mm:ss"),
+  });
+
+  const ordersByDay =
+    data?.reduce(
+      (
+        arr: Array<Array<OrderWithoutRelations>>,
+        val: OrderWithoutRelations,
+      ) => {
+        if (val.dateOfCompletion === null) return arr;
+        const index = parseInt(dayjs(val.dateOfCompletion).format("DD"));
+        if (arr[index] === undefined) {
+          arr[index] = [val];
+        } else {
+          arr[index]?.push(val);
+        }
+
+        return arr;
+      },
+      [] as Array<Array<OrderWithoutRelations>>,
+    ) ?? [];
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => {
+            setMode("month");
+          }}
+        >
+          <IconCalendarMonth />
+        </Button>
+        <Button
+          size="icon"
+          variant="ghost"
+          onClick={() => {
+            setMode("week");
+          }}
+        >
+          <IconCalendarWeek />
+        </Button>
+      </div>
+      {mode == "month" && (
+        <CalendarMonth
+          currentMonth={currentMonth}
+          setCurrentMonth={setCurrentMonth}
+          orders={ordersByDay}
+        />
+      )}
+      {mode == "week" && (
+        <CalendarWeek
+          currentMonth={currentMonth}
+          setCurrentMonth={setCurrentMonth}
+          orders={ordersByDay}
+        />
+      )}
     </div>
   );
 }
