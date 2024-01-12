@@ -31,9 +31,7 @@ const TestBadge = lazy(
 const TestButton = lazy(
   () => import("@/page-components/erp/settings/shadcn/TestButton"),
 );
-const TestCalendar = lazy(
-  () => import("@/page-components/erp/settings/shadcn/TestCalendar"),
-);
+
 const TestCard = lazy(
   () => import("@/page-components/erp/settings/shadcn/TestCard"),
 );
@@ -160,11 +158,6 @@ const UIElements: {
     title: "Button",
     Element: TestButton,
     className: "flex-col",
-  },
-
-  {
-    title: "Calendar",
-    Element: TestCalendar,
   },
   {
     title: "Card",
