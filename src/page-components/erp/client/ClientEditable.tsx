@@ -44,6 +44,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/DropdownMenu";
 import { useState } from "react";
+import { useApiClientGetById } from "@/hooks/api/client";
 
 //TODO: Remake Array type
 
@@ -58,9 +59,11 @@ function ClientEditable(props: ClientEditableProps) {
   const t = useTranslation();
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const { data, refetch } = api.client.getById.useQuery(id as number, {
-    enabled: id !== null,
-  });
+
+  const {
+    client: { data, refetch },
+  } = useApiClientGetById(id);
+
   const { mutateAsync: update } = api.client.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));

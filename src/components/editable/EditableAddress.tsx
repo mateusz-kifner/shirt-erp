@@ -20,10 +20,8 @@ import { useClickOutside } from "@mantine/hooks";
 import { addressToString } from "@/utils/addressToString";
 import { api } from "@/utils/api";
 import { useLoaded } from "@/hooks/useLoaded";
-import {  useQueryClient } from "@tanstack/react-query";
-import { getQueryKey } from '@trpc/react-query';
-
-
+import { useQueryClient } from "@tanstack/react-query";
+import { getQueryKey } from "@trpc/react-query";
 
 export const provinces = [
   "dolnośląskie",
@@ -253,14 +251,19 @@ const EditableAddress = (props: EditableAddressProps) => {
     keyName,
   } = useEditableContext(props);
   const isLoaded = useLoaded();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { data, refetch } = api.address.getById.useQuery(value as number, {
     enabled: value !== undefined,
+    staleTime: 10 * 1000, // 10s
   });
-  const addressGetByIdKey = getQueryKey(api.address.getById, value as number, 'query');
+  const addressGetByIdKey = getQueryKey(
+    api.address.getById,
+    value as number,
+    "query",
+  );
   const { mutateAsync: update } = api.address.update.useMutation({
     onSuccess: (data) => {
-      queryClient.setQueryData(addressGetByIdKey, data)
+      queryClient.setQueryData(addressGetByIdKey, data);
     },
   });
 
@@ -274,7 +277,7 @@ const EditableAddress = (props: EditableAddressProps) => {
 
   const valueString = addressToString(data);
 
-  if (data === undefined ) {
+  if (data === undefined) {
     return (
       <div className="flex flex-grow flex-col">
         <Label label={label} required={required} />
@@ -288,7 +291,13 @@ const EditableAddress = (props: EditableAddressProps) => {
           leftSection={leftSection}
           rightSection={rightSection}
         >
-          _____ __/__<br/>_____<br/>__-___ ____<br/>_____
+          _____ __/__
+          <br />
+          _____
+          <br />
+          __-___ ____
+          <br />
+          _____
         </DisplayCellExpanding>
       </div>
     );

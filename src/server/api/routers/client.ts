@@ -10,6 +10,17 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 export const clientRouter = createTRPCRouter({
+  getByIdFull: employeeProcedure
+    .input(z.number())
+    .query(async ({ input: id, ctx }) => {
+      const data = await ctx.db.query.clients.findFirst({
+        where: eq(clients.id, id),
+        with: {
+          address: true,
+        },
+      });
+      return data;
+    }),
   getById: employeeProcedure
     .input(z.number())
     .query(async ({ input: id, ctx }) => {
