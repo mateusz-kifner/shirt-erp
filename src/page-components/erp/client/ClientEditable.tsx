@@ -158,7 +158,7 @@ function ClientEditable(props: ClientEditableProps) {
         />
         <EditableAddress
           label="Adres"
-          keyName="address"
+          keyName="addressId"
           leftSection={<IconAddressBook />}
         />
 

@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/schema/EditableInput";
 import { type Address } from "@/schema/addressZodSchema";
 import EditableEnum from "./EditableEnum";
-import { useEditableContext } from "./Editable";
+import Editable, { Key, useEditableContext } from "./Editable";
 import EditableText from "./EditableText";
 import { cn } from "@/utils/cn";
 import useTranslation from "@/hooks/useTranslation";
@@ -15,10 +15,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/Dialog";
-import EditableObject from "./EditableObject";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useClickOutside } from "@mantine/hooks";
 import { addressToString } from "@/utils/addressToString";
+import { api } from "@/utils/api";
+import { useLoaded } from "@/hooks/useLoaded";
+import {  useQueryClient } from "@tanstack/react-query";
+import { getQueryKey } from '@trpc/react-query';
+
+
 
 export const provinces = [
   "dolnośląskie",
@@ -39,68 +44,65 @@ export const provinces = [
   "zachodniopomorskie",
 ];
 
-interface EditableAddressProps extends EditableInput<Omit<Address, "id">> {
+interface EditableAddressProps extends EditableInput<number> {
   maxLength?: number;
 }
 
 function EditableAddressContent(props: {
-  keyName?: string | number;
   enumOpen?: boolean;
   setEnumOpen?: Dispatch<SetStateAction<boolean>>;
 }) {
-  const { keyName, enumOpen, setEnumOpen } = props;
+  const { enumOpen, setEnumOpen } = props;
   const t = useTranslation();
 
   return (
     <div className="flex flex-grow flex-col gap-2 pb-3">
-      <EditableObject keyName={keyName}>
+      <EditableText
+        label={t.streetName}
+        keyName="streetName"
+        className="text-stone-800 dark:text-stone-200"
+      />
+      <div className="flex flex-grow gap-2">
         <EditableText
-          label={t.streetName}
-          keyName="streetName"
-          className="text-stone-800 dark:text-stone-200"
-        />
-        <div className="flex flex-grow gap-2">
-          <EditableText
-            label={t.streetNumber}
-            keyName="streetNumber"
-            className="text-stone-800 dark:text-stone-200"
-          />
-          <EditableText
-            label={t.apartmentNumber}
-            keyName="apartmentNumber"
-            className="text-stone-800 dark:text-stone-200"
-          />
-        </div>
-        <EditableText
-          label={t.secondLine}
-          keyName="secondLine"
+          label={t.streetNumber}
+          keyName="streetNumber"
           className="text-stone-800 dark:text-stone-200"
         />
         <EditableText
-          label={t.postCode}
-          keyName="postCode"
+          label={t.apartmentNumber}
+          keyName="apartmentNumber"
           className="text-stone-800 dark:text-stone-200"
         />
-        <EditableText
-          label={t.city}
-          keyName="city"
-          className="text-stone-800 dark:text-stone-200"
+      </div>
+      <EditableText
+        label={t.secondLine}
+        keyName="secondLine"
+        className="text-stone-800 dark:text-stone-200"
+      />
+      <EditableText
+        label={t.postCode}
+        keyName="postCode"
+        className="text-stone-800 dark:text-stone-200"
+      />
+      <EditableText
+        label={t.city}
+        keyName="city"
+        className="text-stone-800 dark:text-stone-200"
+      />
+      <div className="flex flex-grow flex-col">
+        <Label label={t.province} />
+        <EditableEnum
+          keyName="province"
+          enum_data={provinces}
+          open={enumOpen}
+          onOpenChange={setEnumOpen}
         />
-        <div className="flex flex-grow flex-col">
-          <Label label={t.province} />
-          <EditableEnum
-            keyName="province"
-            enum_data={provinces}
-            open={enumOpen}
-            onOpenChange={setEnumOpen}
-          />
-        </div>
-      </EditableObject>
+      </div>
     </div>
   );
 }
 
-function EditableAddressExtend(props: EditableAddressProps) {
+function EditableAddressExtend(props: EditableInput<Address>) {
   const {
     label,
     value,
@@ -111,7 +113,7 @@ function EditableAddressExtend(props: EditableAddressProps) {
     leftSection,
     rightSection,
     keyName,
-  } = useEditableContext(props);
+  } = props;
   const [focus, setFocus] = useState<boolean>(false);
   const [enumOpen, setEnumOpen] = useState<boolean>(false);
 
@@ -141,19 +143,18 @@ function EditableAddressExtend(props: EditableAddressProps) {
       >
         {focus ? (
           <EditableAddressContent
-            keyName={keyName}
             enumOpen={enumOpen}
             setEnumOpen={setEnumOpen}
           />
         ) : (
-          valueString || "⸺"
+          valueString || "_____ __/__\n_____\n__-___ _____\n_____"
         )}
       </DisplayCellExpanding>
     </div>
   );
 }
 
-function EditableAddressAlwaysVisible(props: EditableAddressProps) {
+function EditableAddressAlwaysVisible(props: EditableInput<Address>) {
   const {
     label,
     value,
@@ -164,7 +165,7 @@ function EditableAddressAlwaysVisible(props: EditableAddressProps) {
     leftSection,
     rightSection,
     keyName,
-  } = useEditableContext(props);
+  } = props;
   const valueString = addressToString(value);
   return (
     <div className="flex-grow">
@@ -180,13 +181,13 @@ function EditableAddressAlwaysVisible(props: EditableAddressProps) {
         leftSection={!focus && leftSection}
         rightSection={rightSection}
       >
-        <EditableAddressContent keyName={keyName} />
+        <EditableAddressContent />
       </DisplayCellExpanding>
     </div>
   );
 }
 
-interface EditableAddress2Props extends EditableInput<Omit<Address, "id">> {
+interface EditableAddress2Props extends EditableInput<Address> {
   maxLength?: number;
 }
 
@@ -201,7 +202,7 @@ const EditableAddressPopover = (props: EditableAddress2Props) => {
     leftSection,
     rightSection,
     keyName,
-  } = useEditableContext(props);
+  } = props;
 
   const valueString = addressToString(value);
 
@@ -231,7 +232,7 @@ const EditableAddressPopover = (props: EditableAddress2Props) => {
               <DialogTitle>{props.label}</DialogTitle>
             </DialogHeader>
           )}
-          <EditableAddressContent keyName={keyName} />
+          <EditableAddressContent />
         </DialogContent>
       </Dialog>
     </div>
@@ -240,14 +241,69 @@ const EditableAddressPopover = (props: EditableAddress2Props) => {
 
 const EditableAddress = (props: EditableAddressProps) => {
   const { editableAddressMode } = useFlagContext();
+  const {
+    label,
+    value,
+    onSubmit,
+    disabled,
+    required,
+    // maxLength,
+    leftSection,
+    rightSection,
+    keyName,
+  } = useEditableContext(props);
+  const isLoaded = useLoaded();
+  const queryClient = useQueryClient()
+  const { data, refetch } = api.address.getById.useQuery(value as number, {
+    enabled: value !== undefined,
+  });
+  const addressGetByIdKey = getQueryKey(api.address.getById, value as number, 'query');
+  const { mutateAsync: update } = api.address.update.useMutation({
+    onSuccess: (data) => {
+      queryClient.setQueryData(addressGetByIdKey, data)
+    },
+  });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const apiUpdate = (key: Key, val: any) => {
+    if (!isLoaded) return;
+    if (!data) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    update({ id: data.id, [key]: val }).catch(console.log);
+  };
+
+  const valueString = addressToString(data);
+
+  if (data === undefined ) {
+    return (
+      <div className="flex flex-grow flex-col">
+        <Label label={label} required={required} />
+
+        <DisplayCellExpanding
+          className={cn(
+            "h-auto  px-2 py-2 text-left focus-within:ring-0",
+            "text-gray-400 dark:text-stone-600",
+          )}
+          disabled={disabled}
+          leftSection={leftSection}
+          rightSection={rightSection}
+        >
+          _____ __/__<br/>_____<br/>__-___ ____<br/>_____
+        </DisplayCellExpanding>
+      </div>
+    );
+  }
+
+  let ModeElement = EditableAddressPopover;
   if (editableAddressMode === "always_visible")
-    return <EditableAddressAlwaysVisible {...props} />;
+    ModeElement = EditableAddressAlwaysVisible;
+  if (editableAddressMode === "extend") ModeElement = EditableAddressExtend;
 
-  if (editableAddressMode === "extend")
-    return <EditableAddressExtend {...props} />;
-
-  return <EditableAddressPopover {...props} />;
+  return (
+    <Editable onSubmit={apiUpdate} data={data}>
+      <ModeElement label={label} value={data} />
+    </Editable>
+  );
 };
 
 export default EditableAddress;

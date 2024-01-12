@@ -1,4 +1,11 @@
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  useLayoutEffect,
+} from "react";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import preventLeave from "@/utils/preventLeave";
 import { Label } from "@/components/ui/Label";
@@ -56,10 +63,11 @@ const EditableText = (props: EditableTextProps) => {
     // eslint-disable-next-line
   }, [focus]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     return () => {
-      console.log(text);
-      onSubmitValue(text);
+      if (text !== (value ?? "")) {
+        onSubmit?.(text);
+      }
       window.removeEventListener("beforeunload", preventLeave);
     };
     // eslint-disable-next-line

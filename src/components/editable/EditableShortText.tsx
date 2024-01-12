@@ -1,4 +1,11 @@
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  useLayoutEffect,
+} from "react";
 
 import preventLeave from "@/utils/preventLeave";
 
@@ -52,7 +59,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
     // eslint-disable-next-line
   }, [focus]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     return () => {
       if (text !== (value ?? "")) {
         onSubmit?.(text);

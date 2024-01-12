@@ -2,7 +2,7 @@ import { addresses } from "@/db/schema/addresses";
 import { clients } from "@/db/schema/clients";
 import {
   insertClientWithRelationZodSchema,
-  updateClientWithRelationZodSchema,
+  updateClientZodSchema,
 } from "@/schema/clientZodSchema";
 import { createProcedureSearch } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
@@ -15,9 +15,6 @@ export const clientRouter = createTRPCRouter({
     .query(async ({ input: id, ctx }) => {
       const data = await ctx.db.query.clients.findFirst({
         where: eq(clients.id, id),
-        with: {
-          address: true,
-        },
       });
       return data;
     }),
@@ -67,24 +64,10 @@ export const clientRouter = createTRPCRouter({
       return { ...data, address: deletedAddress[0] };
     }),
   update: employeeProcedure
-    .input(updateClientWithRelationZodSchema)
+    .input(updateClientZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
-      const { id, address, ...dataToUpdate } = clientData;
+      const { id, ...dataToUpdate } = clientData;
       const currentUserId = ctx.session.user.id;
-
-      if (!!address) {
-        const data = await ctx.db
-          .select()
-          .from(clients)
-          .where(eq(clients.id, id));
-        if (data[0] === undefined) throw new Error("Client: Client Not Found");
-        if (data[0]?.addressId === undefined || data[0]?.addressId === null)
-          throw new Error("Client: Address Not Found");
-        await ctx.db
-          .update(addresses)
-          .set(address)
-          .where(eq(addresses.id, data[0].addressId));
-      }
 
       const updatedClient = await ctx.db
         .update(clients)

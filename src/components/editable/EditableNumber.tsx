@@ -1,5 +1,12 @@
 import { useClickOutside } from "@mantine/hooks";
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type CSSProperties,
+  useLayoutEffect,
+} from "react";
 
 import DisplayCell from "@/components/ui/DisplayCell";
 import { Label } from "@/components/ui/Label";
@@ -81,7 +88,7 @@ const EditableNumber = (props: EditableNumberProps) => {
     // eslint-disable-next-line
   }, [focus]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     return () => {
       onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
