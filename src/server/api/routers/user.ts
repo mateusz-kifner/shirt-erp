@@ -1,29 +1,27 @@
 import { users } from "@/db/schema/users";
 import { updateUserZodSchema } from "@/schema/userZodSchema";
-import { createTRPCRouter, managerProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  employeeProcedure,
+  managerProcedure,
+} from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import { createProcedureGetById, createProcedureSearch } from "../procedures";
+import { createProcedureSearch } from "../procedures";
 import { TRPCError } from "@trpc/server";
-import { authDBAdapter } from "@/server/auth";
-import { type AdapterUser } from "next-auth/adapters";
+import userServices from "@/server/services/user";
 
 export const userRouter = createTRPCRouter({
-  getById: createProcedureGetById(users),
+  getById: employeeProcedure
+    .input(z.string())
+    .query(async ({ input: id }) => userServices.getById(id)),
   create: managerProcedure
     .input(z.object({ name: z.string().optional(), email: z.string().email() }))
-    .mutation(async ({ input: userData }) => {
-      const data = await authDBAdapter.createUser?.({
-        ...userData,
-        emailVerified: new Date(),
-      } as AdapterUser);
-
-      return data;
-    }),
+    .mutation(async ({ input: userData }) => userServices.create(userData)),
   deleteById: managerProcedure
     .input(z.string())
     .mutation(async ({ input: id, ctx }) => {
-      const user = await ctx.db.select().from(users).where(eq(users.id, id));
+      const user = await db.select().from(users).where(eq(users.id, id));
       const currentUser = ctx.session!.user;
       if (user[0] === undefined)
         throw new TRPCError({
@@ -35,22 +33,17 @@ export const userRouter = createTRPCRouter({
           code: "UNAUTHORIZED",
           message: "Cannot delete user with higher role",
         });
-      //const data = await authDBAdapter.deleteUser?.(id); // TODO: use this when available
-      const data = await ctx.db
-        .delete(users)
-        .where(eq(users.id, id))
-        .returning();
-      if (data[0] === undefined)
-        throw new Error("User: User deletion cannot be confirmed");
-      return data[0];
+      return await userServices.deleteById(id);
     }),
   update: managerProcedure
     .input(updateUserZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
-      const { id, ...dataToUpdate } = userData;
       const currentUser = ctx.session!.user;
       const currentUserId = currentUser.id;
-      const user = await ctx.db.select().from(users).where(eq(users.id, id));
+      const user = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, userData.id));
       if (user[0] === undefined)
         throw new TRPCError({
           code: "NOT_FOUND",
@@ -61,21 +54,17 @@ export const userRouter = createTRPCRouter({
           code: "UNAUTHORIZED",
           message: "Cannot update data of user with higher role",
         });
-      if (currentUser.role === "manager" && dataToUpdate.role === "admin")
+      if (currentUser.role === "manager" && userData.role === "admin")
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "Cannot set role higher than your own!!!",
         });
-      const updatedUser = await ctx.db
-        .update(users)
-        .set({
-          ...dataToUpdate,
-          updatedById: currentUserId,
-          updatedAt: new Date(),
-        })
-        .where(eq(users.id, id))
-        .returning();
-      return updatedUser[0];
+
+      return await userServices.update({
+        ...userData,
+        updatedById: currentUserId,
+        updatedAt: new Date(),
+      });
     }),
   search: createProcedureSearch(users),
 });

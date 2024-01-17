@@ -9,7 +9,6 @@ export const spreadsheets = pgTable("spreadsheets", {
   name: varchar("name", { length: 255 }),
   data: json("data").$type<UniversalMatrix>().default([]),
   orderId: integer("order_id").references(() => orders.id),
-
   ...metadata,
 });
 

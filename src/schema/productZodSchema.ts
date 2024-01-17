@@ -23,3 +23,4 @@ export const updateProductZodSchema =
 
 export type Product = typeof products.$inferSelect;
 export type NewProduct = typeof products.$inferInsert;
+export type UpdatedProduct = z.infer<typeof updateProductZodSchema>;

@@ -8,7 +8,7 @@ import idRequiredZodSchema from "@/schema/idRequiredZodSchema";
 
 export function createProcedureGetAll<T extends schemaType>(schema: T) {
   return employeeProcedure.query(async ({ ctx }) => {
-    const data = await ctx.db.select().from<T>(schema);
+    const data = await db.select().from<T>(schema);
     return data;
   });
 }
@@ -22,10 +22,7 @@ export function createProcedureGetById<T extends schemaType>(schema: T) {
           `GetById: Schema ${schema._.name} does not have property id`,
         );
       }
-      const data = await ctx.db
-        .select()
-        .from<T>(schema)
-        .where(eq(schema.id, id));
+      const data = await db.select().from<T>(schema).where(eq(schema.id, id));
       return data[0];
     });
 }
@@ -41,7 +38,7 @@ export function createProcedureDeleteById<TSchema extends schemaType>(
           `DeleteById: Schema ${schema._.name} does not have property id`,
         );
       }
-      const deleted = await ctx.db
+      const deleted = await db
         .delete(schema)
         .where(eq(schema.id, id))
         .returning();
@@ -61,7 +58,7 @@ export function createProcedureUpdate<TSchema extends schemaType>(
     }
     const { id, ...dataToUpdate } = input;
     const currentUserId = ctx.session.user.id;
-    const updatedClient = await ctx.db
+    const updatedClient = await db
       .update(schema)
       .set({
         ...dataToUpdate,
@@ -111,7 +108,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
             ilike(schema[key as keyof typeof schema.$inferSelect], queryParam),
           )
         : [];
-      const results = await ctx.db
+      const results = await db
         .select()
         .from<TSchema>(schema)
         .where(
@@ -134,7 +131,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
           ),
         );
       // console.log(results);
-      const totalItems = await ctx.db
+      const totalItems = await db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);
 

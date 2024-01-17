@@ -46,13 +46,15 @@ const schema = {
   ...users,
 };
 
+export type DBType = PostgresJsDatabase<typeof schema>;
+
 // for migrations
 const migrationClient = postgres(env.DATABASE_URL, { max: 1 });
 export const migrationDb = drizzle(migrationClient);
 
 // for query purposes
 const queryClient = postgres(env.DATABASE_URL);
-export const db: PostgresJsDatabase<typeof schema> = drizzle(queryClient, {
+export const db: DBType = drizzle(queryClient, {
   schema,
   // logger: env.NODE_ENV !== "production",
 });

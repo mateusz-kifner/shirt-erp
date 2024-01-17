@@ -1,3 +1,4 @@
+import { db } from "@/db";
 import { email_credentials } from "@/db/schema/email_credentials";
 import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
 import { insertEmailCredentialZodSchema } from "@/schema/emailCredentialZodSchema";
@@ -10,7 +11,7 @@ import { z } from "zod";
 export const settingsRouter = createTRPCRouter({
   getAllMailCredentials: employeeProcedure.query(async ({ ctx }) => {
     const currentUserId = ctx.session.user.id;
-    const result = await ctx.db.query.users.findFirst({
+    const result = await db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, currentUserId),
       with: { emailCredentials: { with: { emailCredentials: true } } },
     });
@@ -21,7 +22,7 @@ export const settingsRouter = createTRPCRouter({
     .input(insertEmailCredentialZodSchema)
     .mutation(async ({ ctx, input: emailCredentialData }) => {
       const currentUserId = ctx.session.user.id;
-      const EmailCredential = await ctx.db
+      const EmailCredential = await db
         .insert(email_credentials)
         .values({
           ...emailCredentialData,
@@ -34,7 +35,7 @@ export const settingsRouter = createTRPCRouter({
           code: "INTERNAL_SERVER_ERROR",
           message: "INTERNAL_SERVER_ERROR: could not create email credential",
         });
-      await ctx.db.insert(email_credentials_to_users).values({
+      await db.insert(email_credentials_to_users).values({
         userId: currentUserId,
         emailCredentialsId: EmailCredential[0].id,
       });
@@ -53,7 +54,7 @@ export const settingsRouter = createTRPCRouter({
     .input(z.number())
     .mutation(async ({ ctx, input: id }) => {
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: true },
       });
@@ -67,11 +68,11 @@ export const settingsRouter = createTRPCRouter({
           message: "You don't have permissions to delete this credential",
         });
       }
-      await ctx.db
+      await db
         .delete(email_credentials_to_users)
         .where(eq(email_credentials_to_users.emailCredentialsId, id));
 
-      const deletedEmailCredential = await ctx.db
+      const deletedEmailCredential = await db
         .delete(email_credentials)
         .where(eq(email_credentials.id, id))
         .returning();

@@ -24,3 +24,4 @@ export const updateExpenseZodSchema =
 
 export type Expense = z.infer<typeof selectExpenseZodSchema>;
 export type NewExpense = z.infer<typeof insertExpenseZodSchema>;
+export type UpdatedExpense = z.infer<typeof updateExpenseZodSchema>;

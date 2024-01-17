@@ -3,38 +3,33 @@ import {
   insertAddressZodSchema,
   updateAddressZodSchema,
 } from "@/schema/addressZodSchema";
-import {
-  createProcedureGetById,
-  createProcedureDeleteById,
-  createProcedureGetAll,
-} from "@/server/api/procedures";
+import { createProcedureGetAll } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { eq } from "drizzle-orm";
+import addressServices from "@/server/services/address";
+import { z } from "zod";
 
 export const addressRouter = createTRPCRouter({
   getAll: createProcedureGetAll(addresses),
-  getById: createProcedureGetById(addresses),
+
+  getById: employeeProcedure
+    .input(z.number())
+    .query(async ({ input: id }) => await addressServices.getById(id)),
+
   create: employeeProcedure
     .input(insertAddressZodSchema)
-    .mutation(async ({ input: addressData, ctx }) => {
-      const newAddress = await ctx.db
-        .insert(addresses)
-        .values(addressData ?? {})
-        .returning();
-      if (newAddress[0] === undefined)
-        throw new Error("Could not create address");
-      return newAddress[0];
-    }),
-  deleteById: createProcedureDeleteById(addresses),
+    .mutation(
+      async ({ input: addressData }) =>
+        await addressServices.create(addressData),
+    ),
+
+  deleteById: employeeProcedure
+    .input(z.number())
+    .query(async ({ input: id }) => addressServices.deleteById(id)),
+
   update: employeeProcedure
     .input(updateAddressZodSchema)
-    .mutation(async ({ input: addressData, ctx }) => {
-      const updatedAddress = await ctx.db
-        .update(addresses)
-        .set(addressData)
-        .where(eq(addresses.id, addressData.id))
-        .returning();
-      if (updatedAddress[0] === undefined) throw new Error("Could not update");
-      return updatedAddress[0];
-    }),
+    .mutation(
+      async ({ input: addressData }) =>
+        await addressServices.update(addressData),
+    ),
 });

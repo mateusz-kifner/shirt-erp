@@ -11,6 +11,7 @@ export const insertClientZodSchema = createInsertSchema(clients).omit({
   updatedAt: true,
   updatedById: true,
 });
+
 export const updateClientZodSchema =
   insertClientZodSchema.merge(idRequiredZodSchema);
 
@@ -29,3 +30,4 @@ export type ClientWithRelations = z.infer<
   typeof insertClientWithRelationZodSchema
 >;
 export type NewClient = z.infer<typeof insertClientZodSchema>;
+export type UpdatedClient = z.infer<typeof updateClientZodSchema>;

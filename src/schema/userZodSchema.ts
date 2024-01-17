@@ -16,3 +16,4 @@ export const updateUserZodSchema = insertUserZodSchema.merge(
 
 export type User = typeof users.$inferSelect;
 export type NewUser = z.infer<typeof insertUserZodSchema>;
+export type UpdatedUser = z.infer<typeof updateUserZodSchema>;

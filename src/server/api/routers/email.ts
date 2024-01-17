@@ -16,7 +16,7 @@ import { z } from "zod";
 export const emailRouter = createTRPCRouter({
   getAllConfigs: employeeProcedure.query(async ({ ctx }) => {
     const currentUserId = ctx.session.user.id;
-    const result = await ctx.db.query.users.findFirst({
+    const result = await db.query.users.findFirst({
       where: (users, { eq }) => eq(users.id, currentUserId),
       with: { emailCredentials: { with: { emailCredentials: true } } },
     });
@@ -30,7 +30,7 @@ export const emailRouter = createTRPCRouter({
     .input(z.number())
     .query(async ({ ctx, input }) => {
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
@@ -61,7 +61,7 @@ export const emailRouter = createTRPCRouter({
     .input(z.number())
     .query(async ({ ctx, input }) => {
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
@@ -100,7 +100,7 @@ export const emailRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { mailbox, emailClientId, take, skip } = input;
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
@@ -139,7 +139,7 @@ export const emailRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { mailbox, emailClientId, emailId } = input;
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
@@ -182,7 +182,7 @@ export const emailRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { mailbox, emailClientId, emailId } = input;
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
@@ -228,7 +228,7 @@ export const emailRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { mailbox, emailClientId, query, take } = input;
       const currentUserId = ctx.session.user.id;
-      const result = await ctx.db.query.users.findFirst({
+      const result = await db.query.users.findFirst({
         where: (users, { eq }) => eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });

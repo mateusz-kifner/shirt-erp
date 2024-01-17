@@ -5,46 +5,28 @@ import { files } from "@/db/schema/files";
 import { type File, updateFileZodSchema } from "@/schema/fileZodSchema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import fileServices from "@/server/services/file";
 
 const baseUrl = "/api/files/";
 
 export const fileRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id, ctx }) => {
-      const data = await ctx.db.query.files.findFirst({
-        where: (schema, { eq }) => eq(schema.id, id),
-      });
-      if (!data) return null;
-      return {
-        ...data,
-        url: `${baseUrl}${data?.filename}?token=${data?.token}`,
-      } as unknown as File; // check why it is complaining about any when not cast as unknown first
-    }),
+    .query(async ({ input: id }) => await fileServices.getById(id)),
+
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id, ctx }) => {
-      const deletedClient = await ctx.db
-        .delete(files)
-        .where(eq(files.id, id))
-        .returning();
-      return deletedClient[0];
-    }),
+    .mutation(async ({ input: id, ctx }) => fileServices.deleteById(id)),
+
   update: employeeProcedure
     .input(updateFileZodSchema)
-    .mutation(async ({ input: clientData, ctx }) => {
-      const { id, ...dataToUpdate } = clientData;
+    .mutation(async ({ input: fileData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      const updatedClient = await ctx.db
-        .update(files)
-        .set({
-          ...dataToUpdate,
-          updatedById: currentUserId,
-          updatedAt: new Date(),
-        })
-        .where(eq(files.id, id))
-        .returning();
-      return updatedClient[0];
+      return await fileServices.update({
+        ...fileData,
+        updatedById: currentUserId,
+        updatedAt: new Date(),
+      });
     }),
 
   search: createProcedureSearch(files),

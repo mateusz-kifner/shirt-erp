@@ -9,6 +9,7 @@ import {
 } from "@/schema/spreadsheetZodSchema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import spreadsheetServices from "@/server/services/spreadsheets";
 
 // const partialSpreadsheetData = z.object({
 //   id: z.number(),
@@ -22,51 +23,34 @@ import { z } from "zod";
 export const spreadsheetRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id, ctx }) => {
-      const data = await ctx.db.query.spreadsheets.findFirst({
-        where: (schema, { eq }) => eq(schema.id, id),
-      });
-      return data;
-    }),
+    .query(async ({ input: id }) => spreadsheetServices.getById(id)),
+
   create: employeeProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      const newUser = await ctx.db
-        .insert(spreadsheets)
-        .values({
-          ...userData,
-          createdById: currentUserId,
-          updatedById: currentUserId,
-        })
-        .returning();
-      return newUser[0];
+      return await spreadsheetServices.create({
+        ...userData,
+        createdById: currentUserId,
+        updatedById: currentUserId,
+      });
     }),
+
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id, ctx }) => {
-      const deletedSpreadsheet = await ctx.db
-        .delete(spreadsheets)
-        .where(eq(spreadsheets.id, id))
-        .returning();
-      return deletedSpreadsheet[0];
-    }),
+    .mutation(async ({ input: id }) => spreadsheetServices.deleteById(id)),
+
   update: employeeProcedure
     .input(updateSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
-      const { id, ...dataToUpdate } = userData;
       const currentUserId = ctx.session.user.id;
-      const updatedUser = await ctx.db
-        .update(spreadsheets)
-        .set({
-          ...dataToUpdate,
-          updatedById: currentUserId,
-          updatedAt: new Date(),
-        })
-        .where(eq(spreadsheets.id, id))
-        .returning();
-      return updatedUser[0];
+      return await spreadsheetServices.update({
+        ...userData,
+        updatedById: currentUserId,
+        updatedAt: new Date(),
+      });
     }),
+
   search: createProcedureSearch(spreadsheets),
 
   // updatePartial: employeeProcedure

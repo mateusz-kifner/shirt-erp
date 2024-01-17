@@ -16,7 +16,6 @@ interface CreateContextOptions {
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
-    db,
   };
 };
 
@@ -44,11 +43,9 @@ import type * as trpcNext from "@trpc/server/adapters/next";
 
 export async function createTRPCContext(
   opts: trpcNext.CreateNextContextOptions,
-): Promise<{ db: typeof db; session: Session | null }> {
+): Promise<{ session: Session | null }> {
   const session = await getServerAuthSession({ req: opts.req, res: opts.res });
-
   return {
-    db,
     session,
   };
 }
@@ -225,7 +222,7 @@ export const isAuthenticatedAdmin = middleware(async ({ ctx, next }) => {
   });
 });
 
-export const normalProcedure = t.procedure.use(isAuthenticatedNormal); // Normal
-export const employeeProcedure = t.procedure.use(isAuthenticatedEmployee); // Employee
-export const managerProcedure = t.procedure.use(isAuthenticatedManager); // Manager
-export const adminProcedure = t.procedure.use(isAuthenticatedAdmin); // Admin
+export const normalProcedure = t.procedure.use(isAuthenticatedNormal);
+export const employeeProcedure = t.procedure.use(isAuthenticatedEmployee);
+export const managerProcedure = t.procedure.use(isAuthenticatedManager);
+export const adminProcedure = t.procedure.use(isAuthenticatedAdmin);

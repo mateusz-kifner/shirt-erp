@@ -5,15 +5,15 @@ import { omit } from "lodash";
 import { useEffect, useState } from "react";
 
 export function useApiClientGetById(id: number | null) {
-  const [loadStep, setLoadStep] = useState(0);
+  const [firstLoad, setFirstLoad] = useState(true);
   const RQClient = useQueryClient();
 
   const queryClientFull = api.client.getByIdFull.useQuery(id as number, {
-    enabled: id !== null && loadStep === 0,
+    enabled: id !== null && firstLoad,
   });
 
   const queryClient = api.client.getById.useQuery(id as number, {
-    enabled: id !== null && loadStep > 1,
+    enabled: id !== null && !firstLoad,
     refetchOnMount: false,
     staleTime: 60 * 1000, // 30s
   });
@@ -23,16 +23,16 @@ export function useApiClientGetById(id: number | null) {
     {
       enabled:
         id !== null &&
-        loadStep > 1 &&
+        !firstLoad &&
         (queryClientFull?.data?.addressId ?? undefined) !== undefined,
       refetchOnMount: false,
-      staleTime: 60000,
-      cacheTime: 60000,
+      staleTime: 60 * 1000, // 30s
     },
   );
+
   useEffect(() => {
     if (
-      loadStep === 0 &&
+      firstLoad &&
       typeof queryClientFull?.data?.addressId === "number" &&
       typeof queryClientFull?.data?.id === "number"
     ) {
@@ -56,13 +56,9 @@ export function useApiClientGetById(id: number | null) {
         omit(queryClientFull?.data, "address"),
       );
 
-      setLoadStep(1);
+      setFirstLoad(false);
     }
   }, [queryClientFull.isSuccess]);
-
-  useEffect(() => {
-    if (loadStep === 1) setLoadStep(2);
-  }, [loadStep]);
 
   return { client: queryClient, address: queryAddress };
 }

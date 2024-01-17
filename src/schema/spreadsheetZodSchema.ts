@@ -21,3 +21,4 @@ export const updateSpreadsheetZodSchema =
 
 export type Spreadsheet = z.infer<typeof selectSpreadsheetZodSchema>;
 export type NewSpreadsheet = z.infer<typeof insertSpreadsheetZodSchema>;
+export type UpdatedSpreadsheet = z.infer<typeof updateSpreadsheetZodSchema>;

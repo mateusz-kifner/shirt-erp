@@ -22,3 +22,5 @@ export type NewFile = Merge<
   z.infer<typeof insertFileZodSchema>,
   { url: string }
 >;
+
+export type UpdatedFile = z.infer<typeof updateFileZodSchema>;

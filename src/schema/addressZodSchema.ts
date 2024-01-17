@@ -10,4 +10,4 @@ export const updateAddressZodSchema =
 
 export type Address = typeof addresses.$inferSelect;
 export type NewAddress = typeof addresses.$inferInsert;
-export type UpdateAddress = z.infer<typeof updateAddressZodSchema>;
+export type UpdatedAddress = z.infer<typeof updateAddressZodSchema>;
