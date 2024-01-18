@@ -38,6 +38,6 @@ async function update(productData: UpdatedProduct & MetadataType) {
   return updatedProduct[0];
 }
 
-const productServices = { getById, create, deleteById, update };
+const productService = { getById, create, deleteById, update };
 
-export default productServices;
+export default productService;

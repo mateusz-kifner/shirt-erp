@@ -5,7 +5,7 @@ import {
 } from "@/schema/addressZodSchema";
 import { createProcedureGetAll } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
-import addressServices from "@/server/services/address";
+import addressService from "@/server/services/address";
 import { z } from "zod";
 
 export const addressRouter = createTRPCRouter({
@@ -13,23 +13,23 @@ export const addressRouter = createTRPCRouter({
 
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await addressServices.getById(id)),
+    .query(async ({ input: id }) => await addressService.getById(id)),
 
   create: employeeProcedure
     .input(insertAddressZodSchema)
     .mutation(
       async ({ input: addressData }) =>
-        await addressServices.create(addressData),
+        await addressService.create(addressData),
     ),
 
   deleteById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => addressServices.deleteById(id)),
+    .query(async ({ input: id }) => addressService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateAddressZodSchema)
     .mutation(
       async ({ input: addressData }) =>
-        await addressServices.update(addressData),
+        await addressService.update(addressData),
     ),
 });

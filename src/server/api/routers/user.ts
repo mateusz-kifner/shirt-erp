@@ -9,15 +9,15 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createProcedureSearch } from "../procedures";
 import { TRPCError } from "@trpc/server";
-import userServices from "@/server/services/user";
+import userService from "@/server/services/user";
 
 export const userRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.string())
-    .query(async ({ input: id }) => userServices.getById(id)),
+    .query(async ({ input: id }) => userService.getById(id)),
   create: managerProcedure
     .input(z.object({ name: z.string().optional(), email: z.string().email() }))
-    .mutation(async ({ input: userData }) => userServices.create(userData)),
+    .mutation(async ({ input: userData }) => userService.create(userData)),
   deleteById: managerProcedure
     .input(z.string())
     .mutation(async ({ input: id, ctx }) => {
@@ -33,7 +33,7 @@ export const userRouter = createTRPCRouter({
           code: "UNAUTHORIZED",
           message: "Cannot delete user with higher role",
         });
-      return await userServices.deleteById(id);
+      return await userService.deleteById(id);
     }),
   update: managerProcedure
     .input(updateUserZodSchema)
@@ -60,7 +60,7 @@ export const userRouter = createTRPCRouter({
           message: "Cannot set role higher than your own!!!",
         });
 
-      return await userServices.update({
+      return await userService.update({
         ...userData,
         updatedById: currentUserId,
         updatedAt: new Date(),

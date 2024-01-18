@@ -5,19 +5,19 @@ import {
 } from "@/schema/productZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { createProcedureSearch } from "../procedures";
-import productServices from "@/server/services/product";
+import productService from "@/server/services/product";
 import { z } from "zod";
 
 export const productRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await productServices.getById(id)),
+    .query(async ({ input: id }) => await productService.getById(id)),
 
   create: employeeProcedure
     .input(insertProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      return await productServices.create({
+      return await productService.create({
         ...productData,
         createdById: currentUserId,
         updatedById: currentUserId,
@@ -26,13 +26,13 @@ export const productRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await productServices.deleteById(id)),
+    .query(async ({ input: id }) => await productService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      return await productServices.update({
+      return await productService.update({
         ...productData,
         updatedById: currentUserId,
         updatedAt: new Date(),

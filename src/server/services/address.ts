@@ -37,6 +37,6 @@ async function update(addressData: UpdatedAddress) {
   return updatedProduct[0];
 }
 
-const addressServices = { getById, create, deleteById, update };
+const addressService = { getById, create, deleteById, update };
 
-export default addressServices;
+export default addressService;

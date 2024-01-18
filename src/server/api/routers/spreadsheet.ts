@@ -9,7 +9,7 @@ import {
 } from "@/schema/spreadsheetZodSchema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
-import spreadsheetServices from "@/server/services/spreadsheets";
+import spreadsheetService from "@/server/services/spreadsheets";
 
 // const partialSpreadsheetData = z.object({
 //   id: z.number(),
@@ -23,13 +23,13 @@ import spreadsheetServices from "@/server/services/spreadsheets";
 export const spreadsheetRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => spreadsheetServices.getById(id)),
+    .query(async ({ input: id }) => spreadsheetService.getById(id)),
 
   create: employeeProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      return await spreadsheetServices.create({
+      return await spreadsheetService.create({
         ...userData,
         createdById: currentUserId,
         updatedById: currentUserId,
@@ -38,13 +38,13 @@ export const spreadsheetRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => spreadsheetServices.deleteById(id)),
+    .mutation(async ({ input: id }) => spreadsheetService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      return await spreadsheetServices.update({
+      return await spreadsheetService.update({
         ...userData,
         updatedById: currentUserId,
         updatedAt: new Date(),

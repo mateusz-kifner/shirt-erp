@@ -38,6 +38,6 @@ async function update(expenseData: UpdatedExpense & MetadataType) {
   return updatedExpense[0];
 }
 
-const expenseServices = { getById, create, deleteById, update };
+const expenseService = { getById, create, deleteById, update };
 
-export default expenseServices;
+export default expenseService;

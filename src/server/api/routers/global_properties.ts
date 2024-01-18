@@ -11,13 +11,13 @@ import {
   insertGlobalPropertiesZodSchema,
   updateGlobalPropertiesZodSchema,
 } from "@/schema/globalPropertiesZodSchema";
-import globalPropertyServices from "@/server/services/global_properties";
+import globalPropertyService from "@/server/services/global_properties";
 import { db } from "@/db";
 
 export const globalPropertiesRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await globalPropertyServices.getById(id)),
+    .query(async ({ input: id }) => await globalPropertyService.getById(id)),
 
   getAll: employeeProcedure.query(
     async () => await db.select().from(global_properties),
@@ -37,20 +37,20 @@ export const globalPropertiesRouter = createTRPCRouter({
     .input(insertGlobalPropertiesZodSchema)
     .mutation(
       async ({ input: globalPropertiesData }) =>
-        await globalPropertyServices.create(globalPropertiesData),
+        await globalPropertyService.create(globalPropertiesData),
     ),
 
   deleteById: managerProcedure
     .input(z.number())
     .mutation(
-      async ({ input: id }) => await globalPropertyServices.deleteById(id),
+      async ({ input: id }) => await globalPropertyService.deleteById(id),
     ),
 
   update: employeeProcedure
     .input(updateGlobalPropertiesZodSchema)
     .mutation(
       async ({ input: globalPropertiesData }) =>
-        await globalPropertyServices.update(globalPropertiesData),
+        await globalPropertyService.update(globalPropertiesData),
     ),
 
   search: createProcedureSearch(global_properties),

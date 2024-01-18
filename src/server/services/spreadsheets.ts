@@ -41,6 +41,6 @@ async function update(spreadsheetData: UpdatedSpreadsheet & MetadataType) {
   return updatedSpreadsheet[0];
 }
 
-const spreadsheetServices = { getById, create, deleteById, update };
+const spreadsheetService = { getById, create, deleteById, update };
 
-export default spreadsheetServices;
+export default spreadsheetService;

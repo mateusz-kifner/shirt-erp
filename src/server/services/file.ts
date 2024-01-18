@@ -46,6 +46,6 @@ async function update(fileData: UpdatedFile & MetadataType) {
   return updatedFile[0];
 }
 
-const fileServices = { getById, create, deleteById, update };
+const fileService = { getById, create, deleteById, update };
 
-export default fileServices;
+export default fileService;

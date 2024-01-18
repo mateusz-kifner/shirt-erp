@@ -77,6 +77,6 @@ async function update(clientData: UpdatedClient & MetadataType) {
   return updatedClient[0];
 }
 
-const clientServices = { getByIdFull, getById, create, deleteById, update };
+const clientService = { getByIdFull, getById, create, deleteById, update };
 
-export default clientServices;
+export default clientService;

@@ -50,6 +50,6 @@ async function update(
   return updatedGlobalProperty[0];
 }
 
-const globalPropertyServices = { getById, create, deleteById, update };
+const globalPropertyService = { getById, create, deleteById, update };
 
-export default globalPropertyServices;
+export default globalPropertyService;

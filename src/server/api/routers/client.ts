@@ -5,23 +5,23 @@ import {
 } from "@/schema/clientZodSchema";
 import { createProcedureSearch } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
-import clientServices from "@/server/services/client";
+import clientService from "@/server/services/client";
 import { z } from "zod";
 
 export const clientRouter = createTRPCRouter({
   getByIdFull: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await clientServices.getByIdFull(id)),
+    .query(async ({ input: id }) => await clientService.getByIdFull(id)),
 
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await clientServices.getById(id)),
+    .query(async ({ input: id }) => await clientService.getById(id)),
 
   create: employeeProcedure
     .input(insertClientWithRelationZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const currentUserId = ctx.session.user.id;
-      return await clientServices.create({
+      return await clientService.create({
         ...clientData,
         createdById: currentUserId,
         updatedById: currentUserId,
@@ -30,14 +30,14 @@ export const clientRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => await clientServices.deleteById(id)),
+    .mutation(async ({ input: id }) => await clientService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateClientZodSchema)
     .mutation(async ({ input: clientData, ctx }) => {
       const currentUserId = ctx.session.user.id;
 
-      return await clientServices.update({
+      return await clientService.update({
         ...clientData,
         updatedById: currentUserId,
         updatedAt: new Date(),

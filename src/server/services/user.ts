@@ -43,6 +43,6 @@ async function update(userData: UpdatedUser & MetadataType) {
   return updatedUser[0];
 }
 
-const userServices = { getById, create, deleteById, update };
+const userService = { getById, create, deleteById, update };
 
-export default userServices;
+export default userService;
