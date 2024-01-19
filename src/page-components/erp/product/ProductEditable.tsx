@@ -120,7 +120,7 @@ function ProductEditable(props: ProductEditableProps) {
                 onClick={() => setDeleteModalOpen(true)}
                 className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
               >
-                {t.delete} {t.client.singular} <IconTrashX size={18} />
+                {t.delete} {t.product.singular} <IconTrashX size={18} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -152,6 +152,7 @@ function ProductEditable(props: ProductEditableProps) {
         <EditableMultiSelect
           label="Rozmiary"
           keyName="sizes"
+          freeInput
           enumData={
             Array.from(global_selectables) ?? ["XS", "S", "M", "L", "XL", "XXL"]
           }
