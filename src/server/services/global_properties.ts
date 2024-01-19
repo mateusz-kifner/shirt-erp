@@ -18,7 +18,9 @@ const globalPropertyPrepareGetById = db.query.global_properties
 async function getById(id: number): Promise<GlobalProperties> {
   const globalProperty = await globalPropertyPrepareGetById.execute({ id });
   if (!globalProperty)
-    throw new Error("[GlobalPropertyService]: Could not find global property");
+    throw new Error(
+      `[GlobalPropertyService]: Could not find global property with id ${id}`,
+    );
   return globalProperty;
 }
 
@@ -32,7 +34,7 @@ async function create(
     .returning();
   if (newGlobalProperty[0] === undefined)
     throw new Error(
-      "[GlobalPropertyService]: Could not create global property",
+      `[GlobalPropertyService]: Could not create global property with name ${globalPropertyData?.name}`,
     );
   return newGlobalProperty[0];
 }
@@ -47,7 +49,7 @@ async function deleteById(
     .returning();
   if (!deletedGlobalProperty[0])
     throw new Error(
-      "[GlobalPropertyService]: Could not delete global property",
+      `[GlobalPropertyService]: Could not delete global property with id ${id}`,
     );
   return deletedGlobalProperty[0];
 }
@@ -64,7 +66,7 @@ async function update(
     .returning();
   if (updatedGlobalProperty[0] === undefined)
     throw new Error(
-      "[GlobalPropertyService]: Could not update global property",
+      `[GlobalPropertyService]: Could not update global property with id ${id}`,
     );
   return updatedGlobalProperty[0];
 }

@@ -15,7 +15,12 @@ const emailCredentialPrepareGetById = db.query.email_credentials
   .prepare("emailCredentialPrepareGetById");
 
 async function getById(id: number) {
-  return await emailCredentialPrepareGetById.execute({ id });
+  const emailCredential = await emailCredentialPrepareGetById.execute({ id });
+  if (!emailCredential)
+    throw new Error(
+      `[EmailCredentialService]: Could not find email credential with id ${id}`,
+    );
+  return emailCredential;
 }
 
 async function create(
@@ -28,7 +33,7 @@ async function create(
     .returning();
   if (!newEmailCredential[0])
     throw new Error(
-      "[EmailCredentialService]: Could not create email credentials",
+      `[EmailCredentialService]: Could not create email credentials with user ${emailCredentialData?.user}`,
     );
   return newEmailCredential[0];
 }
@@ -40,7 +45,7 @@ async function deleteById(id: number, tx: DBType = db) {
     .returning();
   if (!deletedEmailCredential[0])
     throw new Error(
-      "[EmailCredentialService]: Could not delete email credentials",
+      `[EmailCredentialService]: Could not delete email credentials with id ${id}`,
     );
   return deletedEmailCredential[0];
 }
@@ -57,7 +62,7 @@ async function update(
     .returning();
   if (!updatedEmailCredential[0])
     throw new Error(
-      "[EmailCredentialService]: Could not update email credentials",
+      `[EmailCredentialService]: Could not update email credentials with id ${id}`,
     );
   return updatedEmailCredential[0];
 }

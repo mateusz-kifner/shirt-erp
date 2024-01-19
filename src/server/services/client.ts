@@ -21,6 +21,13 @@ const clientPrepareGetFullById = db.query.clients
   })
   .prepare("clientPrepareGetFullById");
 
+async function getFullById(id: number) {
+  const client = await clientPrepareGetFullById.execute({ id });
+  if (!client)
+    throw new Error(`[ClientService]: Could not find client with id ${id}`);
+  return client;
+}
+
 // compile query ahead of time
 const clientPrepareGetById = db.query.clients
   .findFirst({
@@ -28,13 +35,10 @@ const clientPrepareGetById = db.query.clients
   })
   .prepare("clientPrepareGetById");
 
-async function getFullById(id: number) {
-  return await clientPrepareGetFullById.execute({ id });
-}
-
 async function getById(id: number): Promise<Client> {
   const client = await clientPrepareGetById.execute({ id });
-  if (!client) throw new Error("[ClientService]: Could not find client");
+  if (!client)
+    throw new Error(`[ClientService]: Could not find client with id ${id}`);
   return client;
 }
 
@@ -49,7 +53,7 @@ async function create(
   } catch (e) {
     console.log(e);
     throw new Error(
-      "[ClientService]: Could not create client, address could not be created",
+      `[ClientService]: Could not create client with username ${clientData?.username}, address could not be created`,
     );
   }
   const newClient = await tx
@@ -57,18 +61,20 @@ async function create(
     .values({ ...simpleClientData, addressId: newAddress.id })
     .returning();
   if (!newClient[0])
-    throw new Error("[ClientService]: Could not create client");
+    throw new Error(
+      `[ClientService]: Could not create client with username ${clientData?.username}`,
+    );
   return newClient[0];
 }
 
 async function deleteById(id: number, tx: DBType = db): Promise<Client> {
   const client = await getById(id);
   if (!client) {
-    throw new Error(`[ClientService]: Client with ID ${id} not found`);
+    throw new Error(`[ClientService]: Client with id ${id} not found`);
   }
   if (!client.addressId) {
     throw new Error(
-      `[ClientService]: Client with ID ${id} doesn't have an associated address, this should never happen`,
+      `[ClientService]: Client with id ${id} doesn't have an associated address, this should never happen`,
     );
   }
   // delete client by cascade
@@ -76,6 +82,10 @@ async function deleteById(id: number, tx: DBType = db): Promise<Client> {
     .delete(addresses)
     .where(eq(addresses.id, client.addressId))
     .returning();
+  if (!deletedAddress[0])
+    throw new Error(
+      `[ClientService]: Could not delete client with id ${id}, associated address could not be deleted`,
+    );
   return client;
 }
 
@@ -90,7 +100,7 @@ async function update(
     .where(eq(clients.id, id))
     .returning();
   if (!updatedClient[0])
-    throw new Error("[ClientService]: Could not update client");
+    throw new Error(`[ClientService]: Could not update client with id ${id}`);
   return updatedClient[0];
 }
 

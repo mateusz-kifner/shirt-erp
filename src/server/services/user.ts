@@ -14,16 +14,21 @@ const userPrepareGetById = db.query.users
   .prepare("userPrepareGetById");
 
 async function getById(id: string) {
-  return await userPrepareGetById.execute({ id });
+  const user = await userPrepareGetById.execute({ id });
+  if (!user)
+    throw new Error(`[UserService]: Could not find user with id ${id}`);
+  return user;
 }
 
 async function create(userData: Partial<User>) {
   const newUser = await authDBAdapter.createUser?.({
-    ...userData,
     emailVerified: new Date(),
+    ...userData,
   } as AdapterUser);
-  if (newUser === undefined)
-    throw new Error("[UserService]: Could not create user");
+  if (!newUser)
+    throw new Error(
+      `[UserService]: Could not create user with email ${userData.email}`,
+    );
   return newUser;
 }
 
@@ -38,8 +43,8 @@ async function update(userData: UpdatedUser & MetadataType) {
     .set(dataToUpdate)
     .where(eq(users.id, id))
     .returning();
-  if (updatedUser[0] === undefined)
-    throw new Error("[UserService]: Could not update user");
+  if (!updatedUser[0])
+    throw new Error(`[UserService]: Could not update user with id ${id}`);
   return updatedUser[0];
 }
 

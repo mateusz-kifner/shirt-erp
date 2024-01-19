@@ -20,3 +20,4 @@ export const updateEmailMessageZodSchema =
 
 export type EmailMessage = typeof email_messages.$inferSelect;
 export type NewEmailMessage = z.infer<typeof insertEmailMessageZodSchema>;
+export type UpdatedEmailMessage = z.infer<typeof updateEmailMessageZodSchema>;

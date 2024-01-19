@@ -13,7 +13,8 @@ const expensePrepareGetById = db.query.expenses
 
 async function getById(id: number): Promise<Expense> {
   const expense = await expensePrepareGetById.execute({ id });
-  if (!expense) throw new Error("[ExpenseService]: Could not find expense");
+  if (!expense)
+    throw new Error(`[ExpenseService]: Could not find expense with id ${id}`);
   return expense;
 }
 
@@ -23,7 +24,9 @@ async function create(
 ): Promise<Expense> {
   const newExpense = await tx.insert(expenses).values(expenseData).returning();
   if (!newExpense[0])
-    throw new Error("[ExpenseService]: Could not create expense");
+    throw new Error(
+      `[ExpenseService]: Could not create expense with name ${expenseData?.name}`,
+    );
   return newExpense[0];
 }
 
@@ -33,7 +36,7 @@ async function deleteById(id: number, tx: DBType = db): Promise<Expense> {
     .where(eq(expenses.id, id))
     .returning();
   if (!deletedExpense[0])
-    throw new Error("[ExpenseService]: Could not delete expense");
+    throw new Error(`[ExpenseService]: Could not delete expense with id ${id}`);
   return deletedExpense[0];
 }
 
@@ -48,7 +51,7 @@ async function update(
     .where(eq(expenses.id, id))
     .returning();
   if (!updatedExpense[0])
-    throw new Error("[ExpenseService]: Could not update expense");
+    throw new Error(`[ExpenseService]: Could not update expense with id ${id}`);
   return updatedExpense[0];
 }
 

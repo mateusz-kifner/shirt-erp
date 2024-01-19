@@ -15,20 +15,28 @@ const filePrepareGetById = db.query.files
 
 async function getById(id: number): Promise<File> {
   const file = await filePrepareGetById.execute({ id });
-  if (!file) throw new Error("[FileService]: Could not find file");
+  if (!file)
+    throw new Error(`[FileService]: Could not find file with id ${id}`);
   return {
     ...file,
     url: `${baseUrl}${file?.filename}?token=${file?.token}`,
   };
 }
 
-// async function create(fileData: NewFile & MetadataType): Promise<File>;
-async function create(fileData: NewFile & MetadataType, tx: DBType = db) {
-  // const newFile = await db.insert(files).values(fileData).returning();
-  // if (newFile[0] === undefined)
-  //   throw new Error("[FileService]: Could not create file");
-  // return newFile[0];
-  throw new Error("[ NOT IMPLEMENTED ]"); // file upload is handled by dedicated route
+async function create(
+  fileData: Omit<NewFile, "url"> & MetadataType,
+  tx: DBType = db,
+): Promise<File> {
+  const newFile = await tx.insert(files).values(fileData).returning();
+  if (!newFile[0])
+    throw new Error(
+      `[FileService]: Could not create file with originalFilename ${fileData?.originalFilename}`,
+    );
+  const file = newFile[0];
+  return {
+    ...file,
+    url: `${baseUrl}${file?.filename}?token=${file?.token}`,
+  };
 }
 
 async function deleteById(id: number, tx: DBType = db): Promise<File> {
@@ -36,7 +44,8 @@ async function deleteById(id: number, tx: DBType = db): Promise<File> {
     .delete(files)
     .where(eq(files.id, id))
     .returning();
-  if (!deletedFile[0]) throw new Error("[FileService]: Could not delete file");
+  if (!deletedFile[0])
+    throw new Error(`[FileService]: Could not delete file with id ${id}`);
   const file = deletedFile[0];
   return {
     ...file,
@@ -54,7 +63,8 @@ async function update(
     .set(dataToUpdate)
     .where(eq(files.id, id))
     .returning();
-  if (!updatedFile[0]) throw new Error("[FileService]: Could not update file");
+  if (!updatedFile[0])
+    throw new Error(`[FileService]: Could not update file with id ${id}`);
   const file = updatedFile[0];
   return {
     ...file,

@@ -14,7 +14,9 @@ const spreadsheetPrepareGetById = db.query.spreadsheets
 async function getById(id: number): Promise<Spreadsheet> {
   const spreadsheet = await spreadsheetPrepareGetById.execute({ id });
   if (!spreadsheet)
-    throw new Error("[SpreadsheetService]: Could not find spreadsheet");
+    throw new Error(
+      `[SpreadsheetService]: Could not find spreadsheet with id ${id}`,
+    );
   return spreadsheet;
 }
 
@@ -24,7 +26,9 @@ async function create(spreadsheetData: Partial<Spreadsheet>, tx: DBType = db) {
     .values(spreadsheetData)
     .returning();
   if (newSpreadsheet[0] === undefined)
-    throw new Error("[SpreadsheetService]: Could not create spreadsheet");
+    throw new Error(
+      `[SpreadsheetService]: Could not create spreadsheet with name ${spreadsheetData?.name}`,
+    );
   return newSpreadsheet[0];
 }
 
@@ -34,7 +38,9 @@ async function deleteById(id: number, tx: DBType = db): Promise<Spreadsheet> {
     .where(eq(spreadsheets.id, id))
     .returning();
   if (!deletedSpreadSheet[0])
-    throw new Error("[SpreadsheetService]: Could not delete spreadsheet");
+    throw new Error(
+      `[SpreadsheetService]: Could not delete spreadsheet with id ${id}`,
+    );
   return deletedSpreadSheet[0];
 }
 
@@ -49,7 +55,9 @@ async function update(
     .where(eq(spreadsheets.id, id))
     .returning();
   if (updatedSpreadsheet[0] === undefined)
-    throw new Error("[SpreadsheetService]: Could not update spreadsheet");
+    throw new Error(
+      `[SpreadsheetService]: Could not update spreadsheet with id ${id}`,
+    );
   return updatedSpreadsheet[0];
 }
 

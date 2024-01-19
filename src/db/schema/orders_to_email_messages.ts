@@ -9,12 +9,12 @@ export const orders_to_email_messages = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => orders.id),
-    emailMessagesId: integer("email_messages_id")
+    emailMessageId: integer("email_message_id")
       .notNull()
       .references(() => email_messages.id),
   },
   (t) => ({
-    pk: primaryKey(t.orderId, t.emailMessagesId),
+    pk: primaryKey(t.orderId, t.emailMessageId),
   }),
 );
 
@@ -26,7 +26,7 @@ export const orders_to_email_messages_relations = relations(
       references: [orders.id],
     }),
     emailMessages: one(email_messages, {
-      fields: [orders_to_email_messages.emailMessagesId],
+      fields: [orders_to_email_messages.emailMessageId],
       references: [email_messages.id],
     }),
   }),

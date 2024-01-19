@@ -14,8 +14,8 @@ const productPrepareGetById = db.query.products
 
 async function getById(id: number): Promise<Product> {
   const product = await productPrepareGetById.execute({ id });
-  if (product === undefined)
-    throw new Error("[ProductService]: Could not find product");
+  if (!product)
+    throw new Error(`[ProductService]: Could not find product with id ${id}`);
   return product;
 }
 
@@ -24,8 +24,10 @@ async function create(
   tx: DBType = db,
 ): Promise<Product> {
   const newProduct = await tx.insert(products).values(productData).returning();
-  if (newProduct[0] === undefined)
-    throw new Error("[ProductService]: Could not create product");
+  if (!newProduct[0])
+    throw new Error(
+      `[ProductService]: Could not create product with name ${productData?.name}`,
+    );
   return newProduct[0];
 }
 
@@ -37,8 +39,8 @@ async function deleteById(id: number, tx: DBType = db): Promise<Product> {
     .delete(products)
     .where(eq(products.id, id))
     .returning();
-  if (deletedProduct[0] === undefined)
-    throw new Error("[ProductService]: Could not delete product");
+  if (!deletedProduct[0])
+    throw new Error(`[ProductService]: Could not delete product with id ${id}`);
   return deletedProduct[0];
 }
 
@@ -52,8 +54,8 @@ async function update(
     .set(dataToUpdate)
     .where(eq(products.id, id))
     .returning();
-  if (updatedProduct[0] === undefined)
-    throw new Error("[ProductService]: Could not update product");
+  if (!updatedProduct[0])
+    throw new Error(`[ProductService]: Could not update product with id ${id}`);
   return updatedProduct[0];
 }
 
