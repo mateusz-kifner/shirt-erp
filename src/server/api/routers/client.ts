@@ -9,9 +9,9 @@ import clientService from "@/server/services/client";
 import { z } from "zod";
 
 export const clientRouter = createTRPCRouter({
-  getByIdFull: employeeProcedure
+  getFullById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await clientService.getByIdFull(id)),
+    .query(async ({ input: id }) => await clientService.getFullById(id)),
 
   getById: employeeProcedure
     .input(z.number())

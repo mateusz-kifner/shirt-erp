@@ -31,7 +31,7 @@ import { omit } from "lodash";
 import { db } from "@/db";
 
 export const orderRouter = createTRPCRouter({
-  getByIdFull: employeeProcedure
+  getFullById: employeeProcedure
     .input(z.number())
     .query(async ({ input: id, ctx }) => {
       const data = await db.query.orders.findFirst({
@@ -75,7 +75,7 @@ export const orderRouter = createTRPCRouter({
       const { emails, employees, files, products, ...moreData } = data;
       return {
         ...moreData,
-        emails: emails.map((v) => v.emailMessagesId),
+        emails: emails.map((v) => v.emailMessageId),
         employees: employees.map((v) => v.userId),
         files: files.map((v) => v.fileId),
         products: products.map((v) => v.productId),
@@ -128,7 +128,7 @@ export const orderRouter = createTRPCRouter({
           .insert(orders_to_email_messages)
           .values(
             emails.map((v) => ({
-              emailMessagesId: v.id!,
+              emailMessageId: v.id!,
               orderId: newOrder.id,
             })),
           );
@@ -363,7 +363,7 @@ export const orderRouter = createTRPCRouter({
         const emailIds = emails
           .filter((v) => v.id !== undefined)
           .map((v) => v.id as number);
-        const oldEmailIds = oldEmails.map((v) => v.emailMessagesId);
+        const oldEmailIds = oldEmails.map((v) => v.emailMessageId);
 
         const emailsToBeAdded: number[] = emailIds.filter(
           (emailId) => !oldEmailIds.includes(emailId),
@@ -375,8 +375,8 @@ export const orderRouter = createTRPCRouter({
         const ordersToEmailsAdded =
           emailsToBeAdded.length > 0
             ? db.insert(orders_to_email_messages).values(
-                emailsToBeAdded.map((emailMessagesId) => ({
-                  emailMessagesId,
+                emailsToBeAdded.map((emailMessageId) => ({
+                  emailMessageId,
                   orderId: id,
                 })),
               )
@@ -390,7 +390,7 @@ export const orderRouter = createTRPCRouter({
                   and(
                     eq(orders_to_email_messages.orderId, id),
                     inArray(
-                      orders_to_email_messages.emailMessagesId,
+                      orders_to_email_messages.emailMessageId,
                       emailsToBeRemoved,
                     ),
                   ),

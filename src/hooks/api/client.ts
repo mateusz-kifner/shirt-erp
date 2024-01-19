@@ -8,7 +8,7 @@ export function useApiClientGetById(id: number | null) {
   const [firstLoad, setFirstLoad] = useState(true);
   const RQClient = useQueryClient();
 
-  const queryClientFull = api.client.getByIdFull.useQuery(id as number, {
+  const queryClientFull = api.client.getFullById.useQuery(id as number, {
     enabled: id !== null && firstLoad,
   });
 
