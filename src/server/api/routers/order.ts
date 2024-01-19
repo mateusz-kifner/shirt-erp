@@ -29,58 +29,16 @@ import {
 } from "drizzle-orm";
 import { omit } from "lodash";
 import { db } from "@/db";
+import orderService from "@/server/services/order";
 
 export const orderRouter = createTRPCRouter({
   getFullById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id, ctx }) => {
-      const data = await db.query.orders.findFirst({
-        where: eq(orders.id, id),
-        with: {
-          address: true,
-          client: true,
-          emails: { with: { emailMessages: true } },
-          employees: { with: { users: true } },
-          files: { with: { files: true } },
-          products: { with: { products: true } },
-          spreadsheets: true,
-        },
-      });
-      if (!data) return undefined;
-      console.log(data);
-      const { emails, employees, files, products, ...moreData } = data;
-      return {
-        ...moreData,
-        emails: emails.map((v) => v.emailMessages),
-        employees: employees.map((v) => v.users),
-        files: files.map((v) => v.files),
-        products: products.map((v) => v.products),
-      };
-    }),
+    .query(async ({ input: id }) => await orderService.getFullById(id)),
 
   getById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id, ctx }) => {
-      const data = await db.query.orders.findFirst({
-        where: eq(orders.id, id),
-        with: {
-          emails: true,
-          employees: true,
-          files: true,
-          products: true,
-          spreadsheets: true,
-        },
-      });
-      if (!data) return undefined;
-      const { emails, employees, files, products, ...moreData } = data;
-      return {
-        ...moreData,
-        emails: emails.map((v) => v.emailMessageId),
-        employees: employees.map((v) => v.userId),
-        files: files.map((v) => v.fileId),
-        products: products.map((v) => v.productId),
-      };
-    }),
+    .query(async ({ input: id }) => await orderService.getById(id)),
 
   create: employeeProcedure
     .input(insertOrderZodSchema)
@@ -172,40 +130,7 @@ export const orderRouter = createTRPCRouter({
     }),
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id, ctx }) => {
-      const order = await db.query.orders.findFirst({
-        where: eq(orders.id, id),
-      });
-      if (!order) throw new Error("Order not found");
-      // remove address
-      if (order.addressId !== null) {
-        await db
-          .delete(addressesSchema)
-          .where(eq(addressesSchema.id, order.addressId));
-      }
-      // remove spreadsheet
-      await db
-        .delete(spreadsheetsSchema)
-        .where(eq(spreadsheetsSchema.orderId, id));
-
-      // remove associated relation
-      await db.delete(orders_to_files).where(eq(orders_to_files.orderId, id));
-      await db
-        .delete(orders_to_email_messages)
-        .where(eq(orders_to_email_messages.orderId, id));
-      await db
-        .delete(orders_to_products)
-        .where(eq(orders_to_products.orderId, id));
-      await db.delete(orders_to_users).where(eq(orders_to_users.orderId, id));
-
-      // delete order
-      const deletedOrder = await db
-        .delete(orders)
-        .where(eq(orders.id, id))
-        .returning();
-
-      return deletedOrder[0];
-    }),
+    .mutation(async ({ input: id }) => orderService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateOrderZodSchema)
