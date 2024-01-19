@@ -7,14 +7,14 @@ import { authDBAdapter } from "../auth";
 import { type AdapterUser } from "next-auth/adapters";
 
 // compile query ahead of time
-const dbPrepareGetById = db.query.users
+const userPrepareGetById = db.query.users
   .findFirst({
     where: eq(users.id, sql.placeholder("id")),
   })
-  .prepare("dbPrepareGetById");
+  .prepare("userPrepareGetById");
 
 async function getById(id: string) {
-  return await dbPrepareGetById.execute({ id });
+  return await userPrepareGetById.execute({ id });
 }
 
 async function create(userData: Partial<User>) {

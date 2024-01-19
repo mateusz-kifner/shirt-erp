@@ -29,6 +29,9 @@ const insertOrderRelationsZodSchema = z.object({
   client: insertClientWithRelationZodSchema.optional(),
   address: insertAddressZodSchema.optional(),
 });
+export const selectOrderZodSchema = selectOrderWithoutRelationsZodSchema.merge(
+  insertOrderRelationsZodSchema,
+);
 
 export const insertOrderZodSchema = insertOrderWithoutRelationsZodSchema.merge(
   insertOrderRelationsZodSchema,
@@ -40,5 +43,6 @@ export type OrderWithoutRelations = z.infer<
   typeof selectOrderWithoutRelationsZodSchema
 >;
 export type NewOrder = z.infer<typeof insertOrderZodSchema>;
-// type OrderRelations = z.infer<typeof insertOrderSchemaRelations>;
+export type Order = z.infer<typeof selectOrderZodSchema>;
 // export type NewOrder = typeof orders.$inferInsert;
+export type UpdatedOrder = z.infer<typeof updateOrderZodSchema>;

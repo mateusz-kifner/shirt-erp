@@ -4,6 +4,7 @@ import { clients } from "@/db/schema/clients";
 import { orders } from "@/db/schema/orders";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { ilike, or } from "drizzle-orm";
+import { db } from "@/db";
 
 export const searchRouter = createTRPCRouter({
   all: employeeProcedure
@@ -46,12 +47,12 @@ export const searchRouter = createTRPCRouter({
         }
       }
 
-      const resultsClient = ctx.db.query.clients.findMany({
+      const resultsClient = db.query.clients.findMany({
         where: or(...searchClients),
         limit: input.itemsPerPage,
       });
 
-      const resultsOrder = ctx.db.query.orders.findMany({
+      const resultsOrder = db.query.orders.findMany({
         where: or(...searchOrders),
         limit: input.itemsPerPage,
       });

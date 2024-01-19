@@ -28,6 +28,7 @@ import {
   lte,
 } from "drizzle-orm";
 import { omit } from "lodash";
+import { db } from "@/db";
 
 export const orderRouter = createTRPCRouter({
   getByIdFull: employeeProcedure
@@ -296,7 +297,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToProductsAdded =
           productsToBeAdded.length > 0
-            ? ctx.db.insert(orders_to_products).values(
+            ? db.insert(orders_to_products).values(
                 productsToBeAdded.map((productId) => ({
                   productId,
                   orderId: id,
@@ -305,7 +306,7 @@ export const orderRouter = createTRPCRouter({
             : [];
         const ordersToProductsRemoved =
           productsToBeRemoved.length > 0
-            ? ctx.db
+            ? db
                 .delete(orders_to_products)
                 .where(
                   and(
@@ -335,7 +336,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToEmployeesAdded =
           employeesToBeAdded.length > 0
-            ? ctx.db.insert(orders_to_users).values(
+            ? db.insert(orders_to_users).values(
                 employeesToBeAdded.map((employeeId) => ({
                   userId: employeeId,
                   orderId: id,
@@ -344,7 +345,7 @@ export const orderRouter = createTRPCRouter({
             : [];
         const ordersToEmployeesRemoved =
           employeesToBeRemoved.length > 0
-            ? ctx.db
+            ? db
                 .delete(orders_to_users)
                 .where(
                   and(
@@ -373,7 +374,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToEmailsAdded =
           emailsToBeAdded.length > 0
-            ? ctx.db.insert(orders_to_email_messages).values(
+            ? db.insert(orders_to_email_messages).values(
                 emailsToBeAdded.map((emailMessagesId) => ({
                   emailMessagesId,
                   orderId: id,
@@ -383,7 +384,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToEmailsRemoved =
           emailsToBeRemoved.length > 0
-            ? ctx.db
+            ? db
                 .delete(orders_to_email_messages)
                 .where(
                   and(
@@ -414,7 +415,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToFilesAdded =
           filesToBeAdded.length > 0
-            ? ctx.db.insert(orders_to_files).values(
+            ? db.insert(orders_to_files).values(
                 filesToBeAdded.map((fileId) => ({
                   fileId,
                   orderId: id,
@@ -424,7 +425,7 @@ export const orderRouter = createTRPCRouter({
 
         const ordersToFilesRemoved =
           filesToBeRemoved.length > 0
-            ? ctx.db
+            ? db
                 .delete(orders_to_files)
                 .where(
                   and(

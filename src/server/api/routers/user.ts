@@ -21,14 +21,9 @@ export const userRouter = createTRPCRouter({
   deleteById: managerProcedure
     .input(z.string())
     .mutation(async ({ input: id, ctx }) => {
-      const user = await db.select().from(users).where(eq(users.id, id));
+      const user = await userService.getById(id);
       const currentUser = ctx.session!.user;
-      if (user[0] === undefined)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "User cannot be found",
-        });
-      if (currentUser.role === "manager" && user[0].role === "admin")
+      if (currentUser.role === "manager" && user?.role === "admin")
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "Cannot delete user with higher role",
@@ -40,16 +35,8 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ input: userData, ctx }) => {
       const currentUser = ctx.session!.user;
       const currentUserId = currentUser.id;
-      const user = await db
-        .select()
-        .from(users)
-        .where(eq(users.id, userData.id));
-      if (user[0] === undefined)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "User cannot be found",
-        });
-      if (currentUser.role === "manager" && user[0].role === "admin")
+      const user = await userService.getById(userData.id);
+      if (currentUser.role === "manager" && user?.role === "admin")
         throw new TRPCError({
           code: "UNAUTHORIZED",
           message: "Cannot update data of user with higher role",

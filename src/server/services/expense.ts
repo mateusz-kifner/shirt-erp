@@ -1,39 +1,53 @@
-import { db } from "@/db";
+import { DBType, db } from "@/db";
 import { expenses } from "@/db/schema/expenses";
 import { eq, sql } from "drizzle-orm";
 import { MetadataType } from "@/schema/MetadataType";
 import { Expense, UpdatedExpense } from "@/schema/expenseZodSchema";
 
 // compile query ahead of time
-const dbPrepareGetById = db.query.expenses
+const expensePrepareGetById = db.query.expenses
   .findFirst({
     where: eq(expenses.id, sql.placeholder("id")),
   })
-  .prepare("dbPrepareGetById");
+  .prepare("expensePrepareGetById");
 
-async function getById(id: number) {
-  return await dbPrepareGetById.execute({ id });
+async function getById(id: number): Promise<Expense> {
+  const expense = await expensePrepareGetById.execute({ id });
+  if (!expense) throw new Error("[ExpenseService]: Could not find expense");
+  return expense;
 }
 
-async function create(expenseData: Partial<Expense>) {
-  const newExpense = await db.insert(expenses).values(expenseData).returning();
-  if (newExpense[0] === undefined)
+async function create(
+  expenseData: Partial<Expense>,
+  tx: DBType = db,
+): Promise<Expense> {
+  const newExpense = await tx.insert(expenses).values(expenseData).returning();
+  if (!newExpense[0])
     throw new Error("[ExpenseService]: Could not create expense");
   return newExpense[0];
 }
 
-async function deleteById(id: number) {
-  return await db.delete(expenses).where(eq(expenses.id, id));
+async function deleteById(id: number, tx: DBType = db): Promise<Expense> {
+  const deletedExpense = await tx
+    .delete(expenses)
+    .where(eq(expenses.id, id))
+    .returning();
+  if (!deletedExpense[0])
+    throw new Error("[ExpenseService]: Could not delete expense");
+  return deletedExpense[0];
 }
 
-async function update(expenseData: UpdatedExpense & MetadataType) {
+async function update(
+  expenseData: UpdatedExpense & MetadataType,
+  tx: DBType = db,
+): Promise<Expense> {
   const { id, ...dataToUpdate } = expenseData;
-  const updatedExpense = await db
+  const updatedExpense = await tx
     .update(expenses)
     .set(dataToUpdate)
     .where(eq(expenses.id, id))
     .returning();
-  if (updatedExpense[0] === undefined)
+  if (!updatedExpense[0])
     throw new Error("[ExpenseService]: Could not update expense");
   return updatedExpense[0];
 }

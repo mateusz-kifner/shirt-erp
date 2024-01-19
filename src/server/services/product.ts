@@ -1,34 +1,53 @@
-import { db } from "@/db";
+import { DBType, db } from "@/db";
 import { products } from "@/db/schema/products";
 import { eq, sql } from "drizzle-orm";
 import { Product, UpdatedProduct } from "@/schema/productZodSchema";
 import { MetadataType } from "@/schema/MetadataType";
+import { orders_to_products } from "@/db/schema/orders_to_products";
 
 // compile query ahead of time
-const dbPrepareGetById = db.query.products
+const productPrepareGetById = db.query.products
   .findFirst({
     where: eq(products.id, sql.placeholder("id")),
   })
-  .prepare("dbPrepareGetById");
+  .prepare("productPrepareGetById");
 
-async function getById(id: number) {
-  return await dbPrepareGetById.execute({ id });
+async function getById(id: number): Promise<Product> {
+  const product = await productPrepareGetById.execute({ id });
+  if (product === undefined)
+    throw new Error("[ProductService]: Could not find product");
+  return product;
 }
 
-async function create(productData: Partial<Product>) {
-  const newProduct = await db.insert(products).values(productData).returning();
+async function create(
+  productData: Partial<Product>,
+  tx: DBType = db,
+): Promise<Product> {
+  const newProduct = await tx.insert(products).values(productData).returning();
   if (newProduct[0] === undefined)
     throw new Error("[ProductService]: Could not create product");
   return newProduct[0];
 }
 
-async function deleteById(id: number) {
-  return await db.delete(products).where(eq(products.id, id));
+async function deleteById(id: number, tx: DBType = db): Promise<Product> {
+  await tx
+    .delete(orders_to_products)
+    .where(eq(orders_to_products.productId, id));
+  const deletedProduct = await tx
+    .delete(products)
+    .where(eq(products.id, id))
+    .returning();
+  if (deletedProduct[0] === undefined)
+    throw new Error("[ProductService]: Could not delete product");
+  return deletedProduct[0];
 }
 
-async function update(productData: UpdatedProduct & MetadataType) {
+async function update(
+  productData: UpdatedProduct & MetadataType,
+  tx: DBType = db,
+): Promise<Product> {
   const { id, ...dataToUpdate } = productData;
-  const updatedProduct = await db
+  const updatedProduct = await tx
     .update(products)
     .set(dataToUpdate)
     .where(eq(products.id, id))

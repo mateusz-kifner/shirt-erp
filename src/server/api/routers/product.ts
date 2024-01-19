@@ -26,7 +26,7 @@ export const productRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => await productService.deleteById(id)),
+    .mutation(async ({ input: id }) => await productService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateProductZodSchema)

@@ -7,7 +7,6 @@ import {
   insertSpreadsheetZodSchema,
   updateSpreadsheetZodSchema,
 } from "@/schema/spreadsheetZodSchema";
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 import spreadsheetService from "@/server/services/spreadsheets";
 

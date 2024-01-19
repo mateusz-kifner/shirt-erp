@@ -3,6 +3,7 @@ import { email_credentials } from "@/db/schema/email_credentials";
 import { email_credentials_to_users } from "@/db/schema/email_credentials_to_users";
 import { insertEmailCredentialZodSchema } from "@/schema/emailCredentialZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
+import emailCredentialService from "@/server/services/email_credentials";
 
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
@@ -22,24 +23,17 @@ export const settingsRouter = createTRPCRouter({
     .input(insertEmailCredentialZodSchema)
     .mutation(async ({ ctx, input: emailCredentialData }) => {
       const currentUserId = ctx.session.user.id;
-      const EmailCredential = await db
-        .insert(email_credentials)
-        .values({
-          ...emailCredentialData,
-          createdById: currentUserId,
-          updatedById: currentUserId,
-        })
-        .returning();
-      if (EmailCredential[0] === undefined)
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "INTERNAL_SERVER_ERROR: could not create email credential",
-        });
+      const EmailCredential = await emailCredentialService.create({
+        ...emailCredentialData,
+        createdById: currentUserId,
+        updatedById: currentUserId,
+      });
+
       await db.insert(email_credentials_to_users).values({
         userId: currentUserId,
-        emailCredentialsId: EmailCredential[0].id,
+        emailCredentialsId: EmailCredential.id,
       });
-      return EmailCredential[0];
+      return EmailCredential;
     }),
   // updateMailCredential: employeeProcedure
   //   .input(emailCredentialSchema)
@@ -72,10 +66,6 @@ export const settingsRouter = createTRPCRouter({
         .delete(email_credentials_to_users)
         .where(eq(email_credentials_to_users.emailCredentialsId, id));
 
-      const deletedEmailCredential = await db
-        .delete(email_credentials)
-        .where(eq(email_credentials.id, id))
-        .returning();
-      return deletedEmailCredential[0];
+      return await emailCredentialService.deleteById(id);
     }),
 });

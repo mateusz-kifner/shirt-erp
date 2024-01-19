@@ -12,7 +12,7 @@ import { email_credentials_to_users } from "./email_credentials_to_users";
 export const email_credentials = pgTable("email_credentials", {
   id: serial("id").primaryKey(),
   host: varchar("host", { length: 255 }).default(""),
-  port: integer("port").notNull(),
+  port: integer("port").notNull().default(993),
   user: varchar("user", { length: 255 }).default(""),
   protocol: varchar("protocol", { length: 255 }).default("imap"),
   password: varchar("password", { length: 255 }).default(""),

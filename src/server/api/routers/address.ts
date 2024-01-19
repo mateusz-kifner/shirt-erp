@@ -24,7 +24,7 @@ export const addressRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .query(async ({ input: id }) => addressService.deleteById(id)),
+    .mutation(async ({ input: id }) => addressService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateAddressZodSchema)

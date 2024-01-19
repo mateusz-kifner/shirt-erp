@@ -19,3 +19,6 @@ export const updateEmailCredentialZodSchema =
 
 export type EmailCredential = typeof email_credentials.$inferSelect;
 export type NewEmailCredential = z.infer<typeof insertEmailCredentialZodSchema>;
+export type UpdatedEmailCredential = z.infer<
+  typeof updateEmailCredentialZodSchema
+>;

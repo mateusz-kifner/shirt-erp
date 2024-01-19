@@ -1,82 +1,99 @@
-import { db } from "@/db";
+import { DBType, db } from "@/db";
 import { addresses } from "@/db/schema/addresses";
 import { clients } from "@/db/schema/clients";
-import { ClientWithRelations, UpdatedClient } from "@/schema/clientZodSchema";
+import {
+  Client,
+  ClientWithRelations,
+  UpdatedClient,
+} from "@/schema/clientZodSchema";
 import { eq, sql } from "drizzle-orm";
 import addressServices from "./address";
 import { omit } from "lodash";
 import { MetadataType } from "@/schema/MetadataType";
 
 // compile query ahead of time
-const dbPrepareGetByIdFull = db.query.clients
+const clientPrepareGetFullById = db.query.clients
   .findFirst({
     where: eq(clients.id, sql.placeholder("id")),
     with: {
       address: true,
     },
   })
-  .prepare("dbPrepareGetByIdFull");
+  .prepare("clientPrepareGetFullById");
 
 // compile query ahead of time
-const dbPrepareGetById = db.query.clients
+const clientPrepareGetById = db.query.clients
   .findFirst({
     where: eq(clients.id, sql.placeholder("id")),
   })
-  .prepare("dbPrepareGetById");
+  .prepare("clientPrepareGetById");
 
-async function getByIdFull(id: number) {
-  return await dbPrepareGetByIdFull.execute({ id });
+async function getFullById(id: number) {
+  return await clientPrepareGetFullById.execute({ id });
 }
 
-async function getById(id: number) {
-  return await dbPrepareGetById.execute({ id });
+async function getById(id: number): Promise<Client> {
+  const client = await clientPrepareGetById.execute({ id });
+  if (!client) throw new Error("[ClientService]: Could not find client");
+  return client;
 }
 
-async function create(clientData: Partial<ClientWithRelations & MetadataType>) {
+async function create(
+  clientData: Partial<ClientWithRelations & MetadataType>,
+  tx: DBType = db,
+): Promise<Client> {
   const { address, ...simpleClientData } = clientData;
   let newAddress;
   try {
-    newAddress = await addressServices.create(omit(address, "id") ?? {});
+    newAddress = await addressServices.create(omit(address, "id") ?? {}, tx);
   } catch (e) {
     console.log(e);
     throw new Error(
       "[ClientService]: Could not create client, address could not be created",
     );
   }
-  const newClient = await db
+  const newClient = await tx
     .insert(clients)
     .values({ ...simpleClientData, addressId: newAddress.id })
     .returning();
-  if (newClient[0] === undefined)
+  if (!newClient[0])
     throw new Error("[ClientService]: Could not create client");
   return newClient[0];
 }
 
-async function deleteById(id: number) {
+async function deleteById(id: number, tx: DBType = db): Promise<Client> {
   const client = await getById(id);
   if (!client) {
-    throw new Error(`Client with ID ${id} not found`);
+    throw new Error(`[ClientService]: Client with ID ${id} not found`);
   }
   if (!client.addressId) {
     throw new Error(
-      `Client with ID ${id} doesn't have an associated address, this should never happen`,
+      `[ClientService]: Client with ID ${id} doesn't have an associated address, this should never happen`,
     );
   }
   // delete client by cascade
-  return await db.delete(addresses).where(eq(addresses.id, client.addressId));
+  const deletedAddress = await tx
+    .delete(addresses)
+    .where(eq(addresses.id, client.addressId))
+    .returning();
+  return client;
 }
 
-async function update(clientData: UpdatedClient & MetadataType) {
+async function update(
+  clientData: UpdatedClient & MetadataType,
+  tx: DBType = db,
+): Promise<Client> {
   const { id, ...dataToUpdate } = clientData;
-  const updatedClient = await db
+  const updatedClient = await tx
     .update(clients)
     .set(dataToUpdate)
     .where(eq(clients.id, id))
     .returning();
-  if (updatedClient[0] === undefined) throw new Error("Could not update");
+  if (!updatedClient[0])
+    throw new Error("[ClientService]: Could not update client");
   return updatedClient[0];
 }
 
-const clientService = { getByIdFull, getById, create, deleteById, update };
+const clientService = { getFullById, getById, create, deleteById, update };
 
 export default clientService;
