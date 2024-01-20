@@ -6,7 +6,6 @@ import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
 import { orders_to_files } from "@/db/schema/orders_to_files";
 import { orders_to_products } from "@/db/schema/orders_to_products";
 import { orders_to_users } from "@/db/schema/orders_to_users";
-import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import {
   type OrderWithoutRelations,
   insertOrderZodSchema,
@@ -43,90 +42,17 @@ export const orderRouter = createTRPCRouter({
   create: employeeProcedure
     .input(insertOrderZodSchema)
     .mutation(async ({ input: orderData, ctx }) => {
-      const {
-        spreadsheets,
-        files,
-        client,
-        address,
-        products,
-        employees,
-        emails,
-        ...simpleOrderData
-      } = orderData;
       const currentUserId = ctx.session.user.id;
-      const newAddress = await db
-        .insert(addressesSchema)
-        .values(address ?? {})
-        .returning();
-      if (newAddress[0] === undefined)
-        throw new Error("Could not create address in order");
-
-      const result = await db
-        .insert(orders)
-        .values({
-          ...simpleOrderData,
-          clientId: client ? client.id : undefined,
-          addressId: newAddress[0].id,
+      return await orderService.createFull({
+        ...orderData,
+        createdById: currentUserId,
+        updatedById: currentUserId,
+        spreadsheets: orderData?.spreadsheets?.map((v) => ({
+          ...v,
           createdById: currentUserId,
           updatedById: currentUserId,
-        })
-        .returning();
-      if (result[0] === undefined) throw new Error("Could not create order");
-      const newOrder = result[0];
-
-      if (files?.length && files.length > 0) {
-        const newFilesRelation = await db
-          .insert(orders_to_files)
-          .values(files.map((v) => ({ fileId: v.id!, orderId: newOrder.id })));
-        console.log(newFilesRelation);
-      }
-
-      if (emails?.length && emails.length > 0) {
-        const newEmailsRelation = await db
-          .insert(orders_to_email_messages)
-          .values(
-            emails.map((v) => ({
-              emailMessageId: v.id!,
-              orderId: newOrder.id,
-            })),
-          );
-        console.log(newEmailsRelation);
-      }
-
-      if (products?.length && products.length > 0) {
-        const newProductsRelation = await db.insert(orders_to_products).values(
-          products.map((v) => ({
-            productId: v.id!,
-            orderId: newOrder.id,
-          })),
-        );
-        console.log(newProductsRelation);
-      }
-
-      if (employees?.length && employees.length > 0) {
-        const newEmployeesRelation = await db.insert(orders_to_users).values(
-          employees.map((v) => ({
-            userId: v.id!,
-            orderId: newOrder.id,
-          })),
-        );
-        console.log(newEmployeesRelation);
-      }
-
-      if (spreadsheets?.length && spreadsheets.length > 0) {
-        const newSpreadsheets = await db
-          .insert(spreadsheetsSchema)
-          .values({
-            ...spreadsheets,
-            orderId: newOrder.id,
-            updatedById: currentUserId,
-            createdById: currentUserId,
-          })
-          .returning();
-        console.log(newSpreadsheets);
-      }
-
-      return newOrder;
+        })),
+      });
     }),
   deleteById: employeeProcedure
     .input(z.number())
