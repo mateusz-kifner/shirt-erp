@@ -3,6 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 import { omit } from "lodash";
 import { useEffect, useState } from "react";
+import queryDefaults from "./queryDefaults";
 
 export function useApiClientGetById(id: number | null) {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -10,12 +11,13 @@ export function useApiClientGetById(id: number | null) {
 
   const queryClientFull = api.client.getFullById.useQuery(id as number, {
     enabled: id !== null && firstLoad,
+    ...queryDefaults,
   });
 
   const queryClient = api.client.getById.useQuery(id as number, {
     enabled: id !== null && !firstLoad,
     refetchOnMount: false,
-    staleTime: 60 * 1000, // 30s
+    staleTime: 60 * 1000, // 60s
   });
 
   const queryAddress = api.address.getById.useQuery(
@@ -26,7 +28,7 @@ export function useApiClientGetById(id: number | null) {
         !firstLoad &&
         (queryClientFull?.data?.addressId ?? undefined) !== undefined,
       refetchOnMount: false,
-      staleTime: 60 * 1000, // 30s
+      staleTime: 60 * 1000, // 60s
     },
   );
 
