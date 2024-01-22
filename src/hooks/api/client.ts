@@ -64,3 +64,30 @@ export function useApiClientGetById(id: number | null) {
 
   return { client: queryClient, address: queryAddress };
 }
+
+export function useApiClientCreate() {
+  const mutation = api.client.create.useMutation();
+  return {
+    ...mutation,
+    createClient: mutation.mutate,
+    createClientAsync: mutation.mutateAsync,
+  };
+}
+
+export function useApiClientUpdate() {
+  const mutation = api.client.update.useMutation();
+  return {
+    ...mutation,
+    updateClient: mutation.mutate,
+    updateClientAsync: mutation.mutateAsync,
+  };
+}
+
+export function useApiClientDelete() {
+  const mutation = api.client.deleteById.useMutation();
+  return {
+    ...mutation,
+    deleteClient: mutation.mutate,
+    deleteClientAsync: mutation.mutateAsync,
+  };
+}

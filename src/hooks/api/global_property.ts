@@ -7,3 +7,30 @@ export function useApiGlobalPropertyGetById(id: number | null) {
     ...queryDefaults,
   });
 }
+
+export function useApiGlobalPropertyCreate() {
+  const mutation = api["global-properties"].create.useMutation();
+  return {
+    ...mutation,
+    createGlobalProperty: mutation.mutate,
+    createGlobalPropertyAsync: mutation.mutateAsync,
+  };
+}
+
+export function useApiGlobalPropertyUpdate() {
+  const mutation = api["global-properties"].update.useMutation();
+  return {
+    ...mutation,
+    updateGlobalProperty: mutation.mutate,
+    updateGlobalPropertyAsync: mutation.mutateAsync,
+  };
+}
+
+export function useApiGlobalPropertyDelete() {
+  const mutation = api["global-properties"].deleteById.useMutation();
+  return {
+    ...mutation,
+    deleteGlobalProperty: mutation.mutate,
+    deleteGlobalPropertyAsync: mutation.mutateAsync,
+  };
+}
