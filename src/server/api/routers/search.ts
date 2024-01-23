@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { clients } from "@/db/schema/clients";
+import { customers } from "@/db/schema/customers";
 import { orders } from "@/db/schema/orders";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { ilike, or } from "drizzle-orm";
@@ -16,7 +16,7 @@ export const searchRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input, ctx }) => {
-      const searchClients = [];
+      const searchCustomers = [];
       const searchOrders = [];
 
       if (input.query && input.query.length > 0) {
@@ -30,9 +30,9 @@ export const searchRouter = createTRPCRouter({
               "companyName",
               "email",
             ]) {
-              searchClients.push(
+              searchCustomers.push(
                 ilike(
-                  clients[key as keyof typeof clients.$inferSelect],
+                  customers[key as keyof typeof customers.$inferSelect],
                   `%${queryPart}%`,
                 ),
               );
@@ -47,8 +47,8 @@ export const searchRouter = createTRPCRouter({
         }
       }
 
-      const resultsClient = db.query.clients.findMany({
-        where: or(...searchClients),
+      const resultsCustomer = db.query.customers.findMany({
+        where: or(...searchCustomers),
         limit: input.itemsPerPage,
       });
 
@@ -57,7 +57,7 @@ export const searchRouter = createTRPCRouter({
         limit: input.itemsPerPage,
       });
 
-      const results = await Promise.all([resultsClient, resultsOrder]);
+      const results = await Promise.all([resultsCustomer, resultsOrder]);
 
       return results;
     }),

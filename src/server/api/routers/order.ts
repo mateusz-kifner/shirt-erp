@@ -49,7 +49,7 @@ export const orderRouter = createTRPCRouter({
       //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
       //   spreadsheets,
       //   files,
-      //   client,
+      //   customer,
       //   address,
       //   products,
       //   employees,
@@ -61,7 +61,7 @@ export const orderRouter = createTRPCRouter({
       //   where: eq(orders.id, id),
       //   with: {
       //     address: true,
-      //     client: { with: { address: true } },
+      //     customer: { with: { address: true } },
       //     emails: true,
       //     employees: true,
       //     files: true,
@@ -78,7 +78,7 @@ export const orderRouter = createTRPCRouter({
       //   spreadsheets: oldSpreadsheets,
       //   files: oldFiles,
       //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      //   client: oldClient,
+      //   customer: oldCustomer,
       //   address: oldAddress,
       //   products: oldProducts,
       //   employees: oldEmployees,
@@ -86,8 +86,8 @@ export const orderRouter = createTRPCRouter({
       //   ...oldSimpleOrderData
       // } = oldOrder;
 
-      // if (client?.id !== undefined) {
-      //   simpleOrderData.clientId = client?.id;
+      // if (customer?.id !== undefined) {
+      //   simpleOrderData.customerId = customer?.id;
       // }
 
       // const changes = getObjectChanges<Partial<OrderWithoutRelations>>(

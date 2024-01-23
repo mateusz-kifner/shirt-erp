@@ -22,8 +22,8 @@ import {
   IconExternalLink,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { clientListSearchParams } from "../client/ClientList";
-import ClientListItem from "../client/ClientListItem";
+import { customerListSearchParams } from "../customer/CustomerList";
+import CustomerListItem from "../customer/CustomerListItem";
 import ProductListItem from "../product/ProductListItem";
 import UserListItem from "../user/UserListItem";
 
@@ -118,13 +118,13 @@ function TaskView(props: TaskViewProps) {
         />
         <EditableFiles keyName="files" label="Pliki" disabled />
         <EditableApiEntry
-          keyName="client"
+          keyName="customer"
           label="Klient"
-          entryName="client"
+          entryName="customer"
           linkEntry
           allowClear
-          listProps={clientListSearchParams}
-          Element={ClientListItem}
+          listProps={customerListSearchParams}
+          Element={CustomerListItem}
           disabled
         />
 

@@ -10,7 +10,7 @@ import {
 import { metadata } from "./_metadata";
 import { addresses } from "./addresses";
 
-export const clients = pgTable("clients", {
+export const customers = pgTable("customers", {
   id: serial("id").primaryKey(),
   username: varchar("username", { length: 255 }).default(""),
   firstname: varchar("firstname", { length: 255 }).default(""),
@@ -26,9 +26,9 @@ export const clients = pgTable("clients", {
   ...metadata,
 });
 
-export const clients_relations = relations(clients, ({ one }) => ({
+export const customers_relations = relations(customers, ({ one }) => ({
   address: one(addresses, {
-    fields: [clients.addressId],
+    fields: [customers.addressId],
     references: [addresses.id],
   }),
 }));

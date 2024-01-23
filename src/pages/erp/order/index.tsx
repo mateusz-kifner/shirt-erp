@@ -40,7 +40,7 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useLoaded } from "@/hooks/useLoaded";
 import { type Key } from "@/components/editable/Editable";
-import OrderClientView from "@/page-components/erp/order/OrderClientView";
+import OrderCustomerView from "@/page-components/erp/order/OrderCustomerView";
 import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
 
@@ -262,7 +262,7 @@ const OrdersPage: NextPage = () => {
           </div>
         )}
 
-        <OrderClientView
+        <OrderCustomerView
           orderData={orderData}
           orderApiUpdate={apiUpdate}
           refetch={() => {

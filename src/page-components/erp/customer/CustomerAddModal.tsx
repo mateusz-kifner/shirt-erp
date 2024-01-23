@@ -6,26 +6,26 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type ClientWithRelations } from "@/schema/clientZodSchema";
+import { type CustomerWithRelations } from "@/schema/customerZodSchema";
 import { api } from "@/utils/api";
 import { omit } from "lodash";
-import ClientListItem from "./ClientListItem";
+import CustomerListItem from "./CustomerListItem";
 import Editable from "@/components/editable/Editable";
 
-interface ClientAddModalProps {
+interface CustomerAddModalProps {
   opened: boolean;
   onClose: (id?: number) => void;
 }
 
 const defaultData = { username: "Klient", template: null };
 
-const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
+const CustomerAddModal = ({ opened, onClose }: CustomerAddModalProps) => {
   const [data, setData] = useState<{
     username: string;
-    template: Partial<ClientWithRelations> | null;
+    template: Partial<CustomerWithRelations> | null;
   }>(defaultData);
   const [error, setError] = useState<string | null>(null);
-  const { mutateAsync: createClient } = api.client.create.useMutation();
+  const { mutateAsync: createCustomer } = api.customer.create.useMutation();
 
   useEffect(() => {
     if (!opened) {
@@ -48,8 +48,8 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
             <EditableApiEntry
               label="Szablon"
               keyName="template"
-              entryName="clients"
-              Element={ClientListItem}
+              entryName="customers"
+              Element={CustomerListItem}
               allowClear
               listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
             />
@@ -64,17 +64,17 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
             onClick={() => {
               if (data.username.length == 0)
                 return setError("Musisz podać nie pustą nazwę użytkownika");
-              const new_client = {
+              const new_customer = {
                 ...(data.template ? omit(data.template, "id") : {}),
                 username: data.username,
                 orders: [],
                 "orders-archive": [],
               };
               if (data.template?.address) {
-                new_client.address = omit(data.template.address, "id");
+                new_customer.address = omit(data.template.address, "id");
               }
 
-              createClient(new_client)
+              createCustomer(new_customer)
                 .then((data) => onClose(data.id))
                 .catch(() => {
                   setError("Klient o takiej nazwie istnieje.");
@@ -92,4 +92,4 @@ const ClientAddModal = ({ opened, onClose }: ClientAddModalProps) => {
   );
 };
 
-export default ClientAddModal;
+export default CustomerAddModal;

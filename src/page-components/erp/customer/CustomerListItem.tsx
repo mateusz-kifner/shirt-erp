@@ -1,11 +1,11 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
 import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
 import { useExperimentalContext } from "@/context/experimentalContext";
-import { type Client } from "@/schema/clientZodSchema";
+import { type Customer } from "@/schema/customerZodSchema";
 import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
-const ClientListItem = (props: ListItemProps<Client>) => {
+const CustomerListItem = (props: ListItemProps<Customer>) => {
   const value = props.value;
 
   const { extendedList } = useExperimentalContext();
@@ -40,4 +40,4 @@ const ClientListItem = (props: ListItemProps<Client>) => {
   );
 };
 
-export default ClientListItem;
+export default CustomerListItem;

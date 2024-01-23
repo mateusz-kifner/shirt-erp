@@ -1,7 +1,8 @@
+import { createTRPCRouter } from "@/server/api/trpc";
+
 import { addressRouter } from "./routers/address";
 import { adminRouter } from "./routers/admin";
-import { clientRouter } from "./routers/client";
-import { createTRPCRouter } from "@/server/api/trpc";
+import { customerRouter } from "./routers/customer";
 import { emailRouter } from "./routers/email";
 import { exampleRouter } from "./routers/example";
 import { expenseRouter } from "./routers/expense";
@@ -23,7 +24,7 @@ import { userRouter } from "./routers/user";
 export const appRouter = createTRPCRouter({
   address: addressRouter,
   admin: adminRouter,
-  client: clientRouter,
+  customer: customerRouter,
   email: emailRouter,
   example: exampleRouter,
   expense: expenseRouter,

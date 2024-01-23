@@ -48,7 +48,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
     keyName,
   } = useEditableContext(props);
 
-  const { data, refetch } = api[entryName as "client"].getById.useQuery(
+  const { data, refetch } = api[entryName as "customer"].getById.useQuery(
     value as number,
     {
       enabled: value !== undefined && value !== null,

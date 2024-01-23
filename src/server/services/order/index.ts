@@ -21,7 +21,7 @@ const orderPrepareGetFullById = db.query.orders
     where: eq(orders.id, sql.placeholder("id")),
     with: {
       address: true,
-      client: true,
+      customer: true,
       emails: { with: { emailMessages: true } },
       employees: { with: { users: true } },
       files: { with: { files: true } },

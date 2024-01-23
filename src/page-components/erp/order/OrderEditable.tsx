@@ -21,7 +21,7 @@ import Button from "@/components/ui/Button";
 
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type ClientWithRelations } from "@/schema/clientZodSchema";
+import { type CustomerWithRelations } from "@/schema/customerZodSchema";
 import { type User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
@@ -53,7 +53,7 @@ function OrderEditable(props: OrderEditableProps) {
   const router = useRouter();
   const t = useTranslation();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [orderAddressFromClient, setOrderAddressFromClient] = useState<
+  const [orderAddressFromCustomer, setOrderAddressFromCustomer] = useState<
     number | null
   >(null);
 
@@ -85,21 +85,21 @@ function OrderEditable(props: OrderEditableProps) {
       .catch(console.log);
   };
 
-  // update address if it's not set to client one
+  // update address if it's not set to customer one
   useEffect(() => {
     if (
-      orderAddressFromClient !== null &&
-      data?.clientId == orderAddressFromClient
+      orderAddressFromCustomer !== null &&
+      data?.customerId == orderAddressFromCustomer
     ) {
-      (data.client as ClientWithRelations).address &&
+      (data.customer as CustomerWithRelations).address &&
         apiUpdate(
           "address",
-          omit((data.client as ClientWithRelations).address, ["id"]),
+          omit((data.customer as CustomerWithRelations).address, ["id"]),
         );
-      setOrderAddressFromClient(null);
+      setOrderAddressFromCustomer(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orderAddressFromClient, data?.clientId]);
+  }, [orderAddressFromCustomer, data?.customerId]);
 
   if (!data)
     return (
@@ -187,13 +187,13 @@ function OrderEditable(props: OrderEditableProps) {
         <EditableDate keyName="dateOfAdmission" label="Data przyjecia" />
         <EditableDate keyName="dateOfCompletion" label="Data ukończenia" />
         {/* <EditableApiEntry
-          keyName="client"
+          keyName="customer"
           label="Klient"
-          entryName="client"
+          entryName="customer"
           linkEntry
           allowClear
-          listProps={clientListSearchParams}
-          Element={ClientListItem}
+          listProps={customerListSearchParams}
+          Element={CustomerListItem}
           onSubmit={(value) => {
             // check if address is set
             if (
@@ -205,7 +205,7 @@ function OrderEditable(props: OrderEditableProps) {
                 !data.address.city &&
                 !data.address.secondLine)
             )
-              value?.id && setOrderAddressFromClient(value.id);
+              value?.id && setOrderAddressFromCustomer(value.id);
           }}
         /> */}
         {/* <div>
@@ -214,7 +214,7 @@ function OrderEditable(props: OrderEditableProps) {
             keyName="address"
             leftSection={<IconAddressBook />}
           />
-          {!!data.client && (
+          {!!data.customer && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -222,11 +222,11 @@ function OrderEditable(props: OrderEditableProps) {
                   variant="ghost"
                   className="rounded-full"
                   onClick={() => {
-                    console.log(data.client);
-                    !!data.client &&
+                    console.log(data.customer);
+                    !!data.customer &&
                       apiUpdate(
                         "address",
-                        omit((data.client as ClientWithRelations).address, [
+                        omit((data.customer as CustomerWithRelations).address, [
                           "id",
                         ]),
                       );

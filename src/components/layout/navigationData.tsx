@@ -53,8 +53,8 @@ const navigationData: {
   {
     label: "Klienci",
     Icon: IconUser,
-    href: "/erp/client",
-    entryName: "client",
+    href: "/erp/customer",
+    entryName: "customer",
     gradient: { from: "#E8590C", to: "#F08C00", deg: 105 },
   },
   {

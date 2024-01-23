@@ -8,9 +8,9 @@ import {
 } from "@/components/ui/Card";
 import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
-import ClientListItem from "../client/ClientListItem";
+import CustomerListItem from "../customer/CustomerListItem";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
-import { clientListSearchParams } from "../client/ClientList";
+import { customerListSearchParams } from "../customer/CustomerList";
 import { IconMail, IconPhone, IconUser } from "@tabler/icons-react";
 import { Separator } from "@/components/ui/Separator";
 import DOMPurify from "dompurify";
@@ -27,23 +27,23 @@ import { useLoaded } from "@/hooks/useLoaded";
 import EditableText from "@/components/editable/EditableText";
 import { Label } from "@/components/ui/Label";
 
-interface OrderClientViewProps {
+interface OrderCustomerViewProps {
   orderApiUpdate: (key: string | number, value: any) => void;
   orderData?: OrderWithoutRelations;
   refetch?: () => void;
 }
 
-function OrderClientView(props: OrderClientViewProps) {
+function OrderCustomerView(props: OrderCustomerViewProps) {
   const { orderData, orderApiUpdate, refetch } = props;
 
-  const clientId = orderData?.clientId ?? null;
+  const customerId = orderData?.customerId ?? null;
   const addressId = orderData?.addressId ?? null;
   const clipboard = useClipboard();
   const t = useTranslation();
   const isLoaded = useLoaded();
 
-  const { data } = api.client.getById.useQuery(clientId as number, {
-    enabled: clientId !== null,
+  const { data } = api.customer.getById.useQuery(customerId as number, {
+    enabled: customerId !== null,
   });
 
   const { data: addressData, refetch: addressRefetch } =
@@ -51,7 +51,7 @@ function OrderClientView(props: OrderClientViewProps) {
       enabled: addressId !== null,
     });
 
-  // const { mutateAsync: update } = api.client.update.useMutation({
+  // const { mutateAsync: update } = api.customer.update.useMutation({
   //   onSuccess: () => {
   //     refetch().catch((err) => console.log(err));
   //   },
@@ -77,7 +77,7 @@ function OrderClientView(props: OrderClientViewProps) {
 
   if (orderData === undefined) return <div>Loading ...</div>;
 
-  const addressStringClient = addressToString(data?.address ?? undefined);
+  const addressStringCustomer = addressToString(data?.address ?? undefined);
   const addressStringOrder = addressToString(
     (orderData as unknown as any)?.address ?? undefined,
   );
@@ -102,13 +102,13 @@ function OrderClientView(props: OrderClientViewProps) {
         <Editable data={orderData} onSubmit={orderApiUpdate}>
           <EditableDebugInfo label="ID: " keyName="id" />
           <EditableApiEntryId
-            keyName="clientId"
-            entryName="client"
+            keyName="customerId"
+            entryName="customer"
             label="Klient"
             linkEntry
             allowClear
-            listProps={clientListSearchParams}
-            Element={ClientListItem}
+            listProps={customerListSearchParams}
+            Element={CustomerListItem}
           />
           <EditableEnum
             label="Odbiór"
@@ -215,7 +215,7 @@ function OrderClientView(props: OrderClientViewProps) {
             <CardTitle>Adres Klienta</CardTitle>
           </CardHeader>
           <CardContent className="whitespace-pre">
-            {addressStringClient ?? "⸺"}{" "}
+            {addressStringCustomer ?? "⸺"}{" "}
           </CardContent>
         </Card>
         <Card>
@@ -270,4 +270,4 @@ function OrderClientView(props: OrderClientViewProps) {
   );
 }
 
-export default OrderClientView;
+export default OrderCustomerView;

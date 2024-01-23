@@ -4,14 +4,14 @@ import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
 import Workspace from "@/components/layout/Workspace";
-import ClientAddModal from "@/page-components/erp/client/ClientAddModal";
-import ClientEditable from "@/page-components/erp/client/ClientEditable";
-import ClientsList from "@/page-components/erp/client/ClientList";
+import CustomerAddModal from "@/page-components/erp/customer/CustomerAddModal";
+import CustomerEditable from "@/page-components/erp/customer/CustomerEditable";
+import CustomersList from "@/page-components/erp/customer/CustomerList";
 import { getQueryAsIntOrNull } from "@/utils/query";
 
-const entryName = "client";
+const entryName = "customer";
 
-const ClientsPage = () => {
+const CustomersPage = () => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   const router = useRouter();
@@ -27,7 +27,7 @@ const ClientsPage = () => {
         }
         navigation={
           <div className="relative p-4">
-            <ClientsList
+            <CustomersList
               selectedId={id}
               onAddElement={() => setOpenAddModal(true)}
             />
@@ -36,19 +36,19 @@ const ClientsPage = () => {
       >
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4">
-            <ClientEditable id={id} />
+            <CustomerEditable id={id} />
           </div>
         )}
       </Workspace>
-      <ClientAddModal
+      <CustomerAddModal
         opened={openAddModal}
         onClose={(id?: number) => {
           setOpenAddModal(false);
-          id !== undefined && void router.push(`/erp/client/${id}`);
+          id !== undefined && void router.push(`/erp/customer/${id}`);
         }}
       />
     </div>
   );
 };
 
-export default ClientsPage;
+export default CustomersPage;

@@ -106,7 +106,7 @@ function ExpenseEditable(props: ExpenseEditableProps) {
                 onClick={() => setDeleteModalOpen(true)}
                 className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
               >
-                {t.delete} {t.client.singular} <IconTrashX size={18} />
+                {t.delete} {t.customer.singular} <IconTrashX size={18} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

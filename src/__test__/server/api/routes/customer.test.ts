@@ -4,7 +4,7 @@ import { session } from "../../../_test.session";
 import { createInnerTRPCContext } from "@/server/api/trpc";
 import { afterAll, beforeAll, describe, test, expect } from "vitest";
 
-// const entryName = "client";
+// const entryName = "customer";
 
 // const ctx = createInnerTRPCContext({ session });
 
@@ -41,7 +41,7 @@ import { afterAll, beforeAll, describe, test, expect } from "vitest";
 //   }
 // });
 
-// describe("Client", () => {
+// describe("Customer", () => {
 //   test("create and delete", async () => {
 //     const input: inferProcedureInput<AppRouter[typeof entryName]["create"]> = {
 //       firstname: "Jan",
@@ -74,7 +74,7 @@ import { afterAll, beforeAll, describe, test, expect } from "vitest";
 //   });
 
 //   test("update", async () => {
-//     if (ids[0] === undefined) throw new Error("No Clients in test");
+//     if (ids[0] === undefined) throw new Error("No Customers in test");
 //     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
 //       id: ids[0],
 //       firstname: "Test",
@@ -89,7 +89,7 @@ import { afterAll, beforeAll, describe, test, expect } from "vitest";
 //   });
 
 //   test("update address", async () => {
-//     if (ids[0] === undefined) throw new Error("No Clients in test");
+//     if (ids[0] === undefined) throw new Error("No Customers in test");
 //     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
 //       id: ids[0],
 //       address: {

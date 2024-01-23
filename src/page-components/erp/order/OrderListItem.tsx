@@ -25,10 +25,10 @@ const OrderListItem = (props: ListItemProps<NewOrder>) => {
       ? timeLeft < 1
         ? "#F03E3E"
         : timeLeft < 3
-        ? "#FF922B"
-        : timeLeft < 5
-        ? "#FAB005"
-        : "transparent"
+          ? "#FF922B"
+          : timeLeft < 5
+            ? "#FAB005"
+            : "transparent"
       : "transparent";
   const dateDisplay = value?.dateOfCompletion
     ? (timeLeft !== null && timeLeft < 0) ||
@@ -37,8 +37,8 @@ const OrderListItem = (props: ListItemProps<NewOrder>) => {
       value?.status === "sent"
       ? dayjs(value?.dateOfCompletion).format("L")
       : timeLeft === 0
-      ? t.today
-      : dayjs(value?.dateOfCompletion).from(todayDate)
+        ? t.today
+        : dayjs(value?.dateOfCompletion).from(todayDate)
     : "";
   return (
     <ListItem
@@ -52,9 +52,9 @@ const OrderListItem = (props: ListItemProps<NewOrder>) => {
             ) + " | "
           : "") +
         dateDisplay +
-        (value?.client?.firstname || value?.client?.lastname ? " | " : "") +
-        (value?.client?.firstname ? value?.client?.firstname + " " : "") +
-        (value?.client?.lastname ?? "")
+        (value?.customer?.firstname || value?.customer?.lastname ? " | " : "") +
+        (value?.customer?.firstname ? value?.customer?.firstname + " " : "") +
+        (value?.customer?.lastname ?? "")
       }
       avatarElement={value?.name && value.name.substring(0, 2)}
       rightSection={

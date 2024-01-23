@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { metadata } from "./_metadata";
 import { addresses } from "./addresses";
-import { clients } from "./clients";
+import { customers } from "./customers";
 import { orders_to_email_messages } from "./orders_to_email_messages";
 import { orders_to_files } from "./orders_to_files";
 import { orders_to_products } from "./orders_to_products";
@@ -38,7 +38,7 @@ export const orders = pgTable("orders", {
     "not_set", // not_set/invoice/receipt
   ),
   workTime: doublePrecision("work_time").default(0.0),
-  clientId: integer("client_id").references(() => clients.id),
+  customerId: integer("customer_id").references(() => customers.id),
   addressId: integer("address_id").references(() => addresses.id, {
     onDelete: "cascade",
   }),
@@ -52,9 +52,9 @@ export const orders_relations = relations(orders, ({ one, many }) => ({
     fields: [orders.addressId],
     references: [addresses.id],
   }),
-  client: one(clients, {
-    fields: [orders.clientId],
-    references: [clients.id],
+  customer: one(customers, {
+    fields: [orders.customerId],
+    references: [customers.id],
   }),
   files: many(orders_to_files),
   products: many(orders_to_products),

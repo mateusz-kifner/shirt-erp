@@ -58,7 +58,7 @@ export function createProcedureUpdate<TSchema extends schemaType>(
     }
     const { id, ...dataToUpdate } = input;
     const currentUserId = ctx.session.user.id;
-    const updatedClient = await db
+    const updated = await db
       .update(schema)
       .set({
         ...dataToUpdate,
@@ -67,9 +67,9 @@ export function createProcedureUpdate<TSchema extends schemaType>(
       })
       .where(eq(schema.id, id))
       .returning();
-    if (updatedClient[0] === undefined)
+    if (updated[0] === undefined)
       throw new Error("Update: update failed, requested object not found");
-    return updatedClient[0];
+    return updated[0];
   });
 }
 

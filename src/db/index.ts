@@ -2,7 +2,7 @@ import { env } from "@/env.mjs";
 import { type PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as addresses from "./schema/addresses";
-import * as clients from "./schema/clients";
+import * as customers from "./schema/customers";
 import * as spreadsheets from "./schema/spreadsheets";
 import * as files from "./schema/files";
 import * as orders from "./schema/orders";
@@ -22,7 +22,7 @@ import * as global_properties from "./schema/global_properties";
 
 const schema = {
   ...addresses,
-  ...clients,
+  ...customers,
 
   ...email_credentials_to_users,
   ...email_credentials,

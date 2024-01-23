@@ -4,29 +4,29 @@ import { useRouter } from "next/router";
 import ApiList from "@/components/ApiList";
 import useTranslation from "@/hooks/useTranslation";
 import { type RouterNames } from "@/utils/api";
-import ClientListItem from "./ClientListItem";
+import CustomerListItem from "./CustomerListItem";
 
-const entryName: RouterNames = "client";
+const entryName: RouterNames = "customer";
 
-export const clientListSearchParams = {
+export const customerListSearchParams = {
   filterKeys: ["username", "firstname", "email", "companyName"],
   sortColumn: "username",
   excludeKey: "username",
   excludeValue: "Szablon",
 };
 
-interface ClientListProps {
+interface CustomerListProps {
   selectedId: number | null;
   onAddElement?: () => void;
 }
 
-const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
+const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
   const router = useRouter();
   const t = useTranslation();
 
   return (
     <ApiList
-      ListItem={ClientListItem}
+      ListItem={CustomerListItem}
       entryName={entryName}
       label={entryName ? capitalize(t[entryName].plural) : undefined}
       selectedId={selectedId}
@@ -38,9 +38,9 @@ const ClientsList = ({ selectedId, onAddElement }: ClientListProps) => {
       }}
       onAddElement={onAddElement}
       showAddButton
-      {...clientListSearchParams}
+      {...customerListSearchParams}
     />
   );
 };
 
-export default ClientsList;
+export default CustomersList;

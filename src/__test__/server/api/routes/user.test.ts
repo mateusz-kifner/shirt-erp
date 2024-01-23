@@ -49,7 +49,7 @@ import { afterAll, beforeAll, describe, test, expect } from "vitest";
 //   });
 
 //   test("update", async () => {
-//     if (ids[0] === undefined) throw new Error("No Clients in test");
+//     if (ids[0] === undefined) throw new Error("No Customers in test");
 //     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
 //       id: ids[0],
 //       name: "Test",
@@ -63,7 +63,7 @@ import { afterAll, beforeAll, describe, test, expect } from "vitest";
 //   });
 
 //   test("update address", async () => {
-//     if (ids[0] === undefined) throw new Error("No Clients in test");
+//     if (ids[0] === undefined) throw new Error("No Customers in test");
 //     const input: inferProcedureInput<AppRouter[typeof entryName]["update"]> = {
 //       id: ids[0],
 //     };

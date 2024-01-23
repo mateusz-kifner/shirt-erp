@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import useTranslation from "@/hooks/useTranslation";
-import ClientListItem from "@/page-components/erp/client/ClientListItem";
+import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import { api } from "@/utils/api";
 import { useDebouncedValue, useHotkeys } from "@mantine/hooks";
@@ -79,14 +79,14 @@ function Search(props: SearchProps) {
         </div>
         <div className="flex flex-col gap-2">
           <span className="pl-4 italic text-gray-800 first-letter:capitalize dark:text-stone-200">
-            {t.client.plural}
+            {t.customer.plural}
           </span>
-          {data?.[0].map((client, index) => (
-            <ClientListItem
-              key={"client" + uuid + index}
-              value={client}
-              onChange={(client) => {
-                void router.push(`/erp/client/${client.id}`);
+          {data?.[0].map((customer, index) => (
+            <CustomerListItem
+              key={"customer" + uuid + index}
+              value={customer}
+              onChange={(customer) => {
+                void router.push(`/erp/customer/${customer.id}`);
                 setOpen(false);
               }}
             />

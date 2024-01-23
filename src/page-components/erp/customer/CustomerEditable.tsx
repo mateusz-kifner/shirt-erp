@@ -44,15 +44,15 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/DropdownMenu";
 import { useState } from "react";
-import { useApiClientGetById } from "@/hooks/api/client";
+import { useApiCustomerGetById } from "@/hooks/api/customer";
 
 //TODO: Remake Array type
 
-interface ClientEditableProps {
+interface CustomerEditableProps {
   id: number | null;
 }
 
-function ClientEditable(props: ClientEditableProps) {
+function CustomerEditable(props: CustomerEditableProps) {
   const { id } = props;
   const isLoaded = useLoaded();
   const router = useRouter();
@@ -61,15 +61,15 @@ function ClientEditable(props: ClientEditableProps) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const {
-    client: { data, refetch },
-  } = useApiClientGetById(id);
+    customer: { data, refetch },
+  } = useApiCustomerGetById(id);
 
-  const { mutateAsync: update } = api.client.update.useMutation({
+  const { mutateAsync: update } = api.customer.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.client.deleteById.useMutation();
+  const { mutateAsync: deleteById } = api.customer.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string | number, val: any) => {
@@ -82,7 +82,7 @@ function ClientEditable(props: ClientEditableProps) {
     if (!data) return;
     deleteById(data.id)
       .then(() => {
-        router.push(`/erp/client`).catch(console.log);
+        router.push(`/erp/customer`).catch(console.log);
       })
       .catch(console.log);
   };
@@ -124,7 +124,7 @@ function ClientEditable(props: ClientEditableProps) {
                 onClick={() => setDeleteModalOpen(true)}
                 className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
               >
-                {t.delete} {t.client.singular} <IconTrashX size={18} />
+                {t.delete} {t.customer.singular} <IconTrashX size={18} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -226,4 +226,4 @@ function ClientEditable(props: ClientEditableProps) {
   );
 }
 
-export default ClientEditable;
+export default CustomerEditable;

@@ -14,7 +14,7 @@
   "sign_out": "Wyloguj",
   "light_theme": "Jasna skórka",
   "dark_theme": "Ciemna skórka",
-  "client": {
+  "customer": {
     "singular": "klient",
     "plural": "klienci"
   },

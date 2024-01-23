@@ -2,7 +2,7 @@ import { orders } from "@/db/schema/orders";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { insertAddressZodSchema } from "./addressZodSchema";
-import { insertClientWithRelationZodSchema } from "./clientZodSchema";
+import { insertCustomerWithRelationZodSchema } from "./customerZodSchema";
 import { insertEmailMessageZodSchema } from "./emailMessageZodSchema";
 import { insertFileZodSchema } from "./fileZodSchema";
 import idRequiredZodSchema from "./idRequiredZodSchema";
@@ -30,7 +30,7 @@ const insertOrderRelationsByValueZodSchema = z.object({
 
   spreadsheets: insertSpreadsheetZodSchema.array().optional(),
 
-  client: insertClientWithRelationZodSchema.optional(),
+  customer: insertCustomerWithRelationZodSchema.optional(),
   address: insertAddressZodSchema.optional(),
 });
 
@@ -44,7 +44,7 @@ const insertOrderRelationsZodSchema = z.object({
 
   spreadsheets: z.number().array(),
 
-  client: insertClientWithRelationZodSchema.optional(),
+  customer: insertCustomerWithRelationZodSchema.optional(),
   address: insertAddressZodSchema.optional(),
 });
 
