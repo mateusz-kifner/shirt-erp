@@ -11,7 +11,7 @@ import expenseService from "@/server/services/expense";
 export const expenseRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id }) => await expenseService.deleteById(id)),
+    .query(async ({ input: id }) => await expenseService.deleteById(id)),
 
   create: employeeProcedure
     .input(insertExpenseZodSchema)

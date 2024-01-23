@@ -22,6 +22,7 @@ import { api } from "@/utils/api";
 import { useLoaded } from "@/hooks/useLoaded";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
+import { useApiAddressGetById } from "@/hooks/api/address";
 
 export const provinces = [
   "dolnośląskie",
@@ -252,10 +253,7 @@ const EditableAddress = (props: EditableAddressProps) => {
   } = useEditableContext(props);
   const isLoaded = useLoaded();
   const queryClient = useQueryClient();
-  const { data, refetch } = api.address.getById.useQuery(value as number, {
-    enabled: value !== undefined,
-    staleTime: 10 * 1000, // 10s
-  });
+  const { data, refetch } = useApiAddressGetById(value ?? null);
   const addressGetByIdKey = getQueryKey(
     api.address.getById,
     value as number,

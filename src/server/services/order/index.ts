@@ -1,15 +1,19 @@
 import { DBType, db } from "@/db";
 import { orders } from "@/db/schema/orders";
 import { eq, sql } from "drizzle-orm";
-import { NewOrder, UpdatedOrder } from "@/schema/orderZodSchema";
+import {
+  NewOrder,
+  NewOrderWithRelationsByIds,
+  UpdatedOrder,
+} from "@/schema/orderZodSchema";
 import { MetadataType } from "@/schema/MetadataType";
 import addressService from "../address";
-import { spreadsheets as spreadsheetsSchema } from "@/db/schema/spreadsheets";
 import spreadsheetService from "../spreadsheets";
 import productRelation from "./productRelation";
 import userRelation from "./userRelation";
 import fileRelation from "./fileRelation";
 import emailMessageRelation from "./emailMessageRelation";
+import spreadsheetManager from "./spreadsheetManager";
 
 // compile query ahead of time
 const orderPrepareGetFullById = db.query.orders
@@ -79,8 +83,10 @@ async function create(orderData: NewOrder & MetadataType, tx: DBType = db) {
   return newOrder[0];
 }
 
-// TODO: make this transaction
-async function createFull(orderData: NewOrder & MetadataType, tx: DBType = db) {
+async function createFullByValue(
+  orderData: NewOrder & MetadataType,
+  tx: DBType = db,
+) {
   const {
     products,
     emails,
@@ -94,10 +100,13 @@ async function createFull(orderData: NewOrder & MetadataType, tx: DBType = db) {
 
   let newAddressId: number | undefined;
   if (!!address) {
-    const newAddress = await addressService.create({
-      ...address,
-      id: undefined,
-    });
+    const newAddress = await addressService.create(
+      {
+        ...address,
+        id: undefined,
+      },
+      tx,
+    );
     if (!newAddress)
       throw new Error(
         `[OrderService]: Could not create order with name ${orderData?.name}, provided address could not be created`,
@@ -120,39 +129,135 @@ async function createFull(orderData: NewOrder & MetadataType, tx: DBType = db) {
   if (products?.length && products.length > 0)
     await productRelation.set(
       orderId,
-      products.map((v) => v.id).filter((v) => !!v) as number[],
+      (products as { id?: number }[])
+        .map((v) => v.id)
+        .filter((v): v is number => !!v),
+      tx,
     );
 
   if (emails?.length && emails.length > 0)
     await emailMessageRelation.set(
       orderId,
-      emails.map((v) => v.id).filter((v) => !!v) as number[],
+      (emails as { id?: number }[])
+        .map((v) => v.id)
+        .filter((v): v is number => !!v),
+      tx,
     );
 
   if (employees?.length && employees.length > 0)
     await userRelation.set(
       orderId,
-      employees.map((v) => v.id).filter((v) => !!v) as string[],
+      (employees as { id?: string }[])
+        .map((v) => v.id)
+        .filter((v): v is string => !!v),
+      tx,
     );
 
   if (files?.length && files.length > 0)
     await productRelation.set(
       orderId,
-      files.map((v) => v.id).filter((v) => !!v) as number[],
+      (files as { id?: number }[])
+        .map((v) => v.id)
+        .filter((v): v is number => !!v),
+      tx,
     );
 
-  if (spreadsheets?.length && spreadsheets.length > 0)
-    await spreadsheetService.create({
-      ...spreadsheets,
-      orderId,
-    });
+  if (spreadsheets?.length && spreadsheets.length > 0) {
+    for (const spreadsheet of spreadsheets) {
+      await spreadsheetService.create(
+        {
+          ...spreadsheet,
+          orderId,
+          createdById: newOrder[0].createdById,
+          updatedById: newOrder[0].updatedById,
+        },
+        tx,
+      );
+    }
+  }
+
+  return newOrder[0];
+}
+
+async function createFull(
+  orderData: NewOrderWithRelationsByIds & MetadataType,
+  tx: DBType = db,
+) {
+  const {
+    products,
+    emails,
+    employees,
+    files,
+    address,
+    addressId,
+    spreadsheets,
+    ...moreData
+  } = orderData;
+
+  let newAddressId: number | undefined;
+  if (!!address) {
+    const newAddress = await addressService.create(
+      {
+        ...address,
+        id: undefined,
+      },
+      tx,
+    );
+    if (!newAddress)
+      throw new Error(
+        `[OrderService]: Could not create order with name ${orderData?.name}, provided address could not be created`,
+      );
+    newAddressId = newAddress.id;
+  }
+  const newOrder = await tx
+    .insert(orders)
+    .values(
+      newAddressId === undefined
+        ? moreData
+        : { ...moreData, addressId: newAddressId },
+    )
+    .returning();
+  if (!newOrder[0])
+    throw new Error(
+      `[OrderService]: Could not create order with name ${orderData?.name}`,
+    );
+  const orderId = newOrder[0].id;
+  if (products?.length && products.length > 0)
+    await productRelation.set(orderId, products, tx);
+
+  if (emails?.length && emails.length > 0)
+    await emailMessageRelation.set(orderId, emails, tx);
+
+  if (employees?.length && employees.length > 0)
+    await userRelation.set(orderId, employees, tx);
+
+  if (files?.length && files.length > 0)
+    await productRelation.set(orderId, files, tx);
+
+  if (spreadsheets?.length && spreadsheets.length > 0) {
+    let newSpreadSheets = await Promise.all(
+      (spreadsheets as number[]).map((id) => spreadsheetService.getById(id)),
+    );
+
+    for (const spreadsheet of newSpreadSheets) {
+      await spreadsheetService.create(
+        {
+          ...spreadsheet,
+          orderId,
+          createdById: newOrder[0].createdById,
+          updatedById: newOrder[0].updatedById,
+        },
+        tx,
+      );
+    }
+  }
 
   return newOrder[0];
 }
 
 // TODO: make this transaction
 async function deleteById(id: number, tx: DBType = db) {
-  const order = await db.query.orders.findFirst({
+  const order = await tx.query.orders.findFirst({
     where: eq(orders.id, id),
   });
   if (!order)
@@ -161,11 +266,13 @@ async function deleteById(id: number, tx: DBType = db) {
     await addressService.deleteById(order.addressId);
 
   // remove all spreadsheets
-  await db.delete(spreadsheetsSchema).where(eq(spreadsheetsSchema.orderId, id));
-  await userRelation.disconnectAll(id);
-  await productRelation.disconnectAll(id);
-  await fileRelation.disconnectAll(id);
-  await emailMessageRelation.disconnectAll(id);
+  await spreadsheetManager.deleteAllRelated(id, tx);
+
+  // disconnect all relations
+  await userRelation.disconnectAll(id, tx);
+  await productRelation.disconnectAll(id, tx);
+  await fileRelation.disconnectAll(id, tx);
+  await emailMessageRelation.disconnectAll(id, tx);
 
   const deletedOrder = await tx
     .delete(orders)
@@ -177,7 +284,15 @@ async function deleteById(id: number, tx: DBType = db) {
 }
 
 async function update(orderData: UpdatedOrder & MetadataType, tx: DBType = db) {
-  const { id, ...dataToUpdate } = orderData;
+  const {
+    id,
+    emails,
+    employees,
+    files,
+    products,
+    spreadsheets,
+    ...dataToUpdate
+  } = orderData;
   const updatedOrder = await tx
     .update(orders)
     .set(dataToUpdate)
@@ -185,6 +300,29 @@ async function update(orderData: UpdatedOrder & MetadataType, tx: DBType = db) {
     .returning();
   if (!updatedOrder[0])
     throw new Error(`[OrderService]: Could not update order with id ${id}`);
+
+  if (emails?.length && emails?.length > 0) {
+    await emailMessageRelation.set(id, emails, tx);
+  }
+  if (employees?.length && employees?.length > 0) {
+    await userRelation.set(id, employees, tx);
+  }
+  if (files?.length && files?.length > 0) {
+    await fileRelation.set(id, files, tx);
+  }
+  if (products?.length && products?.length > 0) {
+    await productRelation.set(id, products, tx);
+  }
+
+  if (spreadsheets?.length && spreadsheets?.length > 0) {
+    await spreadsheetManager.addOrDelete(
+      id,
+      spreadsheets,
+      orderData.updatedById,
+      tx,
+    );
+  }
+
   return updatedOrder[0];
 }
 
@@ -199,6 +337,7 @@ const orderService = {
   userRelation,
   emailMessageRelation,
   fileRelation,
+  spreadsheetManager,
 };
 
 export default orderService;

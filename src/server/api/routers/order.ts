@@ -1,32 +1,13 @@
 import { z } from "zod";
 
-import { addresses, addresses as addressesSchema } from "@/db/schema/addresses";
 import { orders } from "@/db/schema/orders";
-import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
-import { orders_to_files } from "@/db/schema/orders_to_files";
-import { orders_to_products } from "@/db/schema/orders_to_products";
-import { orders_to_users } from "@/db/schema/orders_to_users";
+
 import {
-  type OrderWithoutRelations,
   insertOrderZodSchema,
   updateOrderZodSchema,
 } from "@/schema/orderZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
-import getObjectChanges from "@/utils/getObjectChanges";
-import {
-  and,
-  asc,
-  desc,
-  eq,
-  ilike,
-  inArray,
-  sql,
-  or,
-  not,
-  gte,
-  lte,
-} from "drizzle-orm";
-import { omit } from "lodash";
+import { and, asc, desc, eq, ilike, sql, or, not, gte, lte } from "drizzle-orm";
 import { db } from "@/db";
 import orderService from "@/server/services/order";
 
@@ -47,11 +28,6 @@ export const orderRouter = createTRPCRouter({
         ...orderData,
         createdById: currentUserId,
         updatedById: currentUserId,
-        spreadsheets: orderData?.spreadsheets?.map((v) => ({
-          ...v,
-          createdById: currentUserId,
-          updatedById: currentUserId,
-        })),
       });
     }),
   deleteById: employeeProcedure
@@ -61,235 +37,242 @@ export const orderRouter = createTRPCRouter({
   update: employeeProcedure
     .input(updateOrderZodSchema)
     .mutation(async ({ input: orderData, ctx }) => {
-      const {
-        id,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        spreadsheets,
-        files,
-        client,
-        address,
-        products,
-        employees,
-        emails,
-        ...simpleOrderData
-      } = orderData;
       const currentUserId = ctx.session.user.id;
-      const oldOrder = await db.query.orders.findFirst({
-        where: eq(orders.id, id),
-        with: {
-          address: true,
-          client: { with: { address: true } },
-          emails: true,
-          employees: true,
-          files: true,
-          products: true,
-          spreadsheets: true,
-        },
+      return await orderService.update({
+        ...orderData,
+        updatedById: currentUserId,
+        updatedAt: new Date(),
       });
-      if (!oldOrder) throw new Error("Order.update: Order not found");
 
-      const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        id: oldId,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        spreadsheets: oldSpreadsheets,
-        files: oldFiles,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        client: oldClient,
-        address: oldAddress,
-        products: oldProducts,
-        employees: oldEmployees,
-        emails: oldEmails,
-        ...oldSimpleOrderData
-      } = oldOrder;
+      // const {
+      //   id,
+      //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      //   spreadsheets,
+      //   files,
+      //   client,
+      //   address,
+      //   products,
+      //   employees,
+      //   emails,
+      //   ...simpleOrderData
+      // } = orderData;
 
-      if (client?.id !== undefined) {
-        simpleOrderData.clientId = client?.id;
-      }
+      // const oldOrder = await db.query.orders.findFirst({
+      //   where: eq(orders.id, id),
+      //   with: {
+      //     address: true,
+      //     client: { with: { address: true } },
+      //     emails: true,
+      //     employees: true,
+      //     files: true,
+      //     products: true,
+      //     spreadsheets: true,
+      //   },
+      // });
+      // if (!oldOrder) throw new Error("Order.update: Order not found");
 
-      const changes = getObjectChanges<Partial<OrderWithoutRelations>>(
-        oldSimpleOrderData,
-        simpleOrderData,
-      );
+      // const {
+      //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      //   id: oldId,
+      //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      //   spreadsheets: oldSpreadsheets,
+      //   files: oldFiles,
+      //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      //   client: oldClient,
+      //   address: oldAddress,
+      //   products: oldProducts,
+      //   employees: oldEmployees,
+      //   emails: oldEmails,
+      //   ...oldSimpleOrderData
+      // } = oldOrder;
 
-      if (!!changes) {
-        await db
-          .update(orders)
-          .set({
-            ...changes,
-            updatedById: currentUserId,
-            updatedAt: new Date(),
-          })
-          .where(eq(orders.id, id));
-      }
+      // if (client?.id !== undefined) {
+      //   simpleOrderData.clientId = client?.id;
+      // }
 
-      // update address
-      if (address !== undefined) {
-        if (oldAddress === null)
-          throw new Error("Order.update: Order doesn't have address");
-        await db
-          .update(addresses)
-          .set(omit(address, ["id"]))
-          .where(eq(addresses.id, oldAddress.id));
-      }
+      // const changes = getObjectChanges<Partial<OrderWithoutRelations>>(
+      //   oldSimpleOrderData,
+      //   simpleOrderData,
+      // );
 
-      if (products !== undefined) {
-        const productIds = products
-          .filter((v) => v.id !== undefined)
-          .map((v) => v.id as number);
-        const oldProductIds = oldProducts.map((v) => v.productId);
+      // if (!!changes) {
+      //   await db
+      //     .update(orders)
+      //     .set({
+      //       ...changes,
+      //       updatedById: currentUserId,
+      //       updatedAt: new Date(),
+      //     })
+      //     .where(eq(orders.id, id));
+      // }
 
-        const productsToBeAdded: number[] = productIds.filter(
-          (productId) => !oldProductIds.includes(productId),
-        );
-        const productsToBeRemoved: number[] = oldProductIds.filter(
-          (oldProductId) => !productIds.includes(oldProductId),
-        );
+      // // update address
+      // if (address !== undefined) {
+      //   if (oldAddress === null)
+      //     throw new Error("Order.update: Order doesn't have address");
+      //   await db
+      //     .update(addresses)
+      //     .set(omit(address, ["id"]))
+      //     .where(eq(addresses.id, oldAddress.id));
+      // }
 
-        const ordersToProductsAdded =
-          productsToBeAdded.length > 0
-            ? db.insert(orders_to_products).values(
-                productsToBeAdded.map((productId) => ({
-                  productId,
-                  orderId: id,
-                })),
-              )
-            : [];
-        const ordersToProductsRemoved =
-          productsToBeRemoved.length > 0
-            ? db
-                .delete(orders_to_products)
-                .where(
-                  and(
-                    eq(orders_to_products.orderId, id),
-                    inArray(orders_to_products.productId, productsToBeRemoved),
-                  ),
-                )
-            : [];
-        await Promise.allSettled([
-          ordersToProductsAdded,
-          ordersToProductsRemoved,
-        ]);
-      }
+      // if (products !== undefined) {
+      //   const productIds = products
+      //     .filter((v) => v.id !== undefined)
+      //     .map((v) => v.id as number);
+      //   const oldProductIds = oldProducts.map((v) => v.productId);
 
-      if (employees !== undefined) {
-        const employeeIds = employees
-          .filter((v) => v.id !== undefined)
-          .map((v) => v.id);
-        const oldEmployeeIds = oldEmployees.map((v) => v.userId);
+      //   const productsToBeAdded: number[] = productIds.filter(
+      //     (productId) => !oldProductIds.includes(productId),
+      //   );
+      //   const productsToBeRemoved: number[] = oldProductIds.filter(
+      //     (oldProductId) => !productIds.includes(oldProductId),
+      //   );
 
-        const employeesToBeAdded: string[] = employeeIds.filter(
-          (employeeId) => !oldEmployeeIds.includes(employeeId),
-        );
-        const employeesToBeRemoved: string[] = oldEmployeeIds.filter(
-          (oldEmployeeId) => !employeeIds.includes(oldEmployeeId),
-        );
+      //   const ordersToProductsAdded =
+      //     productsToBeAdded.length > 0
+      //       ? db.insert(orders_to_products).values(
+      //           productsToBeAdded.map((productId) => ({
+      //             productId,
+      //             orderId: id,
+      //           })),
+      //         )
+      //       : [];
+      //   const ordersToProductsRemoved =
+      //     productsToBeRemoved.length > 0
+      //       ? db
+      //           .delete(orders_to_products)
+      //           .where(
+      //             and(
+      //               eq(orders_to_products.orderId, id),
+      //               inArray(orders_to_products.productId, productsToBeRemoved),
+      //             ),
+      //           )
+      //       : [];
+      //   await Promise.allSettled([
+      //     ordersToProductsAdded,
+      //     ordersToProductsRemoved,
+      //   ]);
+      // }
 
-        const ordersToEmployeesAdded =
-          employeesToBeAdded.length > 0
-            ? db.insert(orders_to_users).values(
-                employeesToBeAdded.map((employeeId) => ({
-                  userId: employeeId,
-                  orderId: id,
-                })),
-              )
-            : [];
-        const ordersToEmployeesRemoved =
-          employeesToBeRemoved.length > 0
-            ? db
-                .delete(orders_to_users)
-                .where(
-                  and(
-                    eq(orders_to_users.orderId, id),
-                    inArray(orders_to_users.userId, employeesToBeRemoved),
-                  ),
-                )
-            : [];
-        await Promise.allSettled([
-          ordersToEmployeesAdded,
-          ordersToEmployeesRemoved,
-        ]);
-      }
-      if (emails !== undefined) {
-        const emailIds = emails
-          .filter((v) => v.id !== undefined)
-          .map((v) => v.id as number);
-        const oldEmailIds = oldEmails.map((v) => v.emailMessageId);
+      // if (employees !== undefined) {
+      //   const employeeIds = employees
+      //     .filter((v) => v.id !== undefined)
+      //     .map((v) => v.id);
+      //   const oldEmployeeIds = oldEmployees.map((v) => v.userId);
 
-        const emailsToBeAdded: number[] = emailIds.filter(
-          (emailId) => !oldEmailIds.includes(emailId),
-        );
-        const emailsToBeRemoved: number[] = oldEmailIds.filter(
-          (oldEmailId) => !emailIds.includes(oldEmailId),
-        );
+      //   const employeesToBeAdded: string[] = employeeIds.filter(
+      //     (employeeId) => !oldEmployeeIds.includes(employeeId),
+      //   );
+      //   const employeesToBeRemoved: string[] = oldEmployeeIds.filter(
+      //     (oldEmployeeId) => !employeeIds.includes(oldEmployeeId),
+      //   );
 
-        const ordersToEmailsAdded =
-          emailsToBeAdded.length > 0
-            ? db.insert(orders_to_email_messages).values(
-                emailsToBeAdded.map((emailMessageId) => ({
-                  emailMessageId,
-                  orderId: id,
-                })),
-              )
-            : [];
+      //   const ordersToEmployeesAdded =
+      //     employeesToBeAdded.length > 0
+      //       ? db.insert(orders_to_users).values(
+      //           employeesToBeAdded.map((employeeId) => ({
+      //             userId: employeeId,
+      //             orderId: id,
+      //           })),
+      //         )
+      //       : [];
+      //   const ordersToEmployeesRemoved =
+      //     employeesToBeRemoved.length > 0
+      //       ? db
+      //           .delete(orders_to_users)
+      //           .where(
+      //             and(
+      //               eq(orders_to_users.orderId, id),
+      //               inArray(orders_to_users.userId, employeesToBeRemoved),
+      //             ),
+      //           )
+      //       : [];
+      //   await Promise.allSettled([
+      //     ordersToEmployeesAdded,
+      //     ordersToEmployeesRemoved,
+      //   ]);
+      // }
+      // if (emails !== undefined) {
+      //   const emailIds = emails
+      //     .filter((v) => v.id !== undefined)
+      //     .map((v) => v.id as number);
+      //   const oldEmailIds = oldEmails.map((v) => v.emailMessageId);
 
-        const ordersToEmailsRemoved =
-          emailsToBeRemoved.length > 0
-            ? db
-                .delete(orders_to_email_messages)
-                .where(
-                  and(
-                    eq(orders_to_email_messages.orderId, id),
-                    inArray(
-                      orders_to_email_messages.emailMessageId,
-                      emailsToBeRemoved,
-                    ),
-                  ),
-                )
-            : [];
+      //   const emailsToBeAdded: number[] = emailIds.filter(
+      //     (emailId) => !oldEmailIds.includes(emailId),
+      //   );
+      //   const emailsToBeRemoved: number[] = oldEmailIds.filter(
+      //     (oldEmailId) => !emailIds.includes(oldEmailId),
+      //   );
 
-        await Promise.allSettled([ordersToEmailsAdded, ordersToEmailsRemoved]);
-      }
+      //   const ordersToEmailsAdded =
+      //     emailsToBeAdded.length > 0
+      //       ? db.insert(orders_to_email_messages).values(
+      //           emailsToBeAdded.map((emailMessageId) => ({
+      //             emailMessageId,
+      //             orderId: id,
+      //           })),
+      //         )
+      //       : [];
 
-      if (files !== undefined) {
-        const fileIds = files
-          .filter((v) => v.id !== undefined)
-          .map((v) => v.id as number);
-        const oldFileIds = oldFiles.map((v) => v.fileId);
+      //   const ordersToEmailsRemoved =
+      //     emailsToBeRemoved.length > 0
+      //       ? db
+      //           .delete(orders_to_email_messages)
+      //           .where(
+      //             and(
+      //               eq(orders_to_email_messages.orderId, id),
+      //               inArray(
+      //                 orders_to_email_messages.emailMessageId,
+      //                 emailsToBeRemoved,
+      //               ),
+      //             ),
+      //           )
+      //       : [];
 
-        const filesToBeAdded: number[] = fileIds.filter(
-          (fileId) => !oldFileIds.includes(fileId),
-        );
-        const filesToBeRemoved: number[] = oldFileIds.filter(
-          (oldFileId) => !fileIds.includes(oldFileId),
-        );
+      //   await Promise.allSettled([ordersToEmailsAdded, ordersToEmailsRemoved]);
+      // }
 
-        const ordersToFilesAdded =
-          filesToBeAdded.length > 0
-            ? db.insert(orders_to_files).values(
-                filesToBeAdded.map((fileId) => ({
-                  fileId,
-                  orderId: id,
-                })),
-              )
-            : [];
+      // if (files !== undefined) {
+      //   const fileIds = files
+      //     .filter((v) => v.id !== undefined)
+      //     .map((v) => v.id as number);
+      //   const oldFileIds = oldFiles.map((v) => v.fileId);
 
-        const ordersToFilesRemoved =
-          filesToBeRemoved.length > 0
-            ? db
-                .delete(orders_to_files)
-                .where(
-                  and(
-                    eq(orders_to_files.orderId, id),
-                    inArray(orders_to_files.fileId, filesToBeRemoved),
-                  ),
-                )
-            : [];
+      //   const filesToBeAdded: number[] = fileIds.filter(
+      //     (fileId) => !oldFileIds.includes(fileId),
+      //   );
+      //   const filesToBeRemoved: number[] = oldFileIds.filter(
+      //     (oldFileId) => !fileIds.includes(oldFileId),
+      //   );
 
-        await Promise.allSettled([ordersToFilesAdded, ordersToFilesRemoved]);
-      }
+      //   const ordersToFilesAdded =
+      //     filesToBeAdded.length > 0
+      //       ? db.insert(orders_to_files).values(
+      //           filesToBeAdded.map((fileId) => ({
+      //             fileId,
+      //             orderId: id,
+      //           })),
+      //         )
+      //       : [];
 
-      return { ok: true };
+      //   const ordersToFilesRemoved =
+      //     filesToBeRemoved.length > 0
+      //       ? db
+      //           .delete(orders_to_files)
+      //           .where(
+      //             and(
+      //               eq(orders_to_files.orderId, id),
+      //               inArray(orders_to_files.fileId, filesToBeRemoved),
+      //             ),
+      //           )
+      //       : [];
+
+      //   await Promise.allSettled([ordersToFilesAdded, ordersToFilesRemoved]);
+      // }
+
+      // return { ok: true };
     }),
 
   getByCompletionDateRange: employeeProcedure
