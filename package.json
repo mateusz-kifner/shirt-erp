@@ -72,7 +72,7 @@
     "dotenv": "^16.3.2",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
-    "embla-carousel-react": "^8.0.0-rc19",
+    "embla-carousel-react": "^8.0.0-rc20",
     "formidable": "^2.1.2",
     "image-size": "^1.1.1",
     "imapflow": "^1.0.148",

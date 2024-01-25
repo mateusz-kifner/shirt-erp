@@ -1,17 +1,20 @@
 import * as React from "react";
 import useEmblaCarousel, {
-  type EmblaCarouselType as CarouselApi,
-  type EmblaOptionsType as CarouselOptions,
-  type EmblaPluginType as CarouselPlugin,
+  type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
 import { cn } from "@/utils/cn";
 import Button from "@/components/ui/Button";
 
+type CarouselApi = UseEmblaCarouselType[1];
+type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+type CarouselOptions = UseCarouselParameters[0];
+type CarouselPlugin = UseCarouselParameters[1];
+
 type CarouselProps = {
   opts?: CarouselOptions;
-  plugins?: CarouselPlugin[];
+  plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
 };
@@ -82,10 +85,10 @@ const Carousel = React.forwardRef<
 
     const handleKeyDown = React.useCallback(
       (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === "IconArrowLeft") {
+        if (event.key === "ArrowLeft") {
           event.preventDefault();
           scrollPrev();
-        } else if (event.key === "IconArrowRight") {
+        } else if (event.key === "ArrowRight") {
           event.preventDefault();
           scrollNext();
         }
