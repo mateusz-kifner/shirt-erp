@@ -26,6 +26,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { useLoaded } from "@/hooks/useLoaded";
 import EditableText from "@/components/editable/EditableText";
 import { Label } from "@/components/ui/Label";
+import { useApiCustomerGetById } from "@/hooks/api/customer";
 
 interface OrderCustomerViewProps {
   orderApiUpdate: (key: string | number, value: any) => void;
@@ -42,14 +43,18 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
   const t = useTranslation();
   const isLoaded = useLoaded();
 
-  const { data } = api.customer.getById.useQuery(customerId as number, {
-    enabled: customerId !== null,
-  });
+  const { customer, address } = useApiCustomerGetById(customerId);
+  const { data } = customer;
+  const addressData = address.data;
+  const addressRefetch = address.refetch;
+  // const { data } = api.customer.getById.useQuery(customerId as number, {
+  //   enabled: customerId !== null,
+  // });
 
-  const { data: addressData, refetch: addressRefetch } =
-    api.address.getById.useQuery(addressId as number, {
-      enabled: addressId !== null,
-    });
+  // const { data: addressData, refetch: addressRefetch } =
+  //   api.address.getById.useQuery(addressId as number, {
+  //     enabled: addressId !== null,
+  //   });
 
   // const { mutateAsync: update } = api.customer.update.useMutation({
   //   onSuccess: () => {
@@ -77,7 +82,7 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
 
   if (orderData === undefined) return <div>Loading ...</div>;
 
-  const addressStringCustomer = addressToString(data?.address ?? undefined);
+  const addressStringCustomer = addressToString(addressData ?? undefined);
   const addressStringOrder = addressToString(
     (orderData as unknown as any)?.address ?? undefined,
   );
