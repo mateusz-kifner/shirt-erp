@@ -8,6 +8,7 @@ import { getQueryKey } from "@trpc/react-query";
 // Attempt to populate Product cache, users cache and file cache
 // ignore spreadsheet cache
 //
+
 export function useApiOrderGetById(id: number | null | undefined) {
   const [firstLoad, setFirstLoad] = useState(true);
   const RQClient = useQueryClient();
@@ -96,8 +97,12 @@ export function useApiOrderGetById(id: number | null | undefined) {
   return { order: queryOrder, customer: queryCustomer, address: queryAddress };
 }
 
-export function useApiOrderCreate() {
-  const mutation = api.order.create.useMutation();
+type UseTRPCMutationOrderCreateOptions = Parameters<
+  typeof api.order.create.useMutation
+>[0];
+
+export function useApiOrderCreate(opts?: UseTRPCMutationOrderCreateOptions) {
+  const mutation = api.order.create.useMutation(opts);
   return {
     ...mutation,
     createOrder: mutation.mutate,
@@ -105,8 +110,12 @@ export function useApiOrderCreate() {
   };
 }
 
-export function useApiOrderUpdate() {
-  const mutation = api.order.update.useMutation();
+type UseTRPCMutationOrderUpdateOptions = Parameters<
+  typeof api.order.update.useMutation
+>[0];
+
+export function useApiOrderUpdate(opts?: UseTRPCMutationOrderUpdateOptions) {
+  const mutation = api.order.update.useMutation(opts);
   return {
     ...mutation,
     updateOrder: mutation.mutate,
@@ -114,8 +123,12 @@ export function useApiOrderUpdate() {
   };
 }
 
-export function useApiOrderDelete() {
-  const mutation = api.order.deleteById.useMutation();
+type UseTRPCMutationOrderDeleteOptions = Parameters<
+  typeof api.order.deleteById.useMutation
+>[0];
+
+export function useApiOrderDelete(opts?: UseTRPCMutationOrderDeleteOptions) {
+  const mutation = api.order.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteOrder: mutation.mutate,

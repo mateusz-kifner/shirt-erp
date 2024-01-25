@@ -1,3 +1,5 @@
+import { db } from "@/db";
+import { users } from "@/db/schema/users";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import {
@@ -9,6 +11,7 @@ import {
   transferEmailToDbByUId,
 } from "@/server/email";
 import { TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
 import { ImapFlow } from "imapflow";
 import Logger from "js-logger";
 import { z } from "zod";
@@ -17,7 +20,7 @@ export const emailRouter = createTRPCRouter({
   getAllConfigs: employeeProcedure.query(async ({ ctx }) => {
     const currentUserId = ctx.session.user.id;
     const result = await db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.id, currentUserId),
+      where: eq(users.id, currentUserId),
       with: { emailCredentials: { with: { emailCredentials: true } } },
     });
 
@@ -31,7 +34,7 @@ export const emailRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const currentUserId = ctx.session.user.id;
       const result = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, currentUserId),
+        where: eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
       const auth = result?.emailCredentials
@@ -62,7 +65,7 @@ export const emailRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const currentUserId = ctx.session.user.id;
       const result = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, currentUserId),
+        where: eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
       const auth = result?.emailCredentials
@@ -101,7 +104,7 @@ export const emailRouter = createTRPCRouter({
       const { mailbox, emailClientId, take, skip } = input;
       const currentUserId = ctx.session.user.id;
       const result = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, currentUserId),
+        where: eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
 
@@ -140,7 +143,7 @@ export const emailRouter = createTRPCRouter({
       const { mailbox, emailClientId, emailId } = input;
       const currentUserId = ctx.session.user.id;
       const result = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, currentUserId),
+        where: eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
       const auth = result?.emailCredentials
@@ -183,7 +186,7 @@ export const emailRouter = createTRPCRouter({
       const { mailbox, emailClientId, emailId } = input;
       const currentUserId = ctx.session.user.id;
       const result = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, currentUserId),
+        where: eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
 
@@ -229,7 +232,7 @@ export const emailRouter = createTRPCRouter({
       const { mailbox, emailClientId, query, take } = input;
       const currentUserId = ctx.session.user.id;
       const result = await db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.id, currentUserId),
+        where: eq(users.id, currentUserId),
         with: { emailCredentials: { with: { emailCredentials: true } } },
       });
 

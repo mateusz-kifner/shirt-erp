@@ -40,6 +40,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import RefetchButton from "@/components/ui/RefetchButton";
+import { useApiOrderGetById, useApiOrderUpdate } from "@/hooks/api/order";
 
 const entryName = "order";
 
@@ -57,10 +58,15 @@ function OrderEditable(props: OrderEditableProps) {
     number | null
   >(null);
 
-  const { data, refetch } = api.order.getById.useQuery(id as number, {
-    enabled: id !== null,
-  });
-  const { mutateAsync: update } = api.order.update.useMutation({
+  const { order } = useApiOrderGetById(id);
+  const { data, refetch } = order;
+
+  // const { updateOrderAsync } = useApiOrderUpdate({
+  //   onSuccess: () => {
+  //     refetch().catch((err) => console.log(err));
+  //   },
+  // })
+  const { mutateAsync: updateOrderAsync } = api.order.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
@@ -70,10 +76,10 @@ function OrderEditable(props: OrderEditableProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
     console.log(key, val);
+    if (typeof key !== "string") return;
     if (!isLoaded) return;
     if (!data) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    update({ id: data.id, [key]: val }).catch(console.log);
+    updateOrderAsync({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {

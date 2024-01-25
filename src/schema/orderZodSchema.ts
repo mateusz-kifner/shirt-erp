@@ -35,14 +35,14 @@ const insertOrderRelationsByValueZodSchema = z.object({
 });
 
 const insertOrderRelationsZodSchema = z.object({
-  files: z.number().array(),
-  products: z.number().array(),
+  files: z.number().array().optional(),
+  products: z.number().array().optional(),
 
-  employees: z.string().array(),
+  employees: z.string().array().optional(),
 
-  emails: z.number().array(),
+  emails: z.number().array().optional(),
 
-  spreadsheets: z.number().array(),
+  spreadsheets: z.number().array().optional(),
 
   customer: insertCustomerWithRelationZodSchema.optional(),
   address: insertAddressZodSchema.optional(),
