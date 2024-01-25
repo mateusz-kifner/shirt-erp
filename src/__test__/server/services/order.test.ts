@@ -56,7 +56,10 @@ describe("Order to Product relation", () => {
   });
 
   test("update connect Product", async () => {
-    const data = await orderService.connectProduct(orderId!, productId!);
+    const data = await orderService.productRelation.connect(
+      orderId!,
+      productId!,
+    );
     expect(data).toMatchObject({
       orderId,
       productId,
@@ -66,7 +69,10 @@ describe("Order to Product relation", () => {
     expect(byId.products[0]!.name).toEqual("Test Product 789");
   });
   test("update disconnect Product", async () => {
-    const data = await orderService.disconnectProduct(orderId!, productId!);
+    const data = await orderService.productRelation.disconnect(
+      orderId!,
+      productId!,
+    );
     expect(data).toMatchObject({
       orderId,
       productId,
@@ -100,7 +106,7 @@ describe("Order to File relation", () => {
   });
 
   test("update connect File", async () => {
-    const data = await orderService.connectFile(orderId!, fileId!);
+    const data = await orderService.fileRelation.connect(orderId!, fileId!);
     expect(data).toMatchObject({
       orderId,
       fileId,
@@ -110,7 +116,7 @@ describe("Order to File relation", () => {
     expect(byId.files[0]!.filename).toEqual("Test File 789");
   });
   test("update disconnect File", async () => {
-    const data = await orderService.disconnectFile(orderId!, fileId!);
+    const data = await orderService.fileRelation.disconnect(orderId!, fileId!);
     expect(data).toMatchObject({
       orderId,
       fileId,
@@ -141,7 +147,7 @@ describe("Order to User relation", () => {
   });
 
   test("update connect User", async () => {
-    const data = await orderService.connectUser(orderId!, userId!);
+    const data = await orderService.userRelation.connect(orderId!, userId!);
     expect(data).toMatchObject({
       orderId,
       userId,
@@ -151,7 +157,7 @@ describe("Order to User relation", () => {
     expect(byId.employees[0]!.name).toEqual("Jan Kowalski");
   });
   test("update disconnect User", async () => {
-    const data = await orderService.disconnectUser(orderId!, userId!);
+    const data = await orderService.userRelation.disconnect(orderId!, userId!);
     expect(data).toMatchObject({
       orderId,
       userId,
@@ -181,7 +187,7 @@ describe("Order to EmailMessage relation", () => {
   });
 
   test("update connect EmailMessage", async () => {
-    const data = await orderService.connectEmailMessage(
+    const data = await orderService.emailMessageRelation.connect(
       orderId!,
       emailMessageId!,
     );
@@ -194,7 +200,7 @@ describe("Order to EmailMessage relation", () => {
     expect(byId.emails[0]!.subject).toEqual("Test EmailMessage 789");
   });
   test("update disconnect EmailMessage", async () => {
-    const data = await orderService.disconnectEmailMessage(
+    const data = await orderService.emailMessageRelation.disconnect(
       orderId!,
       emailMessageId!,
     );
