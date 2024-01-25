@@ -3,6 +3,7 @@ import { z } from "zod";
 import { orders } from "@/db/schema/orders";
 
 import {
+  insertOrderByValueZodSchema,
   insertOrderZodSchema,
   updateOrderZodSchema,
 } from "@/schema/orderZodSchema";
@@ -25,6 +26,16 @@ export const orderRouter = createTRPCRouter({
     .mutation(async ({ input: orderData, ctx }) => {
       const currentUserId = ctx.session.user.id;
       return await orderService.createFull({
+        ...orderData,
+        createdById: currentUserId,
+        updatedById: currentUserId,
+      });
+    }),
+  createFull: employeeProcedure
+    .input(insertOrderByValueZodSchema)
+    .mutation(async ({ input: orderData, ctx }) => {
+      const currentUserId = ctx.session.user.id;
+      return await orderService.createFullByValue({
         ...orderData,
         createdById: currentUserId,
         updatedById: currentUserId,

@@ -331,6 +331,7 @@ const orderService = {
   getById,
   create,
   createFull,
+  createFullByValue,
   update,
   deleteById,
   productRelation,

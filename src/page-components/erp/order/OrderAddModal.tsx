@@ -30,7 +30,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   //   enabled: template !== null && template.id !== undefined,
   // });
 
-  const { mutateAsync: createOrder } = api.order.create.useMutation();
+  const { mutateAsync: createOrder } = api.order.createFull.useMutation();
 
   useEffect(() => {
     if (!opened) {
