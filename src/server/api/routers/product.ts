@@ -13,6 +13,10 @@ export const productRouter = createTRPCRouter({
     .input(z.number())
     .query(async ({ input: id }) => await productService.getById(id)),
 
+  getManyByIds: employeeProcedure
+    .input(z.number().array())
+    .query(async ({ input: ids }) => await productService.getManyByIds(ids)),
+
   create: employeeProcedure
     .input(insertProductZodSchema)
     .mutation(async ({ input: productData, ctx }) => {

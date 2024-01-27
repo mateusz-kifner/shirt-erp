@@ -8,7 +8,7 @@ import {
 } from "@/schema/orderZodSchema";
 import { MetadataType } from "@/schema/MetadataType";
 import addressService from "../address";
-import spreadsheetService from "../spreadsheets";
+import spreadsheetService from "../spreadsheet";
 import productRelation from "./productRelation";
 import userRelation from "./userRelation";
 import fileRelation from "./fileRelation";

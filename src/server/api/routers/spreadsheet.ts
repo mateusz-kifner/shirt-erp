@@ -8,7 +8,7 @@ import {
   updateSpreadsheetZodSchema,
 } from "@/schema/spreadsheetZodSchema";
 import { z } from "zod";
-import spreadsheetService from "@/server/services/spreadsheets";
+import spreadsheetService from "@/server/services/spreadsheet";
 
 // const partialSpreadsheetData = z.object({
 //   id: z.number(),

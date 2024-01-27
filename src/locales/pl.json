@@ -26,7 +26,7 @@
     "singular": "zamówienie",
     "plural": "zamówienia"
   },
-  "email-message": {
+  "emailMessage": {
     "singular": "email",
     "plural": "emalie"
   },
@@ -38,7 +38,7 @@
     "singular": "wydatek",
     "plural": "wydatki"
   },
-  "global-properties": {
+  "globalProperty": {
     "singular": "Globalne właściwości",
     "plural": "Globalne właściwości"
   },

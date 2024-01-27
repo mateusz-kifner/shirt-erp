@@ -1,6 +1,6 @@
 import { DBType, db } from "@/db";
 import { email_messages } from "@/db/schema/email_messages";
-import { eq, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import {
   EmailMessage,
   UpdatedEmailMessage,
@@ -23,6 +23,22 @@ async function getById(id: number): Promise<EmailMessage> {
       `[EmailMessageService]: Could not find email message with id ${id}`,
     );
   return emailMessage;
+}
+
+// compile query ahead of time
+const emailMessagePrepareGetManyById = db
+  .select()
+  .from(email_messages)
+  .where(inArray(email_messages.id, sql.placeholder("ids")))
+  .prepare("emailMessagePrepareGetManyById");
+
+async function getManyByIds(ids: number[]): Promise<EmailMessage[]> {
+  const emailMessages = await emailMessagePrepareGetManyById.execute({ ids });
+  if (emailMessages.length !== ids.length)
+    throw new Error(
+      `[EmailMessageService]: Could not find email messages with ids ${ids}`,
+    );
+  return emailMessages;
 }
 
 async function create(
@@ -75,6 +91,12 @@ async function update(
   return updatedEmailMessage[0];
 }
 
-const emailMessageService = { getById, create, deleteById, update };
+const emailMessageService = {
+  getById,
+  getManyByIds,
+  create,
+  deleteById,
+  update,
+};
 
 export default emailMessageService;

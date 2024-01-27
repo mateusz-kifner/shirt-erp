@@ -1,7 +1,7 @@
 import { DBType, db } from "@/db";
 import { spreadsheets } from "@/db/schema/spreadsheets";
 import { eq } from "drizzle-orm";
-import spreadsheetService from "../spreadsheets";
+import spreadsheetService from "../spreadsheet";
 
 async function deleteAllRelated(orderId: number, tx: DBType = db) {
   return await tx

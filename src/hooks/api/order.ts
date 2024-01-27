@@ -13,35 +13,77 @@ export function useApiOrderGetById(id: number | null | undefined) {
   const [firstLoad, setFirstLoad] = useState(true);
   const RQClient = useQueryClient();
 
-  const queryOrderFull = api.order.getFullById.useQuery(id as number, {
+  const orderFullQuery = api.order.getFullById.useQuery(id as number, {
     enabled: id !== null && id !== undefined && firstLoad,
     ...queryDefaults,
   });
 
-  const queryOrder = api.order.getById.useQuery(id as number, {
+  const orderQuery = api.order.getById.useQuery(id as number, {
     enabled: id !== null && id !== undefined && !firstLoad,
     refetchOnMount: false,
     staleTime: 60 * 1000, // 60s
   });
 
-  const queryCustomer = api.customer.getById.useQuery(id as number, {
+  const customerQuery = api.customer.getById.useQuery(id as number, {
     enabled:
       id !== null &&
       id !== undefined &&
       !firstLoad &&
-      (queryOrderFull?.data?.customerId ?? null) !== null,
+      (orderFullQuery?.data?.customerId ?? null) !== null,
     refetchOnMount: false,
     staleTime: 60 * 1000, // 60s
   });
 
-  const queryAddress = api.address.getById.useQuery(
-    queryOrderFull?.data?.addressId as number,
+  const addressQuery = api.address.getById.useQuery(
+    orderFullQuery?.data?.addressId as number,
     {
       enabled:
         id !== null &&
         id !== undefined &&
         !firstLoad &&
-        (queryOrderFull?.data?.addressId ?? null) !== null,
+        (orderFullQuery?.data?.addressId ?? null) !== null,
+      refetchOnMount: false,
+      staleTime: 60 * 1000, // 60s
+    },
+  );
+
+  const productsIds =
+    orderQuery.data?.products && orderQuery.data.products.length > 0
+      ? (orderQuery.data?.products as number[])
+      : (orderFullQuery?.data?.products.map((v) => v.id) as
+          | number[]
+          | undefined
+          | null);
+
+  const productsQuery = api.product.getManyByIds.useQuery(
+    productsIds as number[],
+    {
+      enabled:
+        productsIds !== null &&
+        productsIds !== undefined &&
+        productsIds.length > 0 &&
+        !firstLoad,
+      refetchOnMount: false,
+      staleTime: 60 * 1000, // 60s
+    },
+  );
+
+  const emailsIds =
+    orderQuery.data?.emails && orderQuery.data.emails.length > 0
+      ? (orderQuery.data?.emails as number[])
+      : (orderFullQuery?.data?.emails.map((v) => v.id) as
+          | number[]
+          | undefined
+          | null);
+
+  const emailsQuery = api.emailMessage.getManyByIds.useQuery(
+    emailsIds as number[],
+    {
+      enabled:
+        emailsIds !== null &&
+        emailsIds !== undefined &&
+        emailsIds.length > 0 &&
+        !firstLoad,
       refetchOnMount: false,
       staleTime: 60 * 1000, // 60s
     },
@@ -50,51 +92,57 @@ export function useApiOrderGetById(id: number | null | undefined) {
   useEffect(() => {
     if (
       firstLoad &&
-      typeof queryOrderFull?.data?.addressId === "number" &&
-      typeof queryOrderFull?.data?.customerId === "number" &&
-      typeof queryOrderFull?.data?.id === "number"
+      typeof orderFullQuery?.data?.addressId === "number" &&
+      typeof orderFullQuery?.data?.customerId === "number" &&
+      typeof orderFullQuery?.data?.id === "number"
     ) {
       // Order
       const orderGetByIdKey = getQueryKey(
         api.order.getById,
-        queryOrderFull.data.id,
+        orderFullQuery.data.id,
         "query",
       );
 
       // RQClient.setQueryData(
       //   customerGetByIdKey,
-      //   omit(queryOrderFull?.data, "address"),
+      //   omit(orderFullQuery?.data, "address"),
       // );
 
       // Customer
       const customerGetByIdKey = getQueryKey(
         api.customer.getById,
-        queryOrderFull.data.id,
+        orderFullQuery.data.id,
         "query",
       );
 
       RQClient.setQueryData(
         customerGetByIdKey,
-        queryOrderFull?.data?.customer ?? undefined,
+        orderFullQuery?.data?.customer ?? undefined,
       );
 
       // Address
       const addressGetByIdKey = getQueryKey(
         api.address.getById,
-        queryOrderFull.data.addressId,
+        orderFullQuery.data.addressId,
         "query",
       );
 
       RQClient.setQueryData(
         addressGetByIdKey,
-        queryOrderFull?.data?.address ?? undefined,
+        orderFullQuery?.data?.address ?? undefined,
       );
 
       setFirstLoad(false);
     }
-  }, [queryOrderFull.isSuccess]);
+  }, [orderFullQuery.isSuccess]);
 
-  return { order: queryOrder, customer: queryCustomer, address: queryAddress };
+  return {
+    orderQuery,
+    customerQuery,
+    addressQuery,
+    productsQuery,
+    emailsQuery,
+  };
 }
 
 type UseTRPCMutationOrderCreateOptions = Parameters<

@@ -25,7 +25,7 @@ const GlobalPropertiesAddModal = ({
   const [data, setData] = useState(defaultGlobalProperties);
   const [error, setError] = useState<string | null>(null);
   const { mutateAsync: createGlobalProperties } =
-    api["global-properties"].create.useMutation();
+    api.globalProperty.create.useMutation();
 
   useEffect(() => {
     if (!opened) {

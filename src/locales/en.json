@@ -26,7 +26,7 @@
     "singular": "order",
     "plural": "orders"
   },
-  "email-message": {
+  "emailMessage": {
     "singular": "email",
     "plural": "emails"
   },
@@ -38,7 +38,7 @@
     "singular": "expense",
     "plural": "expenses"
   },
-  "global-properties": {
+  "globalProperty": {
     "singular": "Global properties",
     "plural": "Global properties"
   },

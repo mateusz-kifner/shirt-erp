@@ -7,7 +7,6 @@ import { emailRouter } from "./routers/email";
 import { exampleRouter } from "./routers/example";
 import { expenseRouter } from "./routers/expense";
 import { fileRouter } from "./routers/file";
-import { globalPropertiesRouter } from "./routers/global_properties";
 import { orderRouter } from "./routers/order";
 import { productRouter } from "@/server/api/routers/product";
 import { searchRouter } from "./routers/search";
@@ -15,6 +14,8 @@ import { sessionRouter } from "@/server/api/routers/session";
 import { settingsRouter } from "./routers/settings";
 import { spreadsheetRouter } from "./routers/spreadsheet";
 import { userRouter } from "./routers/user";
+import { emailMessageRouter } from "./routers/email_message";
+import { globalPropertyRouter } from "./routers/global_property";
 /**
  * This is the primary router for your server.
  *
@@ -26,10 +27,11 @@ export const appRouter = createTRPCRouter({
   admin: adminRouter,
   customer: customerRouter,
   email: emailRouter,
+  emailMessage: emailMessageRouter,
   example: exampleRouter,
   expense: expenseRouter,
   file: fileRouter,
-  "global-properties": globalPropertiesRouter,
+  globalProperty: globalPropertyRouter,
   order: orderRouter,
   product: productRouter,
   search: searchRouter,

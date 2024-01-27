@@ -48,11 +48,8 @@ function EditableMultiSelectGroup(props: EditableMultiSelectGroupProps) {
   const setSelected = (data: string[]) => onSubmit(data);
   const [inputValue, setInputValue] = useState("");
 
-  const { data: globalPropertiesData } = api[
-    "global-properties"
-  ].getByCategory.useQuery(entryCategory as string, {
-    enabled: entryCategory !== undefined,
-  });
+  const { data: globalPropertiesData } =
+    useApiGlobalPropertyGetByCategory(entryCategory);
 
   const handleUnselect = (enum_string: string) => {
     console.log(enum_string, selected);
@@ -187,3 +184,8 @@ function EditableMultiSelectGroup(props: EditableMultiSelectGroupProps) {
 }
 
 export default EditableMultiSelectGroup;
+function useApiGlobalPropertyGetByCategory(entryCategory: string | undefined): {
+  data: any;
+} {
+  throw new Error("Function not implemented.");
+}

@@ -200,7 +200,7 @@ function Settings() {
             leftSection={<IconMail />}
           >
             <p className="first-letter:uppercase">
-              {t["email-message"].singular} {t.credentials}
+              {t.emailMessage.singular} {t.credentials}
             </p>
           </Button>
           {!env.NEXT_PUBLIC_DEMO && (
@@ -231,7 +231,7 @@ function Settings() {
                 }}
                 leftSection={<IconSettings />}
               >
-                {t["global-properties"].plural}
+                {t.globalProperty.plural}
               </Button>
             </>
           )}

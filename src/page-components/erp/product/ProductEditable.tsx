@@ -46,7 +46,7 @@ function ProductEditable(props: ProductEditableProps) {
   const t = useTranslation();
 
   const { data: globalPropertiesData } =
-    api["global-properties"].getByCategory.useQuery("size");
+    api.globalProperty.getByCategory.useQuery("size");
 
   const global_selectables = new Set(
     globalPropertiesData?.map((val) => val?.data ?? []).flat(),

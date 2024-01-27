@@ -36,19 +36,16 @@ function GlobalPropertiesEditable(props: GlobalPropertiesEditableProps) {
   const router = useRouter();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const { data, refetch } = api["global-properties"].getById.useQuery(
-    id as number,
-    {
-      enabled: id !== null,
-    },
-  );
-  const { mutateAsync: update } = api["global-properties"].update.useMutation({
+  const { data, refetch } = api.globalProperty.getById.useQuery(id as number, {
+    enabled: id !== null,
+  });
+  const { mutateAsync: update } = api.globalProperty.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
   const { mutateAsync: deleteById } =
-    api["global-properties"].deleteById.useMutation();
+    api.globalProperty.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
@@ -111,8 +108,7 @@ function GlobalPropertiesEditable(props: GlobalPropertiesEditableProps) {
                 onClick={() => setDeleteModalOpen(true)}
                 className="flex gap-2 focus:bg-destructive focus:text-destructive-foreground"
               >
-                <IconTrashX size={18} /> {t.delete}{" "}
-                {t["global-properties"].singular}
+                <IconTrashX size={18} /> {t.delete} {t.globalProperty.singular}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

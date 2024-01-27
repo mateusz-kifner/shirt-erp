@@ -6,7 +6,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { type RouterNames } from "@/utils/api";
 import GlobalPropertiesListItem from "./GlobalPropertiesListItem";
 
-const entryName: RouterNames = "global-properties";
+const entryName: RouterNames = "globalProperty";
 
 export const globalPropertiesListSearchParams = {
   filterKeys: ["name"],

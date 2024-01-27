@@ -43,6 +43,7 @@ import { type Key } from "@/components/editable/Editable";
 import OrderCustomerView from "@/page-components/erp/order/OrderCustomerView";
 import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
+import { useApiOrderGetById } from "@/hooks/api/order";
 
 const entryName = "order";
 
@@ -52,12 +53,10 @@ const OrdersPage: NextPage = () => {
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { data: orderData, refetch } = api.order.getById.useQuery(
-    id as number,
-    {
-      enabled: id !== null,
-    },
-  );
+  const { orderQuery, productsQuery } = useApiOrderGetById(id);
+  const { data: orderData, refetch } = orderQuery;
+  const { data: productsData } = productsQuery;
+
   const isLoaded = useLoaded();
 
   const { mutateAsync: update } = api.order.update.useMutation({
@@ -102,9 +101,8 @@ const OrdersPage: NextPage = () => {
       : []),
   ];
 
-  console.log(orderData?.products);
-  const metadata = orderData
-    ? orderData?.products?.reduce(
+  const metadata = productsData
+    ? productsData?.reduce(
         (prev, next) => ({
           ...prev,
           [`${next.name}:${next.id}` ?? "[NAME NOT SET] " + next.id]: {
@@ -143,9 +141,9 @@ const OrdersPage: NextPage = () => {
 
     if (pusta) {
       let new_table: UniversalMatrix = [];
-      const product = (orderData?.products.filter(
-        (val) => val.id === metaId,
-      ) || [null])[0];
+      const product = (productsData?.filter((val) => val.id === metaId) || [
+        null,
+      ])[0];
       const sizes = product?.sizes ?? [];
       const colors = product?.colors ?? [];
 
@@ -278,7 +276,7 @@ const OrdersPage: NextPage = () => {
         />
         {orderData && (
           <div className="relative p-4">
-            <OrderMessagesView order={orderData as any} />
+            <OrderMessagesView orderId={orderData.id} />
           </div>
         )}
         {orderData &&

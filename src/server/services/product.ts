@@ -1,6 +1,6 @@
 import { DBType, db } from "@/db";
 import { products } from "@/db/schema/products";
-import { eq, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 import { Product, UpdatedProduct } from "@/schema/productZodSchema";
 import { MetadataType } from "@/schema/MetadataType";
 import { orders_to_products } from "@/db/schema/orders_to_products";
@@ -17,6 +17,22 @@ async function getById(id: number): Promise<Product> {
   if (!product)
     throw new Error(`[ProductService]: Could not find product with id ${id}`);
   return product;
+}
+
+// compile query ahead of time
+const productPrepareGetManyById = db
+  .select()
+  .from(products)
+  .where(inArray(products.id, sql.placeholder("ids")))
+  .prepare("productPrepareGetManyById");
+
+async function getManyByIds(ids: number[]): Promise<Product[]> {
+  const products = await productPrepareGetManyById.execute({ ids });
+  if (products.length !== ids.length)
+    throw new Error(
+      `[ProductService]: Could not find products with ids ${ids}`,
+    );
+  return products;
 }
 
 async function create(
@@ -59,6 +75,6 @@ async function update(
   return updatedProduct[0];
 }
 
-const productService = { getById, create, deleteById, update };
+const productService = { getById, getManyByIds, create, deleteById, update };
 
 export default productService;

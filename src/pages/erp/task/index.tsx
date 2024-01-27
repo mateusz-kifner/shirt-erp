@@ -29,6 +29,7 @@ import { useToggle } from "@mantine/hooks";
 import { capitalize } from "lodash";
 import { useId, useState } from "react";
 import { type NewOrder } from "@/schema/orderZodSchema";
+import { useApiOrderGetById } from "@/hooks/api/order";
 
 const entryName = "task";
 
@@ -46,9 +47,9 @@ const TasksPage = () => {
   ]);
   const [query, setQuery] = useState("");
 
-  const { data: orderData } = api.order.getById.useQuery(id as number, {
-    enabled: id !== null,
-  });
+  const { orderQuery, productsQuery } = useApiOrderGetById(id);
+  const { data: orderData } = orderQuery;
+  const { data: productsData } = productsQuery;
 
   const label = entryName ? capitalize(t[entryName].plural) : undefined;
 
@@ -63,8 +64,8 @@ const TasksPage = () => {
       : []),
   ];
 
-  const metadata = orderData
-    ? orderData?.products?.reduce(
+  const metadata = productsData
+    ? productsData?.reduce(
         (prev, next) => ({
           ...prev,
           [`${next.name}:${next.id}` ?? "[NAME NOT SET] " + next.id]: {
@@ -232,9 +233,7 @@ const TasksPage = () => {
           </div>
         )}
         <div className="relative p-4">
-          {orderData && (
-            <OrderMessagesView order={orderData as Partial<NewOrder>} />
-          )}
+          {orderData && <OrderMessagesView orderId={orderData.id} />}
         </div>
         {orderData &&
           orderData.spreadsheets.map((val, index) => (

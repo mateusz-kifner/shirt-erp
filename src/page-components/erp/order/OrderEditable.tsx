@@ -58,8 +58,9 @@ function OrderEditable(props: OrderEditableProps) {
     number | null
   >(null);
 
-  const { order } = useApiOrderGetById(id);
-  const { data, refetch } = order;
+  const { orderQuery, customerQuery } = useApiOrderGetById(id);
+  const { data, refetch } = orderQuery;
+  const { data: customerData } = customerQuery;
 
   // const { updateOrderAsync } = useApiOrderUpdate({
   //   onSuccess: () => {
@@ -97,10 +98,10 @@ function OrderEditable(props: OrderEditableProps) {
       orderAddressFromCustomer !== null &&
       data?.customerId == orderAddressFromCustomer
     ) {
-      (data.customer as CustomerWithRelations).address &&
+      (customerData as CustomerWithRelations).address &&
         apiUpdate(
           "address",
-          omit((data.customer as CustomerWithRelations).address, ["id"]),
+          omit((customerData as CustomerWithRelations).address, ["id"]),
         );
       setOrderAddressFromCustomer(null);
     }

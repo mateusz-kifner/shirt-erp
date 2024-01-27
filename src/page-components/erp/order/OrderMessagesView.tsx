@@ -17,28 +17,28 @@ import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { omit } from "lodash";
 import { useId, useMemo, useState } from "react";
 import EmailView from "../email/EmailView";
+import { useApiOrderGetById } from "@/hooks/api/order";
 
 interface OrderMessagesViewProps {
-  order?: Partial<NewOrder>;
+  orderId?: number;
   refetch?: () => void;
 }
 
 const OrderMessagesView = (props: OrderMessagesViewProps) => {
-  const { order } = props;
+  const { orderId } = props;
   const uuid = useId();
 
   const [opened, setOpened] = useState<boolean>(false);
   const t = useTranslation();
 
+  const { orderQuery, emailsQuery } = useApiOrderGetById(orderId);
+  const { data: orderData } = orderQuery;
+  const { data: emailData } = emailsQuery;
+
   const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
-    () =>
-      (order &&
-        order.emails &&
-        Array.isArray(order?.emails) &&
-        order.emails.sort(sortObjectByDateOrNull("date"))) ||
-      null,
+    () => (emailData && emailData.sort(sortObjectByDateOrNull("date"))) || null,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [order?.emails],
+    [orderData?.emails],
   );
   return (
     <div className="relative">
@@ -61,7 +61,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
       <Dialog open={opened} onOpenChange={setOpened}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t["email-message"].plural}</DialogTitle>
+            <DialogTitle>{t.emailMessage.plural}</DialogTitle>
           </DialogHeader>
 
           <div>test</div>
