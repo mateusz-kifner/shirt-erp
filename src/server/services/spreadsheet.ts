@@ -20,6 +20,22 @@ async function getById(id: number): Promise<Spreadsheet> {
   return spreadsheet;
 }
 
+// compile query ahead of time
+const spreadsheetPrepareGetManyByIds = db
+  .select()
+  .from(spreadsheets)
+  .where(inArray(spreadsheets.id, sql.placeholder("ids")))
+  .prepare("spreadsheetPrepareGetById");
+
+async function getManyByIds(ids: number[]): Promise<Spreadsheet[]> {
+  const spreadsheets = await spreadsheetPrepareGetManyByIds.execute({ ids });
+  if (spreadsheets.length === ids.length)
+    throw new Error(
+      `[SpreadsheetService]: Could not find spreadsheets with ids ${ids}`,
+    );
+  return spreadsheets;
+}
+
 async function create(spreadsheetData: Partial<Spreadsheet>, tx: DBType = db) {
   const newSpreadsheet = await tx
     .insert(spreadsheets)
@@ -59,7 +75,7 @@ async function deleteById(id: number, tx: DBType = db): Promise<Spreadsheet> {
   return deletedSpreadSheet[0];
 }
 
-async function deleteManyById(
+async function deleteManyByIds(
   ids: number[],
   tx: DBType = db,
 ): Promise<Spreadsheet[]> {
@@ -93,10 +109,11 @@ async function update(
 
 const spreadsheetService = {
   getById,
+  getManyByIds,
   create,
   createMany,
   deleteById,
-  deleteManyById,
+  deleteManyByIds,
   update,
 };
 

@@ -89,6 +89,27 @@ export function useApiOrderGetById(id: number | null | undefined) {
     },
   );
 
+  const spreadsheetIds =
+    orderQuery.data?.spreadsheets && orderQuery.data.spreadsheets.length > 0
+      ? (orderQuery.data?.spreadsheets as number[])
+      : (orderFullQuery?.data?.spreadsheets.map((v) => v.id) as
+          | number[]
+          | undefined
+          | null);
+
+  const spreadsheetQuery = api.spreadsheet.getManyByIds.useQuery(
+    spreadsheetIds as number[],
+    {
+      enabled:
+        spreadsheetIds !== null &&
+        spreadsheetIds !== undefined &&
+        spreadsheetIds.length > 0 &&
+        !firstLoad,
+      refetchOnMount: false,
+      staleTime: 60 * 1000, // 60s
+    },
+  );
+
   useEffect(() => {
     if (
       firstLoad &&
@@ -142,6 +163,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
     addressQuery,
     productsQuery,
     emailsQuery,
+    spreadsheetQuery,
   };
 }
 

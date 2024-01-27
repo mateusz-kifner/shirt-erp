@@ -29,7 +29,7 @@ async function addOrDelete(
     (id): id is number => id !== null && !spreadsheetIds.includes(id),
   );
   if (toBeDeleted.length > 0) {
-    await spreadsheetService.deleteManyById(toBeDeleted, tx);
+    await spreadsheetService.deleteManyByIds(toBeDeleted, tx);
   }
   const toBeCreated = spreadsheetIds.filter((id) => id === null);
   if (toBeCreated.length > 0) {

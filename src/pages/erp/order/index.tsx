@@ -53,9 +53,11 @@ const OrdersPage: NextPage = () => {
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { orderQuery, productsQuery } = useApiOrderGetById(id);
+  const { orderQuery, productsQuery, spreadsheetQuery } =
+    useApiOrderGetById(id);
   const { data: orderData, refetch } = orderQuery;
   const { data: productsData } = productsQuery;
+  const { data: spreadsheetsData } = spreadsheetQuery;
 
   const isLoaded = useLoaded();
 
@@ -93,8 +95,8 @@ const OrdersPage: NextPage = () => {
     { label: "Kontakt", icon: IconAddressBook },
     { label: "Produkcja", icon: IconBuildingFactory2 },
     { label: "E-maile", icon: IconMail },
-    ...(orderData && Array.isArray(orderData?.spreadsheets)
-      ? orderData.spreadsheets.map((sheet, index) => ({
+    ...(spreadsheetsData
+      ? spreadsheetsData?.map((sheet, index) => ({
           label: sheet.name ?? `[${t.sheet}]`,
           icon: IconTable,
         }))
@@ -279,8 +281,8 @@ const OrdersPage: NextPage = () => {
             <OrderMessagesView orderId={orderData.id} />
           </div>
         )}
-        {orderData &&
-          orderData.spreadsheets.map((val, index) => (
+        {spreadsheetsData &&
+          spreadsheetsData?.map((val, index) => (
             <div key={`${uuid}spreadsheet:${index}:`}>
               <div className="flex justify-between gap-2 p-2 align-middle text-xl">
                 <span>{val.name}</span>

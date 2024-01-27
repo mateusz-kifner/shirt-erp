@@ -63,13 +63,15 @@ async function getById(id: number) {
   const order = await dbPrepareGetById.execute({ id });
   if (!order)
     throw new Error(`[OrderService]: Could not find order with id ${id}`);
-  const { emails, employees, files, products, ...moreData } = order;
+  const { emails, employees, files, products, spreadsheets, ...moreData } =
+    order;
   return {
     ...moreData,
     emails: emails.map((v) => v.emailMessageId),
     employees: employees.map((v) => v.userId),
     files: files.map((v) => v.fileId),
     products: products.map((v) => v.productId),
+    spreadsheets: spreadsheets.map((v) => v.id),
   };
 }
 

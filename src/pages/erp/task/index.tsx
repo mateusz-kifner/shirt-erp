@@ -47,17 +47,19 @@ const TasksPage = () => {
   ]);
   const [query, setQuery] = useState("");
 
-  const { orderQuery, productsQuery } = useApiOrderGetById(id);
+  const { orderQuery, productsQuery, spreadsheetQuery } =
+    useApiOrderGetById(id);
   const { data: orderData } = orderQuery;
   const { data: productsData } = productsQuery;
+  const { data: spreadsheetData } = spreadsheetQuery;
 
   const label = entryName ? capitalize(t[entryName].plural) : undefined;
 
   const childrenMetadata = [
     { label: "Właściwości", icon: IconNotebook },
     { label: "E-maile", icon: IconMail },
-    ...(orderData && Array.isArray(orderData?.spreadsheets)
-      ? orderData.spreadsheets.map((sheet) => ({
+    ...(spreadsheetData
+      ? spreadsheetData?.map((sheet) => ({
           label: sheet.name ?? `[${t.sheet}]`,
           icon: IconTable,
         }))
@@ -235,8 +237,8 @@ const TasksPage = () => {
         <div className="relative p-4">
           {orderData && <OrderMessagesView orderId={orderData.id} />}
         </div>
-        {orderData &&
-          orderData.spreadsheets.map((val, index) => (
+        {spreadsheetData &&
+          spreadsheetData?.map((val, index) => (
             <SpreadsheetView
               key={`${uuid}spreadsheet:${index}:`}
               id={val.id}

@@ -24,6 +24,10 @@ export const spreadsheetRouter = createTRPCRouter({
     .input(z.number())
     .query(async ({ input: id }) => spreadsheetService.getById(id)),
 
+  getManyByIds: employeeProcedure
+    .input(z.number().array())
+    .query(async ({ input: ids }) => spreadsheetService.getManyByIds(ids)),
+
   create: employeeProcedure
     .input(insertSpreadsheetZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
