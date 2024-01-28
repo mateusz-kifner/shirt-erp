@@ -110,6 +110,24 @@ export function useApiOrderGetById(id: number | null | undefined) {
     },
   );
 
+  const filesIds =
+    orderQuery.data?.files && orderQuery.data.files.length > 0
+      ? (orderQuery.data?.files as number[])
+      : (orderFullQuery?.data?.files.map((v) => v.id) as
+          | number[]
+          | undefined
+          | null);
+
+  const filesQuery = api.file.getManyByIds.useQuery(filesIds as number[], {
+    enabled:
+      filesIds !== null &&
+      filesIds !== undefined &&
+      filesIds.length > 0 &&
+      !firstLoad,
+    refetchOnMount: false,
+    staleTime: 60 * 1000, // 60s
+  });
+
   useEffect(() => {
     if (
       firstLoad &&
@@ -164,6 +182,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
     productsQuery,
     emailsQuery,
     spreadsheetQuery,
+    filesQuery,
   };
 }
 

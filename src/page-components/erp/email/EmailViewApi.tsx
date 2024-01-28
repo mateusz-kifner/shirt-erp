@@ -24,6 +24,7 @@ import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
 import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { useApiOrderGetById } from "@/hooks/api/order";
 
 interface EmailViewApiProps {
   emailConfig: EmailCredential;
@@ -47,14 +48,17 @@ function EmailViewApi(props: EmailViewApiProps) {
   const t = useTranslation();
   const [orderId, setOrderId] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
-  const { mutateAsync: transferEmail, isLoading } =
-    api.email.downloadByUid.useMutation();
-  const { data: orderData, isSuccess } = api.order.getById.useQuery(
-    orderId as number,
-    { enabled: orderId !== null },
-  );
+
+  const { orderQuery, emailsQuery, filesQuery } = useApiOrderGetById(orderId);
+  const { data: orderData, isSuccess } = orderQuery;
+  const { data: emailsData } = emailsQuery;
+  const { data: filesData } = filesQuery;
+
   const { mutateAsync: orderUpdate, isLoading: isLoading2 } =
     api.order.update.useMutation();
+
+  const { mutateAsync: transferEmail, isLoading } =
+    api.email.downloadByUid.useMutation();
 
   useEffect(() => {
     if (id !== null && isSuccess && orderData) {
@@ -63,13 +67,17 @@ function EmailViewApi(props: EmailViewApiProps) {
         emailId: id,
         mailbox,
       })
-        .then((emailData) => {
-          const newMails = orderData.emails ? orderData.emails : [];
-          newMails.push(emailData);
-          const files = orderData.files
-            ? [...orderData.files, ...emailData.attachments]
-            : emailData.attachments;
-          orderUpdate({ id: orderData.id, emails: newMails, files })
+        .then((newMail) => {
+          const emailsIds = [
+            ...(emailsData ?? [])?.map((v) => v.id),
+            newMail.id,
+          ];
+          const filesIds = [
+            ...(filesData ?? [])?.map((v) => v.id),
+            ...newMail.attachments.map((v) => v.id),
+          ];
+
+          orderUpdate({ id: orderData.id, emails: emailsIds, files: filesIds })
             .then(() => setOpen(false))
             .catch(console.log);
           setOrderId(null);

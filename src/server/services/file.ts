@@ -23,6 +23,23 @@ async function getById(id: number): Promise<File> {
   };
 }
 
+// compile query ahead of time
+const filePrepareGetManyByIds = db
+  .select()
+  .from(files)
+  .where(eq(files.id, sql.placeholder("ids")))
+  .prepare("filePrepareGetManyByIds");
+
+async function getManyByIds(ids: number[]): Promise<File[]> {
+  const files = await filePrepareGetManyByIds.execute({ ids });
+  if (files.length === ids.length)
+    throw new Error(`[FileService]: Could not find files with ids ${ids}`);
+  return files.map((file) => ({
+    ...file,
+    url: `${baseUrl}${file?.filename}?token=${file?.token}`,
+  }));
+}
+
 async function create(
   fileData: Omit<NewFile, "url"> & MetadataType,
   tx: DBType = db,
@@ -72,6 +89,6 @@ async function update(
   };
 }
 
-const fileService = { getById, create, deleteById, update };
+const fileService = { getById, getManyByIds, create, deleteById, update };
 
 export default fileService;

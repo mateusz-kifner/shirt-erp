@@ -14,6 +14,10 @@ export const fileRouter = createTRPCRouter({
     .input(z.number())
     .query(async ({ input: id }) => await fileService.getById(id)),
 
+  getManyByIds: employeeProcedure
+    .input(z.number().array())
+    .query(async ({ input: ids }) => await fileService.getManyByIds(ids)),
+
   deleteById: employeeProcedure
     .input(z.number())
     .mutation(async ({ input: id, ctx }) => fileService.deleteById(id)),

@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { getServerAuthSession } from "@/server/auth";
-import { downloadEmailAttachment } from "@/server/email";
+import IMAPService from "@/server/services/imap";
 import HTTPError from "@/utils/HTTPError";
 import { ImapFlow } from "imapflow";
 import Logger from "js-logger";
@@ -58,7 +58,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       logger: Logger,
     });
 
-    const attachment = await downloadEmailAttachment(
+    const attachment = await IMAPService.downloadEmailAttachment(
       client,
       uid,
       mailbox,

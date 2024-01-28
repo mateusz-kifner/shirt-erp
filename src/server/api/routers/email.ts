@@ -2,14 +2,8 @@ import { db } from "@/db";
 import { users } from "@/db/schema/users";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import {
-  downloadEmailByUid,
-  emailSearch,
-  fetchEmails,
-  fetchFolderTree,
-  fetchFolders,
-  transferEmailToDbByUId,
-} from "@/server/email";
+import IMAPService from "@/server/services/imap";
+
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { ImapFlow } from "imapflow";
@@ -57,7 +51,7 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      return await fetchFolders(client);
+      return await IMAPService.fetchFolders(client);
     }),
 
   getFolderTree: employeeProcedure
@@ -88,7 +82,7 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      return await fetchFolderTree(client);
+      return await IMAPService.fetchFolderTree(client);
     }),
 
   getAll: employeeProcedure
@@ -128,7 +122,7 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      return await fetchEmails(client, mailbox, take, skip);
+      return await IMAPService.fetchEmails(client, mailbox, take, skip);
     }),
 
   getByUid: employeeProcedure
@@ -167,7 +161,7 @@ export const emailRouter = createTRPCRouter({
         logger: Logger,
       });
       // const mail = await fetchEmailByUid(client, emailId.toString(), mailbox);
-      const mail = await downloadEmailByUid(
+      const mail = await IMAPService.downloadEmailByUid(
         client,
         emailId.toString(),
         mailbox,
@@ -210,7 +204,7 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      const mail = await transferEmailToDbByUId(
+      const mail = await IMAPService.transferEmailToDbByUId(
         client,
         emailId.toString(),
         mailbox,
@@ -256,7 +250,7 @@ export const emailRouter = createTRPCRouter({
         secure: auth.secure ?? true,
         logger: Logger,
       });
-      return await emailSearch(
+      return await IMAPService.emailSearch(
         client,
         mailbox,
         query,
