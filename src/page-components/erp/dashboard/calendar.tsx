@@ -13,6 +13,8 @@ import {
   IconCalendar,
   IconChevronLeft,
   IconChevronRight,
+  IconUser,
+  IconCrown,
 } from "@tabler/icons-react";
 import dayjs, { WeekdayNames } from "dayjs";
 import { useRouter } from "next/router";
@@ -91,7 +93,7 @@ function CalendarMonth(props: CalendarMonthProps) {
   const year = currentMonth.date();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-grow flex-col gap-4">
       <div className="flex items-center gap-2">
         <h2 className="flex-grow">{dayjs(currentMonth).format("MMMM YYYY")}</h2>
         <Button
@@ -122,7 +124,7 @@ function CalendarMonth(props: CalendarMonthProps) {
           <IconChevronRight />
         </Button>
       </div>
-      <div className="grid grid-cols-7 overflow-hidden rounded border-l border-t">
+      <div className="grid h-full flex-grow grid-cols-7 overflow-hidden rounded border-l border-t">
         {weekdays.map((val) => (
           <div key={`${uuid}${val}:`} className="border-b border-r px-1 py-0.5">
             {val}
@@ -138,7 +140,7 @@ function CalendarMonth(props: CalendarMonthProps) {
               {day !== null ? (
                 <div
                   className={cn(
-                    "flex flex-col gap-0.5 ",
+                    "flex h-full flex-grow flex-col gap-0.5",
                     day === todayDay &&
                       month == todayMonth &&
                       year === todayYear &&
@@ -216,14 +218,14 @@ function CalendarWeek(props: CalendarMonthProps) {
 
   let currentDay = startOfWeek;
 
-  const weekDays = [];
+  const weekDays: number[] = [];
 
   while (
     currentDay.isBefore(endOfWeek) ||
     currentDay.isSame(endOfWeek, "day")
   ) {
     for (let i = 0; i < 7; i++) {
-      weekDays.push(currentDay.format("D"));
+      weekDays.push(parseInt(currentDay.format("D")));
       currentDay = currentDay.add(1, "day");
     }
   }
@@ -246,8 +248,17 @@ function CalendarWeek(props: CalendarMonthProps) {
     }
   }
 
+  const today = dayjs();
+
+  const todayDay = today.date();
+  const todayMonth = today.date();
+  const todayYear = today.date();
+
+  const month = currentMonth.date();
+  const year = currentMonth.date();
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-grow flex-col gap-4">
       <div className="flex items-center gap-2">
         <h2 className="flex-grow">{monthYearString}</h2>
         <Button
@@ -278,19 +289,54 @@ function CalendarWeek(props: CalendarMonthProps) {
           <IconChevronRight />
         </Button>
       </div>
-      <div className="grid grid-cols-7 overflow-hidden rounded border-l border-t">
+      <div
+        className="grid h-full flex-grow grid-cols-7 overflow-hidden rounded border-l border-t"
+        style={{
+          gridTemplateRows: "auto 1fr ",
+        }}
+      >
         {weekdays.map((val) => (
           <div key={`${uuid}${val}:`} className="border-b border-r px-1 py-0.5">
             {val}
           </div>
         ))}
 
-        {weekDays.map((day) => (
-          <div key={`${uuid}${day}`} className="border-b border-r px-1 py-0.5">
+        {weekDays.map((day, index) => (
+          <div key={`${uuid}${day}`} className="border-b border-r ">
             {day !== null && (
-              <div className="flex flex-col gap-0.5">
-                <div>{day}</div>
-                {/* Add any specific week-related content here */}
+              <div
+                className={cn(
+                  "flex h-full flex-grow flex-col gap-0.5",
+                  day === todayDay &&
+                    month == todayMonth &&
+                    year === todayYear &&
+                    "bg-sky-700/25 ring-1 ring-sky-700/50 ring-offset-0",
+                )}
+              >
+                <div className="px-1 py-0.5">{day}</div>
+                <div>
+                  {orders?.[day]?.map((val, indexOrderByDay) => (
+                    <div
+                      key={`${uuid}${index}:${indexOrderByDay}:`}
+                      style={{
+                        backgroundColor:
+                          typeof val.id === "number"
+                            ? getRandomColorByNumber(val.id) + "aa"
+                            : getRandomColorByString(val.id) + "aa",
+                      }}
+                      className="cursor-pointer px-1 py-0.5"
+                      onClick={() => {
+                        void router.push(`/erp/order/${val.id}`);
+                      }}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        void router.push(`/erp/task/${val.id}`);
+                      }}
+                    >
+                      {val.name}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -305,6 +351,7 @@ function CalendarView(props: CalendarViewProps) {
 
   const [currentMonth, setCurrentMonth] = useState(dayjs());
   const [mode, setMode] = useState<"month" | "week">("month");
+  const [dataMode, setDataMode] = useState<"user" | "all">("user");
 
   const { data } = api.order.getByCompletionDateRange.useQuery({
     rangeStart: currentMonth.startOf("month").format("YYYY-MM-DD HH:mm:ss"),
@@ -312,6 +359,7 @@ function CalendarView(props: CalendarViewProps) {
       .add(1, "month")
       .startOf("month")
       .format("YYYY-MM-DD HH:mm:ss"),
+    currentUserOnly: dataMode === "user",
   });
 
   const ordersByDay =
@@ -334,26 +382,64 @@ function CalendarView(props: CalendarViewProps) {
     ) ?? [];
 
   return (
-    <div className="flex flex-col gap-2">
-      <div>
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => {
-            setMode("month");
-          }}
-        >
-          <IconCalendarMonth />
-        </Button>
-        <Button
-          size="icon"
-          variant="ghost"
-          onClick={() => {
-            setMode("week");
-          }}
-        >
-          <IconCalendarWeek />
-        </Button>
+    <div className="flex flex-grow flex-col gap-2">
+      <div className="flex gap-3">
+        <div className="flex gap-0">
+          <Button
+            size="icon"
+            variant="outline"
+            className={cn(
+              "rounded-r-none",
+              mode === "month" && "bg-sky-700/25",
+            )}
+            onClick={() => {
+              setMode("month");
+            }}
+          >
+            <IconCalendarMonth />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            className={cn(
+              "border-l-none rounded-l-none",
+              mode === "week" && "bg-sky-700/25",
+            )}
+            onClick={() => {
+              setMode("week");
+            }}
+          >
+            <IconCalendarWeek />
+          </Button>
+        </div>
+        <div className="flex gap-0">
+          <Button
+            size="icon"
+            variant="outline"
+            className={cn(
+              "rounded-r-none",
+              dataMode === "user" && "bg-sky-700/25",
+            )}
+            onClick={() => {
+              setDataMode("user");
+            }}
+          >
+            <IconUser />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            className={cn(
+              "border-l-none rounded-l-none",
+              dataMode === "all" && "bg-sky-700/25",
+            )}
+            onClick={() => {
+              setDataMode("all");
+            }}
+          >
+            <IconCrown />
+          </Button>
+        </div>
       </div>
       {mode == "month" && (
         <CalendarMonth

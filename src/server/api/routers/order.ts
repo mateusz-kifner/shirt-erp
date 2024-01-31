@@ -8,9 +8,22 @@ import {
   updateOrderZodSchema,
 } from "@/schema/orderZodSchema";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { and, asc, desc, eq, ilike, sql, or, not, gte, lte } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  ilike,
+  sql,
+  or,
+  not,
+  gte,
+  lte,
+  inArray,
+} from "drizzle-orm";
 import { db } from "@/db";
 import orderService from "@/server/services/order";
+import { orders_to_users } from "@/db/schema/orders_to_users";
 
 export const orderRouter = createTRPCRouter({
   getFullById: employeeProcedure
@@ -56,17 +69,40 @@ export const orderRouter = createTRPCRouter({
       });
     }),
 
+  // this needs stress testing
   getByCompletionDateRange: employeeProcedure
     .input(
       z.object({
         rangeStart: z.string(),
         rangeEnd: z.string(),
         isArchived: z.boolean().default(false),
+        currentUserOnly: z.boolean().default(false),
       }),
     )
     .query(async ({ input, ctx }) => {
-      const { rangeStart, rangeEnd, isArchived } = input;
-      const results = await db
+      const { rangeStart, rangeEnd, isArchived, currentUserOnly } = input;
+      if (currentUserOnly) {
+        const currentUserId = ctx.session.user.id;
+        const userOrderIds = await db
+          .select()
+          .from(orders_to_users)
+          .where(eq(orders_to_users.userId, currentUserId));
+        return await db
+          .select()
+          .from(orders)
+          .where(
+            and(
+              gte(orders.dateOfCompletion, rangeStart),
+              lte(orders.dateOfCompletion, rangeEnd),
+              eq(orders.isArchived, isArchived),
+              inArray(
+                orders.id,
+                userOrderIds.map((v) => v.orderId),
+              ),
+            ),
+          );
+      }
+      return await db
         .select()
         .from(orders)
         .where(
@@ -76,7 +112,6 @@ export const orderRouter = createTRPCRouter({
             eq(orders.isArchived, isArchived),
           ),
         );
-      return results;
     }),
 
   search: employeeProcedure
