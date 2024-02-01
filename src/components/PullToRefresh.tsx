@@ -21,14 +21,14 @@ const PullToRefresh = (props: PullToRefreshProps) => {
 
       if (dy < 0) {
         if (!refresh) {
-          api.start({ y: dy });
+          void api.start({ y: dy });
         }
         if (dy < -200) {
           setRefresh(true);
-          api.start({ y: -200 });
-          api.start({ y: 0, delay: 1500 });
+          void api.start({ y: -200 });
+          void api.start({ y: 0, delay: 1500 });
         } else if (!refresh) {
-          api.start({ y: 0 });
+          void api.start({ y: 0 });
         }
       }
       if (last) {

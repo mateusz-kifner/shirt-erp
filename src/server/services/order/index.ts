@@ -15,6 +15,8 @@ import fileRelation from "./fileRelation";
 import emailMessageRelation from "./emailMessageRelation";
 import spreadsheetManager from "./spreadsheetManager";
 
+// BUG: fix update procedure
+
 // compile query ahead of time
 const orderPrepareGetFullById = db.query.orders
   .findFirst({
@@ -237,7 +239,7 @@ async function createFull(
     await productRelation.set(orderId, files, tx);
 
   if (spreadsheets?.length && spreadsheets.length > 0) {
-    let newSpreadSheets = await Promise.all(
+    const newSpreadSheets = await Promise.all(
       (spreadsheets as number[]).map((id) => spreadsheetService.getById(id)),
     );
 

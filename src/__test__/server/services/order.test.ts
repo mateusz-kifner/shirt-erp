@@ -22,7 +22,7 @@ describe("Order", () => {
     expect(byId?.id).toBeTypeOf("number");
     expect(byId).toMatchObject(order);
 
-    const deleteData = await orderService.deleteById(byId!.id);
+    const deleteData = await orderService.deleteById(byId.id);
     expect(deleteData).toMatchObject(order);
 
     // test async error

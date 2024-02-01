@@ -26,7 +26,7 @@ function DesignImage(props: DesignImageProps) {
   // Set the drag hook and define component movement based on gesture data
   const bind = useDrag(
     ({ down, offset: [ox, oy], active }) => {
-      api.start({ x: ox, y: oy, immediate: down });
+      void api.start({ x: ox, y: oy, immediate: down });
       onActive?.(active);
     },
 

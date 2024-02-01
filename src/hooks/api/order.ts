@@ -49,7 +49,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
 
   const productsIds =
     orderQuery.data?.products && orderQuery.data.products.length > 0
-      ? (orderQuery.data?.products as number[])
+      ? orderQuery.data.products
       : (orderFullQuery?.data?.products.map((v) => v.id) as
           | number[]
           | undefined
@@ -70,7 +70,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
 
   const emailsIds =
     orderQuery.data?.emails && orderQuery.data.emails.length > 0
-      ? (orderQuery.data?.emails as number[])
+      ? orderQuery.data.emails
       : (orderFullQuery?.data?.emails.map((v) => v.id) as
           | number[]
           | undefined
@@ -91,7 +91,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
 
   const spreadsheetIds =
     orderQuery.data?.spreadsheets && orderQuery.data.spreadsheets.length > 0
-      ? (orderQuery.data?.spreadsheets as number[])
+      ? orderQuery.data.spreadsheets
       : (orderFullQuery?.data?.spreadsheets.map((v) => v.id) as
           | number[]
           | undefined
@@ -112,7 +112,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
 
   const filesIds =
     orderQuery.data?.files && orderQuery.data.files.length > 0
-      ? (orderQuery.data?.files as number[])
+      ? orderQuery.data.files
       : (orderFullQuery?.data?.files.map((v) => v.id) as
           | number[]
           | undefined

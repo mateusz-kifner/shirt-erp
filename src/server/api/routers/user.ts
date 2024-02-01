@@ -22,7 +22,7 @@ export const userRouter = createTRPCRouter({
     .input(z.string())
     .mutation(async ({ input: id, ctx }) => {
       const user = await userService.getById(id);
-      const currentUser = ctx.session!.user;
+      const currentUser = ctx.session.user;
       if (currentUser.role === "manager" && user?.role === "admin")
         throw new TRPCError({
           code: "UNAUTHORIZED",
@@ -33,7 +33,7 @@ export const userRouter = createTRPCRouter({
   update: managerProcedure
     .input(updateUserZodSchema)
     .mutation(async ({ input: userData, ctx }) => {
-      const currentUser = ctx.session!.user;
+      const currentUser = ctx.session.user;
       const currentUserId = currentUser.id;
       const user = await userService.getById(userData.id);
       if (currentUser.role === "manager" && user?.role === "admin")
