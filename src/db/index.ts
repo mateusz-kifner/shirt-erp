@@ -20,7 +20,7 @@ import * as orders_to_users from "./schema/orders_to_users";
 import * as global_properties from "./schema/global_properties";
 // import Logger from "js-logger";
 
-const schema = {
+export const schema = {
   ...addresses,
   ...customers,
 
@@ -47,10 +47,6 @@ const schema = {
 };
 
 export type DBType = PostgresJsDatabase<typeof schema>;
-
-// for migrations
-export const migrationClient = postgres(env.DATABASE_URL, { max: 1 });
-export const migrationDb = drizzle(migrationClient, { schema });
 
 // for query purposes
 const queryClient = postgres(env.DATABASE_URL);
