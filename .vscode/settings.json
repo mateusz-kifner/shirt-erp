@@ -1,0 +1,42 @@
+{
+  "cSpell.words": [
+    "AABB",
+    "CLAMAV",
+    "clamscan",
+    "cmdk",
+    "embla",
+    "firstname",
+    "hexa",
+    "ilike",
+    "inlinesvg",
+    "lastname",
+    "lucide",
+    "NEXTAUTH",
+    "nextjs",
+    "Penpot",
+    "shirterp",
+    "Signin",
+    "sonner",
+    "superjson",
+    "tanstack",
+    "tinycolor",
+    "tiptap",
+    "tsconfigs",
+    "vaul"
+  ],
+  "typescript.preferences.autoImportFileExcludePatterns": ["@radix-ui/*"], // disable auto imports for radix components
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never",
+    "source.fixAll": "never",
+    "typescript.validate.enable": "never",
+    "javascript.validate.enable": "never"
+  },
+  "javascript.suggest.classMemberSnippets.enabled": false,
+  "typescript.suggest.classMemberSnippets.enabled": false,
+  "typescript.suggest.objectLiteralMethodSnippets.enabled": false,
+  "tailwindCSS.experimental.classRegex": [
+    ["cva([^;]*);", "'([^']*)'"],
+    ["cva([^;]*);", "\"([^\"]*)\""],
+    ["cva([^;]*);", "\\`([^\\`]*)\\`"]
+  ]
+}
