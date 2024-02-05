@@ -10,7 +10,7 @@ import { useId } from "react";
 
 interface CalendarCellProps {
   day: number;
-  dayOrders: Array<OrderWithoutRelations>;
+  dayOrders?: Array<OrderWithoutRelations>;
   highlight?: boolean;
 }
 

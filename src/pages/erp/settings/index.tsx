@@ -257,6 +257,36 @@ function Settings() {
           >
             Mobile mode: {mobileOverride}
           </Button>
+          <Button
+            onClick={() => {
+              setCalendarDefaultClick((prev) =>
+                prev === "order" ? "task" : "order",
+              );
+            }}
+            leftSection={<IconCalendar />}
+          >
+            Calendar order link: {calendarDefaultClick}
+          </Button>
+          <Button
+            onClick={() => {
+              setCalendarDefaultViewMode((prev) =>
+                prev === "month" ? "week" : "month",
+              );
+            }}
+            leftSection={<IconCalendar />}
+          >
+            Calendar default view mode: {calendarDefaultViewMode}
+          </Button>
+          <Button
+            onClick={() => {
+              setCalendarDefaultDataSource((prev) =>
+                prev === "all" ? "user" : "all",
+              );
+            }}
+            leftSection={<IconCalendar />}
+          >
+            Calendar default data source: {calendarDefaultDataSource}
+          </Button>
           {debug && (
             <>
               <Button
@@ -273,36 +303,7 @@ function Settings() {
               >
                 Address input mode: {editableAddressMode}
               </Button>
-              <Button
-                onClick={() => {
-                  setCalendarDefaultClick((prev) =>
-                    prev === "order" ? "task" : "order",
-                  );
-                }}
-                leftSection={<IconCalendar />}
-              >
-                Calendar order link: {calendarDefaultClick}
-              </Button>
-              <Button
-                onClick={() => {
-                  setCalendarDefaultViewMode((prev) =>
-                    prev === "month" ? "week" : "month",
-                  );
-                }}
-                leftSection={<IconCalendar />}
-              >
-                Calendar default view mode: {calendarDefaultViewMode}
-              </Button>
-              <Button
-                onClick={() => {
-                  setCalendarDefaultDataSource((prev) =>
-                    prev === "all" ? "user" : "all",
-                  );
-                }}
-                leftSection={<IconCalendar />}
-              >
-                Calendar default data source: {calendarDefaultDataSource}
-              </Button>
+
               <Button
                 onClick={() => {
                   toggleExtendedList();

@@ -14,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 import { OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { cn } from "@/utils/cn";
+import CalendarCell from "./CalendarCell";
 
 interface CalendarWeekProps {
   currentMonth: dayjs.Dayjs;
@@ -142,40 +143,13 @@ function CalendarWeek(props: CalendarWeekProps) {
         {weekDays.map((day, index) => (
           <div key={`${uuid}${day}`} className="border-b border-r ">
             {day !== null && (
-              <div
-                className={cn(
-                  "flex h-full flex-grow flex-col gap-0.5",
-                  day === todayDay &&
-                    month == todayMonth &&
-                    year === todayYear &&
-                    "bg-sky-700/25 ring-1 ring-sky-700/50 ring-offset-0",
-                )}
-              >
-                <div className="px-1 py-0.5">{day}</div>
-                <div>
-                  {orders?.[day]?.map((val, indexOrderByDay) => (
-                    <div
-                      key={`${uuid}${index}:${indexOrderByDay}:`}
-                      style={{
-                        backgroundColor:
-                          typeof val.id === "number"
-                            ? getRandomColorByNumber(val.id) + "aa"
-                            : getRandomColorByString(val.id) + "aa",
-                      }}
-                      className="cursor-pointer px-1 py-0.5"
-                      onClick={() => {
-                        void router.push(`/erp/order/${val.id}`);
-                      }}
-                      onContextMenu={(e) => {
-                        e.preventDefault();
-                        void router.push(`/erp/task/${val.id}`);
-                      }}
-                    >
-                      {val.name}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <CalendarCell
+                highlight={
+                  day === todayDay && month == todayMonth && year === todayYear
+                }
+                dayOrders={orders?.[day]}
+                day={day}
+              />
             )}
           </div>
         ))}
