@@ -10,6 +10,7 @@ import { api } from "@/utils/api";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   IconBug,
+  IconCalendar,
   IconLogout,
   IconMail,
   IconMoonStars,
@@ -77,6 +78,12 @@ function Settings() {
     setEditableAddressMode,
     setMobileOverride,
     mobileOverride,
+    calendarDefaultClick,
+    setCalendarDefaultClick,
+    calendarDefaultViewMode,
+    setCalendarDefaultViewMode,
+    calendarDefaultDataSource,
+    setCalendarDefaultDataSource,
   } = useFlagContext();
 
   useEffect(() => {
@@ -265,6 +272,36 @@ function Settings() {
                 leftSection={<IconBug />}
               >
                 Address input mode: {editableAddressMode}
+              </Button>
+              <Button
+                onClick={() => {
+                  setCalendarDefaultClick((prev) =>
+                    prev === "order" ? "task" : "order",
+                  );
+                }}
+                leftSection={<IconCalendar />}
+              >
+                Calendar order link: {calendarDefaultClick}
+              </Button>
+              <Button
+                onClick={() => {
+                  setCalendarDefaultViewMode((prev) =>
+                    prev === "month" ? "week" : "month",
+                  );
+                }}
+                leftSection={<IconCalendar />}
+              >
+                Calendar default view mode: {calendarDefaultViewMode}
+              </Button>
+              <Button
+                onClick={() => {
+                  setCalendarDefaultDataSource((prev) =>
+                    prev === "all" ? "user" : "all",
+                  );
+                }}
+                leftSection={<IconCalendar />}
+              >
+                Calendar default data source: {calendarDefaultDataSource}
               </Button>
               <Button
                 onClick={() => {
