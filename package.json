@@ -9,7 +9,8 @@
     "lint": "next lint",
     "clean": "rm -dr node_modules",
     "node_version": "node --version",
-    "test": "export SKIP_ENV_VALIDATION=1 && vitest"
+    "migrate": "cross-env SKIP_ENV_VALIDATION=1 tsx migrate.ts",
+    "test": "cross-env SKIP_ENV_VALIDATION=1 vitest"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "0.3.16",
