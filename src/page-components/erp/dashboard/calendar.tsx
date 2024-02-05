@@ -28,6 +28,9 @@ interface CalendarMonthProps {
   setCurrentMonth: Dispatch<SetStateAction<dayjs.Dayjs>>;
 }
 
+// TODO: fix corners in month table
+// TODO: split this into simpler components
+
 function CalendarMonth(props: CalendarMonthProps) {
   const { currentMonth, setCurrentMonth, orders } = props;
 
@@ -124,13 +127,15 @@ function CalendarMonth(props: CalendarMonthProps) {
           <IconChevronRight />
         </Button>
       </div>
-      <div className="grid h-full flex-grow grid-cols-7 overflow-hidden rounded border-l border-t">
+      <div className="flex flex-col flex-grow rounded overflow-hidden">
+      <div className="grid flex-grow border-l border-t grid-cols-7">
         {weekdays.map((val) => (
-          <div key={`${uuid}${val}:`} className="border-b border-r px-1 py-0.5">
+          <div key={`${uuid}${val}:`} className=" border-r px-1 py-0.5">
             {val}
           </div>
         ))}
-
+      </div>
+      <div className="grid h-full  grid-cols-7   border-l border-t">
         {weeks.map((week, index) =>
           week.map((day, dayIndex) => (
             <div
@@ -179,6 +184,8 @@ function CalendarMonth(props: CalendarMonthProps) {
           )),
         )}
       </div>
+    
+    </div>
     </div>
   );
 }
