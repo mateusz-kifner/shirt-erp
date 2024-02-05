@@ -87,6 +87,9 @@ export const orderRouter = createTRPCRouter({
           .select()
           .from(orders_to_users)
           .where(eq(orders_to_users.userId, currentUserId));
+        if (userOrderIds.length  === 0){
+          return []
+        }
         return await db
           .select()
           .from(orders)
