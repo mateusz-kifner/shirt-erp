@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type Product } from "@/schema/productZodSchema";
 import { api } from "@/utils/api";
-import { omit } from "lodash";
+import _ from "lodash";
 import ProductListItem from "./ProductListItem";
 import Editable from "@/components/editable/Editable";
 
@@ -63,7 +63,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
               if (data.productName.length == 0)
                 return setError("Musisz podać nie pustą nazwę produktu");
               const new_product = {
-                ...(data.template ? omit(data.template, "id") : {}),
+                ...(data.template ? _.omit(data.template, "id") : {}),
                 name: data.productName,
                 orders: [],
                 "orders-archive": [],

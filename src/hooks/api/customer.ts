@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
-import { omit } from "lodash";
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import queryDefaults from "./queryDefaults";
 
@@ -55,7 +55,7 @@ export function useApiCustomerGetById(id: number | null) {
       );
       RQClient.setQueryData(
         customerGetByIdKey,
-        omit(queryCustomerFull?.data, "address"),
+        _.omit(queryCustomerFull?.data, "address"),
       );
 
       setFirstLoad(false);

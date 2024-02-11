@@ -1,4 +1,4 @@
-import { startCase, toLower } from "lodash";
+import _ from "lodash";
 
 import colorNames from "./color-names.json";
 import simpleHash from "./simpleHash";
@@ -7,7 +7,7 @@ const colorNamesValues = Object.values(colorNames);
 const colorNamesKeys = Object.keys(colorNames);
 
 function toTitleCase(str: string) {
-  return startCase(toLower(str));
+  return _.startCase(_.toLower(str));
 }
 
 export const simpleColors = [

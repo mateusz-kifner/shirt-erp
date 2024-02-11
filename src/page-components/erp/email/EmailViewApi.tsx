@@ -17,7 +17,7 @@ import {
   IconLink,
   IconLoader2,
 } from "@tabler/icons-react";
-import { capitalize } from "lodash";
+import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
@@ -139,7 +139,7 @@ function EmailViewApi(props: EmailViewApiProps) {
               <ApiList
                 ListItem={OrderListItem}
                 entryName={"order"}
-                label={capitalize(t.order.plural)}
+                label={_.capitalize(t.order.plural)}
                 onChange={(val: OrderWithoutRelations) => {
                   setOrderId(val.id);
                 }}

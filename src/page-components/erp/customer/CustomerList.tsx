@@ -1,4 +1,4 @@
-import { capitalize } from "lodash";
+import _ from "lodash";
 import { useRouter } from "next/router";
 
 import ApiList from "@/components/ApiList";
@@ -28,7 +28,7 @@ const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
     <ApiList
       ListItem={CustomerListItem}
       entryName={entryName}
-      label={entryName ? capitalize(t[entryName].plural) : undefined}
+      label={entryName ? _.capitalize(t[entryName].plural) : undefined}
       selectedId={selectedId}
       onChange={(val: { id: number }) => {
         void router.push(`/erp/${entryName}/${val.id}`);

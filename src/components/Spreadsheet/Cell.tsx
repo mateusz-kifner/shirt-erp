@@ -10,7 +10,7 @@ import { type Dimensions, type Point } from "react-spreadsheet";
 
 import type TablerIconType from "@/schema/TablerIconType";
 import { IconCheck, IconX } from "@tabler/icons-react";
-import { merge } from "lodash";
+import _ from "lodash";
 import type { FC } from "react";
 import type { CellBase, CellComponentProps } from "react-spreadsheet";
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
@@ -107,7 +107,7 @@ export const Cell = ({
     <td
       ref={rootRef}
       className={"Spreadsheet__cell relative"}
-      style={merge(data?.style, {
+      style={_.merge(data?.style, {
         background: data?.metaId
           ? getRandomColorByNumber(data.metaId) + "88"
           : undefined,

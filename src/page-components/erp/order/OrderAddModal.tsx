@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
 import { api } from "@/utils/api";
-import { omit } from "lodash";
+import _ from "lodash";
 import OrderListItem from "./OrderListItem";
 import Editable from "@/components/editable/Editable";
 
@@ -70,7 +70,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
                 return setError("Musisz podać nie pustą nazwę zamówienia");
               console.log;
               const newOrder = {
-                ...(data.template ? omit(data.template, "id") : {}),
+                ...(data.template ? _.omit(data.template, "id") : {}),
                 name: data.orderName,
               } as OrderWithoutRelations;
               // if (data.template?.address) {

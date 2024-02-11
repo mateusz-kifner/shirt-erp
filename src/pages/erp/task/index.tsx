@@ -26,7 +26,7 @@ import { api } from "@/utils/api";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { useToggle } from "@mantine/hooks";
-import { capitalize } from "lodash";
+import _ from "lodash";
 import { useId, useState } from "react";
 import { type NewOrder } from "@/schema/orderZodSchema";
 import { useApiOrderGetById } from "@/hooks/api/order";
@@ -53,7 +53,7 @@ const TasksPage = () => {
   const { data: productsData } = productsQuery;
   const { data: spreadsheetData } = spreadsheetQuery;
 
-  const label = entryName ? capitalize(t[entryName].plural) : undefined;
+  const label = entryName ? _.capitalize(t[entryName].plural) : undefined;
 
   const childrenMetadata = [
     { label: "Właściwości", icon: IconNotebook },

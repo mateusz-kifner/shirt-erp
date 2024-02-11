@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
 import { IconExternalLink, IconTrashX } from "@tabler/icons-react";
-import { capitalize, isEqual } from "lodash";
+import _ from "lodash";
 import Link from "next/link";
 
 import Button, { buttonVariants } from "@/components/ui/Button";
@@ -62,7 +62,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
   }, [value]);
 
   useEffect(() => {
-    if (isEqual(apiEntry, prev)) return;
+    if (_.isEqual(apiEntry, prev)) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     onSubmit?.(apiEntry);
     setPrev(apiEntry);
@@ -141,7 +141,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
               ListItem={Element}
               label={
                 entryName
-                  ? capitalize(
+                  ? _.capitalize(
                       (
                         t[entryName as keyof typeof t] as {
                           singular: string;

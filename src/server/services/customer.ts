@@ -8,8 +8,8 @@ import {
 } from "@/schema/customerZodSchema";
 import { eq, sql } from "drizzle-orm";
 import addressServices from "./address";
-import { omit } from "lodash";
 import { MetadataType } from "@/schema/MetadataType";
+import _ from "lodash";
 
 // compile query ahead of time
 const customerPrepareGetFullById = db.query.customers
@@ -49,7 +49,7 @@ async function create(
   const { address, ...simpleCustomerData } = customerData;
   let newAddress;
   try {
-    newAddress = await addressServices.create(omit(address, "id") ?? {}, tx);
+    newAddress = await addressServices.create(_.omit(address, "id") ?? {}, tx);
   } catch (e) {
     console.log(e);
     throw new Error(

@@ -2,7 +2,7 @@ import { useEffect, useState, type CSSProperties } from "react";
 
 import { useId } from "@mantine/hooks";
 import { IconExternalLink, IconTrashX } from "@tabler/icons-react";
-import { capitalize, isEqual } from "lodash";
+import _ from "lodash";
 import Link from "next/link";
 
 import Button, { buttonVariants } from "@/components/ui/Button";
@@ -68,7 +68,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
   }, [value]);
 
   useEffect(() => {
-    if (isEqual(apiEntryId, prev)) return;
+    if (_.isEqual(apiEntryId, prev)) return;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     onSubmit?.(apiEntryId);
     setPrev(apiEntryId);
@@ -146,7 +146,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
               ListItem={Element}
               label={
                 entryName
-                  ? capitalize(
+                  ? _.capitalize(
                       (
                         t[entryName as keyof typeof t] as {
                           singular: string;

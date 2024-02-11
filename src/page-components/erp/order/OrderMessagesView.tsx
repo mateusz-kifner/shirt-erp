@@ -14,7 +14,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { type NewEmailMessage } from "@/schema/emailMessageZodSchema";
 import { type NewOrder } from "@/schema/orderZodSchema";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
-import { omit } from "lodash";
+import _ from "lodash";
 import { useId, useMemo, useState } from "react";
 import EmailView from "../email/EmailView";
 import { useApiOrderGetById } from "@/hooks/api/order";
@@ -50,7 +50,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
                 {val.subject}
               </AccordionTrigger>
               <AccordionContent className="whitespace-pre-wrap">
-                <EmailView data={omit(val, ["subject"])} />
+                <EmailView data={_.omit(val, ["subject"])} />
               </AccordionContent>
             </AccordionItem>
           ))}

@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type CustomerWithRelations } from "@/schema/customerZodSchema";
 import { api } from "@/utils/api";
-import { omit } from "lodash";
+import _ from "lodash";
 import CustomerListItem from "./CustomerListItem";
 import Editable from "@/components/editable/Editable";
 
@@ -65,13 +65,13 @@ const CustomerAddModal = ({ opened, onClose }: CustomerAddModalProps) => {
               if (data.username.length == 0)
                 return setError("Musisz podać nie pustą nazwę użytkownika");
               const new_customer = {
-                ...(data.template ? omit(data.template, "id") : {}),
+                ...(data.template ? _.omit(data.template, "id") : {}),
                 username: data.username,
                 orders: [],
                 "orders-archive": [],
               };
               if (data.template?.address) {
-                new_customer.address = omit(data.template.address, "id");
+                new_customer.address = _.omit(data.template.address, "id");
               }
 
               createCustomer(new_customer)

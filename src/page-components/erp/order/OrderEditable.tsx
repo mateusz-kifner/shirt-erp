@@ -26,7 +26,7 @@ import { type User } from "@/schema/userZodSchema";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
-import { omit } from "lodash";
+import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -101,7 +101,7 @@ function OrderEditable(props: OrderEditableProps) {
       (customerData as CustomerWithRelations).address &&
         apiUpdate(
           "address",
-          omit((customerData as CustomerWithRelations).address, ["id"]),
+          _.omit((customerData as CustomerWithRelations).address, ["id"]),
         );
       setOrderAddressFromCustomer(null);
     }

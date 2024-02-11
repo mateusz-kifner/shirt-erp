@@ -1,5 +1,5 @@
 import { STATUS_CODES } from "http";
-import { startCase, toLower } from "lodash";
+import _ from "lodash";
 
 class HTTPError extends Error {
   statusCode: number;
@@ -27,7 +27,7 @@ export default HTTPError;
 export function toHTTPErrorName(code: number): string {
   const suffix =
     ((code / 100) | 0) === 4 || ((code / 100) | 0) === 5 ? " error" : "";
-  return startCase(
-    toLower(String(STATUS_CODES[code]).replace(/error$/i, "") + suffix),
+  return _.startCase(
+    _.toLower(String(STATUS_CODES[code]).replace(/error$/i, "") + suffix),
   );
 }

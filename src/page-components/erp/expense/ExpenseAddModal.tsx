@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type Expense } from "@/schema/expenseZodSchema";
 import { api } from "@/utils/api";
-import { omit } from "lodash";
+import _ from "lodash";
 import ExpenseListItem from "./ExpenseListItem";
 import Editable from "@/components/editable/Editable";
 
@@ -59,7 +59,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
               if (data.expenseName.length == 0)
                 return setError("Musisz podać nie pustą nazwę wydatku");
               const new_expense = {
-                ...(data.template ? omit(data.template, "id") : {}),
+                ...(data.template ? _.omit(data.template, "id") : {}),
                 name: data.expenseName,
               };
               createExpense(new_expense)

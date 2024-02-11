@@ -1,5 +1,5 @@
 import { useMove } from "@mantine/hooks";
-import { omit } from "lodash";
+import _ from "lodash";
 import { useEffect } from "react";
 import tinycolor2, { type ColorFormats } from "tinycolor2";
 
@@ -19,7 +19,7 @@ function HueSlider(props: ColorSliderProps) {
     ({ x }) => !disabled && onChange?.({ ...value, a: x }),
   );
 
-  const sliderColor = tinycolor2.fromRatio(omit(value, ["a"]));
+  const sliderColor = tinycolor2.fromRatio(_.omit(value, ["a"]));
 
   const thumbColor = tinycolor2.fromRatio(value);
 

@@ -5,7 +5,7 @@ import { env } from "@/env.mjs";
 import { isMimeImage } from "@/utils/isMimeImage";
 import NodeClam from "clamscan";
 import Logger from "js-logger";
-import { omit } from "lodash";
+import _ from "lodash";
 import { type ParsedMail, simpleParser } from "mailparser";
 import sharp from "sharp";
 import {
@@ -97,7 +97,7 @@ export async function downloadEmailByUid(
       };
     }
     const result: Omit<ParsedMail, "attachments"> & { avIsInfected?: false } = {
-      ...omit(parsed, ["attachments"]),
+      ..._.omit(parsed, ["attachments"]),
     };
     if (env.ENABLE_CLAMAV) result["avIsInfected"] = false;
 
