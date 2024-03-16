@@ -56,6 +56,7 @@ function MultiTabs(props: MultiTabsProps) {
           setItemProp: () => {},
           setState: () => {},
           shift: () => {},
+          swap: () => {},
         }
       }
       {...multiTabsState}
