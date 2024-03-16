@@ -1,4 +1,4 @@
-import { files } from "@/db/schema/files";
+import { files } from "@/server/db/schema/files";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";

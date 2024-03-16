@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { orders_to_email_messages } from "@/db/schema/orders_to_email_messages";
+import { DBType, db } from "@/server/db";
+import { orders_to_email_messages } from "@/server/db/schema/orders_to_email_messages";
 import { and, eq, inArray } from "drizzle-orm";
 
 async function connect(

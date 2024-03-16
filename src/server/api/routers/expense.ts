@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { expenses } from "@/db/schema/expenses";
+import { expenses } from "@/server/db/schema/expenses";
 import {
   insertExpenseZodSchema,
   updateExpenseZodSchema,

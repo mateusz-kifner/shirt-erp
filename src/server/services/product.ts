@@ -1,9 +1,9 @@
-import { DBType, db } from "@/db";
-import { products } from "@/db/schema/products";
+import { DBType, db } from "@/server/db";
+import { products } from "@/server/db/schema/products";
 import { eq, inArray, sql } from "drizzle-orm";
 import { Product, UpdatedProduct } from "@/schema/productZodSchema";
 import { MetadataType } from "@/schema/MetadataType";
-import { orders_to_products } from "@/db/schema/orders_to_products";
+import { orders_to_products } from "@/server/db/schema/orders_to_products";
 
 // compile query ahead of time
 const productPrepareGetById = db.query.products

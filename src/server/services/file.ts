@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { files } from "@/db/schema/files";
+import { DBType, db } from "@/server/db";
+import { files } from "@/server/db/schema/files";
 import { eq, sql } from "drizzle-orm";
 import { File, NewFile, UpdatedFile } from "@/schema/fileZodSchema";
 import { MetadataType } from "@/schema/MetadataType";

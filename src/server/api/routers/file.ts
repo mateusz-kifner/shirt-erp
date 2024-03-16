@@ -1,7 +1,7 @@
 import { createProcedureSearch } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
-import { files } from "@/db/schema/files";
+import { files } from "@/server/db/schema/files";
 import { type File, updateFileZodSchema } from "@/schema/fileZodSchema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";

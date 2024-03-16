@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { spreadsheets } from "@/db/schema/spreadsheets";
+import { DBType, db } from "@/server/db";
+import { spreadsheets } from "@/server/db/schema/spreadsheets";
 import { eq } from "drizzle-orm";
 import spreadsheetService from "../spreadsheet";
 

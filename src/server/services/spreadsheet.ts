@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { spreadsheets } from "@/db/schema/spreadsheets";
+import { DBType, db } from "@/server/db";
+import { spreadsheets } from "@/server/db/schema/spreadsheets";
 import { eq, inArray, sql } from "drizzle-orm";
 import { Spreadsheet, UpdatedSpreadsheet } from "@/schema/spreadsheetZodSchema";
 import { MetadataType } from "@/schema/MetadataType";

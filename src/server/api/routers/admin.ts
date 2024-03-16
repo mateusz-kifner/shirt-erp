@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { verificationTokens } from "@/db/schema/users";
+import { db } from "@/server/db";
+import { verificationTokens } from "@/server/db/schema/users";
 import { env } from "@/env.mjs";
 import {
   publicProcedure,

@@ -1,4 +1,4 @@
-import { orders } from "@/db/schema/orders";
+import { orders } from "@/server/db/schema/orders";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { insertAddressZodSchema } from "./addressZodSchema";

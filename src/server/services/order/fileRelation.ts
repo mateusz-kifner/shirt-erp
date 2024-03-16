@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { orders_to_files } from "@/db/schema/orders_to_files";
+import { DBType, db } from "@/server/db";
+import { orders_to_files } from "@/server/db/schema/orders_to_files";
 import { and, eq, inArray } from "drizzle-orm";
 
 async function connect(orderId: number, fileId: number, tx: DBType = db) {

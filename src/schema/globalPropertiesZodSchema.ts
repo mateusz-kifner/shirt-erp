@@ -1,7 +1,7 @@
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";
-import { global_properties } from "@/db/schema/global_properties";
+import { global_properties } from "@/server/db/schema/global_properties";
 
 export const selectGlobalPropertiesZodSchema = createSelectSchema(
   global_properties,

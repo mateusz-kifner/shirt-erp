@@ -1,4 +1,4 @@
-import { users } from "@/db/schema/users";
+import { users } from "@/server/db/schema/users";
 import { updateUserZodSchema } from "@/schema/userZodSchema";
 import {
   createTRPCRouter,

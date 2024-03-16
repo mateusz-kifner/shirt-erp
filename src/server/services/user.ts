@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { users } from "@/db/schema/users";
+import { db } from "@/server/db";
+import { users } from "@/server/db/schema/users";
 import { eq, sql } from "drizzle-orm";
 import { UpdatedUser, User } from "@/schema/userZodSchema";
 import { MetadataType } from "@/schema/MetadataType";

@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { expenses } from "@/db/schema/expenses";
+import { DBType, db } from "@/server/db";
+import { expenses } from "@/server/db/schema/expenses";
 import { eq, sql } from "drizzle-orm";
 import { MetadataType } from "@/schema/MetadataType";
 import { Expense, UpdatedExpense } from "@/schema/expenseZodSchema";

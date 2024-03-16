@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
 import IMAPService from "@/server/services/imap";
 import HTTPError from "@/utils/HTTPError";

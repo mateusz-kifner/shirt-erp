@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { files } from "@/db/schema/files";
+import { db } from "@/server/db";
+import { files } from "@/server/db/schema/files";
 import HTTPError from "@/utils/HTTPError";
 import { eq } from "drizzle-orm";
 import { createReadStream } from "fs";

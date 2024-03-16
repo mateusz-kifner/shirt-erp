@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { email_credentials } from "@/db/schema/email_credentials";
+import { DBType, db } from "@/server/db";
+import { email_credentials } from "@/server/db/schema/email_credentials";
 import { eq, sql } from "drizzle-orm";
 import {
   EmailCredential,

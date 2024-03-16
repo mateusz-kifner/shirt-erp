@@ -1,6 +1,6 @@
-import { DBType, db } from "@/db";
-import { addresses } from "@/db/schema/addresses";
-import { customers } from "@/db/schema/customers";
+import { DBType, db } from "@/server/db";
+import { addresses } from "@/server/db/schema/addresses";
+import { customers } from "@/server/db/schema/customers";
 import {
   Customer,
   CustomerWithRelations,

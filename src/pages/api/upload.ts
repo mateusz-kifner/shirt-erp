@@ -1,11 +1,11 @@
-import { db } from "@/db";
+import { db } from "@/server/db";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import formidable from "formidable";
 import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { files as filesSchema } from "@/db/schema/files";
+import { files as filesSchema } from "@/server/db/schema/files";
 import { getServerAuthSession } from "@/server/auth";
 
 /**

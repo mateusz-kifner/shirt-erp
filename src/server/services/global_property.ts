@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { global_properties } from "@/db/schema/global_properties";
+import { DBType, db } from "@/server/db";
+import { global_properties } from "@/server/db/schema/global_properties";
 import { eq, sql } from "drizzle-orm";
 import { MetadataType } from "@/schema/MetadataType";
 import {

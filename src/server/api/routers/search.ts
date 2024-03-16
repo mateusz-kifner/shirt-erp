@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-import { customers } from "@/db/schema/customers";
-import { orders } from "@/db/schema/orders";
+import { customers } from "@/server/db/schema/customers";
+import { orders } from "@/server/db/schema/orders";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import { ilike, or } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/server/db";
 
 export const searchRouter = createTRPCRouter({
   all: employeeProcedure

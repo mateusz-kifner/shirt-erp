@@ -1,4 +1,4 @@
-import { addresses } from "@/db/schema/addresses";
+import { addresses } from "@/server/db/schema/addresses";
 import {
   insertAddressZodSchema,
   updateAddressZodSchema,

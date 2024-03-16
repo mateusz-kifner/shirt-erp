@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { orders_to_users } from "@/db/schema/orders_to_users";
+import { DBType, db } from "@/server/db";
+import { orders_to_users } from "@/server/db/schema/orders_to_users";
 import { and, eq, inArray } from "drizzle-orm";
 
 // User <=> Employee

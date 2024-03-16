@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { orders } from "@/db/schema/orders";
+import { orders } from "@/server/db/schema/orders";
 
 import {
   insertOrderByValueZodSchema,
@@ -21,9 +21,9 @@ import {
   lte,
   inArray,
 } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/server/db";
 import orderService from "@/server/services/order";
-import { orders_to_users } from "@/db/schema/orders_to_users";
+import { orders_to_users } from "@/server/db/schema/orders_to_users";
 
 export const orderRouter = createTRPCRouter({
   getFullById: employeeProcedure
@@ -87,8 +87,8 @@ export const orderRouter = createTRPCRouter({
           .select()
           .from(orders_to_users)
           .where(eq(orders_to_users.userId, currentUserId));
-        if (userOrderIds.length  === 0){
-          return []
+        if (userOrderIds.length === 0) {
+          return [];
         }
         return await db
           .select()

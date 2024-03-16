@@ -6,13 +6,13 @@ import {
   managerProcedure,
 } from "@/server/api/trpc";
 import { eq } from "drizzle-orm";
-import { global_properties } from "@/db/schema/global_properties";
+import { global_properties } from "@/server/db/schema/global_properties";
 import {
   insertGlobalPropertiesZodSchema,
   updateGlobalPropertiesZodSchema,
 } from "@/schema/globalPropertiesZodSchema";
 import globalPropertyService from "@/server/services/global_property";
-import { db } from "@/db";
+import { db } from "@/server/db";
 
 export const globalPropertyRouter = createTRPCRouter({
   getById: employeeProcedure

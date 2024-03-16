@@ -73,10 +73,10 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { db } from "@/db";
+import { db } from "@/server/db";
 import { getServerAuthSession } from "../auth";
 import { type Session } from "next-auth";
-import { users } from "@/db/schema/users";
+import { users } from "@/server/db/schema/users";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,

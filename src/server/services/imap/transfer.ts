@@ -8,11 +8,11 @@ import imageSize from "image-size";
 import Logger from "js-logger";
 import { simpleParser } from "mailparser";
 import path from "node:path";
-import { db } from "@/db";
+import { db } from "@/server/db";
 import { and, eq } from "drizzle-orm";
-import { email_messages } from "@/db/schema/email_messages";
-import { files as filesSchema } from "@/db/schema/files";
-import { email_messages_to_files } from "@/db/schema/email_messages_to_files";
+import { email_messages } from "@/server/db/schema/email_messages";
+import { files as filesSchema } from "@/server/db/schema/files";
+import { email_messages_to_files } from "@/server/db/schema/email_messages_to_files";
 import {
   bufferToReadable,
   resolveEmailCacheFileName,

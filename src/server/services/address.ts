@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { addresses } from "@/db/schema/addresses";
+import { DBType, db } from "@/server/db";
+import { addresses } from "@/server/db/schema/addresses";
 import { Address, UpdatedAddress } from "@/schema/addressZodSchema";
 import { eq, sql } from "drizzle-orm";
 

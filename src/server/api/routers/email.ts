@@ -1,5 +1,5 @@
-import { db } from "@/db";
-import { users } from "@/db/schema/users";
+import { db } from "@/server/db";
+import { users } from "@/server/db/schema/users";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import IMAPService from "@/server/services/imap";

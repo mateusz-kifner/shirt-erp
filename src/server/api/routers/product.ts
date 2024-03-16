@@ -1,4 +1,4 @@
-import { products } from "@/db/schema/products";
+import { products } from "@/server/db/schema/products";
 import {
   insertProductZodSchema,
   updateProductZodSchema,

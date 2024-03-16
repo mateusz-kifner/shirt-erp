@@ -1,4 +1,4 @@
-import { customers } from "@/db/schema/customers";
+import { customers } from "@/server/db/schema/customers";
 import {
   insertCustomerWithRelationZodSchema,
   updateCustomerZodSchema,

@@ -9,9 +9,9 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-import { users } from "@/db/schema/users";
+import { users } from "@/server/db/schema/users";
 import { eq } from "drizzle-orm";
-import { db } from "@/db";
+import { db } from "@/server/db";
 
 export const sessionRouter = createTRPCRouter({
   status: publicProcedure.query(({ ctx }) => {

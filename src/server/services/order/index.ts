@@ -1,5 +1,5 @@
-import { DBType, db } from "@/db";
-import { orders } from "@/db/schema/orders";
+import { DBType, db } from "@/server/db";
+import { orders } from "@/server/db/schema/orders";
 import { eq, sql } from "drizzle-orm";
 import {
   NewOrder,

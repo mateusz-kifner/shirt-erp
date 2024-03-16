@@ -1,4 +1,4 @@
-import { email_messages } from "@/db/schema/email_messages";
+import { email_messages } from "@/server/db/schema/email_messages";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";

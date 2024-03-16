@@ -1,4 +1,4 @@
-import { email_credentials } from "@/db/schema/email_credentials";
+import { email_credentials } from "@/server/db/schema/email_credentials";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { type z } from "zod";
 import idRequiredZodSchema from "./idRequiredZodSchema";

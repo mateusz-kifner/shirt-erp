@@ -9,9 +9,9 @@ import DiscordProvider from "next-auth/providers/discord";
 import EmailProvider from "next-auth/providers/email";
 
 import { env } from "@/env.mjs";
-import { db } from "@/db";
+import { db } from "@/server/db";
 import { sendVerificationRequest } from "./email";
-import { type UserRole, users } from "@/db/schema/users";
+import { type UserRole, users } from "@/server/db/schema/users";
 import { eq } from "drizzle-orm";
 import { type Adapter } from "next-auth/adapters";
 import { type Provider } from "next-auth/providers";
