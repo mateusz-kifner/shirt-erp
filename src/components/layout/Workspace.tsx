@@ -15,7 +15,7 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import type TablerIconType from "@/schema/TablerIconType";
 import { cn } from "@/utils/cn";
 import * as Portal from "@radix-ui/react-portal";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { IconAlertCircle, Icon, IconNode } from "@tabler/icons-react";
 import { ErrorBoundary } from "react-error-boundary";
 import MultiTabs from "./MultiTabs/MultiTabs";
 import { Tab } from "./MultiTabs/Tab";
@@ -25,7 +25,7 @@ import { Card } from "../ui/Card";
 // import MultiTabs from "./MultiTabs"
 interface WorkspaceItemMetadata {
   label: string;
-  icon: TablerIconType;
+  icon?: TablerIconType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props?: Record<string, any>;
 }

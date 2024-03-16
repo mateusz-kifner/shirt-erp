@@ -1,4 +1,5 @@
-import { createEnv } from "@t3-oss/env-nextjs/dist";
+// @ts-ignore // TODO remove this when `@t3-oss/env-nextjs` bug is fixed
+import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
