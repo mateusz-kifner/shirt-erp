@@ -14,6 +14,7 @@ import { sendVerificationRequest } from "./email";
 import { type UserRole, users } from "@/db/schema/users";
 import { eq } from "drizzle-orm";
 import { type Adapter } from "next-auth/adapters";
+import { type Provider } from "next-auth/providers";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -44,7 +45,7 @@ export const authDBAdapter = DrizzleAdapter(db);
  * @see https://next-auth.js.org/configuration/options
  */
 
-const providers = [];
+const providers: Provider[] = [];
 
 if (
   env.DISCORD_CLIENT_ID !== undefined &&
