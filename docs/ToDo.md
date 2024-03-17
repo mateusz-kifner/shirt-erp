@@ -4,7 +4,7 @@ Libs:
 
 TODO:
 
-- upgrade formidable
+- move to nextjs 13 app router upload
 - add design tool
 - add form for orders
 - redesign api calls

@@ -13,7 +13,7 @@ import { getServerAuthSession } from "@/server/auth";
  */
 
 // TODO: make size calculation async
-// TODO: Upgrade to formidable 3
+// TODO: move to nextjs 13 app router upload
 
 // disable default body parser
 export const config = {
@@ -38,8 +38,8 @@ export default async function Upload(
     const form = new formidable.IncomingForm({
       multiples: true,
       uploadDir: "./uploads/",
-      maxFileSize: 10 * 1024 * 1024 * 1024, // 10Gb
-      maxFieldsSize: 10 * 1024 * 1024 * 1024, // 10Gb
+      maxFileSize: 2 * 1024 * 1024 * 1024, // 10Gb
+      maxFieldsSize: 2 * 1024 * 1024 * 1024, // 10Gb
       maxFiles: 1024,
       // hashAlgorithm: "sha1",
     });
