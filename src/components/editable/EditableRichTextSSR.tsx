@@ -24,7 +24,7 @@ import preventLeave from "@/utils/preventLeave";
 import Button from "@/components/ui/Button";
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import {
   IconAlignCenter,
   IconAlignJustified,

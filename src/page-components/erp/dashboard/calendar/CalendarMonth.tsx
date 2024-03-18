@@ -10,7 +10,7 @@ import {
 } from "@/utils/getRandomColor";
 import useTranslation from "@/hooks/useTranslation";
 import dayjs, { WeekdayNames } from "dayjs";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { OrderWithoutRelations } from "@/server/api/order/validator";
 import { useRouter } from "next/router";
 import Button from "@/components/ui/Button";
 import { cn } from "@/utils/cn";

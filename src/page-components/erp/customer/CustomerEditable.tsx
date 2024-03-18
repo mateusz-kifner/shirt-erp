@@ -19,7 +19,7 @@ import {
 import Button from "@/components/ui/Button";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {

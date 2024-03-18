@@ -8,7 +8,7 @@ import {
 } from "react";
 import { type Dimensions, type Point } from "react-spreadsheet";
 
-import type TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/types/TablerIconType";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import _ from "lodash";
 import type { FC } from "react";

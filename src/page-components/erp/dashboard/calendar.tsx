@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { OrderWithoutRelations } from "@/server/api/order/validator";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 

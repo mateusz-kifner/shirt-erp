@@ -12,8 +12,8 @@ import EditableSwitch from "@/components/editable/EditableSwitch";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
-import { type Product } from "@/schema/productZodSchema";
-import { type User } from "@/schema/userZodSchema";
+import { type Product } from "@/server/api/product/validator";
+import { type User } from "@/server/api/user/validator";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import {

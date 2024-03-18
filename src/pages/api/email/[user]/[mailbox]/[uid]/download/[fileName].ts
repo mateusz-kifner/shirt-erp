@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import { getServerAuthSession } from "@/server/auth";
-import IMAPService from "@/server/services/imap";
+import IMAPService from "@/server/api/email/imap";
 import HTTPError from "@/utils/HTTPError";
 import { ImapFlow } from "imapflow";
 import Logger from "js-logger";

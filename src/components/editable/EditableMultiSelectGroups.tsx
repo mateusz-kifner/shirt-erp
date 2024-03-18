@@ -1,4 +1,4 @@
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { useId, useRef, useState } from "react";
 import { useEditableContext } from "./Editable";
 import { Label } from "../ui/Label";

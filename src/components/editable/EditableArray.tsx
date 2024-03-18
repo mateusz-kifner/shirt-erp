@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useEditableContextWithoutOverride } from "./Editable";
 import { Label } from "../ui/Label";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import Button from "../ui/Button";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import {

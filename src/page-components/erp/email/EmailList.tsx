@@ -1,6 +1,6 @@
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
-import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/server/api/email/validator";
 import { api } from "@/utils/api";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useId, useState } from "react";

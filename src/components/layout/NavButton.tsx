@@ -1,4 +1,4 @@
-import type TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/types/TablerIconType";
 import { cn } from "@/utils/cn";
 import { useHover } from "@mantine/hooks";
 import Link from "next/link";

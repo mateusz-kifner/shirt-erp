@@ -1,4 +1,4 @@
-import { type TypeAABB2D } from "../../schema/AABB";
+import { type TypeAABB2D } from "../../types/AABB";
 import isNumeric from "../../utils/isNumeric";
 import { type UniversalMatrix } from "./useSpreadSheetData";
 

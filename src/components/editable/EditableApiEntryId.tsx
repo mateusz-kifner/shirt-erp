@@ -10,7 +10,7 @@ import useTranslation from "@/hooks/useTranslation";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Label } from "@/components/ui/Label";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
 import { useEditableContext } from "./Editable";

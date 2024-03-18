@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/Switch";
 import { useHover } from "@mantine/hooks";
 
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { useEditableContext } from "./Editable";
 import { type VariantProps, cva } from "class-variance-authority";
 

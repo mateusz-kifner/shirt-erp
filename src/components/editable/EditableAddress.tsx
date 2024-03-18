@@ -1,7 +1,7 @@
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
-import type EditableInput from "@/schema/EditableInput";
-import { type Address } from "@/schema/addressZodSchema";
+import type EditableInput from "@/types/EditableInput";
+import { type Address } from "@/server/api/address/validator";
 import EditableEnum from "./EditableEnum";
 import Editable, { Key, useEditableContext } from "./Editable";
 import EditableText from "./EditableText";

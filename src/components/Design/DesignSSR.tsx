@@ -1,6 +1,6 @@
 import { useUserContext } from "@/context/userContext";
 import useTranslation from "@/hooks/useTranslation";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { useListState } from "@mantine/hooks";
 import { SVG } from "@svgdotjs/svg.js";
 
@@ -24,8 +24,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import type TablerIconType from "@/schema/TablerIconType";
-import { type File } from "@/schema/fileZodSchema";
+import type TablerIconType from "@/types/TablerIconType";
+import { type File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import { isMimeImage } from "@/utils/isMimeImage";
 import {

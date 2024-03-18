@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import useTranslation from "@/hooks/useTranslation";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
 import { useId } from "react";
 import { useEditableContext } from "./Editable";

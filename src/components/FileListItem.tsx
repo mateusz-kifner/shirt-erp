@@ -2,7 +2,7 @@ import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
 import { type CSSProperties, type ReactNode } from "react";
 
-import { type File } from "@/schema/fileZodSchema";
+import { type File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";

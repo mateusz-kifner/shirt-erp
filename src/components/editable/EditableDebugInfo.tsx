@@ -2,7 +2,7 @@
 import { type CSSProperties } from "react";
 
 import { useUserContext } from "@/context/userContext";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { useEditableContext } from "./Editable";
 
 interface EditableDebugInfoProps extends EditableInput<string> {
@@ -28,7 +28,7 @@ const EditableDebugInfo = (props: EditableDebugInfoProps) => {
 
   return debug ? (
     <div {...moreProps}>
-      <span className="text-yellow-800 dark:text-yellow-400 pr-2">{label}</span>
+      <span className="pr-2 text-yellow-800 dark:text-yellow-400">{label}</span>
       {value}
     </div>
   ) : null;

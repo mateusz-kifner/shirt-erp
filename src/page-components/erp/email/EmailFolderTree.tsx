@@ -1,7 +1,7 @@
 import Button, { type ButtonProps } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/server/api/email/validator";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {

@@ -6,7 +6,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type Product } from "@/schema/productZodSchema";
+import { type Product } from "@/server/api/product/validator";
 import { api } from "@/utils/api";
 import _ from "lodash";
 import ProductListItem from "./ProductListItem";

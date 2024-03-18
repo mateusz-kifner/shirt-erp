@@ -1,9 +1,9 @@
 import { describe, test, expect, beforeAll, afterAll } from "vitest";
-import orderService from "@/server/services/order";
-import productService from "@/server/services/product";
-import fileService from "@/server/services/file";
-import userService from "@/server/services/user";
-import emailMessageService from "@/server/services/email_message";
+import productService from "@/server/api/product/service";
+import orderService from "@/server/api/order/service";
+import fileService from "@/server/api/file/service";
+import emailMessageService from "@/server/api/email-message/service";
+import userService from "@/server/api/user/service";
 
 const order = {
   name: "Ala",
@@ -17,7 +17,7 @@ const order = {
 describe("Order", () => {
   test("create and delete", async () => {
     const create = await orderService.create(order);
-    const byId = await orderService.getFullById(create.id);
+    const byId = await orderService.getByIdFull(create.id);
 
     expect(byId?.id).toBeTypeOf("number");
     expect(byId).toMatchObject(order);
@@ -64,7 +64,7 @@ describe("Order to Product relation", () => {
       orderId,
       productId,
     });
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.products.length).toBeGreaterThan(0);
     expect(byId.products[0]!.name).toEqual("Test Product 789");
   });
@@ -78,7 +78,7 @@ describe("Order to Product relation", () => {
       productId,
     });
 
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.products.length).toEqual(0);
   });
 });
@@ -111,7 +111,7 @@ describe("Order to File relation", () => {
       orderId,
       fileId,
     });
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.files.length).toBeGreaterThan(0);
     expect(byId.files[0]!.filename).toEqual("Test File 789");
   });
@@ -122,7 +122,7 @@ describe("Order to File relation", () => {
       fileId,
     });
 
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.files.length).toEqual(0);
   });
 });
@@ -152,7 +152,7 @@ describe("Order to User relation", () => {
       orderId,
       userId,
     });
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.employees.length).toBeGreaterThan(0);
     expect(byId.employees[0]!.name).toEqual("Jan Kowalski");
   });
@@ -163,7 +163,7 @@ describe("Order to User relation", () => {
       userId,
     });
 
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.employees.length).toEqual(0);
   });
 });
@@ -195,7 +195,7 @@ describe("Order to EmailMessage relation", () => {
       orderId,
       emailMessageId,
     });
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.emails.length).toBeGreaterThan(0);
     expect(byId.emails[0]!.subject).toEqual("Test EmailMessage 789");
   });
@@ -209,7 +209,7 @@ describe("Order to EmailMessage relation", () => {
       emailMessageId,
     });
 
-    const byId = await orderService.getFullById(orderId!);
+    const byId = await orderService.getByIdFull(orderId!);
     expect(byId.emails.length).toEqual(0);
   });
 });

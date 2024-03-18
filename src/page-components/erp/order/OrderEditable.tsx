@@ -21,8 +21,8 @@ import Button from "@/components/ui/Button";
 
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type CustomerWithRelations } from "@/schema/customerZodSchema";
-import { type User } from "@/schema/userZodSchema";
+import { type CustomerWithRelations } from "@/server/api/customer/validator";
+import { type User } from "@/server/api/user/validator";
 import { api } from "@/utils/api";
 import { truncString } from "@/utils/truncString";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";

@@ -1,6 +1,6 @@
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import { Separator } from "@/components/ui/Separator";
-import { type EmailMessage } from "@/schema/emailMessageZodSchema";
+import { type EmailMessage } from "@/server/api/email-message/validator";
 import dayjs from "dayjs";
 import DOMPurify from "dompurify";
 import { type ReactNode } from "react";

@@ -1,4 +1,4 @@
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { useEditableContext } from "./Editable";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

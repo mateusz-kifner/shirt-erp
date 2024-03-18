@@ -7,8 +7,8 @@ import {
 } from "../../utils/getRandomColor";
 import isNumeric from "../../utils/isNumeric";
 
-import { type TypeAABB2D } from "@/schema/AABB";
-import type TablerIconType from "@/schema/TablerIconType";
+import { type TypeAABB2D } from "@/types/AABB";
+import type TablerIconType from "@/types/TablerIconType";
 import { api } from "@/utils/api";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
@@ -221,8 +221,8 @@ const EditableTableView = (props: EditableTableProps) => {
             (verify?.[1].startsWith("error")
               ? "text-red-500"
               : verify?.[1].startsWith("success")
-              ? "text-green-500"
-              : "text-gray-500")
+                ? "text-green-500"
+                : "text-gray-500")
           }
         >
           {verify?.[1] || "⸺"}

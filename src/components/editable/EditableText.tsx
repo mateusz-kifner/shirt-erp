@@ -9,7 +9,7 @@ import {
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import preventLeave from "@/utils/preventLeave";
 import { Label } from "@/components/ui/Label";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { useClickOutside } from "@mantine/hooks";
 import { useEditableContext } from "./Editable";

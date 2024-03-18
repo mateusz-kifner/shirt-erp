@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/Tooltip";
 // import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/server/api/email/validator";
 import { api } from "@/utils/api";
 import { cn } from "@/utils/cn";
 import {
@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
-import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import { useApiOrderGetById } from "@/hooks/api/order";
 
 interface EmailViewApiProps {

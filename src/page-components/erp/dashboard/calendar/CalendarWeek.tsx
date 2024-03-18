@@ -12,7 +12,7 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { OrderWithoutRelations } from "@/server/api/order/validator";
 import { cn } from "@/utils/cn";
 import CalendarCell from "./CalendarCell";
 

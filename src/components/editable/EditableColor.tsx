@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import equalHSV from "@/utils/equalHSV";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";

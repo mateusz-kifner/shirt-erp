@@ -12,7 +12,7 @@ import DisplayCell from "@/components/ui/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
 
 import { Label } from "@/components/ui/Label";
-import type EditableInput from "@/schema/EditableInput";
+import type EditableInput from "@/types/EditableInput";
 import { useEditableContext } from "./Editable";
 
 // TODO: make it editable

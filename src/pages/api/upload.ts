@@ -5,7 +5,7 @@ import formidable from "formidable";
 import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { files as filesSchema } from "@/server/db/schema/files";
+import { files as filesSchema } from "@/server/api/file/schema";
 import { getServerAuthSession } from "@/server/auth";
 
 /**

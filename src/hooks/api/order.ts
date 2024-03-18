@@ -47,87 +47,6 @@ export function useApiOrderGetById(id: number | null | undefined) {
     },
   );
 
-  const productsIds =
-    orderQuery.data?.products && orderQuery.data.products.length > 0
-      ? orderQuery.data.products
-      : (orderFullQuery?.data?.products.map((v) => v.id) as
-          | number[]
-          | undefined
-          | null);
-
-  const productsQuery = api.product.getManyByIds.useQuery(
-    productsIds as number[],
-    {
-      enabled:
-        productsIds !== null &&
-        productsIds !== undefined &&
-        productsIds.length > 0 &&
-        !firstLoad,
-      refetchOnMount: false,
-      staleTime: 60 * 1000, // 60s
-    },
-  );
-
-  const emailsIds =
-    orderQuery.data?.emails && orderQuery.data.emails.length > 0
-      ? orderQuery.data.emails
-      : (orderFullQuery?.data?.emails.map((v) => v.id) as
-          | number[]
-          | undefined
-          | null);
-
-  const emailsQuery = api.emailMessage.getManyByIds.useQuery(
-    emailsIds as number[],
-    {
-      enabled:
-        emailsIds !== null &&
-        emailsIds !== undefined &&
-        emailsIds.length > 0 &&
-        !firstLoad,
-      refetchOnMount: false,
-      staleTime: 60 * 1000, // 60s
-    },
-  );
-
-  const spreadsheetIds =
-    orderQuery.data?.spreadsheets && orderQuery.data.spreadsheets.length > 0
-      ? orderQuery.data.spreadsheets
-      : (orderFullQuery?.data?.spreadsheets.map((v) => v.id) as
-          | number[]
-          | undefined
-          | null);
-
-  const spreadsheetQuery = api.spreadsheet.getManyByIds.useQuery(
-    spreadsheetIds as number[],
-    {
-      enabled:
-        spreadsheetIds !== null &&
-        spreadsheetIds !== undefined &&
-        spreadsheetIds.length > 0 &&
-        !firstLoad,
-      refetchOnMount: false,
-      staleTime: 60 * 1000, // 60s
-    },
-  );
-
-  const filesIds =
-    orderQuery.data?.files && orderQuery.data.files.length > 0
-      ? orderQuery.data.files
-      : (orderFullQuery?.data?.files.map((v) => v.id) as
-          | number[]
-          | undefined
-          | null);
-
-  const filesQuery = api.file.getManyByIds.useQuery(filesIds as number[], {
-    enabled:
-      filesIds !== null &&
-      filesIds !== undefined &&
-      filesIds.length > 0 &&
-      !firstLoad,
-    refetchOnMount: false,
-    staleTime: 60 * 1000, // 60s
-  });
-
   useEffect(() => {
     if (
       firstLoad &&
@@ -179,10 +98,6 @@ export function useApiOrderGetById(id: number | null | undefined) {
     orderQuery,
     customerQuery,
     addressQuery,
-    productsQuery,
-    emailsQuery,
-    spreadsheetQuery,
-    filesQuery,
   };
 }
 

@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import { type OrderWithoutRelations } from "@/schema/orderZodSchema";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import { api } from "@/utils/api";
 import CustomerListItem from "../customer/CustomerListItem";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";

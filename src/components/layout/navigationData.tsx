@@ -11,7 +11,7 @@ import {
   IconUser,
 } from "@tabler/icons-react";
 
-import type TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/types/TablerIconType";
 
 const navigationData: {
   label: string;

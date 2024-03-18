@@ -19,7 +19,7 @@ import { getRandomColorByNumber } from "../../utils/getRandomColor";
 import Button from "@/components/ui/Button";
 import { ScrollArea, ScrollBar } from "@/components/ui/ScrollArea";
 import useTranslation from "@/hooks/useTranslation";
-import type TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/types/TablerIconType";
 import { api } from "@/utils/api";
 import TableCenterIcon from "../icons/TableCenterIcon";
 import TableEdgeIcon from "../icons/TableEdgeIcon";

@@ -1,4 +1,4 @@
-import { type EmailCredential } from "@/schema/emailCredentialZodSchema";
+import { type EmailCredential } from "@/server/api/email/validator";
 import {
   createContext,
   useContext,

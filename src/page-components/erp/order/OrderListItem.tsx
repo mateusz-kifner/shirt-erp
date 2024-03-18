@@ -2,7 +2,7 @@ import { DefaultListItem } from "@/components/DefaultListItem";
 import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
 import { useExperimentalContext } from "@/context/experimentalContext";
 import useTranslation from "@/hooks/useTranslation";
-import { type NewOrder } from "@/schema/orderZodSchema";
+import { type NewOrder } from "@/server/api/order/validator";
 import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 import { IconCalendarTime } from "@tabler/icons-react";

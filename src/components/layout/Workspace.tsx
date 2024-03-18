@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 import { useIsMobile } from "@/hooks/useIsMobile";
 // import useTranslation from "@/hooks/useTranslation";
-import type TablerIconType from "@/schema/TablerIconType";
+import type TablerIconType from "@/types/TablerIconType";
 import { cn } from "@/utils/cn";
 import * as Portal from "@radix-ui/react-portal";
 import { IconAlertCircle, Icon, IconNode } from "@tabler/icons-react";

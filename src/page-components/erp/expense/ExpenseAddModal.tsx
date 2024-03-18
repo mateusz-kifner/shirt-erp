@@ -6,7 +6,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type Expense } from "@/schema/expenseZodSchema";
+import { type Expense } from "@/server/api/expense/validator";
 import { api } from "@/utils/api";
 import _ from "lodash";
 import ExpenseListItem from "./ExpenseListItem";

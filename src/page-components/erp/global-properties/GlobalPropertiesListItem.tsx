@@ -1,7 +1,7 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
 import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
 import { useExperimentalContext } from "@/context/experimentalContext";
-import { type GlobalProperties } from "@/schema/globalPropertiesZodSchema";
+import { type GlobalProperties } from "@/server/api/global-property/validator";
 import { type ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 

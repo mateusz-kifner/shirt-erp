@@ -1,21 +1,20 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 
-import { addressRouter } from "./routers/address";
-import { adminRouter } from "./routers/admin";
-import { customerRouter } from "./routers/customer";
-import { emailRouter } from "./routers/email";
-import { exampleRouter } from "./routers/example";
-import { expenseRouter } from "./routers/expense";
-import { fileRouter } from "./routers/file";
-import { orderRouter } from "./routers/order";
-import { productRouter } from "@/server/api/routers/product";
-import { searchRouter } from "./routers/search";
-import { sessionRouter } from "@/server/api/routers/session";
-import { settingsRouter } from "./routers/settings";
-import { spreadsheetRouter } from "./routers/spreadsheet";
-import { userRouter } from "./routers/user";
-import { emailMessageRouter } from "./routers/email_message";
-import { globalPropertyRouter } from "./routers/global_property";
+import { addressRouter } from "./address/router";
+import { adminRouter } from "./admin/router";
+import { customerRouter } from "./customer/router";
+import { emailRouter } from "./email/router";
+import { expenseRouter } from "./expense/router";
+import { fileRouter } from "./file/router";
+import { orderRouter } from "./order/router";
+import { productRouter } from "@/server/api/product/router";
+import { searchRouter } from "./search/router";
+import { sessionRouter } from "@/server/api/session/router";
+import { settingsRouter } from "./settings/router";
+import { spreadsheetRouter } from "./spreadsheet/router";
+import { userRouter } from "./user/router";
+import { emailMessageRouter } from "./email-message/router";
+import { globalPropertyRouter } from "./global-property/router";
 /**
  * This is the primary router for your server.
  *
@@ -28,7 +27,6 @@ export const appRouter = createTRPCRouter({
   customer: customerRouter,
   email: emailRouter,
   emailMessage: emailMessageRouter,
-  example: exampleRouter,
   expense: expenseRouter,
   file: fileRouter,
   globalProperty: globalPropertyRouter,
