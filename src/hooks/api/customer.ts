@@ -63,24 +63,37 @@ function useGetById(id: number | null) {
 
   return queryCustomer;
 }
-function useCreate() {
-  const mutation = trpc.customer.create.useMutation();
+
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.customer.create.useMutation
+>[0];
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.customer.create.useMutation(opts);
   return {
     ...mutation,
     createCustomer: mutation.mutate,
     createCustomerAsync: mutation.mutateAsync,
   };
 }
-function useUpdate() {
-  const mutation = trpc.customer.update.useMutation();
+
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.customer.update.useMutation
+>[0];
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.customer.update.useMutation(opts);
   return {
     ...mutation,
     updateCustomer: mutation.mutate,
     updateCustomerAsync: mutation.mutateAsync,
   };
 }
-function useDelete() {
-  const mutation = trpc.customer.deleteById.useMutation();
+
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.customer.deleteById.useMutation
+>[0];
+
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.customer.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteCustomer: mutation.mutate,

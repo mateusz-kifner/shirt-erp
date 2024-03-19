@@ -9,8 +9,12 @@ function useGetById(id?: number | null) {
   });
 }
 
-function useCreate() {
-  const mutation = trpc.address.create.useMutation();
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.address.create.useMutation
+>[0];
+
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.address.create.useMutation(opts);
   return {
     ...mutation,
     createAddress: mutation.mutate,
@@ -18,9 +22,14 @@ function useCreate() {
   };
 }
 
-function useUpdate() {
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.address.update.useMutation
+>[0];
+
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
   const utils = trpc.useUtils();
   const mutation = trpc.address.update.useMutation({
+    ...opts,
     // async onMutate(newPost) {
     //   // Cancel outgoing fetches (so they don't overwrite our optimistic update)
     //   utils
@@ -48,8 +57,12 @@ function useUpdate() {
   };
 }
 
-function useDelete() {
-  const mutation = trpc.address.deleteById.useMutation();
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.address.deleteById.useMutation
+>[0];
+
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.address.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteAddress: mutation.mutate,

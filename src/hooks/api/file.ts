@@ -8,8 +8,12 @@ function useGetById(id: number | null) {
   });
 }
 
-function useUpdate() {
-  const mutation = trpc.file.update.useMutation();
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.file.update.useMutation
+>[0];
+
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.file.update.useMutation(opts);
   return {
     ...mutation,
     updateFile: mutation.mutate,
@@ -17,8 +21,12 @@ function useUpdate() {
   };
 }
 
-function useDelete() {
-  const mutation = trpc.file.deleteById.useMutation();
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.file.deleteById.useMutation
+>[0];
+
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.file.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteFile: mutation.mutate,

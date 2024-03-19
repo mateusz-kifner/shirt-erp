@@ -8,8 +8,12 @@ function useGetById(id: number | null) {
   });
 }
 
-function useCreate() {
-  const mutation = trpc.product.create.useMutation();
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.product.create.useMutation
+>[0];
+
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.product.create.useMutation(opts);
   return {
     ...mutation,
     createProduct: mutation.mutate,
@@ -17,8 +21,12 @@ function useCreate() {
   };
 }
 
-function useUpdate() {
-  const mutation = trpc.product.update.useMutation();
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.product.update.useMutation
+>[0];
+
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.product.update.useMutation(opts);
   return {
     ...mutation,
     updateProduct: mutation.mutate,
@@ -26,8 +34,12 @@ function useUpdate() {
   };
 }
 
-function useDelete() {
-  const mutation = trpc.product.deleteById.useMutation();
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.product.deleteById.useMutation
+>[0];
+
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.product.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteProduct: mutation.mutate,

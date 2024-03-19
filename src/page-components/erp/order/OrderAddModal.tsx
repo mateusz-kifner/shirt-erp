@@ -11,6 +11,7 @@ import { trpc } from "@/utils/trpc";
 import _ from "lodash";
 import OrderListItem from "./OrderListItem";
 import Editable from "@/components/editable/Editable";
+import api from "@/hooks/api";
 
 interface OrderAddModalProps {
   opened: boolean;
@@ -30,7 +31,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
   //   enabled: template !== null && template.id !== undefined,
   // });
 
-  const { mutateAsync: createOrder } = trpc.order.createFull.useMutation();
+  const { createOrderAsync } = api.order.useCreate();
 
   useEffect(() => {
     if (!opened) {
@@ -76,7 +77,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
               // if (data.template?.address) {
               //   newOrder.address = omit(data.template.address, "id");
               // }
-              createOrder(newOrder)
+              createOrderAsync(newOrder)
                 .then((data) => {
                   onClose(data.id);
                 })

@@ -8,8 +8,12 @@ function useGetById(id: string | null) {
   });
 }
 
-function useCreate() {
-  const mutation = trpc.user.create.useMutation();
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.user.create.useMutation
+>[0];
+
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.user.create.useMutation(opts);
   return {
     ...mutation,
     createUser: mutation.mutate,
@@ -17,8 +21,12 @@ function useCreate() {
   };
 }
 
-function useUpdate() {
-  const mutation = trpc.user.update.useMutation();
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.user.update.useMutation
+>[0];
+
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.user.update.useMutation(opts);
   return {
     ...mutation,
     updateUser: mutation.mutate,
@@ -26,8 +34,12 @@ function useUpdate() {
   };
 }
 
-function useDelete() {
-  const mutation = trpc.user.deleteById.useMutation();
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.user.deleteById.useMutation
+>[0];
+
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.user.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteUser: mutation.mutate,

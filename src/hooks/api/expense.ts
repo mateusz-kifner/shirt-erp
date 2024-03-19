@@ -7,9 +7,12 @@ function useGetById(id: number | null) {
     ...queryDefaults,
   });
 }
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.expense.create.useMutation
+>[0];
 
-function useCreate() {
-  const mutation = trpc.expense.create.useMutation();
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.expense.create.useMutation(opts);
   return {
     ...mutation,
     createExpense: mutation.mutate,
@@ -17,8 +20,12 @@ function useCreate() {
   };
 }
 
-function useUpdate() {
-  const mutation = trpc.expense.update.useMutation();
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.expense.update.useMutation
+>[0];
+
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.expense.update.useMutation(opts);
   return {
     ...mutation,
     updateExpense: mutation.mutate,
@@ -26,8 +33,12 @@ function useUpdate() {
   };
 }
 
-function useDelete() {
-  const mutation = trpc.expense.deleteById.useMutation();
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.expense.deleteById.useMutation
+>[0];
+
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.expense.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteExpense: mutation.mutate,

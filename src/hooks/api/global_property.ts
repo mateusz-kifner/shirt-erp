@@ -15,8 +15,12 @@ function useGetByCategory(id: string | null) {
   });
 }
 
-function useCreate() {
-  const mutation = trpc.globalProperty.create.useMutation();
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.globalProperty.create.useMutation
+>[0];
+
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.globalProperty.create.useMutation(opts);
   return {
     ...mutation,
     createGlobalProperty: mutation.mutate,
@@ -24,8 +28,12 @@ function useCreate() {
   };
 }
 
-function useUpdate() {
-  const mutation = trpc.globalProperty.update.useMutation();
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.globalProperty.update.useMutation
+>[0];
+
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.globalProperty.update.useMutation(opts);
   return {
     ...mutation,
     updateGlobalProperty: mutation.mutate,
@@ -33,8 +41,12 @@ function useUpdate() {
   };
 }
 
-export function useDelete() {
-  const mutation = trpc.globalProperty.deleteById.useMutation();
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.globalProperty.deleteById.useMutation
+>[0];
+
+export function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.globalProperty.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteGlobalProperty: mutation.mutate,

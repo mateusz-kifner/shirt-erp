@@ -14,6 +14,7 @@ import userRelation from "./userRelation";
 import fileRelation from "./fileRelation";
 import emailMessageRelation from "./emailMessageRelation";
 import customerRelation from "./customerRelation";
+import addressRelation from "./addressRelation";
 import spreadsheetManager from "./spreadsheetManager";
 
 // BUG: fix update procedure
@@ -359,12 +360,13 @@ const orderService = {
   createFullByValue,
   update,
   deleteById,
-  productRelation,
-  userRelation,
+  addressRelation,
+  customerRelation,
   emailMessageRelation,
   fileRelation,
+  productRelation,
   spreadsheetManager,
-  customerRelation,
+  userRelation,
 };
 
 export default orderService;
