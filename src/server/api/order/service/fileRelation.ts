@@ -1,7 +1,7 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { orders, orders_to_files } from "../schema";
 import { and, eq, inArray, sql } from "drizzle-orm";
-import { File } from "../../file/validator";
+import { type File } from "../../file/validator";
 import { baseUrl } from "../../file/service";
 
 // compile query ahead of time
@@ -129,6 +129,7 @@ async function set(orderId: number, fileIds: number[], tx: DBType = db) {
   return fileIds;
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   set,

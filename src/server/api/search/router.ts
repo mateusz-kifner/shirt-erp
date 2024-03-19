@@ -15,7 +15,7 @@ export const searchRouter = createTRPCRouter({
         itemsPerPage: z.number().default(5),
       }),
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input }) => {
       const searchCustomers = [];
       const searchOrders = [];
 

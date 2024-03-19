@@ -3,17 +3,21 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { Dispatch, SetStateAction, useEffect, useId, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 import {
   getRandomColorByNumber,
   getRandomColorByString,
 } from "@/utils/getRandomColor";
 import useTranslation from "@/hooks/useTranslation";
-import dayjs, { WeekdayNames } from "dayjs";
-import { OrderWithoutRelations } from "@/server/api/order/validator";
-import { useRouter } from "next/router";
+import dayjs, { type WeekdayNames } from "dayjs";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import Button from "@/components/ui/Button";
-import { cn } from "@/utils/cn";
 import CalendarCell from "./CalendarCell";
 
 interface CalendarMonthProps {
@@ -29,7 +33,6 @@ function CalendarMonth(props: CalendarMonthProps) {
 
   const uuid = useId();
   const t = useTranslation();
-  const router = useRouter();
 
   useEffect(() => {
     // Fetch and set locale data dynamically

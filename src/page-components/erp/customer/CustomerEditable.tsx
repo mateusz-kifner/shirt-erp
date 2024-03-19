@@ -19,7 +19,6 @@ import Button from "@/components/ui/Button";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type OrderWithoutRelations } from "@/server/api/order/validator";
-import { trpc } from "@/utils/trpc";
 import { truncString } from "@/utils/truncString";
 import {
   IconAddressBook,

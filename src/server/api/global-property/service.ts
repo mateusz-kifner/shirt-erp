@@ -1,11 +1,11 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { global_properties } from "./schema";
 import { eq, sql } from "drizzle-orm";
-import { MetadataType } from "@/types/MetadataType";
+import { type MetadataType } from "@/types/MetadataType";
 import {
-  GlobalProperties,
-  NewGlobalProperties,
-  UpdateGlobalProperties,
+  type GlobalProperties,
+  type NewGlobalProperties,
+  type UpdateGlobalProperties,
 } from "./validator";
 
 // compile query ahead of time

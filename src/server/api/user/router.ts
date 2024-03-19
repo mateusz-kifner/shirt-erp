@@ -5,7 +5,6 @@ import {
   employeeProcedure,
   managerProcedure,
 } from "@/server/api/trpc";
-import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { createProcedureSearch } from "../procedures";
 import { TRPCError } from "@trpc/server";

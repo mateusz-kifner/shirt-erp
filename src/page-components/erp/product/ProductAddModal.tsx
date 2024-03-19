@@ -7,10 +7,10 @@ import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type Product } from "@/server/api/product/validator";
-import { trpc } from "@/utils/trpc";
 import _ from "lodash";
 import ProductListItem from "./ProductListItem";
 import Editable from "@/components/editable/Editable";
+import api from "@/hooks/api";
 
 interface ProductAddModalProps {
   opened: boolean;
@@ -25,7 +25,7 @@ const defaultProduct: {
 const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
   const [data, setData] = useState(defaultProduct);
   const [error, setError] = useState<string | null>(null);
-  const { mutateAsync: createProduct } = trpc.product.create.useMutation();
+  const { createProductAsync } = api.product.useCreate();
 
   useEffect(() => {
     if (!opened) {
@@ -69,7 +69,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
                 "orders-archive": [],
               };
 
-              createProduct(new_product)
+              createProductAsync(new_product)
                 .then((data) => onClose(data.id))
                 .catch(() => setError("Produkt o takiej nazwie już istnieje."));
             }}

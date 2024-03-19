@@ -1,8 +1,8 @@
 import { db } from "@/server/db";
 import { users } from "./schema";
 import { eq, sql } from "drizzle-orm";
-import { UpdatedUser, User } from "./validator";
-import { MetadataType } from "@/types/MetadataType";
+import { type UpdatedUser, type User } from "./validator";
+import { type MetadataType } from "@/types/MetadataType";
 import { authDBAdapter } from "../../auth";
 import { type AdapterUser } from "next-auth/adapters";
 

@@ -1,8 +1,8 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { spreadsheets } from "./schema";
 import { eq, inArray, sql } from "drizzle-orm";
-import { Spreadsheet, UpdatedSpreadsheet } from "./validator";
-import { MetadataType } from "@/types/MetadataType";
+import { type Spreadsheet, type UpdatedSpreadsheet } from "./validator";
+import { type MetadataType } from "@/types/MetadataType";
 
 // compile query ahead of time
 const spreadsheetPrepareGetById = db.query.spreadsheets

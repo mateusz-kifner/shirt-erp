@@ -15,7 +15,7 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import type TablerIconType from "@/types/TablerIconType";
 import { cn } from "@/utils/cn";
 import * as Portal from "@radix-ui/react-portal";
-import { IconAlertCircle, Icon, IconNode } from "@tabler/icons-react";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { ErrorBoundary } from "react-error-boundary";
 import MultiTabs from "./MultiTabs/MultiTabs";
 import { Tab } from "./MultiTabs/Tab";

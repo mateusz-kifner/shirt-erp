@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-import { OrderWithoutRelations } from "@/server/api/order/validator";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 

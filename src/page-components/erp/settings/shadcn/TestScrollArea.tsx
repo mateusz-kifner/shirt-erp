@@ -18,7 +18,7 @@ function TestScrollArea() {
           <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
           {tags.map((tag, index) => (
             <>
-              <div key={`TestScrollArea${tag}`} className="text-sm">
+              <div key={`TestScrollArea${tag}__${index}`} className="text-sm">
                 {tag}
               </div>
               <Separator className="my-2" />

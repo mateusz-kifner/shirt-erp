@@ -1,8 +1,8 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { orders_to_email_messages } from "@/server/api/order/schema/orders_to_email_messages";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { orders } from "../schema";
-import { EmailMessage } from "../../email-message/validator";
+import { type EmailMessage } from "../../email-message/validator";
 
 // compile query ahead of time
 const orderToEmailRelationGetAll = db.query.orders
@@ -144,6 +144,7 @@ async function set(
   return emailMessageIds;
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   set,

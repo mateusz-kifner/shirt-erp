@@ -1,4 +1,7 @@
-import { EditableContextType, Key } from "@/components/editable/Editable";
+import {
+  type EditableContextType,
+  type Key,
+} from "@/components/editable/Editable";
 import { type ReactNode } from "react";
 
 // export type Key = string | number;

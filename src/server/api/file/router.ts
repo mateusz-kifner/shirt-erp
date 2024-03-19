@@ -2,12 +2,9 @@ import { createProcedureSearch } from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { files } from "@/server/api/file/schema";
-import { type File, updateFileZodSchema } from "@/server/api/file/validator";
-import { eq } from "drizzle-orm";
+import { updateFileZodSchema } from "@/server/api/file/validator";
 import { z } from "zod";
 import fileService from "@/server/api/file/service";
-
-const baseUrl = "/api/files/";
 
 export const fileRouter = createTRPCRouter({
   getById: employeeProcedure
@@ -20,7 +17,7 @@ export const fileRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id, ctx }) => fileService.deleteById(id)),
+    .mutation(async ({ input: id }) => fileService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateFileZodSchema)

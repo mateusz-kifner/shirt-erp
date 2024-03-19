@@ -1,4 +1,5 @@
-// @ts-ignore // TODO remove this when `@t3-oss/env-nextjs` bug is fixed
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 

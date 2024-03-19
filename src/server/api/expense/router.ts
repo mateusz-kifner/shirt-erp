@@ -23,7 +23,7 @@ export const expenseRouter = createTRPCRouter({
 
   deleteById: employeeProcedure
     .input(z.number())
-    .mutation(async ({ input: id, ctx }) => expenseService.deleteById(id)),
+    .mutation(async ({ input: id }) => expenseService.deleteById(id)),
 
   update: employeeProcedure
     .input(updateExpenseZodSchema)

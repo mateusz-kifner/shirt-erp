@@ -1,12 +1,12 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { orders } from "../schema";
 import { eq, sql } from "drizzle-orm";
 import {
-  NewOrder,
-  NewOrderWithRelationsByIds,
-  UpdatedOrder,
+  type NewOrder,
+  type NewOrderWithRelationsByIds,
+  type UpdatedOrder,
 } from "../validator";
-import { MetadataType } from "@/types/MetadataType";
+import { type MetadataType } from "@/types/MetadataType";
 import addressService from "../../address/service";
 import spreadsheetService from "../../spreadsheet/service";
 import productRelation from "./productRelation";
@@ -118,6 +118,7 @@ async function createFullByValue(
     employees,
     files,
     address,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addressId,
     spreadsheets,
     ...moreData
@@ -214,6 +215,7 @@ async function createFull(
     employees,
     files,
     address,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     addressId,
     spreadsheets,
     ...moreData
@@ -261,7 +263,7 @@ async function createFull(
 
   if (spreadsheets?.length && spreadsheets.length > 0) {
     const newSpreadSheets = await Promise.all(
-      (spreadsheets as number[]).map((id) => spreadsheetService.getById(id)),
+      spreadsheets.map((id) => spreadsheetService.getById(id)),
     );
 
     for (const spreadsheet of newSpreadSheets) {

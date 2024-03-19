@@ -175,7 +175,7 @@ export const orderRouter = createTRPCRouter({
         isArchived: z.boolean().default(false),
       }),
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input }) => {
       const {
         keys,
         query,

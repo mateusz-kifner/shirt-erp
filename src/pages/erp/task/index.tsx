@@ -28,7 +28,6 @@ import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { useToggle } from "@mantine/hooks";
 import _ from "lodash";
 import { useId, useState } from "react";
-import { type NewOrder } from "@/server/api/order/validator";
 import api from "@/hooks/api";
 
 const entryName = "task";

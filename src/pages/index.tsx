@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { env } from "@/env.mjs";
-import Button, { buttonVariants } from "@/components/ui/Button";
-import useTranslation from "@/hooks/useTranslation";
+import { buttonVariants } from "@/components/ui/Button";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
 
@@ -9,8 +8,6 @@ const Main = () => {
   const router = useRouter();
 
   const { locale } = router;
-
-  const t = useTranslation();
 
   return (
     <div className="mx-auto flex max-w-lg flex-col justify-center gap-8 pt-20 font-bold">

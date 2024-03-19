@@ -7,7 +7,7 @@ import { createInsertSchema } from "drizzle-zod";
 import idRequiredZodSchema from "@/types/idRequiredZodSchema";
 
 export function createProcedureGetAll<T extends schemaType>(schema: T) {
-  return employeeProcedure.query(async ({ ctx }) => {
+  return employeeProcedure.query(async () => {
     const data = await db.select().from<T>(schema);
     return data;
   });
@@ -16,7 +16,7 @@ export function createProcedureGetAll<T extends schemaType>(schema: T) {
 export function createProcedureGetById<T extends schemaType>(schema: T) {
   return employeeProcedure
     .input(z.number().or(z.string()))
-    .query(async ({ input: id, ctx }) => {
+    .query(async ({ input: id }) => {
       if (!(schema && "id" in schema)) {
         throw new Error(
           `GetById: Schema ${schema._.name} does not have property id`,
@@ -32,7 +32,7 @@ export function createProcedureDeleteById<TSchema extends schemaType>(
 ) {
   return employeeProcedure
     .input(z.number().or(z.string()))
-    .mutation(async ({ input: id, ctx }) => {
+    .mutation(async ({ input: id }) => {
       if (!(schema && "id" in schema)) {
         throw new Error(
           `DeleteById: Schema ${schema._.name} does not have property id`,
@@ -89,7 +89,7 @@ export function createProcedureSearch<TSchema extends schemaType>(
         itemsPerPage: z.number().default(10),
       }),
     )
-    .query(async ({ input, ctx }) => {
+    .query(async ({ input }) => {
       const {
         keys,
         query,

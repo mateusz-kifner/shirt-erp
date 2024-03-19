@@ -8,9 +8,9 @@ function useGetById(id: number | null) {
   });
 }
 
-function useGetByCategory(id: string | null) {
-  return trpc.globalProperty.getByCategory.useQuery(id as string, {
-    enabled: id !== null,
+function useGetByCategory(category: string | null) {
+  return trpc.globalProperty.getByCategory.useQuery(category as string, {
+    enabled: category !== null,
     ...queryDefaults,
   });
 }
@@ -57,6 +57,7 @@ export function useDelete(opts?: UseTRPCMutationDeleteOptions) {
 const apiGlobalProperty = {
   useCreate,
   useDelete,
+  useGetByCategory,
   useGetById,
   useUpdate,
 };

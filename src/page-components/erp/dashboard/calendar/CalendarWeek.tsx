@@ -3,17 +3,21 @@ import {
   getRandomColorByString,
 } from "@/utils/getRandomColor";
 import useTranslation from "@/hooks/useTranslation";
-import { Dispatch, SetStateAction, useEffect, useId, useState } from "react";
-import { useRouter } from "next/router";
-import dayjs, { WeekdayNames } from "dayjs";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useId,
+  useState,
+} from "react";
+import dayjs, { type WeekdayNames } from "dayjs";
 import Button from "@/components/ui/Button";
 import {
   IconCalendar,
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { OrderWithoutRelations } from "@/server/api/order/validator";
-import { cn } from "@/utils/cn";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import CalendarCell from "./CalendarCell";
 
 interface CalendarWeekProps {
@@ -29,7 +33,6 @@ function CalendarWeek(props: CalendarWeekProps) {
 
   const uuid = useId();
   const t = useTranslation();
-  const router = useRouter();
 
   useEffect(() => {
     // Fetch and set locale data dynamically
@@ -141,7 +144,7 @@ function CalendarWeek(props: CalendarWeekProps) {
         ))}
 
         {weekDays.map((day, index) => (
-          <div key={`${uuid}${day}`} className="border-b border-r ">
+          <div key={`${uuid}${day}:${index}`} className="border-b border-r ">
             {day !== null && (
               <CalendarCell
                 highlight={

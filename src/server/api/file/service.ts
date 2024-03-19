@@ -1,10 +1,13 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { files } from "@/server/api/file/schema";
 import { eq, sql } from "drizzle-orm";
-import { File, NewFile, UpdatedFile } from "@/server/api/file/validator";
-import { MetadataType } from "@/types/MetadataType";
-
-export const baseUrl = "/api/files/";
+import {
+  type File,
+  type NewFile,
+  type UpdatedFile,
+} from "@/server/api/file/validator";
+import { type MetadataType } from "@/types/MetadataType";
+import { baseUrl } from "./config";
 
 // compile query ahead of time
 const filePrepareGetById = db.query.files

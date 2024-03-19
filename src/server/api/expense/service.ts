@@ -1,8 +1,11 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { expenses } from "@/server/api/expense/schema";
 import { eq, sql } from "drizzle-orm";
-import { MetadataType } from "@/types/MetadataType";
-import { Expense, UpdatedExpense } from "@/server/api/expense/validator";
+import { type MetadataType } from "@/types/MetadataType";
+import {
+  type Expense,
+  type UpdatedExpense,
+} from "@/server/api/expense/validator";
 
 // compile query ahead of time
 const expensePrepareGetById = db.query.expenses

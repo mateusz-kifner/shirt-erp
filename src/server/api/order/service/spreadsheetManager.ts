@@ -1,9 +1,8 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { spreadsheets } from "../../spreadsheet/schema";
 import { eq, sql } from "drizzle-orm";
 import spreadsheetService from "../../spreadsheet/service";
-import { orders } from "../schema";
-import { Spreadsheet } from "../../spreadsheet/validator";
+import { type Spreadsheet } from "../../spreadsheet/validator";
 
 // compile query ahead of time
 const orderToSpreadsheetRelationGetAll = db.query.spreadsheets
@@ -68,6 +67,7 @@ async function addOrDelete(
   return finalIds;
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   addOrDelete,

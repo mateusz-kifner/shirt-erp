@@ -24,7 +24,6 @@ function TestSonner() {
             position: "bottom-center",
             dismissible: true,
             cancel: {
-              // @ts-ignore
               label: <IconX />,
             },
             cancelButtonStyle: {

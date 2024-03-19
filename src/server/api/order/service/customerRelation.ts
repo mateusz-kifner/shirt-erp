@@ -1,7 +1,7 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { orders } from "../../order/schema";
 import { eq, sql } from "drizzle-orm";
-import { Customer } from "../../customer/validator";
+import { type Customer } from "../../customer/validator";
 
 // compile query ahead of time
 const orderToCustomerRelationGetOnly = db.query.orders
@@ -53,6 +53,7 @@ async function disconnect(orderId: number, tx: DBType = db) {
   return orderToCustomerRelation[0];
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   get,
   set: connect,

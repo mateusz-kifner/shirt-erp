@@ -1,5 +1,5 @@
 import { useFlagContext } from "@/context/flagContext";
-import { OrderWithoutRelations } from "@/server/api/order/validator";
+import { type OrderWithoutRelations } from "@/server/api/order/validator";
 import { cn } from "@/utils/cn";
 import {
   getRandomColorByNumber,

@@ -23,7 +23,6 @@ import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type CustomerWithRelations } from "@/server/api/customer/validator";
 import { type User } from "@/server/api/user/validator";
-import { trpc } from "@/utils/trpc";
 import { truncString } from "@/utils/truncString";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import _ from "lodash";

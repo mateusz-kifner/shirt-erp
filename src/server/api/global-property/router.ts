@@ -25,7 +25,7 @@ export const globalPropertyRouter = createTRPCRouter({
 
   getByCategory: employeeProcedure
     .input(z.string())
-    .query(async ({ input: category, ctx }) => {
+    .query(async ({ input: category }) => {
       const propertiesArray = await db
         .select()
         .from(global_properties)

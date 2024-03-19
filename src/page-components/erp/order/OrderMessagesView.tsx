@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/Dialog";
 import useTranslation from "@/hooks/useTranslation";
 import { type NewEmailMessage } from "@/server/api/email-message/validator";
-import { type NewOrder } from "@/server/api/order/validator";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import _ from "lodash";
 import { useId, useMemo, useState } from "react";

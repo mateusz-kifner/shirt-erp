@@ -1,7 +1,7 @@
-import { DBType, db } from "@/server/db";
+import { type DBType, db } from "@/server/db";
 import { orders, orders_to_users } from "../schema";
 import { and, eq, inArray, sql } from "drizzle-orm";
-import { User } from "../../user/validator";
+import { type User } from "../../user/validator";
 
 // compile query ahead of time
 const orderToUserRelationGetAll = db.query.orders
@@ -128,6 +128,7 @@ async function set(orderId: number, userIds: string[], tx: DBType = db) {
   return userIds;
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   set,
