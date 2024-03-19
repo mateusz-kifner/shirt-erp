@@ -1,7 +1,7 @@
 import { type ImapFlow } from "imapflow";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { isMimeImage } from "@/utils/isMimeImage";
 import NodeClam from "clamscan";
 import Logger from "js-logger";

@@ -1,6 +1,6 @@
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { getServerAuthSession } from "@/server/auth";
 import { trpc } from "@/utils/trpc";

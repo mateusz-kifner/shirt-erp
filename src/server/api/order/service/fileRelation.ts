@@ -2,7 +2,7 @@ import { type DBType, db } from "@/server/db";
 import { orders, orders_to_files } from "../schema";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { type File } from "../../file/validator";
-import { baseUrl } from "../../file/service";
+import { baseUrl } from "../../file/config";
 
 // compile query ahead of time
 const orderToFileRelationGetAll = db.query.orders

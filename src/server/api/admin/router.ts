@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import { verificationTokens } from "@/server/api/user/schema";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import {
   publicProcedure,
   adminProcedure,

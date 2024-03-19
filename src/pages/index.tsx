@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { buttonVariants } from "@/components/ui/Button";
 import Link from "next/link";
 import { cn } from "@/utils/cn";

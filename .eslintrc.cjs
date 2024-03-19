@@ -3,6 +3,10 @@ const path = require("path");
 
 /** @type {import("eslint").Linter.Config} */
 const config = {
+  env: {
+    es2022: true,
+    node: true,
+  },
   overrides: [
     {
       extends: [

@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { trpc } from "@/utils/trpc";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";

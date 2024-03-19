@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@mantine/hooks";
 import { IconQuestionMark } from "@tabler/icons-react";
-import { env } from "../env.mjs";
+import { env } from "../env.js";
 // import Markdown from "./details/Markdown";
 
 import Button from "./ui/Button";

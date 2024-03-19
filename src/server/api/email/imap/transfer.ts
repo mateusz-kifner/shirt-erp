@@ -1,7 +1,7 @@
 import { type ImapFlow } from "imapflow";
 import fs from "node:fs";
 import fsp from "node:fs/promises";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import NodeClam from "clamscan";
 import imageSize from "image-size";

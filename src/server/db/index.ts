@@ -1,4 +1,4 @@
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { type PostgresJsDatabase, drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "./schemas";

@@ -8,7 +8,7 @@ import Head from "next/head";
 
 import { UserContextProvider } from "@/context/userContext";
 import { ExperimentalContextProvider } from "@/context/experimentalContext";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { trpc } from "@/utils/trpc";
 
 import "@/styles/globals.css";

@@ -1,4 +1,4 @@
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { type Theme } from "next-auth";
 import { type SendVerificationRequestParams } from "next-auth/providers/email";
 import { createTransport } from "nodemailer";

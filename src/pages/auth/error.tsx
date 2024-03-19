@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { signOut } from "next-auth/react";
 

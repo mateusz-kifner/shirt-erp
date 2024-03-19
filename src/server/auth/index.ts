@@ -8,13 +8,13 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 import EmailProvider from "next-auth/providers/email";
 
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { db } from "@/server/db";
 import { sendVerificationRequest } from "./email";
 import { type UserRole, users } from "@/server/api/user/schema";
 import { eq } from "drizzle-orm";
 import { type Adapter } from "next-auth/adapters";
-import { type Provider } from "next-auth/providers";
+import { type Provider } from "next-auth/providers/index";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -70,7 +70,7 @@ if (
     EmailProvider({
       server: {
         host: env.EMAIL_SERVER_HOST,
-        port: env.EMAIL_SERVER_PORT,
+        port: parseInt(env.EMAIL_SERVER_PORT),
         auth: {
           user: env.EMAIL_SERVER_USER,
           pass: env.EMAIL_SERVER_PASSWORD,

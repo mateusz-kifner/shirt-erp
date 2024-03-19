@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from "react";
 
 import Button, { buttonVariants } from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
-import { env } from "@/env.mjs";
+import { env } from "@/env";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 
