@@ -1,15 +1,15 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 
-export function useApiFileGetById(id: number | null) {
-  return api.file.getById.useQuery(id as number, {
+function useGetById(id: number | null) {
+  return trpc.file.getById.useQuery(id as number, {
     enabled: id !== null,
     ...queryDefaults,
   });
 }
 
-export function useApiFileUpdate() {
-  const mutation = api.file.update.useMutation();
+function useUpdate() {
+  const mutation = trpc.file.update.useMutation();
   return {
     ...mutation,
     updateFile: mutation.mutate,
@@ -17,11 +17,20 @@ export function useApiFileUpdate() {
   };
 }
 
-export function useApiFileDelete() {
-  const mutation = api.file.deleteById.useMutation();
+function useDelete() {
+  const mutation = trpc.file.deleteById.useMutation();
   return {
     ...mutation,
     deleteFile: mutation.mutate,
     deleteFileAsync: mutation.mutateAsync,
   };
 }
+
+const apiFile = {
+  // useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+};
+
+export default apiFile;

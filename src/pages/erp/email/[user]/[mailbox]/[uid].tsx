@@ -5,7 +5,7 @@ import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import EmailViewApi from "@/page-components/erp/email/EmailViewApi";
 import ErrorPage from "@/pages/_error";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 import { getQueryAsIntOrNull, getQueryAsStringOrNull } from "@/utils/query";
 import { IconMail } from "@tabler/icons-react";
@@ -26,7 +26,7 @@ function EmailMessage() {
   const [openSendModal, setOpenSendModal] = useState<boolean>(false);
   const isMobile = useIsMobile();
 
-  const { data: emailClients } = api.email.getAllConfigs.useQuery(undefined, {
+  const { data: emailClients } = trpc.email.getAllConfigs.useQuery(undefined, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });

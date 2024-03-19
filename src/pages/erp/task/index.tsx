@@ -22,14 +22,14 @@ import useTranslation from "@/hooks/useTranslation";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import TaskView from "@/page-components/erp/task/TaskView";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import { useToggle } from "@mantine/hooks";
 import _ from "lodash";
 import { useId, useState } from "react";
 import { type NewOrder } from "@/server/api/order/validator";
-import { useApiOrderGetById } from "@/hooks/api/order";
+import api from "@/hooks/api";
 
 const entryName = "task";
 
@@ -38,7 +38,7 @@ const itemsPerPage = 10;
 const TasksPage = () => {
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { data } = api.session.me.useQuery();
+  const { data } = trpc.session.me.useQuery();
   const uuid = useId();
   const t = useTranslation();
   const [sortOrder, toggleSortOrder] = useToggle<"asc" | "desc">([
@@ -47,11 +47,9 @@ const TasksPage = () => {
   ]);
   const [query, setQuery] = useState("");
 
-  const { orderQuery, productsQuery, spreadsheetQuery } =
-    useApiOrderGetById(id);
-  const { data: orderData } = orderQuery;
-  const { data: productsData } = productsQuery;
-  const { data: spreadsheetData } = spreadsheetQuery;
+  const { data: orderData } = api.order.useGetById(id);
+  const { data: productsData } = api.order.useGetRelatedProducts(id);
+  const { data: spreadsheetData } = api.order.useGetRelatedSpreadsheets(id);
 
   const label = entryName ? _.capitalize(t[entryName].plural) : undefined;
 

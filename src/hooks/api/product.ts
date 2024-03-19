@@ -1,15 +1,15 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 
-export function useApiProductGetById(id: number | null) {
-  return api.product.getById.useQuery(id as number, {
+function useGetById(id: number | null) {
+  return trpc.product.getById.useQuery(id as number, {
     enabled: id !== null,
     ...queryDefaults,
   });
 }
 
-export function useApiProductCreate() {
-  const mutation = api.product.create.useMutation();
+function useCreate() {
+  const mutation = trpc.product.create.useMutation();
   return {
     ...mutation,
     createProduct: mutation.mutate,
@@ -17,8 +17,8 @@ export function useApiProductCreate() {
   };
 }
 
-export function useApiProductUpdate() {
-  const mutation = api.product.update.useMutation();
+function useUpdate() {
+  const mutation = trpc.product.update.useMutation();
   return {
     ...mutation,
     updateProduct: mutation.mutate,
@@ -26,11 +26,20 @@ export function useApiProductUpdate() {
   };
 }
 
-export function useApiProductDelete() {
-  const mutation = api.product.deleteById.useMutation();
+function useDelete() {
+  const mutation = trpc.product.deleteById.useMutation();
   return {
     ...mutation,
     deleteProduct: mutation.mutate,
     deleteProductAsync: mutation.mutateAsync,
   };
 }
+
+const apiProduct = {
+  useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+};
+
+export default apiProduct;

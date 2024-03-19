@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { type OrderWithoutRelations } from "@/server/api/order/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import CustomerListItem from "../customer/CustomerListItem";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import { customerListSearchParams } from "../customer/CustomerList";
@@ -26,7 +26,8 @@ import useTranslation from "@/hooks/useTranslation";
 import { useLoaded } from "@/hooks/useLoaded";
 import EditableText from "@/components/editable/EditableText";
 import { Label } from "@/components/ui/Label";
-import { useApiCustomerGetById } from "@/hooks/api/customer";
+import api from "@/hooks/api";
+
 
 interface OrderCustomerViewProps {
   orderApiUpdate: (key: string | number, value: any) => void;
@@ -43,26 +44,27 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
   const t = useTranslation();
   const isLoaded = useLoaded();
 
-  const { customer, address } = useApiCustomerGetById(customerId);
-  const { data } = customer;
-  const addressData = address.data;
-  const addressRefetch = address.refetch;
-  // const { data } = api.customer.getById.useQuery(customerId as number, {
+  const { data: customerData } = api.customer.getById(customerId);
+  // const { customer, address } = useApiCustomerGetById(customerId);// old api
+  // const { data } = customer; //old api
+  // const addressData = address.data; // old api
+  // const addressRefetch = address.refetch; // old api
+  // const { data } = trpc.customer.getById.useQuery(customerId as number, {
   //   enabled: customerId !== null,
   // });
 
   // const { data: addressData, refetch: addressRefetch } =
-  //   api.address.getById.useQuery(addressId as number, {
+  //   trpc.address.getById.useQuery(addressId as number, {
   //     enabled: addressId !== null,
   //   });
 
-  // const { mutateAsync: update } = api.customer.update.useMutation({
+  // const { mutateAsync: update } = trpc.customer.update.useMutation({
   //   onSuccess: () => {
   //     refetch().catch((err) => console.log(err));
   //   },
   // });
 
-  const { mutateAsync: updateAddress } = api.address.update.useMutation({
+  const { mutateAsync: updateAddress } = trpc.address.update.useMutation({
     onSuccess: () => {
       refetch?.();
       // .catch((err) => console.log(err));

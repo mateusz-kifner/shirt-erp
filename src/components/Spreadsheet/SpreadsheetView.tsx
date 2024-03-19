@@ -9,7 +9,7 @@ import isNumeric from "../../utils/isNumeric";
 
 import { type TypeAABB2D } from "@/types/AABB";
 import type TablerIconType from "@/types/TablerIconType";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
 import { type UniversalMatrix } from "./useSpreadSheetData";
@@ -54,8 +54,11 @@ const EditableTableView = (props: EditableTableProps) => {
   const uuid = useId();
 
   const meta_id = Object.values(metadata)[0]?.id;
-  const { data: valueData, refetch } = api.spreadsheet.getById.useQuery(id, {});
-  const { mutateAsync: update } = api.spreadsheet.update.useMutation();
+  const { data: valueData, refetch } = trpc.spreadsheet.getById.useQuery(
+    id,
+    {},
+  );
+  const { mutateAsync: update } = trpc.spreadsheet.update.useMutation();
 
   const value = valueData?.data as UniversalMatrix;
   // FIXME: make memo refresh after changes to table

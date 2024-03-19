@@ -6,7 +6,7 @@ import { env } from "@/env.mjs";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   IconBug,
@@ -63,7 +63,7 @@ function Settings() {
   const uuid = useId();
   const { data: session } = useSession();
   const { locale } = router;
-  const { data: userData } = api.session.me.useQuery();
+  const { data: userData } = trpc.session.me.useQuery();
   const t = useTranslation();
   const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
   const [remSize, setRemSize] = useLocalStorage({

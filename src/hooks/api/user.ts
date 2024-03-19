@@ -1,15 +1,15 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 
-export function useApiUserGetById(id: string | null) {
-  return api.user.getById.useQuery(id as string, {
+function useGetById(id: string | null) {
+  return trpc.user.getById.useQuery(id as string, {
     enabled: id !== null,
     ...queryDefaults,
   });
 }
 
-export function useApiUserCreate() {
-  const mutation = api.user.create.useMutation();
+function useCreate() {
+  const mutation = trpc.user.create.useMutation();
   return {
     ...mutation,
     createUser: mutation.mutate,
@@ -17,8 +17,8 @@ export function useApiUserCreate() {
   };
 }
 
-export function useApiUserUpdate() {
-  const mutation = api.user.update.useMutation();
+function useUpdate() {
+  const mutation = trpc.user.update.useMutation();
   return {
     ...mutation,
     updateUser: mutation.mutate,
@@ -26,11 +26,20 @@ export function useApiUserUpdate() {
   };
 }
 
-export function useApiUserDelete() {
-  const mutation = api.user.deleteById.useMutation();
+function useDelete() {
+  const mutation = trpc.user.deleteById.useMutation();
   return {
     ...mutation,
     deleteUser: mutation.mutate,
     deleteUserAsync: mutation.mutateAsync,
   };
 }
+
+const apiUser = {
+  useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+};
+
+export default apiUser;

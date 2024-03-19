@@ -23,7 +23,7 @@ import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type CustomerWithRelations } from "@/server/api/customer/validator";
 import { type User } from "@/server/api/user/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { truncString } from "@/utils/truncString";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import _ from "lodash";
@@ -40,7 +40,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import RefetchButton from "@/components/ui/RefetchButton";
-import { useApiOrderGetById, useApiOrderUpdate } from "@/hooks/api/order";
+import api from "@/hooks/api";
+
 
 const entryName = "order";
 
@@ -58,21 +59,22 @@ function OrderEditable(props: OrderEditableProps) {
     number | null
   >(null);
 
-  const { orderQuery, customerQuery } = useApiOrderGetById(id);
-  const { data, refetch } = orderQuery;
-  const { data: customerData } = customerQuery;
+  const { data, refetch } = api.order.useGetById(id);
+  const { data: customerData } = api.order.useGetRelatedCustomer(id);
 
   // const { updateOrderAsync } = useApiOrderUpdate({
   //   onSuccess: () => {
   //     refetch().catch((err) => console.log(err));
   //   },
   // })
-  const { mutateAsync: updateOrderAsync } = api.order.update.useMutation({
-    onSuccess: () => {
-      refetch().catch((err) => console.log(err));
-    },
-  });
-  const { mutateAsync: deleteById } = api.order.deleteById.useMutation();
+  const { updateOrderAsync } = api.order.useUpdate();
+  //   { TODO: fix this
+  //   onSuccess: () => {
+  //     refetch().catch((err) => console.log(err));
+  //   },
+  // }
+
+  const { deleteOrderAsync } = api.order.useDelete();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {

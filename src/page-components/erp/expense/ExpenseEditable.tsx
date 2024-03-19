@@ -26,7 +26,7 @@ import {
 import RefetchButton from "@/components/ui/RefetchButton";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -42,15 +42,15 @@ function ExpenseEditable(props: ExpenseEditableProps) {
   const router = useRouter();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const { data, refetch } = api.expense.getById.useQuery(id as number, {
+  const { data, refetch } = trpc.expense.getById.useQuery(id as number, {
     enabled: id !== null,
   });
-  const { mutateAsync: update } = api.expense.update.useMutation({
+  const { mutateAsync: update } = trpc.expense.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.expense.deleteById.useMutation();
+  const { mutateAsync: deleteById } = trpc.expense.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {

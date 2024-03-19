@@ -1,16 +1,16 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 import { getQueryKey } from "@trpc/react-query";
 
-export function useApiAddressGetById(id?: number | null) {
-  return api.address.getById.useQuery(id as number, {
+function useGetById(id?: number | null) {
+  return trpc.address.getById.useQuery(id as number, {
     enabled: id !== null && id !== undefined,
     ...queryDefaults,
   });
 }
 
-export function useApiAddressCreate() {
-  const mutation = api.address.create.useMutation();
+function useCreate() {
+  const mutation = trpc.address.create.useMutation();
   return {
     ...mutation,
     createAddress: mutation.mutate,
@@ -18,9 +18,9 @@ export function useApiAddressCreate() {
   };
 }
 
-export function useApiAddressUpdate() {
-  const utils = api.useUtils();
-  const mutation = api.address.update.useMutation({
+function useUpdate() {
+  const utils = trpc.useUtils();
+  const mutation = trpc.address.update.useMutation({
     // async onMutate(newPost) {
     //   // Cancel outgoing fetches (so they don't overwrite our optimistic update)
     //   utils
@@ -48,11 +48,20 @@ export function useApiAddressUpdate() {
   };
 }
 
-export function useApiAddressDelete() {
-  const mutation = api.address.deleteById.useMutation();
+function useDelete() {
+  const mutation = trpc.address.deleteById.useMutation();
   return {
     ...mutation,
     deleteAddress: mutation.mutate,
     deleteAddressAsync: mutation.mutateAsync,
   };
 }
+
+const apiAddress = {
+  useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+};
+
+export default apiAddress;

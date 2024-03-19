@@ -14,7 +14,7 @@ import {
 import List from "@/components/List";
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import Button from "./ui/Button";
 import { cn } from "@/utils/cn";
 
@@ -72,7 +72,7 @@ const ApiListArchive = <T extends { id: number | string }>(
   const [isArchived, setIsArchived] = useState(false);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const [page, setPage] = useState<number>(1);
-  const { data, refetch } = api[entryName as "order"].search.useQuery({
+  const { data, refetch } = trpc[entryName as "order"].search.useQuery({
     sort: sortOrder,
     keys: filterKeys,
     query: debouncedQuery,

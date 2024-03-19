@@ -12,7 +12,7 @@ import {
 import List from "@/components/List";
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import Button from "./ui/Button";
 
 interface ApiListProps<T = any> {
@@ -66,7 +66,7 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
   const [query, setQuery] = useState<string | undefined>(defaultSearch);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const [page, setPage] = useState<number>(1);
-  const { data, refetch } = api[entryName as "customer"].search.useQuery({
+  const { data, refetch } = trpc[entryName as "customer"].search.useQuery({
     sort: sortOrder,
     keys: filterKeys,
     query: debouncedQuery,

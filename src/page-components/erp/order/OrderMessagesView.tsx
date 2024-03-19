@@ -17,7 +17,7 @@ import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import _ from "lodash";
 import { useId, useMemo, useState } from "react";
 import EmailView from "../email/EmailView";
-import { useApiOrderGetById } from "@/hooks/api/order";
+import api from "@/hooks/api";
 
 interface OrderMessagesViewProps {
   orderId?: number;
@@ -31,9 +31,8 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   const [opened, setOpened] = useState<boolean>(false);
   const t = useTranslation();
 
-  const { orderQuery, emailsQuery } = useApiOrderGetById(orderId);
-  const { data: orderData } = orderQuery;
-  const { data: emailData } = emailsQuery;
+  const { data: orderData } = api.order.useGetById(orderId);
+  const { data: emailData } = api.order.useGetRelatedEmails(orderId);
 
   const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
     () => (emailData && emailData.sort(sortObjectByDateOrNull("date"))) || null,

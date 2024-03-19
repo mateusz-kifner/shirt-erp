@@ -20,7 +20,7 @@ import Button from "@/components/ui/Button";
 import { ScrollArea, ScrollBar } from "@/components/ui/ScrollArea";
 import useTranslation from "@/hooks/useTranslation";
 import type TablerIconType from "@/types/TablerIconType";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import TableCenterIcon from "../icons/TableCenterIcon";
 import TableEdgeIcon from "../icons/TableEdgeIcon";
 import { ContextMenuItem } from "../ui/ContextMenu";
@@ -53,8 +53,8 @@ interface SpreadsheetProps {
 
 const Spreadsheet = (props: SpreadsheetProps) => {
   const { id, metadata, metadataActions, metadataVisuals } = props;
-  const { data: value } = api.spreadsheet.getById.useQuery(id, {});
-  const { mutateAsync: update } = api.spreadsheet.update.useMutation();
+  const { data: value } = trpc.spreadsheet.getById.useQuery(id, {});
+  const { mutateAsync: update } = trpc.spreadsheet.update.useMutation();
   const [statusText, setStatusText] = useState<string>("");
   const uuid = useId();
   const t = useTranslation();

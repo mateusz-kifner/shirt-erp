@@ -1,4 +1,4 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { useLocalStorage } from "@mantine/hooks";
 import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
@@ -26,7 +26,7 @@ const Notifications = () => {
   const uuid = useId();
   const todayDate = dayjs().format("YYYY-MM-DD");
   const router = useRouter();
-  const { data, error, isError } = api.session.me.useQuery(undefined, {
+  const { data, error, isError } = trpc.session.me.useQuery(undefined, {
     retry: false,
   });
   const isMobile = useIsMobile();
@@ -80,7 +80,7 @@ const Notifications = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white md:w-96 dark:bg-stone-950"
+        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white dark:bg-stone-950 md:w-96"
         sideOffset={10}
         align={isMobile ? "start" : "end"}
         collisionPadding={{ left: 16, right: 16 }}

@@ -18,11 +18,8 @@ import {
 import { Dispatch, SetStateAction, useState } from "react";
 import { useClickOutside } from "@mantine/hooks";
 import { addressToString } from "@/utils/addressToString";
-import { api } from "@/utils/api";
 import { useLoaded } from "@/hooks/useLoaded";
-import { useQueryClient } from "@tanstack/react-query";
-import { getQueryKey } from "@trpc/react-query";
-import { useApiAddressGetById } from "@/hooks/api/address";
+import api from "@/hooks/api";
 
 export const provinces = [
   "dolnośląskie",
@@ -252,18 +249,19 @@ const EditableAddress = (props: EditableAddressProps) => {
     keyName,
   } = useEditableContext(props);
   const isLoaded = useLoaded();
-  const queryClient = useQueryClient();
-  const { data, refetch } = useApiAddressGetById(value ?? null);
-  const addressGetByIdKey = getQueryKey(
-    api.address.getById,
-    value as number,
-    "query",
-  );
-  const { mutateAsync: update } = api.address.update.useMutation({
-    onSuccess: (data) => {
-      queryClient.setQueryData(addressGetByIdKey, data);
-    },
-  });
+  // const queryClient = useQueryClient();
+  const { data, refetch } = api.address.useGetById(value ?? null);
+  // const addressGetByIdKey = getQueryKey(
+  //   trpc.address.getById,
+  //   value as number,
+  //   "query",
+  // );
+  const { mutateAsync: update } = api.address.useUpdate();
+  //   {
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData(addressGetByIdKey, data);
+  //   },
+  // }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {

@@ -7,7 +7,7 @@ import { IconX } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/Badge";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/Command";
 import { CommandInput as CommandPrimitiveInput } from "cmdk";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 
 // TODO: add multiselect groups
 

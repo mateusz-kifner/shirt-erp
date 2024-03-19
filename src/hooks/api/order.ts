@@ -1,51 +1,48 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getQueryKey } from "@trpc/react-query";
 
 // TODO populate address cache and customer cache
-// Attempt to populate Product cache, users cache and file cache
-// ignore spreadsheet cache
-//
 
-export function useApiOrderGetById(id: number | null | undefined) {
+function useGetById(id: number | null | undefined) {
   const [firstLoad, setFirstLoad] = useState(true);
   const RQClient = useQueryClient();
 
-  const orderFullQuery = api.order.getFullById.useQuery(id as number, {
+  const orderFullQuery = trpc.order.getFullById.useQuery(id as number, {
     enabled: id !== null && id !== undefined && firstLoad,
     ...queryDefaults,
   });
 
-  const orderQuery = api.order.getById.useQuery(id as number, {
+  const orderQuery = trpc.order.getById.useQuery(id as number, {
     enabled: id !== null && id !== undefined && !firstLoad,
     refetchOnMount: false,
     staleTime: 60 * 1000, // 60s
   });
 
-  const customerQuery = api.customer.getById.useQuery(id as number, {
-    enabled:
-      id !== null &&
-      id !== undefined &&
-      !firstLoad &&
-      (orderFullQuery?.data?.customerId ?? null) !== null,
-    refetchOnMount: false,
-    staleTime: 60 * 1000, // 60s
-  });
+  // trpc.customer.getById.useQuery(id as number, {
+  //   enabled:
+  //     id !== null &&
+  //     id !== undefined &&
+  //     !firstLoad &&
+  //     (orderFullQuery?.data?.customerId ?? null) !== null,
+  //   refetchOnMount: false,
+  //   staleTime: 60 * 1000, // 60s
+  // });
 
-  const addressQuery = api.address.getById.useQuery(
-    orderFullQuery?.data?.addressId as number,
-    {
-      enabled:
-        id !== null &&
-        id !== undefined &&
-        !firstLoad &&
-        (orderFullQuery?.data?.addressId ?? null) !== null,
-      refetchOnMount: false,
-      staleTime: 60 * 1000, // 60s
-    },
-  );
+  // trpc.address.getById.useQuery(
+  //   orderFullQuery?.data?.addressId as number,
+  //   {
+  //     enabled:
+  //       id !== null &&
+  //       id !== undefined &&
+  //       !firstLoad &&
+  //       (orderFullQuery?.data?.addressId ?? null) !== null,
+  //     refetchOnMount: false,
+  //     staleTime: 60 * 1000, // 60s
+  //   },
+  // );
 
   useEffect(() => {
     if (
@@ -56,7 +53,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
     ) {
       // Order
       const orderGetByIdKey = getQueryKey(
-        api.order.getById,
+        trpc.order.getById,
         orderFullQuery.data.id,
         "query",
       );
@@ -68,7 +65,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
 
       // Customer
       const customerGetByIdKey = getQueryKey(
-        api.customer.getById,
+        trpc.customer.getById,
         orderFullQuery.data.id,
         "query",
       );
@@ -80,7 +77,7 @@ export function useApiOrderGetById(id: number | null | undefined) {
 
       // Address
       const addressGetByIdKey = getQueryKey(
-        api.address.getById,
+        trpc.address.getById,
         orderFullQuery.data.addressId,
         "query",
       );
@@ -94,19 +91,17 @@ export function useApiOrderGetById(id: number | null | undefined) {
     }
   }, [orderFullQuery.isSuccess]);
 
-  return {
-    orderQuery,
-    customerQuery,
-    addressQuery,
-  };
+  return orderQuery;
 }
 
-type UseTRPCMutationOrderCreateOptions = Parameters<
-  typeof api.order.create.useMutation
+
+
+type UseTRPCMutationCreateOptions = Parameters<
+  typeof trpc.order.create.useMutation
 >[0];
 
-export function useApiOrderCreate(opts?: UseTRPCMutationOrderCreateOptions) {
-  const mutation = api.order.create.useMutation(opts);
+function useCreate(opts?: UseTRPCMutationCreateOptions) {
+  const mutation = trpc.order.create.useMutation(opts);
   return {
     ...mutation,
     createOrder: mutation.mutate,
@@ -114,12 +109,12 @@ export function useApiOrderCreate(opts?: UseTRPCMutationOrderCreateOptions) {
   };
 }
 
-type UseTRPCMutationOrderUpdateOptions = Parameters<
-  typeof api.order.update.useMutation
+type UseTRPCMutationUpdateOptions = Parameters<
+  typeof trpc.order.update.useMutation
 >[0];
 
-export function useApiOrderUpdate(opts?: UseTRPCMutationOrderUpdateOptions) {
-  const mutation = api.order.update.useMutation(opts);
+function useUpdate(opts?: UseTRPCMutationUpdateOptions) {
+  const mutation = trpc.order.update.useMutation(opts);
   return {
     ...mutation,
     updateOrder: mutation.mutate,
@@ -127,15 +122,35 @@ export function useApiOrderUpdate(opts?: UseTRPCMutationOrderUpdateOptions) {
   };
 }
 
-type UseTRPCMutationOrderDeleteOptions = Parameters<
-  typeof api.order.deleteById.useMutation
+type UseTRPCMutationDeleteOptions = Parameters<
+  typeof trpc.order.deleteById.useMutation
 >[0];
 
-export function useApiOrderDelete(opts?: UseTRPCMutationOrderDeleteOptions) {
-  const mutation = api.order.deleteById.useMutation(opts);
+function useDelete(opts?: UseTRPCMutationDeleteOptions) {
+  const mutation = trpc.order.deleteById.useMutation(opts);
   return {
     ...mutation,
     deleteOrder: mutation.mutate,
     deleteOrderAsync: mutation.mutateAsync,
   };
 }
+
+function useGetRelatedEmails(id: number | null | undefined) {}
+function useGetRelatedProducts(id: number | null | undefined) {}
+function useGetRelatedSpreadsheets(id: number | null | undefined) {}
+function useGetRelatedFiles(id: number | null | undefined) {}
+function useGetRelatedCustomer(id: number | null | undefined) {}
+
+const apiOrder = {
+  useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+  useGetRelatedEmails,
+  useGetRelatedProducts,
+  useGetRelatedSpreadsheets,
+  useGetRelatedFiles,
+  useGetRelatedCustomer
+};
+
+export default apiOrder;

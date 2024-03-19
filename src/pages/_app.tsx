@@ -9,7 +9,7 @@ import Head from "next/head";
 import { UserContextProvider } from "@/context/userContext";
 import { ExperimentalContextProvider } from "@/context/experimentalContext";
 import { env } from "@/env.mjs";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 
 import "@/styles/globals.css";
 
@@ -150,4 +150,4 @@ const App: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default api.withTRPC(App);
+export default trpc.withTRPC(App);

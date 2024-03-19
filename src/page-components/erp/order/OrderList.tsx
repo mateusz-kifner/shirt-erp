@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import ApiListArchive from "@/components/ApiListArchive";
 import useTranslation from "@/hooks/useTranslation";
-import { type RouterNames } from "@/utils/api";
+import { type RouterNames } from "@/utils/trpc";
 import OrderListItem from "./OrderListItem";
 
 const entryName: RouterNames = "order";

@@ -1,6 +1,6 @@
 import Button from "@/components/ui/Button";
 import { OrderWithoutRelations } from "@/server/api/order/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 
 import {
@@ -29,7 +29,7 @@ function CalendarView(props: CalendarViewProps) {
     calendarDefaultDataSource,
   );
 
-  const { data } = api.order.getByCompletionDateRange.useQuery({
+  const { data } = trpc.order.getByCompletionDateRange.useQuery({
     rangeStart: currentMonth.startOf("month").format("YYYY-MM-DD HH:mm:ss"),
     rangeEnd: currentMonth
       .add(1, "month")

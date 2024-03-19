@@ -5,7 +5,7 @@ import { IconPlus } from "@tabler/icons-react";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import Editable from "@/components/editable/Editable";
 
 interface GlobalPropertiesAddModalProps {
@@ -25,7 +25,7 @@ const GlobalPropertiesAddModal = ({
   const [data, setData] = useState(defaultGlobalProperties);
   const [error, setError] = useState<string | null>(null);
   const { mutateAsync: createGlobalProperties } =
-    api.globalProperty.create.useMutation();
+    trpc.globalProperty.create.useMutation();
 
   useEffect(() => {
     if (!opened) {

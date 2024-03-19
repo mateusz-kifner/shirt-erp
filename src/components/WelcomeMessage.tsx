@@ -16,7 +16,7 @@
 
 const WelcomeMessage = () => {
   // const [opened, setOpened] = useState<boolean>(true);
-  // const { data } = api.session.me.useQuery();
+  // const { data } = trpc.session.me.useQuery();
   // const { setWelcomeMessageHash, user } = useAuthContext()
   // const { data, refetch } = useQuery(["global"], fetchWelcomeMessage, {
   //   enabled: false,

@@ -29,7 +29,7 @@ import {
 import RefetchButton from "@/components/ui/RefetchButton";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -46,21 +46,21 @@ function ProductEditable(props: ProductEditableProps) {
   const t = useTranslation();
 
   const { data: globalPropertiesData } =
-    api.globalProperty.getByCategory.useQuery("size");
+    trpc.globalProperty.getByCategory.useQuery("size");
 
   const global_selectables = new Set(
     globalPropertiesData?.map((val) => val?.data ?? []).flat(),
   );
 
-  const { data, refetch } = api.product.getById.useQuery(id as number, {
+  const { data, refetch } = trpc.product.getById.useQuery(id as number, {
     enabled: id !== null,
   });
-  const { mutateAsync: update } = api.product.update.useMutation({
+  const { mutateAsync: update } = trpc.product.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
-  const { mutateAsync: deleteById } = api.product.deleteById.useMutation();
+  const { mutateAsync: deleteById } = trpc.product.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {

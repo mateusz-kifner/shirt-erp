@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/Input";
 import { env } from "@/env.mjs";
 import useTranslation from "@/hooks/useTranslation";
 import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import {
   type GetServerSidePropsContext,
   type InferGetServerSidePropsType,
@@ -39,7 +39,7 @@ export default function SigninPage(
   const t = useTranslation();
   const isDemo = env.NEXT_PUBLIC_DEMO;
 
-  const { mutateAsync } = api.admin.purgeAuthTokens.useMutation();
+  const { mutateAsync } = trpc.admin.purgeAuthTokens.useMutation();
 
   // We only want to render providers
   const providersToRender = Object.values(providers).filter((provider) => {

@@ -7,7 +7,7 @@ import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type Expense } from "@/server/api/expense/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import _ from "lodash";
 import ExpenseListItem from "./ExpenseListItem";
 import Editable from "@/components/editable/Editable";
@@ -25,7 +25,7 @@ const defaultExpense: {
 const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
   const [data, setData] = useState(defaultExpense);
   const [error, setError] = useState<string | null>(null);
-  const { mutateAsync: createExpense } = api.expense.create.useMutation();
+  const { mutateAsync: createExpense } = trpc.expense.create.useMutation();
 
   useEffect(() => {
     if (!opened) {

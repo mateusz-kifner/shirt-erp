@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import ApiList from "@/components/ApiList";
 import useTranslation from "@/hooks/useTranslation";
-import { type RouterNames } from "@/utils/api";
+import { type RouterNames } from "@/utils/trpc";
 import ExpenseListItem from "./ExpenseListItem";
 
 const entryName: RouterNames = "expense";

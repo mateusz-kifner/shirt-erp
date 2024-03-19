@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/Select";
 import { env } from "@/env.mjs";
 import useTranslation from "@/hooks/useTranslation";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import { useId, useState } from "react";
 
@@ -21,11 +21,11 @@ function EmailCredentials(props: EmailCredentialsProps) {
   const {} = props;
   const uuid = useId();
   const t = useTranslation();
-  const { data, refetch } = api.settings.getAllMailCredentials.useQuery();
+  const { data, refetch } = trpc.settings.getAllMailCredentials.useQuery();
   const { mutateAsync: createMailCredentialAsync } =
-    api.settings.createMailCredential.useMutation();
+    trpc.settings.createMailCredential.useMutation();
   const { mutateAsync: deleteMailCredentialAsync } =
-    api.settings.deleteMailCredential.useMutation();
+    trpc.settings.deleteMailCredential.useMutation();
   const [secure, setSecure] = useState(false);
   console.log(data);
   return (

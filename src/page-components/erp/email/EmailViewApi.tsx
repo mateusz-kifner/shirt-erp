@@ -9,7 +9,7 @@ import {
 // import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type EmailCredential } from "@/server/api/email/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 import {
   IconArrowLeft,
@@ -24,7 +24,7 @@ import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
 import { type OrderWithoutRelations } from "@/server/api/order/validator";
-import { useApiOrderGetById } from "@/hooks/api/order";
+import api from "@/hooks/api";
 
 interface EmailViewApiProps {
   emailConfig: EmailCredential;
@@ -37,7 +37,7 @@ function EmailViewApi(props: EmailViewApiProps) {
   // const isLoaded = useLoaded();
   const router = useRouter();
   const uuid = useId();
-  const { data } = api.email.getByUid.useQuery(
+  const { data } = trpc.email.getByUid.useQuery(
     { emailClientId: emailConfig.id, mailbox, emailId: id as number },
     {
       enabled: id !== null,
@@ -49,16 +49,15 @@ function EmailViewApi(props: EmailViewApiProps) {
   const [orderId, setOrderId] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
 
-  const { orderQuery, emailsQuery, filesQuery } = useApiOrderGetById(orderId);
-  const { data: orderData, isSuccess } = orderQuery;
-  const { data: emailsData } = emailsQuery;
-  const { data: filesData } = filesQuery;
+  const { data: orderData, isSuccess } = api.order.useGetById(orderId);
+  const { data: emailsData } = api.order.useGetRelatedEmails(orderId);
+  const { data: filesData } = api.order.useGetRelatedFiles(orderId);
 
   const { mutateAsync: orderUpdate, isLoading: isLoading2 } =
-    api.order.update.useMutation();
+    api.order.useUpdate();
 
   const { mutateAsync: transferEmail, isLoading } =
-    api.email.downloadByUid.useMutation();
+    trpc.email.downloadByUid.useMutation();
 
   useEffect(() => {
     if (id !== null && isSuccess && orderData) {

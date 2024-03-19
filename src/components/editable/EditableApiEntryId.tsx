@@ -14,7 +14,7 @@ import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";
 import { useEditableContext } from "./Editable";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 
 interface EditableApiEntryProps<T> extends EditableInput<number | null> {
   entryName: string;
@@ -48,7 +48,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
     keyName,
   } = useEditableContext(props);
 
-  const { data, refetch } = api[entryName as "customer"].getById.useQuery(
+  const { data, refetch } = trpc[entryName as "customer"].getById.useQuery(
     value as number,
     {
       enabled: value !== undefined && value !== null,

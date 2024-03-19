@@ -20,7 +20,7 @@ import OrderEditable from "@/page-components/erp/order/OrderEditable";
 import OrderList from "@/page-components/erp/order/OrderList";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 //import designBackgrounds from "@/page-components/erp/order/designBackgrounds";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import {
   IconBuildingFactory2,
@@ -43,7 +43,7 @@ import { type Key } from "@/components/editable/Editable";
 import OrderCustomerView from "@/page-components/erp/order/OrderCustomerView";
 import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
-import { useApiOrderGetById } from "@/hooks/api/order";
+import api from "@/hooks/api";
 
 const entryName = "order";
 
@@ -53,15 +53,14 @@ const OrdersPage: NextPage = () => {
 
   const router = useRouter();
   const id = getQueryAsIntOrNull(router, "id");
-  const { orderQuery, productsQuery, spreadsheetQuery } =
-    useApiOrderGetById(id);
-  const { data: orderData, refetch } = orderQuery;
-  const { data: productsData } = productsQuery;
-  const { data: spreadsheetsData } = spreadsheetQuery;
+
+  const { data: orderData, refetch } = api.order.useGetById(id);
+  const { data: productsData } = api.order.useGetRelatedProducts(id);
+  const { data: spreadsheetsData } = api.order.useGetRelatedSpreadsheets(id);
 
   const isLoaded = useLoaded();
 
-  const { mutateAsync: update } = api.order.update.useMutation({
+  const { mutateAsync: update } = trpc.order.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
@@ -76,12 +75,12 @@ const OrdersPage: NextPage = () => {
     update({ id: orderData.id, [key]: val }).catch(console.log);
   };
   const { mutateAsync: createSpreadsheetMutation } =
-    api.spreadsheet.create.useMutation({});
+    trpc.spreadsheet.create.useMutation({});
 
   const { mutateAsync: deleteSpreadsheetMutation } =
-    api.spreadsheet.deleteById.useMutation({});
+    trpc.spreadsheet.deleteById.useMutation({});
 
-  // const { mutateAsync: createDesignMutation } = api.design.create.useMutation(
+  // const { mutateAsync: createDesignMutation } = trpc.design.create.useMutation(
   //   {},
   // );
   const t = useTranslation();

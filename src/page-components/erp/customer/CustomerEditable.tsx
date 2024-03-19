@@ -6,7 +6,6 @@ import EditableDateTime from "@/components/editable/EditableDateTime";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableRichText from "@/components/editable/EditableRichText";
 import EditableShortText from "@/components/editable/EditableShortText";
-import type EditableSwitch from "@/components/editable/EditableSwitch";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,7 +19,7 @@ import Button from "@/components/ui/Button";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { type OrderWithoutRelations } from "@/server/api/order/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { truncString } from "@/utils/truncString";
 import {
   IconAddressBook,
@@ -44,7 +43,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/DropdownMenu";
 import { useState } from "react";
-import { useApiCustomerGetById } from "@/hooks/api/customer";
+import api from "@/hooks/api";
 
 //TODO: Remake Array type
 
@@ -60,16 +59,17 @@ function CustomerEditable(props: CustomerEditableProps) {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const {
-    customer: { data, refetch },
-  } = useApiCustomerGetById(id);
+  const { data, refetch } = api.customer.useGetById(id);
 
-  const { mutateAsync: update } = api.customer.update.useMutation({
-    onSuccess: () => {
-      refetch().catch((err) => console.log(err));
-    },
-  });
-  const { mutateAsync: deleteById } = api.customer.deleteById.useMutation();
+  const { updateCustomerAsync } = api.customer.useUpdate();
+  //TODO : fix this
+  //   {
+  //   onSuccess: () => {
+  //     refetch().catch((err) => console.log(err));
+  //   },
+  // }
+
+  const { deleteCustomerAsync } = api.customer.useDelete();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string | number, val: any) => {
@@ -80,7 +80,7 @@ function CustomerEditable(props: CustomerEditableProps) {
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id)
+    deleteCustomerAsync(data.id)
       .then(() => {
         router.push(`/erp/customer`).catch(console.log);
       })

@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/Input";
 import useTranslation from "@/hooks/useTranslation";
 import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { useDebouncedValue, useHotkeys } from "@mantine/hooks";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
@@ -30,7 +30,7 @@ function Search(props: SearchProps) {
       { preventDefault: true },
     ],
   ]);
-  const { data } = api.search.all.useQuery(
+  const { data } = trpc.search.all.useQuery(
     {
       query: debouncedQuery,
       itemsPerPage: 4,

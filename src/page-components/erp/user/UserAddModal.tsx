@@ -5,7 +5,7 @@ import { IconPlus } from "@tabler/icons-react";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import Editable from "@/components/editable/Editable";
 
 interface UserAddModalProps {
@@ -21,7 +21,7 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
   );
 
   const [error, setError] = useState<string | null>(null);
-  const { mutateAsync: createUser } = api.user.create.useMutation();
+  const { mutateAsync: createUser } = trpc.user.create.useMutation();
 
   useEffect(() => {
     if (!opened) {

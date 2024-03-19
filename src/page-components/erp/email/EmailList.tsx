@@ -1,7 +1,7 @@
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
 import { type EmailCredential } from "@/server/api/email/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useId, useState } from "react";
 import EmailListItem from "./EmailListItem";
@@ -20,7 +20,7 @@ function EmailList(props: EmailListProps) {
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const t = useTranslation();
-  const { data } = api.email.getAll.useQuery(
+  const { data } = trpc.email.getAll.useQuery(
     {
       mailbox,
       emailClientId: emailConfig.id,
@@ -34,7 +34,7 @@ function EmailList(props: EmailListProps) {
     },
   );
 
-  const { data: dataSearch } = api.email.search.useQuery(
+  const { data: dataSearch } = trpc.email.search.useQuery(
     {
       mailbox,
       emailClientId: emailConfig.id,

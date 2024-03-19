@@ -22,7 +22,7 @@ import {
 import RefetchButton from "@/components/ui/RefetchButton";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -41,17 +41,17 @@ function UserEditable(props: UserEditableProps) {
 
   const { data: session } = useSession();
 
-  const { data, refetch } = api.user.getById.useQuery(id as string, {
+  const { data, refetch } = trpc.user.getById.useQuery(id as string, {
     enabled: id !== null,
   });
 
-  const { mutateAsync: update } = api.user.update.useMutation({
+  const { mutateAsync: update } = trpc.user.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },
   });
 
-  const { mutateAsync: deleteById } = api.user.deleteById.useMutation();
+  const { mutateAsync: deleteById } = trpc.user.deleteById.useMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {

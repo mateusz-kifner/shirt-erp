@@ -1,22 +1,22 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 
-export function useApiGlobalPropertyGetById(id: number | null) {
-  return api.globalProperty.getById.useQuery(id as number, {
+function useGetById(id: number | null) {
+  return trpc.globalProperty.getById.useQuery(id as number, {
     enabled: id !== null,
     ...queryDefaults,
   });
 }
 
-export function useApiGlobalPropertyGetByCategory(id: string | null) {
-  return api.globalProperty.getByCategory.useQuery(id as string, {
+function useGetByCategory(id: string | null) {
+  return trpc.globalProperty.getByCategory.useQuery(id as string, {
     enabled: id !== null,
     ...queryDefaults,
   });
 }
 
-export function useApiGlobalPropertyCreate() {
-  const mutation = api.globalProperty.create.useMutation();
+function useCreate() {
+  const mutation = trpc.globalProperty.create.useMutation();
   return {
     ...mutation,
     createGlobalProperty: mutation.mutate,
@@ -24,8 +24,8 @@ export function useApiGlobalPropertyCreate() {
   };
 }
 
-export function useApiGlobalPropertyUpdate() {
-  const mutation = api.globalProperty.update.useMutation();
+function useUpdate() {
+  const mutation = trpc.globalProperty.update.useMutation();
   return {
     ...mutation,
     updateGlobalProperty: mutation.mutate,
@@ -33,11 +33,20 @@ export function useApiGlobalPropertyUpdate() {
   };
 }
 
-export function useApiGlobalPropertyDelete() {
-  const mutation = api.globalProperty.deleteById.useMutation();
+export function useDelete() {
+  const mutation = trpc.globalProperty.deleteById.useMutation();
   return {
     ...mutation,
     deleteGlobalProperty: mutation.mutate,
     deleteGlobalPropertyAsync: mutation.mutateAsync,
   };
 }
+
+const apiGlobalProperty = {
+  useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+};
+
+export default apiGlobalProperty;

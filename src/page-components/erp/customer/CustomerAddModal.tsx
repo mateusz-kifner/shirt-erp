@@ -7,7 +7,7 @@ import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import { type CustomerWithRelations } from "@/server/api/customer/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import _ from "lodash";
 import CustomerListItem from "./CustomerListItem";
 import Editable from "@/components/editable/Editable";
@@ -25,7 +25,7 @@ const CustomerAddModal = ({ opened, onClose }: CustomerAddModalProps) => {
     template: Partial<CustomerWithRelations> | null;
   }>(defaultData);
   const [error, setError] = useState<string | null>(null);
-  const { mutateAsync: createCustomer } = api.customer.create.useMutation();
+  const { mutateAsync: createCustomer } = trpc.customer.create.useMutation();
 
   useEffect(() => {
     if (!opened) {

@@ -12,7 +12,7 @@ interface EmailSendModalProps {
 
 const EmailSendModal = ({ opened, onClose }: EmailSendModalProps) => {
   const [error] = useState<string | null>(null);
-  // const { mutate: createEmail } = api.product.create.useMutation({
+  // const { mutate: createEmail } = trpc.product.create.useMutation({
   //   onSuccess(data) {
   //     //void  router.push(`/erp/product/${data.id}`)
   //     onClose(data.id);

@@ -14,7 +14,7 @@ import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
 import { type Product } from "@/server/api/product/validator";
 import { type User } from "@/server/api/user/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { truncString } from "@/utils/truncString";
 import {
   IconAddressBook,
@@ -36,10 +36,10 @@ function TaskView(props: TaskViewProps) {
   const isLoaded = useLoaded();
   const router = useRouter();
 
-  const { data, refetch } = api.order.getById.useQuery(id as number, {
+  const { data, refetch } = trpc.order.getById.useQuery(id as number, {
     enabled: id !== null,
   });
-  const { mutateAsync: update } = api.order.update.useMutation({
+  const { mutateAsync: update } = trpc.order.update.useMutation({
     onSuccess: () => {
       refetch().catch((err) => console.log(err));
     },

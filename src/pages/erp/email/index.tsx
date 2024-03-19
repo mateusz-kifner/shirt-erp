@@ -1,6 +1,6 @@
 import Workspace from "@/components/layout/Workspace";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 // import { getQueryAsIntOrNull } from "@/utils/query";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -11,7 +11,7 @@ interface EmailPageProps {}
 
 function EmailPage(props: EmailPageProps) {
   const {} = props;
-  const { data: emailClients, isLoading } = api.email.getAllConfigs.useQuery(
+  const { data: emailClients, isLoading } = trpc.email.getAllConfigs.useQuery(
     undefined,
     {
       refetchOnReconnect: false,

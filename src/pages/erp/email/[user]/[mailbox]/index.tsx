@@ -5,7 +5,7 @@ import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailList from "@/page-components/erp/email/EmailList";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import ErrorPage from "@/pages/_error";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 
 import { getQueryAsStringOrNull } from "@/utils/query";
@@ -24,7 +24,7 @@ function EmailMailbox(props: EmailMailboxProps) {
   const mailbox: string = (
     getQueryAsStringOrNull(router, "mailbox") ?? "INBOX"
   ).replace("-", "/");
-  const { data: emailClients } = api.email.getAllConfigs.useQuery(undefined, {
+  const { data: emailClients } = trpc.email.getAllConfigs.useQuery(undefined, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });

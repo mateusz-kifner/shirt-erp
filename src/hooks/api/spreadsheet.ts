@@ -1,15 +1,15 @@
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import queryDefaults from "./queryDefaults";
 
-export function useApiSpreadsheetGetById(id: number | null) {
-  return api.spreadsheet.getById.useQuery(id as number, {
+function useGetById(id: number | null) {
+  return trpc.spreadsheet.getById.useQuery(id as number, {
     enabled: id !== null,
     ...queryDefaults,
   });
 }
 
-export function useApiSpreadsheetCreate() {
-  const mutation = api.spreadsheet.create.useMutation();
+function useCreate() {
+  const mutation = trpc.spreadsheet.create.useMutation();
   return {
     ...mutation,
     createSpreadsheet: mutation.mutate,
@@ -17,8 +17,8 @@ export function useApiSpreadsheetCreate() {
   };
 }
 
-export function useApiSpreadsheetUpdate() {
-  const mutation = api.spreadsheet.update.useMutation();
+function useUpdate() {
+  const mutation = trpc.spreadsheet.update.useMutation();
   return {
     ...mutation,
     updateSpreadsheet: mutation.mutate,
@@ -26,11 +26,20 @@ export function useApiSpreadsheetUpdate() {
   };
 }
 
-export function useApiSpreadsheetDelete() {
-  const mutation = api.spreadsheet.deleteById.useMutation();
+function useDelete() {
+  const mutation = trpc.spreadsheet.deleteById.useMutation();
   return {
     ...mutation,
     deleteSpreadsheet: mutation.mutate,
     deleteSpreadsheetAsync: mutation.mutateAsync,
   };
 }
+
+const apiSpreadsheet = {
+  useCreate,
+  useDelete,
+  useGetById,
+  useUpdate,
+};
+
+export default apiSpreadsheet;

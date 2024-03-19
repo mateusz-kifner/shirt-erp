@@ -2,7 +2,7 @@ import Button, { type ButtonProps } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { type EmailCredential } from "@/server/api/email/validator";
-import { api } from "@/utils/api";
+import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 import {
   IconBriefcase,
@@ -57,7 +57,7 @@ interface EmailFolderTreeProps {
 function EmailFolderTree(props: EmailFolderTreeProps) {
   const { active, onActive, onRefetch, emailConfig } = props;
   const uuid = useId();
-  const { data } = api.email.getFolderTree.useQuery(emailConfig.id, {
+  const { data } = trpc.email.getFolderTree.useQuery(emailConfig.id, {
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
