@@ -13,14 +13,10 @@ const orderToCustomerRelationGetOnly = db.query.orders
   })
   .prepare("orderToCustomerRelationGetOnly");
 
-async function get(orderId: number): Promise<Customer> {
+async function get(orderId: number): Promise<Customer | null> {
   const order = await orderToCustomerRelationGetOnly.execute({ orderId });
   if (!order)
     throw new Error(`[OrderService]: Could not find order with id ${orderId}`);
-  if (!order.customer)
-    throw new Error(
-      `[OrderService]: Could not find customer relation for order with id ${orderId}`,
-    );
 
   return order.customer;
 }

@@ -13,14 +13,10 @@ const orderToAddressRelationGetOnly = db.query.orders
   })
   .prepare("orderToAddressRelationGetOnly");
 
-async function get(orderId: number): Promise<Address> {
+async function get(orderId: number): Promise<Address | null> {
   const order = await orderToAddressRelationGetOnly.execute({ orderId });
   if (!order)
     throw new Error(`[OrderService]: Could not find order with id ${orderId}`);
-  if (!order.address)
-    throw new Error(
-      `[OrderService]: Could not find address relation for order with id ${orderId}`,
-    );
 
   return order.address;
 }
