@@ -1,6 +1,30 @@
 import { DBType, db } from "@/server/db";
 import { orders_to_email_messages } from "@/server/api/order/schema/orders_to_email_messages";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, sql } from "drizzle-orm";
+import { orders } from "../schema";
+import { EmailMessage } from "../../email-message/validator";
+
+// compile query ahead of time
+const orderToEmailRelationGetAll = db.query.orders
+  .findFirst({
+    where: eq(orders.id, sql.placeholder("orderId")),
+    with: {
+      emails: { with: { emailMessages: true } },
+    },
+  })
+  .prepare("orderToEmailRelationGetAll");
+
+async function getAll(orderId: number): Promise<EmailMessage[]> {
+  const order = await orderToEmailRelationGetAll.execute({ orderId });
+  if (!order)
+    throw new Error(`[OrderService]: Could not find order with id ${orderId}`);
+  if (order.emails === undefined)
+    throw new Error(
+      `[OrderService]: Could not find email relation for order with id ${orderId}`,
+    );
+
+  return order.emails.map((v) => v.emailMessages);
+}
 
 async function connect(
   orderId: number,
@@ -121,6 +145,7 @@ async function set(
 }
 
 export default {
+  getAll,
   set,
   connect,
   connectMany,

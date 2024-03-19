@@ -1,6 +1,33 @@
 import { DBType, db } from "@/server/db";
-import { orders_to_files } from "../schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { orders, orders_to_files } from "../schema";
+import { and, eq, inArray, sql } from "drizzle-orm";
+import { File } from "../../file/validator";
+import { baseUrl } from "../../file/service";
+
+// compile query ahead of time
+const orderToFileRelationGetAll = db.query.orders
+  .findFirst({
+    where: eq(orders.id, sql.placeholder("orderId")),
+    with: {
+      files: { with: { files: true } },
+    },
+  })
+  .prepare("orderToFileRelationGetAll");
+
+async function getAll(orderId: number): Promise<File[]> {
+  const order = await orderToFileRelationGetAll.execute({ orderId });
+  if (!order)
+    throw new Error(`[OrderService]: Could not find order with id ${orderId}`);
+  if (order.files === undefined)
+    throw new Error(
+      `[OrderService]: Could not find file relation for order with id ${orderId}`,
+    );
+
+  return order.files.map((v) => ({
+    ...v.files,
+    url: `${baseUrl}${v.files?.filename}?token=${v.files?.token}`,
+  }));
+}
 
 async function connect(orderId: number, fileId: number, tx: DBType = db) {
   const orderToFileRelation = await tx
@@ -103,6 +130,7 @@ async function set(orderId: number, fileIds: number[], tx: DBType = db) {
 }
 
 export default {
+  getAll,
   set,
   connect,
   connectMany,

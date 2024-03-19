@@ -28,7 +28,6 @@ import EditableText from "@/components/editable/EditableText";
 import { Label } from "@/components/ui/Label";
 import api from "@/hooks/api";
 
-
 interface OrderCustomerViewProps {
   orderApiUpdate: (key: string | number, value: any) => void;
   orderData?: OrderWithoutRelations;
@@ -44,11 +43,9 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
   const t = useTranslation();
   const isLoaded = useLoaded();
 
-  const { data: customerData } = api.customer.getById(customerId);
-  // const { customer, address } = useApiCustomerGetById(customerId);// old api
-  // const { data } = customer; //old api
-  // const addressData = address.data; // old api
-  // const addressRefetch = address.refetch; // old api
+  const { data } = api.customer.useGetById(customerId);
+  const { data:addressData, refetch: addressRefetch } = api.customer.useGetRelatedAddress(customerId);
+  
   // const { data } = trpc.customer.getById.useQuery(customerId as number, {
   //   enabled: customerId !== null,
   // });

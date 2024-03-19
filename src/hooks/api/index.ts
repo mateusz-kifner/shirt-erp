@@ -1,4 +1,5 @@
 import apiAddress from "./address";
+import apiCustomer from "./customer";
 import apiExpense from "./expense";
 import apiFile from "./file";
 import apiGlobalProperty from "./global_property";
@@ -9,6 +10,7 @@ import apiUser from "./user";
 
 const api = {
   address: apiAddress,
+  customer: apiCustomer,
   expense: apiExpense,
   file: apiFile,
   globalProperty: apiGlobalProperty,

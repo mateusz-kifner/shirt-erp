@@ -1,6 +1,29 @@
 import { DBType, db } from "@/server/db";
-import { orders_to_products } from "../../order/schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { orders, orders_to_products } from "../../order/schema";
+import { and, eq, inArray, sql } from "drizzle-orm";
+import { Product } from "../../product/validator";
+
+// compile query ahead of time
+const orderToProductRelationGetAll = db.query.orders
+  .findFirst({
+    where: eq(orders.id, sql.placeholder("orderId")),
+    with: {
+      products: { with: { products: true } },
+    },
+  })
+  .prepare("orderToProductRelationGetAll");
+
+async function getAll(orderId: number): Promise<Product[]> {
+  const order = await orderToProductRelationGetAll.execute({ orderId });
+  if (!order)
+    throw new Error(`[OrderService]: Could not find order with id ${orderId}`);
+  if (order.products === undefined)
+    throw new Error(
+      `[OrderService]: Could not find product relation for order with id ${orderId}`,
+    );
+
+  return order.products.map((v) => v.products);
+}
 
 async function connect(orderId: number, productId: number, tx: DBType = db) {
   const orderToProductRelation = await tx
@@ -105,6 +128,7 @@ async function set(orderId: number, productIds: number[], tx: DBType = db) {
 }
 
 export default {
+  getAll,
   set,
   connect,
   connectMany,

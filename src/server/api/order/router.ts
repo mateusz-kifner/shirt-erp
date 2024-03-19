@@ -34,6 +34,50 @@ export const orderRouter = createTRPCRouter({
     .input(z.number())
     .query(async ({ input: id }) => await orderService.getById(id)),
 
+  getRelatedProducts: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.productRelation.getAll(orderId),
+    ),
+  getRelatedSpreadsheets: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.spreadsheetManager.getAll(orderId),
+    ),
+  getRelatedEmails: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.emailMessageRelation.getAll(orderId),
+    ),
+  getRelatedFiles: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.fileRelation.getAll(orderId),
+    ),
+  getRelatedEmployees: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.userRelation.getAll(orderId),
+    ),
+  getRelatedCustomer: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.customerRelation.get(orderId),
+    ),
+
+  getRelatedAddress: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await orderService.addressRelation.get(orderId),
+    ),
+
   create: employeeProcedure
     .input(insertOrderZodSchema)
     .mutation(async ({ input: orderData, ctx }) => {

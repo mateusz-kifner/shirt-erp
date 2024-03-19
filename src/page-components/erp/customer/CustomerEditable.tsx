@@ -75,7 +75,7 @@ function CustomerEditable(props: CustomerEditableProps) {
   const apiUpdate = (key: string | number, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    update({ id: data.id, [key]: val }).catch(console.log);
+    updateCustomerAsync({ id: data.id, [key]: val }).catch(console.log);
   };
 
   const apiDelete = () => {

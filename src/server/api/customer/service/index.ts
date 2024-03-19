@@ -7,9 +7,10 @@ import {
   UpdatedCustomer,
 } from "@/server/api/customer/validator";
 import { eq, sql } from "drizzle-orm";
-import addressServices from "../address/service";
+import addressServices from "../../address/service";
 import { MetadataType } from "@/types/MetadataType";
 import _ from "lodash";
+import addressRelation from "./addressRelation";
 
 // compile query ahead of time
 const customerPrepareGetFullById = db.query.customers
@@ -106,6 +107,13 @@ async function update(
   return updatedCustomer[0];
 }
 
-const customerService = { getFullById, getById, create, deleteById, update };
+const customerService = {
+  getFullById,
+  getById,
+  create,
+  deleteById,
+  update,
+  addressRelation,
+};
 
 export default customerService;

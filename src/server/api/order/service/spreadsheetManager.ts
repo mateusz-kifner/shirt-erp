@@ -1,7 +1,28 @@
 import { DBType, db } from "@/server/db";
 import { spreadsheets } from "../../spreadsheet/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import spreadsheetService from "../../spreadsheet/service";
+import { orders } from "../schema";
+import { Spreadsheet } from "../../spreadsheet/validator";
+
+// compile query ahead of time
+const orderToSpreadsheetRelationGetAll = db.query.spreadsheets
+  .findMany({
+    where: eq(spreadsheets.orderId, sql.placeholder("orderId")),
+  })
+  .prepare("orderToSpreadsheetRelationGetAll");
+
+async function getAll(orderId: number): Promise<Spreadsheet[]> {
+  const spreadsheets = await orderToSpreadsheetRelationGetAll.execute({
+    orderId,
+  });
+  if (spreadsheets === undefined)
+    throw new Error(
+      `[OrderService]: Could not find spreadsheet relation for order with id ${orderId}`,
+    );
+
+  return spreadsheets;
+}
 
 async function deleteAllRelated(orderId: number, tx: DBType = db) {
   return await tx
@@ -48,6 +69,7 @@ async function addOrDelete(
 }
 
 export default {
+  getAll,
   addOrDelete,
   deleteAllRelated,
 };

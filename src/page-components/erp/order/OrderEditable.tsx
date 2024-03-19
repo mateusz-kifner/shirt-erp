@@ -42,7 +42,6 @@ import {
 import RefetchButton from "@/components/ui/RefetchButton";
 import api from "@/hooks/api";
 
-
 const entryName = "order";
 
 interface OrderEditableProps {
@@ -87,7 +86,7 @@ function OrderEditable(props: OrderEditableProps) {
 
   const apiDelete = () => {
     if (!data) return;
-    deleteById(data.id)
+    deleteOrderAsync(data.id)
       .then(() => {
         void router.push(`/erp/order`);
       })

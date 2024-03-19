@@ -16,7 +16,12 @@ export const customerRouter = createTRPCRouter({
   getById: employeeProcedure
     .input(z.number())
     .query(async ({ input: id }) => await customerService.getById(id)),
-
+  getRelatedAddress: employeeProcedure
+    .input(z.number())
+    .query(
+      async ({ input: orderId }) =>
+        await customerService.addressRelation.get(orderId),
+    ),
   create: employeeProcedure
     .input(insertCustomerWithRelationZodSchema)
     .mutation(async ({ input: customerData, ctx }) => {

@@ -4,7 +4,7 @@ import { eq, sql } from "drizzle-orm";
 import { File, NewFile, UpdatedFile } from "@/server/api/file/validator";
 import { MetadataType } from "@/types/MetadataType";
 
-const baseUrl = "/api/files/";
+export const baseUrl = "/api/files/";
 
 // compile query ahead of time
 const filePrepareGetById = db.query.files

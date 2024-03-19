@@ -1,6 +1,29 @@
 import { DBType, db } from "@/server/db";
-import { orders_to_users } from "../schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { orders, orders_to_users } from "../schema";
+import { and, eq, inArray, sql } from "drizzle-orm";
+import { User } from "../../user/validator";
+
+// compile query ahead of time
+const orderToUserRelationGetAll = db.query.orders
+  .findFirst({
+    where: eq(orders.id, sql.placeholder("orderId")),
+    with: {
+      employees: { with: { users: true } },
+    },
+  })
+  .prepare("orderToUserRelationGetAll");
+
+async function getAll(orderId: number): Promise<User[]> {
+  const order = await orderToUserRelationGetAll.execute({ orderId });
+  if (!order)
+    throw new Error(`[OrderService]: Could not find order with id ${orderId}`);
+  if (order.employees === undefined)
+    throw new Error(
+      `[OrderService]: Could not find user relation for order with id ${orderId}`,
+    );
+
+  return order.employees.map((v) => v.users);
+}
 
 // User <=> Employee
 async function connect(orderId: number, userId: string, tx: DBType = db) {
@@ -106,6 +129,7 @@ async function set(orderId: number, userIds: string[], tx: DBType = db) {
 }
 
 export default {
+  getAll,
   set,
   connect,
   connectMany,

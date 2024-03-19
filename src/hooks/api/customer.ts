@@ -88,11 +88,20 @@ function useDelete() {
   };
 }
 
+function useGetRelatedAddress(id: number | null | undefined) {
+  const addressQuery = trpc.customer.getRelatedAddress.useQuery(id as number, {
+    enabled: id !== null && id !== undefined,
+    ...queryDefaults,
+  });
+  return addressQuery;
+}
+
 const apiCustomer = {
   useCreate,
   useDelete,
   useGetById,
   useUpdate,
+  useGetRelatedAddress,
 };
 
 export default apiCustomer;

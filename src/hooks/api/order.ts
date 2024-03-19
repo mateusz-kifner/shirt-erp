@@ -94,8 +94,6 @@ function useGetById(id: number | null | undefined) {
   return orderQuery;
 }
 
-
-
 type UseTRPCMutationCreateOptions = Parameters<
   typeof trpc.order.create.useMutation
 >[0];
@@ -135,11 +133,52 @@ function useDelete(opts?: UseTRPCMutationDeleteOptions) {
   };
 }
 
-function useGetRelatedEmails(id: number | null | undefined) {}
-function useGetRelatedProducts(id: number | null | undefined) {}
-function useGetRelatedSpreadsheets(id: number | null | undefined) {}
-function useGetRelatedFiles(id: number | null | undefined) {}
-function useGetRelatedCustomer(id: number | null | undefined) {}
+function useGetRelatedEmails(id: number | null | undefined) {
+  const emailsQuery = trpc.order.getRelatedEmails.useQuery(id as number, {
+    enabled: id !== null && id !== undefined,
+    ...queryDefaults,
+  });
+  return emailsQuery;
+}
+function useGetRelatedProducts(id: number | null | undefined) {
+  const productsQuery = trpc.order.getRelatedProducts.useQuery(id as number, {
+    enabled: id !== null && id !== undefined,
+    ...queryDefaults,
+  });
+  return productsQuery;
+}
+function useGetRelatedSpreadsheets(id: number | null | undefined) {
+  const spreadsheetsQuery = trpc.order.getRelatedSpreadsheets.useQuery(
+    id as number,
+    {
+      enabled: id !== null && id !== undefined,
+      ...queryDefaults,
+    },
+  );
+  return spreadsheetsQuery;
+}
+function useGetRelatedFiles(id: number | null | undefined) {
+  const filesQuery = trpc.order.getRelatedFiles.useQuery(id as number, {
+    enabled: id !== null && id !== undefined,
+    ...queryDefaults,
+  });
+  return filesQuery;
+}
+function useGetRelatedCustomer(id: number | null | undefined) {
+  const customerQuery = trpc.order.getRelatedCustomer.useQuery(id as number, {
+    enabled: id !== null && id !== undefined,
+    ...queryDefaults,
+  });
+  return customerQuery;
+}
+
+function useGetRelatedAddress(id: number | null | undefined) {
+  const addressQuery = trpc.order.getRelatedAddress.useQuery(id as number, {
+    enabled: id !== null && id !== undefined,
+    ...queryDefaults,
+  });
+  return addressQuery;
+}
 
 const apiOrder = {
   useCreate,
@@ -150,7 +189,8 @@ const apiOrder = {
   useGetRelatedProducts,
   useGetRelatedSpreadsheets,
   useGetRelatedFiles,
-  useGetRelatedCustomer
+  useGetRelatedCustomer,
+  useGetRelatedAddress,
 };
 
 export default apiOrder;

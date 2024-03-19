@@ -13,6 +13,7 @@ import productRelation from "./productRelation";
 import userRelation from "./userRelation";
 import fileRelation from "./fileRelation";
 import emailMessageRelation from "./emailMessageRelation";
+import customerRelation from "./customerRelation";
 import spreadsheetManager from "./spreadsheetManager";
 
 // BUG: fix update procedure
@@ -363,6 +364,7 @@ const orderService = {
   emailMessageRelation,
   fileRelation,
   spreadsheetManager,
+  customerRelation,
 };
 
 export default orderService;
