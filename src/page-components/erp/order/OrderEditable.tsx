@@ -61,17 +61,11 @@ function OrderEditable(props: OrderEditableProps) {
   const { data, refetch } = api.order.useGetById(id);
   const { data: customerData } = api.order.useGetRelatedCustomer(id);
 
-  // const { updateOrderAsync } = useApiOrderUpdate({
-  //   onSuccess: () => {
-  //     refetch().catch((err) => console.log(err));
-  //   },
-  // })
-  const { updateOrderAsync } = api.order.useUpdate();
-  //   { TODO: fix this
-  //   onSuccess: () => {
-  //     refetch().catch((err) => console.log(err));
-  //   },
-  // }
+  const { updateOrderAsync } = api.order.useUpdate({
+    onSuccess: () => {
+      refetch().catch((err) => console.log(err));
+    },
+  });
 
   const { deleteOrderAsync } = api.order.useDelete();
 

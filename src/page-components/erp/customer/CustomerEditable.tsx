@@ -61,13 +61,11 @@ function CustomerEditable(props: CustomerEditableProps) {
 
   const { data, refetch } = api.customer.useGetById(id);
 
-  const { updateCustomerAsync } = api.customer.useUpdate();
-  //TODO : fix this
-  //   {
-  //   onSuccess: () => {
-  //     refetch().catch((err) => console.log(err));
-  //   },
-  // }
+  const { updateCustomerAsync } = api.customer.useUpdate({
+    onSuccess: () => {
+      refetch().catch((err) => console.log(err));
+    },
+  });
 
   const { deleteCustomerAsync } = api.customer.useDelete();
 
