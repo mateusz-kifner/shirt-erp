@@ -116,7 +116,7 @@ const EditableText = (props: EditableTextProps) => {
       onFocus={onFocus}
       ref={outerRef}
     >
-      <Label label={label} copyValue={text} htmlFor={"textarea_" + uuid} />
+      <Label label={label} copyValue={text} htmlFor={`textarea_${uuid}`} />
       <DisplayCellExpanding
         leftSection={leftSection}
         rightSection={rightSection}
@@ -124,29 +124,13 @@ const EditableText = (props: EditableTextProps) => {
         className={cn("h-fit", className)}
       >
         <textarea
-          id={"textarea_" + uuid}
-          name={"textarea_" + uuid}
+          id={`textarea_${uuid}`}
+          name={`textarea_${uuid}`}
           required={required}
           readOnly={disabled}
           ref={textAreaRef}
           className={cn(
-            `
-              data-disabled:text-gray-500
-              dark:data-disabled:text-gray-500
-              w-full
-              resize-none
-              overflow-hidden
-              whitespace-pre-line 
-              break-words
-              bg-transparent
-              py-3
-              text-sm
-              outline-none
-              placeholder:text-gray-400
-              focus-visible:border-transparent
-              focus-visible:outline-none
-              dark:placeholder:text-stone-600
-              `,
+            "w-full resize-none overflow-hidden whitespace-pre-line break-words bg-transparent py-3 text-sm outline-none focus-visible:border-transparent dark:data-disabled:text-gray-500 dark:placeholder:text-stone-600 data-disabled:text-gray-500 placeholder:text-gray-400 focus-visible:outline-none",
             className,
           )}
           style={style}

@@ -95,7 +95,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
           {entryName ? (
             <div
               key={uuid}
-              className={`relative flex overflow-hidden rounded border border-solid ${
+              className={`relative flex overflow-hidden rounded border border-solid${
                 open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
@@ -105,7 +105,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
                 disabled={disabled}
               />
               {linkEntry && value && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <div className="-translate-y-1/2 absolute top-1/2 right-3">
                   <Link
                     href={`/erp/${entryName}/${value}`}
                     className={cn(

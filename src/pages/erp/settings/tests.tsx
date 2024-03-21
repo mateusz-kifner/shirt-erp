@@ -4,7 +4,7 @@ import { useId, useState } from "react";
 import { type Key, Editable } from "@/components/editable/Editable";
 import EditableColor from "@/components/editable/EditableColor";
 import EditableArray from "@/components/editable/EditableArray";
-import { type GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 
 function TestsPage() {
   const uuid = useId();

@@ -1,8 +1,8 @@
-import { db } from "@/server/db";
+import { createReadStream } from "fs";
 import { files } from "@/server/api/file/schema";
+import { db } from "@/server/db";
 import HTTPError from "@/utils/HTTPError";
 import { eq } from "drizzle-orm";
-import { createReadStream } from "fs";
 import fs from "fs/promises";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -13,10 +13,10 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
     }
 
     if (req.query.fileName === undefined || Array.isArray(req.query.fileName)) {
-      throw new HTTPError(422, `FileName cannot be processed`);
+      throw new HTTPError(422, "FileName cannot be processed");
     }
     if (Array.isArray(req.query.token)) {
-      throw new HTTPError(422, `Token cannot be processed`);
+      throw new HTTPError(422, "Token cannot be processed");
     }
 
     const { fileName, token } = req.query;
@@ -26,11 +26,11 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       where: eq(files.filename, fileName),
     });
     if (!file) {
-      throw new HTTPError(404, `File not found`);
+      throw new HTTPError(404, "File not found");
     }
     // Check if correct token was provided, public resources have empty token
     if (!!file.token && (file.token ?? "") !== (token ?? "")) {
-      throw new HTTPError(404, `File not found`);
+      throw new HTTPError(404, "File not found");
     }
     if (download) {
       // Download headers
@@ -49,7 +49,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
         );
         fileStream.pipe(res);
       } catch (e) {
-        throw new HTTPError(404, `File not found`);
+        throw new HTTPError(404, "File not found");
       }
     } else {
       // View headers
@@ -64,7 +64,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
 
         res.send(imageData);
       } catch (e) {
-        throw new HTTPError(404, `File not found`);
+        throw new HTTPError(404, "File not found");
       }
     }
   } catch (err) {
@@ -73,17 +73,16 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       res.status(err.statusCode).json({
         status: "error",
         statusCode: err.statusCode,
-        message: err.name + ": " + err.message,
-      });
-      return;
-    } else {
-      console.log(err);
-      res.status(500).json({
-        status: "error",
-        statusCode: 500,
-        message: "UnknownError",
+        message: `${err.name}: ${err.message}`,
       });
       return;
     }
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      statusCode: 500,
+      message: "UnknownError",
+    });
+    return;
   }
 }

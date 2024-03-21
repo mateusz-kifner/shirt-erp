@@ -23,16 +23,15 @@ function List<T extends { id: number | string }>(props: ListProps<T>) {
 
   return (
     <div className="flex flex-col gap-2">
-      {data &&
-        data.map((val, index) => (
-          <ListItem
-            key={uuid + "_" + index}
-            value={val}
-            onChange={onChange}
-            {...listItemProps}
-            active={val.id === selectedId}
-          />
-        ))}
+      {data?.map((val, index) => (
+        <ListItem
+          key={`${uuid}_${index}`}
+          value={val}
+          onChange={onChange}
+          {...listItemProps}
+          active={val.id === selectedId}
+        />
+      ))}
     </div>
   );
 }

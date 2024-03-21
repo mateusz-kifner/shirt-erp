@@ -2,7 +2,7 @@ import { type DBType, db } from "@/server/db";
 import { spreadsheets } from "../../spreadsheet/schema";
 import { eq, sql } from "drizzle-orm";
 import spreadsheetService from "../../spreadsheet/service";
-import { type Spreadsheet } from "../../spreadsheet/validator";
+import type { Spreadsheet } from "../../spreadsheet/validator";
 
 // compile query ahead of time
 const orderToSpreadsheetRelationGetAll = db.query.spreadsheets

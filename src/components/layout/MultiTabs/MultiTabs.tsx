@@ -5,5 +5,5 @@ export default dynamic(() => import("./MultiTabsSSR"), {
   ssr: false,
 
   // Render anything as fallback on server, e.g. loader or html content without editor
-  loading: () => <div></div>,
+  loading: () => <div />,
 });

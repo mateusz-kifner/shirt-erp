@@ -11,15 +11,14 @@ import { db } from "@/server/db";
 
 export const sessionRouter = createTRPCRouter({
   status: publicProcedure.query(({ ctx }) => {
-    if (!!ctx.session?.user) {
+    if (ctx.session?.user) {
       return {
         user: ctx.session.user,
       };
-    } else {
-      return {
-        user: null,
-      };
     }
+    return {
+      user: null,
+    };
   }),
   me: employeeProcedure.query(async ({ ctx }) => {
     const result = await db.query.users.findFirst({

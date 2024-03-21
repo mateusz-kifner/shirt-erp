@@ -2,8 +2,8 @@ import { DefaultListItem } from "@/components/DefaultListItem";
 import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
 import { useExperimentalContext } from "@/context/experimentalContext";
 import useTranslation from "@/hooks/useTranslation";
-import { type NewOrder } from "@/server/api/order/validator";
-import { type ListItemProps } from "@/types/ListItemProps";
+import type { NewOrder } from "@/server/api/order/validator";
+import type { ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 import { IconCalendarTime } from "@tabler/icons-react";
 import dayjs from "dayjs";
@@ -46,17 +46,17 @@ const OrderListItem = (props: ListItemProps<NewOrder>) => {
       secondElement={
         // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         (value?.status
-          ? truncString(
+          ? `${truncString(
               (t[value.status as keyof typeof t] as string) ?? "",
               20,
-            ) + " | "
+            )} | `
           : "") +
         dateDisplay +
         (value?.customer?.firstname || value?.customer?.lastname ? " | " : "") +
-        (value?.customer?.firstname ? value?.customer?.firstname + " " : "") +
+        (value?.customer?.firstname ? `${value?.customer?.firstname} ` : "") +
         (value?.customer?.lastname ?? "")
       }
-      avatarElement={value?.name && value.name.substring(0, 2)}
+      avatarElement={value.name?.substring(0, 2)}
       rightSection={
         !(
           value?.status === "rejected" ||

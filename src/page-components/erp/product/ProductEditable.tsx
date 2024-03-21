@@ -49,7 +49,7 @@ function ProductEditable(props: ProductEditableProps) {
     trpc.globalProperty.getByCategory.useQuery("size");
 
   const global_selectables = new Set(
-    globalPropertiesData?.map((val) => val?.data ?? []).flat(),
+    globalPropertiesData?.flatMap((val) => val?.data ?? []),
   );
 
   const { data, refetch } = trpc.product.getById.useQuery(id as number, {
@@ -74,14 +74,14 @@ function ProductEditable(props: ProductEditableProps) {
     if (!data) return;
     deleteById(data.id)
       .then(() => {
-        router.push(`/erp/product`).catch(console.log);
+        router.push("/erp/product").catch(console.log);
       })
       .catch(console.log);
   };
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );
@@ -103,7 +103,7 @@ function ProductEditable(props: ProductEditableProps) {
               <Button
                 size="icon"
                 variant="ghost"
-                className="rounded-full direction-reverse"
+                className="direction-reverse rounded-full"
               >
                 <IconDotsVertical />
               </Button>

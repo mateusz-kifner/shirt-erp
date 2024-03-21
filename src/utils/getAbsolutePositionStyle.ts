@@ -1,8 +1,8 @@
-import { type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
 export default function getAbsolutePositionStyle(
   position: "left" | "right" | "top" | "bottom",
-  spacing: number | string = 6
+  spacing: number | string = 6,
 ) {
   const style: CSSProperties = {};
 

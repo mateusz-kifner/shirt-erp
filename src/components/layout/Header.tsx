@@ -22,8 +22,8 @@ const Header = () => {
   const [tabsOpen, setTabsOpen] = useState(false);
 
   return (
-    <div className="fixed left-0 top-0 z-50 h-14 w-full">
-      <div className="flex h-full  w-full items-center justify-between border-b bg-stone-900 pr-4">
+    <div className="fixed top-0 left-0 z-50 h-14 w-full">
+      <div className="flex h-full w-full items-center justify-between border-b bg-stone-900 pr-4">
         <div className="flex h-full flex-nowrap items-center justify-between gap-3">
           {isMobile && (
             <Button
@@ -72,9 +72,9 @@ const Header = () => {
         <div
           id="HeaderTabs"
           className={cn(
-            `absolute left-0 top-0 transition-all`,
+            "absolute top-0 left-0 transition-all",
             isMobile
-              ? "top-16 -z-10 h-fit w-full -translate-y-full rounded border-input bg-background p-2"
+              ? "-z-10 -translate-y-full top-16 h-fit w-full rounded border-input bg-background p-2"
               : "ml-20 h-14",
             isMobile && tabsOpen ? "translate-y-0" : "",
           )}
@@ -85,7 +85,7 @@ const Header = () => {
                 }
               : undefined
           }
-        ></div>
+        />
       </div>
     </div>
   );

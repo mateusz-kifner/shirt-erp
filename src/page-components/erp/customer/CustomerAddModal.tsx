@@ -6,7 +6,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type CustomerWithRelations } from "@/server/api/customer/validator";
+import type { CustomerWithRelations } from "@/server/api/customer/validator";
 import { trpc } from "@/utils/trpc";
 import _ from "lodash";
 import CustomerListItem from "./CustomerListItem";
@@ -62,7 +62,7 @@ const CustomerAddModal = ({ opened, onClose }: CustomerAddModalProps) => {
 
           <Button
             onClick={() => {
-              if (data.username.length == 0)
+              if (data.username.length === 0)
                 return setError("Musisz podać nie pustą nazwę użytkownika");
               const new_customer = {
                 ...(data.template ? _.omit(data.template, "id") : {}),

@@ -90,7 +90,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
         {
           color:
             typeof (rightSection as { props: Record<string, unknown> })?.props
-              ?.color !== undefined
+              ?.color !== "undefined"
               ? (rightSection as { props: { color: string } }).props.color
               : isActive || isPinned
                 ? color
@@ -128,33 +128,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       <Tooltip delayDuration={1500}>
         <TooltipTrigger
           className={cn(
-            `inline-flex
-            h-10
-            select-none 
-            items-center
-            justify-center 
-            whitespace-nowrap
-            border-r
-            border-t
-            border-solid 
-            border-stone-800
-            stroke-gray-200 
-            px-4 
-            py-0 
-            font-semibold 
-            text-gray-200
-            no-underline
-            outline-offset-4 
-            transition-all
-            first:rounded-tl 
-            first:border-l
-            last:rounded-tr
-            only:rounded-tr
-            only:border-r 
-            hover:bg-transparent 
-            focus-visible:outline-sky-600 
-            disabled:pointer-events-none	
-            disabled:bg-stone-700`,
+            "inline-flex h-10 select-none items-center justify-center whitespace-nowrap border-stone-800 border-t border-r border-solid stroke-gray-200 px-4 py-0 font-semibold text-gray-200 no-underline outline-offset-4 transition-all disabled:pointer-events-none first:rounded-tl last:rounded-tr only:rounded-tr only:border-r first:border-l disabled:bg-stone-700 hover:bg-transparent focus-visible:outline-sky-600",
             isActive || isPinned
               ? "border-b-2 bg-transparent"
               : "border-b bg-stone-800",

@@ -1,7 +1,7 @@
 import { type DBType, db } from "@/server/db";
 import { orders } from "../../order/schema";
 import { eq, sql } from "drizzle-orm";
-import { type Customer } from "../../customer/validator";
+import type { Customer } from "../../customer/validator";
 
 // compile query ahead of time
 const orderToCustomerRelationGetOnly = db.query.orders

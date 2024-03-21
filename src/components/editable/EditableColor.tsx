@@ -26,9 +26,9 @@ import { useEditableContext } from "./Editable";
 
 const colorNameKeys = Object.keys(colorNames);
 const colorNamesRGB: [number, number, number][] = colorNameKeys.map((val) => [
-  parseInt(val.substring(1, 3), 16),
-  parseInt(val.substring(3, 5), 16),
-  parseInt(val.substring(5, 7), 16),
+  Number.parseInt(val.substring(1, 3), 16),
+  Number.parseInt(val.substring(3, 5), 16),
+  Number.parseInt(val.substring(5, 7), 16),
 ]);
 
 export const getColorNameFromHex = (hex: string) => {
@@ -39,9 +39,9 @@ export const getColorNameFromHex = (hex: string) => {
     let min = 100000.0;
     let min_index = -1;
 
-    const hex_r = parseInt(hex.substring(1, 3), 16);
-    const hex_g = parseInt(hex.substring(3, 5), 16);
-    const hex_b = parseInt(hex.substring(5, 7), 16);
+    const hex_r = Number.parseInt(hex.substring(1, 3), 16);
+    const hex_g = Number.parseInt(hex.substring(3, 5), 16);
+    const hex_b = Number.parseInt(hex.substring(5, 7), 16);
 
     colorNamesRGB.forEach(([val_r, val_g, val_b], index) => {
       const weight = Math.sqrt(
@@ -56,8 +56,9 @@ export const getColorNameFromHex = (hex: string) => {
     });
 
     if (min_index !== -1) {
-      name =
-        colorNames[colorNameKeys[min_index] as keyof typeof colorNames] + "*";
+      name = `${
+        colorNames[colorNameKeys[min_index] as keyof typeof colorNames]
+      }*`;
     }
   }
   return name;
@@ -172,18 +173,18 @@ const EditableColor = (props: EditableColorProps) => {
       <Label
         label={label}
         copyValue={colorText ?? ""}
-        htmlFor={"inputColor_" + uuid}
+        htmlFor={`inputColor_${uuid}`}
       />
       <DisplayCell
         className={!colorTextObj.isValid() ? "border-red-500" : ""}
         leftSection={
-          !!leftSection ? (
+          leftSection ? (
             leftSection
           ) : (
             <div
-              className="relative h-6 w-6 rounded-full before:absolute before:left-[0.0625rem] before:top-[0.0625rem] before:-z-10 before:h-[1.375rem] before:w-[1.375rem] before:rounded-full before:bg-white"
+              className="before:-z-10 relative h-6 w-6 rounded-full before:absolute before:top-[0.0625rem] before:left-[0.0625rem] before:h-[1.375rem] before:w-[1.375rem] before:rounded-full before:bg-white"
               style={{ background: colorText ?? "" }}
-            ></div>
+            />
           )
         }
         rightSection={
@@ -194,7 +195,7 @@ const EditableColor = (props: EditableColorProps) => {
                 "h-8 w-8 text-stone-900 dark:text-stone-200",
               )}
             >
-              {!!rightSection ? (
+              {rightSection ? (
                 rightSection
               ) : (
                 // <div className="flex h-11 items-center justify-center">
@@ -217,24 +218,13 @@ const EditableColor = (props: EditableColorProps) => {
           type="text"
           autoCorrect="false"
           spellCheck="false"
-          id={"inputColor_" + uuid}
-          name={"inputColor_" + uuid}
+          id={`inputColor_${uuid}`}
+          name={`inputColor_${uuid}`}
           value={colorText ?? ""}
           onChange={(e) => setColorViaString(e.target.value)}
-          className={`
-              data-disabled:text-gray-500
-              dark:data-disabled:text-gray-500
-              w-full
-              resize-none
-              whitespace-pre-line
-              break-words
-              bg-transparent
-              py-1
-              text-sm
-              outline-none
-              focus-visible:border-transparent
-              focus-visible:outline-none
-              `}
+          className={
+            "w-full resize-none whitespace-pre-line break-words bg-transparent py-1 text-sm outline-none focus-visible:border-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 focus-visible:outline-none"
+          }
           readOnly={disabled}
           required={required}
           autoComplete="off"

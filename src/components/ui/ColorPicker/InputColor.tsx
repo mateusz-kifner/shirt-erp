@@ -82,10 +82,10 @@ function InputColor(props: InputColorProps) {
     a: string;
   }) => {
     const newColor = tinycolor2.fromRatio({
-      r: parseInt(RGBAText.r),
-      g: parseInt(RGBAText.g),
-      b: parseInt(RGBAText.b),
-      a: parseInt(RGBAText.a) / 100,
+      r: Number.parseInt(RGBAText.r),
+      g: Number.parseInt(RGBAText.g),
+      b: Number.parseInt(RGBAText.b),
+      a: Number.parseInt(RGBAText.a) / 100,
     });
 
     if (newColor.isValid() && !isActive) {
@@ -107,10 +107,10 @@ function InputColor(props: InputColorProps) {
     a: string;
   }) => {
     const newColor = tinycolor2.fromRatio({
-      h: parseFloat(HSVText.h) / 360,
-      s: parseFloat(HSVText.s),
-      v: parseFloat(HSVText.v),
-      a: parseFloat(HSVText.a) / 100,
+      h: Number.parseFloat(HSVText.h) / 360,
+      s: Number.parseFloat(HSVText.s),
+      v: Number.parseFloat(HSVText.v),
+      a: Number.parseFloat(HSVText.a) / 100,
     });
     if (newColor.isValid() && !isActive) {
       const newColorRGB = newColor.toRgb();
@@ -160,8 +160,8 @@ function InputColor(props: InputColorProps) {
   const colorHex = getHex8();
 
   return (
-    <div className={`relative flex w-[388px] flex-col gap-3 p-3 `}>
-      <div className={`flex gap-3 ${openPalette ? "overflow-hidden" : ""}`}>
+    <div className={"relative flex w-[388px] flex-col gap-3 p-3"}>
+      <div className={`flex gap-3${openPalette ? "overflow-hidden" : ""}`}>
         <ColorArea
           value={getHSV()}
           onChange={(color) => {
@@ -189,7 +189,7 @@ function InputColor(props: InputColorProps) {
                 borderBottomLeftRadius: 4,
                 background: colorHex.substring(0, 7),
               }}
-            ></div>
+            />
             <div
               style={{
                 width: "100%",
@@ -198,14 +198,14 @@ function InputColor(props: InputColorProps) {
                 borderBottomRightRadius: 4,
                 background: colorHex,
               }}
-            ></div>
+            />
           </div>
           <div className="flex justify-between gap-3">
             <div className="flex flex-col gap-3">
               <label>
                 {"R : "}
                 <input
-                  className="w-9  border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-red-500"
+                  className="w-9 border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-red-500"
                   value={RGBAText.r}
                   onChange={(e) => {
                     const newColor = { ...RGBAText, r: e.target.value };
@@ -218,7 +218,7 @@ function InputColor(props: InputColorProps) {
               <label>
                 {"G : "}
                 <input
-                  className="w-9  border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-green-500"
+                  className="w-9 border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-green-500"
                   value={RGBAText.g}
                   onChange={(e) => {
                     const newColor = { ...RGBAText, g: e.target.value };
@@ -259,7 +259,7 @@ function InputColor(props: InputColorProps) {
               <label>
                 {"H : "}
                 <input
-                  className="w-12  border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-violet-500"
+                  className="w-12 border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-violet-500"
                   value={HSVText.h}
                   onChange={(e) => {
                     const newColor = { ...HSVText, h: e.target.value };
@@ -272,7 +272,7 @@ function InputColor(props: InputColorProps) {
               <label>
                 {"S : "}
                 <input
-                  className="w-12  border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-cyan-500"
+                  className="w-12 border-b border-b-stone-400 bg-transparent text-right outline-none focus-visible:border-b-cyan-500"
                   value={HSVText.s}
                   onChange={(e) => {
                     const newColor = { ...HSVText, s: e.target.value };
@@ -331,40 +331,12 @@ function InputColor(props: InputColorProps) {
         />
       </div>
       <div
-        className={`absolute bottom-0 left-0 flex w-full flex-col gap-3  overflow-hidden bg-stone-200 transition-all dark:bg-stone-950 ${
+        className={`absolute bottom-0 left-0 flex w-full flex-col gap-3 overflow-hidden bg-stone-200 transition-all dark:bg-stone-950${
           openPalette ? "h-full p-3" : "h-7 px-3"
         }`}
       >
         <button
-          className="inline-flex
-          h-8
-          select-none 
-          items-center 
-          justify-center
-          gap-3
-          rounded-md 
-          bg-transparent 
-          stroke-gray-200 
-          px-4 
-          py-0
-          font-semibold 
-          uppercase
-          text-stone-800  
-          no-underline 
-          outline-offset-4 
-          transition-all 
-          hover:bg-black 
-          hover:bg-opacity-30 
-          focus-visible:outline-sky-600 
-          disabled:pointer-events-none
-          disabled:bg-stone-700 
-          dark:bg-transparent 
-          dark:text-stone-200 
-          dark:hover:bg-white
-          dark:hover:bg-opacity-30 
-          dark:first-letter:hover:bg-white
-
-          "
+          className="inline-flex h-8 select-none items-center justify-center gap-3 rounded-md bg-transparent stroke-gray-200 px-4 py-0 font-semibold text-stone-800 uppercase no-underline outline-offset-4 transition-all disabled:pointer-events-none dark:bg-transparent dark:first-letter:hover:bg-white dark:hover:bg-white disabled:bg-stone-700 hover:bg-black dark:hover:bg-opacity-30 hover:bg-opacity-30 dark:text-stone-200 focus-visible:outline-sky-600"
           onClick={() => {
             if (!swatchesLoaded) setSwatchesLoaded(true);
             setOpenPalette((val) => !val);

@@ -6,7 +6,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import _ from "lodash";
 import OrderListItem from "./OrderListItem";
 import Editable from "@/components/editable/Editable";
@@ -66,7 +66,7 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
 
           <Button
             onClick={() => {
-              if (data.orderName.length == 0)
+              if (data.orderName.length === 0)
                 return setError("Musisz podać nie pustą nazwę zamówienia");
               console.log;
               const newOrder = {

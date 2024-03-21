@@ -89,7 +89,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
           {entryName ? (
             <div
               key={uuid}
-              className={`relative flex overflow-hidden rounded border border-solid ${
+              className={`relative flex overflow-hidden rounded border border-solid${
                 open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
@@ -99,7 +99,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
                 disabled={disabled}
               />
               {linkEntry && value && value?.id && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                <div className="-translate-y-1/2 absolute top-1/2 right-3">
                   <Link
                     href={`/erp/${entryName}/${value?.id}`}
                     className={cn(

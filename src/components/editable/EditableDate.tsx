@@ -74,13 +74,15 @@ const EditableDate = (props: InputDateProps) => {
     }
 
     if (
-      newDate.format("YYYY-MM-DD").toString() !=
+      newDate.format("YYYY-MM-DD").toString() !==
       dayjs(value).format("YYYY-MM-DD").toString()
     ) {
       setError(false);
       onSubmit?.(
         //@ts-ignore
-        newDate.format("YYYY-MM-DD").toString(), /// HACK FIXME: this should work with strings
+        newDate
+          .format("YYYY-MM-DD")
+          .toString(), /// HACK FIXME: this should work with strings
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +90,7 @@ const EditableDate = (props: InputDateProps) => {
 
   return (
     <div className="relative flex-grow" ref={outerRef}>
-      <Label label={label} copyValue={text} htmlFor={"inputDate_" + uuid} />
+      <Label label={label} copyValue={text} htmlFor={`inputDate_${uuid}`} />
       <DisplayCell
         onFocus={onFocus}
         onClick={onFocus}
@@ -103,14 +105,14 @@ const EditableDate = (props: InputDateProps) => {
               // contentProps={{ align: "end", sideOffset: 13 }}
             >
               <PopoverTrigger asChild>
-                {!!rightSection ? (
+                {rightSection ? (
                   rightSection
                 ) : (
                   <div className="flex items-center justify-center">
                     <Button
                       size="icon"
                       variant="ghost"
-                      className="h-8 w-8 p-0 text-stone-800 dark:text-stone-200 "
+                      className="h-8 w-8 p-0 text-stone-800 dark:text-stone-200"
                     >
                       <IconCalendar size={18} />
                     </Button>
@@ -140,8 +142,8 @@ const EditableDate = (props: InputDateProps) => {
         focus={focus || calendarOpened}
       >
         <input
-          id={"inputDate_" + uuid}
-          name={"inputDate_" + uuid}
+          id={`inputDate_${uuid}`}
+          name={`inputDate_${uuid}`}
           ref={inputDateRef}
           value={text}
           onChange={(e) => {
@@ -149,23 +151,7 @@ const EditableDate = (props: InputDateProps) => {
           }}
           onClick={onFocus}
           onFocus={onFocus}
-          className="
-              data-disabled:text-gray-500
-              dark:data-disabled:text-gray-500
-              w-full
-              resize-none
-              overflow-hidden 
-              whitespace-pre-line
-              break-words
-              bg-transparent
-              py-1
-              text-sm
-              outline-none
-              placeholder:text-gray-400
-              focus-visible:border-transparent
-              focus-visible:outline-none
-              dark:placeholder:text-stone-600
-              "
+          className="w-full resize-none overflow-hidden whitespace-pre-line break-words bg-transparent py-1 text-sm outline-none focus-visible:border-transparent dark:data-disabled:text-gray-500 dark:placeholder:text-stone-600 data-disabled:text-gray-500 placeholder:text-gray-400 focus-visible:outline-none"
           readOnly={disabled}
           required={required}
           autoComplete="off"

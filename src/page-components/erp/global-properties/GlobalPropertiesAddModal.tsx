@@ -53,9 +53,9 @@ const GlobalPropertiesAddModal = ({
 
           <Button
             onClick={() => {
-              if (data.globalPropertiesName.length == 0)
+              if (data.globalPropertiesName.length === 0)
                 return setError("Musisz podać nie pustą nazwę właściwości");
-              if (data.globalPropertiesCategory.length == 0)
+              if (data.globalPropertiesCategory.length === 0)
                 return setError("Musisz podać nie pustą kategorię właściwości");
               const new_globalProperties = {
                 name: data.globalPropertiesName,

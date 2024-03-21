@@ -1,4 +1,4 @@
-import { type DesignBackgroundsType } from "@/components/Design/DesignSSR";
+import type { DesignBackgroundsType } from "@/components/Design/DesignSSR";
 import { IconShirt } from "@tabler/icons-react";
 
 const designBackgrounds: DesignBackgroundsType = [

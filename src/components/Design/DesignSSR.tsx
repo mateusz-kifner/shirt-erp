@@ -25,7 +25,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 import type TablerIconType from "@/types/TablerIconType";
-import { type File } from "@/server/api/file/validator";
+import type { File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import { isMimeImage } from "@/utils/isMimeImage";
 import {
@@ -38,7 +38,7 @@ import {
   IconSquareNumber3,
 } from "@tabler/icons-react";
 import {
-  ChangeEvent,
+  type ChangeEvent,
   useEffect,
   useId,
   useMemo,
@@ -210,12 +210,11 @@ const Design = (props: DesignProps) => {
   };
 
   useEffect(() => {
-    if (files && files[2]) imagesHandlers.setState([files[2]]);
+    if (files?.[2]) imagesHandlers.setState([files[2]]);
   }, []);
 
   useEffect(() => {
     if (
-      SVGWrapperRefElement &&
       SVGWrapperRefElement?.current &&
       SVGWrapperRefElement?.current?.children.length < 1
     ) {
@@ -385,13 +384,13 @@ const Design = (props: DesignProps) => {
               const imageUrl = image?.url;
               return (
                 <div
-                  key={uuid + "bg" + bgImageIndex}
+                  key={`${uuid}bg${bgImageIndex}`}
                   onDragEnter={handleDrag}
                   onDragLeave={handleDrag}
                   onDragOver={handleDrag}
                   onDrop={handleDrop}
                   className={cn(
-                    "border-2 border-solid border-transparent",
+                    "border-2 border-transparent border-solid",
                     dragActive && "border-sky-600",
                   )}
                 >
@@ -404,17 +403,17 @@ const Design = (props: DesignProps) => {
                     }}
                   >
                     <div
-                      className="absolute left-0 top-0"
+                      className="absolute top-0 left-0"
                       style={{
                         backgroundColor: backgroundColor,
                         width: width,
                         height: height,
                         border: "1px solid rgb(128,128,128)",
                       }}
-                    ></div>
+                    />
 
                     <div
-                      className="absolute left-0 top-0"
+                      className="absolute top-0 left-0"
                       style={{
                         backgroundImage: image?.url
                           ? `url('${imageUrl}')`
@@ -425,7 +424,7 @@ const Design = (props: DesignProps) => {
                       }}
                     >
                       <div
-                        className="absolute left-0 top-0 h-full w-full"
+                        className="absolute top-0 left-0 h-full w-full"
                         style={{
                           maskImage: mask?.url
                             ? `url('${maskUrl}')`
@@ -439,20 +438,20 @@ const Design = (props: DesignProps) => {
                           backgroundColor: mask?.url ? itemColor : undefined,
                           mixBlendMode: "multiply",
                         }}
-                      ></div>
+                      />
                     </div>
                     {showGrid && (
                       <div
-                        className="absolute left-0 top-0 "
+                        className="absolute top-0 left-0"
                         style={{
                           backgroundImage: `url('/assets/grid.svg')`,
                           width: width,
                           height: height,
                           backgroundSize: `${width / 2}px ${height / 2}px`,
                         }}
-                      ></div>
+                      />
                     )}
-                    <div className="absolute left-0 top-0 h-full w-full overflow-hidden">
+                    <div className="absolute top-0 left-0 h-full w-full overflow-hidden">
                       {images.map((imageData, index) => (
                         <DesignImage
                           file={imageData}
@@ -470,30 +469,29 @@ const Design = (props: DesignProps) => {
         </div>
         <Tabs defaultValue="files" className="flex flex-grow flex-col">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="files" className=" first-letter:uppercase">
+            <TabsTrigger value="files" className="first-letter:uppercase">
               {t.file.plural}
             </TabsTrigger>
             <TabsTrigger value="properties">{t.properties}</TabsTrigger>
           </TabsList>
           <TabsContent value="files">
-            {files &&
-              files?.map((val, index) => {
-                const url = val.mimetype?.startsWith("image")
-                  ? `/api/files/${val.filename}${
-                      val?.token && val.token.length > 0
-                        ? "?token=" + val?.token
-                        : ""
-                    }`
-                  : undefined;
-                return isMimeImage(val?.mimetype ?? "") ? (
-                  <FileListItem
-                    value={val}
-                    disableDownload
-                    draggable
-                    key={`${uuid}:files:${index}`}
-                  />
-                ) : null;
-              })}
+            {files?.map((val, index) => {
+              const url = val.mimetype?.startsWith("image")
+                ? `/api/files/${val.filename}${
+                    val?.token && val.token.length > 0
+                      ? `?token=${val?.token}`
+                      : ""
+                  }`
+                : undefined;
+              return isMimeImage(val?.mimetype ?? "") ? (
+                <FileListItem
+                  value={val}
+                  disableDownload
+                  draggable
+                  key={`${uuid}:files:${index}`}
+                />
+              ) : null;
+            })}
           </TabsContent>
           <TabsContent value="properties" className="flex flex-col gap-2">
             {activeImage !== null ? (

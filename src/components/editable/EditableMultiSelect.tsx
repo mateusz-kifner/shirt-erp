@@ -75,18 +75,18 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
   );
 
   const value_str = value?.reduce(
-    (prev, next, index) => (index == 0 ? next : prev + ", " + next),
+    (prev, next, index) => (index === 0 ? next : `${prev}, ${next}`),
     "",
   );
 
   return (
-    <div className={`flex flex-grow  ${collapse ? "gap-3 pt-3" : "flex-col"}`}>
+    <div className={`flex flex-grow${collapse ? "gap-3 pt-3" : "flex-col"}`}>
       <Label label={label} copyValue={value_str} required={required} />
       <Command
         onKeyDown={handleKeyDown}
         className="overflow-visible bg-transparent"
       >
-        <div className="group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-1 focus-within:ring-ring ">
+        <div className="group rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-within:ring-1 focus-within:ring-ring">
           <div className="flex flex-wrap gap-1">
             {selected.map((s, index) => {
               return (
@@ -132,7 +132,7 @@ function EditableMultiSelect(props: EditableMultiSelectProps) {
         </div>
         <div className="relative mt-2">
           {open && (selectables.length > 0 || freeInput) ? (
-            <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
+            <div className="absolute top-0 z-10 w-full animate-in rounded-md border bg-popover text-popover-foreground shadow-md outline-none">
               <ScrollArea className="max-h-60">
                 <CommandGroup className="h-full overflow-auto">
                   {freeInput &&

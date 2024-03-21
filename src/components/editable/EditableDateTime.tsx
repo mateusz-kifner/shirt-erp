@@ -60,7 +60,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       // dateRef.current && dateRef.current.focus()
     } else {
       if (date !== prevDate) {
-        onSubmit && onSubmit(date?.toISOString() ?? undefined);
+        onSubmit?.(date?.toISOString() ?? undefined);
         setPrevDate(date);
       }
       window.removeEventListener("beforeunload", preventLeave);
@@ -96,7 +96,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
 
   return (
     <div
-      className={`flex-grow ${collapse ? "flex items-center" : ""}`}
+      className={`flex-grow${collapse ? "flex items-center" : ""}`}
       // onClick={() => !disabled && setFocus(true)}
       // onFocus={() => !disabled && setFocus(true)}
       // onBlur={handleBlurForInnerElements(() => setFocus(false))}

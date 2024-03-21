@@ -1,12 +1,12 @@
+import type { IncomingMessage, ServerResponse } from "http";
+import { files as filesSchema } from "@/server/api/file/schema";
+import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
 import HTTPError from "@/utils/HTTPError";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import formidable from "formidable";
-import type { IncomingMessage, ServerResponse } from "http";
 import imageSize from "image-size";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { files as filesSchema } from "@/server/api/file/schema";
-import { getServerAuthSession } from "@/server/auth";
 
 /**
  * Upload using multiform data, requires using name file
@@ -33,7 +33,7 @@ export default async function Upload(
     const session = await getServerAuthSession({ req, res });
     console.log(session);
 
-    if (!session?.user) throw new HTTPError(401, `Unauthenticated`);
+    if (!session?.user) throw new HTTPError(401, "Unauthenticated");
 
     const form = new formidable.IncomingForm({
       multiples: true,
@@ -55,7 +55,7 @@ export default async function Upload(
           return;
         }
         const { files: unpackedFiles } = files;
-        if (unpackedFiles == undefined) {
+        if (unpackedFiles === undefined) {
           reject(new HTTPError(500, "Failed to upload file"));
           return;
         }
@@ -67,11 +67,11 @@ export default async function Upload(
     const fileArray = Array.isArray(files) ? files : [files];
 
     const newFiles = fileArray.map((file) => {
-      const originalFilenameExtDot = file.originalFilename!.lastIndexOf(".");
-      const extWithDot = file.originalFilename!.substring(
+      const originalFilenameExtDot = file.originalFilename?.lastIndexOf(".");
+      const extWithDot = file.originalFilename?.substring(
         originalFilenameExtDot,
       );
-      const fileName = file.originalFilename!.substring(
+      const fileName = file.originalFilename?.substring(
         0,
         originalFilenameExtDot,
       );
@@ -123,17 +123,16 @@ export default async function Upload(
       res.status(err.statusCode).json({
         status: "error",
         statusCode: err.statusCode,
-        message: err.name + ": " + err.message,
-      });
-      return;
-    } else {
-      res.status(500).json({
-        status: "error",
-        statusCode: 500,
-        message: "UnknownError",
+        message: `${err.name}: ${err.message}`,
       });
       return;
     }
+    res.status(500).json({
+      status: "error",
+      statusCode: 500,
+      message: "UnknownError",
+    });
+    return;
   }
 }
 

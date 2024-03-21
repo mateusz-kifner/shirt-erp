@@ -1,9 +1,9 @@
-import { type ImapFlow } from "imapflow";
-import fs from "node:fs";
-import fsp from "node:fs/promises";
+import fs from "fs";
 import { env } from "@/env";
 import { isMimeImage } from "@/utils/isMimeImage";
 import NodeClam from "clamscan";
+import fsp from "fs/promises";
+import type { ImapFlow } from "imapflow";
 import Logger from "js-logger";
 import _ from "lodash";
 import { type ParsedMail, simpleParser } from "mailparser";
@@ -18,7 +18,7 @@ import {
 export async function downloadEmailByUid(
   client: ImapFlow,
   uid: string,
-  mailbox: string = "INBOX",
+  mailbox = "INBOX",
 ) {
   try {
     await client.connect();
@@ -99,7 +99,7 @@ export async function downloadEmailByUid(
     const result: Omit<ParsedMail, "attachments"> & { avIsInfected?: false } = {
       ..._.omit(parsed, ["attachments"]),
     };
-    if (env.ENABLE_CLAMAV) result["avIsInfected"] = false;
+    if (env.ENABLE_CLAMAV) result.avIsInfected = false;
 
     const files = parsed.attachments.map(async (attachment) => {
       let preview;
@@ -147,8 +147,8 @@ export async function downloadEmailByUid(
 export async function downloadEmailAttachment(
   client: ImapFlow,
   uid: string,
-  mailbox: string = "INBOX",
-  attachment: string = "",
+  mailbox = "INBOX",
+  attachment = "",
 ) {
   try {
     await client.connect();

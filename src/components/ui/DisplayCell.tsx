@@ -1,6 +1,7 @@
 import { cn } from "@/utils/cn";
 import { cva } from "class-variance-authority";
-import React, { forwardRef, type ComponentProps, type ReactNode } from "react";
+import type React from "react";
+import { forwardRef, type ComponentProps, type ReactNode } from "react";
 
 export const displayCellVariants = cva(
   `flex

@@ -16,7 +16,7 @@ import {
 } from "@/utils/getRandomColor";
 import useTranslation from "@/hooks/useTranslation";
 import dayjs, { type WeekdayNames } from "dayjs";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import Button from "@/components/ui/Button";
 import CalendarCell from "./CalendarCell";
 
@@ -122,25 +122,25 @@ function CalendarMonth(props: CalendarMonthProps) {
         </Button>
       </div>
       <div className="flex flex-grow flex-col overflow-hidden rounded">
-        <div className="grid flex-grow grid-cols-7 border-l border-t">
+        <div className="grid flex-grow grid-cols-7 border-t border-l">
           {weekdays.map((val) => (
-            <div key={`${uuid}${val}:`} className=" border-r px-1 py-0.5">
+            <div key={`${uuid}${val}:`} className="border-r px-1 py-0.5">
               {val}
             </div>
           ))}
         </div>
-        <div className="grid h-full  grid-cols-7   border-l border-t">
+        <div className="grid h-full grid-cols-7 border-t border-l">
           {weeks.map((week, index) =>
             week.map((day, dayIndex) => (
               <div
                 key={`${uuid}${index}:${dayIndex}:`}
-                className="border-b border-r"
+                className="border-r border-b"
               >
                 {day !== null && (
                   <CalendarCell
                     highlight={
                       day === todayDay &&
-                      month == todayMonth &&
+                      month === todayMonth &&
                       year === todayYear
                     }
                     dayOrders={orders?.[day]}

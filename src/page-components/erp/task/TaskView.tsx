@@ -12,8 +12,8 @@ import EditableSwitch from "@/components/editable/EditableSwitch";
 import Button from "@/components/ui/Button";
 import Wrapper from "@/components/ui/Wrapper";
 import { useLoaded } from "@/hooks/useLoaded";
-import { type Product } from "@/server/api/product/validator";
-import { type User } from "@/server/api/user/validator";
+import type { Product } from "@/server/api/product/validator";
+import type { User } from "@/server/api/user/validator";
 import { trpc } from "@/utils/trpc";
 import { truncString } from "@/utils/truncString";
 import {
@@ -55,7 +55,7 @@ function TaskView(props: TaskViewProps) {
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );

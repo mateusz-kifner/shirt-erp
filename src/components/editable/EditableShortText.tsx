@@ -97,7 +97,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
       onFocus={onFocus}
       ref={outerRef}
     >
-      <Label label={label} copyValue={text} htmlFor={"short_text_" + uuid} />
+      <Label label={label} copyValue={text} htmlFor={`short_text_${uuid}`} />
       <DisplayCell
         leftSection={leftSection}
         rightSection={rightSection}
@@ -106,27 +106,13 @@ const EditableShortText = (props: EditableShortTextProps) => {
         className={className}
       >
         <input
-          id={"short_text_" + uuid}
-          name={"short_text_" + uuid}
+          id={`short_text_${uuid}`}
+          name={`short_text_${uuid}`}
           required={required}
           readOnly={disabled}
           ref={InputRef}
           className={cn(
-            `
-          data-disabled:text-gray-500
-          dark:data-disabled:text-gray-500
-          w-full
-          resize-none
-          overflow-hidden
-          whitespace-pre-line 
-          break-words
-          bg-transparent
-          py-3
-          text-sm
-          outline-none
-          focus-visible:border-transparent
-          focus-visible:outline-none
-          `,
+            "w-full resize-none overflow-hidden whitespace-pre-line break-words bg-transparent py-3 text-sm outline-none focus-visible:border-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 focus-visible:outline-none",
             className,
           )}
           style={style}

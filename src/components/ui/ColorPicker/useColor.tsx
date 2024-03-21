@@ -3,7 +3,7 @@ import tinycolor2, { type ColorFormats } from "tinycolor2";
 
 const useColor = (
   initialColor?: ColorFormats.HSVA,
-  onChange?: (HSVA: ColorFormats.HSVA) => void
+  onChange?: (HSVA: ColorFormats.HSVA) => void,
 ) => {
   const [color, setColor] = useState(tinycolor2(initialColor).toHsv());
 

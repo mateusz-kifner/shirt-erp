@@ -11,7 +11,7 @@ import { useUserContext } from "@/context/userContext";
 import { cn } from "@/utils/cn";
 import { IconLoader2, IconMoonStars, IconSun } from "@tabler/icons-react";
 import { type ComponentType, useId } from "react";
-import { type GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 
 const TestAccordion = lazy(
   () => import("@/page-components/erp/settings/shadcn/TestAccordion"),
@@ -300,7 +300,7 @@ const UIElements: {
   },
 ];
 
-interface ShadcnProps {}
+type ShadcnProps = {};
 
 function Shadcn(props: ShadcnProps) {
   const {} = props;
@@ -319,7 +319,7 @@ function Shadcn(props: ShadcnProps) {
           <CardContent className={cn("flex gap-2 p-2", val.className)}>
             <Suspense
               fallback={
-                <IconLoader2 className="animate-spin direction-reverse" />
+                <IconLoader2 className="direction-reverse animate-spin" />
               }
             >
               <val.Element />
@@ -331,7 +331,7 @@ function Shadcn(props: ShadcnProps) {
       <Button
         onClick={toggleTheme}
         size="icon"
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full"
+        className="fixed right-6 bottom-6 h-14 w-14 rounded-full"
       >
         {theme === 1 ? <IconSun /> : <IconMoonStars />}
       </Button>

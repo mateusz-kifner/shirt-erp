@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
 import { useUserContext } from "@/context/userContext";
 import type EditableInput from "@/types/EditableInput";

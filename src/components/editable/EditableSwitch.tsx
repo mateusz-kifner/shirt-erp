@@ -35,7 +35,7 @@ const editableSwitchVariants = cva(
       variant: {
         default: "",
         color:
-          "data-[state=checked]:dark:border-green-500 data-[state=checked]:border-green-800 data-[state=unchecked]:dark:border-red-500 data-[state=unchecked]:border-red-800",
+          "data-[state=checked]:border-green-800 data-[state=checked]:dark:border-green-500 data-[state=unchecked]:border-red-800 data-[state=unchecked]:dark:border-red-500",
       },
     },
     defaultVariants: {

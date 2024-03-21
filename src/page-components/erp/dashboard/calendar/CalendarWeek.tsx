@@ -17,7 +17,7 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import CalendarCell from "./CalendarCell";
 
 interface CalendarWeekProps {
@@ -67,7 +67,7 @@ function CalendarWeek(props: CalendarWeekProps) {
     currentDay.isSame(endOfWeek, "day")
   ) {
     for (let i = 0; i < 7; i++) {
-      weekDays.push(parseInt(currentDay.format("D")));
+      weekDays.push(Number.parseInt(currentDay.format("D")));
       currentDay = currentDay.add(1, "day");
     }
   }
@@ -80,13 +80,13 @@ function CalendarWeek(props: CalendarWeekProps) {
   let monthYearString = startOfWeek.format("MMMM YYYY");
   if (startOfWeek.month() !== endOfWeek.month()) {
     if (startOfWeek.month() === 11 && endOfWeek.month() === 0) {
-      monthYearString =
-        startOfWeek.format("MMMM YYYY") +
-        " \\ " +
-        endOfWeek.format("MMMM YYYY");
+      monthYearString = `${startOfWeek.format(
+        "MMMM YYYY",
+      )} \\ ${endOfWeek.format("MMMM YYYY")}`;
     } else {
-      monthYearString =
-        startOfWeek.format("MMMM") + " \\ " + endOfWeek.format("MMMM YYYY");
+      monthYearString = `${startOfWeek.format("MMMM")} \\ ${endOfWeek.format(
+        "MMMM YYYY",
+      )}`;
     }
   }
 
@@ -132,23 +132,23 @@ function CalendarWeek(props: CalendarWeekProps) {
         </Button>
       </div>
       <div
-        className="grid h-full flex-grow grid-cols-7 overflow-hidden rounded border-l border-t"
+        className="grid h-full flex-grow grid-cols-7 overflow-hidden rounded border-t border-l"
         style={{
           gridTemplateRows: "auto 1fr ",
         }}
       >
         {weekdays.map((val) => (
-          <div key={`${uuid}${val}:`} className="border-b border-r px-1 py-0.5">
+          <div key={`${uuid}${val}:`} className="border-r border-b px-1 py-0.5">
             {val}
           </div>
         ))}
 
         {weekDays.map((day, index) => (
-          <div key={`${uuid}${day}:${index}`} className="border-b border-r ">
+          <div key={`${uuid}${day}:${index}`} className="border-r border-b">
             {day !== null && (
               <CalendarCell
                 highlight={
-                  day === todayDay && month == todayMonth && year === todayYear
+                  day === todayDay && month === todayMonth && year === todayYear
                 }
                 dayOrders={orders?.[day]}
                 day={day}

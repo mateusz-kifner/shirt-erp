@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/Dialog";
 import useTranslation from "@/hooks/useTranslation";
-import { type NewEmailMessage } from "@/server/api/email-message/validator";
+import type { NewEmailMessage } from "@/server/api/email-message/validator";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";
 import _ from "lodash";
 import { useId, useMemo, useState } from "react";
@@ -34,7 +34,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   const { data: emailData } = api.order.useGetRelatedEmails(orderId);
 
   const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
-    () => (emailData && emailData.sort(sortObjectByDateOrNull("date"))) || null,
+    () => emailData?.sort(sortObjectByDateOrNull("date")) || null,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [orderData?.emails],
   );
@@ -43,8 +43,8 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
       {emailMessagesSorted && emailMessagesSorted.length > 0 ? (
         <Accordion type="multiple" defaultValue={["email0"]}>
           {emailMessagesSorted.map((val, index) => (
-            <AccordionItem value={"email" + index} key={`${uuid}mail:${index}`}>
-              <AccordionTrigger className=" text-xl font-bold">
+            <AccordionItem value={`email${index}`} key={`${uuid}mail:${index}`}>
+              <AccordionTrigger className="font-bold text-xl">
                 {val.subject}
               </AccordionTrigger>
               <AccordionContent className="whitespace-pre-wrap">

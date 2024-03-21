@@ -1,8 +1,8 @@
 import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
-import { type GetStaticProps } from "next";
-interface ColorsProps {}
+import type { GetStaticProps } from "next";
+type ColorsProps = {};
 
 function Colors(props: ColorsProps) {
   const {} = props;
@@ -13,7 +13,7 @@ function Colors(props: ColorsProps) {
       <Button
         onClick={toggleTheme}
         size="icon"
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full"
+        className="fixed right-6 bottom-6 h-14 w-14 rounded-full"
       >
         {theme === 1 ? <IconSun /> : <IconMoonStars />}
       </Button>

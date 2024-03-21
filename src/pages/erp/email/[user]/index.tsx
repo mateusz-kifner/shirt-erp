@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-interface EmailClientProps {}
+type EmailClientProps = {};
 
 function EmailClient(props: EmailClientProps) {
   const {} = props;

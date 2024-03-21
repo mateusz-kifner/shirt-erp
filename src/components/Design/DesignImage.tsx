@@ -1,8 +1,8 @@
-import { type File } from "@/server/api/file/validator";
+import type { File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import { animated, useSpring } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
-import { type HTMLAttributes } from "react";
+import type { HTMLAttributes } from "react";
 
 interface DesignImageProps extends HTMLAttributes<HTMLDivElement> {
   file: Partial<File>;
@@ -17,7 +17,7 @@ function DesignImage(props: DesignImageProps) {
 
   const url = file.mimetype?.startsWith("image")
     ? `/api/files/${file.filename}${
-        file?.token && file.token.length > 0 ? "?token=" + file?.token : ""
+        file?.token && file.token.length > 0 ? `?token=${file?.token}` : ""
       }`
     : undefined;
 
@@ -45,11 +45,11 @@ function DesignImage(props: DesignImageProps) {
         ...style,
       }}
       className={cn(
-        "absolute left-0 top-0 touch-none border-2 border-solid",
+        "absolute top-0 left-0 touch-none border-2 border-solid",
         active && "border-sky-600",
       )}
       {...moreProps}
-    ></animated.div>
+    />
   );
 }
 

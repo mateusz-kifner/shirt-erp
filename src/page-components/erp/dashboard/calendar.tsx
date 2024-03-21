@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 
@@ -15,7 +15,7 @@ import CalendarMonth from "./calendar/CalendarMonth";
 import CalendarWeek from "./calendar/CalendarWeek";
 import { useFlagContext } from "@/context/flagContext";
 
-interface CalendarViewProps {}
+type CalendarViewProps = {};
 
 // TODO: fix corners in month table
 function CalendarView(props: CalendarViewProps) {
@@ -45,7 +45,7 @@ function CalendarView(props: CalendarViewProps) {
         val: OrderWithoutRelations,
       ) => {
         if (val.dateOfCompletion === null) return arr;
-        const index = parseInt(dayjs(val.dateOfCompletion).format("DD"));
+        const index = Number.parseInt(dayjs(val.dateOfCompletion).format("DD"));
         if (arr[index] === undefined) {
           arr[index] = [val];
         } else {
@@ -78,7 +78,7 @@ function CalendarView(props: CalendarViewProps) {
             size="icon"
             variant="outline"
             className={cn(
-              "border-l-none rounded-l-none",
+              "rounded-l-none border-l-none",
               mode === "week" && "bg-sky-700/25",
             )}
             onClick={() => {
@@ -106,7 +106,7 @@ function CalendarView(props: CalendarViewProps) {
             size="icon"
             variant="outline"
             className={cn(
-              "border-l-none rounded-l-none",
+              "rounded-l-none border-l-none",
               dataMode === "all" && "bg-sky-700/25",
             )}
             onClick={() => {
@@ -117,14 +117,14 @@ function CalendarView(props: CalendarViewProps) {
           </Button>
         </div>
       </div>
-      {mode == "month" && (
+      {mode === "month" && (
         <CalendarMonth
           currentMonth={currentMonth}
           setCurrentMonth={setCurrentMonth}
           orders={ordersByDay}
         />
       )}
-      {mode == "week" && (
+      {mode === "week" && (
         <CalendarWeek
           currentMonth={currentMonth}
           setCurrentMonth={setCurrentMonth}

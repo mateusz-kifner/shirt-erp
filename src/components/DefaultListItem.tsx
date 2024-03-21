@@ -32,14 +32,9 @@ export function DefaultListItem<T extends { id?: number | string | null }>({
   return (
     <Button
       variant="ghost"
-      className={`
-        flex
-        h-14
-        flex-grow
-        rounded
-        border-none px-2
-        py-0
-        ${active ? "bg-black/10 dark:bg-white/10" : ""}`}
+      className={`flex h-14 flex-grow rounded border-none px-2 py-0${
+        active ? "bg-black/10 dark:bg-white/10" : ""
+      }`}
       disabled={disabled}
       onClick={() => onChange?.(value)}
       leftSection={leftSection}
@@ -47,17 +42,7 @@ export function DefaultListItem<T extends { id?: number | string | null }>({
     >
       {value && (
         <div
-          className="
-            flex 
-            h-10 w-10 
-            select-none 
-            items-center 
-            justify-center 
-            rounded-full 
-            text-base 
-            font-bold 
-            text-stone-800 
-            dark:text-stone-200"
+          className="flex h-10 w-10 select-none items-center justify-center rounded-full font-bold text-base text-stone-800 dark:text-stone-200"
           style={{
             background: `radial-gradient(circle, transparent 58%, ${
               typeof value.id === "number"
@@ -73,7 +58,7 @@ export function DefaultListItem<T extends { id?: number | string | null }>({
         <span className="text-sm text-stone-800 dark:text-stone-200">
           {!!firstElement && firstElement}
         </span>
-        <span className="text-xs text-stone-600 dark:text-stone-400">
+        <span className="text-stone-600 text-xs dark:text-stone-400">
           {!!secondElement && secondElement}
         </span>
       </div>

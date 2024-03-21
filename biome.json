@@ -8,11 +8,15 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noArrayIndexKey": "warn"
+        "noArrayIndexKey": "warn",
+        "noExplicitAny": "warn"
       },
       "correctness": {
         "useExhaustiveDependencies": "warn",
         "noConstantCondition": "warn"
+      },
+      "style": {
+        "useNodejsImportProtocol": "off"
       },
       "nursery": {
         "useSortedClasses": {

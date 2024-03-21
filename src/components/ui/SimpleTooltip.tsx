@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface SimpleTooltipProps {
   tooltip: ReactNode;
@@ -39,10 +39,10 @@ function SimpleTooltip(props: SimpleTooltipProps) {
   if (disabled) return children;
 
   return (
-    <div className={`tooltip ${className ?? ""} tooltip-${delay}`}>
+    <div className={`tooltip${className ?? ""}tooltip-${delay}`}>
       {children}
       <div
-        className={`tooltip-text bg-stone-300 text-base font-normal normal-case text-stone-800 after:border-transparent after:border-t-stone-200 dark:bg-stone-800 dark:text-stone-200 dark:after:border-t-stone-800 tooltip-text-${position}-${align} ${
+        className={`tooltip-text tooltip-text- bg-stone-300 font-normal text-base text-stone-800 normal-case after:border-transparent after:border-t-stone-200 dark:after:border-t-stone-800 dark:bg-stone-800 dark:text-stone-200${position}-${align}${
           classNameTooltip ?? ""
         }`}
       >

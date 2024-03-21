@@ -17,7 +17,7 @@ function ColorSwatches(props: ColorSwatchesProps) {
   const { colors, onClick, className } = props;
   const uuid = useId();
   const [disableColorTooltip, _setDisableColorTooltip] = useState<boolean>(
-    localStorage.getItem("disableColorTooltip") === "1"
+    localStorage.getItem("disableColorTooltip") === "1",
   );
 
   const setDisableColorTooltip = (value: boolean) => {
@@ -26,20 +26,12 @@ function ColorSwatches(props: ColorSwatchesProps) {
   };
 
   return (
-    <ScrollArea className={`relative ${className ?? ""}`}>
+    <ScrollArea className={`relative${className ?? ""}`}>
       <div className="relative flex w-fit flex-col gap-4">
         <Button
           size="icon"
           variant="ghost"
-          className="absolute
-            right-4
-            top-0 
-            h-6 w-6
-            border-none
-            p-0
-            hover:bg-transparent
-            dark:hover:bg-transparent
-            "
+          className="absolute top-0 right-4 h-6 w-6 border-none p-0 dark:hover:bg-transparent hover:bg-transparent"
           onClick={() => setDisableColorTooltip(!disableColorTooltip)}
         >
           {disableColorTooltip ? <IconNoteOff /> : <IconNote />}
@@ -57,16 +49,16 @@ function ColorSwatches(props: ColorSwatchesProps) {
                     colorIndex % 11 < 2
                       ? "start"
                       : colorIndex % 11 > 8
-                      ? "end"
-                      : "center"
+                        ? "end"
+                        : "center"
                   }
                   disabled={disableColorTooltip}
                 >
                   <div
                     className="h-6 w-6 rounded"
-                    style={{ background: colors[key]![colorName] }}
-                    onClick={() => onClick?.(colors[key]![colorName]!)}
-                  ></div>
+                    style={{ background: colors[key]?.[colorName] }}
+                    onClick={() => onClick?.(colors[key]?.[colorName]!)}
+                  />
                 </SimpleTooltip>
               ))}
             </div>

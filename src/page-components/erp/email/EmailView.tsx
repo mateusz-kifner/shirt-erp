@@ -1,9 +1,9 @@
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import { Separator } from "@/components/ui/Separator";
-import { type EmailMessage } from "@/server/api/email-message/validator";
+import type { EmailMessage } from "@/server/api/email-message/validator";
 import dayjs from "dayjs";
 import DOMPurify from "dompurify";
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface EmailViewProps {
   data: Partial<EmailMessage>;
@@ -16,7 +16,7 @@ function EmailView(props: EmailViewProps) {
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );
@@ -51,7 +51,7 @@ function EmailView(props: EmailViewProps) {
       <Separator />
 
       <div
-        className={`plain-html editor w-full ${
+        className={`plain-html editor w-full${
           sanitizedHtml.length === 0 ||
           sanitizedHtml === "<p></p>" ||
           sanitizedHtml === "<p></p><p></p>"
@@ -66,7 +66,7 @@ function EmailView(props: EmailViewProps) {
               ? "⸺"
               : sanitizedHtml,
         }}
-      ></div>
+      />
     </div>
   );
 }

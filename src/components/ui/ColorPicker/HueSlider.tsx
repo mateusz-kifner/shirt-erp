@@ -54,7 +54,7 @@ function HueSlider(props: ColorSliderProps) {
         }}
       >
         <div
-          className="duration-[50ms] absolute box-border -translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height] ease-in-out"
+          className="-translate-x-1/2 -translate-y-1/2 absolute box-border rounded-full transition-[width,height] duration-[50ms] ease-in-out"
           style={{
             top: TRACK_THICKNESS / 2,
             border: "2px solid white",
@@ -64,7 +64,7 @@ function HueSlider(props: ColorSliderProps) {
             background: thumbColor.toHexString(),
             left: value.h * 360,
           }}
-        ></div>
+        />
       </div>
     </div>
   );

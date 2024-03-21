@@ -18,7 +18,7 @@ import {
 import Button from "@/components/ui/Button";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { truncString } from "@/utils/truncString";
 import {
   IconAddressBook,
@@ -79,14 +79,14 @@ function CustomerEditable(props: CustomerEditableProps) {
     if (!data) return;
     deleteCustomerAsync(data.id)
       .then(() => {
-        router.push(`/erp/customer`).catch(console.log);
+        router.push("/erp/customer").catch(console.log);
       })
       .catch(console.log);
   };
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );

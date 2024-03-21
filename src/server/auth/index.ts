@@ -1,5 +1,5 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { type GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import {
   getServerSession,
   type DefaultSession,
@@ -13,8 +13,8 @@ import { db } from "@/server/db";
 import { sendVerificationRequest } from "./email";
 import { type UserRole, users } from "@/server/api/user/schema";
 import { eq } from "drizzle-orm";
-import { type Adapter } from "next-auth/adapters";
-import { type Provider } from "next-auth/providers/index";
+import type { Adapter } from "next-auth/adapters";
+import type { Provider } from "next-auth/providers/index";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -70,7 +70,7 @@ if (
     EmailProvider({
       server: {
         host: env.EMAIL_SERVER_HOST,
-        port: parseInt(env.EMAIL_SERVER_PORT),
+        port: Number.parseInt(env.EMAIL_SERVER_PORT),
         auth: {
           user: env.EMAIL_SERVER_USER,
           pass: env.EMAIL_SERVER_PASSWORD,
@@ -110,7 +110,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
-          role: userData[0]!.role,
+          role: userData[0]?.role,
         },
       };
     },
@@ -123,7 +123,7 @@ export const authOptions: NextAuthOptions = {
     buttonText: "#eee",
     logo: `${
       env.NEXTAUTH_URL.slice(-1) !== "/"
-        ? env.NEXTAUTH_URL + "/"
+        ? `${env.NEXTAUTH_URL}/`
         : env.NEXTAUTH_URL
     }logo.png`,
   },

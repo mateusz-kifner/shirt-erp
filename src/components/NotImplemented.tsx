@@ -11,7 +11,7 @@ const NotImplemented = (props: any) => {
     >
       <h5>
         {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-plus-operands */}
-        Not implemented {props?.message ? " - " + props.message : ""}{" "}
+        Not implemented {props?.message ? ` - ${props.message}` : ""}{" "}
       </h5>
       <code
         style={{

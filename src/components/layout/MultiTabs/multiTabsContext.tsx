@@ -64,7 +64,7 @@ export const MultiTabsContextProvider = (
 export function useMultiTabsContext(): MultiTabsContextType {
   const state = useContext(MultiTabsContext);
   if (!state) {
-    throw new Error(`ERROR: Cannot use MultiTabsContext outside of MultiTabs`);
+    throw new Error("ERROR: Cannot use MultiTabsContext outside of MultiTabs");
   }
   return state;
 }

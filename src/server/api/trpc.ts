@@ -75,7 +75,7 @@ import { ZodError } from "zod";
 
 import { db } from "@/server/db";
 import { getServerAuthSession } from "../auth";
-import { type Session } from "next-auth";
+import type { Session } from "next-auth";
 import { users } from "@/server/api/user/schema";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({

@@ -1,9 +1,9 @@
-import { describe, test, expect, beforeAll, afterAll } from "vitest";
-import productService from "@/server/api/product/service";
-import orderService from "@/server/api/order/service";
-import fileService from "@/server/api/file/service";
 import emailMessageService from "@/server/api/email-message/service";
+import fileService from "@/server/api/file/service";
+import orderService from "@/server/api/order/service";
+import productService from "@/server/api/product/service";
 import userService from "@/server/api/user/service";
+import { afterAll, beforeAll, describe, expect, test } from "vitest";
 
 const order = {
   name: "Ala",
@@ -57,20 +57,25 @@ describe("Order to Product relation", () => {
 
   test("update connect Product", async () => {
     const data = await orderService.productRelation.connect(
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       orderId!,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       productId!,
     );
     expect(data).toMatchObject({
       orderId,
       productId,
     });
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.products.length).toBeGreaterThan(0);
-    expect(byId.products[0]!.name).toEqual("Test Product 789");
+    expect(byId.products[0]?.name).toEqual("Test Product 789");
   });
   test("update disconnect Product", async () => {
     const data = await orderService.productRelation.disconnect(
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       orderId!,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       productId!,
     );
     expect(data).toMatchObject({
@@ -78,6 +83,7 @@ describe("Order to Product relation", () => {
       productId,
     });
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.products.length).toEqual(0);
   });
@@ -94,6 +100,7 @@ describe("Order to File relation", () => {
       originalFilename: "[nope]",
       newFilename: "[nope]",
       mimetype: "text/html",
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     } as any); // TODO: find why this errors
     fileId = file.id;
     const order = await orderService.create({ name: "Test Order 789" });
@@ -106,22 +113,26 @@ describe("Order to File relation", () => {
   });
 
   test("update connect File", async () => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const data = await orderService.fileRelation.connect(orderId!, fileId!);
     expect(data).toMatchObject({
       orderId,
       fileId,
     });
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.files.length).toBeGreaterThan(0);
-    expect(byId.files[0]!.filename).toEqual("Test File 789");
+    expect(byId.files[0]?.filename).toEqual("Test File 789");
   });
   test("update disconnect File", async () => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const data = await orderService.fileRelation.disconnect(orderId!, fileId!);
     expect(data).toMatchObject({
       orderId,
       fileId,
     });
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.files.length).toEqual(0);
   });
@@ -147,22 +158,26 @@ describe("Order to User relation", () => {
   });
 
   test("update connect User", async () => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const data = await orderService.userRelation.connect(orderId!, userId!);
     expect(data).toMatchObject({
       orderId,
       userId,
     });
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.employees.length).toBeGreaterThan(0);
-    expect(byId.employees[0]!.name).toEqual("Jan Kowalski");
+    expect(byId.employees[0]?.name).toEqual("Jan Kowalski");
   });
   test("update disconnect User", async () => {
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const data = await orderService.userRelation.disconnect(orderId!, userId!);
     expect(data).toMatchObject({
       orderId,
       userId,
     });
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.employees.length).toEqual(0);
   });
@@ -188,20 +203,25 @@ describe("Order to EmailMessage relation", () => {
 
   test("update connect EmailMessage", async () => {
     const data = await orderService.emailMessageRelation.connect(
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       orderId!,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       emailMessageId!,
     );
     expect(data).toMatchObject({
       orderId,
       emailMessageId,
     });
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.emails.length).toBeGreaterThan(0);
-    expect(byId.emails[0]!.subject).toEqual("Test EmailMessage 789");
+    expect(byId.emails[0]?.subject).toEqual("Test EmailMessage 789");
   });
   test("update disconnect EmailMessage", async () => {
     const data = await orderService.emailMessageRelation.disconnect(
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       orderId!,
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
       emailMessageId!,
     );
     expect(data).toMatchObject({
@@ -209,6 +229,7 @@ describe("Order to EmailMessage relation", () => {
       emailMessageId,
     });
 
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
     const byId = await orderService.getByIdFull(orderId!);
     expect(byId.emails.length).toEqual(0);
   });

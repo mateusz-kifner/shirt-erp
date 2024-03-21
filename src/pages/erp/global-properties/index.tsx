@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const entryName = "global-properties";
 
-interface GlobalPropertiesPageProps {}
+type GlobalPropertiesPageProps = {};
 
 function GlobalPropertiesPage(props: GlobalPropertiesPageProps) {
   const {} = props;

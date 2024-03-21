@@ -93,10 +93,10 @@ function TestDrawer() {
                   <span className="sr-only">Decrease</span>
                 </Button>
                 <div className="flex-1 text-center">
-                  <div className="text-7xl font-bold tracking-tighter">
+                  <div className="font-bold text-7xl tracking-tighter">
                     {goal}
                   </div>
-                  <div className="text-[0.70rem] uppercase text-muted-foreground">
+                  <div className="text-[0.70rem] text-muted-foreground uppercase">
                     Calories/day
                   </div>
                 </div>

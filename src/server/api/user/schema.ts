@@ -11,7 +11,7 @@ import {
 import { metadata } from "../../db/_metadata";
 import { email_credentials_to_users } from "../email/schema/email_credentials_to_users";
 import { orders_to_users } from "../order/schema/orders_to_users";
-import { type AdapterAccount } from "next-auth/adapters";
+import type { AdapterAccount } from "next-auth/adapters";
 
 export const roleEnum = pgEnum("role", [
   "normal",

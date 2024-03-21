@@ -1,12 +1,12 @@
 import { type DBType, db } from "@/server/db";
 import { orders } from "../schema";
 import { eq, sql } from "drizzle-orm";
-import {
-  type NewOrder,
-  type NewOrderWithRelationsByIds,
-  type UpdatedOrder,
+import type {
+  NewOrder,
+  NewOrderWithRelationsByIds,
+  UpdatedOrder,
 } from "../validator";
-import { type MetadataType } from "@/types/MetadataType";
+import type { MetadataType } from "@/types/MetadataType";
 import addressService from "../../address/service";
 import spreadsheetService from "../../spreadsheet/service";
 import productRelation from "./productRelation";
@@ -125,7 +125,7 @@ async function createFullByValue(
   } = orderData;
 
   let newAddressId: number | undefined;
-  if (!!address) {
+  if (address) {
     const newAddress = await addressService.create(
       {
         ...address,
@@ -222,7 +222,7 @@ async function createFull(
   } = orderData;
 
   let newAddressId: number | undefined;
-  if (!!address) {
+  if (address) {
     const newAddress = await addressService.create(
       {
         ...address,

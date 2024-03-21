@@ -31,11 +31,7 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
       >
         <div className="flex flex-grow items-center gap-2">
           {!!leftSection && (
-            <div
-              className="
-          text-gray-400 
-          dark:text-stone-600"
-            >
+            <div className="text-gray-400 dark:text-stone-600">
               {leftSection}
             </div>
           )}
@@ -44,11 +40,7 @@ const DisplayCellExpanding = forwardRef<HTMLDivElement, DisplayCellProps>(
           </div>
         </div>
         {!!rightSection && (
-          <div
-            className="
-        text-gray-400 
-        dark:text-stone-600"
-          >
+          <div className="text-gray-400 dark:text-stone-600">
             {rightSection}
           </div>
         )}

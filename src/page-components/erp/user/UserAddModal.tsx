@@ -45,7 +45,7 @@ const UserAddModal = ({ opened, onClose }: UserAddModalProps) => {
 
           <Button
             onClick={() => {
-              if (data.username.length == 0)
+              if (data.username.length === 0)
                 return setError("Musisz podać nie pustą nazwę użytkownika");
 
               createUser({ name: data.username, email: data.email })

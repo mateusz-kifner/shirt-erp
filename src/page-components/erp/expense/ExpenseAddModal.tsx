@@ -6,7 +6,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type Expense } from "@/server/api/expense/validator";
+import type { Expense } from "@/server/api/expense/validator";
 import { trpc } from "@/utils/trpc";
 import _ from "lodash";
 import ExpenseListItem from "./ExpenseListItem";
@@ -56,7 +56,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
 
           <Button
             onClick={() => {
-              if (data.expenseName.length == 0)
+              if (data.expenseName.length === 0)
                 return setError("Musisz podać nie pustą nazwę wydatku");
               const new_expense = {
                 ...(data.template ? _.omit(data.template, "id") : {}),

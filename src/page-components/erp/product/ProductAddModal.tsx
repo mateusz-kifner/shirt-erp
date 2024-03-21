@@ -6,7 +6,7 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
 import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
-import { type Product } from "@/server/api/product/validator";
+import type { Product } from "@/server/api/product/validator";
 import _ from "lodash";
 import ProductListItem from "./ProductListItem";
 import Editable from "@/components/editable/Editable";
@@ -60,7 +60,7 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
 
           <Button
             onClick={() => {
-              if (data.productName.length == 0)
+              if (data.productName.length === 0)
                 return setError("Musisz podać nie pustą nazwę produktu");
               const new_product = {
                 ...(data.template ? _.omit(data.template, "id") : {}),

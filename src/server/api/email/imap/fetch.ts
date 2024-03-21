@@ -1,9 +1,9 @@
-import { type ImapFlow } from "imapflow";
+import type { ImapFlow } from "imapflow";
 
 export async function fetchEmailByUid(
   client: ImapFlow,
   uid?: string,
-  mailbox: string = "INBOX",
+  mailbox = "INBOX",
 ) {
   try {
     await client.connect();
@@ -31,9 +31,9 @@ export async function fetchEmailByUid(
 
 export async function emailSearch(
   client: ImapFlow,
-  mailbox: string = "INBOX",
-  query: string = "",
-  take: number = 10,
+  mailbox = "INBOX",
+  query = "",
+  take = 10,
   // skip: number = 0,
 ) {
   try {
@@ -60,7 +60,7 @@ export async function emailSearch(
 
     const seq: string = mails
       .filter((_, i) => i < take)
-      .reduce((p, n, i) => (i == 0 ? `${n}` : `${p},${n}`), "");
+      .reduce((p, n, i) => (i === 0 ? `${n}` : `${p},${n}`), "");
 
     for await (const msg of client.fetch(
       { seq },
@@ -87,9 +87,9 @@ export async function emailSearch(
 
 export async function fetchEmails(
   client: ImapFlow,
-  mailbox: string = "INBOX",
-  take: number = 10,
-  skip: number = 0,
+  mailbox = "INBOX",
+  take = 10,
+  skip = 0,
 ) {
   try {
     await client.connect();

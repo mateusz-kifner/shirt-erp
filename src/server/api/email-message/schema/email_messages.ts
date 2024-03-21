@@ -24,9 +24,7 @@ export const email_messages = pgTable("email_messages", {
   messageUid: integer("message_uid"),
   mailbox: varchar("mailbox"),
   clientUser: varchar("client_user"),
-  headerLines: varchar("header_lines")
-    .array()
-    .default(sql`ARRAY[]::varchar[]`),
+  headerLines: varchar("header_lines").array().default(sql`ARRAY[]::varchar[]`),
   textAsHtml: text("text_as_html"),
   messageFileId: integer("message_file_id").references(() => files.id),
   ...metadata,

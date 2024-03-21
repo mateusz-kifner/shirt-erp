@@ -10,7 +10,7 @@ import { IconSearch, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useId, useState } from "react";
 
-interface SearchProps {}
+type SearchProps = {};
 
 function Search(props: SearchProps) {
   const {} = props;
@@ -57,18 +57,18 @@ function Search(props: SearchProps) {
         <Button
           size="icon"
           variant="ghost"
-          className="absolute right-5 top-5 h-6 w-6 rounded-full"
+          className="absolute top-5 right-5 h-6 w-6 rounded-full"
           onClick={() => setQuery("")}
         >
           <IconX size={18} />
         </Button>
-        <div className="flex flex-col gap-2 ">
-          <span className="pl-4 italic text-gray-800 first-letter:capitalize dark:text-stone-200">
+        <div className="flex flex-col gap-2">
+          <span className="pl-4 text-gray-800 italic dark:text-stone-200 first-letter:capitalize">
             {t.order.plural}
           </span>
           {data?.[1].map((order, index) => (
             <OrderListItem
-              key={"order" + uuid + index}
+              key={`order${uuid}${index}`}
               value={order}
               onChange={(order) => {
                 void router.push(`/erp/order/${order.id}`);
@@ -78,12 +78,12 @@ function Search(props: SearchProps) {
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          <span className="pl-4 italic text-gray-800 first-letter:capitalize dark:text-stone-200">
+          <span className="pl-4 text-gray-800 italic dark:text-stone-200 first-letter:capitalize">
             {t.customer.plural}
           </span>
           {data?.[0].map((customer, index) => (
             <CustomerListItem
-              key={"customer" + uuid + index}
+              key={`customer${uuid}${index}`}
               value={customer}
               onChange={(customer) => {
                 void router.push(`/erp/customer/${customer.id}`);

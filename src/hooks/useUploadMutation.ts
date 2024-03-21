@@ -4,7 +4,7 @@ const useUploadMutation = (
   options?: Omit<
     UseMutationOptions<Response, unknown, FormData, unknown>,
     "mutationFn"
-  >
+  >,
 ) => {
   return useMutation<Response, unknown, FormData, unknown>(
     (formData: FormData) => {
@@ -13,7 +13,7 @@ const useUploadMutation = (
         body: formData,
       });
     },
-    options
+    options,
   );
 };
 

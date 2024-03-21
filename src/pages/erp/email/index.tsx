@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const entryName = "email";
 
-interface EmailPageProps {}
+type EmailPageProps = {};
 
 function EmailPage(props: EmailPageProps) {
   const {} = props;

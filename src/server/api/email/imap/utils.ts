@@ -1,6 +1,6 @@
-import fs from "node:fs";
-import { Readable, type Stream } from "node:stream";
-import { createHash } from "node:crypto";
+import { createHash } from "crypto";
+import fs from "fs";
+import { Readable, type Stream } from "stream";
 import { mailDir } from "./config";
 
 export async function writeStreamAsync(outputFilePath: string, stream: Stream) {

@@ -134,8 +134,7 @@ const Workspace = ({
             multiTabsState.pinned.map((childIndex, index) => (
               <div
                 key={uuid + index}
-                className="flex  flex-grow
-               flex-col rounded bg-white shadow-lg dark:bg-stone-800"
+                className="flex flex-grow flex-col rounded bg-white shadow-lg dark:bg-stone-800"
                 // {...(childrenWrapperProps2 &&
                 // childrenWrapperProps2[childIndex] !== undefined
                 //   ? childrenWrapperProps2[childIndex]

@@ -94,14 +94,14 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     let eq = true;
     if (
       new_data.length === data.length &&
-      new_data[0]!.length === data[0]!.length
+      new_data[0]?.length === data[0]?.length
     ) {
       for (let y = 0; y < data.length; y++) {
-        for (let x = 0; x < data[0]!.length; x++) {
+        for (let x = 0; x < data[0]?.length; x++) {
           if (
-            new_data[y]![x]?.value !== data[y]![x]?.value ||
-            new_data[y]![x]?.metaId !== data[y]![x]?.metaId ||
-            new_data[y]![x]?.metaPropertyId !== data[y]![x]?.metaPropertyId
+            new_data[y]?.[x]?.value !== data[y]?.[x]?.value ||
+            new_data[y]?.[x]?.metaId !== data[y]?.[x]?.metaId ||
+            new_data[y]?.[x]?.metaPropertyId !== data[y]?.[x]?.metaPropertyId
           ) {
             eq = false;
           }
@@ -139,14 +139,15 @@ const Spreadsheet = (props: SpreadsheetProps) => {
       if (
         value?.data &&
         value.data.length === data.length &&
-        value.data[0]!.length === data[0]!.length
+        value.data[0]?.length === data[0]?.length
       ) {
         for (let y = 0; y < data.length; y++) {
-          for (let x = 0; x < data[0]!.length; x++) {
+          for (let x = 0; x < data[0]?.length; x++) {
             if (
-              value.data[y]![x]?.value !== data[y]![x]?.value ||
-              value.data[y]![x]?.metaId !== data[y]![x]?.metaId ||
-              value.data[y]![x]?.metaPropertyId !== data[y]![x]?.metaPropertyId
+              value.data[y]?.[x]?.value !== data[y]?.[x]?.value ||
+              value.data[y]?.[x]?.metaId !== data[y]?.[x]?.metaId ||
+              value.data[y]?.[x]?.metaPropertyId !==
+                data[y]?.[x]?.metaPropertyId
             ) {
               eq = false;
             }
@@ -165,7 +166,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
   }, [updateCount, canUpdate]);
 
   useEffect(() => {
-    if (!!value?.data) {
+    if (value?.data) {
       setData(value.data);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -292,12 +293,12 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     <div
       className={
         fullscreen
-          ? "absolute left-0 right-0 top-0 z-[9999] h-[200vh] overflow-hidden bg-gray-200 dark:bg-stone-800"
+          ? "absolute top-0 right-0 left-0 z-[9999] h-[200vh] overflow-hidden bg-gray-200 dark:bg-stone-800"
           : "h-full p-px"
       }
     >
       <div
-        className={`flex items-end justify-between px-2 py-2 ${
+        className={`flex items-end justify-between px-2 py-2${
           ""
           // disabled ? "none" : ""
         }`}
@@ -305,77 +306,73 @@ const Spreadsheet = (props: SpreadsheetProps) => {
         <div className="flex flex-wrap items-end gap-2">
           {metadata &&
             Object.keys(metadata).map((key, bgIndex) => (
-              <div key={uuid + "_" + bgIndex} className="flex flex-col">
+              <div key={`${uuid}_${bgIndex}`} className="flex flex-col">
                 <div className="text-sm italic">{key.split(":")[0]}</div>
                 <div>
-                  {metadataVisuals &&
-                    metadataVisuals.map((visual, index) => {
-                      const Icon = visual?.icon;
-                      return (
-                        <Tooltip key={uuid + "_" + bgIndex + "_" + index}>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              className="relative rounded-none before:absolute before:inset-0 first:rounded-l last:rounded-r hover:before:bg-black/20"
-                              style={{
-                                backgroundColor:
-                                  getRandomColorByNumber(metadata[key]!.id) +
-                                  "88",
-                              }}
-                              onClick={() => {
-                                setMetadataOnSelection({
-                                  metaId: metadata[key]!.id,
-                                  metaPropertyId: index,
-                                });
-                                setStatusText("Ustawiono metadane");
-                                incrementUpdateCount();
-                              }}
-                            >
-                              <Icon />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>{visual.label}</TooltipContent>
-                        </Tooltip>
-                      );
-                    })}
+                  {metadataVisuals?.map((visual, index) => {
+                    const Icon = visual?.icon;
+                    return (
+                      <Tooltip key={`${uuid}_${bgIndex}_${index}`}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="relative rounded-none before:absolute before:inset-0 last:rounded-r first:rounded-l hover:before:bg-black/20"
+                            style={{
+                              backgroundColor: `${getRandomColorByNumber(
+                                metadata[key]?.id,
+                              )}88`,
+                            }}
+                            onClick={() => {
+                              setMetadataOnSelection({
+                                metaId: metadata[key]?.id,
+                                metaPropertyId: index,
+                              });
+                              setStatusText("Ustawiono metadane");
+                              incrementUpdateCount();
+                            }}
+                          >
+                            <Icon />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{visual.label}</TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
 
-                  {metadataActions &&
-                    metadataActions.map((action, index) => {
-                      const Icon = action?.icon;
-                      return (
-                        <Tooltip
-                          key={uuid + "_" + bgIndex + "_action_" + index}
-                        >
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              className="relative rounded-none border-l-0 before:absolute before:inset-0 first:rounded-l first:border last:rounded-r hover:before:bg-black/20"
-                              style={{
-                                backgroundColor:
-                                  getRandomColorByNumber(metadata[key]!.id) +
-                                  "88",
-                              }}
-                              onClick={() => {
-                                metadataActionsMemo[index] &&
-                                  setData((data) => {
-                                    const [new_data, status] = action.action(
-                                      data,
-                                      metadata[key]!.id,
-                                    );
-                                    setStatusText(status);
-                                    return new_data;
-                                  });
-                              }}
-                            >
-                              {Icon && <Icon />}
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>{action.label}</TooltipContent>
-                        </Tooltip>
-                      );
-                    })}
+                  {metadataActions?.map((action, index) => {
+                    const Icon = action?.icon;
+                    return (
+                      <Tooltip key={`${uuid}_${bgIndex}_action_${index}`}>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="relative rounded-none border-l-0 before:absolute before:inset-0 last:rounded-r first:rounded-l first:border hover:before:bg-black/20"
+                            style={{
+                              backgroundColor: `${getRandomColorByNumber(
+                                metadata[key]?.id,
+                              )}88`,
+                            }}
+                            onClick={() => {
+                              metadataActionsMemo[index] &&
+                                setData((data) => {
+                                  const [new_data, status] = action.action(
+                                    data,
+                                    metadata[key]?.id,
+                                  );
+                                  setStatusText(status);
+                                  return new_data;
+                                });
+                            }}
+                          >
+                            {Icon && <Icon />}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>{action.label}</TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
                 </div>
               </div>
             ))}
@@ -421,7 +418,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
             incrementUpdateCount();
           }}
           onSelect={setSelectionIfNotNull}
-          darkMode={document.querySelector("html")!.classList.contains("dark")}
+          darkMode={document.querySelector("html")?.classList.contains("dark")}
           onModeChange={(mode) => {
             setCanUpdate(mode === "view");
           }}
@@ -433,18 +430,17 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           ColumnIndicator={enhancedColumnIndicator}
           RowIndicator={enhancedRowIndicator}
         />
-        <div style={{ height: 4 }}></div>
+        <div style={{ height: 4 }} />
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
       <div
-        className={
-          "p-2 " +
-          (statusText.startsWith("error")
+        className={`p-2${
+          statusText.startsWith("error")
             ? "text-red-500"
             : statusText.startsWith("success")
               ? "text-green-500"
-              : "text-gray-500")
-        }
+              : "text-gray-500"
+        }`}
       >
         {statusText || "⸺"}
       </div>

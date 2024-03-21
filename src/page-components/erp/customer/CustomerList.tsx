@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import ApiList from "@/components/ApiList";
 import useTranslation from "@/hooks/useTranslation";
-import { type RouterNames } from "@/utils/trpc";
+import type { RouterNames } from "@/utils/trpc";
 import CustomerListItem from "./CustomerListItem";
 
 const entryName: RouterNames = "customer";

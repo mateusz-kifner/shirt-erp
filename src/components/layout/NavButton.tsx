@@ -37,8 +37,8 @@ function NavButton(props: NavButtonProps) {
           <Icon
             size={32}
             className="stroke-stone-900 dark:stroke-white"
-            key={"inner" + uuid}
-            id={"inner" + uuid}
+            key={`inner${uuid}`}
+            id={`inner${uuid}`}
           />
         </div>
         {label}

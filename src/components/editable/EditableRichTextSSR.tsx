@@ -283,7 +283,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
       window.addEventListener("beforeunload", preventLeave);
     } else {
       //prevent excessive updates
-      if (text != value && text != "") {
+      if (text !== value && text !== "") {
         onSubmit?.(text);
       }
       window.removeEventListener("beforeunload", preventLeave);
@@ -323,7 +323,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
         label={label}
         copyValue={plainText.length > 0 ? plainText : ""}
         required={required}
-        htmlFor={"rich_text" + uuid}
+        htmlFor={`rich_text${uuid}`}
       />
       <DisplayCellExpanding
         leftSection={!focus && leftSection}
@@ -335,7 +335,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
         {focus ? (
           <div className="flex flex-grow flex-col">
             <div
-              className="-mx-2 flex flex-wrap gap-2 border-b border-solid border-b-input px-2 pb-2  "
+              className="-mx-2 flex flex-wrap gap-2 border-b border-b-input border-solid px-2 pb-2"
               aria-label="Formatting options"
             >
               {controls.map((value, index) => {
@@ -347,7 +347,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
                           size="icon"
                           variant="outline"
                           key={`${uuid}${index}:${index2}:group`}
-                          className={`h-8 w-8 rounded-none border-l-0 first:rounded-l first:border-l last:rounded-r ${
+                          className={`h-8 w-8 rounded-none border-l-0 last:rounded-r first:rounded-l first:border-l${
                             //@ts-ignore
                             // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                             (
@@ -377,54 +377,53 @@ const EditableRichText = (props: EditableRichTextProps) => {
                       ))}
                     </div>
                   );
-                } else {
-                  return (
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      key={`${uuid}${index}:item`}
-                      className={`h-8 w-8 ${
-                        //@ts-ignore
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                        (
-                          value.isActive?.name
-                            ? editor?.isActive(
-                                value.isActive.name,
-                                value.isActive.attributes,
-                              )
-                            : false
-                        )
-                          ? "bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-20"
-                          : ""
-                      }`}
-                      onClick={() =>
-                        //@ts-ignore
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                        editor
-                          ?.chain()
-                          .focus()
-                          [value.operation.name](value.operation.attributes)
-                          .run()
-                      }
-                      title={value.label}
-                    >
-                      {value.icon}
-                    </Button>
-                  );
                 }
+                return (
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    key={`${uuid}${index}:item`}
+                    className={`h-8 w-8${
+                      //@ts-ignore
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                      (
+                        value.isActive?.name
+                          ? editor?.isActive(
+                              value.isActive.name,
+                              value.isActive.attributes,
+                            )
+                          : false
+                      )
+                        ? "bg-black bg-opacity-20 dark:bg-white dark:bg-opacity-20"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      //@ts-ignore
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                      editor
+                        ?.chain()
+                        .focus()
+                        [value.operation.name](value.operation.attributes)
+                        .run()
+                    }
+                    title={value.label}
+                  >
+                    {value.icon}
+                  </Button>
+                );
               })}
             </div>
 
             <EditorContent
               editor={editor}
-              name={"rich_text" + uuid}
-              id={"rich_text" + uuid}
-              className="leading-normal "
+              name={`rich_text${uuid}`}
+              id={`rich_text${uuid}`}
+              className="leading-normal"
             />
           </div>
         ) : (
           <div
-            className={`plain-html editor w-full leading-normal ${
+            className={`plain-html editor w-full leading-normal${
               text.length === 0 ||
               text === "<p></p>" ||
               text === "<p></p><p></p>"
@@ -439,7 +438,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
                   ? "⸺"
                   : text,
             }}
-          ></div>
+          />
         )}
       </DisplayCellExpanding>
     </div>

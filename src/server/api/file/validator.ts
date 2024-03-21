@@ -2,7 +2,7 @@ import { files } from "@/server/api/file/schema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import idRequiredZodSchema from "@/types/idRequiredZodSchema";
-import { type Merge } from "@/types/Merge";
+import type { Merge } from "@/types/Merge";
 
 export const selectFileZodSchema = createSelectSchema(files).merge(
   z.object({ url: z.string() }),

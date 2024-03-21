@@ -1,11 +1,11 @@
-import { db } from "@/server/db";
-import { getServerAuthSession } from "@/server/auth";
+import { Readable } from "stream";
 import IMAPService from "@/server/api/email/imap";
+import { getServerAuthSession } from "@/server/auth";
+import { db } from "@/server/db";
 import HTTPError from "@/utils/HTTPError";
 import { ImapFlow } from "imapflow";
 import Logger from "js-logger";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Readable } from "node:stream";
 
 export default async function Files(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -16,21 +16,21 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
 
     // const session: IronSession = await getIronSession(req, res, sessionOptions);
 
-    if (!session?.user) throw new HTTPError(401, `Unauthenticated`);
+    if (!session?.user) throw new HTTPError(401, "Unauthenticated");
     console.log(req.query);
 
     if (req.query.fileName === undefined || Array.isArray(req.query.fileName)) {
-      throw new HTTPError(422, `FileName cannot be processed`);
+      throw new HTTPError(422, "FileName cannot be processed");
     }
     if (req.query.user === undefined || Array.isArray(req.query.user)) {
-      throw new HTTPError(422, `User cannot be processed`);
+      throw new HTTPError(422, "User cannot be processed");
     }
 
     if (req.query.mailbox === undefined || Array.isArray(req.query.mailbox)) {
-      throw new HTTPError(422, `Mailbox cannot be processed`);
+      throw new HTTPError(422, "Mailbox cannot be processed");
     }
     if (req.query.uid === undefined || Array.isArray(req.query.uid)) {
-      throw new HTTPError(422, `Uid cannot be processed`);
+      throw new HTTPError(422, "Uid cannot be processed");
     }
 
     const { fileName, user, mailbox, uid } = req.query;
@@ -77,7 +77,7 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       const attachmentStream = Readable.from(attachment.content);
       attachmentStream.pipe(res);
     } catch (e) {
-      throw new HTTPError(404, `File not found`);
+      throw new HTTPError(404, "File not found");
     }
   } catch (err) {
     console.log(err);
@@ -85,17 +85,16 @@ export default async function Files(req: NextApiRequest, res: NextApiResponse) {
       res.status(err.statusCode).json({
         status: "error",
         statusCode: err.statusCode,
-        message: err.name + ": " + err.message,
-      });
-      return;
-    } else {
-      console.log(err);
-      res.status(500).json({
-        status: "error",
-        statusCode: 500,
-        message: "UnknownError",
+        message: `${err.name}: ${err.message}`,
       });
       return;
     }
+    console.log(err);
+    res.status(500).json({
+      status: "error",
+      statusCode: 500,
+      message: "UnknownError",
+    });
+    return;
   }
 }

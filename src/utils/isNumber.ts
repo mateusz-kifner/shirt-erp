@@ -1,3 +1,3 @@
 export function isNumber(val: string) {
-  return !isNaN(val as unknown as number);
+  return !Number.isNaN(val as unknown as number);
 }

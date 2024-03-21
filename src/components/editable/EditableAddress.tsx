@@ -1,9 +1,9 @@
 import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/types/EditableInput";
-import { type Address } from "@/server/api/address/validator";
+import type { Address } from "@/server/api/address/validator";
 import EditableEnum from "./EditableEnum";
-import Editable, { Key, useEditableContext } from "./Editable";
+import Editable, { type Key, useEditableContext } from "./Editable";
 import EditableText from "./EditableText";
 import { cn } from "@/utils/cn";
 import useTranslation from "@/hooks/useTranslation";
@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/Dialog";
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { useClickOutside } from "@mantine/hooks";
 import { addressToString } from "@/utils/addressToString";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -126,7 +126,7 @@ function EditableAddressExtend(props: EditableInput<Address>) {
       <Label label={label} copyValue={valueString} required={required} />
       <DisplayCellExpanding
         className={cn(
-          "h-auto  px-2 py-2 focus-within:ring-0",
+          "h-auto px-2 py-2 focus-within:ring-0",
           !valueString
             ? "text-gray-400 dark:text-stone-600"
             : "text-stone-950 dark:text-stone-200",
@@ -171,7 +171,7 @@ function EditableAddressAlwaysVisible(props: EditableInput<Address>) {
       <Label label={label} copyValue={valueString} required={required} />
       <DisplayCellExpanding
         className={cn(
-          " h-auto  bg-transparent px-2 py-2 focus-within:ring-0",
+          "h-auto bg-transparent px-2 py-2 focus-within:ring-0",
           !valueString
             ? "text-gray-400 dark:text-stone-600"
             : "text-stone-950 dark:text-stone-200",
@@ -212,7 +212,7 @@ const EditableAddressPopover = (props: EditableAddress2Props) => {
         <DialogTrigger>
           <DisplayCellExpanding
             className={cn(
-              "h-auto  px-2 py-2 text-left focus-within:ring-0",
+              "h-auto px-2 py-2 text-left focus-within:ring-0",
               !valueString
                 ? "text-gray-400 dark:text-stone-600"
                 : "text-stone-950 dark:text-stone-200",
@@ -282,7 +282,7 @@ const EditableAddress = (props: EditableAddressProps) => {
 
         <DisplayCellExpanding
           className={cn(
-            "h-auto  px-2 py-2 text-left focus-within:ring-0",
+            "h-auto px-2 py-2 text-left focus-within:ring-0",
             "text-gray-400 dark:text-stone-600",
           )}
           disabled={disabled}

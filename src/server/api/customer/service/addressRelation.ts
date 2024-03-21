@@ -1,7 +1,7 @@
 import { type DBType, db } from "@/server/db";
 import { customers } from "../../customer/schema";
 import { eq, sql } from "drizzle-orm";
-import { type Address } from "../../address/validator";
+import type { Address } from "../../address/validator";
 
 // compile query ahead of time
 const customerToAddressRelationGetOnly = db.query.customers

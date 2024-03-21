@@ -93,21 +93,16 @@ const ApiListArchive = <T extends { id: number | string }>(
   }, [selectedId]);
 
   return (
-    <div className="flex flex-col gap-4 text-stone-900 dark:text-stone-100 ">
+    <div className="flex flex-col gap-4 text-stone-900 dark:text-stone-100">
       <div className="flex flex-col gap-2">
         <div className="flex justify-between px-2">
-          <h2 className="text-2xl font-bold">{label}</h2>
+          <h2 className="font-bold text-2xl">{label}</h2>
           <div className="flex gap-2">
             {!!buttonSection && buttonSection}
             <Button
               size="icon"
               variant="outline"
-              className="
-                  h-9
-                  w-9
-                  rounded-full
-                  p-1 
-               "
+              className="h-9 w-9 rounded-full p-1"
               onClick={() => {
                 // refetch()
                 onRefresh?.();
@@ -119,12 +114,7 @@ const ApiListArchive = <T extends { id: number | string }>(
               <Button
                 size="icon"
                 variant="outline"
-                className="
-                    h-9
-                    w-9
-                    rounded-full                 
-                    p-1 
-                  "
+                className="h-9 w-9 rounded-full p-1"
                 onClick={onAddElement}
               >
                 <IconPlus />
@@ -136,12 +126,7 @@ const ApiListArchive = <T extends { id: number | string }>(
           <Button
             size="icon"
             variant="outline"
-            className="
-                  h-9
-                  w-9
-                  rounded-full
-                  p-1 
-                  "
+            className="h-9 w-9 rounded-full p-1"
             onClick={() => toggleSortOrder()}
           >
             {sortOrder === "asc" ? (
@@ -154,12 +139,7 @@ const ApiListArchive = <T extends { id: number | string }>(
             size="icon"
             variant="outline"
             className={cn(
-              `
-                h-9
-                w-9
-                rounded-full
-                p-1 
-            `,
+              "h-9 w-9 rounded-full p-1",
               isArchived && "bg-orange-700 hover:bg-orange-700/80",
             )}
             onClick={() => {
@@ -170,38 +150,9 @@ const ApiListArchive = <T extends { id: number | string }>(
           </Button>
 
           <input
-            name={"search" + uuid}
-            id={"search" + uuid}
-            className="
-                data-disabled:text-gray-500
-                dark:data-disabled:text-gray-500
-                data-disabled:bg-transparent 
-                dark:data-disabled:bg-transparent
-                h-9
-                max-h-screen
-                w-full
-                resize-none
-                gap-2 
-                overflow-hidden
-                whitespace-pre-line 
-                break-words
-                rounded-full
-                border
-                border-solid 
-                bg-background
-                px-4
-                py-2
-                text-sm
-                leading-normal 
-                outline-none 
-                placeholder:text-muted-foreground
-                read-only:bg-transparent
-                read-only:outline-none
-                focus:border-sky-600
-                dark:outline-none
-                dark:read-only:bg-transparent 
-                dark:read-only:outline-none
-                dark:focus:border-sky-600"
+            name={`search${uuid}`}
+            id={`search${uuid}`}
+            className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-full border border-solid bg-background px-4 py-2 text-sm leading-normal outline-none dark:focus:border-sky-600 focus:border-sky-600 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 placeholder:text-muted-foreground dark:outline-none dark:read-only:outline-none read-only:outline-none"
             type="text"
             defaultValue={defaultSearch}
             onChange={(value) => setQuery(value.target.value)}

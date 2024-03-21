@@ -35,7 +35,7 @@ const ProductsPage = () => {
         }
       >
         {id !== null && (
-          <div className="relative flex flex-col gap-4 p-4 ">
+          <div className="relative flex flex-col gap-4 p-4">
             <ProductEditable id={id} />
           </div>
         )}

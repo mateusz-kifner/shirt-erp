@@ -3,7 +3,7 @@ import { useId, useState } from "react";
 // import * as XLSX from "xlsx"
 //import Design from "@/components/Design/Design";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
-import { type UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
+import type { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
 import Workspace from "@/components/layout/Workspace";
@@ -36,10 +36,10 @@ import {
   IconTable,
   IconTrashX,
 } from "@tabler/icons-react";
-import { type NextPage } from "next";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useLoaded } from "@/hooks/useLoaded";
-import { type Key } from "@/components/editable/Editable";
+import type { Key } from "@/components/editable/Editable";
 import OrderCustomerView from "@/page-components/erp/order/OrderCustomerView";
 import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
@@ -106,7 +106,7 @@ const OrdersPage: NextPage = () => {
     ? productsData?.reduce(
         (prev, next) => ({
           ...prev,
-          [`${next.name}:${next.id}` ?? "[NAME NOT SET] " + next.id]: {
+          [`${next.name}:${next.id}` ?? `[NAME NOT SET] ${next.id}`]: {
             id: next.id,
           },
         }),
@@ -117,7 +117,7 @@ const OrdersPage: NextPage = () => {
     table: UniversalMatrix,
     metaId: number,
   ): [UniversalMatrix, string, any, any] => {
-    if (table[0]![0] === undefined) {
+    if (table[0]?.[0] === undefined) {
       throw new Error(
         "UniversalMatrix is required to contain at least 1 element",
       );
@@ -132,8 +132,8 @@ const OrdersPage: NextPage = () => {
     }
     let pusta = true;
     table: for (let y = 0; y < table.length; y++) {
-      for (let x = 0; x < table[0]!.length; x++) {
-        if (!(!table[y]![x] || (table[y]![x] && !table[y]![x]?.value))) {
+      for (let x = 0; x < table[0]?.length; x++) {
+        if (!(!table[y]?.[x] || (table[y]?.[x] && !table[y]?.[x]?.value))) {
           pusta = false;
           break table;
         }
@@ -151,26 +151,26 @@ const OrdersPage: NextPage = () => {
       for (let y = 0; y < colors.length + 1; y++) {
         new_table.push([]);
         for (let x = 0; x < sizes.length + 1; x++) {
-          if (y > 0 && x == 0) {
-            new_table[y]!.push({
+          if (y > 0 && x === 0) {
+            new_table[y]?.push({
               value: getColorNameFromHex(colors[y - 1] ?? ""),
               metaId,
               metaPropertyId: 0,
             });
-          } else if (y == 0 && x > 0) {
-            new_table[y]!.push({
+          } else if (y === 0 && x > 0) {
+            new_table[y]?.push({
               value: sizes[x - 1],
               metaId,
               metaPropertyId: 1,
             });
           } else {
-            new_table[y]!.push({ value: "" });
+            new_table[y]?.push({ value: "" });
           }
         }
       }
 
       new_table = [
-        new_table[0]!.map((val, index) =>
+        new_table[0]?.map((val, index) =>
           index === 0 ? { value: product?.name } : undefined,
         ),
 
@@ -256,7 +256,7 @@ const OrdersPage: NextPage = () => {
         }}
       >
         {id !== null && (
-          <div className="relative flex flex-col gap-4 p-4 ">
+          <div className="relative flex flex-col gap-4 p-4">
             <OrderEditable id={id} key={`${uuid}order:${id}`} />
           </div>
         )}
@@ -280,46 +280,45 @@ const OrdersPage: NextPage = () => {
             <OrderMessagesView orderId={orderData.id} />
           </div>
         )}
-        {spreadsheetsData &&
-          spreadsheetsData?.map((val, index) => (
-            <div key={`${uuid}spreadsheet:${index}:`}>
-              <div className="flex justify-between gap-2 p-2 align-middle text-xl">
-                <span>{val.name}</span>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <IconDotsVertical />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => removeSpreadsheet(val.id)}>
-                      <IconTrashX /> {t.delete}
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-              <Spreadsheet
-                id={val.id}
-                metadata={metadata}
-                metadataVisuals={[
-                  { icon: IconColorSwatch, label: "Color" },
-                  { icon: IconRuler2, label: "Size" },
-                ]}
-                metadataActions={[
-                  {
-                    icon: IconRobot,
-                    label: "Auto uzupełnij",
-                    action: actionFill,
-                  },
-                  {
-                    icon: IconCheck,
-                    label: "Sprawdź poprawność pól",
-                    action: verifyMetadata,
-                  },
-                ]}
-              />
+        {spreadsheetsData?.map((val, index) => (
+          <div key={`${uuid}spreadsheet:${index}:`}>
+            <div className="flex justify-between gap-2 p-2 align-middle text-xl">
+              <span>{val.name}</span>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <IconDotsVertical />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => removeSpreadsheet(val.id)}>
+                    <IconTrashX /> {t.delete}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-          ))}
+            <Spreadsheet
+              id={val.id}
+              metadata={metadata}
+              metadataVisuals={[
+                { icon: IconColorSwatch, label: "Color" },
+                { icon: IconRuler2, label: "Size" },
+              ]}
+              metadataActions={[
+                {
+                  icon: IconRobot,
+                  label: "Auto uzupełnij",
+                  action: actionFill,
+                },
+                {
+                  icon: IconCheck,
+                  label: "Sprawdź poprawność pól",
+                  action: verifyMetadata,
+                },
+              ]}
+            />
+          </div>
+        ))}
 
         {/* {orderData &&
           orderData.designs.map((val, index) => (

@@ -21,8 +21,8 @@ import Button from "@/components/ui/Button";
 
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type CustomerWithRelations } from "@/server/api/customer/validator";
-import { type User } from "@/server/api/user/validator";
+import type { CustomerWithRelations } from "@/server/api/customer/validator";
+import type { User } from "@/server/api/user/validator";
 import { truncString } from "@/utils/truncString";
 import { IconCash, IconDotsVertical, IconTrashX } from "@tabler/icons-react";
 import _ from "lodash";
@@ -81,7 +81,7 @@ function OrderEditable(props: OrderEditableProps) {
     if (!data) return;
     deleteOrderAsync(data.id)
       .then(() => {
-        void router.push(`/erp/order`);
+        void router.push("/erp/order");
       })
       .catch(console.log);
   };
@@ -90,7 +90,7 @@ function OrderEditable(props: OrderEditableProps) {
   useEffect(() => {
     if (
       orderAddressFromCustomer !== null &&
-      data?.customerId == orderAddressFromCustomer
+      data?.customerId === orderAddressFromCustomer
     ) {
       (customerData as CustomerWithRelations).address &&
         apiUpdate(
@@ -104,7 +104,7 @@ function OrderEditable(props: OrderEditableProps) {
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );
@@ -127,7 +127,7 @@ function OrderEditable(props: OrderEditableProps) {
               <Button
                 size="icon"
                 variant="outline"
-                className="rounded-full border-stone-800 bg-stone-800  hover:bg-stone-700 hover:text-stone-50"
+                className="rounded-full border-stone-800 bg-stone-800 hover:bg-stone-700 hover:text-stone-50"
               >
                 <IconDotsVertical />
               </Button>
@@ -142,7 +142,7 @@ function OrderEditable(props: OrderEditableProps) {
               <DropdownMenuCheckboxItem
                 onClick={() => apiUpdate("isArchived", !data.isArchived)}
                 checked={data.isArchived ?? false}
-                className="focus:bg-orange-600 focus:text-destructive-foreground dark:focus:bg-orange-800"
+                className="dark:focus:bg-orange-800 focus:bg-orange-600 focus:text-destructive-foreground"
               >
                 {t.archive}
               </DropdownMenuCheckboxItem>

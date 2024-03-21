@@ -15,7 +15,7 @@ import { trpc } from "@/utils/trpc";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import { useId, useState } from "react";
 
-interface EmailCredentialsProps {}
+type EmailCredentialsProps = {};
 
 function EmailCredentials(props: EmailCredentialsProps) {
   const {} = props;
@@ -29,7 +29,7 @@ function EmailCredentials(props: EmailCredentialsProps) {
   const [secure, setSecure] = useState(false);
   console.log(data);
   return (
-    <div className="flex w-full flex-row items-start justify-center  font-sans dark:text-gray-200">
+    <div className="flex w-full flex-row items-start justify-center font-sans dark:text-gray-200">
       <div className="card mx-auto mt-8 w-[36rem] rounded bg-white p-2 shadow-xl dark:bg-stone-800">
         <div>
           {!env.NEXT_PUBLIC_DEMO ? (
@@ -54,7 +54,7 @@ function EmailCredentials(props: EmailCredentialsProps) {
 
                 createMailCredentialAsync({
                   host: hostInput.value,
-                  port: parseInt(portInput.value),
+                  port: Number.parseInt(portInput.value),
                   protocol: protocolInput.value,
                   user: userInput.value,
                   password: passwordInput.value,
@@ -108,7 +108,7 @@ function EmailCredentials(props: EmailCredentialsProps) {
             <div> DEMO </div>
           )}
         </div>
-        <hr className="mt-8 dark:border-stone-600 " />
+        <hr className="mt-8 dark:border-stone-600" />
 
         <div className="flex flex-col gap-2">
           <div key={`${uuid}:heder`} className="flex flex-grow">
@@ -117,30 +117,29 @@ function EmailCredentials(props: EmailCredentialsProps) {
             <div className="w-20">Protocol</div>
             <div className="flex-grow">User</div>
           </div>
-          {data &&
-            data.map((val, index) => (
-              <div key={`${uuid}:${index}:`} className="flex flex-grow">
-                <div className="w-32">{val.host}</div>
-                <div className="w-12">{val.port}</div>
-                <div className="w-20">{val.protocol}</div>
-                <div className="flex flex-grow items-start justify-between">
-                  {val.user}
-                  {!env.NEXT_PUBLIC_DEMO && (
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                      onClick={() => {
-                        deleteMailCredentialAsync(val.id)
-                          .then(() => refetch())
-                          .catch(console.log);
-                      }}
-                    >
-                      <IconTrashX />
-                    </Button>
-                  )}{" "}
-                </div>
+          {data?.map((val, index) => (
+            <div key={`${uuid}:${index}:`} className="flex flex-grow">
+              <div className="w-32">{val.host}</div>
+              <div className="w-12">{val.port}</div>
+              <div className="w-20">{val.protocol}</div>
+              <div className="flex flex-grow items-start justify-between">
+                {val.user}
+                {!env.NEXT_PUBLIC_DEMO && (
+                  <Button
+                    size="icon"
+                    variant="destructive"
+                    onClick={() => {
+                      deleteMailCredentialAsync(val.id)
+                        .then(() => refetch())
+                        .catch(console.log);
+                    }}
+                  >
+                    <IconTrashX />
+                  </Button>
+                )}{" "}
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

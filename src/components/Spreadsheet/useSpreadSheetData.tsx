@@ -52,13 +52,13 @@ export function useSpreadSheetData(
   const addRow = (row: number) => {
     setData((data) => [
       ...data.slice(0, row),
-      data[0]!.map(() => undefined),
+      data[0]?.map(() => undefined),
       ...data.slice(row),
     ]);
   };
 
   const removeColumn = (column: number) => {
-    if (data[0]!.length > 2) {
+    if (data[0]?.length > 2) {
       setData((data) =>
         data.map((val) => val.filter((_, index) => column !== index)),
       );
@@ -84,7 +84,7 @@ export function useSpreadSheetData(
 
     for (const point of selection) {
       new_data[point.row]![point.column] = {
-        ...(new_data[point.row]![point.column] as UniversalCell),
+        ...(new_data[point.row]?.[point.column] as UniversalCell),
         ...metadata,
       };
     }
@@ -105,12 +105,12 @@ export function useSpreadSheetData(
     ];
 
     for (const point of selection) {
-      new_data[point.row]![point.column] = new_data[point.row]![point.column]
+      new_data[point.row]![point.column] = new_data[point.row]?.[point.column]
         ? {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
             value:
-              (new_data[point.row]![point.column] as { value: string }).value ??
-              "",
+              (new_data[point.row]?.[point.column] as { value: string })
+                .value ?? "",
           }
         : undefined;
     }

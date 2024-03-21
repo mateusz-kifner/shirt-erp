@@ -7,7 +7,7 @@ import Workspace from "@/components/layout/Workspace";
 import UserEditable from "@/page-components/erp/user/UserEditable";
 import UsersList from "@/page-components/erp/user/UserList";
 import { getQueryAsStringOrNull } from "@/utils/query";
-import { type GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@/server/auth";
 import UserAddModal from "@/page-components/erp/user/UserAddModal";
 
@@ -26,7 +26,7 @@ const UsersPage = () => {
           id !== null ? [{ label: "Właściwości", icon: IconNotebook }] : []
         }
         navigation={
-          <div className="relative p-4 ">
+          <div className="relative p-4">
             <UsersList
               selectedId={id}
               onAddElement={() => setOpenAddModal(true)}
@@ -35,7 +35,7 @@ const UsersPage = () => {
         }
       >
         {id !== null && (
-          <div className="relative flex flex-col gap-4 p-4 ">
+          <div className="relative flex flex-col gap-4 p-4">
             <UserEditable id={id} />
           </div>
         )}

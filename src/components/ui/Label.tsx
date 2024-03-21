@@ -24,7 +24,7 @@ export interface LabelProps
 }
 
 const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex h-8 items-center py-1 text-stone-950 dark:text-stone-200",
+  "flex h-8 items-center py-1 font-medium text-sm text-stone-950 leading-none peer-disabled:cursor-not-allowed dark:text-stone-200 peer-disabled:opacity-70",
 );
 
 const Label = forwardRef<ElementRef<typeof LabelPrimitive.Root>, LabelProps>(

@@ -61,7 +61,7 @@ function ColorArea(props: ColorAreaProps) {
       />
       <div
         role="presentation"
-        className="duration-[50ms] absolute box-border -translate-x-1/2 -translate-y-1/2 rounded-full transition-[width,height] ease-in-out"
+        className="-translate-x-1/2 -translate-y-1/2 absolute box-border rounded-full transition-[width,height] duration-[50ms] ease-in-out"
         style={{
           background: disabled
             ? "rgb(142, 142, 142)"
@@ -73,7 +73,7 @@ function ColorArea(props: ColorAreaProps) {
           left: value.s * 200,
           top: 200 - value.v * 200,
         }}
-      ></div>
+      />
     </div>
   );
 }

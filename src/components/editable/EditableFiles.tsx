@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/Label";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import type EditableInput from "@/types/EditableInput";
-import { type File as FileType } from "@/server/api/file/validator";
+import type { File as FileType } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import FileListItem from "../FileListItem";
 import { useEditableContext } from "./Editable";
@@ -71,7 +71,7 @@ const EditableFiles = (props: EditableFilesProps) => {
         })
         .catch((err) => console.log(err));
     },
-    onError: function (error: unknown, variables: FormData, context: unknown) {
+    onError: (error: unknown, variables: FormData, context: unknown) => {
       console.log(error, variables, context);
       // setError(error.response?.statusText);
       // setUploading((num: number) => num - new_files.length);
@@ -178,9 +178,9 @@ const EditableFiles = (props: EditableFilesProps) => {
         </Dialog>
 
         <div
-          className={`relative min-h-[44px]  rounded border border-solid  transition-all before:absolute before:inset-0  ${
+          className={`relative min-h-[44px] rounded border border-solid transition-all before:absolute before:inset-0${
             dragActive
-              ? "border-sky-600  before:bg-sky-600 before:bg-opacity-20"
+              ? "border-sky-600 before:bg-sky-600 before:bg-opacity-20"
               : "border-transparent before:bg-opacity-0"
           }`}
           onDragEnter={handleDrag}
@@ -220,7 +220,7 @@ const EditableFiles = (props: EditableFilesProps) => {
                       <ContextMenuItem
                         className="flex items-center gap-2 focus:bg-destructive focus:text-destructive-foreground"
                         onClick={() => {
-                          onSubmit(files.filter((val, i) => i != index));
+                          onSubmit(files.filter((val, i) => i !== index));
                         }}
                       >
                         <IconTrashX /> Delete
@@ -232,7 +232,7 @@ const EditableFiles = (props: EditableFilesProps) => {
             ))
           ) : (
             <div
-              className={`flex h-24 items-center justify-center gap-2 rounded-t  border-l border-r border-t border-solid border-input bg-background first:rounded-t last:rounded-b last:border-b   ${
+              className={`flex h-24 items-center justify-center gap-2 rounded-t border-input border-t border-r border-l border-solid bg-background first:rounded-t last:rounded-b last:border-b${
                 dragActive ? "text-xl" : ""
               }`}
             >
@@ -249,10 +249,10 @@ const EditableFiles = (props: EditableFilesProps) => {
           {!disabled && (
             <div className="relative w-full">
               <label
-                htmlFor={"file" + uuid}
+                htmlFor={`file${uuid}`}
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "h-10 w-full  rounded-b rounded-t-none bg-background",
+                  "h-10 w-full rounded-t-none rounded-b bg-background",
                 )}
               >
                 {uploading ? (
@@ -263,10 +263,10 @@ const EditableFiles = (props: EditableFilesProps) => {
                 {uploading ? t.uploading : t.add_files}
               </label>
               <input
-                id={"file" + uuid}
-                name={"file" + uuid}
+                id={`file${uuid}`}
+                name={`file${uuid}`}
                 type="file"
-                className="absolute inset-0 -z-10 opacity-0"
+                className="-z-10 absolute inset-0 opacity-0"
                 onChange={handleChange}
                 multiple
               />

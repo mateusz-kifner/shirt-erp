@@ -48,7 +48,7 @@ function EmailMessage() {
       .find((v) => v !== null) ?? 0;
 
   const setActive: Dispatch<SetStateAction<number>> = (value) => {
-    const active = typeof value == "function" ? value(currentIMAPuser) : value;
+    const active = typeof value === "function" ? value(currentIMAPuser) : value;
 
     active !== undefined &&
       router

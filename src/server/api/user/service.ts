@@ -1,10 +1,10 @@
 import { db } from "@/server/db";
 import { users } from "./schema";
 import { eq, sql } from "drizzle-orm";
-import { type UpdatedUser, type User } from "./validator";
-import { type MetadataType } from "@/types/MetadataType";
+import type { UpdatedUser, User } from "./validator";
+import type { MetadataType } from "@/types/MetadataType";
 import { authDBAdapter } from "../../auth";
-import { type AdapterUser } from "next-auth/adapters";
+import type { AdapterUser } from "next-auth/adapters";
 
 // compile query ahead of time
 const userPrepareGetById = db.query.users

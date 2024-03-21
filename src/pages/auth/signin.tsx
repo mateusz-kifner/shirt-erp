@@ -4,9 +4,9 @@ import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { getServerAuthSession } from "@/server/auth";
 import { trpc } from "@/utils/trpc";
-import {
-  type GetServerSidePropsContext,
-  type InferGetServerSidePropsType,
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
 } from "next";
 import { getCsrfToken, getProviders, signIn } from "next-auth/react";
 import { useState } from "react";
@@ -80,7 +80,7 @@ export default function SigninPage(
   if (isDemo) {
     return (
       <div className="flex h-screen w-full flex-col items-center justify-center">
-        <div className="flex max-w-lg flex-col gap-4 rounded border border-solid border-stone-600 bg-stone-800 p-8">
+        <div className="flex max-w-lg flex-col gap-4 rounded border border-stone-600 border-solid bg-stone-800 p-8">
           <img
             src="https://shirterp.eu/logo.png"
             alt="ShirtERP"
@@ -108,7 +108,7 @@ export default function SigninPage(
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">
-      <div className="flex w-[30rem] flex-col gap-4 rounded border border-solid border-stone-600 bg-stone-800 p-8">
+      <div className="flex w-[30rem] flex-col gap-4 rounded border border-stone-600 border-solid bg-stone-800 p-8">
         <img
           src="https://shirterp.eu/logo.png"
           alt="ShirtERP"
@@ -118,7 +118,7 @@ export default function SigninPage(
           {t.sign_in} {t.to} {env.NEXT_PUBLIC_ORGANIZATION_NAME}
         </h3>
         {error && (
-          <div className="italic text-red-500">
+          <div className="text-red-500 italic">
             <p>{error}</p>
           </div>
         )}
@@ -156,7 +156,7 @@ export default function SigninPage(
               i > 0 &&
               providersToRender[i - 1]?.type !== "email" &&
               providersToRender[i - 1]?.type !== "credentials" && (
-                <hr className="border-b-none border-l-none border-r-none border-t-solid mx-auto mb-8 mt-4 block overflow-visible border-t border-t-stone-500" />
+                <hr className="mx-auto mt-4 mb-8 block overflow-visible border-t border-t-solid border-t-stone-500 border-r-none border-b-none border-l-none" />
               )}
             {provider.type === "email" && (
               <form

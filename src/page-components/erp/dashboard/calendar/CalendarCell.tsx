@@ -1,5 +1,5 @@
 import { useFlagContext } from "@/context/flagContext";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { cn } from "@/utils/cn";
 import {
   getRandomColorByNumber,
@@ -37,8 +37,8 @@ function CalendarCell(props: CalendarCellProps) {
             style={{
               backgroundColor:
                 typeof val.id === "number"
-                  ? getRandomColorByNumber(val.id) + "aa"
-                  : getRandomColorByString(val.id) + "aa",
+                  ? `${getRandomColorByNumber(val.id)}aa`
+                  : `${getRandomColorByString(val.id)}aa`,
             }}
             className="cursor-pointer px-1 py-0.5"
             onClick={() => {
@@ -47,7 +47,9 @@ function CalendarCell(props: CalendarCellProps) {
             onContextMenu={(e) => {
               e.preventDefault();
               void router.push(
-                `/erp/${calendarDefaultClick === "order" ? "task" : "order"}/${val.id}`,
+                `/erp/${calendarDefaultClick === "order" ? "task" : "order"}/${
+                  val.id
+                }`,
               );
             }}
           >

@@ -54,7 +54,7 @@ const EditableNumber = (props: EditableNumberProps) => {
   const toText = (num?: number | null) => {
     if (num === null) return "";
     if (num === undefined) return "";
-    if (isNaN(num)) return "";
+    if (Number.isNaN(num)) return "";
     return Number(num).toFixed(fixed); // no idea why this conversion is nesesery TODO: investigate missing toFixed on 'number'
   };
   const [text, setText] = useState<string>(toText(value));
@@ -67,9 +67,9 @@ const EditableNumber = (props: EditableNumberProps) => {
 
   const onSubmitValue = (text: string) => {
     if (!isLoaded) return;
-    const num = parseFloat(text);
-    if (isNaN(num)) {
-      if (!isNaN(value ?? NaN)) {
+    const num = Number.parseFloat(text);
+    if (Number.isNaN(num)) {
+      if (!Number.isNaN(value ?? Number.NaN)) {
         onSubmit?.(undefined);
       }
     } else if (num !== value) {
@@ -97,7 +97,7 @@ const EditableNumber = (props: EditableNumberProps) => {
   }, []);
 
   useEffect(() => {
-    if (parseFloat(text) !== value) {
+    if (Number.parseFloat(text) !== value) {
       const new_value = toText(value);
       setText(new_value);
     }
@@ -121,13 +121,13 @@ const EditableNumber = (props: EditableNumberProps) => {
       if (e.code === "ArrowUp") {
         const multiplier = e.ctrlKey ? 100 : e.shiftKey ? 10 : 1;
         setText((val) =>
-          (parseFloat(val) + increment * multiplier).toFixed(fixed),
+          (Number.parseFloat(val) + increment * multiplier).toFixed(fixed),
         );
       }
       if (e.code === "ArrowDown") {
         const multiplier = e.ctrlKey ? 100 : e.shiftKey ? 10 : 1;
         setText((val) =>
-          (parseFloat(val) - increment * multiplier).toFixed(fixed),
+          (Number.parseFloat(val) - increment * multiplier).toFixed(fixed),
         );
       }
     }
@@ -140,7 +140,7 @@ const EditableNumber = (props: EditableNumberProps) => {
       onFocus={onFocus}
       ref={outerRef}
     >
-      <Label label={label} copyValue={text} htmlFor={"short_text_" + uuid} />
+      <Label label={label} copyValue={text} htmlFor={`short_text_${uuid}`} />
       <DisplayCell
         leftSection={leftSection}
         rightSection={rightSection}
@@ -149,26 +149,13 @@ const EditableNumber = (props: EditableNumberProps) => {
         disabled={disabled}
       >
         <input
-          id={"short_text_" + uuid}
-          name={"short_text_" + uuid}
+          id={`short_text_${uuid}`}
+          name={`short_text_${uuid}`}
           required={required}
           readOnly={disabled}
           ref={InputRef}
           className={cn(
-            `
-          data-disabled:text-gray-500
-          dark:data-disabled:text-gray-500
-          w-full
-          resize-none
-          overflow-hidden
-          whitespace-pre-line 
-          break-words
-          bg-transparent
-          py-3
-          text-sm
-          outline-none
-          focus-visible:border-transparent
-          focus-visible:outline-none`,
+            "w-full resize-none overflow-hidden whitespace-pre-line break-words bg-transparent py-3 text-sm outline-none focus-visible:border-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 focus-visible:outline-none",
             className,
           )}
           style={style}

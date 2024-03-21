@@ -1,4 +1,4 @@
-import { type RefObject } from "react";
+import type { RefObject } from "react";
 
 function inputFocusAtEndOfLine(
   ref: RefObject<HTMLInputElement | HTMLTextAreaElement>,

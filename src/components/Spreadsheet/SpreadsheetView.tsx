@@ -1,18 +1,19 @@
-import React, { useId, useMemo } from "react";
+import type React from "react";
+import { useId, useMemo } from "react";
 
-import { type CellBase } from "react-spreadsheet";
+import type { CellBase } from "react-spreadsheet";
 import {
   getColorByName,
   getRandomColorByNumber,
 } from "../../utils/getRandomColor";
 import isNumeric from "../../utils/isNumeric";
 
-import { type TypeAABB2D } from "@/types/AABB";
+import type { TypeAABB2D } from "@/types/AABB";
 import type TablerIconType from "@/types/TablerIconType";
 import { trpc } from "@/utils/trpc";
 import Button from "../ui/Button";
 import { ScrollArea } from "../ui/ScrollArea";
-import { type UniversalMatrix } from "./useSpreadSheetData";
+import type { UniversalMatrix } from "./useSpreadSheetData";
 
 function expandAABB(aabb: TypeAABB2D, row: number, col: number) {
   const new_aabb = { ...aabb };
@@ -108,17 +109,17 @@ const EditableTableView = (props: EditableTableProps) => {
       console.log("TODO: special action TableView");
     } else {
       if (
-        new_data[row]![col] !== undefined &&
-        new_data[row]![col]?.active !== undefined
+        new_data[row]?.[col] !== undefined &&
+        new_data[row]?.[col]?.active !== undefined
       ) {
         new_data[row]![col] = {
-          ...(new_data[row]![col] as CellBase<any>),
+          ...(new_data[row]?.[col] as CellBase<any>),
           active: undefined,
         };
       } else {
         new_data[row]![col] = {
-          ...(new_data[row]![col] as CellBase<any>),
-          active: new_data[row]![col]?.value,
+          ...(new_data[row]?.[col] as CellBase<any>),
+          active: new_data[row]?.[col]?.value,
         };
       }
     }
@@ -129,10 +130,10 @@ const EditableTableView = (props: EditableTableProps) => {
     <ScrollArea type="auto">
       <div className="p-2">
         <h1>{valueData?.name}</h1>
-        <table className="m-0  border-spacing-0 border border-solid border-stone-800 bg-white p-0 dark:bg-black">
+        <table className="m-0 border-spacing-0 border border-stone-800 border-solid bg-white p-0 dark:bg-black">
           <tbody>
             {value?.map((row, rowIndex) => (
-              <tr key={uuid + "_row_" + rowIndex}>
+              <tr key={`${uuid}_row_${rowIndex}`}>
                 {row.map((val, colIndex) => {
                   const inAABB =
                     expandedBoundingBox &&
@@ -146,7 +147,7 @@ const EditableTableView = (props: EditableTableProps) => {
                   const color = getColorByName(val?.value);
                   return (
                     <td
-                      key={uuid + "_row_" + rowIndex + "_col_" + colIndex}
+                      key={`${uuid}_row_${rowIndex}_col_${colIndex}`}
                       className="relative box-border overflow-hidden whitespace-nowrap break-keep p-0"
                       style={{
                         // border: "1px solid #333",
@@ -156,11 +157,11 @@ const EditableTableView = (props: EditableTableProps) => {
                         maxHeight: "1.9em",
                         textAlign: isNumeric(val?.value) ? "right" : "left",
                         background: val?.metaId
-                          ? getRandomColorByNumber(meta_id) + "88"
+                          ? `${getRandomColorByNumber(meta_id)}88`
                           : undefined,
                         border:
-                          (inAABB || val?.metaId == meta_id) && !!val?.value
-                            ? "1px solid " + getRandomColorByNumber(meta_id)
+                          (inAABB || val?.metaId === meta_id) && !!val?.value
+                            ? `1px solid ${getRandomColorByNumber(meta_id)}`
                             : "1px solid #333",
                         paddingRight: color !== null ? 32 : 0,
                       }}
@@ -168,7 +169,7 @@ const EditableTableView = (props: EditableTableProps) => {
                       {Icon && (
                         <Icon
                           size={12}
-                          className="absolute right-0 top-0 z-10"
+                          className="absolute top-0 right-0 z-10"
                         />
                       )}
 
@@ -183,7 +184,7 @@ const EditableTableView = (props: EditableTableProps) => {
                           className="h-full w-full rounded-none"
                           size="sm"
                           style={{
-                            backgroundColor: !!val?.active
+                            backgroundColor: val?.active
                               ? "#2F9E4488"
                               : "#E0313188",
                           }}
@@ -199,11 +200,11 @@ const EditableTableView = (props: EditableTableProps) => {
 
                       {color && (
                         <div
-                          className="absolute bottom-0.5 right-0.5 top-0.5 aspect-square rounded-lg"
+                          className="absolute top-0.5 right-0.5 bottom-0.5 aspect-square rounded-lg"
                           style={{
                             backgroundColor: color,
                           }}
-                        ></div>
+                        />
                       )}
                     </td>
                   );
@@ -216,17 +217,16 @@ const EditableTableView = (props: EditableTableProps) => {
           style={{
             height: 12,
           }}
-        ></div>
+        />
 
         <div
-          className={
-            "p-2 " +
-            (verify?.[1].startsWith("error")
+          className={`p-2${
+            verify?.[1].startsWith("error")
               ? "text-red-500"
               : verify?.[1].startsWith("success")
                 ? "text-green-500"
-                : "text-gray-500")
-          }
+                : "text-gray-500"
+          }`}
         >
           {verify?.[1] || "⸺"}
         </div>

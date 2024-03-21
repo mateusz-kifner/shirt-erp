@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useCallback, type FC, type MouseEvent, type ReactNode } from "react";
 
-import { type RowIndicatorProps } from "react-spreadsheet";
+import type { RowIndicatorProps } from "react-spreadsheet";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -28,7 +28,6 @@ const RowIndicator = (
             "Spreadsheet__header--selected": selected,
           })}
           onClick={handleClick}
-          tabIndex={0}
         >
           {label !== undefined ? label : row + 1}
         </th>

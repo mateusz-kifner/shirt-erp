@@ -31,7 +31,7 @@ function Pagination({
   return (
     <nav className="flex items-center justify-center gap-px">
       <button
-        className={`inline-flex  h-9 w-9 items-center justify-center rounded-full ${
+        className={`inline-flex h-9 w-9 items-center justify-center rounded-full${
           active === 1
             ? "text-stone-500"
             : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600"
@@ -57,10 +57,10 @@ function Pagination({
         return (
           <button
             key={`${uuid}_${index}`}
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-full text-base font-medium  ${
+            className={`inline-flex h-9 w-9 items-center justify-center rounded-full font-medium text-base${
               active === page
                 ? "bg-blue-500 text-white"
-                : "text-stone-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600 dark:text-stone-300"
+                : "text-stone-600 hover:bg-black hover:bg-opacity-20 dark:text-stone-300 hover:text-blue-600"
             }`}
             onClick={() => setPage(page)}
             aria-current={active === page ? "page" : undefined}
@@ -71,7 +71,7 @@ function Pagination({
       })}
 
       <button
-        className={`inline-flex  h-9 w-9 items-center justify-center rounded-full  ${
+        className={`inline-flex h-9 w-9 items-center justify-center rounded-full${
           active === totalPages
             ? "text-stone-500"
             : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600"

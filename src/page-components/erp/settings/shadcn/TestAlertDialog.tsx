@@ -20,7 +20,7 @@ function TestAlertDialog() {
           Test Alert Dialog
         </AlertDialogTrigger>
         <AlertDialogContent>
-          <div className="flex  gap-2">
+          <div className="flex gap-2">
             <IconAlertCircle size={28} />
 
             <AlertDialogHeader>

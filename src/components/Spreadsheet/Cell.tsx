@@ -6,7 +6,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { type Dimensions, type Point } from "react-spreadsheet";
+import type { Dimensions, Point } from "react-spreadsheet";
 
 import type TablerIconType from "@/types/TablerIconType";
 import { IconCheck, IconX } from "@tabler/icons-react";
@@ -97,7 +97,7 @@ export const Cell = ({
     }
   }, [setCellDimensions, selected, active, mode, point, data]);
 
-  if (data && data.DataViewer) {
+  if (data?.DataViewer) {
     DataViewer = data.DataViewer;
   }
 
@@ -109,12 +109,11 @@ export const Cell = ({
       className={"Spreadsheet__cell relative"}
       style={_.merge(data?.style, {
         background: data?.metaId
-          ? getRandomColorByNumber(data.metaId) + "88"
+          ? `${getRandomColorByNumber(data.metaId)}88`
           : undefined,
       })}
       onMouseOver={handleMouseOver}
       onMouseDown={handleMouseDown}
-      tabIndex={0}
     >
       {Icon && (
         <Icon size={12} style={{ position: "absolute", top: 0, right: 0 }} />

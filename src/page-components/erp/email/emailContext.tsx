@@ -1,4 +1,4 @@
-import { type EmailCredential } from "@/server/api/email/validator";
+import type { EmailCredential } from "@/server/api/email/validator";
 import {
   createContext,
   useContext,
@@ -40,7 +40,7 @@ export const EmailContextProvider = ({
 export function useEmailContext(): EmailContextType {
   const state = useContext(EmailContext);
   if (!state) {
-    throw new Error(`ERROR: Cannot use emailContext outside of emailClient`);
+    throw new Error("ERROR: Cannot use emailContext outside of emailClient");
   }
   return state;
 }

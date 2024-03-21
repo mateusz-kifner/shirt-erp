@@ -1,4 +1,4 @@
-import { type Session } from "next-auth";
+import type { Session } from "next-auth";
 
 export const session = {
   expires: "2023-10-31T17:54:05.000Z",

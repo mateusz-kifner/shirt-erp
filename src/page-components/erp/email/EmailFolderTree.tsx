@@ -1,7 +1,7 @@
 import Button, { type ButtonProps } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { type EmailCredential } from "@/server/api/email/validator";
+import type { EmailCredential } from "@/server/api/email/validator";
 import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 import {
@@ -12,7 +12,7 @@ import {
   IconSend,
   IconTrash,
 } from "@tabler/icons-react";
-import { type ListTreeResponse } from "imapflow";
+import type { ListTreeResponse } from "imapflow";
 import { useId, useState } from "react";
 
 function getIcon(specialUse: string) {
@@ -68,7 +68,7 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
     <div
       className={cn(
         "flex flex-col gap-2 p-2",
-        isMobile ? "" : " w-40 min-w-[10rem]",
+        isMobile ? "" : "w-40 min-w-[10rem]",
       )}
     >
       <div className="flex h-10 flex-col gap-2">
@@ -87,41 +87,40 @@ function EmailFolderTree(props: EmailFolderTreeProps) {
           {emailConfig.user}
           <IconRefresh
             className={cn(
-              "absolute -bottom-1  right-0 h-4 w-4 rounded-full bg-white transition-all dark:bg-stone-800",
+              "-bottom-1 absolute right-0 h-4 w-4 rounded-full bg-white transition-all dark:bg-stone-800",
               loadingAnimation &&
-                "animate-spin bg-sky-200 direction-reverse dark:bg-sky-950",
+                "direction-reverse animate-spin bg-sky-200 dark:bg-sky-950",
             )}
           />
         </Button>
 
         <Separator />
       </div>
-      {data &&
-        data.folders.map((folder, index) => (
-          <div className="contents" key={`${uuid}${index}`}>
+      {data?.folders.map((folder, index) => (
+        <div className="contents" key={`${uuid}${index}`}>
+          <EmailTreeButton
+            folder={folder}
+            className={
+              active === folder.path
+                ? "justify-start bg-black/10 text-stone-900 dark:bg-white/10 dark:text-stone-50"
+                : "justify-start"
+            }
+            onClick={() => onActive?.(folder.path)}
+          />
+          {folder?.folders?.map((folder, index2) => (
             <EmailTreeButton
               folder={folder}
               className={
                 active === folder.path
-                  ? "justify-start bg-black/10  text-stone-900 dark:bg-white/10 dark:text-stone-50"
-                  : "justify-start"
+                  ? "ml-3 justify-start bg-black/10 text-stone-900 dark:bg-white/10 dark:text-stone-50"
+                  : "ml-3 justify-start"
               }
               onClick={() => onActive?.(folder.path)}
+              key={`${uuid}${index}:${index2}`}
             />
-            {folder?.folders?.map((folder, index2) => (
-              <EmailTreeButton
-                folder={folder}
-                className={
-                  active === folder.path
-                    ? "ml-3 justify-start bg-black/10  text-stone-900 dark:bg-white/10 dark:text-stone-50"
-                    : "ml-3  justify-start"
-                }
-                onClick={() => onActive?.(folder.path)}
-                key={`${uuid}${index}:${index2}`}
-              />
-            ))}
-          </div>
-        ))}
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

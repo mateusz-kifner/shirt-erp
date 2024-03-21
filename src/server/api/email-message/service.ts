@@ -1,11 +1,11 @@
 import { type DBType, db } from "@/server/db";
 import { email_messages } from "@/server/api/email-message/schema";
 import { eq, inArray, sql } from "drizzle-orm";
-import {
-  type EmailMessage,
-  type UpdatedEmailMessage,
+import type {
+  EmailMessage,
+  UpdatedEmailMessage,
 } from "@/server/api/email-message/validator";
-import { type MetadataType } from "@/types/MetadataType";
+import type { MetadataType } from "@/types/MetadataType";
 import { orders_to_email_messages } from "@/server/api/order/schema/orders_to_email_messages";
 import { email_messages_to_files } from "@/server/api/email-message/schema";
 

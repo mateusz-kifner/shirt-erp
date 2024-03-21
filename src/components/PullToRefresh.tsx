@@ -54,8 +54,8 @@ const PullToRefresh = (props: PullToRefreshProps) => {
           ),
         }}
       >
-        <div className=" flex h-16 w-full items-center justify-center">
-          <IconLoader2 size={32} className=" animate-spin" />
+        <div className="flex h-16 w-full items-center justify-center">
+          <IconLoader2 size={32} className="animate-spin" />
         </div>
         {children}
       </animated.div>

@@ -1,12 +1,12 @@
-import { type TypeAABB2D } from "../../types/AABB";
+import type { TypeAABB2D } from "../../types/AABB";
 import isNumeric from "../../utils/isNumeric";
-import { type UniversalMatrix } from "./useSpreadSheetData";
+import type { UniversalMatrix } from "./useSpreadSheetData";
 
 function verifyMetadata(
   table: UniversalMatrix,
   metaId: number,
 ): [UniversalMatrix, string, any, any] {
-  if (table[0]![0] === undefined)
+  if (table[0]?.[0] === undefined)
     throw new Error(
       "UniversalMatrix is required to contain at least 1 element",
     );
@@ -32,25 +32,27 @@ function verifyMetadata(
 
   // find row & column
   for (let y = 0; y < table.length; y++) {
-    for (let x = 0; x < table[0]!.length; x++) {
-      if (table[y]![x]?.metaId === metaId) {
-        if (table[y]![x]?.metaPropertyId !== undefined) {
+    for (let x = 0; x < table[0]?.length; x++) {
+      if (table[y]?.[x]?.metaId === metaId) {
+        if (table[y]?.[x]?.metaPropertyId !== undefined) {
           if (row === -1) {
             if (
-              x < table[0]!.length - 1 &&
-              table[y]![x]?.metaPropertyId === table[y]![x + 1]?.metaPropertyId
+              x < table[0]?.length - 1 &&
+              table[y]?.[x]?.metaPropertyId ===
+                table[y]?.[x + 1]?.metaPropertyId
             ) {
               row = y;
-              rowId = table[y]![x]?.metaPropertyId;
+              rowId = table[y]?.[x]?.metaPropertyId;
             }
           }
           if (column === -1) {
             if (
               y < table.length - 1 &&
-              table[y]![x]?.metaPropertyId === table[y + 1]![x]?.metaPropertyId
+              table[y]?.[x]?.metaPropertyId ===
+                table[y + 1]?.[x]?.metaPropertyId
             ) {
               column = x;
-              columnId = table[y]![x]?.metaPropertyId;
+              columnId = table[y]?.[x]?.metaPropertyId;
             }
           }
         }
@@ -59,13 +61,13 @@ function verifyMetadata(
   }
   // check if all metadata is present the same orientation
   for (let y = 0; y < table.length; y++) {
-    for (let x = 0; x < table[0]!.length; x++) {
-      if (table[y]![x]?.metaId === metaId) {
-        if (table[y]![x]?.metaPropertyId !== undefined) {
+    for (let x = 0; x < table[0]?.length; x++) {
+      if (table[y]?.[x]?.metaId === metaId) {
+        if (table[y]?.[x]?.metaPropertyId !== undefined) {
           if (row === y) {
             if (rowMin === -1) rowMin = x;
             rowMax = x;
-          } else if (table[y]![x]?.metaPropertyId === rowId) {
+          } else if (table[y]?.[x]?.metaPropertyId === rowId) {
             return [
               table,
               "error: Metadane z jednej kategorii istnieją w 2 wierszach",
@@ -76,7 +78,7 @@ function verifyMetadata(
           if (column === x) {
             if (columnMin === -1) columnMin = y;
             columnMax = y;
-          } else if (table[y]![x]?.metaPropertyId === columnId) {
+          } else if (table[y]?.[x]?.metaPropertyId === columnId) {
             return [
               table,
               "error: Metadane z jednej kategorii istnieją w 2 kolumnach",
@@ -94,8 +96,8 @@ function verifyMetadata(
   for (let y = columnMin; y < columnMax + 1; y++) {
     for (let x = rowMin; x < rowMax + 1; x++) {
       if (
-        table[y]![x]?.metaId !== undefined &&
-        table[y]![x]?.metaId !== metaId
+        table[y]?.[x]?.metaId !== undefined &&
+        table[y]?.[x]?.metaId !== metaId
       ) {
         return [
           table,
@@ -105,10 +107,10 @@ function verifyMetadata(
         ];
       }
       if (
-        table[y]![x]?.metaId === undefined &&
-        table[y]![x]?.value &&
-        table[y]![x]?.value?.length > 0 &&
-        !isNumeric(table[y]![x]?.value)
+        table[y]?.[x]?.metaId === undefined &&
+        table[y]?.[x]?.value &&
+        table[y]?.[x]?.value?.length > 0 &&
+        !isNumeric(table[y]?.[x]?.value)
       ) {
         return [
           table,

@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/Popover";
 import { IconMessageCircle2 } from "@tabler/icons-react";
 
-interface MessagesProps {}
+type MessagesProps = {};
 
 function Messages(props: MessagesProps) {
   const {} = props;
@@ -24,10 +24,7 @@ function Messages(props: MessagesProps) {
           <IconMessageCircle2 className="stroke-gray-200" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        className="flex flex-col gap-2"
-        sideOffset={10}
-      ></PopoverContent>
+      <PopoverContent className="flex flex-col gap-2" sideOffset={10} />
     </Popover>
   );
 }

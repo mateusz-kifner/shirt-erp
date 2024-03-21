@@ -59,14 +59,14 @@ function GlobalPropertiesEditable(props: GlobalPropertiesEditableProps) {
     if (!data) return;
     deleteById(data.id)
       .then(() => {
-        router.push(`/erp/global-properties`).catch(console.log);
+        router.push("/erp/global-properties").catch(console.log);
       })
       .catch(console.log);
   };
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );
@@ -98,7 +98,7 @@ function GlobalPropertiesEditable(props: GlobalPropertiesEditableProps) {
               <Button
                 size="icon"
                 variant="ghost"
-                className="rounded-full direction-reverse"
+                className="direction-reverse rounded-full"
               >
                 <IconDotsVertical />
               </Button>

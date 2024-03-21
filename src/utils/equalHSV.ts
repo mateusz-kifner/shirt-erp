@@ -1,4 +1,4 @@
-import { type ColorFormats } from "tinycolor2";
+import type { ColorFormats } from "tinycolor2";
 
 const abs = Math.abs;
 

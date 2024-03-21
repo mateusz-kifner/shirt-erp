@@ -10,14 +10,14 @@ import {
 const ColumnIndicator = (
   props: ColumnIndicatorProps & {
     contextMenu: (column: number) => ReactNode;
-  }
+  },
 ) => {
   const { column, label, selected, contextMenu, onSelect } = props;
   const handleClick = useCallback(
     (event: React.MouseEvent) => {
       onSelect(column, event.shiftKey);
     },
-    [onSelect, column]
+    [onSelect, column],
   );
   return (
     <ContextMenu>
@@ -27,7 +27,6 @@ const ColumnIndicator = (
             "Spreadsheet__header--selected": selected,
           })}
           onClick={handleClick}
-          tabIndex={0}
         >
           {label !== undefined ? label : columnIndexToLabel(column)}
         </th>
@@ -45,7 +44,7 @@ export const enhance = (
       contextMenu: (column: number) => ReactNode;
     }
   >,
-  contextMenu: (column: number) => ReactNode
+  contextMenu: (column: number) => ReactNode,
 ): FC<
   ColumnIndicatorProps & {
     contextMenu: (column: number) => ReactNode;

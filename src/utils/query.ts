@@ -54,9 +54,8 @@ const getQueryAsArray = (router: NextRouter, key: string): string[] => {
   if (typeof query === "string") {
     if (query.includes(",")) {
       return query.split(",");
-    } else {
-      return [query];
     }
+    return [query];
   }
 
   return [];
@@ -73,12 +72,12 @@ const getQueryAsIntOrNull = (
   const query = router.query[key];
   if (Array.isArray(query)) {
     if (query[0] === undefined) return null;
-    const queryAsInt = parseInt(query[0]);
-    return isNaN(queryAsInt) ? null : queryAsInt;
+    const queryAsInt = Number.parseInt(query[0]);
+    return Number.isNaN(queryAsInt) ? null : queryAsInt;
   }
   if (typeof query === "string") {
-    const queryAsInt = parseInt(query);
-    return isNaN(queryAsInt) ? null : queryAsInt;
+    const queryAsInt = Number.parseInt(query);
+    return Number.isNaN(queryAsInt) ? null : queryAsInt;
   }
   return null;
 };

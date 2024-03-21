@@ -1,8 +1,4 @@
-import {
-  type CellBase,
-  type DataViewerProps,
-  type Dimensions,
-} from "react-spreadsheet";
+import type { CellBase, DataViewerProps, Dimensions } from "react-spreadsheet";
 import isNumeric from "../../utils/isNumeric";
 
 /** Get the offset values of given element */

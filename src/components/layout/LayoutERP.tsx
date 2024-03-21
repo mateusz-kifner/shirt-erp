@@ -1,8 +1,9 @@
-import { type PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 
 import Header from "@/components/layout/Header";
 import Navigation from "@/components/layout/Navigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { cn } from "@/utils/cn";
 
 function LayoutERP({ children }: PropsWithChildren) {
   const isMobile = useIsMobile();
@@ -12,9 +13,10 @@ function LayoutERP({ children }: PropsWithChildren) {
       <Header />
 
       <main
-        className={`${
-          isMobile ? "" : "pl-[5.5rem]"
-        } min-h-screen pt-14 transition-all`}
+        className={cn(
+          "min-h-screen pt-14 transition-all",
+          !isMobile && "pl-[5.5rem]",
+        )}
       >
         {children}
       </main>

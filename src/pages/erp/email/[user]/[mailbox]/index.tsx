@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { type Dispatch, type SetStateAction, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-interface EmailMailboxProps {}
+type EmailMailboxProps = {};
 
 function EmailMailbox(props: EmailMailboxProps) {
   const {} = props;
@@ -51,7 +51,7 @@ function EmailMailbox(props: EmailMailboxProps) {
       .filter((v) => v !== null)[0] ?? 0;
 
   const setActive: Dispatch<SetStateAction<number>> = (value) => {
-    const active = typeof value == "function" ? value(currentIMAPuser) : value;
+    const active = typeof value === "function" ? value(currentIMAPuser) : value;
 
     active !== undefined &&
       router

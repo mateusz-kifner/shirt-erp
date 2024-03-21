@@ -1,31 +1,31 @@
-import { type ImapFlow } from "imapflow";
-import fs from "node:fs";
-import fsp from "node:fs/promises";
+import fs from "fs";
+import path from "path";
 import { env } from "@/env";
+import { files as filesSchema } from "@/server/api/file/schema";
+import { db } from "@/server/db";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
 import NodeClam from "clamscan";
+import { and, eq } from "drizzle-orm";
+import fsp from "fs/promises";
 import imageSize from "image-size";
+import type { ImapFlow } from "imapflow";
 import Logger from "js-logger";
 import { simpleParser } from "mailparser";
-import path from "node:path";
-import { db } from "@/server/db";
-import { and, eq } from "drizzle-orm";
-import { files as filesSchema } from "@/server/api/file/schema";
 import {
   email_messages,
   email_messages_to_files,
 } from "../../email-message/schema";
+import { uploadDir } from "./config";
 import {
   bufferToReadable,
   resolveEmailCacheFileName,
   writeStreamAsync,
 } from "./utils";
-import { uploadDir } from "./config";
 
 export async function transferEmailToDbByUId(
   client: ImapFlow,
   uid: string,
-  mailbox: string = "INBOX",
+  mailbox = "INBOX",
 ) {
   try {
     await client.connect();
@@ -51,7 +51,7 @@ export async function transferEmailToDbByUId(
     }
     const alreadyTransferred = await db.query.email_messages.findFirst({
       where: and(
-        eq(email_messages.messageUid, parseInt(uid)),
+        eq(email_messages.messageUid, Number.parseInt(uid)),
         eq(email_messages.clientUser, auth.user),
         eq(email_messages.mailbox, mailbox),
       ),
@@ -105,9 +105,9 @@ export async function transferEmailToDbByUId(
       const scrambledFileName = genRandomStringServerOnly(25);
       const filePath = `${absolutePath}/${scrambledFileName}`;
       await fsp.writeFile(filePath, attachment.content);
-      const originalFilenameExtDot = attachment.filename!.lastIndexOf(".");
-      const extWithDot = attachment.filename!.substring(originalFilenameExtDot);
-      const fileName = attachment.filename!.substring(
+      const originalFilenameExtDot = attachment.filename?.lastIndexOf(".");
+      const extWithDot = attachment.filename?.substring(originalFilenameExtDot);
+      const fileName = attachment.filename?.substring(
         0,
         originalFilenameExtDot,
       );
@@ -163,7 +163,7 @@ export async function transferEmailToDbByUId(
           mailbox,
           text: parsed.text,
           textAsHtml: parsed.textAsHtml,
-          messageUid: parseInt(uid),
+          messageUid: Number.parseInt(uid),
           headerLines: parsed.headerLines.map((val) => val.line),
           clientUser: auth.user,
           messageId: parsed.messageId,

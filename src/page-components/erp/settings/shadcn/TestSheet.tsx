@@ -27,7 +27,7 @@ function TestSheet() {
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label label="Name" htmlFor="name" className="text-right"></Label>
+            <Label label="Name" htmlFor="name" className="text-right" />
             <Input
               id="name"
               value="Pedro Duarte"
@@ -36,11 +36,7 @@ function TestSheet() {
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label
-              label="Username"
-              htmlFor="username"
-              className="text-right"
-            ></Label>
+            <Label label="Username" htmlFor="username" className="text-right" />
             <Input
               id="username"
               value="@peduarte"

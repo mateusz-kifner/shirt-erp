@@ -1,8 +1,8 @@
 import { DefaultListItem } from "@/components/DefaultListItem";
 import { DefaultListItemExtended } from "@/components/DefaultListItemExtended";
 import { useExperimentalContext } from "@/context/experimentalContext";
-import { type Customer } from "@/server/api/customer/validator";
-import { type ListItemProps } from "@/types/ListItemProps";
+import type { Customer } from "@/server/api/customer/validator";
+import type { ListItemProps } from "@/types/ListItemProps";
 import { truncString } from "@/utils/truncString";
 
 const CustomerListItem = (props: ListItemProps<Customer>) => {

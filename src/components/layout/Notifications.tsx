@@ -80,12 +80,12 @@ const Notifications = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white dark:bg-stone-950 md:w-96"
+        className="flex w-[calc(100vw-32px)] flex-col gap-2 bg-white md:w-96 dark:bg-stone-950"
         sideOffset={10}
         align={isMobile ? "start" : "end"}
         collisionPadding={{ left: 16, right: 16 }}
       >
-        <div className="flex ">
+        <div className="flex">
           <IconBell size={18} /> Powiadomienia
         </div>
 

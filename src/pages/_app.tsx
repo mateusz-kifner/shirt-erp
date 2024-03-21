@@ -1,4 +1,4 @@
-import { type AppType } from "next/app";
+import type { AppType } from "next/app";
 
 import "@total-typescript/ts-reset";
 
@@ -27,7 +27,7 @@ import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { type Session } from "next-auth";
+import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import LayoutAuth from "@/components/layout/LayoutAuth";
 import LayoutERP from "@/components/layout/LayoutERP";
@@ -45,7 +45,7 @@ dayjs.extend(localeData);
 // TODO: refactor logger
 
 if (typeof window !== "undefined") {
-  Logger.setHandler(function (messages, context) {
+  Logger.setHandler((messages, context) => {
     console.log(messages);
     const savedValue = localStorage.getItem("user-data"); // TODO: log user id here
     console.log(messages[0]?.message ?? "Nieznany błąd", messages[0]);

@@ -12,4 +12,4 @@
 //   res.end();
 // }
 
-export {};
+export type {};

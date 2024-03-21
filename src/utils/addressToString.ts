@@ -1,4 +1,4 @@
-import { type Address } from "@/server/api/address/validator";
+import type { Address } from "@/server/api/address/validator";
 
 export const addressToString = (address?: Omit<Address, "id">) => {
   if (!address) return undefined;
@@ -9,8 +9,8 @@ export const addressToString = (address?: Omit<Address, "id">) => {
     (address.streetName || address.streetNumber || address.apartmentNumber
       ? "\n"
       : "") +
-    (address.secondLine ? address.secondLine + "\n" : "") +
-    (address.postCode ? address.postCode + " " : "") +
+    (address.secondLine ? `${address.secondLine}\n` : "") +
+    (address.postCode ? `${address.postCode} ` : "") +
     (address.city || "") +
     (address.postCode || address.city ? "\n" : "") +
     address.province

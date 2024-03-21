@@ -9,7 +9,7 @@ import { useState } from "react";
 
 const entryName = "expense";
 
-interface ExpensePageProps {}
+type ExpensePageProps = {};
 
 function ExpensePage(props: ExpensePageProps) {
   const {} = props;

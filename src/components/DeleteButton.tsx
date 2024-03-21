@@ -3,7 +3,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { IconTrashX } from "@tabler/icons-react";
 import Button, { type ButtonProps } from "./ui/Button";
 import { Dialog, DialogTitle } from "./ui/Dialog";
-import { type DialogProps } from "@radix-ui/react-dialog";
+import type { DialogProps } from "@radix-ui/react-dialog";
 
 interface DeleteButtonProps {
   onDelete: () => void;

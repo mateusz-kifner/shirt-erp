@@ -1,7 +1,7 @@
 import { type DBType, db } from "@/server/db";
 import { orders, orders_to_users } from "../schema";
 import { and, eq, inArray, sql } from "drizzle-orm";
-import { type User } from "../../user/validator";
+import type { User } from "../../user/validator";
 
 // compile query ahead of time
 const orderToUserRelationGetAll = db.query.orders

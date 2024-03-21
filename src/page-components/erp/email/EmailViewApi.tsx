@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/Tooltip";
 // import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
-import { type EmailCredential } from "@/server/api/email/validator";
+import type { EmailCredential } from "@/server/api/email/validator";
 import { trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 import {
@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import api from "@/hooks/api";
 
 interface EmailViewApiProps {
@@ -88,14 +88,14 @@ function EmailViewApi(props: EmailViewApiProps) {
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );
 
   if (data.avIsInfected)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Email zawiera wirusy
       </div>
     );
@@ -110,7 +110,7 @@ function EmailViewApi(props: EmailViewApiProps) {
             (Array.isArray(data?.to)
               ? data.to
                   .map((v) => v.text)
-                  .reduce((p, n, i) => (i == 0 ? n : `${p}, ${n}`))
+                  .reduce((p, n, i) => (i === 0 ? n : `${p}, ${n}`))
               : data?.to?.text) ?? "",
           date: data.date,
           messageUid: id ?? null,
@@ -176,10 +176,10 @@ function EmailViewApi(props: EmailViewApiProps) {
       <div className="flex flex-col">
         {data.attachments.map((file, index) => (
           <div
-            className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-gray-400 first:rounded-t last:rounded-b last:border-b dark:border-stone-600"
+            className="relative flex items-center gap-2 overflow-hidden border-gray-400 border-t border-r border-l border-solid first:rounded-t last:rounded-b dark:border-stone-600 last:border-b"
             key={`${uuid}${index}:attachments`}
           >
-            <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden  child-hover:visible">
+            <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden child-hover:visible">
               <img
                 src={
                   file.preview
@@ -189,12 +189,12 @@ function EmailViewApi(props: EmailViewApiProps) {
                 alt=""
                 width={100}
                 height={100}
-                className="h-[100px] w-[100px]  border-b-0 border-l-0 border-r border-t-0 border-gray-400 object-cover dark:border-stone-600"
+                className="h-[100px] w-[100px] border-gray-400 border-t-0 border-r border-b-0 border-l-0 object-cover dark:border-stone-600"
               />
             </div>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="w-[calc(100% - 180px)] mr-20 max-h-[90px] break-all">
+                <div className="- 180px)] mr-20 max-h-[90px] w-[calc(100% break-all">
                   {file.name}
                 </div>
               </TooltipTrigger>
@@ -209,19 +209,11 @@ function EmailViewApi(props: EmailViewApiProps) {
               href={`/api/email/${emailConfig.user}/${mailbox}/${id}/download/${file.name}`}
               className={cn(
                 buttonVariants({ variant: "ghost", size: "icon" }),
-                `absolute 
-            -right-12
-            top-1/2
-            h-32
-            w-32
-            -translate-y-1/2
-            rounded-full
-            hover:bg-black/15
-            dark:hover:bg-white/10`,
+                "-right-12 -translate-y-1/2 absolute top-1/2 h-32 w-32 rounded-full dark:hover:bg-white/10 hover:bg-black/15",
               )}
             >
               <IconDownload size={26} />
-              <div style={{ width: "2.4rem" }}></div>
+              <div style={{ width: "2.4rem" }} />
             </Link>
           </div>
         ))}

@@ -1,4 +1,4 @@
-import { type ImapFlow } from "imapflow";
+import type { ImapFlow } from "imapflow";
 
 export async function fetchFolders(client: ImapFlow) {
   try {

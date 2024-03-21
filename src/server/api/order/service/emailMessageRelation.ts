@@ -2,7 +2,7 @@ import { type DBType, db } from "@/server/db";
 import { orders_to_email_messages } from "@/server/api/order/schema/orders_to_email_messages";
 import { and, eq, inArray, sql } from "drizzle-orm";
 import { orders } from "../schema";
-import { type EmailMessage } from "../../email-message/validator";
+import type { EmailMessage } from "../../email-message/validator";
 
 // compile query ahead of time
 const orderToEmailRelationGetAll = db.query.orders

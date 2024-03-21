@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-import { type OrderWithoutRelations } from "@/server/api/order/validator";
+import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { trpc } from "@/utils/trpc";
 import CustomerListItem from "../customer/CustomerListItem";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
@@ -44,8 +44,9 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
   const isLoaded = useLoaded();
 
   const { data } = api.customer.useGetById(customerId);
-  const { data:addressData, refetch: addressRefetch } = api.customer.useGetRelatedAddress(customerId);
-  
+  const { data: addressData, refetch: addressRefetch } =
+    api.customer.useGetRelatedAddress(customerId);
+
   // const { data } = trpc.customer.getById.useQuery(customerId as number, {
   //   enabled: customerId !== null,
   // });
@@ -191,7 +192,7 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
 
                 <div className="flex items-stretch gap-4">
                   <div
-                    className={`plain-html editor w-full leading-normal ${
+                    className={`plain-html editor w-full leading-normal${
                       notes.length === 0 ||
                       notes === "<p></p>" ||
                       notes === "<p></p><p></p>"
@@ -206,7 +207,7 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
                           ? "⸺"
                           : notes,
                     }}
-                  ></div>
+                  />
                 </div>
               </CardContent>
             </>
@@ -226,7 +227,7 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
           <CardHeader>
             <CardTitle>Adres z zamówienia</CardTitle>
           </CardHeader>
-          <CardContent className="whitespace-pre ">
+          <CardContent className="whitespace-pre">
             {addressData !== undefined && (
               <Editable data={addressData} onSubmit={apiUpdateAddress}>
                 <EditableText

@@ -65,14 +65,14 @@ function UserEditable(props: UserEditableProps) {
     if (!data) return;
     deleteById(data.id)
       .then(() => {
-        void router.push(`/erp/user`);
+        void router.push("/erp/user");
       })
       .catch(console.log);
   };
 
   if (!data)
     return (
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2">
         Brak danych
       </div>
     );

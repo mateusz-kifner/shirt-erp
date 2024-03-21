@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/Card";
 import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
 import EditableArray from "@/components/editable/EditableArray";
-import { type GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 
 const EditableAddress = lazy(
   () => import("@/components/editable/EditableAddress"),
@@ -57,7 +57,7 @@ function TestEditablePage() {
   });
 
   return (
-    <Card className="m-2 px-2 pb-64 pt-2">
+    <Card className="m-2 px-2 pt-2 pb-64">
       <CardContent>
         <div className="min-h-28 whitespace-pre-wrap font-mono">
           {JSON.stringify(data, null, 2)}
@@ -95,7 +95,7 @@ function TestEditablePage() {
               label="EditableArray2"
             >
               {(key, overrideProps) => (
-                <div className="border border-solid border-red-500" key={key}>
+                <div className="border border-red-500 border-solid" key={key}>
                   <EditableText {...overrideProps} />
                 </div>
               )}

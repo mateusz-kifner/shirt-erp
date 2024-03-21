@@ -17,13 +17,13 @@ function TestPopover() {
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Dimensions</h4>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Set the dimensions for the layer.
             </p>
           </div>
           <div className="grid gap-2">
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label label="Width" htmlFor="width"></Label>
+              <Label label="Width" htmlFor="width" />
               <Input
                 id="width"
                 defaultValue="100%"
@@ -31,7 +31,7 @@ function TestPopover() {
               />
             </div>
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label label="Max. width" htmlFor="maxWidth"></Label>
+              <Label label="Max. width" htmlFor="maxWidth" />
               <Input
                 id="maxWidth"
                 defaultValue="300px"
@@ -39,7 +39,7 @@ function TestPopover() {
               />
             </div>
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label label="Height" htmlFor="height"></Label>
+              <Label label="Height" htmlFor="height" />
               <Input
                 id="height"
                 defaultValue="25px"
@@ -47,7 +47,7 @@ function TestPopover() {
               />
             </div>
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label label="Max. height" htmlFor="maxHeight"></Label>
+              <Label label="Max. height" htmlFor="maxHeight" />
               <Input
                 id="maxHeight"
                 defaultValue="none"

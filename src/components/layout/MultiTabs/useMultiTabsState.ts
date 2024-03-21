@@ -22,7 +22,7 @@ function useMultiTabsState(
     return {
       setActive,
       pinnedHandler,
-      active: parseInt(router.query["select-tab"]),
+      active: Number.parseInt(router.query["select-tab"]),
       pinned: [],
     };
   }

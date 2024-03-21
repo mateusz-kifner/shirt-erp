@@ -67,7 +67,7 @@ const TasksPage = () => {
     ? productsData?.reduce(
         (prev, next) => ({
           ...prev,
-          [`${next.name}:${next.id}` ?? "[NAME NOT SET] " + next.id]: {
+          [`${next.name}:${next.id}` ?? `[NAME NOT SET] ${next.id}`]: {
             id: next.id,
           },
         }),
@@ -96,21 +96,13 @@ const TasksPage = () => {
           <div className="relative flex flex-col gap-2 p-4">
             <div className="flex flex-col gap-2">
               <div className="flex justify-between px-2">
-                <h2 className="text-2xl font-bold">{label}</h2>
+                <h2 className="font-bold text-2xl">{label}</h2>
                 <div className="flex gap-2">
                   {/* {!!buttonSection && buttonSection} */}
                   <Button
                     size="icon"
                     variant="outline"
-                    className="
-                h-9
-                w-9
-                rounded-full
-              border-gray-400
-                p-1 
-                text-gray-700
-                dark:border-stone-600
-                dark:text-stone-400"
+                    className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
                     onClick={() => {
                       // refetch()
                       // onRefresh?.();
@@ -140,20 +132,11 @@ const TasksPage = () => {
                 </div>
               </div>
               <div className="flex gap-3 px-2.5">
-                <div className="flex ">
+                <div className="flex">
                   <Button
                     size="icon"
                     variant="outline"
-                    className="
-                h-9
-                w-9
-                rounded-full
-                border-gray-400
-                p-1 
-                text-gray-700
-                dark:border-stone-600
-                dark:text-stone-400
-                "
+                    className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
                     onClick={() => toggleSortOrder()}
                   >
                     {sortOrder === "asc" ? (
@@ -164,40 +147,9 @@ const TasksPage = () => {
                   </Button>
                 </div>
                 <input
-                  name={"search" + uuid}
-                  id={"search" + uuid}
-                  className="
-              data-disabled:text-gray-500
-              dark:data-disabled:text-gray-500
-              data-disabled:bg-transparent 
-              dark:data-disabled:bg-transparent
-              h-9
-              max-h-screen
-              w-full
-              resize-none
-              gap-2 
-              overflow-hidden
-              whitespace-pre-line 
-              break-words
-              rounded-full
-              border
-              border-solid 
-              border-gray-400
-              bg-white
-              px-4
-              py-2
-              text-sm
-              leading-normal 
-              outline-none 
-              read-only:bg-transparent
-              read-only:outline-none
-              focus:border-sky-600
-              dark:border-stone-600
-              dark:bg-stone-800 
-              dark:outline-none 
-              dark:read-only:bg-transparent 
-              dark:read-only:outline-none
-              dark:focus:border-sky-600"
+                  name={`search${uuid}`}
+                  id={`search${uuid}`}
+                  className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-full border border-gray-400 border-solid bg-white px-4 py-2 text-sm leading-normal outline-none dark:border-stone-600 dark:focus:border-sky-600 focus:border-sky-600 dark:bg-stone-800 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 dark:outline-none dark:read-only:outline-none read-only:outline-none"
                   type="text"
                   onChange={(value) => setQuery(value.target.value)}
                   placeholder={`${t.search}...`}
@@ -216,7 +168,7 @@ const TasksPage = () => {
                   router.push(`/erp/task/${val.id}`).catch(console.log);
                 }}
                 selectedId={id}
-              ></List>
+              />
             </div>
             <Pagination
               totalPages={totalPages}
@@ -227,32 +179,31 @@ const TasksPage = () => {
         }
       >
         {id !== null && (
-          <div className="relative flex flex-col gap-4 p-4 ">
+          <div className="relative flex flex-col gap-4 p-4">
             <TaskView id={id} />
           </div>
         )}
         <div className="relative p-4">
           {orderData && <OrderMessagesView orderId={orderData.id} />}
         </div>
-        {spreadsheetData &&
-          spreadsheetData?.map((val, index) => (
-            <SpreadsheetView
-              key={`${uuid}spreadsheet:${index}:`}
-              id={val.id}
-              metadata={metadata}
-              metadataVisuals={[
-                { icon: IconColorSwatch, label: "Color" },
-                { icon: IconRuler2, label: "Size" },
-              ]}
-              metadataActions={[
-                {
-                  icon: IconCheck,
-                  label: "Sprawdź poprawność pól",
-                  action: verifyMetadata,
-                },
-              ]}
-            />
-          ))}
+        {spreadsheetData?.map((val, index) => (
+          <SpreadsheetView
+            key={`${uuid}spreadsheet:${index}:`}
+            id={val.id}
+            metadata={metadata}
+            metadataVisuals={[
+              { icon: IconColorSwatch, label: "Color" },
+              { icon: IconRuler2, label: "Size" },
+            ]}
+            metadataActions={[
+              {
+                icon: IconCheck,
+                label: "Sprawdź poprawność pól",
+                action: verifyMetadata,
+              },
+            ]}
+          />
+        ))}
       </Workspace>
     </div>
   );

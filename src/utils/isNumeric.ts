@@ -7,7 +7,7 @@ function isNumeric(value: any) {
   if (typeof value === "number") return true;
   const str = (value || "")?.toString();
   if (!str) return false;
-  return !isNaN(str);
+  return !Number.isNaN(str);
 }
 
 export default isNumeric;

@@ -1,8 +1,8 @@
 import { IconDownload, IconEye } from "@tabler/icons-react";
 import Link from "next/link";
-import { type CSSProperties, type ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
-import { type File } from "@/server/api/file/validator";
+import type { File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import Button, { buttonVariants } from "./ui/Button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
@@ -42,7 +42,7 @@ const FileListItem = (props: FileListItemProps) => {
 
   const preview = value.mimetype?.startsWith("image")
     ? `/api/files/${value.filename}${
-        value?.token && value.token.length > 0 ? "?token=" + value?.token : ""
+        value?.token && value.token.length > 0 ? `?token=${value?.token}` : ""
       }`
     : undefined;
 
@@ -56,30 +56,30 @@ const FileListItem = (props: FileListItemProps) => {
           e.dataTransfer.setData("application/json", jsonData);
         }}
         style={style}
-        className="relative flex items-center gap-2 overflow-hidden border-l border-r border-t border-solid border-input bg-background first:rounded-t last:rounded-b last:border-b"
+        className="relative flex items-center gap-2 overflow-hidden border-input border-t border-r border-l border-solid bg-background first:rounded-t last:rounded-b last:border-b"
       >
-        <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden  child-hover:visible">
+        <div className="relative h-[100px] w-[100px] min-w-[100px] overflow-hidden child-hover:visible">
           <img
             src={preview ?? "/assets/unknown_file.svg"}
             alt=""
             width={100}
             height={100}
-            className="h-[100px] w-[100px]  border-b-0 border-l-0 border-r border-t-0 border-input object-cover "
+            className="h-[100px] w-[100px] border-input border-t-0 border-r border-b-0 border-l-0 object-cover"
           />
 
           {preview && onPreview && (
             <Button
               size="icon"
               variant="ghost"
-              className="absolute left-0 top-0 z-10 h-full w-full rounded-none border-b-0 border-l-0 border-t-0 hover:bg-black hover:bg-opacity-20"
+              className="absolute top-0 left-0 z-10 h-full w-full rounded-none border-t-0 border-b-0 border-l-0 hover:bg-black hover:bg-opacity-20"
               onClick={() => {
                 value?.filename &&
                   onPreview(
-                    "/api/files/" +
-                      value.filename +
-                      (value?.token && value.token.length > 0
-                        ? "?token=" + value?.token
-                        : ""),
+                    `/api/files/${value.filename}${
+                      value?.token && value.token.length > 0
+                        ? `?token=${value?.token}`
+                        : ""
+                    }`,
                     value?.width,
                     value?.height,
                   );
@@ -94,7 +94,7 @@ const FileListItem = (props: FileListItemProps) => {
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="w-[calc(100% - 180px)] mr-20 max-h-[90px] break-all">
+            <div className="- 180px)] mr-20 max-h-[90px] w-[calc(100% break-all">
               {value?.originalFilename}
             </div>
           </TooltipTrigger>
@@ -111,24 +111,16 @@ const FileListItem = (props: FileListItemProps) => {
           <Link
             href={`/api/files/${value?.filename}${
               value?.token && value.token.length > 0
-                ? "?token=" + value?.token + "&download"
+                ? `?token=${value?.token}&download`
                 : "?download"
             }`}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
-              `absolute 
-            -right-12
-            top-1/2
-            h-32
-            w-32
-            -translate-y-1/2
-            rounded-full
-            hover:bg-black/15
-            dark:hover:bg-white/10`,
+              "-right-12 -translate-y-1/2 absolute top-1/2 h-32 w-32 rounded-full dark:hover:bg-white/10 hover:bg-black/15",
             )}
           >
             <IconDownload size={26} />
-            <div style={{ width: "2.4rem" }}></div>
+            <div style={{ width: "2.4rem" }} />
           </Link>
         )}
 

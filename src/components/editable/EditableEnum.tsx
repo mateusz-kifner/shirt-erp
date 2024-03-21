@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/Select";
 import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/types/EditableInput";
-import { type SelectProps as RadixSelectProps } from "@radix-ui/react-select";
+import type { SelectProps as RadixSelectProps } from "@radix-ui/react-select";
 import { useId } from "react";
 import { useEditableContext } from "./Editable";
 
@@ -55,7 +55,7 @@ const EditableEnum = (props: EditableEnumProps) => {
   const uuid = useId();
 
   return (
-    <div className={`flex flex-grow  ${collapse ? "gap-3 pt-3" : "flex-col"}`}>
+    <div className={`flex flex-grow${collapse ? "gap-3 pt-3" : "flex-col"}`}>
       <Label
         label={label}
         copyValue={t[value as keyof typeof t] as string}
