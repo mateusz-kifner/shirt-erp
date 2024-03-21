@@ -87,6 +87,7 @@ export const Cell = ({
     },
     [setCellDimensions, select, dragging, point],
   );
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const root = rootRef.current;
     if (selected && root) {

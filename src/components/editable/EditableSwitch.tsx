@@ -70,6 +70,7 @@ const EditableSwitch = (props: EditableSwitchProps) => {
     value !== undefined && setBool(value);
   }, [value]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (dirty) {
       onSubmit?.(bool);

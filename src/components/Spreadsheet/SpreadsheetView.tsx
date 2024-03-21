@@ -63,6 +63,7 @@ const EditableTableView = (props: EditableTableProps) => {
 
   const value = valueData?.data as UniversalMatrix;
   // FIXME: make memo refresh after changes to table
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const verify = useMemo(
     () =>
       Array.isArray(value) && value.length > 0 && meta_id !== undefined

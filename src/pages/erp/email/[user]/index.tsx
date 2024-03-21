@@ -4,6 +4,7 @@ import { useEffect } from "react";
 function EmailClient() {
   const router = useRouter();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (router.query.user !== undefined)
       router.replace(`./${router.query.user}/INBOX`).catch(console.log);

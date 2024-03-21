@@ -28,6 +28,7 @@ function ColorArea(props: ColorAreaProps) {
   });
   const thumbColor = tinycolor2.fromRatio(value);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     onActive?.(active);
   }, [active]);

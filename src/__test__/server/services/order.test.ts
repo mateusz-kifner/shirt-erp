@@ -100,7 +100,6 @@ describe("Order to File relation", () => {
       originalFilename: "[nope]",
       newFilename: "[nope]",
       mimetype: "text/html",
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     } as any); // TODO: find why this errors
     fileId = file.id;
     const order = await orderService.create({ name: "Test Order 789" });

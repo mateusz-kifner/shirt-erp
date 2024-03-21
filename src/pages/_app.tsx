@@ -118,7 +118,7 @@ const App: AppType<{ session: Session | null }> = ({
   // force Polish for now
   useEffect(() => {
     if (router.locale !== "pl") changeLocale("pl");
-  }, [router.locale]);
+  }, [router.locale, changeLocale]);
 
   const Layout =
     !router.pathname.startsWith("/erp") || router.query["no-ui"] === "1"

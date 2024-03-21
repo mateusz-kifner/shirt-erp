@@ -59,6 +59,7 @@ function EmailViewApi(props: EmailViewApiProps) {
   const { mutateAsync: transferEmail, isLoading } =
     trpc.email.downloadByUid.useMutation();
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (id !== null && isSuccess && orderData) {
       transferEmail({

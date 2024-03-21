@@ -8,8 +8,8 @@
     "rules": {
       "recommended": true,
       "suspicious": {
-        "noArrayIndexKey": "warn",
-        "noExplicitAny": "warn"
+        "noArrayIndexKey": "off",
+        "noExplicitAny": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "warn",

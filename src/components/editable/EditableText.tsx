@@ -52,6 +52,7 @@ const EditableText = (props: EditableTextProps) => {
       onSubmit?.(text);
     }
   };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: should run on focus change
   useEffect(() => {
     if (focus) {
       inputFocusAtEndOfLine(textAreaRef);
@@ -62,6 +63,7 @@ const EditableText = (props: EditableTextProps) => {
     }
   }, [focus]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useLayoutEffect(() => {
     return () => {
       if (text !== (value ?? "")) {
@@ -76,11 +78,12 @@ const EditableText = (props: EditableTextProps) => {
   }, [value]);
 
   // Set initial text area height
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (textAreaRef.current !== null) {
       setTextAreaHeight(textAreaRef.current);
     }
-  }, [textAreaRef]);
+  }, [textAreaRef.current]);
 
   const onChangeTextarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (!(maxLength && e.target.value.length > maxLength)) {

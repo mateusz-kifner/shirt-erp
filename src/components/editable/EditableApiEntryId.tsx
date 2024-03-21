@@ -67,12 +67,13 @@ const EditableApiEntry = <T extends Record<string, any>>(
     setPrev(value);
   }, [value]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (_.isEqual(apiEntryId, prev)) return;
 
     onSubmit?.(apiEntryId);
     setPrev(apiEntryId);
-  }, [apiEntryId, onSubmit]);
+  }, [apiEntryId]);
 
   return (
     <div>

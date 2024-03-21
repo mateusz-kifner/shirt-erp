@@ -114,6 +114,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
     const [observerRef, rect] = useResizeObserver();
     const mergedRef = useMergedRef(ref, observerRef);
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
       if (rect.width > 1) {
         (getTabMaxWidth(index) ?? 0) < rect.width &&

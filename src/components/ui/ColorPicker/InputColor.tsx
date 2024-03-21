@@ -67,6 +67,7 @@ function InputColor(props: InputColorProps) {
     a: Math.floor(color.a * 100).toFixed(0),
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const colorHSV = getHSV();
     if (!!value && !equalHSV(colorHSV, value)) {

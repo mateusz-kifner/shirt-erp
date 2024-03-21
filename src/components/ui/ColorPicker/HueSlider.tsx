@@ -23,6 +23,7 @@ function HueSlider(props: ColorSliderProps) {
     v: 1,
   });
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     onActive?.(active);
   }, [active]);

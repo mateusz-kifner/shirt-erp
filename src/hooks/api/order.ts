@@ -44,13 +44,9 @@ function useGetById(id: number | null | undefined) {
   //   },
   // );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: orderFullQuery?.data?.id should always be defined
   useEffect(() => {
-    if (
-      firstLoad &&
-      typeof orderFullQuery?.data?.addressId === "number" &&
-      typeof orderFullQuery?.data?.customerId === "number" &&
-      typeof orderFullQuery?.data?.id === "number"
-    ) {
+    if (firstLoad && typeof orderFullQuery?.data?.id === "number") {
       // Order
       const orderGetByIdKey = getQueryKey(
         trpc.order.getById,
@@ -64,32 +60,35 @@ function useGetById(id: number | null | undefined) {
       // );
 
       // Customer
-      const customerGetByIdKey = getQueryKey(
-        trpc.customer.getById,
-        orderFullQuery.data.id,
-        "query",
-      );
+      if (typeof orderFullQuery?.data?.customerId === "number") {
+        const customerGetByIdKey = getQueryKey(
+          trpc.customer.getById,
+          orderFullQuery.data.id,
+          "query",
+        );
 
-      RQClient.setQueryData(
-        customerGetByIdKey,
-        orderFullQuery?.data?.customer ?? undefined,
-      );
-
+        RQClient.setQueryData(
+          customerGetByIdKey,
+          orderFullQuery?.data?.customer ?? undefined,
+        );
+      }
       // Address
-      const addressGetByIdKey = getQueryKey(
-        trpc.address.getById,
-        orderFullQuery.data.addressId,
-        "query",
-      );
+      if (typeof orderFullQuery?.data?.addressId === "number") {
+        const addressGetByIdKey = getQueryKey(
+          trpc.address.getById,
+          orderFullQuery.data.addressId,
+          "query",
+        );
 
-      RQClient.setQueryData(
-        addressGetByIdKey,
-        orderFullQuery?.data?.address ?? undefined,
-      );
+        RQClient.setQueryData(
+          addressGetByIdKey,
+          orderFullQuery?.data?.address ?? undefined,
+        );
+      }
 
       setFirstLoad(false);
     }
-  }, [orderFullQuery.isSuccess]);
+  }, [orderFullQuery.isSuccess, orderFullQuery?.data?.id]);
 
   return orderQuery;
 }

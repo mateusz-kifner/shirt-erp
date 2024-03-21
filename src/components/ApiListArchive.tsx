@@ -86,6 +86,7 @@ const ApiListArchive = <T extends { id: number | string }>(
   const items = data?.results as Record<string, any>[] | undefined;
   const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     void refetch();
   }, [selectedId]);

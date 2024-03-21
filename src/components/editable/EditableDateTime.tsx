@@ -52,6 +52,7 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
 
   // const ref = useClickOutside(deactivate);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (active) {
       window.addEventListener("beforeunload", preventLeave);

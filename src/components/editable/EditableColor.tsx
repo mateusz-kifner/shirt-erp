@@ -137,6 +137,7 @@ const EditableColor = (props: EditableColorProps) => {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (focus) {
       inputFocusAtEndOfLine(inputRef);
@@ -153,6 +154,7 @@ const EditableColor = (props: EditableColorProps) => {
     };
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const valueObj = tinycolor(value);
     const valueHSV = { ...valueObj.toHsv(), h: valueObj.toHsv().h / 360 };

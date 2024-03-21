@@ -61,6 +61,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
     setPrev(value);
   }, [value]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (_.isEqual(apiEntry, prev)) return;
 

@@ -96,7 +96,8 @@ const Spreadsheet = (props: SpreadsheetProps) => {
       new_data[0]?.length === data[0]?.length
     ) {
       for (let y = 0; y < data.length; y++) {
-        for (let x = 0; x < data[0]?.length; x++) {
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        for (let x = 0; x < data[0]!.length; x++) {
           if (
             new_data[y]?.[x]?.value !== data[y]?.[x]?.value ||
             new_data[y]?.[x]?.metaId !== data[y]?.[x]?.metaId ||
@@ -131,6 +132,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     setSelection(null);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (updateCount > 0 && canUpdate) {
       let eq = true;
@@ -140,7 +142,8 @@ const Spreadsheet = (props: SpreadsheetProps) => {
         value.data[0]?.length === data[0]?.length
       ) {
         for (let y = 0; y < data.length; y++) {
-          for (let x = 0; x < data[0]?.length; x++) {
+          // biome-ignore lint/style/noNonNullAssertion: <explanation>
+          for (let x = 0; x < data[0]!.length; x++) {
             if (
               value.data[y]?.[x]?.value !== data[y]?.[x]?.value ||
               value.data[y]?.[x]?.metaId !== data[y]?.[x]?.metaId ||
@@ -163,6 +166,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateCount, canUpdate]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (value?.data) {
       setData(value.data);
@@ -171,6 +175,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
 
   // useEffect(() => {}, [disabled]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const enhancedColumnIndicator = useMemo(
     () =>
       enhanceColumnIndicator(ColumnIndicator, (column: number) => (
@@ -218,6 +223,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     [],
   );
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const enhancedRowIndicator = useMemo(
     () =>
       enhanceRowIndicator(RowIndicator, (row) => (
@@ -356,6 +362,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
                                 setData((data) => {
                                   const [new_data, status] = action.action(
                                     data,
+                                    // @ts-ignore
                                     metadata[key]?.id,
                                   );
                                   setStatusText(status);

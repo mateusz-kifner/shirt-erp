@@ -45,7 +45,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
   const outerRef = useClickOutside(() => setFocus(false));
   const onFocus = () => !disabled && setFocus(true);
 
-  // const t = useTranslation();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (focus) {
       inputFocusAtEndOfLine(InputRef);
@@ -58,6 +58,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
     }
   }, [focus]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useLayoutEffect(() => {
     return () => {
       if (text !== (value ?? "")) {

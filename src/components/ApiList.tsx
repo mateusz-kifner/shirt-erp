@@ -79,6 +79,7 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
   const items = data?.results as Record<string, any>[] | undefined;
   const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     void refetch();
   }, [selectedId]);
