@@ -34,7 +34,7 @@ import RowIndicator, { enhance as enhanceRowIndicator } from "./RowIndicator";
 
 interface SpreadsheetProps {
   id: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   metadata: { [key: string]: { id: number; [key: string]: any } };
   metadataVisuals: {
     icon: TablerIconType;
@@ -46,7 +46,6 @@ interface SpreadsheetProps {
     action: (
       table: UniversalMatrix,
       metaId: number,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => [UniversalMatrix, string, any, any];
   }[];
 }
@@ -121,7 +120,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     !(value instanceof EmptySelection) && setSelection(range);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const setMetadataOnSelection = (metadata: { [key: string]: any }) => {
     selection !== null && setMetadata(selection, metadata);
     incrementUpdateCount();
@@ -169,7 +167,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     if (value?.data) {
       setData(value.data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value?.data]);
 
   // useEffect(() => {}, [disabled]);
@@ -217,7 +214,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as ColumnIndicatorComponent,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [],
   );
 
@@ -274,7 +271,7 @@ const Spreadsheet = (props: SpreadsheetProps) => {
           </ContextMenuItem>
         </>
       )) as unknown as RowIndicatorComponent,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [],
   );
 

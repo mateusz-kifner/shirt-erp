@@ -21,7 +21,7 @@ function TestCard() {
         <CardContent>
           <img
             src="/assets/White%20Tshirt%20-%201600x1571.png"
-            alt="test image"
+            alt="test"
             className="bg-blue-200"
           />
         </CardContent>

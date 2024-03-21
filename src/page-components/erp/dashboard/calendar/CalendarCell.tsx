@@ -32,6 +32,7 @@ function CalendarCell(props: CalendarCellProps) {
       <div className="px-1 py-0.5">{day}</div>
       <div>
         {dayOrders?.map((val, indexOrderByDay) => (
+          // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: make this usable with keyboard
           <div
             key={`${uuid}${indexOrderByDay}:`}
             style={{

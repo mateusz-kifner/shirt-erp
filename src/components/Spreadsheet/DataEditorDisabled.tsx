@@ -5,7 +5,6 @@ import type { FC } from "react";
 
 /** The default Spreadsheet DataEditor component */
 const DataEditorDisabled: FC<DataEditorProps> = ({ cell }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const value = cell?.value ?? "";
   return typeof value === "boolean" ? (
     <span className="Spreadsheet__data-viewer Spreadsheet__data-viewer--boolean Spreadsheet__data-viewer--disabled">

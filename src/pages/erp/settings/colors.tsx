@@ -2,10 +2,8 @@ import Button from "@/components/ui/Button";
 import { useUserContext } from "@/context/userContext";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import type { GetStaticProps } from "next";
-type ColorsProps = {};
 
-function Colors(props: ColorsProps) {
-  const {} = props;
+function Colors() {
   const { toggleTheme, theme } = useUserContext();
 
   return (

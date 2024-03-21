@@ -72,7 +72,6 @@ function InputColor(props: InputColorProps) {
     if (!!value && !equalHSV(colorHSV, value)) {
       setHSV(value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const updateHSVandHSVText = (RGBAText: {
@@ -336,6 +335,7 @@ function InputColor(props: InputColorProps) {
         }`}
       >
         <button
+          type="button"
           className="inline-flex h-8 select-none items-center justify-center gap-3 rounded-md bg-transparent stroke-gray-200 px-4 py-0 font-semibold text-stone-800 uppercase no-underline outline-offset-4 transition-all disabled:pointer-events-none dark:bg-transparent dark:first-letter:hover:bg-white dark:hover:bg-white disabled:bg-stone-700 hover:bg-black dark:hover:bg-opacity-30 hover:bg-opacity-30 dark:text-stone-200 focus-visible:outline-sky-600"
           onClick={() => {
             if (!swatchesLoaded) setSwatchesLoaded(true);

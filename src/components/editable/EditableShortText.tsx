@@ -34,7 +34,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
     className,
     leftSection,
     rightSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     keyName,
     ...moreProps
   } = useEditableContext(props);
@@ -56,7 +56,6 @@ const EditableShortText = (props: EditableShortTextProps) => {
       }
       window.removeEventListener("beforeunload", preventLeave);
     }
-    // eslint-disable-next-line
   }, [focus]);
 
   useLayoutEffect(() => {
@@ -66,7 +65,6 @@ const EditableShortText = (props: EditableShortTextProps) => {
       }
       window.removeEventListener("beforeunload", preventLeave);
     };
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -91,6 +89,7 @@ const EditableShortText = (props: EditableShortTextProps) => {
   };
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: This is intended to be focused with keyboard or mouse, no onPress needed
     <div
       className="flex-grow"
       onClick={onFocus}

@@ -41,13 +41,13 @@ const EditableEnum = (props: EditableEnumProps) => {
     disabled,
     required,
     collapse = false,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     keyName,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     rightSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     leftSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     data,
     ...moreProps
   } = useEditableContext(props);

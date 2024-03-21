@@ -1,10 +1,7 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/Alert";
 import { IconAlertCircle } from "@tabler/icons-react";
 
-type TestAlertProps = {};
-
-function TestAlert(props: TestAlertProps) {
-  const {} = props;
+function TestAlert() {
   return (
     <>
       <Alert className="m-auto w-96">

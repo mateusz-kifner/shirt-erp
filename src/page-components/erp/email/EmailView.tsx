@@ -58,6 +58,7 @@ function EmailView(props: EmailViewProps) {
             ? "text-gray-400 dark:text-stone-600"
             : "text-stone-950 dark:text-stone-200"
         }`}
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: This is sanitized
         dangerouslySetInnerHTML={{
           __html:
             sanitizedHtml.length === 0 ||

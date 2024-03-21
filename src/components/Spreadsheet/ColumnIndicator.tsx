@@ -22,6 +22,7 @@ const ColumnIndicator = (
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO: make this work with keyboard */}
         <th
           className={classNames("Spreadsheet__header", {
             "Spreadsheet__header--selected": selected,

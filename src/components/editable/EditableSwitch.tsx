@@ -74,7 +74,6 @@ const EditableSwitch = (props: EditableSwitchProps) => {
     if (dirty) {
       onSubmit?.(bool);
     }
-    // eslint-disable-next-line
   }, [bool]);
 
   const handleChange = (checked: boolean) => {

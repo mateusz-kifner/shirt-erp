@@ -27,13 +27,13 @@ function EditableMultiSelectGroup(props: EditableMultiSelectGroupProps) {
     disabled,
     required,
     collapse = false,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     keyName,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     rightSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     leftSection,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     data,
     entryCategory,
     freeInput,
@@ -105,6 +105,7 @@ function EditableMultiSelectGroup(props: EditableMultiSelectGroupProps) {
                 >
                   {s}
                   <button
+                    type="button"
                     className="ml-1 rounded-full outline-none ring-offset-background focus:ring-1 focus:ring-ring"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {

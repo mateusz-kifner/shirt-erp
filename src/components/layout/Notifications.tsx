@@ -62,7 +62,6 @@ const Notifications = () => {
       audio.play().catch(() => {});
     }
     setPrevActiveOrders(activeOrders);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOrders]);
   return (
     <Popover open={open} onOpenChange={setOpen}>

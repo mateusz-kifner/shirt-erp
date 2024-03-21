@@ -56,7 +56,7 @@ const TasksPage = () => {
     { label: "Właściwości", icon: IconNotebook },
     { label: "E-maile", icon: IconMail },
     ...(spreadsheetData
-      ? spreadsheetData?.map((sheet) => ({
+      ? spreadsheetData.map((sheet) => ({
           label: sheet.name ?? `[${t.sheet}]`,
           icon: IconTable,
         }))
@@ -64,15 +64,12 @@ const TasksPage = () => {
   ];
 
   const metadata = productsData
-    ? productsData?.reduce(
-        (prev, next) => ({
-          ...prev,
-          [`${next.name}:${next.id}` ?? `[NAME NOT SET] ${next.id}`]: {
-            id: next.id,
-          },
-        }),
-        {},
-      )
+    ? productsData?.reduce((prev: Record<string, { id: number }>, next) => {
+        prev[`${next.name}:${next.id}` ?? `[NAME NOT SET] ${next.id}`] = {
+          id: next.id,
+        };
+        return prev;
+      }, {})
     : {};
   const [page, setPage] = useState(1);
   const filteredOrders =

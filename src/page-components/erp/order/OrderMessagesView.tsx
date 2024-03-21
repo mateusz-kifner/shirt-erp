@@ -35,7 +35,7 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
 
   const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
     () => emailData?.sort(sortObjectByDateOrNull("date")) || null,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     [orderData?.emails],
   );
   return (

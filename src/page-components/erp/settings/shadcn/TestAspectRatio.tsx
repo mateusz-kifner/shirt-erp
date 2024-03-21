@@ -6,7 +6,7 @@ function TestAspectRatio() {
       <AspectRatio ratio={16 / 9}>
         <img
           src="/assets/White%20Tshirt%20-%201600x1571.png"
-          alt="test image"
+          alt="test"
           className="h-full w-full rounded-md bg-red-200 object-cover"
         />
       </AspectRatio>

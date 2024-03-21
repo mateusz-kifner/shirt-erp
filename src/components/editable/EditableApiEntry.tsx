@@ -45,7 +45,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
     linkEntry,
     helpTooltip,
     allowClear,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     keyName,
   } = useEditableContext(props);
 
@@ -63,7 +63,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
 
   useEffect(() => {
     if (_.isEqual(apiEntry, prev)) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
     onSubmit?.(apiEntry);
     setPrev(apiEntry);
   }, [apiEntry, onSubmit]);

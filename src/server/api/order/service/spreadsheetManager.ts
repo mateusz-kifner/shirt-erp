@@ -67,7 +67,6 @@ async function addOrDelete(
   return finalIds;
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   addOrDelete,

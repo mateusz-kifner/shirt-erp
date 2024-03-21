@@ -15,10 +15,7 @@ import { trpc } from "@/utils/trpc";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import { useId, useState } from "react";
 
-type EmailCredentialsProps = {};
-
-function EmailCredentials(props: EmailCredentialsProps) {
-  const {} = props;
+function EmailCredentials() {
   const uuid = useId();
   const t = useTranslation();
   const { data, refetch } = trpc.settings.getAllMailCredentials.useQuery();

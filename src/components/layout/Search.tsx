@@ -10,10 +10,7 @@ import { IconSearch, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useId, useState } from "react";
 
-type SearchProps = {};
-
-function Search(props: SearchProps) {
-  const {} = props;
+function Search() {
   const uuid = useId();
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();

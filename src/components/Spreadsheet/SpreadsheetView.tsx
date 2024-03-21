@@ -34,7 +34,7 @@ function expandAABB(aabb: TypeAABB2D, row: number, col: number) {
 
 interface EditableTableProps {
   id: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   metadata: { [key: string]: { id: number; [key: string]: any } };
   metadataVisuals: {
     icon: TablerIconType;
@@ -112,11 +112,13 @@ const EditableTableView = (props: EditableTableProps) => {
         new_data[row]?.[col] !== undefined &&
         new_data[row]?.[col]?.active !== undefined
       ) {
+        // biome-ignore lint/style/noNonNullAssertion: TODO: make this better
         new_data[row]![col] = {
           ...(new_data[row]?.[col] as CellBase<any>),
           active: undefined,
         };
       } else {
+        // biome-ignore lint/style/noNonNullAssertion: TODO: make this better
         new_data[row]![col] = {
           ...(new_data[row]?.[col] as CellBase<any>),
           active: new_data[row]?.[col]?.value,

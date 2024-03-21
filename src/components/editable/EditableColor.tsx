@@ -145,7 +145,6 @@ const EditableColor = (props: EditableColorProps) => {
       onLoseFocus();
       window.removeEventListener("beforeunload", preventLeave);
     }
-    // eslint-disable-next-line
   }, [focus]);
 
   useEffect(() => {
@@ -160,10 +159,10 @@ const EditableColor = (props: EditableColorProps) => {
     if (equalHSV(valueHSV, color)) {
       setColorViaHSVObj(valueHSV);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: This is intended to be focused with keyboard or mouse, no onPress needed
     <div
       className="flex-grow"
       onClick={() => !disabled && setFocus(true)}

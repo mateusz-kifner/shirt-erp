@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { PointRange, CellBase, Matrix } from "react-spreadsheet";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type UniversalCell = CellBase & { [key: string]: any };
 
 export type UniversalMatrix = Matrix<UniversalCell>;
@@ -12,7 +11,7 @@ export interface UseSpreadSheetDataHandlers {
   removeColumn: (column: number) => void;
   addRow: (row: number) => void;
   removeRow: (row: number) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   setMetadata: (
     selection: PointRange,
     metadata: { [key: string]: any },
@@ -50,15 +49,19 @@ export function useSpreadSheetData(
   };
 
   const addRow = (row: number) => {
-    setData((data) => [
-      ...data.slice(0, row),
-      data[0]?.map(() => undefined),
-      ...data.slice(row),
-    ]);
+    // @ts-ignore
+    setData((data) => {
+      if (data.length === 0) throw new Error("Attempted to copy empty array");
+      return [
+        ...data.slice(0, row),
+        data[0]?.map(() => undefined),
+        ...data.slice(row),
+      ];
+    });
   };
 
   const removeColumn = (column: number) => {
-    if (data[0]?.length > 2) {
+    if (data[0]?.length && data[0].length > 2) {
       setData((data) =>
         data.map((val) => val.filter((_, index) => column !== index)),
       );
@@ -67,7 +70,7 @@ export function useSpreadSheetData(
 
   const setMetadata = (
     selection: PointRange,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     metadata: { [key: string]: any },
   ) => {
     const new_data: UniversalMatrix = [
@@ -83,6 +86,7 @@ export function useSpreadSheetData(
     ];
 
     for (const point of selection) {
+      // biome-ignore lint/style/noNonNullAssertion: TODO make this better
       new_data[point.row]![point.column] = {
         ...(new_data[point.row]?.[point.column] as UniversalCell),
         ...metadata,
@@ -105,9 +109,9 @@ export function useSpreadSheetData(
     ];
 
     for (const point of selection) {
+      // biome-ignore lint/style/noNonNullAssertion: TODO: make this better
       new_data[point.row]![point.column] = new_data[point.row]?.[point.column]
         ? {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
             value:
               (new_data[point.row]?.[point.column] as { value: string })
                 .value ?? "",
@@ -123,7 +127,6 @@ export function useSpreadSheetData(
         ...val.map((val2) =>
           val2
             ? {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 value: val2?.value ?? "",
               }
             : undefined,

@@ -15,11 +15,8 @@ import CalendarMonth from "./calendar/CalendarMonth";
 import CalendarWeek from "./calendar/CalendarWeek";
 import { useFlagContext } from "@/context/flagContext";
 
-type CalendarViewProps = {};
-
 // TODO: fix corners in month table
-function CalendarView(props: CalendarViewProps) {
-  const {} = props;
+function CalendarView() {
   const { calendarDefaultDataSource, calendarDefaultViewMode } =
     useFlagContext();
 

@@ -31,6 +31,7 @@ function Pagination({
   return (
     <nav className="flex items-center justify-center gap-px">
       <button
+        type="button"
         className={`inline-flex h-9 w-9 items-center justify-center rounded-full${
           active === 1
             ? "text-stone-500"
@@ -56,6 +57,7 @@ function Pagination({
 
         return (
           <button
+            type="button"
             key={`${uuid}_${index}`}
             className={`inline-flex h-9 w-9 items-center justify-center rounded-full font-medium text-base${
               active === page
@@ -71,6 +73,7 @@ function Pagination({
       })}
 
       <button
+        type="button"
         className={`inline-flex h-9 w-9 items-center justify-center rounded-full${
           active === totalPages
             ? "text-stone-500"

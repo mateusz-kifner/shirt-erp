@@ -118,7 +118,6 @@ const App: AppType<{ session: Session | null }> = ({
   // force Polish for now
   useEffect(() => {
     if (router.locale !== "pl") changeLocale("pl");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.locale]);
 
   const Layout =

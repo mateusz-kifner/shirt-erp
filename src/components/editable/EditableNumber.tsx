@@ -44,9 +44,9 @@ const EditableNumber = (props: EditableNumberProps) => {
     min = Number.MIN_SAFE_INTEGER,
     max = Number.MAX_SAFE_INTEGER,
     fixed = 2,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     keyName,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     data,
     ...moreProps
   } = useEditableContext(props);
@@ -85,7 +85,6 @@ const EditableNumber = (props: EditableNumberProps) => {
       onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     }
-    // eslint-disable-next-line
   }, [focus]);
 
   useLayoutEffect(() => {
@@ -93,7 +92,6 @@ const EditableNumber = (props: EditableNumberProps) => {
       onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     };
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -101,7 +99,6 @@ const EditableNumber = (props: EditableNumberProps) => {
       const new_value = toText(value);
       setText(new_value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,6 +131,7 @@ const EditableNumber = (props: EditableNumberProps) => {
   };
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: This is intended to be focused with keyboard or mouse, no onPress needed
     <div
       className="flex-grow"
       onClick={onFocus}

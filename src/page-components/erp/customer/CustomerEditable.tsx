@@ -68,7 +68,6 @@ function CustomerEditable(props: CustomerEditableProps) {
 
   const { deleteCustomerAsync } = api.customer.useDelete();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: string | number, val: any) => {
     if (!isLoaded) return;
     if (!data) return;

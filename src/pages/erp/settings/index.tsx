@@ -91,7 +91,6 @@ function Settings() {
       const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
       html.style.fontSize = `${remSize}px`;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [remSize]);
 
   if (!userData) return null;

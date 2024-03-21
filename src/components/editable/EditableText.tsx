@@ -23,7 +23,7 @@ interface EditableTextProps extends EditableInput<string> {
 const EditableText = (props: EditableTextProps) => {
   const {
     data,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     keyName,
     value,
     disabled,
@@ -60,7 +60,6 @@ const EditableText = (props: EditableTextProps) => {
       onSubmitValue(text);
       window.removeEventListener("beforeunload", preventLeave);
     }
-    // eslint-disable-next-line
   }, [focus]);
 
   useLayoutEffect(() => {
@@ -70,7 +69,6 @@ const EditableText = (props: EditableTextProps) => {
       }
       window.removeEventListener("beforeunload", preventLeave);
     };
-    // eslint-disable-next-line
   }, []);
   useEffect(() => {
     const new_value = value ?? "";
@@ -110,6 +108,7 @@ const EditableText = (props: EditableTextProps) => {
   };
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: This is intended to be focused with keyboard or mouse, no onPress needed
     <div
       className="flex-grow"
       onClick={onFocus}

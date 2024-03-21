@@ -44,7 +44,6 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
     onRefresh = () => {
       /* no-op */
     },
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     listItemProps = {},
     selectedId,
     filterKeys = [],
@@ -82,7 +81,6 @@ const ApiList = <T extends { id: number | string }>(props: ApiListProps<T>) => {
 
   useEffect(() => {
     void refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
   return (

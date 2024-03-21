@@ -5,7 +5,7 @@ export function useIsMobile() {
     "(max-width: 768px) or (only screen and (hover: none) and (pointer: coarse))",
     false,
   );
-  let storage;
+  let storage = "";
   try {
     storage = localStorage.getItem("flag-mobile-override") || "";
   } catch (error) {}

@@ -18,7 +18,6 @@ import { useEditableContext } from "./Editable";
 // TODO: make it editable
 // BUG: clicking on label causes copy onClick to occur.
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableDateTimeProps extends EditableInput<string> {
   collapse?: boolean;
 }
@@ -65,7 +64,6 @@ const EditableDateTime = (props: EditableDateTimeProps) => {
       }
       window.removeEventListener("beforeunload", preventLeave);
     }
-    // eslint-disable-next-line
   }, [active]);
 
   useEffect(() => {

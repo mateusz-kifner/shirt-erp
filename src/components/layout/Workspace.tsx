@@ -26,7 +26,7 @@ import { Card } from "../ui/Card";
 interface WorkspaceItemMetadata {
   label: string;
   icon?: TablerIconType;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   props?: Record<string, any>;
 }
 

@@ -6,11 +6,11 @@ import { emailSearch, fetchEmailByUid, fetchEmails } from "./fetch";
 const IMAPService = {
   downloadEmailAttachment,
   downloadEmailByUid,
+  emailSearch,
   fetchEmailByUid,
   fetchEmails,
-  fetchFolderTree,
   fetchFolders,
-  emailSearch,
+  fetchFolderTree,
   transferEmailToDbByUId,
 };
 

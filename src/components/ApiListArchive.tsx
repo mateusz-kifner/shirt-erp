@@ -49,7 +49,6 @@ const ApiListArchive = <T extends { id: number | string }>(
     onRefresh = () => {
       /* no-op */
     },
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     listItemProps = {},
     selectedId,
     filterKeys = [],
@@ -89,7 +88,6 @@ const ApiListArchive = <T extends { id: number | string }>(
 
   useEffect(() => {
     void refetch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
 
   return (

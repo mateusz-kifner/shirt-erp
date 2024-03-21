@@ -57,11 +57,9 @@ const EditableFiles = (props: EditableFilesProps) => {
     onSuccess: (data, _variables, _context) => {
       data
         .json()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         .then((res: any) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (res?.statusCode === 201 && Array.isArray(res?.data)) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             const filesData = res.data as FileType[];
             onSubmit?.([...files, ...filesData]);
             setFiles((files) => [...files, ...filesData]);

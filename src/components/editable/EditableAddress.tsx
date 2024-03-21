@@ -265,11 +265,10 @@ const EditableAddress = (props: EditableAddressProps) => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
     if (!isLoaded) return;
     if (!data) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     update({ id: data.id, [key]: val }).catch(console.log);
   };
 

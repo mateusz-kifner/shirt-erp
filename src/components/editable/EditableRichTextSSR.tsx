@@ -55,17 +55,17 @@ const controls: (
   | {
       label: string;
       icon: ReactNode;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       isActive?: { name: string; [key: string]: any };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       operation: { name: string; [key: string]: any };
     }
   | {
       label: string;
       icon: ReactNode;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       isActive?: { name: string; [key: string]: any };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       operation: { name: string; [key: string]: any };
     }[]
 )[] = [
@@ -230,7 +230,6 @@ const controls: (
 
 const turndownService = new TurndownService();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface EditableRichTextProps extends EditableInput<string> {
   maxLength?: number;
 }
@@ -288,7 +287,6 @@ const EditableRichText = (props: EditableRichTextProps) => {
       }
       window.removeEventListener("beforeunload", preventLeave);
     }
-    // eslint-disable-next-line
   }, [focus]);
 
   useEffect(() => {
@@ -313,6 +311,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
   );
 
   return (
+    // biome-ignore lint/a11y/useKeyWithClickEvents: This is intended to be focused with keyboard or mouse, no onPress needed
     <div
       ref={clickOutsideRef as MutableRefObject<HTMLDivElement | null>}
       onClick={() => !disabled && setFocus(true)}
@@ -348,8 +347,6 @@ const EditableRichText = (props: EditableRichTextProps) => {
                           variant="outline"
                           key={`${uuid}${index}:${index2}:group`}
                           className={`h-8 w-8 rounded-none border-l-0 last:rounded-r first:rounded-l first:border-l${
-                            //@ts-ignore
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                             (
                               value.isActive?.name
                                 ? editor?.isActive(
@@ -362,8 +359,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
                               : ""
                           }`}
                           onClick={() =>
-                            //@ts-ignore
-                            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+                            // @ts-ignore
                             editor
                               ?.chain()
                               .focus()
@@ -384,8 +380,6 @@ const EditableRichText = (props: EditableRichTextProps) => {
                     variant="outline"
                     key={`${uuid}${index}:item`}
                     className={`h-8 w-8${
-                      //@ts-ignore
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                       (
                         value.isActive?.name
                           ? editor?.isActive(
@@ -399,7 +393,6 @@ const EditableRichText = (props: EditableRichTextProps) => {
                     }`}
                     onClick={() =>
                       //@ts-ignore
-                      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                       editor
                         ?.chain()
                         .focus()
@@ -430,6 +423,7 @@ const EditableRichText = (props: EditableRichTextProps) => {
                 ? "text-gray-400 dark:text-stone-600"
                 : "text-stone-950 dark:text-stone-200"
             }`}
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: This is intended and sanitized
             dangerouslySetInnerHTML={{
               __html:
                 text.length === 0 ||

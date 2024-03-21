@@ -4,9 +4,9 @@ import _ from "lodash";
 class HTTPError extends Error {
   statusCode: number;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(code: number, message: string, extras?: any) {
     super(message || STATUS_CODES[code]);
+    // biome-ignore lint/style/noArguments: <explanation>
     if (arguments.length >= 3 && extras) {
       Object.assign(this, extras);
     }

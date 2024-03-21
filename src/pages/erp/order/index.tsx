@@ -3,7 +3,10 @@ import { useId, useState } from "react";
 // import * as XLSX from "xlsx"
 //import Design from "@/components/Design/Design";
 import Spreadsheet from "@/components/Spreadsheet/Spreadsheet";
-import type { UniversalMatrix } from "@/components/Spreadsheet/useSpreadSheetData";
+import type {
+  UniversalCell,
+  UniversalMatrix,
+} from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
 import Workspace from "@/components/layout/Workspace";
@@ -66,12 +69,11 @@ const OrdersPage: NextPage = () => {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
     setStatus("loading");
     if (!isLoaded) return;
     if (!orderData) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     update({ id: orderData.id, [key]: val }).catch(console.log);
   };
   const { mutateAsync: createSpreadsheetMutation } =
@@ -95,7 +97,7 @@ const OrdersPage: NextPage = () => {
     { label: "Produkcja", icon: IconBuildingFactory2 },
     { label: "E-maile", icon: IconMail },
     ...(spreadsheetsData
-      ? spreadsheetsData?.map((sheet, index) => ({
+      ? spreadsheetsData.map((sheet, index) => ({
           label: sheet.name ?? `[${t.sheet}]`,
           icon: IconTable,
         }))
@@ -103,15 +105,12 @@ const OrdersPage: NextPage = () => {
   ];
 
   const metadata = productsData
-    ? productsData?.reduce(
-        (prev, next) => ({
-          ...prev,
-          [`${next.name}:${next.id}` ?? `[NAME NOT SET] ${next.id}`]: {
-            id: next.id,
-          },
-        }),
-        {},
-      )
+    ? productsData?.reduce((prev: Record<string, { id: number }>, next) => {
+        prev[`${next.name}:${next.id}` ?? `[NAME NOT SET] ${next.id}`] = {
+          id: next.id,
+        };
+        return prev;
+      }, {})
     : {};
   const actionFill = (
     table: UniversalMatrix,
@@ -131,17 +130,17 @@ const OrdersPage: NextPage = () => {
       }
     }
     let pusta = true;
-    table: for (let y = 0; y < table.length; y++) {
+    table_break: for (let y = 0; y < table.length; y++) {
       for (let x = 0; x < table[0]?.length; x++) {
         if (!(!table[y]?.[x] || (table[y]?.[x] && !table[y]?.[x]?.value))) {
           pusta = false;
-          break table;
+          break table_break;
         }
       }
     }
 
     if (pusta) {
-      let new_table: UniversalMatrix = [];
+      const new_table: UniversalMatrix = [];
       const product = (productsData?.filter((val) => val.id === metaId) || [
         null,
       ])[0];
@@ -169,13 +168,14 @@ const OrdersPage: NextPage = () => {
         }
       }
 
-      new_table = [
-        new_table[0]?.map((val, index) =>
-          index === 0 ? { value: product?.name } : undefined,
-        ),
+      const title_row = new_table[0]?.map((_val, index) =>
+        index === 0 ? ({ value: product?.name } as UniversalCell) : undefined,
+      );
 
-        ...new_table,
-      ];
+      if (title_row !== undefined) {
+        // @ts-ignore It is array
+        new_table.insert(0, title_row);
+      }
 
       return [
         new_table,

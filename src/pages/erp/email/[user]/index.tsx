@@ -1,16 +1,12 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-type EmailClientProps = {};
-
-function EmailClient(props: EmailClientProps) {
-  const {} = props;
+function EmailClient() {
   const router = useRouter();
 
   useEffect(() => {
     if (router.query.user !== undefined)
       router.replace(`./${router.query.user}/INBOX`).catch(console.log);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.user]);
 
   return (

@@ -6,10 +6,7 @@ import {
 } from "@/components/ui/Popover";
 import { IconMessageCircle2 } from "@tabler/icons-react";
 
-type MessagesProps = {};
-
-function Messages(props: MessagesProps) {
-  const {} = props;
+function Messages() {
   return (
     <Popover>
       <PopoverTrigger asChild>

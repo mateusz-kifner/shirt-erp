@@ -127,7 +127,6 @@ async function set(orderId: number, productIds: number[], tx: DBType = db) {
   return productIds;
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll,
   set,

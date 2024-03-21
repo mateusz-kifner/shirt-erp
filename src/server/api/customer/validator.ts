@@ -1,8 +1,8 @@
 import { customers } from "@/server/api/customer/schema";
+import idRequiredZodSchema from "@/types/idRequiredZodSchema";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 import { insertAddressZodSchema } from "../address/validator";
-import idRequiredZodSchema from "@/types/idRequiredZodSchema";
 
 export const selectCustomerZodSchema = createSelectSchema(customers);
 export const insertCustomerZodSchema = createInsertSchema(customers).omit({

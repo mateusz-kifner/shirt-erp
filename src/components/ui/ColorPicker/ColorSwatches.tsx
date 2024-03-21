@@ -40,6 +40,7 @@ function ColorSwatches(props: ColorSwatchesProps) {
           <div key={`${key}_${index}_${uuid}`} className="flex flex-col gap-2">
             {!key.startsWith("_") && <span className="pl-2">{key}</span>}
             <div className="flex flex-wrap gap-2">
+              {/* biome-ignore lint/style/noNonNullAssertion: This should NEVER be null */}
               {Object.keys(colors[key]!).map((colorName, colorIndex) => (
                 <SimpleTooltip
                   key={`${key}_${index}_${colorIndex}_${uuid}`}
@@ -54,9 +55,11 @@ function ColorSwatches(props: ColorSwatchesProps) {
                   }
                   disabled={disableColorTooltip}
                 >
+                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO: make this work with keyboard */}
                   <div
                     className="h-6 w-6 rounded"
                     style={{ background: colors[key]?.[colorName] }}
+                    // biome-ignore lint/style/noNonNullAssertion: This should NEVER be null
                     onClick={() => onClick?.(colors[key]?.[colorName]!)}
                   />
                 </SimpleTooltip>

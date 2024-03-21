@@ -14,10 +14,7 @@ import { useRouter } from "next/router";
 import { type Dispatch, type SetStateAction, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-type EmailMailboxProps = {};
-
-function EmailMailbox(props: EmailMailboxProps) {
-  const {} = props;
+function EmailMailbox() {
   const router = useRouter();
   const { user } = router.query;
   const uuid = useId();

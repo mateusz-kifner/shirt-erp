@@ -102,7 +102,7 @@ export async function downloadEmailByUid(
     if (env.ENABLE_CLAMAV) result.avIsInfected = false;
 
     const files = parsed.attachments.map(async (attachment) => {
-      let preview;
+      let preview: Buffer | undefined;
       if (isMimeImage(attachment.contentType)) {
         preview = await sharp(attachment.content)
           .resize(100, 100, {
@@ -115,7 +115,7 @@ export async function downloadEmailByUid(
 
       return {
         name: attachment.filename,
-        preview: preview ? preview.toString("base64") : null,
+        preview: preview?.toString("base64") ?? null,
         mimetype: attachment.contentType,
         size: attachment.size,
       };

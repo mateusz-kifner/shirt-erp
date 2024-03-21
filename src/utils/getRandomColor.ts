@@ -29,7 +29,6 @@ export function getRandomColorByNumber(num?: number | null) {
 
 export function getRandomColorByString(str?: string | null) {
   return simpleColors[
-    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     Math.abs(simpleHash(`${str}`)) % simpleColors.length
   ] as string;
 }

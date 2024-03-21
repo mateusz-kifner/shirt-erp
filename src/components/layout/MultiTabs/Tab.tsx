@@ -43,7 +43,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
       rightSection,
       className,
       small = false,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
       onMiddleClick,
 
       ...moreProps
@@ -121,7 +121,6 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
           !isMobile &&
           setTabMaxWidth(index, rect.width);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rect.width]);
 
     return (

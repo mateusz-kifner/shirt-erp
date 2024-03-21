@@ -53,7 +53,6 @@ async function disconnect(orderId: number, tx: DBType = db) {
   return orderToAddressRelation[0];
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   get,
   set: connect,

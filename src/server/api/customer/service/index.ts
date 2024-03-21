@@ -11,6 +11,7 @@ import addressServices from "../../address/service";
 import type { MetadataType } from "@/types/MetadataType";
 import _ from "lodash";
 import addressRelation from "./addressRelation";
+import type { Address } from "../../address/validator";
 
 // compile query ahead of time
 const customerPrepareGetFullById = db.query.customers
@@ -48,7 +49,7 @@ async function create(
   tx: DBType = db,
 ): Promise<Customer> {
   const { address, ...simpleCustomerData } = customerData;
-  let newAddress;
+  let newAddress: Address;
   try {
     newAddress = await addressServices.create(_.omit(address, "id") ?? {}, tx);
   } catch (e) {

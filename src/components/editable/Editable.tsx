@@ -37,7 +37,7 @@ export function useEditableContextWithoutOverride<
   T extends Record<string, any>,
 >(): EditableContextType<T> {
   const state = useContext(EditableContext);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
   return state;
 }
 

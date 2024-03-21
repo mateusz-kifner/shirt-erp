@@ -106,7 +106,10 @@ export async function transferEmailToDbByUId(
       const filePath = `${absolutePath}/${scrambledFileName}`;
       await fsp.writeFile(filePath, attachment.content);
       const originalFilenameExtDot = attachment.filename?.lastIndexOf(".");
-      const extWithDot = attachment.filename?.substring(originalFilenameExtDot);
+      const extWithDot =
+        originalFilenameExtDot !== undefined
+          ? attachment.filename?.substring(originalFilenameExtDot)
+          : "";
       const fileName = attachment.filename?.substring(
         0,
         originalFilenameExtDot,

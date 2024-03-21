@@ -6,6 +6,7 @@ function TableEdgeIcon({
   ...props
 }) {
   return (
+    // biome-ignore lint/a11y/noSvgWithoutTitle: This is icon, tooltip should be provided elsewhere
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="icon icon-tabler icon-tabler-table"

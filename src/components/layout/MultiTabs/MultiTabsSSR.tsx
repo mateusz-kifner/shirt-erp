@@ -34,7 +34,7 @@ function MultiTabs(props: MultiTabsProps) {
 
   const isMobile = useIsMobile();
   const portalContainer: HTMLElement =
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    // biome-ignore lint/style/noNonNullAssertion: If this doesn't exist app should crash
     globalThis?.document?.querySelector("#HeaderTabs")!;
   if (!portalContainer) return null;
 

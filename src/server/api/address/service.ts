@@ -1,6 +1,6 @@
-import { type DBType, db } from "@/server/db";
 import { addresses } from "@/server/api/address/schema";
 import type { Address, UpdatedAddress } from "@/server/api/address/validator";
+import { type DBType, db } from "@/server/db";
 import { eq, sql } from "drizzle-orm";
 
 // compile query ahead of time
@@ -17,7 +17,10 @@ async function getById(id: number) {
   return address;
 }
 
-async function create(addressData: Partial<Address>, tx: DBType = db) {
+async function create(
+  addressData: Partial<Address>,
+  tx: DBType = db,
+): Promise<Address> {
   const newAddress = await tx.insert(addresses).values(addressData).returning();
   if (!newAddress[0])
     throw new Error(

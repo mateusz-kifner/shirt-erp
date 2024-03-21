@@ -300,10 +300,7 @@ const UIElements: {
   },
 ];
 
-type ShadcnProps = {};
-
-function Shadcn(props: ShadcnProps) {
-  const {} = props;
+function ShadCN() {
   const { toggleTheme, theme } = useUserContext();
   const uuid = useId();
   return (
@@ -339,7 +336,7 @@ function Shadcn(props: ShadcnProps) {
   );
 }
 
-export default Shadcn;
+export default ShadCN;
 
 export const getStaticProps: GetStaticProps = () => {
   if (process.env.NODE_ENV === "production") {

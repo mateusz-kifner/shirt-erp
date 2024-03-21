@@ -7,10 +7,7 @@ import { useEffect, useState } from "react";
 
 const entryName = "email";
 
-type EmailPageProps = {};
-
-function EmailPage(props: EmailPageProps) {
-  const {} = props;
+function EmailPage() {
   const { data: emailClients, isLoading } = trpc.email.getAllConfigs.useQuery(
     undefined,
     {
@@ -34,7 +31,6 @@ function EmailPage(props: EmailPageProps) {
       router
         .replace(`./email/${emailClientsIMAP[0].user}/INBOX`)
         .catch(console.log);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [emailClientsIMAP.length]);
 
   return (

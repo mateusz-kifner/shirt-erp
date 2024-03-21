@@ -3,10 +3,7 @@ import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { signOut } from "next-auth/react";
 
-type AuthErrorPageProps = {};
-
-function AuthErrorPage(props: AuthErrorPageProps) {
-  const {} = props;
+function AuthErrorPage() {
   const t = useTranslation();
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center">

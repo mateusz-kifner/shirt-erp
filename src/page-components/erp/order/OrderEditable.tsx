@@ -68,7 +68,6 @@ function OrderEditable(props: OrderEditableProps) {
 
   const { deleteOrderAsync } = api.order.useDelete();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdate = (key: Key, val: any) => {
     console.log(key, val);
     if (typeof key !== "string") return;
@@ -99,7 +98,6 @@ function OrderEditable(props: OrderEditableProps) {
         );
       setOrderAddressFromCustomer(null);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderAddressFromCustomer, data?.customerId]);
 
   if (!data)

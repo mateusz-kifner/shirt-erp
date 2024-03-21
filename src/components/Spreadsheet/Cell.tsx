@@ -30,7 +30,7 @@ type CellWithIcons = CellComponentProps<
     metaId?: number;
     metaPropertyId?: number;
     style?: CSSProperties;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     active?: any;
   }
 > & {
@@ -104,6 +104,7 @@ export const Cell = ({
   const Icon = icons?.[data?.metaPropertyId ?? -1];
 
   return (
+    // biome-ignore lint/a11y/useKeyWithMouseEvents: TODO: make this work with keyboard
     <td
       ref={rootRef}
       className={"Spreadsheet__cell relative"}

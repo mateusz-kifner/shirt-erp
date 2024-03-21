@@ -30,7 +30,6 @@ function ColorArea(props: ColorAreaProps) {
 
   useEffect(() => {
     onActive?.(active);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 
   return (

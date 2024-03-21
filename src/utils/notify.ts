@@ -2,6 +2,8 @@
 import Logger from "js-logger";
 import { toast } from "sonner";
 
+// TODO remove this and add proper logger
+
 // import { showNotification } from "@/lib/notifications";
 
 /**
@@ -13,21 +15,21 @@ const notify = (
   msg: string,
   status: "error" | "warn" | "success" | "info" | "debug" = "error",
 ) => {
+  let s = status;
   return (...args: any[]) => {
     // Exclue error and warn, because Logger is handling display of errors
     // ;(status == "info" || status == "success") && message[status](msg)
     if (
-      (status === "info" || status === "success") &&
+      (s === "info" || s === "success") &&
       localStorage.getItem("user-debug") === "true"
     ) {
-      toast(status, {
+      toast(s, {
         description: msg,
       });
     }
-    if (status === "success") status = "info";
-    Logger[status]({ ...args, message: msg });
+    if (s === "success") s = "info";
+    Logger[s]({ ...args, message: msg });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument
     if (fn) return fn(...args);
   };
 };

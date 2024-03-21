@@ -55,7 +55,6 @@ const EditableDate = (props: InputDateProps) => {
     if (focus && !calendarOpened) {
       inputFocusAtEndOfLine(inputDateRef);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focus]);
 
   useEffect(() => {
@@ -85,7 +84,6 @@ const EditableDate = (props: InputDateProps) => {
           .toString(), /// HACK FIXME: this should work with strings
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedText]);
 
   return (

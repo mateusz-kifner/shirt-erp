@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import classNames from "classnames"; // this is used by React-spreadsheet, there my be better alternative
 import { useCallback, type FC, type MouseEvent, type ReactNode } from "react";
 
 import type { RowIndicatorProps } from "react-spreadsheet";
@@ -23,6 +23,7 @@ const RowIndicator = (
   return (
     <ContextMenu>
       <ContextMenuTrigger asChild>
+        {/* biome-ignore lint/a11y/useKeyWithClickEvents: TODO: make this work with keyboards */}
         <th
           className={classNames("Spreadsheet__header", {
             "Spreadsheet__header--selected": selected,

@@ -69,12 +69,11 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
     },
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const apiUpdateAddress = (key: Key, val: any) => {
     console.log(key, val);
     if (!isLoaded) return;
     if (!addressData) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     updateAddress({ id: addressData.id, [key]: val }).catch(console.log);
   };
 
@@ -199,6 +198,7 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
                         ? "text-gray-400 dark:text-stone-600"
                         : "text-stone-950 dark:text-stone-200"
                     }`}
+                    // biome-ignore lint/security/noDangerouslySetInnerHtml: This is intended and sanitized
                     dangerouslySetInnerHTML={{
                       __html:
                         notes.length === 0 ||

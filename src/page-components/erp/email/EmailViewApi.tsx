@@ -68,11 +68,11 @@ function EmailViewApi(props: EmailViewApiProps) {
       })
         .then((newMail) => {
           const emailsIds = [
-            ...(emailsData ?? [])?.map((v) => v.id),
+            ...(emailsData ?? []).map((v) => v.id),
             newMail.id,
           ];
           const filesIds = [
-            ...(filesData ?? [])?.map((v) => v.id),
+            ...(filesData ?? []).map((v) => v.id),
             ...newMail.attachments.map((v) => v.id),
           ];
 
@@ -83,7 +83,6 @@ function EmailViewApi(props: EmailViewApiProps) {
         })
         .catch(console.log);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId, isSuccess]);
 
   if (!data)

@@ -44,7 +44,6 @@ const OrderListItem = (props: ListItemProps<NewOrder>) => {
     <ListItem
       firstElement={value ? value?.name && truncString(value.name, 20) : "⸺"}
       secondElement={
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         (value?.status
           ? `${truncString(
               (t[value.status as keyof typeof t] as string) ?? "",
