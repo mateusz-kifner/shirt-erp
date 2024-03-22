@@ -63,10 +63,7 @@ export function useEditableContext<
   const value: TValue = data[keyName];
   return {
     data,
-    onSubmit: (value) =>
-      !!value &&
-      Object.keys(value).length > 1 &&
-      onSubmit?.(keyName, value as TValue),
+    onSubmit: (value) => onSubmit?.(keyName, value as TValue),
     keyName,
     value,
     ...moreProps,

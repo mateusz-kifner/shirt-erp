@@ -69,7 +69,6 @@ function OrderEditable(props: OrderEditableProps) {
   const { deleteOrderAsync } = api.order.useDelete();
 
   const apiUpdate = (key: Key, val: any) => {
-    console.log(key, val);
     if (typeof key !== "string") return;
     if (!isLoaded) return;
     if (!data) return;

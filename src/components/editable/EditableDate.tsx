@@ -21,8 +21,9 @@ import { useEditableContext } from "./Editable";
 
 type InputDateProps = EditableInput<Date>;
 
-//todo : refactor dates to use string date
-//todo : fix date value
+// TODO : refactor dates to use string date
+// TODO : fix date value
+// FIXME: reduce excessive updates
 
 const EditableDate = (props: InputDateProps) => {
   const {
