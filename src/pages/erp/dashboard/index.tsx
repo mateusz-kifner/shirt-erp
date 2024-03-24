@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import useTranslation from "@/hooks/useTranslation";
 import CalendarView from "../../../page-components/erp/dashboard/calendar";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 function DashboardPage() {
   const t = useTranslation();
@@ -17,5 +18,7 @@ function DashboardPage() {
     </div>
   );
 }
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default DashboardPage;

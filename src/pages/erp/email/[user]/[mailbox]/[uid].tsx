@@ -12,6 +12,7 @@ import { IconMail } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { type Dispatch, type SetStateAction, useId, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 // interface EmailMessageProps {}
 
@@ -132,5 +133,7 @@ function EmailMessage() {
     </div>
   );
 }
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default EmailMessage;

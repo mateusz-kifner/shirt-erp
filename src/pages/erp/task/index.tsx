@@ -29,6 +29,7 @@ import { useToggle } from "@mantine/hooks";
 import _ from "lodash";
 import { useId, useState } from "react";
 import api from "@/hooks/api";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 const entryName = "task";
 
@@ -205,5 +206,7 @@ const TasksPage = () => {
     </div>
   );
 };
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default TasksPage;

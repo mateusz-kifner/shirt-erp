@@ -8,6 +8,7 @@ import CustomerAddModal from "@/page-components/erp/customer/CustomerAddModal";
 import CustomerEditable from "@/page-components/erp/customer/CustomerEditable";
 import CustomersList from "@/page-components/erp/customer/CustomerList";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 const entryName = "customer";
 
@@ -50,5 +51,7 @@ const CustomersPage = () => {
     </div>
   );
 };
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default CustomersPage;

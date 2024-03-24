@@ -3,6 +3,7 @@ import GlobalPropertiesAddModal from "@/page-components/erp/global-properties/Gl
 import GlobalPropertiesEditable from "@/page-components/erp/global-properties/GlobalPropertiesEditable";
 import GlobalPropertiesList from "@/page-components/erp/global-properties/GlobalPropertiesList";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -43,5 +44,7 @@ function GlobalPropertiesPage() {
     </div>
   );
 }
+
+export const getServerSideProps = createRedirectByRole("manager");
 
 export default GlobalPropertiesPage;

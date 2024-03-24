@@ -10,6 +10,7 @@ import { getQueryAsStringOrNull } from "@/utils/query";
 import type { GetServerSidePropsContext } from "next";
 import { getServerAuthSession } from "@/server/auth";
 import UserAddModal from "@/page-components/erp/user/UserAddModal";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 const entryName = "user";
 
@@ -51,18 +52,6 @@ const UsersPage = () => {
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const session = await getServerAuthSession(context);
-  if (
-    session === undefined ||
-    !(session?.user.role === "manager" || session?.user.role === "admin")
-  ) {
-    return { redirect: { destination: "/" } };
-  }
-
-  return { props: {} };
-};
+export const getServerSideProps = createRedirectByRole("manager");
 
 export default UsersPage;

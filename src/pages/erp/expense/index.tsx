@@ -3,6 +3,7 @@ import ExpenseAddModal from "@/page-components/erp/expense/ExpenseAddModal";
 import ExpenseEditable from "@/page-components/erp/expense/ExpenseEditable";
 import ExpenseList from "@/page-components/erp/expense/ExpenseList";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -43,5 +44,7 @@ function ExpensePage() {
     </div>
   );
 }
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default ExpensePage;

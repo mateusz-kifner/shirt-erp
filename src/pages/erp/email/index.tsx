@@ -1,5 +1,6 @@
 import Workspace from "@/components/layout/Workspace";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 import { trpc } from "@/utils/trpc";
 // import { getQueryAsIntOrNull } from "@/utils/query";
 import { useRouter } from "next/router";
@@ -72,5 +73,7 @@ function EmailPage() {
     </div>
   );
 }
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default EmailPage;

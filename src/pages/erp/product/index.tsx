@@ -8,6 +8,7 @@ import ProductAddModal from "@/page-components/erp/product/ProductAddModal";
 import ProductEditable from "@/page-components/erp/product/ProductEditable";
 import ProductsList from "@/page-components/erp/product/ProductList";
 import { getQueryAsIntOrNull } from "@/utils/query";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 const entryName = "product";
 
@@ -50,5 +51,7 @@ const ProductsPage = () => {
     </div>
   );
 };
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default ProductsPage;

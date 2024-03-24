@@ -47,6 +47,7 @@ import OrderCustomerView from "@/page-components/erp/order/OrderCustomerView";
 import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
 import api from "@/hooks/api";
+import { createRedirectByRole } from "@/utils/redirectByRole";
 
 const entryName = "order";
 
@@ -340,5 +341,7 @@ const OrdersPage: NextPage = () => {
     </>
   );
 };
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default OrdersPage;

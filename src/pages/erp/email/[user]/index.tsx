@@ -1,3 +1,4 @@
+import { createRedirectByRole } from "@/utils/redirectByRole";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -16,5 +17,7 @@ function EmailClient() {
     </div>
   );
 }
+
+export const getServerSideProps = createRedirectByRole("employee");
 
 export default EmailClient;
