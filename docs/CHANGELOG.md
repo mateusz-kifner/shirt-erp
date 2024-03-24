@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.2.2] DEV 1 - 25.06.2022
+
+### Added
+
+- redirect for non employees
+- db migrations
+- 
+
+### Changed
+
+- changed directory structure for server
+- migrated from Prisma to DrizzleORM
+- migrated from Prettier, eslint to Biome.js
+- upgraded sharp to use wasm32
+- migrated from node 18 to 20
+- 
+
+### Removed
+
+- unused pages
+
 ## [1.2.0] DEV 1 - 25.06.2022
 
 ### Added

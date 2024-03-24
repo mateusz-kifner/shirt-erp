@@ -107,7 +107,6 @@
     "@biomejs/biome": "1.6.1",
     "@types/bcrypt": "5.0.2",
     "@types/clamscan": "2.0.8",
-    "@types/eslint": "8.56.6",
     "@types/formidable": "2.0.6",
     "@types/imapflow": "1.0.18",
     "@types/lodash": "^4.17.0",
@@ -132,11 +131,7 @@
     "vitest": "1.4.0"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
