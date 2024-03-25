@@ -2,12 +2,8 @@
   "recommendations": [
     "streetsidesoftware.code-spell-checker",
     "streetsidesoftware.code-spell-checker-polish",
-    "esbenp.prettier-vscode",
-    "yoavbls.pretty-ts-errors",
-    "mohammadbaqer.better-folding",
+    "biomejs.biome",
     "bradlc.vscode-tailwindcss",
-    "humao.rest-client",
-    "pkief.material-icon-theme",
-    "dbaeumer.vscode-eslint"
+    "humao.rest-client"
   ]
 }

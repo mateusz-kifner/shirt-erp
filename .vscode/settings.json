@@ -25,13 +25,7 @@
     "tsconfigs",
     "vaul"
   ],
-  "typescript.preferences.autoImportFileExcludePatterns": ["@radix-ui/*"], // disable auto imports for radix components
-  "editor.codeActionsOnSave": {
-    "source.organizeImports": "never",
-    "source.fixAll": "never",
-    "typescript.validate.enable": "never",
-    "javascript.validate.enable": "never"
-  },
+  "typescript.preferences.autoImportFileExcludePatterns": ["@radix-ui/*"],
   "javascript.suggest.classMemberSnippets.enabled": false,
   "typescript.suggest.classMemberSnippets.enabled": false,
   "typescript.suggest.objectLiteralMethodSnippets.enabled": false,
