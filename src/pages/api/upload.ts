@@ -67,14 +67,16 @@ export default async function Upload(
     const fileArray = Array.isArray(files) ? files : [files];
 
     const newFiles = fileArray.map((file) => {
-      const originalFilenameExtDot = file.originalFilename?.lastIndexOf(".");
-      const extWithDot = file.originalFilename?.substring(
-        originalFilenameExtDot,
-      );
-      const fileName = file.originalFilename?.substring(
-        0,
-        originalFilenameExtDot,
-      );
+      const originalFilenameExtDot =
+        file.originalFilename?.lastIndexOf(".") ?? -1;
+
+      const extWithDot =
+        originalFilenameExtDot !== -1
+          ? file.originalFilename?.substring(originalFilenameExtDot) ?? ""
+          : "";
+      const fileName =
+        file.originalFilename?.substring(0, originalFilenameExtDot) ??
+        `UNKNOWN_${genRandomStringServerOnly(32)}`;
       const hash = genRandomStringServerOnly(10);
       let imgSize = null;
       try {
