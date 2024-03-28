@@ -6,6 +6,7 @@ TODO:
 - move from nextauth to lucia
 - add code reader
 - connect orders to codes
+- add tour using react-joyride
 
 TODO Later:
 
