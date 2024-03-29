@@ -10,7 +10,6 @@ const BarcodeReader = () => {
   const [webcamReady, setWebcamReady] = useState(false);
   const [codes, setCodes] = useState<number[]>([]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (webcamRef.current?.video) {
       setWebcamReady(true);

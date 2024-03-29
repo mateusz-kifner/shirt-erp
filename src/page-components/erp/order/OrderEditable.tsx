@@ -85,7 +85,7 @@ function OrderEditable(props: OrderEditableProps) {
   };
 
   // update address if it's not set to customer one
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (
       orderAddressFromCustomer !== null &&

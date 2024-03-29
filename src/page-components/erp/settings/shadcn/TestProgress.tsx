@@ -6,7 +6,6 @@ function TestProgress() {
   const [progress, setProgress] = useState(13);
   const { start } = useTimeout(() => setProgress(66), 500);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     start();
   }, []);

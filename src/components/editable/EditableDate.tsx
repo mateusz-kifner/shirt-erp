@@ -52,14 +52,12 @@ const EditableDate = (props: InputDateProps) => {
   const outerRef = useClickOutside(() => setFocus(false));
   const onFocus = () => !disabled && setFocus(true);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (focus && !calendarOpened) {
       inputFocusAtEndOfLine(inputDateRef);
     }
   }, [focus]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (debouncedText.length === 0) {
       setError(false);

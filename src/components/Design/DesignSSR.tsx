@@ -209,12 +209,10 @@ const Design = (props: DesignProps) => {
     SVGContainer.clear();
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (files?.[2]) imagesHandlers.setState([files[2]]);
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (
       SVGWrapperRefElement?.current &&

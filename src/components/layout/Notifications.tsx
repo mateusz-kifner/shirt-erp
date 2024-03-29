@@ -55,7 +55,6 @@ const Notifications = () => {
       }).length
     : 0;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if ((prevActiveOrders ?? 0) < activeOrders) {
       const audio = new Audio("/notification.ogg");

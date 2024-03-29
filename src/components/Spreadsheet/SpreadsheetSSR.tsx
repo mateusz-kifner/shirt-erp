@@ -132,7 +132,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     setSelection(null);
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (updateCount > 0 && canUpdate) {
       let eq = true;
@@ -166,7 +165,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateCount, canUpdate]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (value?.data) {
       setData(value.data);
@@ -175,7 +173,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
 
   // useEffect(() => {}, [disabled]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const enhancedColumnIndicator = useMemo(
     () =>
       enhanceColumnIndicator(ColumnIndicator, (column: number) => (
@@ -223,7 +220,6 @@ const Spreadsheet = (props: SpreadsheetProps) => {
     [],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const enhancedRowIndicator = useMemo(
     () =>
       enhanceRowIndicator(RowIndicator, (row) => (

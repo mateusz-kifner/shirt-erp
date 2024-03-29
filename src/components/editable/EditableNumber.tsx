@@ -77,7 +77,6 @@ const EditableNumber = (props: EditableNumberProps) => {
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (focus) {
       inputFocusAtEndOfLine(InputRef);
@@ -88,7 +87,6 @@ const EditableNumber = (props: EditableNumberProps) => {
     }
   }, [focus]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useLayoutEffect(() => {
     return () => {
       onSubmitValue(text);
@@ -96,7 +94,6 @@ const EditableNumber = (props: EditableNumberProps) => {
     };
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (Number.parseFloat(text) !== value) {
       const new_value = toText(value);

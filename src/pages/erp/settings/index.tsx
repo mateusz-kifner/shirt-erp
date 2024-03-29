@@ -86,7 +86,6 @@ function Settings() {
     setCalendarDefaultDataSource,
   } = useFlagContext();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (loaded) {
       const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;

@@ -81,7 +81,7 @@ function EditableArray<T = any>(props: EditableArrayProps<T>) {
   );
 
   // Forward update
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (update) {
       superOnSubmit?.(keyName, val);

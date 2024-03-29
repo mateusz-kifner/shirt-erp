@@ -6,7 +6,6 @@ function SignInRedirect() {
   const router = useRouter();
   const { status } = useSession();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (status === "unauthenticated") {
       console.log(status);

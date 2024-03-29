@@ -277,7 +277,6 @@ const EditableRichText = (props: EditableRichTextProps) => {
     setFocus(false),
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (focus) {
       window.addEventListener("beforeunload", preventLeave);

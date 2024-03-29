@@ -6,7 +6,7 @@
     "develop": "next dev",
     "build": "next build",
     "prod": "next start",
-    "lint": "pnpm biome lint ./src",
+    "lint": "pnpm biome lint --config-path=\"./cli-config\" ./src",
     "clean": "rm -dr node_modules",
     "node_version": "node --version",
     "migrate": "cross-env SKIP_ENV_VALIDATION=1 tsx migrate.ts",
@@ -136,11 +136,7 @@
     "vitest": "1.4.0"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

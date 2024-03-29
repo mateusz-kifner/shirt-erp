@@ -33,7 +33,6 @@ const OrderMessagesView = (props: OrderMessagesViewProps) => {
   const { data: orderData } = api.order.useGetById(orderId);
   const { data: emailData } = api.order.useGetRelatedEmails(orderId);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const emailMessagesSorted: NewEmailMessage[] | null = useMemo(
     () => emailData?.sort(sortObjectByDateOrNull("date")) || null,
 

@@ -1,4 +1,4 @@
-import ApiList from "@/components/ApiList";
+import ApiList from "@/components/ApiListOld";
 import Button, { buttonVariants } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import {
@@ -59,7 +59,6 @@ function EmailViewApi(props: EmailViewApiProps) {
   const { mutateAsync: transferEmail, isLoading } =
     trpc.email.downloadByUid.useMutation();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (id !== null && isSuccess && orderData) {
       transferEmail({

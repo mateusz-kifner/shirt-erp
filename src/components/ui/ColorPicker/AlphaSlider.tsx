@@ -23,7 +23,6 @@ function HueSlider(props: ColorSliderProps) {
 
   const thumbColor = tinycolor2.fromRatio(value);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     onActive?.(active);
   }, [active]);

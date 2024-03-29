@@ -12,7 +12,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
-import ApiList from "../ApiList";
+import ApiList from "../ApiListOld";
 import { useEditableContext } from "./Editable";
 import { trpc } from "@/utils/trpc";
 
@@ -67,7 +67,6 @@ const EditableApiEntry = <T extends Record<string, any>>(
     setPrev(value);
   }, [value]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (_.isEqual(apiEntryId, prev)) return;
 

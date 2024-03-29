@@ -27,7 +27,7 @@ function EmailPage() {
   // const emailClientsSMTP = emailClients
   //   ? emailClients.filter((client) => client.protocol === "smtp")
   //   : [];
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+
   useEffect(() => {
     if (emailClientsIMAP.length > 0 && emailClientsIMAP[0]?.user !== undefined)
       router

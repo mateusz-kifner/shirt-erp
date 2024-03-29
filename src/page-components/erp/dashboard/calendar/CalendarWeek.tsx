@@ -34,7 +34,6 @@ function CalendarWeek(props: CalendarWeekProps) {
   const uuid = useId();
   const t = useTranslation();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     // Fetch and set locale data dynamically
     const newLocaleData = dayjs().localeData();

@@ -31,7 +31,6 @@ function useGetById(id: number | null) {
   //   },
   // );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: queryCustomerFull.data.id should always be present
   useEffect(() => {
     if (
       firstLoad &&

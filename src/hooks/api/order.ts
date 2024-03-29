@@ -44,7 +44,6 @@ function useGetById(id: number | null | undefined) {
   //   },
   // );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: orderFullQuery?.data?.id should always be defined
   useEffect(() => {
     if (firstLoad && typeof orderFullQuery?.data?.id === "number") {
       // Order
