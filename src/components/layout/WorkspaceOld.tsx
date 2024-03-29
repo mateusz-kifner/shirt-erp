@@ -17,9 +17,9 @@ import { cn } from "@/utils/cn";
 import * as Portal from "@radix-ui/react-portal";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ErrorBoundary } from "react-error-boundary";
-import MultiTabs from "./MultiTabs/MultiTabs";
-import { Tab } from "./MultiTabs/Tab";
-import useMultiTabsState from "./MultiTabs/useMultiTabsState";
+import MultiTabs from "./MultiTabsOld/MultiTabs";
+import { Tab } from "./MultiTabsOld/Tab";
+import useMultiTabsState from "./MultiTabsOld/useMultiTabsState";
 import { Card } from "../ui/Card";
 
 // import MultiTabs from "./MultiTabs"

@@ -1,5 +1,5 @@
-import MultiTabs from "@/components/layout/MultiTabs/MultiTabs";
-import { Tab } from "@/components/layout/MultiTabs/Tab";
+import MultiTabs from "@/components/layout/MultiTabsOld/MultiTabs";
+import { Tab } from "@/components/layout/MultiTabsOld/Tab";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import EmailFolderTree from "@/page-components/erp/email/EmailFolderTree";
 import EmailList from "@/page-components/erp/email/EmailList";
