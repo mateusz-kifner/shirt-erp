@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
 
-import ApiList from "@/components/ApiList";
+import ApiList from "@/components/ApiListOld";
 import useTranslation from "@/hooks/useTranslation";
 import type { RouterNames } from "@/utils/trpc";
 import ExpenseListItem from "./ExpenseListItem";
