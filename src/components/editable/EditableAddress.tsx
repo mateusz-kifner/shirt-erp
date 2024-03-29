@@ -17,12 +17,12 @@ import {
 } from "../ui/Dialog";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { useClickOutside } from "@mantine/hooks";
-import { addressToString } from "@/utils/addressToString";
 import { useLoaded } from "@/hooks/useLoaded";
 import api from "@/hooks/api";
 import { getQueryKey } from "@trpc/react-query";
 import { trpc } from "@/utils/trpc";
 import { useQueryClient } from "@tanstack/react-query";
+import { addressToString } from "@/server/api/address/utils";
 
 export const provinces = [
   "dolnośląskie",

@@ -1,4 +1,4 @@
-import type { Address } from "@/server/api/address/validator";
+import type { Address } from "./validator";
 
 export const addressToString = (address?: Omit<Address, "id">) => {
   if (!address) return undefined;

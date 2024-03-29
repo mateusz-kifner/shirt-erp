@@ -15,7 +15,7 @@ import { IconMail, IconPhone, IconUser } from "@tabler/icons-react";
 import { Separator } from "@/components/ui/Separator";
 import DOMPurify from "dompurify";
 import EditableApiEntryId from "@/components/editable/EditableApiEntryId";
-import { addressToString } from "@/utils/addressToString";
+import { addressToString } from "@/server/api/address/utils";
 import { provinces } from "@/components/editable/EditableAddress";
 import EditableEnum from "@/components/editable/EditableEnum";
 import { useClipboard } from "@mantine/hooks";
