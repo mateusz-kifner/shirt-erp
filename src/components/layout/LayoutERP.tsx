@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 
 import Header from "@/components/layout/Header";
-import Navigation from "@/components/layout/Navigation";
+import Navigation from "@/components/layout/NavigationOld";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";
 
