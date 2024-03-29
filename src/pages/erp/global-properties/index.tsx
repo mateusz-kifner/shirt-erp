@@ -1,4 +1,4 @@
-import Workspace from "@/components/layout/Workspace";
+import Workspace from "@/components/layout/WorkspaceOld";
 import GlobalPropertiesAddModal from "@/page-components/erp/global-properties/GlobalPropertiesAddModal";
 import GlobalPropertiesEditable from "@/page-components/erp/global-properties/GlobalPropertiesEditable";
 import GlobalPropertiesList from "@/page-components/erp/global-properties/GlobalPropertiesList";

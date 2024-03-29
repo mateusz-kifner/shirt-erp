@@ -9,7 +9,7 @@ import type {
 } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
-import Workspace from "@/components/layout/Workspace";
+import Workspace from "@/components/layout/WorkspaceOld";
 import Button from "@/components/ui/Button";
 import {
   DropdownMenu,

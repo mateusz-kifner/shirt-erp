@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IconList, IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
-import Workspace from "@/components/layout/Workspace";
+import Workspace from "@/components/layout/WorkspaceOld";
 import CustomerAddModal from "@/page-components/erp/customer/CustomerAddModal";
 import CustomerEditable from "@/page-components/erp/customer/CustomerEditable";
 import CustomersList from "@/page-components/erp/customer/CustomerList";

@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import List from "@/components/List";
 import SpreadsheetView from "@/components/Spreadsheet/SpreadsheetView";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
-import Workspace from "@/components/layout/Workspace";
+import Workspace from "@/components/layout/WorkspaceOld";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";

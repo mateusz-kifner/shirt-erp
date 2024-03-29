@@ -1,4 +1,4 @@
-import Workspace from "@/components/layout/Workspace";
+import Workspace from "@/components/layout/WorkspaceOld";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import { createRedirectByRole } from "@/utils/redirectByRole";
 import { trpc } from "@/utils/trpc";

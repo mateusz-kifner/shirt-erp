@@ -1,4 +1,4 @@
-import Workspace from "@/components/layout/Workspace";
+import Workspace from "@/components/layout/WorkspaceOld";
 import ExpenseAddModal from "@/page-components/erp/expense/ExpenseAddModal";
 import ExpenseEditable from "@/page-components/erp/expense/ExpenseEditable";
 import ExpenseList from "@/page-components/erp/expense/ExpenseList";
