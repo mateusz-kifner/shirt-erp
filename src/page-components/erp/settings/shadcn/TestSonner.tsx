@@ -24,7 +24,10 @@ function TestSonner() {
             position: "bottom-center",
             dismissible: true,
             cancel: {
-              label: <IconX />,
+              label: (<IconX />) as unknown as string,
+              onClick: () => {
+                console.log("clicked");
+              },
             },
             cancelButtonStyle: {
               width: "1.8rem",
