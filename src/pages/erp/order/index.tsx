@@ -9,7 +9,7 @@ import type {
 } from "@/components/Spreadsheet/useSpreadSheetData";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import { getColorNameFromHex } from "@/components/editable/EditableColor";
-import Workspace from "@/components/layout/WorkspaceOld";
+import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
 import {
   DropdownMenu,
@@ -48,6 +48,7 @@ import { IconAddressBook } from "@tabler/icons-react";
 import OrderProductionView from "@/page-components/erp/order/OrderProductionView";
 import api from "@/hooks/api";
 import { createRedirectByRole } from "@/utils/redirectByRole";
+import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
 
 const entryName = "order";
 
@@ -224,9 +225,15 @@ const OrdersPage: NextPage = () => {
 
   return (
     <>
+      <NavigationPortal>
+        <div className="p-4 flex flex-col grow">
+          <OrderList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+      </NavigationPortal>
       <Workspace
-        cacheKey={entryName}
-        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={
           id !== null
             ? [
@@ -243,14 +250,6 @@ const OrdersPage: NextPage = () => {
                 },
               ]
             : []
-        }
-        navigation={
-          <div className="relative p-4">
-            <OrderList
-              selectedId={id}
-              onAddElement={() => setOpenAddModal(true)}
-            />
-          </div>
         }
         onChange={() => {
           void refetch();

@@ -1,0 +1,15 @@
+@keyframes delay-overflow {
+  to { overflow: visible }
+}
+
+/* Animation is needed to ensure that overflow is applied, alternatively it can be done with 2 different div */
+.navigation-container:hover, .navigation-container:focus-within {
+  animation: 0ms delay-overflow 150ms;
+  animation-fill-mode: forwards;
+
+}
+
+.navigation-container:hover .navigation-entry-label,.navigation-container:focus-within .navigation-entry-label {
+  @apply fade-in animate-in
+}
+

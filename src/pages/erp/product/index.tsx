@@ -1,14 +1,15 @@
 import { useState } from "react";
 
-import { IconList, IconNotebook } from "@tabler/icons-react";
+import { IconNotebook } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
-import Workspace from "@/components/layout/WorkspaceOld";
+import Workspace from "@/components/layout/Workspace";
 import ProductAddModal from "@/page-components/erp/product/ProductAddModal";
 import ProductEditable from "@/page-components/erp/product/ProductEditable";
 import ProductsList from "@/page-components/erp/product/ProductList";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { createRedirectByRole } from "@/utils/redirectByRole";
+import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
 
 const entryName = "product";
 
@@ -20,19 +21,17 @@ const ProductsPage = () => {
 
   return (
     <div className="flex gap-4">
+      <NavigationPortal>
+        <div className="p-4 flex flex-col grow">
+          <ProductsList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+      </NavigationPortal>
       <Workspace
-        cacheKey={entryName}
-        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={
           id !== null ? [{ label: "Właściwości", icon: IconNotebook }] : []
-        }
-        navigation={
-          <div className="relative p-4">
-            <ProductsList
-              selectedId={id}
-              onAddElement={() => setOpenAddModal(true)}
-            />
-          </div>
         }
       >
         {id !== null && (

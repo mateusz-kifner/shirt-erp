@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import useTranslation from "@/hooks/useTranslation";
-import CalendarView from "../../../page-components/erp/dashboard/calendar";
+import CalendarView from "../../../page-components/erp/calendar/calendar";
 import { createRedirectByRole } from "@/utils/redirectByRole";
 
 function DashboardPage() {

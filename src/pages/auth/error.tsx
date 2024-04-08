@@ -1,7 +1,14 @@
 import Button from "@/components/ui/Button";
 import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
-import { signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
+
+function clearLocalData() {
+  const user_theme = localStorage.get("user-theme");
+  localStorage.clear();
+  sessionStorage.clear();
+  localStorage.setItem("user-theme", user_theme);
+}
 
 function AuthErrorPage() {
   const t = useTranslation();
@@ -18,8 +25,19 @@ function AuthErrorPage() {
         <Button
           size="xl"
           onClick={() => {
-            localStorage.clear();
-            sessionStorage.clear();
+            clearLocalData();
+            signOut({ callbackUrl: "/" }).catch(console.log);
+            setTimeout(() => {
+              void signIn();
+            }, 1);
+          }}
+        >
+          {t.sign_in}
+        </Button>
+        <Button
+          size="xl"
+          onClick={() => {
+            clearLocalData();
             signOut({ callbackUrl: "/" }).catch(console.log);
           }}
         >

@@ -42,7 +42,7 @@ export function DefaultListItem<T extends { id?: number | string | null }>({
     >
       {value && (
         <div
-          className="flex h-10 w-10 select-none items-center justify-center rounded-full font-bold text-base text-stone-800 dark:text-stone-200"
+          className="relative flex h-10 w-10 select-none items-center justify-center rounded-full font-bold text-base text-stone-800 before:absolute before:inset-0 before:z-[-1] before:rounded-full before:bg-card dark:text-stone-200"
           style={{
             background: `radial-gradient(circle, transparent 58%, ${
               typeof value.id === "number"

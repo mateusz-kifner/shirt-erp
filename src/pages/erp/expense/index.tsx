@@ -1,4 +1,5 @@
-import Workspace from "@/components/layout/WorkspaceOld";
+import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
+import Workspace from "@/components/layout/Workspace";
 import ExpenseAddModal from "@/page-components/erp/expense/ExpenseAddModal";
 import ExpenseEditable from "@/page-components/erp/expense/ExpenseEditable";
 import ExpenseList from "@/page-components/erp/expense/ExpenseList";
@@ -17,18 +18,16 @@ function ExpensePage() {
 
   return (
     <div className="flex gap-4">
+      <NavigationPortal>
+        <div className="p-4 flex flex-col grow">
+          <ExpenseList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+      </NavigationPortal>
       <Workspace
-        cacheKey={entryName}
-        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={[{ label: "Właściwości", icon: IconNotebook }]}
-        navigation={
-          <div className="relative p-4">
-            <ExpenseList
-              selectedId={id}
-              onAddElement={() => setOpenAddModal(true)}
-            />
-          </div>
-        }
       >
         <div className="relative flex flex-col gap-4 p-4">
           <ExpenseEditable id={id} />

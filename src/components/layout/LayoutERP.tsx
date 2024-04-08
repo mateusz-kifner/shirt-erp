@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 
 import Header from "@/components/layout/Header";
-import Navigation from "@/components/layout/NavigationOld";
+import Navigation from "@/components/layout/Navigation/Navigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";
 
@@ -10,6 +10,7 @@ function LayoutERP({ children }: PropsWithChildren) {
 
   return (
     <div>
+      <Navigation />
       <Header />
 
       <main
@@ -20,7 +21,6 @@ function LayoutERP({ children }: PropsWithChildren) {
       >
         {children}
       </main>
-      <Navigation />
     </div>
   );
 }

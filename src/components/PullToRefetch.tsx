@@ -9,13 +9,14 @@ interface PullToRefreshProps {
   children: ReactNode;
   onEnd: () => void;
   threshold?: number;
+  className?: string;
 }
 
 function PullToRefresh(props: PullToRefreshProps) {
-  const { children, threshold = 128, onEnd } = props;
+  const { children, threshold = 128, onEnd, className } = props;
   const [{ y }, api] = useSpring<{ y: number }>(() => ({ y: 0 }));
   const [dragging, setDragging] = useState(false);
-  const [forceDragging, setForceDragging] = useState(true);
+  const [forceDragging, setForceDragging] = useState(false);
   const { start } = useTimeout(() => {
     setForceDragging(false);
   }, 1000);
@@ -56,14 +57,20 @@ function PullToRefresh(props: PullToRefreshProps) {
   const opacityValue = y.to((py) => (drag ? 1 : (py - 20) / 128));
 
   return (
-    <div className="relative flex h-full flex-col">
+    <div className={cn("relative flex h-full grow flex-col", className)}>
       <animated.div
         style={{ height: yValue, opacity: opacityValue }}
-        className="-translate-x-1/2 absolute top-3 left-1/2"
+        className="-translate-x-1/2 absolute top-3 left-1/2 z-10"
       >
-        <IconLoader2 size={32} className={cn(drag && "animate-spin")} />
+        <div className="rounded-full bg-card p-2">
+          <IconLoader2 size={32} className={cn("animate-spin")} />
+        </div>
       </animated.div>
-      <animated.div style={{ y }} {...bind()} className="z-10 touch-none">
+      <animated.div
+        style={{ y }}
+        {...bind()}
+        className="flex grow touch-none flex-col"
+      >
         {children}
       </animated.div>
     </div>

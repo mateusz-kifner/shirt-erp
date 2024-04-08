@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import List from "@/components/List";
 import SpreadsheetView from "@/components/Spreadsheet/SpreadsheetView";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
-import Workspace from "@/components/layout/WorkspaceOld";
+import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
@@ -30,6 +30,7 @@ import _ from "lodash";
 import { useId, useState } from "react";
 import api from "@/hooks/api";
 import { createRedirectByRole } from "@/utils/redirectByRole";
+import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
 
 const entryName = "task";
 
@@ -86,29 +87,25 @@ const TasksPage = () => {
 
   return (
     <div className="flex gap-4">
-      <Workspace
-        cacheKey={entryName}
-        navigationMetadata={[{ label: "", icon: IconList }]}
-        childrenMetadata={id !== null ? childrenMetadata : []}
-        navigation={
-          <div className="relative flex flex-col gap-2 p-4">
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between px-2">
-                <h2 className="font-bold text-2xl">{label}</h2>
-                <div className="flex gap-2">
-                  {/* {!!buttonSection && buttonSection} */}
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
-                    onClick={() => {
-                      // refetch()
-                      // onRefresh?.();
-                    }}
-                  >
-                    <IconRefresh />
-                  </Button>
-                  {/* {showAddButton && (
+      <NavigationPortal>
+        <div className="relative flex flex-col gap-2 p-4 grow">
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between px-2">
+              <h2 className="font-bold text-2xl">{label}</h2>
+              <div className="flex gap-2">
+                {/* {!!buttonSection && buttonSection} */}
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
+                  onClick={() => {
+                    // refetch()
+                    // onRefresh?.();
+                  }}
+                >
+                  <IconRefresh />
+                </Button>
+                {/* {showAddButton && (
             <Button
               size="icon"
               variant="outline"
@@ -127,55 +124,55 @@ const TasksPage = () => {
               <IconPlus />
             </Button>
           )} */}
-                </div>
-              </div>
-              <div className="flex gap-3 px-2.5">
-                <div className="flex">
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
-                    onClick={() => toggleSortOrder()}
-                  >
-                    {sortOrder === "asc" ? (
-                      <IconSortDescending />
-                    ) : (
-                      <IconSortAscending />
-                    )}
-                  </Button>
-                </div>
-                <input
-                  name={`search${uuid}`}
-                  id={`search${uuid}`}
-                  className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-full border border-gray-400 border-solid bg-white px-4 py-2 text-sm leading-normal outline-none dark:border-stone-600 dark:focus:border-sky-600 focus:border-sky-600 dark:bg-stone-800 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 dark:outline-none dark:read-only:outline-none read-only:outline-none"
-                  type="text"
-                  onChange={(value) => setQuery(value.target.value)}
-                  placeholder={`${t.search}...`}
-                />
               </div>
             </div>
-            <div className="flex flex-grow flex-col">
-              <List
-                ListItem={OrderListItem}
-                data={filteredOrders.filter(
-                  (val, index) =>
-                    index >= (page - 1) * itemsPerPage &&
-                    index < page * itemsPerPage,
-                )}
-                onChange={(val) => {
-                  router.push(`/erp/task/${val.id}`).catch(console.log);
-                }}
-                selectedId={id}
+            <div className="flex gap-3 px-2.5">
+              <div className="flex">
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
+                  onClick={() => toggleSortOrder()}
+                >
+                  {sortOrder === "asc" ? (
+                    <IconSortDescending />
+                  ) : (
+                    <IconSortAscending />
+                  )}
+                </Button>
+              </div>
+              <input
+                name={`search${uuid}`}
+                id={`search${uuid}`}
+                className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-full border border-gray-400 border-solid bg-white px-4 py-2 text-sm leading-normal outline-none dark:border-stone-600 dark:focus:border-sky-600 focus:border-sky-600 dark:bg-stone-800 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 dark:outline-none dark:read-only:outline-none read-only:outline-none"
+                type="text"
+                onChange={(value) => setQuery(value.target.value)}
+                placeholder={`${t.search}...`}
               />
             </div>
-            <Pagination
-              totalPages={totalPages}
-              initialPage={1}
-              onPageChange={setPage}
+          </div>
+          <div className="flex flex-grow flex-col">
+            <List
+              ListItem={OrderListItem}
+              data={filteredOrders.filter(
+                (val, index) =>
+                  index >= (page - 1) * itemsPerPage &&
+                  index < page * itemsPerPage,
+              )}
+              onChange={(val) => {
+                router.push(`/erp/task/${val.id}`).catch(console.log);
+              }}
+              selectedId={id}
             />
           </div>
-        }
-      >
+          <Pagination
+            totalPages={totalPages}
+            initialPage={1}
+            onPageChange={setPage}
+          />
+        </div>
+      </NavigationPortal>
+      <Workspace childrenMetadata={id !== null ? childrenMetadata : []}>
         {id !== null && (
           <div className="relative flex flex-col gap-4 p-4">
             <TaskView id={id} />

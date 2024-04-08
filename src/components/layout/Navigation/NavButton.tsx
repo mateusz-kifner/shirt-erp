@@ -1,0 +1,68 @@
+import type TablerIconType from "@/types/TablerIconType";
+import { cn } from "@/utils/cn";
+import { useHover } from "@mantine/hooks";
+import Link from "next/link";
+import { useId, type ComponentProps } from "react";
+
+interface NavButtonProps extends ComponentProps<"button"> {
+  className?: string;
+  label: string;
+  Icon: TablerIconType;
+  IconActive: TablerIconType;
+  href: string;
+  entryName: string;
+  gradient?: { from: string; to: string; deg: number };
+  debug?: boolean;
+  active?: boolean;
+  onClick?: () => void;
+}
+
+function NavButton(props: NavButtonProps) {
+  const { label, href, Icon, IconActive, gradient, color, active, onClick } =
+    props;
+  const { hovered, ref } = useHover<HTMLAnchorElement>();
+  const uuid = useId();
+  return (
+    <Link ref={ref} href={href} id={uuid} onClick={onClick}>
+      <div
+        className={cn(
+          "relative bold flex h-24 flex-col items-center justify-center px-1 text-xs gap-1",
+        )}
+      >
+        <div
+          className={cn(
+            "relative flex h-9 w-9 items-center justify-center rounded-xl ",
+          )}
+          style={{
+            background: `linear-gradient(${gradient?.deg ?? 0}deg, ${
+              gradient ? gradient.from : color ?? "#0C8599"
+            },${gradient ? gradient.to : color ?? "#0C8599"} )`,
+            filter: active || hovered ? "grayscale(80%)" : "",
+          }}
+        >
+          {active ? (
+            <IconActive
+              size={28}
+              className="stroke-stone-900 dark:stroke-white"
+            />
+          ) : (
+            <Icon size={28} className="stroke-stone-900 dark:stroke-white" />
+          )}
+        </div>
+        <div
+          className="font-bold rounded-md px-3 py-1.5"
+          style={{
+            background: `linear-gradient(${gradient?.deg ?? 0}deg, ${
+              gradient ? gradient.from : color ?? "#0C8599"
+            },${gradient ? gradient.to : color ?? "#0C8599"} )`,
+            filter: active || hovered ? "grayscale(80%)" : "",
+          }}
+        >
+          {label}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export default NavButton;

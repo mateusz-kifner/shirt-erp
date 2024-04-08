@@ -5,6 +5,8 @@ import {
   useId,
   useRef,
   type ReactNode,
+  useLayoutEffect,
+  useState,
 } from "react";
 
 import { useRouter } from "next/router";
@@ -15,9 +17,9 @@ import { cn } from "@/utils/cn";
 import * as Portal from "@radix-ui/react-portal";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { ErrorBoundary } from "react-error-boundary";
-import MultiTabs from "./MultiTabsOld/MultiTabs";
-import { Tab } from "./MultiTabsOld/Tab";
-import useMultiTabsState from "./MultiTabsOld/useMultiTabsState";
+import MultiTabs from "./MultiTabs/MultiTabs";
+import { Tab } from "./MultiTabs/Tab";
+import useMultiTabsState from "./MultiTabs/useMultiTabsState";
 import { Card } from "../ui/Card";
 
 // import MultiTabs from "./MultiTabs"
@@ -29,18 +31,12 @@ interface WorkspaceItemMetadata {
 }
 
 interface WorkspaceProps {
-  cacheKey: string;
-  navigation?: ReactNode;
-  navigationMetadata?: WorkspaceItemMetadata[];
   childrenMetadata?: WorkspaceItemMetadata[];
   children?: ReactNode;
   onChange?: () => void;
 }
 
 const Workspace = ({
-  // cacheKey,
-  navigation,
-  navigationMetadata,
   childrenMetadata,
   children,
   onChange,
@@ -55,8 +51,8 @@ const Workspace = ({
   const childrenCount = Children.count(children);
 
   // state
-  const initialPinned: number[] = [0];
-  const initialActive = childrenCount === 0 ? 0 : 1;
+  const initialPinned: number[] = [];
+  const initialActive = childrenCount > 0 ? 0 : undefined;
 
   const multiTabsState = useMultiTabsState(
     initialActive,
@@ -64,18 +60,21 @@ const Workspace = ({
     // cacheKey,
   );
 
-  // refs / callbacks
-  // const { ref, width } = useElementSize();
-  const portalContainerRef = useRef<HTMLDivElement | null>(null);
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
+    null,
+  );
 
   useEffect(() => {
-    portalContainerRef.current = document.querySelector("#MobileMenuPinned");
-  }, []);
+    setPortalContainer(
+      document.querySelector("#MobileMenuPinned") as HTMLElement | null,
+    );
+  }, [
+    typeof document !== "undefined" &&
+      (document.querySelector("#MobileMenuPinned") as HTMLElement | null),
+  ]);
 
   // join metadata
-  const joinedMetadata: WorkspaceItemMetadata[] = (
-    navigationMetadata ?? []
-  ).concat(childrenMetadata ?? []);
+  const joinedMetadata: WorkspaceItemMetadata[] = childrenMetadata ?? [];
 
   const tabsChildren: ReactElement[] = joinedMetadata.map(
     (metadata, index, metadataArr) => {
@@ -105,7 +104,6 @@ const Workspace = ({
   const allActive = Array.from(
     new Set([multiTabsState.active, ...multiTabsState.pinned]),
   );
-  const navigationChildrenCount = Children.count(navigation);
 
   return (
     <div
@@ -127,16 +125,12 @@ const Workspace = ({
         {tabsChildren}
       </MultiTabs>
       {isMobile && (
-        <Portal.Root container={portalContainerRef.current}>
+        <Portal.Root container={portalContainer}>
           {children &&
             multiTabsState.pinned.map((childIndex, index) => (
               <div
                 key={uuid + index}
                 className="flex flex-grow flex-col rounded bg-white shadow-lg dark:bg-stone-800"
-                // {...(childrenWrapperProps2 &&
-                // childrenWrapperProps2[childIndex] !== undefined
-                //   ? childrenWrapperProps2[childIndex]
-                //   : { style: { flexGrow: 1 } })}
               >
                 <ErrorBoundary
                   fallback={
@@ -154,39 +148,9 @@ const Workspace = ({
             ))}
         </Portal.Root>
       )}
-      {!isMobile &&
-        navigation &&
-        Children.map(navigation, (child, childIndex) =>
-          allActive.includes(childIndex) ? (
-            <Card
-              key={`${uuid} ${childIndex}`}
-              className={cn(
-                // "flex  flex-col rounded shadow-lg ",
-                isMobile ? "flex-grow" : "w-[420px] min-w-[420px]",
-              )}
-              {...(navigationMetadata &&
-              navigationMetadata[childIndex]?.props !== undefined
-                ? navigationMetadata[childIndex]?.props
-                : { style: {} })}
-            >
-              <ErrorBoundary
-                fallback={
-                  <h1>
-                    Tab number {childIndex} named {'"'}
-                    {childrenMetadata?.[childIndex]?.label ?? "[unknown]"}
-                    {'"'} encountered irreparable error and crashed, please
-                    reload page.
-                  </h1>
-                }
-              >
-                {child}
-              </ErrorBoundary>
-            </Card>
-          ) : null,
-        )}
       {children &&
         Children.map(children, (child, childIndex) =>
-          allActive.includes(childIndex + navigationChildrenCount) ? (
+          allActive.includes(childIndex) ? (
             <Card
               key={`${uuid} ${childIndex}`}
               className={cn(

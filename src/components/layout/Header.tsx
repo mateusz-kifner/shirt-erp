@@ -22,14 +22,16 @@ const Header = () => {
   const [tabsOpen, setTabsOpen] = useState(false);
 
   return (
-    <div className="fixed top-0 left-0 z-50 h-14 w-full">
+    <div className="fixed top-0 left-0 z-40 h-14 w-full">
       <div className="flex h-full w-full items-center justify-between border-b bg-stone-900 pr-4">
         <div className="flex h-full flex-nowrap items-center justify-between gap-3">
           {isMobile && (
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setMobileOpen(true)}
+              onClick={() => {
+                setMobileOpen(true);
+              }}
               className="rounded-full"
             >
               <IconMenu2 />

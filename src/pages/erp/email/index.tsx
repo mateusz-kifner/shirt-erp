@@ -1,4 +1,4 @@
-import Workspace from "@/components/layout/WorkspaceOld";
+import Workspace from "@/components/layout/Workspace";
 import EmailSendModal from "@/page-components/erp/email/EmailSendModal";
 import { createRedirectByRole } from "@/utils/redirectByRole";
 import { trpc } from "@/utils/trpc";
@@ -42,22 +42,21 @@ function EmailPage() {
       ) : (
         <div className="flex gap-4">
           <Workspace
-            cacheKey={entryName}
-            // childrenLabels={[]}
-            // childrenIcons={[]}
-            // defaultPinned={[]}
-            // childrenWrapperProps={[]}
-            // rightMenuSection={
-            //   <Tab
-            //     index={-1}
-            //     className="p-2"
-            //     onClick={() => setOpenSendModal(true)}
-            //     onContextMenu={() => {}}
-            //   >
-            //     <IconPencil />
-            //   </Tab>
-            // }
-            // disablePin
+          // childrenLabels={[]}
+          // childrenIcons={[]}
+          // defaultPinned={[]}
+          // childrenWrapperProps={[]}
+          // rightMenuSection={
+          //   <Tab
+          //     index={-1}
+          //     className="p-2"
+          //     onClick={() => setOpenSendModal(true)}
+          //     onContextMenu={() => {}}
+          //   >
+          //     <IconPencil />
+          //   </Tab>
+          // }
+          // disablePin
           >
             <span>No emails configured</span>
           </Workspace>

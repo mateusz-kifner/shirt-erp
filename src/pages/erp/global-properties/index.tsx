@@ -1,4 +1,5 @@
-import Workspace from "@/components/layout/WorkspaceOld";
+import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
+import Workspace from "@/components/layout/Workspace";
 import GlobalPropertiesAddModal from "@/page-components/erp/global-properties/GlobalPropertiesAddModal";
 import GlobalPropertiesEditable from "@/page-components/erp/global-properties/GlobalPropertiesEditable";
 import GlobalPropertiesList from "@/page-components/erp/global-properties/GlobalPropertiesList";
@@ -17,18 +18,16 @@ function GlobalPropertiesPage() {
 
   return (
     <div className="flex gap-4">
+      <NavigationPortal>
+        <div className="p-4 flex flex-col grow">
+          <GlobalPropertiesList
+            selectedId={id}
+            onAddElement={() => setOpenAddModal(true)}
+          />
+        </div>
+      </NavigationPortal>
       <Workspace
-        cacheKey={entryName}
-        navigationMetadata={[{ label: "", icon: IconList }]}
         childrenMetadata={[{ label: "Właściwości", icon: IconNotebook }]}
-        navigation={
-          <div className="relative p-4">
-            <GlobalPropertiesList
-              selectedId={id}
-              onAddElement={() => setOpenAddModal(true)}
-            />
-          </div>
-        }
       >
         <div className="relative flex flex-col gap-4 p-4">
           <GlobalPropertiesEditable id={id} />
