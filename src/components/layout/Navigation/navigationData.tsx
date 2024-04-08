@@ -80,13 +80,14 @@ const navigationData: { [key: string]: NavigationData } = {
     entryName: "task",
     gradient: { from: "#099268", to: "#66A80F", deg: 105 },
   },
-  // "order-archive": {
-  //   label: "Archiwum",
-  //   Icon: IconArchive,
-  //   IconActive: IconArchiveFilled,
-  //   href: "/erp/order-archive",
-  //   entryName: "orders-archive",
-  // },
+  "order-archive": {
+    label: "Archiwum",
+    Icon: IconArchive,
+    IconActive: IconArchiveFilled,
+    href: "/erp/order-archive",
+    entryName: "orders-archive",
+    debug: true,
+  },
   product: {
     label: "Produkty",
     Icon: IconShirt,

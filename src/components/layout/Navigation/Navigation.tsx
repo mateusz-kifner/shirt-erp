@@ -31,6 +31,26 @@ const IconLogo: TablerIconType = forwardRef((props, ref) => (
   <img src="/assets/logo_micro.png" alt="Shirt Dip ERP" className="h-10" />
 ));
 
+const getNameFromTranslation = (
+  t: any,
+  entryName?: string,
+): string | undefined => {
+  if (
+    entryName === undefined ||
+    typeof t[entryName as keyof typeof t] === "undefined"
+  )
+    return undefined;
+  if (typeof t[entryName as keyof typeof t] === "string") {
+    return t[entryName as keyof typeof t];
+  }
+  if (
+    typeof t[entryName as keyof typeof t] === "object" &&
+    t[entryName as keyof typeof t]?.plural !== undefined
+  ) {
+    return t[entryName as keyof typeof t].plural;
+  }
+};
+
 function Navigation() {
   const router = useRouter();
   const isMobile = useIsMobile();
@@ -42,19 +62,16 @@ function Navigation() {
     useHover<HTMLButtonElement>();
 
   useEffect(() => {
-    if (mainNavigationHovered) {
+    if (mainNavigationHovered && hasChildren) {
       setMainNavigationOpen(true);
     }
-  }, [mainNavigationHovered]);
+  }, [mainNavigationHovered, hasChildren]);
 
   const entryName = router.pathname.split("/")[2];
 
-  const label =
-    entryName && typeof t[entryName as keyof typeof t] !== "string"
-      ? _.capitalize(
-          (t[entryName as keyof typeof t] as { plural: string }).plural,
-        )
-      : undefined;
+  const entryNameT = getNameFromTranslation(t, entryName);
+
+  const label = entryNameT ? _.capitalize(entryNameT) : "";
 
   const noNavigation = !hasChildren;
 
@@ -108,11 +125,20 @@ function Navigation() {
         >
           <Popover
             open={mainNavigationOpen}
-            onOpenChange={setMainNavigationOpen}
+            onOpenChange={(open) => {
+              if (hasChildren) {
+                setMainNavigationOpen(open);
+              } else {
+                setMainNavigationOpen(false);
+              }
+            }}
           >
             <PopoverTrigger
               ref={mainNavigationTriggerRef}
-              className="flex grow items-center gap-3 rounded-full px-4 py-1 hover:bg-white/15"
+              className={cn(
+                "flex items-center gap-3 rounded-full px-4 py-1  min-w-40",
+                hasChildren ? "hover:bg-white/15" : "cursor-default",
+              )}
             >
               <Icon size={38} className="stroke-stone-50" />
               <div
@@ -165,15 +191,19 @@ function Navigation() {
             </button>
           )}
         </div>
-        <div className="relative z-30 flex gap-3 bg-card">
-          {/* <MainNavigation /> */}
-        </div>
 
         <div
           id="NavigationPortalTarget"
           ref={ref}
-          className="relative z-30 flex grow flex-col"
+          className={cn(hasChildren && "relative z-30 flex grow flex-col")}
         />
+
+        {!hasChildren && (
+          <div className="relative z-30 flex grow flex-col">
+            <MainNavigation />
+          </div>
+        )}
+
         <NavigationGradient
           color={color}
           className="absolute top-0 left-0 z-10 opacity-80 dark:opacity-50"
