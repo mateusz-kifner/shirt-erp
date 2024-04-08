@@ -1,10 +1,4 @@
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconBell,
-  IconX,
-} from "@tabler/icons-react";
-
+import { IconArrowLeft, IconArrowRight, IconX } from "@tabler/icons-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";
 import { useHasChildNodes } from "@/hooks/useHasChildNodes";
@@ -15,17 +9,16 @@ import navigationData, { type NavigationData } from "./navigationData";
 import { useUserContext } from "@/context/userContext";
 import useTranslation from "@/hooks/useTranslation";
 import _ from "lodash";
-import Button, { buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import styles from "./navigation.module.css";
 import type TablerIconType from "@/types/TablerIconType";
 import { forwardRef, useEffect, useState } from "react";
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
-import { useDebouncedValue, useHover } from "@mantine/hooks";
+import { useForceUpdate, useHover } from "@mantine/hooks";
 import { useFlagContext } from "@/context/flagContext";
 import MainNavigationList from "./MainNavigationList";
 
@@ -73,7 +66,7 @@ function Navigation() {
     ) {
       setMainNavigationOpen(true);
     }
-  }, [mainNavigationHovered, hasChildren]);
+  }, [mainNavigationHover, mainNavigationHovered, hasChildren, isMobile]);
 
   const entryName = router.pathname.split("/")[2];
 
@@ -93,18 +86,20 @@ function Navigation() {
           entryName: "",
           debug: true,
         };
-  const gradient = entry?.gradient ?? {
-    from: "transparent",
-    to: "transparent",
-    deg: 105,
-  };
-  const color = gradient.from;
+  const gradient = entry?.gradient;
+  const color = gradient?.from ?? "#0C8599";
   const Icon = entry?.Icon ?? IconLogo;
+  const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
+    gradient ? `${gradient.from}99` : color
+  },${gradient ? `${gradient.to}99` : color} )`;
+
+  console.log(entryName, entryNameT, entry, gradient, color, gradientCSS);
+
   return (
     <div
       className={cn(
         isMobile ? "overflow-hidden" : styles["navigation-container"],
-        "fixed top-0 left-0 z-50 h-screen max-h-screen max-w-full flex-col justify-between overflow-hidden border-r bg-white transition-all dark:bg-stone-900",
+        "fixed top-0 left-0 z-50 h-screen max-h-screen max-w-full flex-col justify-between overflow-hidden bg-white transition-all dark:bg-stone-900",
         mobileOpen
           ? isMobile
             ? "w-screen"
@@ -113,9 +108,11 @@ function Navigation() {
             ? "w-0"
             : "before:-right-6 w-[5.5rem] before:absolute before:top-0 before:z-[-1] before:h-full before:w-6 focus-within:w-[32rem] hover:w-[32rem]",
         mainNavigationOpen && !mobileOpen && !isMobile && "w-[32rem]",
+        "after:absolute after:top-0 after:right-0 after:z-50 after:h-14 after:w-px after:bg-stone-800",
       )}
       tabIndex={-99999}
     >
+      <div className="absolute top-0 right-0 z-50 h-full w-px bg-border" />
       <div
         className={cn(
           "flex h-full w-full flex-col bg-card",
@@ -123,13 +120,15 @@ function Navigation() {
         )}
       >
         <div
-          className="relative z-50 flex h-14 items-center justify-between gap-4 border-b bg-card bg-stone-900 px-2"
-          style={{
-            background: `linear-gradient(${gradient?.deg ?? 0}deg, ${
-              gradient ? gradient.from : color ?? "#0C8599"
-            },${gradient ? gradient.to : color ?? "#0C8599"} )`,
-          }}
+          className="relative z-50 flex h-14 min-h-14 items-center justify-between gap-4 border-r border-r-stone-800 border-b bg-stone-900 px-2"
+          style={{ borderBottomColor: `${color}99` }}
         >
+          <div
+            className="absolute inset-0 z-[-1]"
+            style={{
+              backgroundImage: gradientCSS,
+            }}
+          />
           <Popover
             open={mainNavigationOpen}
             onOpenChange={(open) => {
@@ -147,7 +146,7 @@ function Navigation() {
             <PopoverTrigger
               ref={mainNavigationTriggerRef}
               className={cn(
-                "flex min-w-40 items-center gap-3 rounded-full px-4 py-1",
+                "flex min-w-40 items-center gap-3 rounded-full px-4 py-1 ",
                 hasChildren ? "hover:bg-white/15" : "cursor-default",
               )}
             >
@@ -166,9 +165,10 @@ function Navigation() {
               </div>
             </PopoverTrigger>
             <PopoverContent
+              sideOffset={5}
               className={cn(
-                "bg-card p-0 duration-75",
-                mobileOpen ? "w-[83.3vw]" : "w-[32rem]",
+                "h-[calc(100vh-3.5rem)] rounded-none border-transparent border-y-0 border-r-px border-l-0 border-solid bg-card p-0 duration-75",
+                mobileOpen ? "w-[83.3vw]" : "w-[calc(32rem-1px)]",
                 isMobile && "w-screen",
               )}
             >
@@ -178,6 +178,7 @@ function Navigation() {
                 <MainNavigationList
                   disableAnimation
                   onClose={() => setMainNavigationOpen(false)}
+                  color={color}
                 />
               )}
             </PopoverContent>
@@ -213,7 +214,10 @@ function Navigation() {
         <div
           id="NavigationPortalTarget"
           ref={ref}
-          className={cn(hasChildren && "relative z-30 flex grow flex-col")}
+          className={cn(
+            "border-r",
+            hasChildren && "relative z-30 flex grow flex-col",
+          )}
         />
 
         {noNavigation && (
@@ -221,14 +225,14 @@ function Navigation() {
             {mainNavigationType === "icons" ? (
               <MainNavigation />
             ) : (
-              <MainNavigationList />
+              <MainNavigationList color={color} />
             )}
           </div>
         )}
 
         <NavigationGradient
           color={color}
-          className="absolute top-0 left-0 z-10 opacity-80 dark:opacity-50"
+          className="absolute top-0 left-0 z-10 opacity-100 dark:opacity-50"
         />
 
         {/* {isMobile && (
