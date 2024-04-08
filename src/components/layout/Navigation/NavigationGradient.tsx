@@ -20,8 +20,8 @@ const NavigationGradient = ({
         }}
         className="absolute top-0 left-0 h-1/2 w-[30rem]"
       >
-        <div className="absolute bottom-0 right-0 z-20 h-screen w-full bg-card [mask-image:linear-gradient(to_top,white,transparent)]" />
-        <div className="absolute bottom-0 right-0 z-20 h-full w-full bg-card [mask-image:linear-gradient(to_left,white,transparent)]" />
+        <div className="absolute right-0 bottom-0 z-20 h-screen w-full bg-card [mask-image:linear-gradient(to_top,white,transparent)]" />
+        <div className="absolute right-0 bottom-0 z-20 h-full w-full bg-card [mask-image:linear-gradient(to_left,white,transparent)]" />
       </div>
     </div>
   );

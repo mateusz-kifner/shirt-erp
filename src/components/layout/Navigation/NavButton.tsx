@@ -26,18 +26,18 @@ function NavButton(props: NavButtonProps) {
     <Link ref={ref} href={href} id={uuid} onClick={onClick}>
       <div
         className={cn(
-          "relative bold flex h-24 flex-col items-center justify-center px-1 text-xs gap-1",
+          "bold relative flex h-24 flex-col items-center justify-center gap-1 px-1 text-xs",
         )}
       >
         <div
           className={cn(
-            "relative flex h-9 w-9 items-center justify-center rounded-xl ",
+            "relative flex h-9 w-9 items-center justify-center rounded-xl",
           )}
           style={{
             background: `linear-gradient(${gradient?.deg ?? 0}deg, ${
               gradient ? gradient.from : color ?? "#0C8599"
             },${gradient ? gradient.to : color ?? "#0C8599"} )`,
-            filter: active || hovered ? "grayscale(80%)" : "",
+            filter: active || hovered ? "grayscale(80%)" : undefined,
           }}
         >
           {active ? (
@@ -50,12 +50,12 @@ function NavButton(props: NavButtonProps) {
           )}
         </div>
         <div
-          className="font-bold rounded-md px-3 py-1.5"
+          className="rounded-md px-3 py-1.5 font-bold"
           style={{
             background: `linear-gradient(${gradient?.deg ?? 0}deg, ${
               gradient ? gradient.from : color ?? "#0C8599"
             },${gradient ? gradient.to : color ?? "#0C8599"} )`,
-            filter: active || hovered ? "grayscale(80%)" : "",
+            filter: active || hovered ? "grayscale(80%)" : undefined,
           }}
         >
           {label}
