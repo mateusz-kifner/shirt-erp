@@ -13,6 +13,7 @@ import {
   IconCalendar,
   IconLogout,
   IconMail,
+  IconMenu2,
   IconMoonStars,
   IconSettings,
   IconSun,
@@ -84,6 +85,10 @@ function Settings() {
     setCalendarDefaultViewMode,
     calendarDefaultDataSource,
     setCalendarDefaultDataSource,
+    mainNavigationType,
+    setMainNavigationType,
+    mainNavigationHover,
+    setMainNavigationHover,
   } = useFlagContext();
 
   useEffect(() => {
@@ -305,6 +310,24 @@ function Settings() {
             leftSection={<IconCalendar />}
           >
             Calendar default data source: {calendarDefaultDataSource}
+          </Button>
+          <Button
+            onClick={() => {
+              setMainNavigationType((prev) =>
+                prev === "icons" ? "list" : "icons",
+              );
+            }}
+            leftSection={<IconMenu2 />}
+          >
+            Main navigation type: {mainNavigationType}
+          </Button>
+          <Button
+            onClick={() => {
+              setMainNavigationHover((v) => !v);
+            }}
+            leftSection={<IconMenu2 />}
+          >
+            Main navigation hover: {mainNavigationHover ? "hover" : "click"}
           </Button>
           {debug && (
             <>

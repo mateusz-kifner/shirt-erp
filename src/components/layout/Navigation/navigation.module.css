@@ -9,7 +9,12 @@
 
 }
 
-.navigation-container:hover .navigation-entry-label,.navigation-container:focus-within .navigation-entry-label {
+.navigation-container:hover .label,.navigation-container:focus-within .label {
   @apply fade-in animate-in
 }
+
+.navigation-container:hover .icon,.navigation-container:focus-within .icon {
+  background: var(--bg-gradient);
+}
+
 

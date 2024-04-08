@@ -24,6 +24,10 @@ interface FlagEditableAddress {
   setCalendarDefaultViewMode: Dispatch<SetStateAction<"month" | "week">>;
   calendarDefaultDataSource: "all" | "user";
   setCalendarDefaultDataSource: Dispatch<SetStateAction<"all" | "user">>;
+  mainNavigationType: "icons" | "list";
+  setMainNavigationType: Dispatch<SetStateAction<"icons" | "list">>;
+  mainNavigationHover: boolean;
+  setMainNavigationHover: Dispatch<SetStateAction<boolean>>;
 }
 
 interface FlagContextType extends FlagEditableAddress {}
@@ -65,6 +69,19 @@ export const FlagContextProvider = ({ children }: { children: ReactNode }) => {
       defaultValue: "all",
     });
 
+  const [mainNavigationType, setMainNavigationType] = useLocalStorage<
+    "icons" | "list"
+  >({
+    key: "flag-main-navigation-type",
+    defaultValue: "icons",
+  });
+
+  const [mainNavigationHover, setMainNavigationHover] =
+    useLocalStorage<boolean>({
+      key: "flag-main-navigation-hover",
+      defaultValue: false,
+    });
+
   return (
     <FlagContext.Provider
       value={{
@@ -78,6 +95,10 @@ export const FlagContextProvider = ({ children }: { children: ReactNode }) => {
         setCalendarDefaultViewMode,
         calendarDefaultDataSource,
         setCalendarDefaultDataSource,
+        mainNavigationType,
+        setMainNavigationType,
+        mainNavigationHover,
+        setMainNavigationHover,
       }}
     >
       {children}

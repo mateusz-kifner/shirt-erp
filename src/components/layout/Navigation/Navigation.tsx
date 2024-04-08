@@ -25,7 +25,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
-import { useHover } from "@mantine/hooks";
+import { useDebouncedValue, useHover } from "@mantine/hooks";
+import { useFlagContext } from "@/context/flagContext";
+import MainNavigationList from "./MainNavigationList";
 
 const IconLogo: TablerIconType = forwardRef((props, ref) => (
   <img src="/assets/logo_micro.png" alt="Shirt Dip ERP" className="h-10" />
@@ -60,9 +62,15 @@ function Navigation() {
   const t = useTranslation();
   const { ref: mainNavigationTriggerRef, hovered: mainNavigationHovered } =
     useHover<HTMLButtonElement>();
+  const { mainNavigationType, mainNavigationHover } = useFlagContext();
 
   useEffect(() => {
-    if (mainNavigationHovered && hasChildren) {
+    if (
+      mainNavigationHover &&
+      mainNavigationHovered &&
+      hasChildren &&
+      !isMobile
+    ) {
       setMainNavigationOpen(true);
     }
   }, [mainNavigationHovered, hasChildren]);
@@ -81,7 +89,6 @@ function Navigation() {
       : {
           label: "",
           Icon: IconLogo,
-          IconActive: IconLogo,
           href: "/",
           entryName: "",
           debug: true,
@@ -127,7 +134,11 @@ function Navigation() {
             open={mainNavigationOpen}
             onOpenChange={(open) => {
               if (hasChildren) {
-                setMainNavigationOpen(open);
+                if (mainNavigationHover) {
+                  setMainNavigationOpen(false);
+                } else {
+                  setMainNavigationOpen(open);
+                }
               } else {
                 setMainNavigationOpen(false);
               }
@@ -136,14 +147,14 @@ function Navigation() {
             <PopoverTrigger
               ref={mainNavigationTriggerRef}
               className={cn(
-                "flex items-center gap-3 rounded-full px-4 py-1  min-w-40",
+                "flex min-w-40 items-center gap-3 rounded-full px-4 py-1",
                 hasChildren ? "hover:bg-white/15" : "cursor-default",
               )}
             >
               <Icon size={38} className="stroke-stone-50" />
               <div
                 className={cn(
-                  styles["navigation-entry-label"],
+                  styles.label,
                   isMobile || mainNavigationOpen
                     ? "opacity-100"
                     : "fade-out animate-out fill-mode-both",
@@ -161,7 +172,14 @@ function Navigation() {
                 isMobile && "w-screen",
               )}
             >
-              <MainNavigation onClose={() => setMainNavigationOpen(false)} />
+              {mainNavigationType === "icons" ? (
+                <MainNavigation onClose={() => setMainNavigationOpen(false)} />
+              ) : (
+                <MainNavigationList
+                  disableAnimation
+                  onClose={() => setMainNavigationOpen(false)}
+                />
+              )}
             </PopoverContent>
           </Popover>
 
@@ -198,9 +216,13 @@ function Navigation() {
           className={cn(hasChildren && "relative z-30 flex grow flex-col")}
         />
 
-        {!hasChildren && (
+        {noNavigation && (
           <div className="relative z-30 flex grow flex-col">
-            <MainNavigation />
+            {mainNavigationType === "icons" ? (
+              <MainNavigation />
+            ) : (
+              <MainNavigationList />
+            )}
           </div>
         )}
 

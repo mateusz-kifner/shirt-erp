@@ -8,7 +8,6 @@ interface NavButtonProps extends ComponentProps<"button"> {
   className?: string;
   label: string;
   Icon: TablerIconType;
-  IconActive: TablerIconType;
   href: string;
   entryName: string;
   gradient?: { from: string; to: string; deg: number };
@@ -18,8 +17,7 @@ interface NavButtonProps extends ComponentProps<"button"> {
 }
 
 function NavButton(props: NavButtonProps) {
-  const { label, href, Icon, IconActive, gradient, color, active, onClick } =
-    props;
+  const { label, href, Icon, gradient, color, active, onClick } = props;
   const { hovered, ref } = useHover<HTMLAnchorElement>();
   const uuid = useId();
   return (
@@ -40,14 +38,7 @@ function NavButton(props: NavButtonProps) {
             filter: active || hovered ? "grayscale(80%)" : undefined,
           }}
         >
-          {active ? (
-            <IconActive
-              size={28}
-              className="stroke-stone-900 dark:stroke-white"
-            />
-          ) : (
-            <Icon size={28} className="stroke-stone-900 dark:stroke-white" />
-          )}
+          <Icon size={28} className="stroke-stone-900 dark:stroke-white" />
         </div>
         <div
           className="rounded-md px-3 py-1.5 font-bold"
