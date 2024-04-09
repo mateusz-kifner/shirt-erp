@@ -71,7 +71,7 @@ const ApiListArchive = <T extends { id: number | string }>(
   const [isArchived, setIsArchived] = useState(false);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const [page, setPage] = useState<number>(1);
-  const { data, refetch } = trpc[entryName as "order"].search.useQuery({
+  const { data, refetch } = trpc[entryName as "order"].oldSearch.useQuery({
     sort: sortOrder,
     keys: filterKeys,
     query: debouncedQuery,

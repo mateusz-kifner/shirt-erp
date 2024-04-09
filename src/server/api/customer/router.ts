@@ -3,7 +3,10 @@ import {
   insertCustomerWithRelationZodSchema,
   updateCustomerZodSchema,
 } from "@/server/api/customer/validator";
-import { createProcedureSearch } from "@/server/api/procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import customerService from "@/server/api/customer/service";
 import { z } from "zod";
@@ -49,5 +52,6 @@ export const customerRouter = createTRPCRouter({
       });
     }),
 
-  search: createProcedureSearch(customers),
+  oldSearch: createProcedureOldSearch(customers),
+  simpleSearch: createProcedureSimpleSearch(customers),
 });

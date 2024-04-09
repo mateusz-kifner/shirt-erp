@@ -3,7 +3,10 @@ import {
   updateEmailMessageZodSchema,
   insertEmailMessageZodSchema,
 } from "./validator";
-import { createProcedureSearch } from "@/server/api/procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import emailMessageService from "./service";
 import { z } from "zod";
@@ -52,5 +55,6 @@ export const emailMessageRouter = createTRPCRouter({
       });
     }),
 
-  search: createProcedureSearch(email_messages),
+  oldSearch: createProcedureOldSearch(email_messages),
+  simpleSearch: createProcedureSimpleSearch(email_messages),
 });

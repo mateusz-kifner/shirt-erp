@@ -25,6 +25,8 @@ import { db } from "@/server/db";
 import orderService from "./service";
 import { orders_to_users } from "./schema";
 
+// TODO: implement simpleSearch
+
 export const orderRouter = createTRPCRouter({
   getFullById: employeeProcedure
     .input(z.number())
@@ -161,7 +163,7 @@ export const orderRouter = createTRPCRouter({
         );
     }),
 
-  search: employeeProcedure
+  oldSearch: employeeProcedure
     .input(
       z.object({
         keys: z.array(z.string()),

@@ -1,5 +1,8 @@
 // import Vector2Schema from "@/schema/Vector2Schema";
-import { createProcedureSearch } from "@/server/api/procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { spreadsheets } from "../spreadsheet/schema";
@@ -54,7 +57,8 @@ export const spreadsheetRouter = createTRPCRouter({
       });
     }),
 
-  search: createProcedureSearch(spreadsheets),
+  oldSearch: createProcedureOldSearch(spreadsheets),
+  simpleSearch: createProcedureSimpleSearch(spreadsheets),
 
   // updatePartial: employeeProcedure
   //   .input(partialSpreadsheetData)

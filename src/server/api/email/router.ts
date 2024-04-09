@@ -214,7 +214,7 @@ export const emailRouter = createTRPCRouter({
       return mail;
     }),
 
-  search: employeeProcedure
+  oldSearch: employeeProcedure
     .input(
       z.object({
         mailbox: z.string().default("INBOX"),

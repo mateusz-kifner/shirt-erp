@@ -1,7 +1,10 @@
 import { z } from "zod";
 import { expenses } from "@/server/api/expense/schema";
 import { insertExpenseZodSchema, updateExpenseZodSchema } from "./validator";
-import { createProcedureSearch } from "@/server/api/procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 import expenseService from "./service";
 
@@ -36,5 +39,6 @@ export const expenseRouter = createTRPCRouter({
       });
     }),
 
-  search: createProcedureSearch(expenses),
+  oldSearch: createProcedureOldSearch(expenses),
+  simpleSearch: createProcedureSimpleSearch(expenses),
 });

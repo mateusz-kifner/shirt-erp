@@ -34,7 +34,7 @@ function EmailList(props: EmailListProps) {
     },
   );
 
-  const { data: dataSearch } = trpc.email.search.useQuery(
+  const { data: dataSearch } = trpc.email.oldSearch.useQuery(
     {
       mailbox,
       emailClientId: emailConfig.id,

@@ -6,7 +6,10 @@ import {
   managerProcedure,
 } from "@/server/api/trpc";
 import { z } from "zod";
-import { createProcedureSearch } from "../procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "../procedures";
 import { TRPCError } from "@trpc/server";
 import userService from "./service";
 
@@ -52,5 +55,6 @@ export const userRouter = createTRPCRouter({
         updatedAt: new Date(),
       });
     }),
-  search: createProcedureSearch(users),
+  oldSearch: createProcedureOldSearch(users),
+  simpleSearch: createProcedureSimpleSearch(users),
 });

@@ -1,7 +1,10 @@
 import { products } from "./schema";
 import { insertProductZodSchema, updateProductZodSchema } from "./validator";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
-import { createProcedureSearch } from "../procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "../procedures";
 import productService from "@/server/api/product/service";
 import { z } from "zod";
 
@@ -40,5 +43,6 @@ export const productRouter = createTRPCRouter({
       });
     }),
 
-  search: createProcedureSearch(products),
+  oldSearch: createProcedureOldSearch(products),
+  simpleSearch: createProcedureSimpleSearch(products),
 });

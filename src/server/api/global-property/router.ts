@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { createProcedureSearch } from "@/server/api/procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "@/server/api/procedures";
 import {
   employeeProcedure,
   createTRPCRouter,
@@ -53,5 +56,6 @@ export const globalPropertyRouter = createTRPCRouter({
         await globalPropertyService.update(globalPropertyData),
     ),
 
-  search: createProcedureSearch(global_properties),
+  oldSearch: createProcedureOldSearch(global_properties),
+  simpleSearch: createProcedureSimpleSearch(global_properties),
 });

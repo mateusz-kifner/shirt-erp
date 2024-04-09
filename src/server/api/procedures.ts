@@ -73,7 +73,7 @@ export function createProcedureUpdate<TSchema extends schemaType>(
   });
 }
 
-export function createProcedureSearch<TSchema extends schemaType>(
+export function createProcedureOldSearch<TSchema extends schemaType>(
   schema: TSchema,
 ) {
   return employeeProcedure
@@ -128,6 +128,55 @@ export function createProcedureSearch<TSchema extends schemaType>(
         .orderBy(
           (sort === "asc" ? asc : desc)(
             schema[sortColumn as keyof typeof schema.$inferSelect],
+          ),
+        );
+      // console.log(results);
+      const totalItems = await db
+        .select({ count: sql<number>`count(*)` })
+        .from<TSchema>(schema);
+
+      return {
+        results,
+        totalItems: totalItems?.[0]?.count ?? 0,
+      };
+    });
+}
+
+export function createProcedureSimpleSearch<TSchema extends schemaType>(
+  schema: TSchema,
+) {
+  return employeeProcedure
+    .input(
+      z.object({
+        keys: z.array(z.string()),
+        query: z.string().optional(),
+        sort: z.object({
+          order: z.enum(["desc", "asc"]).default("desc"),
+          column: z.string().default("name"),
+        }),
+        currentPage: z.number().default(1),
+        itemsPerPage: z.number().default(10),
+      }),
+    )
+    .query(async ({ input }) => {
+      const { keys, query, sort, currentPage, itemsPerPage } = input;
+
+      const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
+
+      const search = queryParam
+        ? keys.map((key) =>
+            ilike(schema[key as keyof typeof schema.$inferSelect], queryParam),
+          )
+        : [];
+      const results = await db
+        .select()
+        .from<TSchema>(schema)
+        .where(queryParam ? or(...search) : undefined)
+        .limit(itemsPerPage)
+        .offset((currentPage - 1) * itemsPerPage)
+        .orderBy(
+          (sort.order === "asc" ? asc : desc)(
+            schema[sort.column as keyof typeof schema.$inferSelect],
           ),
         );
       // console.log(results);

@@ -94,8 +94,6 @@ function Navigation() {
     gradient ? `${gradient.from}99` : color
   },${gradient ? `${gradient.to}99` : color} )`;
 
-  console.log(entryName, entryNameT, entry, gradient, color, gradientCSS);
-
   return (
     <div
       className={cn(

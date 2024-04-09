@@ -1,4 +1,7 @@
-import { createProcedureSearch } from "@/server/api/procedures";
+import {
+  createProcedureOldSearch,
+  createProcedureSimpleSearch,
+} from "@/server/api/procedures";
 import { employeeProcedure, createTRPCRouter } from "@/server/api/trpc";
 
 import { files } from "@/server/api/file/schema";
@@ -30,5 +33,6 @@ export const fileRouter = createTRPCRouter({
       });
     }),
 
-  search: createProcedureSearch(files),
+  oldSearch: createProcedureOldSearch(files),
+  simpleSearch: createProcedureSimpleSearch(files),
 });
