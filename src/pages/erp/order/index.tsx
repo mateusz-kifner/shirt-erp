@@ -226,7 +226,7 @@ const OrdersPage: NextPage = () => {
   return (
     <>
       <NavigationPortal>
-        <div className="p-4 flex flex-col grow">
+        <div className="flex grow flex-col p-4">
           <OrderList
             selectedId={id}
             onAddElement={() => setOpenAddModal(true)}

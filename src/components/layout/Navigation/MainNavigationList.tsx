@@ -20,7 +20,7 @@ function MainNavigationList(props: MainNavigationListProps) {
   return (
     <div className={cn("relative flex w-full flex-col gap-3 p-2", className)}>
       <NavigationGradient
-        className="absolute left-0 top-0 z-10 opacity-100 dark:opacity-50"
+        className="absolute top-0 left-0 z-10 opacity-100 dark:opacity-50"
         color={color}
       />
       {Object.keys(navigationData).map((key) => {
@@ -28,7 +28,7 @@ function MainNavigationList(props: MainNavigationListProps) {
         if (!val?.debug || debug) {
           return (
             <div
-              className="flex flex-col transition-all z-20"
+              className="z-20 flex flex-col transition-all"
               key={`navbar_${val.label}outer`}
             >
               <NavButtonListItem

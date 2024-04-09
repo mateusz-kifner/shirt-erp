@@ -88,7 +88,7 @@ const TasksPage = () => {
   return (
     <div className="flex gap-4">
       <NavigationPortal>
-        <div className="relative flex flex-col gap-2 p-4 grow">
+        <div className="relative flex grow flex-col gap-2 p-4">
           <div className="flex flex-col gap-2">
             <div className="flex gap-3 px-2.5">
               <div className="flex">

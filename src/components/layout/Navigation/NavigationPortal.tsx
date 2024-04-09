@@ -19,7 +19,7 @@ function NavigationPortal(props: NavigationPortalProps) {
   ]);
 
   return (
-    <Portal.Root container={portalTarget} className="flex flex-col grow">
+    <Portal.Root container={portalTarget} className="flex grow flex-col">
       {children}
     </Portal.Root>
   );

@@ -22,7 +22,7 @@ const UsersPage = () => {
   return (
     <div className="flex gap-4">
       <NavigationPortal>
-        <div className="p-4 flex flex-col grow">
+        <div className="flex grow flex-col p-4">
           <UsersList
             selectedId={id}
             onAddElement={() => setOpenAddModal(true)}
