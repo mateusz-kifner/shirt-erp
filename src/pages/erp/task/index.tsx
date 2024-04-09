@@ -90,42 +90,6 @@ const TasksPage = () => {
       <NavigationPortal>
         <div className="relative flex flex-col gap-2 p-4 grow">
           <div className="flex flex-col gap-2">
-            <div className="flex justify-between px-2">
-              <h2 className="font-bold text-2xl">{label}</h2>
-              <div className="flex gap-2">
-                {/* {!!buttonSection && buttonSection} */}
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
-                  onClick={() => {
-                    // refetch()
-                    // onRefresh?.();
-                  }}
-                >
-                  <IconRefresh />
-                </Button>
-                {/* {showAddButton && (
-            <Button
-              size="icon"
-              variant="outline"
-              className="
-                  h-9
-                  w-9
-                  rounded-full                 
-                  border-gray-400
-                  p-1 
-                  text-gray-700
-                  dark:border-stone-600
-                dark:text-stone-400
-                "
-              onClick={onAddElement}
-            >
-              <IconPlus />
-            </Button>
-          )} */}
-              </div>
-            </div>
             <div className="flex gap-3 px-2.5">
               <div className="flex">
                 <Button
@@ -149,6 +113,17 @@ const TasksPage = () => {
                 onChange={(value) => setQuery(value.target.value)}
                 placeholder={`${t.search}...`}
               />
+              <Button
+                size="icon"
+                variant="outline"
+                className="h-9 w-9 rounded-full border-gray-400 p-1 text-gray-700 dark:border-stone-600 dark:text-stone-400"
+                onClick={() => {
+                  // refetch()
+                  // onRefresh?.();
+                }}
+              >
+                <IconRefresh />
+              </Button>
             </div>
           </div>
           <div className="flex flex-grow flex-col">

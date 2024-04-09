@@ -93,33 +93,6 @@ const ApiListArchive = <T extends { id: number | string }>(
   return (
     <div className="flex flex-col gap-4 text-stone-900 dark:text-stone-100">
       <div className="flex flex-col gap-2">
-        <div className="flex justify-between px-2">
-          <h2 className="font-bold text-2xl">{label}</h2>
-          <div className="flex gap-2">
-            {!!buttonSection && buttonSection}
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-9 w-9 rounded-full p-1"
-              onClick={() => {
-                // refetch()
-                onRefresh?.();
-              }}
-            >
-              <IconRefresh />
-            </Button>
-            {showAddButton && (
-              <Button
-                size="icon"
-                variant="outline"
-                className="h-9 w-9 rounded-full p-1"
-                onClick={onAddElement}
-              >
-                <IconPlus />
-              </Button>
-            )}
-          </div>
-        </div>
         <div className="flex gap-3 px-2.5">
           <Button
             size="icon"
@@ -156,6 +129,28 @@ const ApiListArchive = <T extends { id: number | string }>(
             onChange={(value) => setQuery(value.target.value)}
             placeholder={`${t.search}...`}
           />
+          {!!buttonSection && buttonSection}
+          <Button
+            size="icon"
+            variant="outline"
+            className="h-9 w-9 rounded-full p-1"
+            onClick={() => {
+              // refetch()
+              onRefresh?.();
+            }}
+          >
+            <IconRefresh />
+          </Button>
+          {showAddButton && (
+            <Button
+              size="icon"
+              variant="outline"
+              className="h-9 w-9 rounded-full p-1"
+              onClick={onAddElement}
+            >
+              <IconPlus />
+            </Button>
+          )}
         </div>
       </div>
       <div className="flex flex-grow flex-col">
