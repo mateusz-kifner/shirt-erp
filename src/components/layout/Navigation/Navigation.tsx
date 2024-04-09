@@ -88,6 +88,7 @@ function Navigation() {
         };
   const gradient = entry?.gradient;
   const color = gradient?.from ?? "#0C8599";
+  // const color2 = gradient?.to ?? "#3B5BDB";
   const Icon = entry?.Icon ?? IconLogo;
   const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
     gradient ? `${gradient.from}99` : color
@@ -146,7 +147,7 @@ function Navigation() {
             <PopoverTrigger
               ref={mainNavigationTriggerRef}
               className={cn(
-                "flex min-w-40 items-center gap-3 rounded-full px-4 py-1 ",
+                "flex min-w-40 items-center gap-3 rounded-full px-4 py-1",
                 hasChildren ? "hover:bg-white/15" : "cursor-default",
               )}
             >
@@ -189,7 +190,7 @@ function Navigation() {
               type="button"
               className={cn(
                 buttonVariants({ size: "icon", variant: "outline" }),
-                "rounded-full border-stone-800 bg-stone-800 hover:bg-stone-700 hover:text-stone-50",
+                "rounded-full border-none bg-black/40 hover:bg-black/60 hover:text-stone-50",
               )}
               onClick={() => {
                 setMobileOpen((v) => !v);
