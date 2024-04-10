@@ -150,16 +150,19 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
       z.object({
         keys: z.array(z.string()),
         query: z.string().optional(),
-        sort: z.object({
-          order: z.enum(["desc", "asc"]).default("desc"),
-          column: z.string().default("name"),
-        }),
+        sort: z
+          .object({
+            order: z.enum(["desc", "asc"]).default("desc"),
+            column: z.string().default("name"),
+          })
+          .default({ order: "desc", column: "name" }),
         currentPage: z.number().default(1),
         itemsPerPage: z.number().default(10),
       }),
     )
     .query(async ({ input }) => {
       const { keys, query, sort, currentPage, itemsPerPage } = input;
+      console.log(keys, sort, currentPage, itemsPerPage);
 
       const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
 
@@ -179,7 +182,7 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
             schema[sort.column as keyof typeof schema.$inferSelect],
           ),
         );
-      // console.log(results);
+      console.log(results);
       const totalItems = await db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);
