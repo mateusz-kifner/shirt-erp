@@ -2,7 +2,7 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import * as React from "react";
 
 import { cn } from "@/utils/cn";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconMinus } from "@tabler/icons-react";
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -19,7 +19,10 @@ const Checkbox = React.forwardRef<
     <CheckboxPrimitive.Indicator
       className={cn("flex items-center justify-center text-current")}
     >
-      <IconCheck className="h-4 w-4" />
+      {props.checked === "indeterminate" && (
+        <IconMinus className="-translate-y-px h-4 w-4" />
+      )}
+      {props.checked === true && <IconCheck className="h-4 w-4" />}
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ));
