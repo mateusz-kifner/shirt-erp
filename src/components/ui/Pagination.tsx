@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { useId, useState } from "react";
 
 import { usePagination } from "@mantine/hooks";
 import {
@@ -6,6 +6,7 @@ import {
   IconChevronRight,
   IconDots,
 } from "@tabler/icons-react";
+import { cn } from "@/utils/cn";
 
 interface PaginationProps {
   siblings?: number;
@@ -32,11 +33,12 @@ function Pagination({
     <nav className="flex items-center justify-center gap-px">
       <button
         type="button"
-        className={`inline-flex h-9 w-9 items-center justify-center rounded-full${
+        className={cn(
+          "inline-flex h-9 w-9 items-center justify-center rounded-full",
           active === 1
             ? "text-stone-500"
-            : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600"
-        }`}
+            : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600",
+        )}
         onClick={() => setPage(active - 1)}
         disabled={active === 1}
       >
@@ -59,11 +61,12 @@ function Pagination({
           <button
             type="button"
             key={`${uuid}_${index}`}
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-full font-medium text-base${
+            className={cn(
+              "inline-flex h-9 w-9 items-center justify-center rounded-full font-medium text-base",
               active === page
                 ? "bg-blue-500 text-white"
-                : "text-stone-600 hover:bg-black hover:bg-opacity-20 dark:text-stone-300 hover:text-blue-600"
-            }`}
+                : "text-stone-600 hover:bg-black hover:bg-opacity-20 dark:text-stone-300 hover:text-blue-600",
+            )}
             onClick={() => setPage(page)}
             aria-current={active === page ? "page" : undefined}
           >
@@ -74,11 +77,12 @@ function Pagination({
 
       <button
         type="button"
-        className={`inline-flex h-9 w-9 items-center justify-center rounded-full${
+        className={cn(
+          "inline-flex h-9 w-9 items-center justify-center rounded-full",
           active === totalPages
             ? "text-stone-500"
-            : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600"
-        }`}
+            : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600",
+        )}
         onClick={() => setPage(active + 1)}
         disabled={active === totalPages}
       >
@@ -88,5 +92,18 @@ function Pagination({
     </nav>
   );
 }
+interface usePaginationDataProps {
+  page: number;
+  itemsPerPage: number;
+}
+
+function usePaginationState(initialState?: usePaginationDataProps) {
+  const [page, setPage] = useState<number>(initialState?.page ?? 1);
+  const [itemsPerPage, setItemsPerPage] = useState<number>(
+    initialState?.itemsPerPage ?? 10,
+  );
+  return { page, setPage, itemsPerPage, setItemsPerPage };
+}
 
 export default Pagination;
+export { usePaginationState };
