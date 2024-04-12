@@ -71,24 +71,18 @@ function Settings() {
   const { data: userData } = trpc.session.me.useQuery();
   const t = useTranslation();
   const { debug, toggleDebug, toggleTheme, theme } = useUserContext();
-  const [remSize, setRemSize] = useLocalStorage({
-    key: "remSize",
-    defaultValue: 10,
-  });
   const [demoVal, setDemoVal] = useState({ test: "test", date: "" });
 
   const { toggleExtendedList, extendedList } = useExperimentalContext();
-  const { flags: calendarFlags, toggle: calendarToggle } = useFlag("calendar");
   const { flags: rootFlags, toggle: rootToggle } = useFlag("root");
-  const { flags: navigationFlags, toggle: navigationToggle } =
-    useFlag("navigation");
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && typeof rootFlags?.zoom_level === "string") {
       const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
-      html.style.fontSize = `${remSize}px`;
+      const zoom_level = Number.parseInt(rootFlags.zoom_level) ?? 0;
+      html.style.fontSize = `${16 + zoom_level * 2}px`;
     }
-  }, [remSize]);
+  }, [rootFlags?.zoom_level]);
 
   if (!userData) {
     return (
@@ -138,58 +132,6 @@ function Settings() {
           >
             {t.sign_out}
           </Button>
-          <div className="flex grow items-center gap-2">
-            <span className="grow">{t.zoom}</span>
-            <Button
-              onClick={() => setRemSize(10)}
-              className="w-8"
-              disabled={remSize === 10}
-            >
-              -3
-            </Button>
-            <Button
-              onClick={() => setRemSize(12)}
-              className="w-8"
-              disabled={remSize === 12}
-            >
-              -2
-            </Button>
-            <Button
-              onClick={() => setRemSize(14)}
-              className="w-8"
-              disabled={remSize === 14}
-            >
-              -1
-            </Button>
-            <Button
-              onClick={() => setRemSize(16)}
-              className="w-8"
-              disabled={remSize === 16}
-            >
-              0
-            </Button>
-            <Button
-              onClick={() => setRemSize(18)}
-              className="w-8"
-              disabled={remSize === 18}
-            >
-              1
-            </Button>
-            <Button
-              onClick={() => setRemSize(20)}
-              className="w-8"
-              disabled={remSize === 20}
-            >
-              2
-            </Button>
-            <Button
-              onClick={() => setRemSize(22)}
-              className="w-8"
-              disabled={remSize === 22}
-            >
-              3
-            </Button>
-          </div>
           <div className="flex items-center justify-stretch">
             <span className="w-1/2">{t.language}</span>
             <Select
@@ -226,16 +168,7 @@ function Settings() {
               {t.emailMessage.singular} {t.credentials}
             </p>
           </Button>
-          {!env.NEXT_PUBLIC_DEMO && (
-            <Button
-              onClick={() => {
-                toggleDebug();
-              }}
-              leftSection={<IconBug />}
-            >
-              Debug {debug ? "ON" : "OFF"}
-            </Button>
-          )}
+
           {(session?.user.role === "manager" ||
             session?.user.role === "admin") && (
             <>
@@ -291,7 +224,16 @@ function Settings() {
               StringComponent={FlagSettingString}
             />
           </div>
-
+          {!env.NEXT_PUBLIC_DEMO && (
+            <Button
+              onClick={() => {
+                toggleDebug();
+              }}
+              leftSection={<IconBug />}
+            >
+              Debug {debug ? "ON" : "OFF"}
+            </Button>
+          )}
           {debug && (
             <>
               <Button

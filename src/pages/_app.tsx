@@ -92,10 +92,21 @@ const App: AppType<{ session: Session | null }> = ({
   dayjs.locale(router.locale);
 
   useEffect(() => {
-    const remSize = localStorage.getItem("remSize");
-    const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
-    html.style.fontSize = `${remSize}px`;
+    try {
+      const userFlags: any = JSON.parse(localStorage.getItem("flags") ?? "");
+      const rootFlags = userFlags?.root;
 
+      if (typeof rootFlags?.zoom_level === "string") {
+        const html = document.getElementsByTagName(
+          "html",
+        )[0] as HTMLHtmlElement;
+        const zoom_level = Number.parseInt(rootFlags.zoom_level) ?? 0;
+        html.style.fontSize = `${16 + zoom_level * 2}px`;
+        console.log(`${16 + zoom_level * 2}px`);
+      }
+    } catch (err) {
+      console.log("[_app.tsx]: could not load flags");
+    }
     // initialize theme
     const theme = localStorage.getItem("user-theme");
     const htmlElement = document.querySelector("html") as HTMLHtmlElement;

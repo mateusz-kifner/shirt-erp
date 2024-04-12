@@ -2,7 +2,6 @@ import { type FlagGroups, useFlag, userFlags } from "@/hooks/useFlag";
 import { cn } from "@/utils/cn";
 import { extractZodProperties } from "@/utils/extractZodProperties";
 import { useId, type ComponentType, type ReactElement } from "react";
-import { z } from "zod";
 
 interface FlagSettingsProps {
   group: FlagGroups;

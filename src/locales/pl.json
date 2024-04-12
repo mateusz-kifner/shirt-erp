@@ -145,5 +145,6 @@
   "default_view_mode": "Domyslnie otwórz widok",
   "default_data_source": "Domyslnie pokaż",
   "editable_address_mode": "Typ pola wpisywania adresu",
-  "mobile_override": "Wykrywanie urządzenia"
+  "mobile_override": "Wykrywanie urządzenia",
+  "zoom_level": "Powiększenie aplikacji"
 }
