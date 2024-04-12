@@ -1,5 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import { useId, useTransition } from "react";
+import { useId } from "react";
 import {
   Select,
   SelectContent,

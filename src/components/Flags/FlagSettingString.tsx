@@ -8,7 +8,8 @@ const FlagSettingString = (props: FlagSettingStringProps) => {
   const { initialValue, onChange, name } = props;
   return (
     <div>
-      {name} {initialValue}{" "}
+      {"[ NOT IMPLEMENTED ]"}
+      {name} {initialValue}
     </div>
   );
 };

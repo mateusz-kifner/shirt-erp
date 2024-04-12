@@ -1,12 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import { useId, useState, useTransition } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/Select";
+import { useId } from "react";
 import _ from "lodash";
 import { Switch } from "../ui/Switch";
 

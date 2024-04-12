@@ -1,4 +1,5 @@
-import { type FlagGroups, useFlag, userFlags } from "@/hooks/useFlag";
+import { type FlagGroups, useFlag } from "@/hooks/useFlag";
+import { flags as userFlags } from "@/components/Flags/flags";
 import { cn } from "@/utils/cn";
 import { extractZodProperties } from "@/utils/extractZodProperties";
 import { useId, type ComponentType, type ReactElement } from "react";
@@ -23,7 +24,7 @@ interface FlagSettingsProps {
     onChange: (value: string) => void;
     initialValue: string;
   }>;
-  className: string;
+  className?: string;
 }
 
 function FlagSettings(props: FlagSettingsProps) {
