@@ -41,12 +41,15 @@ export function useFlag<T extends FlagGroups = "root">(group: T) {
     name: K,
     value: UserFlags[T][K],
   ) => {
+    if (flagData === undefined) return;
     const val = { ...flagData } as UserFlags;
     val[group][name] = value;
     setFlagData(val); // cannot use (prev)=>{} due to bug in localstorage hook
   };
 
   const toggle = (name: keyof UserFlags[T]) => {
+    if (flagData === undefined) return;
+
     const zInternalGroup = userFlags._def.innerType._def
       .shape()
       [group]._def.innerType._def.shape();

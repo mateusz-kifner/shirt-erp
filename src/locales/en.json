@@ -138,5 +138,12 @@
   "receipt": "Receipt",
   "calendar": "Calendar",
   "next": "Next",
-  "previous": "Previous"
+  "previous": "Previous",
+  "main_navigation_type": "Type of main navigation",
+  "main_navigation_hover": "Open main navigation on cursor hover",
+  "default_click": "Right click opens",
+  "default_view_mode": "Default view",
+  "default_data_source": "Default show",
+  "editable_address_mode": "Type of address input",
+  "mobile_override": "Device detection"
 }

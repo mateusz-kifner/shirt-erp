@@ -138,5 +138,12 @@
   "receipt": "Paragon",
   "calendar": "Kalendarz",
   "next": "Następny",
-  "previous": "Poprzedni"
+  "previous": "Poprzedni",
+  "main_navigation_type": "Typ głównej nawigacji",
+  "main_navigation_hover": "Otwórz główną nawigację przez najechanie kursorem",
+  "default_click": "Prawe kliknięcie otwiera",
+  "default_view_mode": "Domyslnie otwórz widok",
+  "default_data_source": "Domyslnie pokaż",
+  "editable_address_mode": "Typ pola wpisywania adresu",
+  "mobile_override": "Wykrywanie urządzenia"
 }

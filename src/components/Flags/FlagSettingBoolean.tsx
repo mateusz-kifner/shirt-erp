@@ -1,5 +1,5 @@
 import useTranslation from "@/hooks/useTranslation";
-import { useId, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
 import {
   Select,
   SelectContent,
@@ -29,7 +29,11 @@ const FlagSettingBoolean = (props: FlagSettingBooleanProps) => {
           : name}
       </span>
       <span className="w-1/2">
-        <Switch variant={"color"} />
+        <Switch
+          variant={"color"}
+          defaultChecked={initialValue}
+          onCheckedChange={onChange}
+        />
       </span>
     </div>
   );
