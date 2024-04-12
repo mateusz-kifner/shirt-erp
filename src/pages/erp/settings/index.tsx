@@ -31,7 +31,11 @@ import {
 } from "@/components/ui/Select";
 import { IconUser } from "@tabler/icons-react";
 import Link from "next/link";
-import { useFlagContext } from "@/context/flagContext";
+import { useFlag } from "@/hooks/useFlag";
+import FlagSettings from "@/components/Flags/FlagSettings";
+import FlagSettingBoolean from "@/components/Flags/FlagSettingBoolean";
+import FlagSettingEnum from "@/components/Flags/FlagSettingEnum";
+import FlagSettingString from "@/components/Flags/FlagSettingString";
 
 // export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
 //   const user = req.session.user;
@@ -74,22 +78,10 @@ function Settings() {
   const [demoVal, setDemoVal] = useState({ test: "test", date: "" });
 
   const { toggleExtendedList, extendedList } = useExperimentalContext();
-  const {
-    editableAddressMode,
-    setEditableAddressMode,
-    setMobileOverride,
-    mobileOverride,
-    calendarDefaultClick,
-    setCalendarDefaultClick,
-    calendarDefaultViewMode,
-    setCalendarDefaultViewMode,
-    calendarDefaultDataSource,
-    setCalendarDefaultDataSource,
-    mainNavigationType,
-    setMainNavigationType,
-    mainNavigationHover,
-    setMainNavigationHover,
-  } = useFlagContext();
+  const { flags: calendarFlags, toggle: calendarToggle } = useFlag("calendar");
+  const { flags: rootFlags, toggle: rootToggle } = useFlag("root");
+  const { flags: navigationFlags, toggle: navigationToggle } =
+    useFlag("navigation");
 
   useEffect(() => {
     if (loaded) {
@@ -146,8 +138,8 @@ function Settings() {
           >
             {t.sign_out}
           </Button>
-          <div className="flex flex-grow items-center gap-2">
-            <span className="flex-grow">{t.zoom}</span>
+          <div className="flex grow items-center gap-2">
+            <span className="grow">{t.zoom}</span>
             <Button
               onClick={() => setRemSize(10)}
               className="w-8"
@@ -267,83 +259,55 @@ function Settings() {
             </>
           )}
 
-          <Button
-            onClick={() => {
-              setMobileOverride((prev) =>
-                prev === "auto"
-                  ? "mobile"
-                  : prev === "mobile"
-                    ? "desktop"
-                    : "auto",
-              );
-            }}
-            leftSection={<IconBug />}
-          >
-            Mobile mode: {mobileOverride}
-          </Button>
-          <Button
-            onClick={() => {
-              setCalendarDefaultClick((prev) =>
-                prev === "order" ? "task" : "order",
-              );
-            }}
-            leftSection={<IconCalendar />}
-          >
-            Calendar order link: {calendarDefaultClick}
-          </Button>
-          <Button
-            onClick={() => {
-              setCalendarDefaultViewMode((prev) =>
-                prev === "month" ? "week" : "month",
-              );
-            }}
-            leftSection={<IconCalendar />}
-          >
-            Calendar default view mode: {calendarDefaultViewMode}
-          </Button>
-          <Button
-            onClick={() => {
-              setCalendarDefaultDataSource((prev) =>
-                prev === "all" ? "user" : "all",
-              );
-            }}
-            leftSection={<IconCalendar />}
-          >
-            Calendar default data source: {calendarDefaultDataSource}
-          </Button>
-          <Button
-            onClick={() => {
-              setMainNavigationType((prev) =>
-                prev === "icons" ? "list" : "icons",
-              );
-            }}
-            leftSection={<IconMenu2 />}
-          >
-            Main navigation type: {mainNavigationType}
-          </Button>
-          <Button
-            onClick={() => {
-              setMainNavigationHover((v) => !v);
-            }}
-            leftSection={<IconMenu2 />}
-          >
-            Main navigation hover: {mainNavigationHover ? "hover" : "click"}
-          </Button>
+          <div className="flex flex-col gap-3 pb-3">
+            <h3 className="font-bold">Opcje nawigacji</h3>
+
+            <FlagSettings
+              group="navigation"
+              className="pl-2"
+              BooleanComponent={FlagSettingBoolean}
+              EnumComponent={FlagSettingEnum}
+              StringComponent={FlagSettingString}
+            />
+          </div>
+          <div className="flex flex-col gap-3 pb-3">
+            <h3 className="font-bold">Opcje kalendarza</h3>
+
+            <FlagSettings
+              group="calendar"
+              className="pl-2"
+              BooleanComponent={FlagSettingBoolean}
+              EnumComponent={FlagSettingEnum}
+              StringComponent={FlagSettingString}
+            />
+          </div>
+          <div className="flex flex-col gap-3 pb-3">
+            <h3 className="font-bold">Opcje inne</h3>
+            <FlagSettings
+              group="root"
+              className="pl-2"
+              BooleanComponent={FlagSettingBoolean}
+              EnumComponent={FlagSettingEnum}
+              StringComponent={FlagSettingString}
+            />
+          </div>
+
           {debug && (
             <>
               <Button
                 onClick={() => {
-                  setEditableAddressMode((prev) =>
-                    prev === "popup"
-                      ? "always_visible"
-                      : prev === "always_visible"
-                        ? "extend"
-                        : "popup",
-                  );
+                  rootToggle("editable_address_mode");
+                  // setEditableAddressMode((prev) =>
+                  //   prev === "popup"
+                  //     ? "always_visible"
+                  //     : prev === "always_visible"
+                  //       ? "extend"
+                  //       : "popup",
+                  // );
                 }}
                 leftSection={<IconBug />}
               >
-                Address input mode: {editableAddressMode}
+                Address input mode: {rootFlags?.editable_address_mode}
               </Button>
 
               <Button

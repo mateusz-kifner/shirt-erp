@@ -33,7 +33,6 @@ import LayoutAuth from "@/components/layout/LayoutAuth";
 import LayoutERP from "@/components/layout/LayoutERP";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/Sonner";
-import { FlagContextProvider } from "@/context/flagContext";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);
@@ -127,24 +126,22 @@ const App: AppType<{ session: Session | null }> = ({
 
   return (
     <SessionProvider session={session}>
-      <FlagContextProvider>
-        <ExperimentalContextProvider>
-          <UserContextProvider>
-            <TooltipProvider>
-              <Layout>
-                <Head>
-                  <title>ShirtERP</title>
-                </Head>
-                <ErrorBoundary fallback={<h1>Application crashed</h1>}>
-                  <Component {...pageProps} />
-                </ErrorBoundary>
-              </Layout>
-              <Toaster />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </TooltipProvider>
-          </UserContextProvider>
-        </ExperimentalContextProvider>
-      </FlagContextProvider>
+      <ExperimentalContextProvider>
+        <UserContextProvider>
+          <TooltipProvider>
+            <Layout>
+              <Head>
+                <title>ShirtERP</title>
+              </Head>
+              <ErrorBoundary fallback={<h1>Application crashed</h1>}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            </Layout>
+            <Toaster />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </TooltipProvider>
+        </UserContextProvider>
+      </ExperimentalContextProvider>
     </SessionProvider>
   );
 };
