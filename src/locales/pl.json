@@ -147,5 +147,6 @@
   "editable_address_mode": "Typ pola wpisywania adresu",
   "mobile_override": "Wykrywanie urządzenia",
   "zoom_level": "Powiększenie aplikacji",
-  "columns": "Kolumny"
+  "columns": "Kolumny",
+  "sort": "Sortownie"
 }

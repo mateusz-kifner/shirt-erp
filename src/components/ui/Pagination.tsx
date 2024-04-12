@@ -7,6 +7,7 @@ import {
   IconDots,
 } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
+import Button from "./Button";
 
 interface PaginationProps {
   siblings?: number;
@@ -34,10 +35,10 @@ function Pagination({
       <button
         type="button"
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-full",
+          "inline-flex h-9 w-9 items-center justify-center rounded-md",
           active === 1
             ? "text-stone-500"
-            : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600",
+            : "text-blue-600 hover:bg-black hover:bg-opacity-30 hover:text-blue-600",
         )}
         onClick={() => setPage(active - 1)}
         disabled={active === 1}
@@ -62,10 +63,10 @@ function Pagination({
             type="button"
             key={`${uuid}_${index}`}
             className={cn(
-              "inline-flex h-9 w-9 items-center justify-center rounded-full font-medium text-base",
+              "inline-flex h-9 w-9 items-center justify-center rounded-md font-medium text-base",
               active === page
-                ? "bg-blue-500 text-white"
-                : "text-stone-600 hover:bg-black hover:bg-opacity-20 dark:text-stone-300 hover:text-blue-600",
+                ? "bg-blue-500/50 text-white"
+                : "text-stone-600 hover:bg-black hover:bg-opacity-30 dark:text-stone-300 hover:text-blue-600",
             )}
             onClick={() => setPage(page)}
             aria-current={active === page ? "page" : undefined}
@@ -78,10 +79,10 @@ function Pagination({
       <button
         type="button"
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-full",
+          "inline-flex h-9 w-9 items-center justify-center rounded-md",
           active === totalPages
             ? "text-stone-500"
-            : "text-blue-600 hover:bg-black hover:bg-opacity-20 hover:text-blue-600",
+            : "text-blue-600 hover:bg-black hover:bg-opacity-30 hover:text-blue-600",
         )}
         onClick={() => setPage(active + 1)}
         disabled={active === totalPages}

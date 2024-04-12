@@ -147,5 +147,6 @@
   "editable_address_mode": "Type of address input",
   "mobile_override": "Device detection",
   "zoom_level": "Application zoom",
-  "columns": "Columns"
+  "columns": "Columns",
+  "sort": "Sort"
 }

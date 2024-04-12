@@ -4,6 +4,7 @@ import {
   useEffect,
   useId,
   useState,
+  type ReactNode,
 } from "react";
 import {
   Table,

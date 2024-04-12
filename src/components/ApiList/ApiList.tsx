@@ -18,7 +18,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/DropdownMenu";
-import { IconListDetails } from "@tabler/icons-react";
+import {
+  IconArrowDown,
+  IconArrowUp,
+  IconArrowsSort,
+  IconListDetails,
+  IconSortAZ,
+} from "@tabler/icons-react";
 import Button from "../ui/Button";
 
 interface ApiListProps {
@@ -66,13 +72,12 @@ function ApiList(props: ApiListProps) {
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
   const { mobileOpen } = useUserContext();
   const isMobile = useIsMobile();
-  const [s, setS] = useState<number | undefined>();
 
   const apiListTableState = useApiListTableState({ initialSort });
   const [managedColumns, setManagedColumns] = useState(columns);
   const [managedColumnsExpanded, setManagedColumnsExpanded] =
     useState(columnsExpanded);
-  const { sort } = apiListTableState;
+  const { sort, setSort } = apiListTableState;
 
   const { data, refetch } = trpc[entryName as "customer"].simpleSearch.useQuery(
     {
@@ -146,16 +151,61 @@ function ApiList(props: ApiListProps) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-
-      <ApiListTable
-        columns={currentColumns}
-        data={items}
-        {...apiListTableState}
-        selectActionsEnabled={false} // mobileOpen && !isMobile}
-        selectedId={selectedId}
-        selectedColor={selectedColor}
-        onClick={setS}
-      />
+      <div className="relative">
+        <ApiListTable
+          columns={currentColumns}
+          data={items}
+          {...apiListTableState}
+          selectActionsEnabled={false} // mobileOpen && !isMobile}
+          selectedId={selectedId}
+          selectedColor={selectedColor}
+          onClick={console.log}
+        />
+        {(!mobileOpen || isMobile) && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 right-2 h-8 w-8 rounded-full"
+              >
+                <IconArrowsSort size={18} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>{t.sort}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {allCols.map((v) => (
+                <DropdownMenuItem
+                  className="flex items-center"
+                  onClick={() => {
+                    setSort((prev) => ({
+                      column: v,
+                      order:
+                        prev.column === v
+                          ? prev.order === "asc"
+                            ? "desc"
+                            : "asc"
+                          : "desc",
+                    }));
+                  }}
+                >
+                  {sort.column === v ? (
+                    sort.order === "asc" ? (
+                      <IconArrowUp size={14} />
+                    ) : (
+                      <IconArrowDown size={14} />
+                    )
+                  ) : (
+                    <div className="h-3.5 w-3.5" />
+                  )}{" "}
+                  {v}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+      </div>
       <div className="flex justify-between">
         <ItemsPerPageSelect
           defaultValue={itemsPerPage}
