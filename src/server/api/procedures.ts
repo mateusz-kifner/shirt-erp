@@ -162,7 +162,6 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
     )
     .query(async ({ input }) => {
       const { keys, query, sort, currentPage, itemsPerPage } = input;
-      console.log(keys, sort, currentPage, itemsPerPage);
 
       const queryParam = query && query.length > 0 ? `%${query}%` : undefined;
 
@@ -182,7 +181,6 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
             schema[sort.column as keyof typeof schema.$inferSelect],
           ),
         );
-      console.log(results);
       const totalItems = await db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);

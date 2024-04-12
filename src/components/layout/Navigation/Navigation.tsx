@@ -19,8 +19,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover";
 import { useForceUpdate, useHover } from "@mantine/hooks";
-import { useFlagContext } from "@/context/flagContext";
 import MainNavigationList from "./MainNavigationList";
+import { useFlag } from "@/hooks/useFlag";
 
 const IconLogo: TablerIconType = forwardRef((props, ref) => (
   <img src="/assets/logo_micro.png" alt="Shirt Dip ERP" className="h-10" />
@@ -55,18 +55,23 @@ function Navigation() {
   const t = useTranslation();
   const { ref: mainNavigationTriggerRef, hovered: mainNavigationHovered } =
     useHover<HTMLButtonElement>();
-  const { mainNavigationType, mainNavigationHover } = useFlagContext();
+  const { flags } = useFlag("navigation");
 
   useEffect(() => {
     if (
-      mainNavigationHover &&
+      flags?.main_navigation_hover &&
       mainNavigationHovered &&
       hasChildren &&
       !isMobile
     ) {
       setMainNavigationOpen(true);
     }
-  }, [mainNavigationHover, mainNavigationHovered, hasChildren, isMobile]);
+  }, [
+    flags?.main_navigation_hover,
+    mainNavigationHovered,
+    hasChildren,
+    isMobile,
+  ]);
 
   const entryName = router.pathname.split("/")[2];
 
@@ -132,7 +137,7 @@ function Navigation() {
             open={mainNavigationOpen}
             onOpenChange={(open) => {
               if (hasChildren) {
-                if (mainNavigationHover) {
+                if (flags?.main_navigation_hover) {
                   setMainNavigationOpen(false);
                 } else {
                   setMainNavigationOpen(open);
@@ -171,7 +176,7 @@ function Navigation() {
                 isMobile && "w-screen",
               )}
             >
-              {mainNavigationType === "icons" ? (
+              {flags?.main_navigation_type === "icons" ? (
                 <MainNavigation onClose={() => setMainNavigationOpen(false)} />
               ) : (
                 <MainNavigationList
@@ -221,7 +226,7 @@ function Navigation() {
 
         {noNavigation && (
           <div className="relative z-30 flex grow flex-col">
-            {mainNavigationType === "icons" ? (
+            {flags?.main_navigation_type === "icons" ? (
               <MainNavigation />
             ) : (
               <MainNavigationList color={color} />

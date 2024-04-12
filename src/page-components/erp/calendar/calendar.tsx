@@ -13,17 +13,18 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import CalendarMonth from "./calendar/CalendarMonth";
 import CalendarWeek from "./calendar/CalendarWeek";
-import { useFlagContext } from "@/context/flagContext";
+import { useFlag } from "@/hooks/useFlag";
 
 // TODO: fix corners in month table
 function CalendarView() {
-  const { calendarDefaultDataSource, calendarDefaultViewMode } =
-    useFlagContext();
+  const { flags } = useFlag("calendar");
 
   const [currentMonth, setCurrentMonth] = useState(dayjs());
-  const [mode, setMode] = useState<"month" | "week">(calendarDefaultViewMode);
+  const [mode, setMode] = useState<"month" | "week">(
+    flags?.default_view_mode ?? "month",
+  );
   const [dataMode, setDataMode] = useState<"user" | "all">(
-    calendarDefaultDataSource,
+    flags?.default_data_source ?? "user",
   );
 
   const { data } = trpc.order.getByCompletionDateRange.useQuery({

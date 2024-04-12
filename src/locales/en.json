@@ -146,5 +146,6 @@
   "default_data_source": "Default show",
   "editable_address_mode": "Type of address input",
   "mobile_override": "Device detection",
-  "zoom_level": "Application zoom"
+  "zoom_level": "Application zoom",
+  "columns": "Columns"
 }

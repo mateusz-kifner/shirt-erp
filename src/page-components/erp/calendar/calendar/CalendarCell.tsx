@@ -1,4 +1,4 @@
-import { useFlagContext } from "@/context/flagContext";
+import { useFlag } from "@/hooks/useFlag";
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { cn } from "@/utils/cn";
 import {
@@ -20,7 +20,7 @@ function CalendarCell(props: CalendarCellProps) {
   const uuid = useId();
   const router = useRouter();
 
-  const { calendarDefaultClick } = useFlagContext();
+  const { flags } = useFlag("calendar");
 
   return (
     <div
@@ -43,14 +43,18 @@ function CalendarCell(props: CalendarCellProps) {
             }}
             className="cursor-pointer px-1 py-0.5"
             onClick={() => {
-              void router.push(`/erp/${calendarDefaultClick}/${val.id}`);
+              void router.push(
+                `/erp/${flags?.default_click ?? "order"}/${val.id}`,
+              );
             }}
             onContextMenu={(e) => {
               e.preventDefault();
               void router.push(
-                `/erp/${calendarDefaultClick === "order" ? "task" : "order"}/${
-                  val.id
-                }`,
+                `/erp/${
+                  (flags?.default_click ?? "task") === "order"
+                    ? "task"
+                    : "order"
+                }/${val.id}`,
               );
             }}
           >

@@ -7,7 +7,6 @@ import Editable, { type Key, useEditableContext } from "./Editable";
 import EditableText from "./EditableText";
 import { cn } from "@/utils/cn";
 import useTranslation from "@/hooks/useTranslation";
-import { useFlagContext } from "@/context/flagContext";
 import {
   Dialog,
   DialogContent,
@@ -23,6 +22,7 @@ import { getQueryKey } from "@trpc/react-query";
 import { trpc } from "@/utils/trpc";
 import { useQueryClient } from "@tanstack/react-query";
 import { addressToString } from "@/server/api/address/utils";
+import { useFlag } from "@/hooks/useFlag";
 
 export const provinces = [
   "dolnośląskie",
@@ -239,7 +239,7 @@ const EditableAddressPopover = (props: EditableAddress2Props) => {
 };
 
 const EditableAddress = (props: EditableAddressProps) => {
-  const { editableAddressMode } = useFlagContext();
+  const { flags } = useFlag("root");
   const {
     label,
     value,
@@ -301,9 +301,10 @@ const EditableAddress = (props: EditableAddressProps) => {
   }
 
   let ModeElement = EditableAddressPopover;
-  if (editableAddressMode === "always_visible")
+  if (flags?.editable_address_mode === "always_visible")
     ModeElement = EditableAddressAlwaysVisible;
-  if (editableAddressMode === "extend") ModeElement = EditableAddressExtend;
+  if (flags?.editable_address_mode === "extend")
+    ModeElement = EditableAddressExtend;
 
   return (
     <Editable onSubmit={apiUpdate} data={data}>

@@ -1,19 +1,20 @@
 import ApiList from "@/components/ApiList/ApiList";
+import { products } from "@/server/db/schemas";
+import _ from "lodash";
 
-const columns = [
-  { accessorKey: "id", label: "Id" },
-  { accessorKey: "name", label: "Nazwa" },
-  { accessorKey: "unitPrice", label: "Cena jednostkowa" },
-];
+const columns = ["name"];
+const columnsExpanded = Object.keys(products).filter(
+  (v) => !v.endsWith("ById"),
+);
 
-interface WarehousePageProps {}
-
-function WarehousePage(props: WarehousePageProps) {
-  const {} = props;
-
+function WarehousePage() {
   return (
-    <div>
-      <ApiList entryName="product" columnDef={columns} />
+    <div className="bg-card p-3">
+      <ApiList
+        entryName="product"
+        columns={columns}
+        columnsExpanded={columnsExpanded}
+      />
       {/* <img
         src="/assets/cardboard-box-with-lid-svgrepo-com.svg"
         className="h-64 w-64"

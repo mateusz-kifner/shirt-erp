@@ -1,18 +1,25 @@
 import { trpc } from "@/utils/trpc";
 import { useDebouncedValue } from "@mantine/hooks";
-import { useId, useReducer, useState, type ReactNode } from "react";
-import { DataTable } from "./TableTest";
-import useApiSearchQueryOptions from "./useApiSearchQueryOptions";
-import type { Column, ColumnDef, SortingState } from "@tanstack/react-table";
-import * as schema from "@/server/db/schemas";
-import Button from "../ui/Button";
-import type { Customer } from "@/server/api/customer/validator";
-import {
-  IconArrowsUpDown,
-  IconArrowNarrowUp,
-  IconArrowNarrowDown,
-} from "@tabler/icons-react";
+import { useId, useState, type ReactNode } from "react";
+import { ApiListTable, useApiListTableState } from "./ApiListTable";
 import useTranslation from "@/hooks/useTranslation";
+import Pagination, { usePaginationState } from "../ui/Pagination";
+import ItemsPerPageSelect from "./ItemsPerPageSelect";
+import * as schema from "@/server/db/schemas";
+import { ColumnAliasProxyHandler } from "drizzle-orm";
+import { useUserContext } from "@/context/userContext";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/DropdownMenu";
+import { IconListDetails } from "@tabler/icons-react";
+import Button from "../ui/Button";
 
 interface ApiListProps<T = any> {
   entryName: string;
@@ -26,8 +33,10 @@ interface ApiListProps<T = any> {
   defaultSearch?: string;
   showAddButton?: boolean;
   buttonSection?: ReactNode;
-  columnDef: { label: string; accessorKey: string }[];
-  defaultColumn?: string;
+  columns: string[];
+  columnsExpanded?: string[];
+  allColumns?: string[];
+  initialSort?: { column?: string; order?: "asc" | "desc" };
 }
 
 function ApiList<T extends { id: number | string }>(props: ApiListProps) {
@@ -41,77 +50,118 @@ function ApiList<T extends { id: number | string }>(props: ApiListProps) {
     onAddElement,
     showAddButton,
     buttonSection,
-    columnDef,
-    defaultColumn = "name",
+    columns,
+    columnsExpanded = columns,
+    allColumns,
+    initialSort = { column: "name", order: "desc" },
   } = props;
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const allCols: string[] =
+    allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
+      ? Object.keys(schema[`${entryName}s` as keyof typeof schema])
+      : [];
   const [query, setQuery] = useState<string | undefined>(undefined);
   const [debouncedQuery] = useDebouncedValue(query, 200);
-  const [queryOptions, dispatchQueryOptions] = useApiSearchQueryOptions({
-    keys: ["name"],
-    currentPage: 1,
-  });
+  const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
+  const { mobileOpen } = useUserContext();
+  const isMobile = useIsMobile();
+
+  const apiListTableState = useApiListTableState({ initialSort });
+  const [managedColumns, setManagedColumns] = useState(columns);
+  const [managedColumnsExpanded, setManagedColumnsExpanded] =
+    useState(columnsExpanded);
+  const { sort } = apiListTableState;
+
   const { data, refetch } = trpc[entryName as "customer"].simpleSearch.useQuery(
     {
-      ...queryOptions,
+      currentPage: page,
+      itemsPerPage,
+      keys: filterKeys,
       query: debouncedQuery,
-      sort:
-        sorting.length > 0
-          ? { column: sorting[0]?.id, order: sorting[0]?.desc ? "desc" : "asc" }
-          : undefined,
+      sort,
     },
   );
 
   const items = data?.results as Record<string, any>[] | undefined;
-
-  const columns = columnDef.map((val) => ({
-    accessorKey: val.accessorKey,
-    header: ({ column }: { column: Column<any, any> }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="gap-0"
-        >
-          {val.label}
-          {column.getIsSorted() !== false ? (
-            column.getIsSorted() === "asc" ? (
-              <IconArrowNarrowUp className="h-5 w-5" />
-            ) : (
-              <IconArrowNarrowDown className="h-5 w-5" />
-            )
-          ) : (
-            <div className="h-5 w-5" />
-          )}
-        </Button>
-      );
-    },
-  }));
+  const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
 
   const uuid = useId();
   const t = useTranslation();
 
+  const currentColumns =
+    mobileOpen && !isMobile ? managedColumnsExpanded : managedColumns;
+
+  console.log("cols", managedColumns, managedColumnsExpanded);
+
   return (
-    <>
-      <input
-        name={`search${uuid}`}
-        id={`search${uuid}`}
-        className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-full border border-solid bg-background px-4 py-2 text-sm leading-normal outline-none dark:focus:border-sky-600 focus:border-sky-600 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 placeholder:text-muted-foreground dark:outline-none dark:read-only:outline-none read-only:outline-none"
-        type="text"
-        onChange={(value) => setQuery(value.target.value)}
-        placeholder={`${t.search}...`}
-      />
-      {items !== undefined ? (
-        <DataTable
-          data={items as any[]}
-          columns={columns}
-          sorting={sorting}
-          setSorting={setSorting}
+    <div className="flex grow flex-col gap-3">
+      <div className="flex gap-2">
+        <input
+          name={`search${uuid}`}
+          id={`search${uuid}`}
+          className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-md border border-solid bg-background px-4 py-2 text-sm leading-normal outline-none dark:focus:border-sky-600 focus:border-sky-600 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 placeholder:text-muted-foreground dark:outline-none dark:read-only:outline-none read-only:outline-none"
+          type="text"
+          onChange={(value) => setQuery(value.target.value)}
+          placeholder={`${t.search}...`}
         />
-      ) : (
-        <>brak danych</>
-      )}
-    </>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-9 w-9 rounded-full"
+            >
+              <IconListDetails size={20} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>{t.columns}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {allCols.map((v) => (
+              <DropdownMenuCheckboxItem
+                checked={currentColumns.includes(v)}
+                onCheckedChange={(checked) => {
+                  if (mobileOpen && !isMobile) {
+                    setManagedColumnsExpanded((prev) => {
+                      if (prev.includes(v)) {
+                        return prev.filter((val) => val !== v);
+                      }
+                      return [...prev, v];
+                    });
+                  } else {
+                    setManagedColumns((prev) => {
+                      if (prev.includes(v)) {
+                        return prev.filter((val) => val !== v);
+                      }
+                      return [...prev, v];
+                    });
+                  }
+                }}
+              >
+                {v}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <ApiListTable
+        columns={currentColumns}
+        data={items}
+        {...apiListTableState}
+        selectActionsEnabled={false} // mobileOpen && !isMobile}
+      />
+      <div className="flex justify-between">
+        <ItemsPerPageSelect
+          defaultValue={itemsPerPage}
+          onChange={setItemsPerPage}
+        />
+        <Pagination
+          totalPages={totalPages}
+          initialPage={1}
+          onPageChange={setPage}
+        />
+      </div>
+    </div>
   );
 }
 

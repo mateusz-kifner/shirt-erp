@@ -146,5 +146,6 @@
   "default_data_source": "Domyslnie pokaż",
   "editable_address_mode": "Typ pola wpisywania adresu",
   "mobile_override": "Wykrywanie urządzenia",
-  "zoom_level": "Powiększenie aplikacji"
+  "zoom_level": "Powiększenie aplikacji",
+  "columns": "Kolumny"
 }
