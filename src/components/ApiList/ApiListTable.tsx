@@ -63,6 +63,9 @@ interface ApiListTableProps<TData, TValue> {
   >;
   itemsPerPage?: number;
   selectActionsEnabled?: boolean;
+  selectedId?: number | string | null;
+  selectedColor?: string;
+  onClick?: (id: number) => void;
 }
 
 function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
@@ -75,6 +78,9 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
     sort,
     setSort,
     selectActionsEnabled = false,
+    selectedId,
+    selectedColor = "#0C859933",
+    onClick,
   } = props;
 
   const uuid = useId();
@@ -140,10 +146,17 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
         <TableBody>
           {data.length > 0
             ? data.map((row, indexRow) => (
-                <TableRow key={`table${uuid}row:${indexRow}`}>
+                <TableRow
+                  key={`table${uuid}row:${indexRow}`}
+                  onClick={() => onClick?.(row.id)}
+                  style={{
+                    backgroundColor:
+                      selectedId === row.id ? selectedColor : undefined,
+                  }}
+                >
                   {selectActionsEnabled && (
                     <TableCell
-                      className="flex grow h-full items-center justify-center px-8 text-left"
+                      className="flex h-full grow items-center justify-center px-8 text-left"
                       key={`table${uuid}row:${indexRow}:cell:checkbox`}
                     >
                       <Checkbox

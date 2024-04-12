@@ -21,12 +21,13 @@ import {
 import { IconListDetails } from "@tabler/icons-react";
 import Button from "../ui/Button";
 
-interface ApiListProps<T = any> {
+interface ApiListProps {
   entryName: string;
   label?: string | ReactNode;
-  onChange?: (val: T) => void;
+  onChange?: (val: number) => void;
   onRefresh?: () => void;
   selectedId?: number | string | null;
+  selectedColor?: string;
   filterKeys?: string[];
   sortColumn?: string;
   onAddElement?: () => void;
@@ -39,13 +40,14 @@ interface ApiListProps<T = any> {
   initialSort?: { column?: string; order?: "asc" | "desc" };
 }
 
-function ApiList<T extends { id: number | string }>(props: ApiListProps) {
+function ApiList(props: ApiListProps) {
   const {
     entryName,
     label = "",
     onChange,
     onRefresh,
     selectedId,
+    selectedColor,
     filterKeys = [],
     onAddElement,
     showAddButton,
@@ -64,6 +66,7 @@ function ApiList<T extends { id: number | string }>(props: ApiListProps) {
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
   const { mobileOpen } = useUserContext();
   const isMobile = useIsMobile();
+  const [s, setS] = useState<number | undefined>();
 
   const apiListTableState = useApiListTableState({ initialSort });
   const [managedColumns, setManagedColumns] = useState(columns);
@@ -119,7 +122,7 @@ function ApiList<T extends { id: number | string }>(props: ApiListProps) {
             {allCols.map((v) => (
               <DropdownMenuCheckboxItem
                 checked={currentColumns.includes(v)}
-                onCheckedChange={(checked) => {
+                onCheckedChange={() => {
                   if (mobileOpen && !isMobile) {
                     setManagedColumnsExpanded((prev) => {
                       if (prev.includes(v)) {
@@ -149,6 +152,9 @@ function ApiList<T extends { id: number | string }>(props: ApiListProps) {
         data={items}
         {...apiListTableState}
         selectActionsEnabled={false} // mobileOpen && !isMobile}
+        selectedId={selectedId}
+        selectedColor={selectedColor}
+        onClick={setS}
       />
       <div className="flex justify-between">
         <ItemsPerPageSelect
