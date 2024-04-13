@@ -13,6 +13,8 @@ import type { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-men
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 
+const DropdownMenuArrow = DropdownMenuPrimitive.Arrow;
+
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 
 const DropdownMenuGroup = DropdownMenuPrimitive.Group;
@@ -195,6 +197,7 @@ type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 export {
   DropdownMenu,
+  DropdownMenuArrow,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,

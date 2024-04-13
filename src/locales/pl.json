@@ -148,5 +148,17 @@
   "mobile_override": "Wykrywanie urządzenia",
   "zoom_level": "Powiększenie aplikacji",
   "columns": "Kolumny",
-  "sort": "Sortownie"
+  "sort": "Sortownie",
+  "updatedAt": "Zaktualizowano",
+  "createdAt": "Stworzono",
+  "updatedById": "Zaktualizowane przez",
+  "createdById": "Stworzone przez",
+  "name": "Nazwa",
+  "id": "Id",
+  "category": "Kategoria",
+  "description": "Opis",
+  "colors": "Kolory",
+  "sizes": "Rozmiary",
+  "isTemplate": "Jest szablonem",
+  "isArchived": "Jest archiwizowany"
 }

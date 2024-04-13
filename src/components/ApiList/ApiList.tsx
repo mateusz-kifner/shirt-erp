@@ -6,7 +6,6 @@ import useTranslation from "@/hooks/useTranslation";
 import Pagination, { usePaginationState } from "../ui/Pagination";
 import ItemsPerPageSelect from "./ItemsPerPageSelect";
 import * as schema from "@/server/db/schemas";
-import { ColumnAliasProxyHandler } from "drizzle-orm";
 import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import {
@@ -22,8 +21,10 @@ import {
   IconArrowDown,
   IconArrowUp,
   IconArrowsSort,
-  IconListDetails,
-  IconSortAZ,
+  IconEye,
+  IconEyeClosed,
+  IconEyeOff,
+  IconSettings,
 } from "@tabler/icons-react";
 import Button from "../ui/Button";
 
@@ -111,45 +112,6 @@ function ApiList(props: ApiListProps) {
           onChange={(value) => setQuery(value.target.value)}
           placeholder={`${t.search}...`}
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-9 w-9 rounded-full"
-            >
-              <IconListDetails size={20} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>{t.columns}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {allCols.map((v) => (
-              <DropdownMenuCheckboxItem
-                checked={currentColumns.includes(v)}
-                onCheckedChange={() => {
-                  if (mobileOpen && !isMobile) {
-                    setManagedColumnsExpanded((prev) => {
-                      if (prev.includes(v)) {
-                        return prev.filter((val) => val !== v);
-                      }
-                      return [...prev, v];
-                    });
-                  } else {
-                    setManagedColumns((prev) => {
-                      if (prev.includes(v)) {
-                        return prev.filter((val) => val !== v);
-                      }
-                      return [...prev, v];
-                    });
-                  }
-                }}
-              >
-                {v}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <div className="relative">
         <ApiListTable
@@ -161,21 +123,40 @@ function ApiList(props: ApiListProps) {
           selectedColor={selectedColor}
           onClick={console.log}
         />
-        {(!mobileOpen || isMobile) && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 right-2 h-8 w-8 rounded-full"
-              >
-                <IconArrowsSort size={18} />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>{t.sort}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {allCols.map((v) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-1 right-1 h-8 w-8 rounded-full"
+            >
+              <IconSettings size={18} />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <div className="flex gap-2">
+              <DropdownMenuLabel className="grow justify-end text-right">
+                {t.columns}
+              </DropdownMenuLabel>
+              <DropdownMenuLabel className="flex items-center">
+                <IconArrowsSort size={14} />
+              </DropdownMenuLabel>
+              <DropdownMenuLabel className="flex items-center">
+                <IconEye size={14} />
+              </DropdownMenuLabel>
+            </div>
+            <DropdownMenuSeparator />
+            {allCols.map((v, index) => (
+              <div className="flex gap-2 border-b border-solid last:border-none">
+                <DropdownMenuItem
+                  key={`${uuid}:columnNames:${index}`}
+                  className="grow justify-end text-right data-[disabled]:opacity-100"
+                  disabled
+                >
+                  {typeof t[v as keyof typeof t] === "string"
+                    ? (t[v as keyof typeof t] as string)
+                    : v}
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   className="flex items-center"
                   onClick={() => {
@@ -192,19 +173,44 @@ function ApiList(props: ApiListProps) {
                 >
                   {sort.column === v ? (
                     sort.order === "asc" ? (
-                      <IconArrowUp size={14} />
+                      <IconArrowUp size={14} className="scale-125" />
                     ) : (
-                      <IconArrowDown size={14} />
+                      <IconArrowDown size={14} className="scale-125" />
                     )
                   ) : (
-                    <div className="h-3.5 w-3.5" />
-                  )}{" "}
-                  {v}
+                    <IconArrowsSort size={14} className="opacity-10" />
+                  )}
                 </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        )}
+                <DropdownMenuItem
+                  className="flex items-center"
+                  onClick={() => {
+                    if (mobileOpen && !isMobile) {
+                      setManagedColumnsExpanded((prev) => {
+                        if (prev.includes(v)) {
+                          return prev.filter((val) => val !== v);
+                        }
+                        return [...prev, v];
+                      });
+                    } else {
+                      setManagedColumns((prev) => {
+                        if (prev.includes(v)) {
+                          return prev.filter((val) => val !== v);
+                        }
+                        return [...prev, v];
+                      });
+                    }
+                  }}
+                >
+                  {currentColumns.includes(v) ? (
+                    <IconEye size={14} className="scale-125" />
+                  ) : (
+                    <IconEyeOff size={14} className="opacity-10" />
+                  )}
+                </DropdownMenuItem>
+              </div>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="flex justify-between">
         <ItemsPerPageSelect

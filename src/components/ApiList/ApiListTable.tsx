@@ -15,11 +15,13 @@ import {
   TableRow,
 } from "../ui/Table";
 import _ from "lodash";
-import HeaderButton from "./TableHeader";
 import { Checkbox } from "../ui/Checkbox";
 import { Skeleton } from "../ui/Skeleton";
 import dayjs from "dayjs";
 import { addressToString } from "@/server/api/address/utils";
+import { IconArrowNarrowDown, IconArrowNarrowUp } from "@tabler/icons-react";
+import { cn } from "@/utils/cn";
+import { buttonVariants } from "../ui/Button";
 
 function valueAsString(value: any): string {
   if (value === null || value === undefined) return "";
@@ -119,13 +121,19 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                 />
               </TableHead>
             )}
-            {columns.map((val, index) => (
-              <TableHead key={`table${uuid}header:${index}`}>
-                <HeaderButton
-                  className="w-full justify-start px-4 text-left"
-                  sortOrder={
-                    val === sort.column ? sort.order ?? "desc" : undefined
-                  }
+            {columns.map((val, index) => {
+              const sortOrder =
+                val === sort.column ? sort.order ?? "desc" : undefined;
+              return (
+                <TableHead
+                  key={`table${uuid}header:${index}`}
+                  className={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      className: "rounded-none",
+                    }),
+                    "table-cell text-left",
+                  )}
                   onClick={() =>
                     setSort((prev) => ({
                       column: val,
@@ -138,10 +146,21 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                     }))
                   }
                 >
-                  {val}
-                </HeaderButton>
-              </TableHead>
-            ))}
+                  <div className="flex justify-start items-center">
+                    {val}
+                    {sortOrder !== undefined ? (
+                      sortOrder === "asc" ? (
+                        <IconArrowNarrowUp className="h-5 w-5" />
+                      ) : (
+                        <IconArrowNarrowDown className="h-5 w-5" />
+                      )
+                    ) : (
+                      <div className="h-5 w-5" />
+                    )}
+                  </div>
+                </TableHead>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -157,7 +176,7 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                 >
                   {selectActionsEnabled && (
                     <TableCell
-                      className="flex h-full grow items-center justify-center px-8 text-left"
+                      className="flex h-full grow items-center justify-center text-left"
                       key={`table${uuid}row:${indexRow}:cell:checkbox`}
                     >
                       <Checkbox
@@ -178,7 +197,7 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                   )}
                   {columns.map((key, indexCell) => (
                     <TableCell
-                      className="h-14 min-w-44 px-8 text-left"
+                      className="h-14 min-w-44 text-left"
                       key={`table${uuid}row:${indexRow}:cell:${indexCell}`}
                     >
                       {valueAsString(row[key])}

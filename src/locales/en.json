@@ -148,5 +148,17 @@
   "mobile_override": "Device detection",
   "zoom_level": "Application zoom",
   "columns": "Columns",
-  "sort": "Sort"
+  "sort": "Sort",
+  "updatedAt": "Updated at",
+  "createdAt": "Created at",
+  "updatedById": "Updated by",
+  "createdById": "Created by",
+  "name": "Name",
+  "id": "Id",
+  "category": "Category",
+  "description": "Description",
+  "colors": "Colors",
+  "sizes": "Sizes",
+  "isTemplate": "Is template",
+  "isArchived": "Is archived"
 }
