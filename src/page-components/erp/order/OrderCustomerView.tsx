@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/Card";
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { trpc } from "@/utils/trpc";
-import CustomerListItem from "../customer/CustomerListItem";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import { customerListSearchParams } from "../customer/CustomerList";
 import { IconMail, IconPhone, IconUser } from "@tabler/icons-react";
@@ -111,8 +110,8 @@ function OrderCustomerView(props: OrderCustomerViewProps) {
             label="Klient"
             linkEntry
             allowClear
-            listProps={customerListSearchParams}
-            Element={CustomerListItem}
+            // listProps={customerListSearchParams}
+            // Element={CustomerListItem}
           />
           <EditableEnum
             label="Odbiór"

@@ -1,19 +1,28 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
 
-import ApiList from "@/components/ApiListOld";
-import useTranslation from "@/hooks/useTranslation";
+import ApiList from "@/components/ApiList";
 import type { RouterNames } from "@/utils/trpc";
-import ProductListItem from "./ProductListItem";
+import { products } from "@/server/api/product/schema";
+import navigationData from "@/components/layout/Navigation/navigationData";
+import Button from "@/components/ui/Button";
+import { IconPlus } from "@tabler/icons-react";
 
 const entryName: RouterNames = "product";
+const gradient =
+  navigationData?.[entryName as keyof typeof navigationData]?.gradient;
 
-export const productListSearchParams = {
-  filterKeys: ["name", "category", "description"],
-  sortColumn: "name",
-  excludeKey: "name",
-  excludeValue: "Szablon",
-};
+const color =
+  navigationData?.[entryName as keyof typeof navigationData]?.gradient?.to;
+
+const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
+  gradient ? `${gradient.to}33` : color
+},${gradient ? `${gradient.from}33` : color} )`;
+
+const columns = ["name"];
+const columnsExpanded = Object.keys(products).filter(
+  (v) => !v.endsWith("ById"),
+);
 
 interface ProductListProps {
   selectedId: number | null;
@@ -22,23 +31,26 @@ interface ProductListProps {
 
 const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
   const router = useRouter();
-  const t = useTranslation();
 
   return (
     <ApiList
-      ListItem={ProductListItem}
+      columns={columns}
+      columnsExpanded={columnsExpanded}
+      filterKeys={["name", "category", "description"]}
       entryName={entryName}
-      label={entryName ? _.capitalize(t[entryName].plural) : undefined}
       selectedId={selectedId}
-      onChange={(val: { id: number }) => {
-        void router.push(`/erp/${entryName}/${val.id}`);
-      }}
-      listItemProps={{
-        linkTo: (val: { id: number }) => `/erp/${entryName}/${val.id}`,
-      }}
-      onAddElement={onAddElement}
-      showAddButton
-      {...productListSearchParams}
+      selectedColor={gradient ? gradientCSS : undefined}
+      onChange={(id: number) => void router.push(`/erp/${entryName}/${id}`)}
+      rightSection={
+        <Button
+          size="icon"
+          variant="outline"
+          className="h-9 w-9 rounded-full p-1"
+          onClick={onAddElement}
+        >
+          <IconPlus />
+        </Button>
+      }
     />
   );
 };

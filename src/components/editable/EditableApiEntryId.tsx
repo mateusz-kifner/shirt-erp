@@ -12,9 +12,10 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
-import ApiList from "../ApiListOld";
+import ApiList from "../ApiList";
 import { useEditableContext } from "./Editable";
 import { trpc } from "@/utils/trpc";
+import navigationData from "../layout/Navigation/navigationData";
 
 interface EditableApiEntryProps<T> extends EditableInput<number | null> {
   entryName: string;
@@ -73,6 +74,22 @@ const EditableApiEntry = <T extends Record<string, any>>(
     onSubmit?.(apiEntryId);
     setPrev(apiEntryId);
   }, [apiEntryId]);
+
+  const gradient =
+    navigationData?.[entryName as keyof typeof navigationData]?.gradient;
+
+  const color =
+    navigationData?.[entryName as keyof typeof navigationData]?.gradient?.to;
+
+  const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
+    gradient ? `${gradient.to}33` : color
+  },${gradient ? `${gradient.from}33` : color} )`;
+
+  const columns = ["name"];
+  const columnsExpanded = ["name"];
+  // const columnsExpanded = Object.keys(global_properties).filter(
+  //   (v) => !v.endsWith("ById"),
+  // );
 
   return (
     <div>
@@ -142,28 +159,39 @@ const EditableApiEntry = <T extends Record<string, any>>(
           </div>
           {entryName ? (
             <ApiList
+              columns={columns}
+              columnsExpanded={columnsExpanded}
+              filterKeys={["name"]}
               entryName={entryName ?? ""}
-              ListItem={Element}
-              label={
-                entryName
-                  ? _.capitalize(
-                      (
-                        t[entryName as keyof typeof t] as {
-                          singular: string;
-                          plural: string;
-                        }
-                      )?.plural,
-                    )
-                  : undefined
-              }
-              onChange={(value) => {
+              selectedColor={gradient ? gradientCSS : undefined}
+              onChange={(id) => {
                 setOpen(false);
-                setApiEntryId(value.id);
+                setApiEntryId(id);
               }}
-              excludeKey="name"
-              excludeValue="Szablon"
-              {...listProps}
             />
+            // <ApiList
+            //   entryName={entryName ?? ""}
+            //   ListItem={Element}
+            //   label={
+            //     entryName
+            //       ? _.capitalize(
+            //           (
+            //             t[entryName as keyof typeof t] as {
+            //               singular: string;
+            //               plural: string;
+            //             }
+            //           )?.plural,
+            //         )
+            //       : undefined
+            //   }
+            //   onChange={(value) => {
+            //     setOpen(false);
+            //     setApiEntryId(value.id);
+            //   }}
+            //   excludeKey="name"
+            //   excludeValue="Szablon"
+            //   {...listProps}
+            // />
           ) : (
             <div className="text-red-500">
               Entry Name not valid or element was not defined in mapping

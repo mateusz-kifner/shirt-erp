@@ -31,7 +31,6 @@ import {
   IconTrashX,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import OrderListItem from "../order/OrderListItem";
 import RefetchButton from "@/components/ui/RefetchButton";
 import {
   DropdownMenu,
@@ -169,7 +168,7 @@ function CustomerEditable(props: CustomerEditableProps) {
           <EditableApiEntry
             linkEntry
             entryName="order"
-            Element={OrderListItem}
+            // Element={OrderListItem}
             copyProvider={(value: OrderWithoutRelations | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
@@ -183,7 +182,7 @@ function CustomerEditable(props: CustomerEditableProps) {
           <EditableApiEntry
             linkEntry
             entryName="order-archive"
-            Element={OrderListItem}
+            // Element={OrderListItem}
             copyProvider={(value: OrderWithoutRelations | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }

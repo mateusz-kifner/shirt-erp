@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
 
-import ApiListArchive from "@/components/ApiListArchive";
+import ApiList from "@/components/ApiList";
 import useTranslation from "@/hooks/useTranslation";
 import type { RouterNames } from "@/utils/trpc";
-import OrderListItem from "./OrderListItem";
+// import OrderListItem from "./OrderListItem";
 
 const entryName: RouterNames = "order";
 
@@ -24,8 +24,8 @@ const OrdersList = ({ selectedId, onAddElement }: OrderListProps) => {
   const t = useTranslation();
 
   return (
-    <ApiListArchive
-      ListItem={OrderListItem}
+    <ApiList
+      // ListItem={OrderListItem}
       entryName={entryName}
       label={entryName ? _.capitalize(t[entryName].plural) : undefined}
       selectedId={selectedId}

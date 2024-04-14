@@ -22,10 +22,6 @@ import {
   IconExternalLink,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { customerListSearchParams } from "../customer/CustomerList";
-import CustomerListItem from "../customer/CustomerListItem";
-import ProductListItem from "../product/ProductListItem";
-import UserListItem from "../user/UserListItem";
 
 interface TaskViewProps {
   id: number | null;
@@ -122,8 +118,7 @@ function TaskView(props: TaskViewProps) {
           entryName="customer"
           linkEntry
           allowClear
-          listProps={customerListSearchParams}
-          Element={CustomerListItem}
+          // listProps={customerListSearchParams}
           disabled
         />
 
@@ -138,7 +133,6 @@ function TaskView(props: TaskViewProps) {
           <EditableApiEntry
             linkEntry
             entryName="product"
-            Element={ProductListItem}
             copyProvider={(value: Product | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }
@@ -149,7 +143,6 @@ function TaskView(props: TaskViewProps) {
           <EditableApiEntry
             linkEntry
             entryName="user"
-            Element={UserListItem}
             copyProvider={(value: { username?: string } | null) =>
               value?.username ? truncString(value.username, 40) : undefined
             }

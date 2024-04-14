@@ -54,6 +54,7 @@ function valueAsString(value: any): string {
 
 interface ApiListTableProps<TData, TValue> {
   columns: string[];
+  columnsExpanded: string[];
   data?: Record<string, any>[];
   checked: number[];
   setChecked: Dispatch<SetStateAction<number[]>>;
@@ -74,6 +75,7 @@ interface ApiListTableProps<TData, TValue> {
 function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
   const {
     columns,
+    columnsExpanded,
     data = [],
     itemsPerPage = 10,
     checked,
@@ -121,9 +123,9 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                 />
               </TableHead>
             )}
-            {columns.map((val, index) => {
+            {columns.map((key, index) => {
               const sortOrder =
-                val === sort.column ? sort.order ?? "desc" : undefined;
+                key === sort.column ? sort.order ?? "desc" : undefined;
               return (
                 <TableHead
                   key={`table${uuid}header:${index}`}
@@ -132,13 +134,13 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                       variant: "ghost",
                       className: "rounded-none",
                     }),
-                    "table-cell text-left",
+                    "table-cell text-left hover:bg-muted/50",
                   )}
                   onClick={() =>
                     setSort((prev) => ({
-                      column: val,
+                      column: key,
                       order:
-                        prev.column === val
+                        prev.column === key
                           ? prev.order === "asc"
                             ? "desc"
                             : "asc"
@@ -146,8 +148,8 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                     }))
                   }
                 >
-                  <div className="flex justify-start items-center">
-                    {val}
+                  <div className="flex items-center justify-start">
+                    {key}
                     {sortOrder !== undefined ? (
                       sortOrder === "asc" ? (
                         <IconArrowNarrowUp className="h-5 w-5" />
@@ -170,7 +172,7 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                   key={`table${uuid}row:${indexRow}`}
                   onClick={() => onClick?.(row.id)}
                   style={{
-                    backgroundColor:
+                    background:
                       selectedId === row.id ? selectedColor : undefined,
                   }}
                 >

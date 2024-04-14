@@ -110,7 +110,8 @@ function Navigation() {
             : "w-[83.3vw]"
           : isMobile
             ? "w-0"
-            : "before:-right-6 w-[5.5rem] before:absolute before:top-0 before:z-[-1] before:h-full before:w-6 focus-within:w-[32rem] hover:w-[32rem]",
+            : "w-[5.5rem] focus-within:w-[32rem] hover:w-[32rem]",
+        // TODO: find out why this pushes list to left "before:-right-6  before:absolute before:top-0 before:z-[-1] before:h-full before:w-6",
         mainNavigationOpen && !mobileOpen && !isMobile && "w-[32rem]",
         "after:absolute after:top-0 after:right-0 after:z-50 after:h-14 after:w-px after:bg-stone-800",
       )}
@@ -119,7 +120,7 @@ function Navigation() {
       <div className="absolute top-0 right-0 z-50 h-full w-px bg-border" />
       <div
         className={cn(
-          "flex h-full w-full flex-col bg-card",
+          "flex h-full  flex-col bg-card",
           mobileOpen ? "w-full" : "w-[32rem]",
         )}
       >
@@ -221,6 +222,7 @@ function Navigation() {
           className={cn(
             "border-r",
             hasChildren && "relative z-30 flex grow flex-col",
+            mobileOpen ? "w-full" : "w-[32rem]",
           )}
         />
 

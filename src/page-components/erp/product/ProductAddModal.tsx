@@ -8,7 +8,6 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import type { Product } from "@/server/api/product/validator";
 import _ from "lodash";
-import ProductListItem from "./ProductListItem";
 import Editable from "@/components/editable/Editable";
 import api from "@/hooks/api";
 
@@ -47,7 +46,6 @@ const ProductAddModal = ({ opened, onClose }: ProductAddModalProps) => {
           <EditableApiEntry
             label="Szablon"
             entryName="product"
-            Element={ProductListItem}
             keyName="template"
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}

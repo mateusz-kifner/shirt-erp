@@ -19,7 +19,6 @@ import Workspace from "@/components/layout/Workspace";
 import Button from "@/components/ui/Button";
 import Pagination from "@/components/ui/Pagination";
 import useTranslation from "@/hooks/useTranslation";
-import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import OrderMessagesView from "@/page-components/erp/order/OrderMessagesView";
 import TaskView from "@/page-components/erp/task/TaskView";
 import { trpc } from "@/utils/trpc";
@@ -128,7 +127,7 @@ const TasksPage = () => {
           </div>
           <div className="flex flex-grow flex-col">
             <List
-              ListItem={OrderListItem}
+              // ListItem={OrderListItem}
               data={filteredOrders.filter(
                 (val, index) =>
                   index >= (page - 1) * itemsPerPage &&

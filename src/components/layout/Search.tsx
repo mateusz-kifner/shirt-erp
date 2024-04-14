@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import useTranslation from "@/hooks/useTranslation";
-import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
+// import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
 import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import { trpc } from "@/utils/trpc";
 import { useDebouncedValue, useHotkeys } from "@mantine/hooks";
@@ -64,14 +64,15 @@ function Search() {
             {t.order.plural}
           </span>
           {data?.[1].map((order, index) => (
-            <OrderListItem
+            <div
               key={`order${uuid}${index}`}
-              value={order}
               onChange={(order) => {
                 void router.push(`/erp/order/${order.id}`);
                 setOpen(false);
               }}
-            />
+            >
+              {order.name}
+            </div>
           ))}
         </div>
         <div className="flex flex-col gap-2">
@@ -79,14 +80,23 @@ function Search() {
             {t.customer.plural}
           </span>
           {data?.[0].map((customer, index) => (
-            <CustomerListItem
+            <div
               key={`customer${uuid}${index}`}
-              value={customer}
               onChange={(customer) => {
                 void router.push(`/erp/customer/${customer.id}`);
                 setOpen(false);
               }}
-            />
+            >
+              {customer.username}
+            </div>
+            // <CustomerListItem
+            //   key={`customer${uuid}${index}`}
+            //   value={customer}
+            //   onChange={(customer) => {
+            //     void router.push(`/erp/customer/${customer.id}`);
+            //     setOpen(false);
+            //   }}
+            // />
           ))}
         </div>
       </DialogContent>

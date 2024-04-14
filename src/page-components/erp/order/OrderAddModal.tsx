@@ -8,7 +8,6 @@ import Button from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import _ from "lodash";
-import OrderListItem from "./OrderListItem";
 import Editable from "@/components/editable/Editable";
 import api from "@/hooks/api";
 
@@ -52,7 +51,6 @@ const OrderAddModal = ({ opened, onClose }: OrderAddModalProps) => {
           <EditableApiEntry
             label="Szablon"
             entryName="order"
-            Element={OrderListItem}
             keyName="template"
             allowClear
             listProps={{

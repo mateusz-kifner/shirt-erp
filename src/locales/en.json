@@ -160,5 +160,6 @@
   "colors": "Colors",
   "sizes": "Sizes",
   "isTemplate": "Is template",
-  "isArchived": "Is archived"
+  "isArchived": "Is archived",
+  "visibility": "Visibility"
 }

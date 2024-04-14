@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import type { Expense } from "@/server/api/expense/validator";
 import { trpc } from "@/utils/trpc";
 import _ from "lodash";
-import ExpenseListItem from "./ExpenseListItem";
 import Editable from "@/components/editable/Editable";
 
 interface ExpenseAddModalProps {
@@ -47,7 +46,7 @@ const ExpenseAddModal = ({ opened, onClose }: ExpenseAddModalProps) => {
           <EditableApiEntry
             label="Szablon"
             entryName="expense"
-            Element={ExpenseListItem}
+            // Element={ExpenseListItem}
             keyName="template"
             allowClear
             listProps={{ defaultSearch: "Szablon", filterKeys: ["name"] }}

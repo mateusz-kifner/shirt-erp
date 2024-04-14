@@ -1,4 +1,4 @@
-import ApiList from "@/components/ApiListOld";
+import ApiList from "@/components/ApiList";
 import Button, { buttonVariants } from "@/components/ui/Button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import {
@@ -6,10 +6,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-// import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import type { EmailCredential } from "@/server/api/email/validator";
-import { trpc } from "@/utils/trpc";
+import { type RouterNames, trpc } from "@/utils/trpc";
 import { cn } from "@/utils/cn";
 import {
   IconArrowLeft,
@@ -21,10 +20,24 @@ import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
-import OrderListItem from "../order/OrderListItem";
 import EmailView from "./EmailView";
-import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import api from "@/hooks/api";
+import navigationData from "@/components/layout/Navigation/navigationData";
+import { orders } from "@/server/db/schemas";
+
+const entryName: RouterNames = "order";
+const gradient =
+  navigationData?.[entryName as keyof typeof navigationData]?.gradient;
+
+const color =
+  navigationData?.[entryName as keyof typeof navigationData]?.gradient?.to;
+
+const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
+  gradient ? `${gradient.to}33` : color
+},${gradient ? `${gradient.from}33` : color} )`;
+
+const columns = ["name"];
+const columnsExpanded = Object.keys(orders).filter((v) => !v.endsWith("ById"));
 
 interface EmailViewApiProps {
   emailConfig: EmailCredential;
@@ -135,6 +148,14 @@ function EmailViewApi(props: EmailViewApiProps) {
                   </div>
                 ))}
               <ApiList
+                columns={columns}
+                columnsExpanded={columnsExpanded}
+                filterKeys={["name"]}
+                entryName={"order"}
+                selectedColor={gradient ? gradientCSS : undefined}
+                onChange={(id: number) => setOrderId(id)}
+              />
+              {/* <ApiList
                 ListItem={OrderListItem}
                 entryName={"order"}
                 label={_.capitalize(t.order.plural)}
@@ -148,7 +169,7 @@ function EmailViewApi(props: EmailViewApiProps) {
                 }
 
                 // {...orderListSearchParams}
-              />
+              /> */}
             </DialogContent>
           </Dialog>
         }

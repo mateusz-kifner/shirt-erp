@@ -12,14 +12,15 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Label } from "@/components/ui/Label";
 import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
-import ApiList from "../ApiListOld";
+import ApiList from "../ApiList";
 import { useEditableContext } from "./Editable";
+import navigationData from "../layout/Navigation/navigationData";
 
 interface EditableApiEntryProps<
   TEntry extends { id?: number; [key: string]: any },
 > extends EditableInput<TEntry> {
   entryName: string;
-  Element: React.ElementType;
+  // Element: React.ElementType;
   copyProvider?: (value: TEntry | null) => string | undefined;
   style?: CSSProperties;
   listProps?: any;
@@ -37,7 +38,7 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
     onSubmit,
     disabled,
     required,
-    Element,
+    // Element,
     entryName,
     copyProvider = () => "",
     // style,
@@ -68,6 +69,22 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
     setPrev(apiEntry);
   }, [apiEntry, onSubmit]);
 
+  const gradient =
+    navigationData?.[entryName as keyof typeof navigationData]?.gradient;
+
+  const color =
+    navigationData?.[entryName as keyof typeof navigationData]?.gradient?.to;
+
+  const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
+    gradient ? `${gradient.to}33` : color
+  },${gradient ? `${gradient.from}33` : color} )`;
+
+  const columns = ["name"];
+  const columnsExpanded = ["name"];
+  // const columnsExpanded = Object.keys(global_properties).filter(
+  //   (v) => !v.endsWith("ById"),
+  // );
+
   return (
     <div>
       <Label
@@ -93,11 +110,13 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
                 open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
-              <Element
-                onChange={() => !disabled && setOpen(true)}
-                value={apiEntry}
-                disabled={disabled}
-              />
+              <div
+                onClick={() => !disabled && setOpen(true)}
+                // value={apiEntry}
+                // disabled={disabled}
+              >
+                {apiEntry?.name}
+              </div>
               {linkEntry && value && value?.id && (
                 <div className="-translate-y-1/2 absolute top-1/2 right-3">
                   <Link
@@ -137,28 +156,39 @@ const EditableApiEntry = <TEntry extends { id?: number; [key: string]: any }>(
           </div>
           {entryName ? (
             <ApiList
+              columns={columns}
+              columnsExpanded={columnsExpanded}
+              filterKeys={["name"]}
               entryName={entryName ?? ""}
-              ListItem={Element}
-              label={
-                entryName
-                  ? _.capitalize(
-                      (
-                        t[entryName as keyof typeof t] as {
-                          singular: string;
-                          plural: string;
-                        }
-                      )?.plural,
-                    )
-                  : undefined
-              }
-              onChange={(value) => {
+              selectedColor={gradient ? gradientCSS : undefined}
+              onChange={(id) => {
                 setOpen(false);
-                setApiEntry(value);
+                setApiEntry({ id });
               }}
-              excludeKey="name"
-              excludeValue="Szablon"
-              {...listProps}
             />
+            // <ApiList
+            //   entryName={entryName ?? ""}
+            //   ListItem={Element}
+            //   label={
+            //     entryName
+            //       ? _.capitalize(
+            //           (
+            //             t[entryName as keyof typeof t] as {
+            //               singular: string;
+            //               plural: string;
+            //             }
+            //           )?.plural,
+            //         )
+            //       : undefined
+            //   }
+            //   onChange={(value) => {
+            //     setOpen(false);
+            //     setApiEntry(value);
+            //   }}
+            //   excludeKey="name"
+            //   excludeValue="Szablon"
+            //   {...listProps}
+            // />
           ) : (
             <div className="text-red-500">
               Entry Name not valid or element was not defined in mapping

@@ -13,7 +13,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/Popover";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import OrderListItem from "@/page-components/erp/order/OrderListItem";
 
 const Notifications = () => {
   // const { isAuthenticated } = useAuthContext();
@@ -109,14 +108,15 @@ const Notifications = () => {
                 timeLeft > -1
               ) {
                 return (
-                  <OrderListItem
-                    value={val}
+                  <div
                     onChange={(val) => {
                       router.push(`/erp/task/${val.id}`).catch(console.log);
                       setOpen(false);
                     }}
                     key={uuid + index}
-                  />
+                  >
+                    {val}
+                  </div>
                 );
               }
               return null;

@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
 import type { CustomerWithRelations } from "@/server/api/customer/validator";
 import { trpc } from "@/utils/trpc";
 import _ from "lodash";
-import CustomerListItem from "./CustomerListItem";
 import Editable from "@/components/editable/Editable";
 
 interface CustomerAddModalProps {
@@ -49,9 +48,7 @@ const CustomerAddModal = ({ opened, onClose }: CustomerAddModalProps) => {
               label="Szablon"
               keyName="template"
               entryName="customers"
-              Element={CustomerListItem}
               allowClear
-              listProps={{ defaultSearch: "Szablon", filterKeys: ["username"] }}
             />
             <EditableText
               label="Nazwa użytkownika"

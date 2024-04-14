@@ -1,7 +1,6 @@
 import Editable, { type Key } from "@/components/editable/Editable";
 import { lazy, useState } from "react";
 import { Card, CardContent } from "@/components/ui/Card";
-import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
 import { IconAlertCircle } from "@tabler/icons-react";
 import EditableArray from "@/components/editable/EditableArray";
 import type { GetStaticProps } from "next";
@@ -78,13 +77,13 @@ function TestEditablePage() {
               keyName="EditableApiEntry"
               label="EditableApiEntry"
               entryName="customer"
-              Element={CustomerListItem}
+              // Element={CustomerListItem}
             />
             <EditableApiEntryId
               keyName="EditableApiEntry"
               label="EditableApiEntry"
               entryName="customer"
-              Element={CustomerListItem}
+              // Element={CustomerListItem}
             />
             <EditableArray keyName="EditableArray" label="EditableArray">
               <EditableText />

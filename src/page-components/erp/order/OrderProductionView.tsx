@@ -10,7 +10,6 @@ import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import type { Product } from "@/server/api/product/validator";
 import EditableNumber from "@/components/editable/EditableNumber";
 import { truncString } from "@/utils/truncString";
-import ProductListItem from "../product/ProductListItem";
 import EditableRichText from "@/components/editable/EditableRichText";
 import RefetchButton from "@/components/ui/RefetchButton";
 interface OrderProductionViewProps {
@@ -67,7 +66,6 @@ function OrderProductionView(props: OrderProductionViewProps) {
             <EditableApiEntry
               linkEntry
               entryName="product"
-              Element={ProductListItem}
               copyProvider={(value: Product | null) =>
                 value?.name ? truncString(value.name, 40) : undefined
               }

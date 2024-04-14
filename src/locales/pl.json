@@ -160,5 +160,6 @@
   "colors": "Kolory",
   "sizes": "Rozmiary",
   "isTemplate": "Jest szablonem",
-  "isArchived": "Jest archiwizowany"
+  "isArchived": "Jest archiwizowany",
+  "visibility": "Widoczność"
 }
