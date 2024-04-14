@@ -19,7 +19,7 @@ import navigationData from "../layout/Navigation/navigationData";
 
 interface EditableApiEntryProps<T> extends EditableInput<number | null> {
   entryName: string;
-  Element: React.ElementType;
+  // Element: React.ElementType;
   copyProvider?: (value: T | null) => string | undefined;
   style?: CSSProperties;
   listProps?: any;
@@ -37,7 +37,7 @@ const EditableApiEntry = <T extends Record<string, any>>(
     onSubmit,
     disabled,
     required,
-    Element,
+    // Element,
     entryName,
     copyProvider = () => "",
     // style,
@@ -116,11 +116,13 @@ const EditableApiEntry = <T extends Record<string, any>>(
                 open ? "border-sky-600 dark:border-sky-600" : "border-border"
               }`}
             >
-              <Element
-                onChange={() => !disabled && setOpen(true)}
-                value={data}
+              <div
+                onClick={() => !disabled && setOpen(true)}
+                // value={data}
                 disabled={disabled}
-              />
+              >
+                {data.name}
+              </div>
               {linkEntry && value && (
                 <div className="-translate-y-1/2 absolute top-1/2 right-3">
                   <Link

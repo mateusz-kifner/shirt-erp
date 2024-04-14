@@ -99,7 +99,7 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
     <div className="rounded-md border">
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="hover:bg-transparent dark:hover:bg-transparent">
             {selectActionsEnabled && (
               <TableHead
                 key={`table${uuid}header:checkbox`}
@@ -134,7 +134,7 @@ function ApiListTable<TData, TValue>(props: ApiListTableProps<TData, TValue>) {
                       variant: "ghost",
                       className: "rounded-none",
                     }),
-                    "table-cell text-left hover:bg-muted/50",
+                    "table-cell text-left first:rounded-tl-md last:rounded-tr-md dark:hover:bg-muted/50 hover:bg-muted-foreground/50",
                   )}
                   onClick={() =>
                     setSort((prev) => ({

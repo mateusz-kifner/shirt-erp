@@ -120,6 +120,7 @@ function ApiList(props: ApiListProps) {
             {!!rightSection && rightSection}
           </div>
           <div className="relative">
+            <div className="absolute inset-0 z-[-1] rounded-md bg-white/20 dark:bg-black/20" />
             <ApiListTable
               columns={currentColumns}
               columnsExpanded={managedColumnsExpanded}
