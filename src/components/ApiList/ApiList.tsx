@@ -28,7 +28,8 @@ import Button, { buttonVariants } from "../ui/Button";
 import { cn } from "@/utils/cn";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 import PullToRefresh from "../PullToRefetch";
-import { ScrollArea } from "../ui/ScrollArea";
+import styles from "../layout/Navigation/navigation.module.css";
+import { useIsInsideNavigation } from "../layout/Navigation/isInsideNavigationContext";
 
 interface ApiListProps {
   entryName: string;
@@ -75,12 +76,14 @@ function ApiList(props: ApiListProps) {
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
   const { mobileOpen, setMobileOpen } = useUserContext();
   const isMobile = useIsMobile();
+  const isInsideNavigation = !!useIsInsideNavigation();
 
   const apiListTableState = useApiListTableState({ initialSort });
   const [managedColumns, setManagedColumns] = useState(columns);
   const [managedColumnsExpanded, setManagedColumnsExpanded] =
     useState(columnsExpanded);
   const { sort, setSort } = apiListTableState;
+  const [mainNavigationOpen, setMainNavigationOpen] = useState(false);
 
   const { data, refetch } = trpc[entryName as "customer"].simpleSearch.useQuery(
     {
@@ -101,8 +104,6 @@ function ApiList(props: ApiListProps) {
   const currentColumns =
     mobileOpen && !isMobile ? managedColumnsExpanded : managedColumns;
 
-  console.log("cols", managedColumns, managedColumnsExpanded);
-
   return (
     <PullToRefresh onEnd={() => void refetch()}>
       <div className="flex grow flex-col gap-3">
@@ -112,7 +113,15 @@ function ApiList(props: ApiListProps) {
             <input
               name={`search${uuid}`}
               id={`search${uuid}`}
-              className="h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-md border border-solid bg-background px-4 py-2 text-sm leading-normal outline-none dark:focus:border-sky-600 focus:border-sky-600 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 placeholder:text-muted-foreground dark:outline-none dark:read-only:outline-none read-only:outline-none"
+              className={cn(
+                isInsideNavigation ? styles.label : undefined,
+                isInsideNavigation
+                  ? isMobile || mainNavigationOpen
+                    ? "opacity-100"
+                    : "fade-out animate-out fill-mode-both"
+                  : undefined,
+                "h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-md border border-solid bg-background px-4 py-2 text-sm leading-normal outline-none dark:focus:border-sky-600 focus:border-sky-600 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 placeholder:text-muted-foreground dark:outline-none dark:read-only:outline-none read-only:outline-none",
+              )}
               type="text"
               onChange={(value) => setQuery(value.target.value)}
               placeholder={`${t.search}...`}
@@ -235,7 +244,17 @@ function ApiList(props: ApiListProps) {
             </DropdownMenu>
           </div>
         </div>
-        <div className="flex justify-between">
+        <div
+          className={cn(
+            isInsideNavigation ? styles.label : undefined,
+            isInsideNavigation
+              ? isMobile || mainNavigationOpen
+                ? "opacity-100"
+                : "fade-out animate-out fill-mode-both"
+              : undefined,
+            "flex justify-between",
+          )}
+        >
           <ItemsPerPageSelect
             defaultValue={itemsPerPage}
             onChange={setItemsPerPage}

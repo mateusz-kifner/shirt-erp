@@ -18,9 +18,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/Popover";
-import { useForceUpdate, useHover } from "@mantine/hooks";
+import { useHover } from "@mantine/hooks";
 import MainNavigationList from "./MainNavigationList";
 import { useFlag } from "@/hooks/useFlag";
+import { IsInsideNavigationContextProvider } from "./isInsideNavigationContext";
 
 const IconLogo: TablerIconType = forwardRef((props, ref) => (
   <img src="/assets/logo_micro.png" alt="Shirt Dip ERP" className="h-10" />
@@ -100,148 +101,151 @@ function Navigation() {
   },${gradient ? `${gradient.to}99` : color} )`;
 
   return (
-    <div
-      className={cn(
-        isMobile ? "overflow-hidden" : styles["navigation-container"],
-        "fixed top-0 left-0 z-50 h-screen max-h-screen max-w-full flex-col justify-between overflow-hidden bg-white transition-all dark:bg-stone-900",
-        mobileOpen
-          ? isMobile
-            ? "w-screen"
-            : "w-[83.3vw]"
-          : isMobile
-            ? "w-0"
-            : "w-[5.5rem] focus-within:w-[32rem] hover:w-[32rem]",
-        // TODO: find out why this pushes list to left "before:-right-6  before:absolute before:top-0 before:z-[-1] before:h-full before:w-6",
-        mainNavigationOpen && !mobileOpen && !isMobile && "w-[32rem]",
-        "after:absolute after:top-0 after:right-0 after:z-50 after:h-14 after:w-px after:bg-stone-800",
-      )}
-      tabIndex={-99999}
-    >
-      <div className="absolute top-0 right-0 z-50 h-full w-px bg-border" />
+    <IsInsideNavigationContextProvider>
       <div
         className={cn(
-          "flex h-full  flex-col bg-card",
-          mobileOpen ? "w-full" : "w-[32rem]",
+          isMobile ? "overflow-hidden" : styles["navigation-container"],
+          "fixed top-0 left-0 z-50 h-screen max-h-screen max-w-full flex-col justify-between overflow-hidden bg-white transition-all dark:bg-stone-900",
+          mobileOpen
+            ? isMobile
+              ? "w-screen"
+              : "w-[83.3vw]"
+            : isMobile
+              ? "w-0"
+              : "w-[5.5rem] focus-within:w-[32rem] hover:w-[32rem]",
+          // TODO: find out why this pushes list to left "before:-right-6  before:absolute before:top-0 before:z-[-1] before:h-full before:w-6",
+          mainNavigationOpen && !mobileOpen && !isMobile && "w-[32rem]",
+          "after:absolute after:top-0 after:right-0 after:z-50 after:h-14 after:w-px after:bg-stone-800",
         )}
+        tabIndex={-99999}
       >
+        <div className="absolute top-0 right-0 z-50 h-full w-px bg-border" />
         <div
-          className="relative z-50 flex h-14 min-h-14 items-center justify-between gap-4 border-r border-r-stone-800 border-b bg-stone-900 px-2"
-          style={{ borderBottomColor: `${color}99` }}
+          className={cn(
+            "flex h-full flex-col bg-card",
+            mobileOpen ? "w-full" : "w-[32rem]",
+          )}
         >
           <div
-            className="absolute inset-0 z-[-1]"
-            style={{
-              backgroundImage: gradientCSS,
-            }}
-          />
-          <Popover
-            open={mainNavigationOpen}
-            onOpenChange={(open) => {
-              if (hasChildren) {
-                if (flags?.main_navigation_hover) {
-                  setMainNavigationOpen(false);
-                } else {
-                  setMainNavigationOpen(open);
-                }
-              } else {
-                setMainNavigationOpen(false);
-              }
-            }}
+            className="relative z-50 flex h-14 min-h-14 items-center justify-between gap-4 border-r border-r-stone-800 border-b bg-stone-900 px-2"
+            style={{ borderBottomColor: `${color}99` }}
           >
-            <PopoverTrigger
-              ref={mainNavigationTriggerRef}
-              className={cn(
-                "flex min-w-40 items-center gap-3 rounded-full px-4 py-1",
-                hasChildren ? "hover:bg-white/15" : "cursor-default",
-              )}
-            >
-              <Icon size={38} className="stroke-stone-50" />
-              <div
-                className={cn(
-                  styles.label,
-                  isMobile || mainNavigationOpen
-                    ? "opacity-100"
-                    : "fade-out animate-out fill-mode-both",
-                  "grow text-left font-bold text-3xl text-stone-50",
-                  mobileOpen ? "" : "",
-                )}
-              >
-                {label}
-              </div>
-            </PopoverTrigger>
-            <PopoverContent
-              sideOffset={5}
-              className={cn(
-                "h-[calc(100vh-3.5rem)] rounded-none border-transparent border-y-0 border-r-px border-l-0 border-solid bg-card p-0 duration-75",
-                mobileOpen ? "w-[83.3vw]" : "w-[calc(32rem-1px)]",
-                isMobile && "w-screen",
-              )}
-            >
-              {flags?.main_navigation_type === "icons" ? (
-                <MainNavigation onClose={() => setMainNavigationOpen(false)} />
-              ) : (
-                <MainNavigationList
-                  disableAnimation
-                  onClose={() => setMainNavigationOpen(false)}
-                  color={color}
-                />
-              )}
-            </PopoverContent>
-          </Popover>
-
-          {hasChildren && (
-            <button
-              type="button"
-              className={cn(
-                buttonVariants({ size: "icon", variant: "outline" }),
-                "rounded-full border-none bg-black/40 hover:bg-black/60 hover:text-stone-50",
-              )}
-              onClick={() => {
-                setMobileOpen((v) => !v);
-                if (isMobile) {
-                  document.querySelector("body")?.focus();
+            <div
+              className="absolute inset-0 z-[-1]"
+              style={{
+                backgroundImage: gradientCSS,
+              }}
+            />
+            <Popover
+              open={mainNavigationOpen}
+              onOpenChange={(open) => {
+                if (hasChildren) {
+                  if (flags?.main_navigation_hover) {
+                    setMainNavigationOpen(false);
+                  } else {
+                    setMainNavigationOpen(open);
+                  }
+                } else {
+                  setMainNavigationOpen(false);
                 }
               }}
             >
-              {mobileOpen ? (
-                isMobile ? (
-                  <IconX className="stroke-gray-200" />
+              <PopoverTrigger
+                ref={mainNavigationTriggerRef}
+                className={cn(
+                  "flex min-w-40 items-center gap-3 rounded-full px-4 py-1",
+                  hasChildren ? "hover:bg-white/15" : "cursor-default",
+                )}
+              >
+                <Icon size={38} className="stroke-stone-50" />
+                <div
+                  className={cn(
+                    styles.label,
+                    isMobile || mainNavigationOpen
+                      ? "opacity-100"
+                      : "fade-out animate-out fill-mode-both",
+                    "grow text-left font-bold text-3xl text-stone-50",
+                    mobileOpen ? "" : "",
+                  )}
+                >
+                  {label}
+                </div>
+              </PopoverTrigger>
+              <PopoverContent
+                sideOffset={5}
+                className={cn(
+                  "h-[calc(100vh-3.5rem)] rounded-none border-transparent border-y-0 border-r-px border-l-0 border-solid bg-card p-0 duration-75",
+                  mobileOpen ? "w-[83.3vw]" : "w-[calc(32rem-1px)]",
+                  isMobile && "w-screen",
+                )}
+              >
+                {flags?.main_navigation_type === "icons" ? (
+                  <MainNavigation
+                    onClose={() => setMainNavigationOpen(false)}
+                  />
                 ) : (
-                  <IconArrowLeft className="stroke-gray-200" />
-                )
-              ) : (
-                <IconArrowRight className="stroke-gray-200" />
-              )}
-            </button>
-          )}
-        </div>
+                  <MainNavigationList
+                    disableAnimation
+                    onClose={() => setMainNavigationOpen(false)}
+                    color={color}
+                  />
+                )}
+              </PopoverContent>
+            </Popover>
 
-        <div
-          id="NavigationPortalTarget"
-          ref={ref}
-          className={cn(
-            "border-r",
-            hasChildren && "relative z-30 flex grow flex-col",
-            mobileOpen ? "w-full" : "w-[32rem]",
-          )}
-        />
-
-        {noNavigation && (
-          <div className="relative z-30 flex grow flex-col">
-            {flags?.main_navigation_type === "icons" ? (
-              <MainNavigation />
-            ) : (
-              <MainNavigationList color={color} />
+            {hasChildren && (
+              <button
+                type="button"
+                className={cn(
+                  buttonVariants({ size: "icon", variant: "outline" }),
+                  "rounded-full border-none bg-black/40 hover:bg-black/60 hover:text-stone-50",
+                )}
+                onClick={() => {
+                  setMobileOpen((v) => !v);
+                  if (isMobile) {
+                    document.querySelector("body")?.focus();
+                  }
+                }}
+              >
+                {mobileOpen ? (
+                  isMobile ? (
+                    <IconX className="stroke-gray-200" />
+                  ) : (
+                    <IconArrowLeft className="stroke-gray-200" />
+                  )
+                ) : (
+                  <IconArrowRight className="stroke-gray-200" />
+                )}
+              </button>
             )}
           </div>
-        )}
 
-        <NavigationGradient
-          color={color}
-          className="absolute top-0 left-0 z-10 opacity-100 dark:opacity-50"
-        />
+          <div
+            id="NavigationPortalTarget"
+            ref={ref}
+            className={cn(
+              "border-r",
+              hasChildren && "relative z-30 flex grow flex-col",
+              mobileOpen ? "w-full" : "w-[32rem]",
+            )}
+          />
 
-        {/* {isMobile && (
+          {noNavigation && (
+            <div className="relative z-30 flex grow flex-col">
+              {flags?.main_navigation_type === "icons" ? (
+                <MainNavigation />
+              ) : (
+                <MainNavigationList color={color} />
+              )}
+            </div>
+          )}
+
+          <NavigationGradient
+            color={color}
+            className="absolute top-0 left-0 z-10 opacity-100 dark:opacity-50"
+          />
+
+          {/* {isMobile && (
         <Button
           variant="ghost"
           size="icon"
@@ -252,15 +256,16 @@ function Navigation() {
           <span className="sr-only">Close</span>
         </Button>
       )} */}
+        </div>
+        <div
+          className={
+            mobileOpen && hasChildren
+              ? "fade-in-0 fixed inset-0 z-[-1] animate-in bg-background/80 backdrop-blur-sm"
+              : "fade-out-0 animate-out"
+          }
+        />
       </div>
-      <div
-        className={
-          mobileOpen && hasChildren
-            ? "fade-in-0 fixed inset-0 z-[-1] animate-in bg-background/80 backdrop-blur-sm"
-            : "fade-out-0 animate-out"
-        }
-      />
-    </div>
+    </IsInsideNavigationContextProvider>
   );
 }
 
