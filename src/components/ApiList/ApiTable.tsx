@@ -16,7 +16,6 @@ import _ from "lodash";
 import { Checkbox } from "../ui/Checkbox";
 import { Skeleton } from "../ui/Skeleton";
 import dayjs from "dayjs";
-import { addressToString } from "@/server/api/address/utils";
 import { IconArrowNarrowDown, IconArrowNarrowUp } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
 import { buttonVariants } from "../ui/Button";
@@ -35,48 +34,38 @@ function valueAsString(value: any): string {
       "",
     ) as string;
   }
-  if (typeof value === "object") {
-    if (
-      value?.streetName !== undefined ||
-      value?.streetNumber !== undefined ||
-      value?.apartmentNumber !== undefined ||
-      value?.secondLine !== undefined ||
-      value?.postCode !== undefined ||
-      value?.city !== undefined ||
-      value?.province !== undefined
-    )
-      return addressToString(value) ?? "";
-  }
   console.log(value);
-  return `[ ApiListTable ]: value cannot be converted to string is typeof ${typeof value}`;
+  return `[ ApiTable ]: value cannot be converted to string is typeof ${typeof value}`;
 }
 
-interface ApiListTableProps<TData, TValue> {
+interface ApiTableProps<
+  TData extends { id: string | number; [key: string]: any }[],
+  TValue,
+> {
   columns: string[];
-  columnsExpanded: string[];
   data?: TData;
   checkedState?: [number[], Dispatch<SetStateAction<number[]>>];
   sortState?: [SortType, Dispatch<SetStateAction<SortType>>];
-  itemsPerPage?: number;
   selectedId?: number | string | null;
   selectedColor?: string;
-  onClick?: (id: number) => void;
-  BeforeCell?: ComponentType<{ data: Record<string, any> }>;
-  AfterCell?: ComponentType<{ data: Record<string, any> }>;
+  itemsPerPage?: number;
+  onClick?: (id: number | string) => void;
+  BeforeCell?: ComponentType<{ row?: TData[number]; data?: TData }>;
+  AfterCell?: ComponentType<{ row?: TData[number]; data?: TData }>;
 }
 
-function ApiListTable<TData extends Record<string, any>[], TValue>(
-  props: ApiListTableProps<TData, TValue>,
-) {
+function ApiTable<
+  TData extends { id: string | number; [key: string]: any }[],
+  TValue,
+>(props: ApiTableProps<TData, TValue>) {
   const {
     columns,
-    columnsExpanded,
-    data = [],
-    itemsPerPage = 10,
+    data = [] as unknown as TData,
     checkedState = [[] as number[], undefined],
     sortState = [{ id: "updatedAt", desc: true }, undefined],
     selectedId,
     selectedColor = "#0C859933",
+    itemsPerPage = 10,
     onClick,
     BeforeCell,
     AfterCell,
@@ -174,7 +163,7 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
                 >
                   {!!BeforeCell && (
                     <TableHead className="w-0 px-2 py-0.5">
-                      <BeforeCell data={row} />
+                      <BeforeCell row={row} data={data} />
                     </TableHead>
                   )}
                   {checkEnabled && (
@@ -213,7 +202,7 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
                   ))}
                   {!!AfterCell && (
                     <TableHead className="w-0 px-2 py-0.5">
-                      <AfterCell data={row} />
+                      <AfterCell row={row} data={data} />
                     </TableHead>
                   )}
                 </TableRow>
@@ -234,4 +223,4 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
   );
 }
 
-export default ApiListTable;
+export default ApiTable;

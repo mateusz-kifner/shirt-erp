@@ -152,10 +152,10 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
         query: z.string().optional(),
         sort: z
           .object({
-            order: z.enum(["desc", "asc"]).default("desc"),
-            column: z.string().default("name"),
+            id: z.string().default("updatedAt"),
+            desc: z.boolean().default(true),
           })
-          .default({ order: "desc", column: "name" }),
+          .default({ desc: true, id: "updatedAt" }),
         currentPage: z.number().default(1),
         itemsPerPage: z.number().default(10),
       }),
@@ -177,8 +177,8 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
         .limit(itemsPerPage)
         .offset((currentPage - 1) * itemsPerPage)
         .orderBy(
-          (sort.order === "asc" ? asc : desc)(
-            schema[sort.column as keyof typeof schema.$inferSelect],
+          (sort.desc ? desc : asc)(
+            schema[sort.id as keyof typeof schema.$inferSelect],
           ),
         );
       const totalItems = await db

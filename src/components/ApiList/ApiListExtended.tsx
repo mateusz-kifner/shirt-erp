@@ -46,9 +46,15 @@ interface ApiListProps {
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   columns: string[];
+  columnsExpanded?: string[];
+  allColumns?: string[];
   initialSort?: { id?: string; desc?: boolean };
   BeforeCell?: ComponentType<{ data: Record<string, any> }>;
   AfterCell?: ComponentType<{ data: Record<string, any> }>;
+  dataTransformer: <T extends Record<string, any> | undefined>(
+    columns: string[],
+    data: T,
+  ) => { columns: string[]; data: T };
 }
 
 function ApiList(props: ApiListProps) {
@@ -64,14 +70,17 @@ function ApiList(props: ApiListProps) {
     leftSection,
     rightSection,
     columns,
+    columnsExpanded = columns,
+    allColumns,
     initialSort = { id: "updatedAt", desc: true },
     BeforeCell,
     AfterCell,
+    dataTransformer,
   } = props;
-  // const allCols: string[] =
-  //   allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
-  //     ? Object.keys(schema[`${entryName}s` as keyof typeof schema])
-  //     : [];
+  const allCols: string[] =
+    allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
+      ? Object.keys(schema[`${entryName}s` as keyof typeof schema])
+      : [];
   const [query, setQuery] = useState<string | undefined>(undefined);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
@@ -81,8 +90,8 @@ function ApiList(props: ApiListProps) {
 
   const apiListTableState = useApiListTableState({ initialSort });
   const [managedColumns, setManagedColumns] = useState(columns);
-  // const [managedColumnsExpanded, setManagedColumnsExpanded] =
-  //   useState(columnsExpanded);
+  const [managedColumnsExpanded, setManagedColumnsExpanded] =
+    useState(columnsExpanded);
   const [sort, setSort] = apiListTableState.sortState;
   const [mainNavigationOpen] = useState(false);
 
@@ -102,14 +111,15 @@ function ApiList(props: ApiListProps) {
   const uuid = useId();
   const t = useTranslation();
 
-  const currentColumns = managedColumns;
+  const currentColumns =
+    mobileOpen && !isMobile ? managedColumnsExpanded : managedColumns;
 
-  // const { columns: new_columns, data: new_data } = dataTransformer(
-  //   currentColumns,
-  //   items,
-  // );
+  const { columns: new_columns, data: new_data } = dataTransformer(
+    currentColumns,
+    items,
+  );
 
-  // console.log(new_columns, new_data);
+  console.log(new_columns, new_data);
 
   return (
     <PullToRefresh onEnd={() => void refetch()}>
@@ -138,9 +148,9 @@ function ApiList(props: ApiListProps) {
           <div className="relative">
             <div className="absolute inset-0 z-[-1] rounded-md bg-white/20 dark:bg-black/20" />
             <ApiListTable
-              columns={columns}
-              columnsExpanded={columns}
-              data={items}
+              columns={new_columns}
+              columnsExpanded={managedColumnsExpanded}
+              data={new_data}
               {...apiListTableState}
               //selectActionsEnabled={false} // mobileOpen && !isMobile}
               selectedId={selectedId}
@@ -184,7 +194,7 @@ function ApiList(props: ApiListProps) {
                   </DropdownMenuLabel>
                 </div>
                 <DropdownMenuSeparator />
-                {columns.map((v, index) => (
+                {allCols.map((v, index) => (
                   <div
                     className="flex gap-2 border-b border-solid last:border-none"
                     key={`${uuid}:columnItems:${index}`}
@@ -216,7 +226,7 @@ function ApiList(props: ApiListProps) {
                         <IconArrowsSort size={14} className="opacity-10" />
                       )}
                     </DropdownMenuItem>
-                    {/* <DropdownMenuItem
+                    <DropdownMenuItem
                       className="flex items-center"
                       onClick={() => {
                         if (mobileOpen && !isMobile) {
@@ -241,7 +251,7 @@ function ApiList(props: ApiListProps) {
                       ) : (
                         <IconEyeOff size={14} className="opacity-10" />
                       )}
-                    </DropdownMenuItem> */}
+                    </DropdownMenuItem>
                   </div>
                 ))}
               </DropdownMenuContent>
