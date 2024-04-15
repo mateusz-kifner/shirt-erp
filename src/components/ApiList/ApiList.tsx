@@ -1,77 +1,66 @@
 import { trpc } from "@/utils/trpc";
 import { useDebouncedValue } from "@mantine/hooks";
 import { type ComponentType, useId, useState, type ReactNode } from "react";
-import ApiListTable from "./ApiListTable";
+import ApiListTable, { type ApiListTableProps } from "./ApiListTable";
 import useTranslation from "@/hooks/useTranslation";
 import Pagination, { usePaginationState } from "../ui/Pagination";
 import ItemsPerPageSelect from "./ItemsPerPageSelect";
 import * as schema from "@/server/db/schemas";
 import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/DropdownMenu";
-import {
-  IconArrowDown,
-  IconArrowUp,
-  IconArrowsSort,
-  IconEye,
-  IconEyeOff,
-  IconSettings,
-} from "@tabler/icons-react";
-import { buttonVariants } from "../ui/Button";
+
 import { cn } from "@/utils/cn";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
 import PullToRefresh from "../PullToRefetch";
 import styles from "../layout/Navigation/navigation.module.css";
 import { useIsInsideNavigation } from "../layout/Navigation/isInsideNavigationContext";
 import { useApiListTableState } from "./useApiTableState";
+import ApiListMenu from "./ApiListMenu";
 
-interface ApiListProps {
+interface ApiListProps<TData> extends ApiListTableProps<TData> {
   entryName: string;
-  label?: string | ReactNode;
   onChange?: (val: number) => void;
   onRefresh?: () => void;
   selectedId?: number | string | null;
   selectedColor?: string;
   filterKeys?: string[];
   sortColumn?: string;
-  onAddElement?: () => void;
   defaultSearch?: string;
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   columns: string[];
+  columnsExpanded?: string[];
+  allColumns?: string[];
   initialSort?: { id?: string; desc?: boolean };
-  BeforeCell?: ComponentType<{ data: Record<string, any> }>;
-  AfterCell?: ComponentType<{ data: Record<string, any> }>;
+  dataTransformer: <T extends Record<string, any> | undefined>(
+    columns: string[],
+    data: T,
+  ) => { columns: string[]; data: T };
 }
 
-function ApiList(props: ApiListProps) {
+function ApiList<TData extends Record<string, any>[]>(
+  props: ApiListProps<TData>,
+) {
   const {
     entryName,
-    label = "",
     onChange,
     onRefresh,
     selectedId,
     selectedColor,
     filterKeys = [],
-    onAddElement,
     leftSection,
     rightSection,
     columns,
+    columnsExpanded = columns,
+    allColumns,
     initialSort = { id: "updatedAt", desc: true },
     BeforeCell,
     AfterCell,
+    dataTransformer,
   } = props;
-  // const allCols: string[] =
-  //   allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
-  //     ? Object.keys(schema[`${entryName}s` as keyof typeof schema])
-  //     : [];
+  const allCols: string[] =
+    allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
+      ? Object.keys(schema[`${entryName}s` as keyof typeof schema])
+      : [];
   const [query, setQuery] = useState<string | undefined>(undefined);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
@@ -81,8 +70,8 @@ function ApiList(props: ApiListProps) {
 
   const apiListTableState = useApiListTableState({ initialSort });
   const [managedColumns, setManagedColumns] = useState(columns);
-  // const [managedColumnsExpanded, setManagedColumnsExpanded] =
-  //   useState(columnsExpanded);
+  const [managedColumnsExpanded, setManagedColumnsExpanded] =
+    useState(columnsExpanded);
   const [sort, setSort] = apiListTableState.sortState;
   const [mainNavigationOpen] = useState(false);
 
@@ -96,20 +85,19 @@ function ApiList(props: ApiListProps) {
     },
   );
 
-  const items = data?.results as Record<string, any>[] | undefined;
+  const items = data?.results as TData | undefined;
   const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
 
   const uuid = useId();
   const t = useTranslation();
 
-  const currentColumns = managedColumns;
+  const currentColumns =
+    mobileOpen && !isMobile ? managedColumnsExpanded : managedColumns;
 
-  // const { columns: new_columns, data: new_data } = dataTransformer(
-  //   currentColumns,
-  //   items,
-  // );
-
-  // console.log(new_columns, new_data);
+  const { columns: new_columns, data: new_data } = dataTransformer(
+    currentColumns,
+    items,
+  );
 
   return (
     <PullToRefresh onEnd={() => void refetch()}>
@@ -138,8 +126,8 @@ function ApiList(props: ApiListProps) {
           <div className="relative">
             <div className="absolute inset-0 z-[-1] rounded-md bg-white/20 dark:bg-black/20" />
             <ApiListTable
-              columns={columns}
-              data={items}
+              columns={new_columns}
+              data={new_data}
               {...apiListTableState}
               //selectActionsEnabled={false} // mobileOpen && !isMobile}
               selectedId={selectedId}
@@ -151,100 +139,16 @@ function ApiList(props: ApiListProps) {
               BeforeCell={BeforeCell}
               AfterCell={AfterCell}
             />
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className={cn(
-                  buttonVariants({ variant: "ghost", size: "icon" }),
-                  "absolute top-1 right-1 h-8 w-8 rounded-full",
-                )}
-              >
-                <IconSettings size={18} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <div className="flex gap-2">
-                  <DropdownMenuLabel className="grow justify-end text-right">
-                    {t.columns}
-                  </DropdownMenuLabel>
-                  <DropdownMenuLabel className="flex items-center">
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <IconArrowsSort size={14} />
-                      </TooltipTrigger>
-                      <TooltipContent>{t.sort}</TooltipContent>
-                    </Tooltip>
-                  </DropdownMenuLabel>
-                  <DropdownMenuLabel className="flex items-center">
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <IconEye size={14} />
-                      </TooltipTrigger>
-                      <TooltipContent>{t.visibility}</TooltipContent>
-                    </Tooltip>
-                  </DropdownMenuLabel>
-                </div>
-                <DropdownMenuSeparator />
-                {columns.map((v, index) => (
-                  <div
-                    className="flex gap-2 border-b border-solid last:border-none"
-                    key={`${uuid}:columnItems:${index}`}
-                  >
-                    <DropdownMenuItem
-                      className="grow justify-end text-right data-[disabled]:opacity-100"
-                      disabled
-                    >
-                      {typeof t[v as keyof typeof t] === "string"
-                        ? (t[v as keyof typeof t] as string)
-                        : v}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="flex items-center"
-                      onClick={() => {
-                        setSort?.((prev) => ({
-                          id: v,
-                          desc: prev.id === v ? !prev.desc : true,
-                        }));
-                      }}
-                    >
-                      {sort.id === v ? (
-                        sort.desc ? (
-                          <IconArrowDown size={14} className="scale-125" />
-                        ) : (
-                          <IconArrowUp size={14} className="scale-125" />
-                        )
-                      ) : (
-                        <IconArrowsSort size={14} className="opacity-10" />
-                      )}
-                    </DropdownMenuItem>
-                    {/* <DropdownMenuItem
-                      className="flex items-center"
-                      onClick={() => {
-                        if (mobileOpen && !isMobile) {
-                          setManagedColumnsExpanded((prev) => {
-                            if (prev.includes(v)) {
-                              return prev.filter((val) => val !== v);
-                            }
-                            return [...prev, v];
-                          });
-                        } else {
-                          setManagedColumns((prev) => {
-                            if (prev.includes(v)) {
-                              return prev.filter((val) => val !== v);
-                            }
-                            return [...prev, v];
-                          });
-                        }
-                      }}
-                    >
-                      {currentColumns.includes(v) ? (
-                        <IconEye size={14} className="scale-125" />
-                      ) : (
-                        <IconEyeOff size={14} className="opacity-10" />
-                      )}
-                    </DropdownMenuItem> */}
-                  </div>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <ApiListMenu
+              allColumns={allColumns}
+              sortState={apiListTableState.sortState}
+              visibleColumnsState={[
+                currentColumns,
+                mobileOpen && !isMobile
+                  ? setManagedColumnsExpanded
+                  : setManagedColumns,
+              ]}
+            />
           </div>
         </div>
         <div

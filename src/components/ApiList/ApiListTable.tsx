@@ -51,9 +51,8 @@ function valueAsString(value: any): string {
   return `[ ApiListTable ]: value cannot be converted to string is typeof ${typeof value}`;
 }
 
-interface ApiListTableProps<TData, TValue> {
+export interface ApiListTableProps<TData> {
   columns: string[];
-
   data?: TData;
   checkedState?: [number[], Dispatch<SetStateAction<number[]>>];
   sortState?: [SortType, Dispatch<SetStateAction<SortType>>];
@@ -65,8 +64,8 @@ interface ApiListTableProps<TData, TValue> {
   AfterCell?: ComponentType<{ data: Record<string, any> }>;
 }
 
-function ApiListTable<TData extends Record<string, any>[], TValue>(
-  props: ApiListTableProps<TData, TValue>,
+function ApiListTable<TData extends Record<string, any>[]>(
+  props: ApiListTableProps<TData>,
 ) {
   const {
     columns,
