@@ -20,6 +20,7 @@ import { cn } from "@/utils/cn";
 import { type Dispatch, type SetStateAction, useId } from "react";
 import type { SortType } from "./types";
 import useTranslation from "@/hooks/useTranslation";
+import { IsSortForKeyDesc, getFirstArrayElementOrValue } from "./utils";
 
 interface ApiListMenuProps {
   allColumns?: string[];
@@ -33,7 +34,7 @@ interface ApiListMenuProps {
 function ApiListMenu(props: ApiListMenuProps) {
   const {
     allColumns = [],
-    sortState = [undefined, undefined],
+    sortState = [{ id: undefined, desc: true } as SortType, undefined],
     visibleColumnsState = [undefined, undefined],
   } = props;
   const [sort, setSort] = sortState;
@@ -73,63 +74,66 @@ function ApiListMenu(props: ApiListMenuProps) {
           </DropdownMenuLabel>
         </div>
         <DropdownMenuSeparator />
-        {allColumns.map((v, index) => (
-          <div
-            className="flex gap-2 border-b border-solid last:border-none"
-            key={`${uuid}:columnItems:${index}`}
-          >
-            <DropdownMenuItem
-              className="grow justify-end text-right data-[disabled]:opacity-100"
-              disabled
+        {allColumns.map((key, index) => {
+          const sortOrder = IsSortForKeyDesc(sort, key);
+          return (
+            <div
+              className="flex gap-2 border-b border-solid last:border-none"
+              key={`${uuid}:columnItems:${index}`}
             >
-              {typeof t[v as keyof typeof t] === "string"
-                ? (t[v as keyof typeof t] as string)
-                : v}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex items-center"
-              onClick={() => {
-                setSort?.((prev) => {
-                  const p = (Array.isArray(prev) ? prev[0] : prev) as {
-                    id: undefined;
-                    desc: true;
-                  };
-                  return {
-                    id: key,
-                    desc: p.id === key ? !p.desc : true,
-                  };
-                });
-              }}
-            >
-              {sort?.id === v ? (
-                sort?.desc ? (
-                  <IconArrowDown size={14} className="scale-125" />
+              <DropdownMenuItem
+                className="grow justify-end text-right data-[disabled]:opacity-100"
+                disabled
+              >
+                {typeof t[key as keyof typeof t] === "string"
+                  ? (t[key as keyof typeof t] as string)
+                  : key}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="flex items-center"
+                onClick={() => {
+                  setSort?.((prev) => {
+                    const p = getFirstArrayElementOrValue(prev) ?? {
+                      id: undefined,
+                      desc: true,
+                    };
+                    return {
+                      id: key,
+                      desc: p.id === key ? !p.desc : true,
+                    };
+                  });
+                }}
+              >
+                {sortOrder !== undefined ? (
+                  sortOrder ? (
+                    <IconArrowDown size={14} className="scale-125" />
+                  ) : (
+                    <IconArrowUp size={14} className="scale-125" />
+                  )
                 ) : (
-                  <IconArrowUp size={14} className="scale-125" />
-                )
-              ) : (
-                <IconArrowsSort size={14} className="opacity-10" />
-              )}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex items-center"
-              onClick={() => {
-                setVisibleColumns?.((prev) => {
-                  if (prev.includes(v)) {
-                    return prev.filter((val) => val !== v);
-                  }
-                  return [...prev, v];
-                });
-              }}
-            >
-              {visibleColumns?.includes(v) ? (
-                <IconEye size={14} className="scale-125" />
-              ) : (
-                <IconEyeOff size={14} className="opacity-10" />
-              )}
-            </DropdownMenuItem>
-          </div>
-        ))}
+                  <IconArrowsSort size={14} className="opacity-10" />
+                )}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="flex items-center"
+                onClick={() => {
+                  setVisibleColumns?.((prev) => {
+                    if (prev.includes(key)) {
+                      return prev.filter((val) => val !== key);
+                    }
+                    return [...prev, key];
+                  });
+                }}
+              >
+                {visibleColumns?.includes(key) ? (
+                  <IconEye size={14} className="scale-125" />
+                ) : (
+                  <IconEyeOff size={14} className="opacity-10" />
+                )}
+              </DropdownMenuItem>
+            </div>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );

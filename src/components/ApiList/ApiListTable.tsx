@@ -21,6 +21,7 @@ import { IconArrowNarrowDown, IconArrowNarrowUp } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
 import { buttonVariants } from "../ui/Button";
 import type { SortType } from "./types";
+import { IsSortForKeyDesc, getFirstArrayElementOrValue } from "./utils";
 
 function valueAsString(value: any): string {
   if (value === null || value === undefined) return "";
@@ -112,14 +113,7 @@ function ApiListTable<TData extends Record<string, any>[]>(
               </TableHead>
             )}
             {columns.map((key, index) => {
-              const sortFiltered = (Array.isArray(sort)
-                ? sort.filter((v) => v.id === key)[0]
-                : sort) ?? {
-                id: undefined,
-                desc: true,
-              };
-              const sortOrder =
-                key === sortFiltered.id ? sortFiltered.desc : undefined;
+              const sortOrder = IsSortForKeyDesc(sort, key);
               return (
                 <TableHead
                   key={`table${uuid}header:${index}`}
@@ -133,9 +127,9 @@ function ApiListTable<TData extends Record<string, any>[]>(
                   )}
                   onClick={() =>
                     setSort?.((prev) => {
-                      const p = (Array.isArray(prev) ? prev[0] : prev) as {
-                        id: undefined;
-                        desc: true;
+                      const p = getFirstArrayElementOrValue(prev) ?? {
+                        id: undefined,
+                        desc: true,
                       };
                       return {
                         id: key,
