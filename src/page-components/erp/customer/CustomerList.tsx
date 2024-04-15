@@ -9,6 +9,7 @@ import Button from "@/components/ui/Button";
 import { IconPlus } from "@tabler/icons-react";
 import CustomerAvatar from "./CustomerAvatar";
 import { truncString } from "@/utils/truncString";
+import { BooleanValueTransformer } from "@/components/ApiList/valueTransformers";
 
 const entryName: RouterNames = "customer";
 
@@ -83,6 +84,9 @@ const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
           { id: "firstname", desc },
           { id: "lastname", desc },
         ],
+      }}
+      valueTransformers={{
+        isTemplate: BooleanValueTransformer,
       }}
     />
   );

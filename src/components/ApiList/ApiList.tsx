@@ -14,13 +14,22 @@ import ItemsPerPageSelect from "./ItemsPerPageSelect";
 import * as schema from "@/server/db/schemas";
 import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
-
 import { cn } from "@/utils/cn";
 import PullToRefresh from "../PullToRefetch";
 import styles from "../layout/Navigation/navigation.module.css";
 import { useIsInsideNavigation } from "../layout/Navigation/isInsideNavigationContext";
 import ApiListMenu from "./ApiListMenu";
 import type { SortType } from "./types";
+import { DateValueTransformer } from "./valueTransformers";
+
+const defaultValueTransformers = {
+  updatedAt: DateValueTransformer,
+  createdAt: DateValueTransformer,
+};
+
+// TODO: implement sort actions
+// TODO: fix Before and after colum name
+// Add rest of ValueTransformers
 
 interface ApiListProps<TData> extends ApiListTableProps<TData> {
   entryName: string;
@@ -45,6 +54,10 @@ interface ApiListProps<TData> extends ApiListTableProps<TData> {
     data: T | undefined,
   ) => { columnName: string; columnData: T; insertIndex: number }[];
   customSortActions?: Record<string, (desc: boolean) => SortType[] | SortType>;
+  valueTransformers?: Record<
+    string,
+    ComponentType<{ value?: any; oldData?: Record<string, any>[] }>
+  >;
 }
 
 function ApiList<TData extends Record<string, any>[]>(
@@ -67,6 +80,7 @@ function ApiList<TData extends Record<string, any>[]>(
     AfterCell,
     generated,
     customSortActions,
+    valueTransformers,
   } = props;
   const allCols: string[] =
     allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
@@ -110,18 +124,28 @@ function ApiList<TData extends Record<string, any>[]>(
     () => generated?.(currentColumns, items) ?? [],
     [generated, currentColumns, items],
   );
+  const transformers: any = {
+    ...defaultValueTransformers,
+    ...valueTransformers,
+  };
 
   const modifiedData = useMemo(
     () =>
       (items ?? []).map((v, index) => {
         const row = { ...v };
         for (const gen of generatedData) {
-          (row as any)[gen.columnName] = gen.columnData[index];
+          (row as any)[gen.columnName] = gen.columnData[index]; // Apply generated
+        }
+        for (const key in row) {
+          const Elem = transformers[key];
+          if (Elem !== undefined)
+            row[key] = <Elem value={row[key]} data={items} />;
         }
         return row;
       }),
     [generatedData, items],
   );
+  console.log(modifiedData);
 
   return (
     <PullToRefresh onEnd={() => void refetch()}>
@@ -150,7 +174,7 @@ function ApiList<TData extends Record<string, any>[]>(
           <div className="relative">
             <div className="absolute inset-0 z-[-1] rounded-md bg-white/20 dark:bg-black/20" />
             <ApiListTable
-              columns={columns}
+              columns={currentColumns}
               data={modifiedData}
               {...sortState}
               //selectActionsEnabled={false} // mobileOpen && !isMobile}

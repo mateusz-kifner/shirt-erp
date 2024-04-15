@@ -16,28 +16,11 @@ import _ from "lodash";
 import { Checkbox } from "../ui/Checkbox";
 import { Skeleton } from "../ui/Skeleton";
 import dayjs from "dayjs";
-import { addressToString } from "@/server/api/address/utils";
 import { IconArrowNarrowDown, IconArrowNarrowUp } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
 import { buttonVariants } from "../ui/Button";
 import type { SortType } from "./types";
 import { IsSortForKeyDesc, getFirstArrayElementOrValue } from "./utils";
-
-function valueAsString(value: any): string {
-  if (value === null || value === undefined) return "";
-  if (typeof value === "string") return value;
-  if (typeof value === "number") return `${value}`;
-  if (typeof value === "boolean") return value ? "Tak" : "Nie";
-
-  if (value instanceof Date) return dayjs(value).format("LT L").toString();
-  if (Array.isArray(value)) {
-    return value.reduce(
-      (prev, val) => `${prev} ${valueAsString(val)}\n`,
-      "",
-    ) as string;
-  }
-  return value;
-}
 
 export interface ApiListTableProps<TData> {
   columns: string[];
@@ -203,7 +186,7 @@ function ApiListTable<TData extends Record<string, any>[]>(
                       )}
                       key={`table${uuid}row:${indexRow}:cell:${indexCell}`}
                     >
-                      {valueAsString(row[key])}
+                      {row[key]}
                     </TableCell>
                   ))}
                   {!!AfterCell && (
