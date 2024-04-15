@@ -25,6 +25,7 @@ import { IsSortForKeyDesc, getFirstArrayElementOrValue } from "./utils";
 export interface ApiListTableProps<TData> {
   columns: string[];
   data?: TData;
+  showPlaceholder?: boolean;
   checkedState?: [number[], Dispatch<SetStateAction<number[]>>];
   sortState?: [
     SortType[] | SortType,
@@ -44,6 +45,7 @@ function ApiListTable<TData extends Record<string, any>[]>(
   const {
     columns,
     data = [],
+    showPlaceholder = false,
     itemsPerPage = 10,
     checkedState = [[] as number[], undefined],
     sortState = [{ id: "updatedAt", desc: true } as SortType, undefined],
@@ -140,72 +142,82 @@ function ApiListTable<TData extends Record<string, any>[]>(
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.length > 0
-            ? data.map((row, indexRow) => (
-                <TableRow
-                  key={`table${uuid}row:${indexRow}`}
-                  onClick={() => onClick?.(row.id)}
-                  style={{
-                    background:
-                      selectedId === row.id ? selectedColor : undefined,
-                  }}
-                >
-                  {!!BeforeCell && (
-                    <TableHead className="w-0 px-2 py-0.5">
-                      <BeforeCell data={row} />
-                    </TableHead>
-                  )}
-                  {checkEnabled && (
-                    <TableCell
-                      className="relative h-full w-14 text-left"
-                      key={`table${uuid}row:${indexRow}:cell:checkbox`}
-                    >
-                      <Checkbox
-                        checked={checked.includes(row.id as number)}
-                        onCheckedChange={(value) => {
-                          if (value === true) {
-                            (setChecked as Dispatch<SetStateAction<number[]>>)(
-                              (prev) => [...prev, row.id as number],
-                            );
-                          } else {
-                            (setChecked as Dispatch<SetStateAction<number[]>>)(
-                              (prev) => prev.filter((v) => v !== row.id),
-                            );
-                          }
-                        }}
-                        aria-label="Select"
-                        className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 border-muted-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background"
-                      />
-                    </TableCell>
-                  )}
-                  {columns.map((key, indexCell) => (
-                    <TableCell
-                      className={cn(
-                        key === "id" ? "w-14" : "min-w-44",
-                        "h-14 text-left",
-                      )}
-                      key={`table${uuid}row:${indexRow}:cell:${indexCell}`}
-                    >
-                      {row[key]}
-                    </TableCell>
-                  ))}
-                  {!!AfterCell && (
-                    <TableHead className="w-0 px-2 py-0.5">
-                      <AfterCell data={row} />
-                    </TableHead>
-                  )}
-                </TableRow>
-              ))
-            : empty.map((_, indexRow) => (
-                <TableRow key={`table${uuid}row:${indexRow}:empty`}>
+          {data.length > 0 ? (
+            data.map((row, indexRow) => (
+              <TableRow
+                key={`table${uuid}row:${indexRow}`}
+                onClick={() => onClick?.(row.id)}
+                style={{
+                  background: selectedId === row.id ? selectedColor : undefined,
+                }}
+              >
+                {!!BeforeCell && (
+                  <TableHead className="w-0 px-2 py-0.5">
+                    <BeforeCell data={row} />
+                  </TableHead>
+                )}
+                {checkEnabled && (
                   <TableCell
-                    colSpan={columns.length + 1}
-                    className="h-14 text-center"
+                    className="relative h-full w-14 text-left"
+                    key={`table${uuid}row:${indexRow}:cell:checkbox`}
                   >
-                    <Skeleton className="h-6 w-full" />
+                    <Checkbox
+                      checked={checked.includes(row.id as number)}
+                      onCheckedChange={(value) => {
+                        if (value === true) {
+                          (setChecked as Dispatch<SetStateAction<number[]>>)(
+                            (prev) => [...prev, row.id as number],
+                          );
+                        } else {
+                          (setChecked as Dispatch<SetStateAction<number[]>>)(
+                            (prev) => prev.filter((v) => v !== row.id),
+                          );
+                        }
+                      }}
+                      aria-label="Select"
+                      className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 border-muted-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background"
+                    />
                   </TableCell>
-                </TableRow>
-              ))}
+                )}
+                {columns.map((key, indexCell) => (
+                  <TableCell
+                    className={cn(
+                      key === "id" ? "w-14" : "min-w-44",
+                      "h-14 text-left",
+                    )}
+                    key={`table${uuid}row:${indexRow}:cell:${indexCell}`}
+                  >
+                    {row[key]}
+                  </TableCell>
+                ))}
+                {!!AfterCell && (
+                  <TableHead className="w-0 px-2 py-0.5">
+                    <AfterCell data={row} />
+                  </TableHead>
+                )}
+              </TableRow>
+            ))
+          ) : showPlaceholder ? (
+            empty.map((_, indexRow) => (
+              <TableRow key={`table${uuid}row:${indexRow}:empty`}>
+                <TableCell
+                  colSpan={columns.length + 1}
+                  className="h-14 text-center"
+                >
+                  <Skeleton className="h-6 w-full" />
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow key={`table${uuid}row:placeholder:empty`}>
+              <TableCell
+                colSpan={columns.length + 1}
+                className="h-14 text-center"
+              >
+                Brak danych
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>

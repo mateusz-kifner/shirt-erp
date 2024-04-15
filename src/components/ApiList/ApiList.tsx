@@ -101,15 +101,15 @@ function ApiList<TData extends Record<string, any>[]>(
   const [sort, setSort] = sortState;
   const [mainNavigationOpen] = useState(false);
 
-  const { data, refetch } = trpc[entryName as "customer"].simpleSearch.useQuery(
-    {
-      currentPage: page,
-      itemsPerPage,
-      keys: filterKeys,
-      query: debouncedQuery,
-      sort,
-    },
-  );
+  const { data, refetch, isLoading, isFetching } = trpc[
+    entryName as "customer"
+  ].simpleSearch.useQuery({
+    currentPage: page,
+    itemsPerPage,
+    keys: filterKeys,
+    query: debouncedQuery?.trim(),
+    sort,
+  });
 
   const items = data?.results as TData | undefined;
   const totalPages = Math.ceil((data?.totalItems ?? 1) / itemsPerPage);
@@ -176,6 +176,7 @@ function ApiList<TData extends Record<string, any>[]>(
             <ApiListTable
               columns={currentColumns}
               data={modifiedData}
+              showPlaceholder={isLoading || isFetching}
               {...sortState}
               //selectActionsEnabled={false} // mobileOpen && !isMobile}
               selectedId={selectedId}
