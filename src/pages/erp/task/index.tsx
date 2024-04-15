@@ -12,7 +12,6 @@ import {
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
 
-import List from "@/components/List";
 import SpreadsheetView from "@/components/Spreadsheet/SpreadsheetView";
 import verifyMetadata from "@/components/Spreadsheet/verifyMetadata";
 import Workspace from "@/components/layout/Workspace";
@@ -34,6 +33,8 @@ import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
 const entryName = "task";
 
 const itemsPerPage = 10;
+
+// TODO: Fix This
 
 const TasksPage = () => {
   const router = useRouter();
@@ -126,7 +127,7 @@ const TasksPage = () => {
             </div>
           </div>
           <div className="flex flex-grow flex-col">
-            <List
+            {/* <List
               // ListItem={OrderListItem}
               data={filteredOrders.filter(
                 (val, index) =>
@@ -137,7 +138,7 @@ const TasksPage = () => {
                 router.push(`/erp/task/${val.id}`).catch(console.log);
               }}
               selectedId={id}
-            />
+            /> */}
           </div>
           <Pagination
             totalPages={totalPages}

@@ -7,6 +7,7 @@ import { products } from "@/server/api/product/schema";
 import navigationData from "@/components/layout/Navigation/navigationData";
 import Button from "@/components/ui/Button";
 import { IconPlus } from "@tabler/icons-react";
+import ProductAvatar from "./ProductAvatar";
 
 const entryName: RouterNames = "product";
 const gradient =
@@ -51,6 +52,7 @@ const ProductsList = ({ selectedId, onAddElement }: ProductListProps) => {
           <IconPlus />
         </Button>
       }
+      BeforeCell={ProductAvatar}
     />
   );
 };

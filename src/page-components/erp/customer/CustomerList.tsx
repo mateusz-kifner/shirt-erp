@@ -7,6 +7,7 @@ import navigationData from "@/components/layout/Navigation/navigationData";
 import { customers } from "@/server/db/schemas";
 import Button from "@/components/ui/Button";
 import { IconPlus } from "@tabler/icons-react";
+import CustomerAvatar from "./CustomerAvatar";
 
 const entryName: RouterNames = "customer";
 
@@ -20,7 +21,7 @@ const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
   gradient ? `${gradient.to}33` : color
 },${gradient ? `${gradient.from}33` : color} )`;
 
-const columns = ["firstname", "lastname"];
+const columns = ["name"];
 const columnsExpanded = Object.keys(customers).filter(
   (v) => !v.endsWith("ById"),
 );
@@ -36,9 +37,18 @@ const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
   return (
     <ApiList
       columns={columns}
-      columnsExpanded={columnsExpanded}
+      // columnsExpanded={columnsExpanded}
       filterKeys={["username", "firstname", "email", "companyName"]}
       entryName={entryName}
+      // dataTransformer={(columns, data) => {
+      //   return {
+      //     columns: columns,
+      //     data: data?.map((v: any) => ({
+      //       name: `${v.firstname} ${v.lastname}`,
+      //       ...v,
+      //     })),
+      //   };
+      // }}
       selectedId={selectedId}
       selectedColor={gradient ? gradientCSS : undefined}
       onChange={(id: number) => void router.push(`/erp/${entryName}/${id}`)}
@@ -52,6 +62,7 @@ const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
           <IconPlus />
         </Button>
       }
+      BeforeCell={CustomerAvatar}
     />
   );
 };
