@@ -124,28 +124,25 @@ function ApiList<TData extends Record<string, any>[]>(
     () => generated?.(currentColumns, items) ?? [],
     [generated, currentColumns, items],
   );
-  const transformers: any = {
-    ...defaultValueTransformers,
-    ...valueTransformers,
-  };
 
-  const modifiedData = useMemo(
-    () =>
-      (items ?? []).map((v, index) => {
-        const row = { ...v };
-        for (const gen of generatedData) {
-          (row as any)[gen.columnName] = gen.columnData[index]; // Apply generated
-        }
-        for (const key in row) {
-          const Elem = transformers[key];
-          if (Elem !== undefined)
-            row[key] = <Elem value={row[key]} data={items} />;
-        }
-        return row;
-      }),
-    [generatedData, items],
-  );
-  console.log(modifiedData);
+  const modifiedData = useMemo(() => {
+    const transformers: any = {
+      ...defaultValueTransformers,
+      ...valueTransformers,
+    };
+    return (items ?? []).map((v, index) => {
+      const row = { ...v };
+      for (const gen of generatedData) {
+        (row as any)[gen.columnName] = gen.columnData[index]; // Apply generated
+      }
+      for (const key in row) {
+        const Elem = transformers[key];
+        if (Elem !== undefined)
+          row[key] = <Elem value={row[key]} data={items} />;
+      }
+      return row;
+    });
+  }, [generatedData, items, valueTransformers, defaultValueTransformers]);
 
   return (
     <PullToRefresh onEnd={() => void refetch()}>

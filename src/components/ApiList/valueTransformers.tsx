@@ -1,14 +1,20 @@
 import { addressToString } from "@/server/api/address/utils";
 import dayjs from "dayjs";
 import { cn } from "@/utils/cn";
+import api from "@/hooks/api";
 
 export const DateValueTransformer = ({ value }: { value?: any }) =>
   value instanceof Date
     ? dayjs(value).format("LT L").toString()
     : "[ Unknown date format ]";
 
-export const AddressValueTransformer = ({ value }: { value?: any }) =>
-  addressToString(value);
+export const AddressIdValueTransformer = ({ value }: { value?: any }) => {
+  const { data } = api.address.useGetById(value);
+
+  return (
+    <div className="whitespace-normal text-xs">{addressToString(data)}</div>
+  );
+};
 
 export const BooleanValueTransformer = ({ value }: { value?: any }) =>
   value !== undefined ? (
