@@ -1,6 +1,12 @@
 import { trpc } from "@/utils/trpc";
 import { useDebouncedValue } from "@mantine/hooks";
-import { type ComponentType, useId, useState, type ReactNode } from "react";
+import {
+  type ComponentType,
+  useId,
+  useState,
+  type ReactNode,
+  useMemo,
+} from "react";
 import ApiListTable, { type ApiListTableProps } from "./ApiListTable";
 import useTranslation from "@/hooks/useTranslation";
 import Pagination, { usePaginationState } from "../ui/Pagination";
@@ -13,8 +19,8 @@ import { cn } from "@/utils/cn";
 import PullToRefresh from "../PullToRefetch";
 import styles from "../layout/Navigation/navigation.module.css";
 import { useIsInsideNavigation } from "../layout/Navigation/isInsideNavigationContext";
-import { useApiListTableState } from "./useApiTableState";
 import ApiListMenu from "./ApiListMenu";
+import type { SortType } from "./types";
 
 interface ApiListProps<TData> extends ApiListTableProps<TData> {
   entryName: string;
@@ -23,18 +29,22 @@ interface ApiListProps<TData> extends ApiListTableProps<TData> {
   selectedId?: number | string | null;
   selectedColor?: string;
   filterKeys?: string[];
-  sortColumn?: string;
   defaultSearch?: string;
   leftSection?: ReactNode;
   rightSection?: ReactNode;
   columns: string[];
   columnsExpanded?: string[];
   allColumns?: string[];
-  initialSort?: { id?: string; desc?: boolean };
-  dataTransformer: <T extends Record<string, any> | undefined>(
+  initialSort?: SortType[] | SortType;
+  dataTransformer?: <T extends Record<string, any> | undefined>(
     columns: string[],
     data: T,
   ) => { columns: string[]; data: T };
+  generated?: <T extends Record<string, any>>(
+    columns: string[],
+    data: T | undefined,
+  ) => { columnName: string; columnData: T; insertIndex: number }[];
+  customSortActions?: Record<string, (desc: boolean) => SortType[] | SortType>;
 }
 
 function ApiList<TData extends Record<string, any>[]>(
@@ -55,12 +65,13 @@ function ApiList<TData extends Record<string, any>[]>(
     initialSort = { id: "updatedAt", desc: true },
     BeforeCell,
     AfterCell,
-    dataTransformer,
+    generated,
+    customSortActions,
   } = props;
   const allCols: string[] =
     allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
       ? Object.keys(schema[`${entryName}s` as keyof typeof schema])
-      : [];
+      : []; // If this fails provide allColumns manually
   const [query, setQuery] = useState<string | undefined>(undefined);
   const [debouncedQuery] = useDebouncedValue(query, 200);
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePaginationState();
@@ -68,11 +79,12 @@ function ApiList<TData extends Record<string, any>[]>(
   const isMobile = useIsMobile();
   const isInsideNavigation = !!useIsInsideNavigation();
 
-  const apiListTableState = useApiListTableState({ initialSort });
+  const sortState = useState<SortType[] | SortType>(initialSort);
+  // const checkedState = useState<number[]>(props.initialChecked ?? []);
   const [managedColumns, setManagedColumns] = useState(columns);
   const [managedColumnsExpanded, setManagedColumnsExpanded] =
     useState(columnsExpanded);
-  const [sort, setSort] = apiListTableState.sortState;
+  const [sort, setSort] = sortState;
   const [mainNavigationOpen] = useState(false);
 
   const { data, refetch } = trpc[entryName as "customer"].simpleSearch.useQuery(
@@ -94,9 +106,21 @@ function ApiList<TData extends Record<string, any>[]>(
   const currentColumns =
     mobileOpen && !isMobile ? managedColumnsExpanded : managedColumns;
 
-  const { columns: new_columns, data: new_data } = dataTransformer(
-    currentColumns,
-    items,
+  const generatedData = useMemo(
+    () => generated?.(currentColumns, items) ?? [],
+    [generated, currentColumns, items],
+  );
+
+  const modifiedData = useMemo(
+    () =>
+      (items ?? []).map((v, index) => {
+        const row = { ...v };
+        for (const gen of generatedData) {
+          (row as any)[gen.columnName] = gen.columnData[index];
+        }
+        return row;
+      }),
+    [generatedData, items],
   );
 
   return (
@@ -109,8 +133,8 @@ function ApiList<TData extends Record<string, any>[]>(
               name={`search${uuid}`}
               id={`search${uuid}`}
               className={cn(
-                isInsideNavigation ? styles.label : undefined,
-                isInsideNavigation
+                isInsideNavigation && !mobileOpen ? styles.label : undefined,
+                isInsideNavigation && !mobileOpen
                   ? isMobile || mainNavigationOpen
                     ? "opacity-100"
                     : "fade-out animate-out fill-mode-both"
@@ -126,9 +150,9 @@ function ApiList<TData extends Record<string, any>[]>(
           <div className="relative">
             <div className="absolute inset-0 z-[-1] rounded-md bg-white/20 dark:bg-black/20" />
             <ApiListTable
-              columns={new_columns}
-              data={new_data}
-              {...apiListTableState}
+              columns={columns}
+              data={modifiedData}
+              {...sortState}
               //selectActionsEnabled={false} // mobileOpen && !isMobile}
               selectedId={selectedId}
               selectedColor={selectedColor}
@@ -140,8 +164,8 @@ function ApiList<TData extends Record<string, any>[]>(
               AfterCell={AfterCell}
             />
             <ApiListMenu
-              allColumns={allColumns}
-              sortState={apiListTableState.sortState}
+              allColumns={allCols}
+              sortState={sortState}
               visibleColumnsState={[
                 currentColumns,
                 mobileOpen && !isMobile
@@ -153,8 +177,8 @@ function ApiList<TData extends Record<string, any>[]>(
         </div>
         <div
           className={cn(
-            isInsideNavigation ? styles.label : undefined,
-            isInsideNavigation
+            isInsideNavigation && !mobileOpen ? styles.label : undefined,
+            isInsideNavigation && !mobileOpen
               ? isMobile || mainNavigationOpen
                 ? "opacity-100"
                 : "fade-out animate-out fill-mode-both"

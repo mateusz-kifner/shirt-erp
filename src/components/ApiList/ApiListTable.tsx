@@ -31,31 +31,21 @@ function valueAsString(value: any): string {
   if (value instanceof Date) return dayjs(value).format("LT L").toString();
   if (Array.isArray(value)) {
     return value.reduce(
-      (prev, val) => `${prev}${valueAsString(val)}\n`,
+      (prev, val) => `${prev} ${valueAsString(val)}\n`,
       "",
     ) as string;
   }
-  if (typeof value === "object") {
-    if (
-      value?.streetName !== undefined ||
-      value?.streetNumber !== undefined ||
-      value?.apartmentNumber !== undefined ||
-      value?.secondLine !== undefined ||
-      value?.postCode !== undefined ||
-      value?.city !== undefined ||
-      value?.province !== undefined
-    )
-      return addressToString(value) ?? "";
-  }
-  console.log(value);
-  return `[ ApiListTable ]: value cannot be converted to string is typeof ${typeof value}`;
+  return value;
 }
 
 export interface ApiListTableProps<TData> {
   columns: string[];
   data?: TData;
   checkedState?: [number[], Dispatch<SetStateAction<number[]>>];
-  sortState?: [SortType, Dispatch<SetStateAction<SortType>>];
+  sortState?: [
+    SortType[] | SortType,
+    Dispatch<SetStateAction<SortType[] | SortType>>,
+  ];
   itemsPerPage?: number;
   selectedId?: number | string | null;
   selectedColor?: string;
@@ -72,7 +62,7 @@ function ApiListTable<TData extends Record<string, any>[]>(
     data = [],
     itemsPerPage = 10,
     checkedState = [[] as number[], undefined],
-    sortState = [{ id: "updatedAt", desc: true }, undefined],
+    sortState = [{ id: "updatedAt", desc: true } as SortType, undefined],
     selectedId,
     selectedColor = "#0C859933",
     onClick,
@@ -95,7 +85,7 @@ function ApiListTable<TData extends Record<string, any>[]>(
       <Table>
         <TableHeader>
           <TableRow className="dark:hover:bg-transparent hover:bg-transparent">
-            {!!BeforeCell && <TableHead className="w-0 px-2 py-0.5" />}
+            {!!BeforeCell && <TableHead className="h-10 w-0 px-2 py-0.5" />}
             {checkEnabled && (
               <TableHead
                 key={`table${uuid}header:checkbox`}
@@ -122,7 +112,14 @@ function ApiListTable<TData extends Record<string, any>[]>(
               </TableHead>
             )}
             {columns.map((key, index) => {
-              const sortOrder = key === sort.id ? sort.desc : undefined;
+              const sortFiltered = (Array.isArray(sort)
+                ? sort.filter((v) => v.id === key)[0]
+                : sort) ?? {
+                id: undefined,
+                desc: true,
+              };
+              const sortOrder =
+                key === sortFiltered.id ? sortFiltered.desc : undefined;
               return (
                 <TableHead
                   key={`table${uuid}header:${index}`}
@@ -132,13 +129,19 @@ function ApiListTable<TData extends Record<string, any>[]>(
                       className: "rounded-none",
                     }),
                     key === "id" ? "w-14" : "",
-                    "table-cell text-left first:rounded-tl-md last:rounded-tr-md dark:hover:bg-muted/50 hover:bg-muted-foreground/50",
+                    "table-cell h-10 text-left first:rounded-tl-md last:rounded-tr-md dark:hover:bg-muted/50 hover:bg-muted-foreground/50",
                   )}
                   onClick={() =>
-                    setSort?.((prev) => ({
-                      id: key,
-                      desc: prev.id === key ? !prev.desc : true,
-                    }))
+                    setSort?.((prev) => {
+                      const p = (Array.isArray(prev) ? prev[0] : prev) as {
+                        id: undefined;
+                        desc: true;
+                      };
+                      return {
+                        id: key,
+                        desc: p.id === key ? !p.desc : true,
+                      };
+                    })
                   }
                 >
                   <div className="flex items-center justify-start">

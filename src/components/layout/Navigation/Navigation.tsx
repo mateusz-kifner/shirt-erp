@@ -160,8 +160,8 @@ function Navigation() {
                 <Icon size={38} className="stroke-stone-50" />
                 <div
                   className={cn(
-                    styles.label,
-                    isMobile || mainNavigationOpen
+                    !mobileOpen ? styles.label : undefined,
+                    isMobile || mainNavigationOpen || mobileOpen
                       ? "opacity-100"
                       : "fade-out animate-out fill-mode-both",
                     "grow text-left font-bold text-3xl text-stone-50",

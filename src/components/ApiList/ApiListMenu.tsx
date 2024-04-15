@@ -23,7 +23,10 @@ import useTranslation from "@/hooks/useTranslation";
 
 interface ApiListMenuProps {
   allColumns?: string[];
-  sortState?: [SortType, Dispatch<SetStateAction<SortType>>];
+  sortState?: [
+    SortType[] | SortType,
+    Dispatch<SetStateAction<SortType[] | SortType>>,
+  ];
   visibleColumnsState?: [string[], Dispatch<SetStateAction<string[]>>];
 }
 
@@ -86,10 +89,16 @@ function ApiListMenu(props: ApiListMenuProps) {
             <DropdownMenuItem
               className="flex items-center"
               onClick={() => {
-                setSort?.((prev) => ({
-                  id: v,
-                  desc: prev.id === v ? !prev.desc : true,
-                }));
+                setSort?.((prev) => {
+                  const p = (Array.isArray(prev) ? prev[0] : prev) as {
+                    id: undefined;
+                    desc: true;
+                  };
+                  return {
+                    id: key,
+                    desc: p.id === key ? !p.desc : true,
+                  };
+                });
               }}
             >
               {sort?.id === v ? (

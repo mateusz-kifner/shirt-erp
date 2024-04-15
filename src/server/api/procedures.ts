@@ -151,10 +151,18 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
         keys: z.array(z.string()),
         query: z.string().optional(),
         sort: z
-          .object({
-            id: z.string().default("updatedAt"),
-            desc: z.boolean().default(true),
-          })
+          .union([
+            z.object({
+              id: z.string().default("updatedAt"),
+              desc: z.boolean().default(true),
+            }),
+            z
+              .object({
+                id: z.string().default("updatedAt"),
+                desc: z.boolean().default(true),
+              })
+              .array(),
+          ])
           .default({ desc: true, id: "updatedAt" }),
         currentPage: z.number().default(1),
         itemsPerPage: z.number().default(10),
@@ -170,17 +178,25 @@ export function createProcedureSimpleSearch<TSchema extends schemaType>(
             ilike(schema[key as keyof typeof schema.$inferSelect], queryParam),
           )
         : [];
+
+      const order = Array.isArray(sort)
+        ? sort.map((v) =>
+            (v.desc ? desc : asc)(
+              schema[v.id as keyof typeof schema.$inferSelect],
+            ),
+          )
+        : [
+            (sort.desc ? desc : asc)(
+              schema[sort.id as keyof typeof schema.$inferSelect],
+            ),
+          ];
       const results = await db
         .select()
         .from<TSchema>(schema)
         .where(queryParam ? or(...search) : undefined)
         .limit(itemsPerPage)
         .offset((currentPage - 1) * itemsPerPage)
-        .orderBy(
-          (sort.desc ? desc : asc)(
-            schema[sort.id as keyof typeof schema.$inferSelect],
-          ),
-        );
+        .orderBy(...order);
       const totalItems = await db
         .select({ count: sql<number>`count(*)` })
         .from<TSchema>(schema);

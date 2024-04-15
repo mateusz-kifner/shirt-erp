@@ -8,6 +8,7 @@ import { customers } from "@/server/db/schemas";
 import Button from "@/components/ui/Button";
 import { IconPlus } from "@tabler/icons-react";
 import CustomerAvatar from "./CustomerAvatar";
+import { truncString } from "@/utils/truncString";
 
 const entryName: RouterNames = "customer";
 
@@ -21,10 +22,32 @@ const gradientCSS = `linear-gradient(${gradient?.deg ?? 0}deg, ${
   gradient ? `${gradient.to}33` : color
 },${gradient ? `${gradient.from}33` : color} )`;
 
-const columns = ["name"];
+const columns = ["fullname"];
 const columnsExpanded = Object.keys(customers).filter(
   (v) => !v.endsWith("ById"),
 );
+
+const fullNameGenerator = <T extends Record<string, any>>(
+  columns: string[],
+  data: T | undefined = [] as unknown as T,
+) => [
+  {
+    columnName: "fullname",
+    columnData: data.map((value: any) => {
+      const primary = value ? (
+        (value?.firstname && value.firstname?.length > 0) ||
+        (value?.lastname && value.lastname?.length > 0) ? (
+          truncString(`${value.firstname ?? ""} ${value.lastname ?? ""}`, 40)
+        ) : (
+          <i>{truncString(value?.username ?? "", 40)}</i>
+        )
+      ) : undefined;
+
+      return primary;
+    }),
+    insertIndex: 0,
+  },
+];
 
 interface CustomerListProps {
   selectedId: number | null;
@@ -37,18 +60,9 @@ const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
   return (
     <ApiList
       columns={columns}
-      // columnsExpanded={columnsExpanded}
+      columnsExpanded={columnsExpanded}
       filterKeys={["username", "firstname", "email", "companyName"]}
       entryName={entryName}
-      // dataTransformer={(columns, data) => {
-      //   return {
-      //     columns: columns,
-      //     data: data?.map((v: any) => ({
-      //       name: `${v.firstname} ${v.lastname}`,
-      //       ...v,
-      //     })),
-      //   };
-      // }}
       selectedId={selectedId}
       selectedColor={gradient ? gradientCSS : undefined}
       onChange={(id: number) => void router.push(`/erp/${entryName}/${id}`)}
@@ -63,6 +77,13 @@ const CustomersList = ({ selectedId, onAddElement }: CustomerListProps) => {
         </Button>
       }
       BeforeCell={CustomerAvatar}
+      generated={fullNameGenerator}
+      customSortActions={{
+        fullname: (desc: boolean) => [
+          { id: "firstname", desc },
+          { id: "lastname", desc },
+        ],
+      }}
     />
   );
 };
