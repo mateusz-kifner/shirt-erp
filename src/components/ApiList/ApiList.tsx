@@ -139,7 +139,6 @@ function ApiList(props: ApiListProps) {
             <div className="absolute inset-0 z-[-1] rounded-md bg-white/20 dark:bg-black/20" />
             <ApiListTable
               columns={columns}
-              columnsExpanded={columns}
               data={items}
               {...apiListTableState}
               //selectActionsEnabled={false} // mobileOpen && !isMobile}

@@ -53,7 +53,7 @@ function valueAsString(value: any): string {
 
 interface ApiListTableProps<TData, TValue> {
   columns: string[];
-  columnsExpanded: string[];
+
   data?: TData;
   checkedState?: [number[], Dispatch<SetStateAction<number[]>>];
   sortState?: [SortType, Dispatch<SetStateAction<SortType>>];
@@ -70,7 +70,6 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
 ) {
   const {
     columns,
-    columnsExpanded,
     data = [],
     itemsPerPage = 10,
     checkedState = [[] as number[], undefined],
@@ -101,7 +100,7 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
             {checkEnabled && (
               <TableHead
                 key={`table${uuid}header:checkbox`}
-                className="flex items-center px-8 text-left"
+                className="relative w-14"
               >
                 <Checkbox
                   checked={
@@ -118,7 +117,7 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
                       );
                     }
                   }}
-                  className="border-muted-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background"
+                  className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 border-muted-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background"
                   aria-label="Select all"
                 />
               </TableHead>
@@ -179,7 +178,7 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
                   )}
                   {checkEnabled && (
                     <TableCell
-                      className="flex h-full grow items-center justify-center text-left"
+                      className="relative h-full w-14 text-left"
                       key={`table${uuid}row:${indexRow}:cell:checkbox`}
                     >
                       <Checkbox
@@ -196,7 +195,7 @@ function ApiListTable<TData extends Record<string, any>[], TValue>(
                           }
                         }}
                         aria-label="Select"
-                        className="border-muted-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background"
+                        className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 border-muted-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-background"
                       />
                     </TableCell>
                   )}
