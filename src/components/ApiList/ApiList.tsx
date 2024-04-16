@@ -21,6 +21,7 @@ import { useIsInsideNavigation } from "../layout/Navigation/isInsideNavigationCo
 import ApiListMenu from "./ApiListMenu";
 import type { SortType } from "./types";
 import { DateValueTransformer } from "./valueTransformers";
+import ApiListSearch from "./ApiListSearch";
 
 const defaultValueTransformers = {
   updatedAt: DateValueTransformer,
@@ -145,9 +146,7 @@ function ApiList<TData extends Record<string, any>[]>(
         <div className={cn("flex flex-col gap-3", !isMobile && "grow")}>
           <div className="flex gap-2">
             {!!leftSection && leftSection}
-            <input
-              name={`search${uuid}`}
-              id={`search${uuid}`}
+            <ApiListSearch
               className={cn(
                 isInsideNavigation && !mobileOpen ? styles.label : undefined,
                 isInsideNavigation && !mobileOpen
@@ -155,11 +154,8 @@ function ApiList<TData extends Record<string, any>[]>(
                     ? "opacity-100"
                     : "fade-out animate-out fill-mode-both"
                   : undefined,
-                "h-9 max-h-screen w-full resize-none gap-2 overflow-hidden whitespace-pre-line break-words rounded-md border border-solid bg-background px-4 py-2 text-sm leading-normal outline-none dark:focus:border-sky-600 focus:border-sky-600 dark:data-disabled:bg-transparent dark:read-only:bg-transparent data-disabled:bg-transparent read-only:bg-transparent dark:data-disabled:text-gray-500 data-disabled:text-gray-500 placeholder:text-muted-foreground dark:outline-none dark:read-only:outline-none read-only:outline-none",
               )}
-              type="text"
-              onChange={(value) => setQuery(value.target.value)}
-              placeholder={`${t.search}...`}
+              onChangeValue={setQuery}
             />
             {!!rightSection && rightSection}
           </div>
@@ -169,7 +165,7 @@ function ApiList<TData extends Record<string, any>[]>(
               columns={currentColumns}
               data={modifiedData}
               showPlaceholder={isLoading || isFetching}
-              {...sortState}
+              sortState={sortState}
               onClick={(val: number) => {
                 isMobile && setMobileOpen(false);
                 onChange?.(val);
