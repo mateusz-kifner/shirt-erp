@@ -35,8 +35,6 @@ interface ApiListProps<TData> extends ApiListTableProps<TData> {
   entryName: string;
   onChange?: (val: number) => void;
   onRefresh?: () => void;
-  selectedId?: number | string | null;
-  selectedColor?: string;
   filterKeys?: string[];
   defaultSearch?: string;
   leftSection?: ReactNode;
@@ -67,8 +65,6 @@ function ApiList<TData extends Record<string, any>[]>(
     entryName,
     onChange,
     onRefresh,
-    selectedId,
-    selectedColor,
     filterKeys = [],
     leftSection,
     rightSection,
@@ -76,11 +72,10 @@ function ApiList<TData extends Record<string, any>[]>(
     columnsExpanded = columns,
     allColumns,
     initialSort = { id: "updatedAt", desc: true },
-    BeforeCell,
-    AfterCell,
     generated,
     customSortActions,
     valueTransformers,
+    ...moreProps
   } = props;
   const allCols: string[] =
     allColumns ?? schema[`${entryName}s` as keyof typeof schema] !== undefined
@@ -142,7 +137,7 @@ function ApiList<TData extends Record<string, any>[]>(
       }
       return row;
     });
-  }, [generatedData, items, valueTransformers, defaultValueTransformers]);
+  }, [generatedData, items, valueTransformers]);
 
   return (
     <PullToRefresh onEnd={() => void refetch()}>
@@ -175,15 +170,11 @@ function ApiList<TData extends Record<string, any>[]>(
               data={modifiedData}
               showPlaceholder={isLoading || isFetching}
               {...sortState}
-              //selectActionsEnabled={false} // mobileOpen && !isMobile}
-              selectedId={selectedId}
-              selectedColor={selectedColor}
               onClick={(val: number) => {
                 isMobile && setMobileOpen(false);
                 onChange?.(val);
               }}
-              BeforeCell={BeforeCell}
-              AfterCell={AfterCell}
+              {...moreProps}
             />
             <ApiListMenu
               allColumns={allCols}
