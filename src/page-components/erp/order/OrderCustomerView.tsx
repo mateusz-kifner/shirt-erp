@@ -9,7 +9,7 @@ import {
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { trpc } from "@/utils/trpc";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
-import { customerListSearchParams } from "../customer/CustomerList";
+// import { customerListSearchParams } from "../customer/CustomerList";
 import { IconMail, IconPhone, IconUser } from "@tabler/icons-react";
 import { Separator } from "@/components/ui/Separator";
 import DOMPurify from "dompurify";

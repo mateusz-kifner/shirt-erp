@@ -119,9 +119,9 @@ const EditableApiEntry = <T extends Record<string, any>>(
               <div
                 onClick={() => !disabled && setOpen(true)}
                 // value={data}
-                disabled={disabled}
+                // disabled={disabled}
               >
-                {data.name}
+                {data?.name}
               </div>
               {linkEntry && value && (
                 <div className="-translate-y-1/2 absolute top-1/2 right-3">

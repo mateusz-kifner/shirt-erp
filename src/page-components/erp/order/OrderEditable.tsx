@@ -29,7 +29,6 @@ import _ from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import UserListItem from "../user/UserListItem";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -244,7 +243,7 @@ function OrderEditable(props: OrderEditableProps) {
           <EditableApiEntry
             linkEntry
             entryName="user"
-            Element={UserListItem}
+            // Element={UserListItem}
             copyProvider={(value: { name: string } | null) =>
               value?.name ? truncString(value.name, 40) : undefined
             }

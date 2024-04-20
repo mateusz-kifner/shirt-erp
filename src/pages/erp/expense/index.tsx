@@ -2,7 +2,7 @@ import NavigationPortal from "@/components/layout/Navigation/NavigationPortal";
 import Workspace from "@/components/layout/Workspace";
 import ExpenseAddModal from "@/page-components/erp/expense/ExpenseAddModal";
 import ExpenseEditable from "@/page-components/erp/expense/ExpenseEditable";
-import ExpenseList from "@/page-components/erp/expense/ExpensesList";
+import ExpenseList from "@/page-components/erp/expense/ExpenseList";
 import { getQueryAsIntOrNull } from "@/utils/query";
 import { createRedirectByRole } from "@/utils/redirectByRole";
 import { IconList, IconNotebook } from "@tabler/icons-react";

@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 import { Input } from "@/components/ui/Input";
 import useTranslation from "@/hooks/useTranslation";
 // import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
-import OrderListItem from "@/page-components/erp/order/OrderListItem";
+// import OrderListItem from "@/page-components/erp/order/OrderListItem";
 import { trpc } from "@/utils/trpc";
 import { useDebouncedValue, useHotkeys } from "@mantine/hooks";
 import { IconSearch, IconX } from "@tabler/icons-react";
@@ -66,8 +66,8 @@ function Search() {
           {data?.[1].map((order, index) => (
             <div
               key={`order${uuid}${index}`}
-              onChange={(order) => {
-                void router.push(`/erp/order/${order.id}`);
+              onChange={() => {
+                void router.push(`/erp/order/${order?.id}`);
                 setOpen(false);
               }}
             >
@@ -82,8 +82,8 @@ function Search() {
           {data?.[0].map((customer, index) => (
             <div
               key={`customer${uuid}${index}`}
-              onChange={(customer) => {
-                void router.push(`/erp/customer/${customer.id}`);
+              onChange={() => {
+                void router.push(`/erp/customer/${customer?.id}`);
                 setOpen(false);
               }}
             >

@@ -109,13 +109,13 @@ const Notifications = () => {
               ) {
                 return (
                   <div
-                    onChange={(val) => {
-                      router.push(`/erp/task/${val.id}`).catch(console.log);
+                    onChange={() => {
+                      router.push(`/erp/task/${val?.id}`).catch(console.log);
                       setOpen(false);
                     }}
                     key={uuid + index}
                   >
-                    {val}
+                    {val?.name}
                   </div>
                 );
               }
