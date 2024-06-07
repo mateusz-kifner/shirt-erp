@@ -8,8 +8,8 @@ if (!process.env.DATABASE_URL) {
 export default {
   schema: "./src/server/db/schemas.ts",
   out: "./src/server/db/migration",
-  driver: "pg",
+  dialect:"postgresql",
   dbCredentials: {
-    connectionString: process.env.DATABASE_URL,
+    url: process.env.DATABASE_URL,
   },
 } satisfies Config;
