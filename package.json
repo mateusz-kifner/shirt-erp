@@ -13,6 +13,7 @@
     "node_version": "node --version",
     "db:push": "drizzle-kit push:pg",
     "migrate": "cross-env SKIP_ENV_VALIDATION=1 tsx migrate.ts",
+    "typecheck": "tsc --noEmit",
     "test": "cross-env SKIP_ENV_VALIDATION=1 vitest"
   },
   "dependencies": {
