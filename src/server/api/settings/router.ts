@@ -7,6 +7,7 @@ import emailCredentialService from "../email/service";
 import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
+import { observable } from "@trpc/server/observable";
 
 export const settingsRouter = createTRPCRouter({
   getAllMailCredentials: employeeProcedure.query(async ({ ctx }) => {
@@ -67,4 +68,15 @@ export const settingsRouter = createTRPCRouter({
 
       return await emailCredentialService.deleteById(id);
     }),
+
+  randomNumber: employeeProcedure.subscription(() => {
+    return observable<number>((emit) => {
+      const int = setInterval(() => {
+        emit.next(Math.random());
+      }, 500);
+      return () => {
+        clearInterval(int);
+      };
+    });
+  }),
 });

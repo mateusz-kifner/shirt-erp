@@ -40,6 +40,20 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
 
 import * as trpc from "@trpc/server";
 import type * as trpcNext from "@trpc/server/adapters/next";
+import type { CreateWSSContextFnOptions } from "@trpc/server/adapters/ws";
+import { getServerAuthSession } from "../auth";
+
+// TODO: improve how context is handled in wss
+export async function createTRPCContextForWSS(
+  opts: CreateWSSContextFnOptions,
+): Promise<{ session: Session | null }> {
+  const session = await getSession({
+    req: opts.req,
+  });
+  return {
+    session,
+  };
+}
 
 export async function createTRPCContext(
   opts: trpcNext.CreateNextContextOptions,
@@ -50,7 +64,7 @@ export async function createTRPCContext(
   };
 }
 
-export type Context = trpc.inferAsyncReturnType<typeof createTRPCContext>;
+export type Context = Awaited<ReturnType<typeof createTRPCContext>>;
 
 /**
  * This is the actual context you will use in your router. It will be used to process every request
@@ -74,9 +88,9 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "@/server/db";
-import { getServerAuthSession } from "../auth";
 import type { Session } from "next-auth";
 import { users } from "@/server/api/user/schema";
+import { getSession } from "next-auth/react";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,

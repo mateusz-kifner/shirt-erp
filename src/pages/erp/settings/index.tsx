@@ -76,6 +76,14 @@ function Settings() {
   const { toggleExtendedList, extendedList } = useExperimentalContext();
   const { flags: rootFlags, toggle: rootToggle } = useFlag("root");
 
+  const [test, setTest] = useState(0);
+
+  trpc.settings.randomNumber.useSubscription(undefined, {
+    onData(data) {
+      setTest(data);
+    },
+  });
+
   useEffect(() => {
     if (loaded && typeof rootFlags?.zoom_level === "string") {
       const html = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
@@ -280,6 +288,7 @@ function Settings() {
                   Test Form UI
                 </Link>
               </div>
+              <div>{test}</div>
             </>
           )}
         </div>

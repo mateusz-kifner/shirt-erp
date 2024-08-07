@@ -15,6 +15,9 @@ import { type UserRole, users } from "@/server/api/user/schema";
 import { eq } from "drizzle-orm";
 import type { Adapter } from "next-auth/adapters";
 import type { Provider } from "next-auth/providers/index";
+import type { IncomingMessage } from "http";
+import type ws from "ws";
+import { getSession } from "next-auth/react";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
