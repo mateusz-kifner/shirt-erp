@@ -20,7 +20,7 @@ import {
   IconUserCircle,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "@shirterp/auth/react";
 import { useExperimentalContext } from "@/context/experimentalContext";
 import {
   Select,

@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "@shirterp/auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 

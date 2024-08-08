@@ -4,7 +4,7 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
-} from "next-auth";
+} from "@shirterp/auth";
 import DiscordProvider from "next-auth/providers/discord";
 import EmailProvider from "next-auth/providers/email";
 
@@ -17,7 +17,7 @@ import type { Adapter } from "next-auth/adapters";
 import type { Provider } from "next-auth/providers/index";
 import type { IncomingMessage } from "http";
 import type ws from "ws";
-import { getSession } from "next-auth/react";
+import { getSession } from "@shirterp/auth/react";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -25,7 +25,7 @@ import { getSession } from "next-auth/react";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module "@shirterp/auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;

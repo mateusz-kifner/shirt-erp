@@ -8,7 +8,7 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getCsrfToken, getProviders, signIn } from "next-auth/react";
+import { getCsrfToken, getProviders, signIn } from "@shirterp/auth/react";
 import { useState } from "react";
 
 /**

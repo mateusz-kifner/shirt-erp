@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "@shirterp/auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 

@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import type { Theme } from "next-auth";
+import type { Theme } from "@shirterp/auth";
 import type { SendVerificationRequestParams } from "next-auth/providers/email";
 import { createTransport } from "nodemailer";
 

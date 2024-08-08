@@ -24,7 +24,7 @@ import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import { trpc } from "@/utils/trpc";
 import { IconDotsVertical, IconTrashX } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@shirterp/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
