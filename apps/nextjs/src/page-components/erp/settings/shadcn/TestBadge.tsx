@@ -1,4 +1,4 @@
-import { Badge } from "@/components/ui/Badge";
+import { Badge } from "@shirterp/ui-web/Badge";
 
 function TestBadge() {
   return (

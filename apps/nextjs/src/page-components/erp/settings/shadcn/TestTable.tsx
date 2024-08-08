@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
+} from "@shirterp/ui-web/Table";
 
 const invoices = [
   {

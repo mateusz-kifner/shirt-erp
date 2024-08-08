@@ -5,11 +5,11 @@ import { IconExternalLink, IconTrashX } from "@tabler/icons-react";
 import _ from "lodash";
 import Link from "next/link";
 
-import Button, { buttonVariants } from "@/components/ui/Button";
+import Button, { buttonVariants } from "@shirterp/ui-web/Button";
 import useTranslation from "@/hooks/useTranslation";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import { Label } from "@/components/ui/Label";
+import { Dialog, DialogContent, DialogTrigger } from "@shirterp/ui-web/Dialog";
+import { Label } from "@shirterp/ui-web/Label";
 import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import ApiList from "../ApiList";

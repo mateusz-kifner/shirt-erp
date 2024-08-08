@@ -1,11 +1,11 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
+} from "@shirterp/ui-web/Card";
 import { Suspense, lazy } from "react";
 import { useUserContext } from "@/context/userContext";
 import { cn } from "@/utils/cn";

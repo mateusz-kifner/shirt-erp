@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { IconAlertCircle, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 

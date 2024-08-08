@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@shirterp/ui-web/Card";
 import useTranslation from "@/hooks/useTranslation";
 import CalendarView from "../../../page-components/erp/calendar/calendar";
 import { createRedirectByRole } from "@/utils/redirectByRole";

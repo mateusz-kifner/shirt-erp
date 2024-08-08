@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { signIn, signOut, useSession } from "@shirterp/auth/react";

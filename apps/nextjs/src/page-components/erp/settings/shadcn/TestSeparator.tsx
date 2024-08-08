@@ -1,4 +1,4 @@
-import { Separator } from "@/components/ui/Separator";
+import { Separator } from "@shirterp/ui-web/Separator";
 
 function TestSeparator() {
   return (

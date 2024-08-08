@@ -1,11 +1,11 @@
 import ApiList from "@/components/ApiList";
-import Button, { buttonVariants } from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import Button, { buttonVariants } from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent, DialogTrigger } from "@shirterp/ui-web/Dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/Tooltip";
+} from "@shirterp/ui-web/Tooltip";
 import useTranslation from "@/hooks/useTranslation";
 import type { EmailCredential } from "@/server/api/email/validator";
 import { type RouterNames, trpc } from "@/utils/trpc";

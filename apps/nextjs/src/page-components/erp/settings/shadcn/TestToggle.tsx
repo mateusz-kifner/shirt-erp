@@ -1,5 +1,5 @@
-import { Card } from "@/components/ui/Card";
-import { Toggle } from "@/components/ui/Toggle";
+import { Card } from "@shirterp/ui-web/Card";
+import { Toggle } from "@shirterp/ui-web/Toggle";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 function TestToggle() {

@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Skeleton } from "@shirterp/ui-web/Skeleton";
 
 function TestSkeleton() {
   return (

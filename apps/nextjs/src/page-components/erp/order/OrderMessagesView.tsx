@@ -3,13 +3,13 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/Accordion";
+} from "@shirterp/ui-web/Accordion";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/Dialog";
+} from "@shirterp/ui-web/Dialog";
 import useTranslation from "@/hooks/useTranslation";
 import type { NewEmailMessage } from "@/server/api/email-message/validator";
 import sortObjectByDateOrNull from "@/utils/sortObjectByDateOrNull";

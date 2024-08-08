@@ -17,7 +17,7 @@ import {
 import useTranslation from "@/hooks/useTranslation";
 import dayjs, { type WeekdayNames } from "dayjs";
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import CalendarCell from "./CalendarCell";
 
 interface CalendarMonthProps {

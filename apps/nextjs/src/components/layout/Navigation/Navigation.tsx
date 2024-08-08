@@ -9,7 +9,7 @@ import navigationData, { type NavigationData } from "./navigationData";
 import { useUserContext } from "@/context/userContext";
 import useTranslation from "@/hooks/useTranslation";
 import _ from "lodash";
-import { buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@shirterp/ui-web/Button";
 import styles from "./navigation.module.css";
 import type TablerIconType from "@/types/TablerIconType";
 import { forwardRef, useEffect, useState } from "react";
@@ -17,7 +17,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 import { useHover } from "@mantine/hooks";
 import MainNavigationList from "./MainNavigationList";
 import { useFlag } from "@/hooks/useFlag";

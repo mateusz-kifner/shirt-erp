@@ -4,8 +4,8 @@ import { useEditableContext } from "./Editable";
 import { Label } from "@shirterp/ui-web/Label";
 import { IconX } from "@tabler/icons-react";
 
-import { Badge } from "@/components/ui/Badge";
-import { Command, CommandGroup, CommandItem } from "@/components/ui/Command";
+import { Badge } from "@shirterp/ui-web/Badge";
+import { Command, CommandGroup, CommandItem } from "@shirterp/ui-web/Command";
 import { CommandInput as CommandPrimitiveInput } from "cmdk";
 import { ScrollArea } from "@shirterp/ui-web/ScrollArea";
 

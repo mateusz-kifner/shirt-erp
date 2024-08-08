@@ -1,5 +1,10 @@
 import EditableShortText from "@/components/editable/EditableShortText";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@shirterp/ui-web/Card";
 import { useId, useState } from "react";
 import { type Key, Editable } from "@/components/editable/Editable";
 import EditableColor from "@/components/editable/EditableColor";

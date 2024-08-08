@@ -1,9 +1,9 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/Tooltip";
+} from "@shirterp/ui-web/Tooltip";
 
 function TestTooltip() {
   return (

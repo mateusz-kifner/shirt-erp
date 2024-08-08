@@ -22,7 +22,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 import localeData from "dayjs/plugin/localeData";
 
-import { TooltipProvider } from "@/components/ui/Tooltip";
+import { TooltipProvider } from "@shirterp/ui-web/Tooltip";
 import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ import { SessionProvider } from "@shirterp/auth/react";
 import LayoutAuth from "@/components/layout/LayoutAuth";
 import LayoutERP from "@/components/layout/LayoutERP";
 import { toast } from "sonner";
-import { Toaster } from "@/components/ui/Sonner";
+import { Toaster } from "@shirterp/ui-web/Sonner";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(isToday);

@@ -1,11 +1,11 @@
-import { Card, CardContent } from "@/components/ui/Card";
+import { Card, CardContent } from "@shirterp/ui-web/Card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/Carousel";
+} from "@shirterp/ui-web/Carousel";
 
 function TestCarousel() {
   return (

@@ -16,8 +16,8 @@ import { type UniversalMatrix, useSpreadSheetData } from "./useSpreadSheetData";
 
 import { getRandomColorByNumber } from "../../utils/getRandomColor";
 
-import Button from "@/components/ui/Button";
-import { ScrollArea, ScrollBar } from "@/components/ui/ScrollArea";
+import Button from "@shirterp/ui-web/Button";
+import { ScrollArea, ScrollBar } from "@shirterp/ui-web/ScrollArea";
 import useTranslation from "@/hooks/useTranslation";
 import type TablerIconType from "@/types/TablerIconType";
 import { trpc } from "@/utils/trpc";

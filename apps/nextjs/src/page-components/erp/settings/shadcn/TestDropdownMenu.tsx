@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   type Checked,
   DropdownMenu,
@@ -16,7 +16,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
+} from "@shirterp/ui-web/DropdownMenu";
 import { IconAlertCircle, IconKeyboard } from "@tabler/icons-react";
 import { useState } from "react";
 

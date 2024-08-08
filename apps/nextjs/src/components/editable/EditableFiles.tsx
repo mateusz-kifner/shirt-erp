@@ -13,9 +13,9 @@ import {
   IconUpload,
 } from "@tabler/icons-react";
 
-import { buttonVariants } from "@/components/ui/Button";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
-import { Label } from "@/components/ui/Label";
+import { buttonVariants } from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent } from "@shirterp/ui-web/Dialog";
+import { Label } from "@shirterp/ui-web/Label";
 import useTranslation from "@/hooks/useTranslation";
 import useUploadMutation from "@/hooks/useUploadMutation";
 import type EditableInput from "@/types/EditableInput";

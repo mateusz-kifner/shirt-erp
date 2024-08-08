@@ -1,7 +1,7 @@
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import * as React from "react";
 
-import { buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@shirterp/ui-web/Button";
 import { cn } from "@/utils/cn";
 import type { VariantProps } from "class-variance-authority";
 

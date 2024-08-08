@@ -7,8 +7,8 @@ export default _noop;
 // import * as React from "react";
 // import { IconX } from "@tabler/icons-react";
 
-// import { Badge } from "@/components/ui/Badge";
-// import { Command, CommandGroup, CommandItem } from "@/components/ui/Command";
+// import { Badge } from "@shirterp/ui-web/Badge";
+// import { Command, CommandGroup, CommandItem } from "@shirterp/ui-web/Command";
 // import { CommandInput as CommandPrimitiveInput } from "cmdk";
 
 // // CC0

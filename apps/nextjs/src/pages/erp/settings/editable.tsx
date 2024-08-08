@@ -1,6 +1,6 @@
 import Editable, { type Key } from "@/components/editable/Editable";
 import { lazy, useState } from "react";
-import { Card, CardContent } from "@/components/ui/Card";
+import { Card, CardContent } from "@shirterp/ui-web/Card";
 import { IconAlertCircle } from "@tabler/icons-react";
 import EditableArray from "@/components/editable/EditableArray";
 import type { GetStaticProps } from "next";

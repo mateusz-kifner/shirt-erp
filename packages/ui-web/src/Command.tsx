@@ -4,7 +4,7 @@ import { Command as CommandPrimitive } from "cmdk";
 import { IconSearch } from "@tabler/icons-react";
 
 import { cn } from "@/utils/cn";
-import { Dialog, DialogContent } from "@/components/ui/Dialog";
+import { Dialog, DialogContent } from "@shirterp/ui-web/Dialog";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,

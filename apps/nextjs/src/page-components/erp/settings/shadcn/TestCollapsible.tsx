@@ -1,9 +1,9 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/Collapsible";
+} from "@shirterp/ui-web/Collapsible";
 import { IconChevronsDown } from "@tabler/icons-react";
 function TestCollapsible() {
   return (

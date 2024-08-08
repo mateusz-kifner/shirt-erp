@@ -1,4 +1,4 @@
-import Button, { buttonVariants } from "@/components/ui/Button";
+import Button, { buttonVariants } from "@shirterp/ui-web/Button";
 import { useUserContext } from "@/context/userContext";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { cn } from "@/utils/cn";

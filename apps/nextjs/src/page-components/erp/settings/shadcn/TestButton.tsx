@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 function TestButton() {

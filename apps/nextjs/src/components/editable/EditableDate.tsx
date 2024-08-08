@@ -4,15 +4,15 @@ import { useClickOutside, useDebouncedValue } from "@mantine/hooks";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 
-import DisplayCell from "@/components/ui/DisplayCell";
+import DisplayCell from "@shirterp/ui-web/DisplayCell";
 
-import Button from "@/components/ui/Button";
-import { Label } from "@/components/ui/Label";
+import Button from "@shirterp/ui-web/Button";
+import { Label } from "@shirterp/ui-web/Label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 import type EditableInput from "@/types/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { IconCalendar } from "@tabler/icons-react";

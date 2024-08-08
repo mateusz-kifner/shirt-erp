@@ -1,5 +1,5 @@
-import Button from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import Button from "@shirterp/ui-web/Button";
+import { Input } from "@shirterp/ui-web/Input";
 import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { getServerAuthSession } from "@/server/auth";

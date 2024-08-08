@@ -1,4 +1,4 @@
-import Pagination from "@/components/ui/Pagination";
+import Pagination from "@shirterp/ui-web/Pagination";
 import useTranslation from "@/hooks/useTranslation";
 import type { EmailCredential } from "@/server/api/email/validator";
 import { trpc } from "@/utils/trpc";

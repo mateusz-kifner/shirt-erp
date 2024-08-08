@@ -1,5 +1,5 @@
-import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
-import { Label } from "@/components/ui/Label";
+import DisplayCellExpanding from "@shirterp/ui-web/DisplayCellExpanding";
+import { Label } from "@shirterp/ui-web/Label";
 import type EditableInput from "@/types/EditableInput";
 import type { Address } from "@/server/api/address/validator";
 import EditableEnum from "./EditableEnum";

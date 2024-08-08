@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { env } from "@/env";
-import { buttonVariants } from "@/components/ui/Button";
+import { buttonVariants } from "@shirterp/ui-web/Button";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
 

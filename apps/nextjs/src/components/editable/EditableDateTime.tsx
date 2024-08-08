@@ -8,10 +8,10 @@ import {
 import { IconCalendar, IconClock } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
-import DisplayCell from "@/components/ui/DisplayCell";
+import DisplayCell from "@shirterp/ui-web/DisplayCell";
 import preventLeave from "@/utils/preventLeave";
 
-import { Label } from "@/components/ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import type EditableInput from "@/types/EditableInput";
 import { useEditableContext } from "./Editable";
 

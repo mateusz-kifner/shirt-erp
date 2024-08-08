@@ -5,7 +5,7 @@ import ApiList from "@/components/ApiList";
 import type { RouterNames } from "@/utils/trpc";
 import navigationData from "@/components/layout/Navigation/navigationData";
 import { customers } from "@/server/db/schemas";
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { IconPlus } from "@tabler/icons-react";
 import CustomerAvatar from "./CustomerAvatar";
 import { truncString } from "@/utils/truncString";

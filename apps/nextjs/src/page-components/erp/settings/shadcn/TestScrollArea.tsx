@@ -1,6 +1,6 @@
-import { ScrollArea } from "@/components/ui/ScrollArea";
+import { ScrollArea } from "@shirterp/ui-web/ScrollArea";
 import { lorem } from "../lorem";
-import { Separator } from "@/components/ui/Separator";
+import { Separator } from "@shirterp/ui-web/Separator";
 
 const tags = Array.from({ length: 50 }).map(
   (_, i, a) => `v1.2.0-beta.${a.length - i}`,

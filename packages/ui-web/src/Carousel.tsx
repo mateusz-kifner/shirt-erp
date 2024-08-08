@@ -5,7 +5,7 @@ import useEmblaCarousel, {
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
 
 import { cn } from "@/utils/cn";
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;

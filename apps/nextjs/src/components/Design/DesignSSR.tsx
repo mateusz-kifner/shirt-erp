@@ -9,21 +9,26 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
+} from "@shirterp/ui-web/DropdownMenu";
 
-import Button from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import Button from "@shirterp/ui-web/Button";
+import { Input } from "@shirterp/ui-web/Input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
+} from "@shirterp/ui-web/Popover";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@shirterp/ui-web/Tabs";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/Tooltip";
+} from "@shirterp/ui-web/Tooltip";
 import type TablerIconType from "@/types/TablerIconType";
 import type { File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";

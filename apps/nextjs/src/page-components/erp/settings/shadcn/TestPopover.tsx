@@ -1,11 +1,11 @@
-import Button from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+import Button from "@shirterp/ui-web/Button";
+import { Input } from "@shirterp/ui-web/Input";
+import { Label } from "@shirterp/ui-web/Label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 
 function TestPopover() {
   return (

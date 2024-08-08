@@ -21,9 +21,9 @@ import StarterKit from "@tiptap/starter-kit";
 
 import preventLeave from "@/utils/preventLeave";
 
-import Button from "@/components/ui/Button";
-import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
-import { Label } from "@/components/ui/Label";
+import Button from "@shirterp/ui-web/Button";
+import DisplayCellExpanding from "@shirterp/ui-web/DisplayCellExpanding";
+import { Label } from "@shirterp/ui-web/Label";
 import type EditableInput from "@/types/EditableInput";
 import {
   IconAlignCenter,

@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import dayjs, { type WeekdayNames } from "dayjs";
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   IconCalendar,
   IconChevronLeft,

@@ -1,9 +1,9 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 import { IconMessageCircle2 } from "@tabler/icons-react";
 
 function Messages() {

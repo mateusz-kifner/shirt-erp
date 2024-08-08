@@ -1,5 +1,10 @@
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@shirterp/ui-web/Card";
 import Editable from "@/components/editable/Editable";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 import EditableSwitch from "@/components/editable/EditableSwitch";
@@ -11,7 +16,7 @@ import type { Product } from "@/server/api/product/validator";
 import EditableNumber from "@/components/editable/EditableNumber";
 import { truncString } from "@/utils/truncString";
 import EditableRichText from "@/components/editable/EditableRichText";
-import RefetchButton from "@/components/ui/RefetchButton";
+import RefetchButton from "@shirterp/ui-web/RefetchButton";
 interface OrderProductionViewProps {
   orderApiUpdate: (key: string | number, value: any) => void;
   orderData?: OrderWithoutRelations;

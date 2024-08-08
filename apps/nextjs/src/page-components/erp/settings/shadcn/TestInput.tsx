@@ -1,6 +1,6 @@
-import Button from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+import Button from "@shirterp/ui-web/Button";
+import { Input } from "@shirterp/ui-web/Input";
+import { Label } from "@shirterp/ui-web/Label";
 
 function TestInput() {
   return (

@@ -1,10 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
-import Button from "@/components/ui/Button";
+import { Avatar, AvatarFallback, AvatarImage } from "@shirterp/ui-web/Avatar";
+import Button from "@shirterp/ui-web/Button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/HoverCard";
+} from "@shirterp/ui-web/HoverCard";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 function TestHoverCard() {

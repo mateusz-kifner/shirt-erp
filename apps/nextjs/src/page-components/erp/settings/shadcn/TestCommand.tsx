@@ -7,7 +7,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from "@/components/ui/Command";
+} from "@shirterp/ui-web/Command";
 import { IconAlertCircle } from "@tabler/icons-react";
 function TestCommand() {
   return (

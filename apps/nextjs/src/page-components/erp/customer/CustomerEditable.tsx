@@ -14,8 +14,8 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-} from "@/components/ui/AlertDialog";
-import Button from "@/components/ui/Button";
+} from "@shirterp/ui-web/AlertDialog";
+import Button from "@shirterp/ui-web/Button";
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
@@ -31,7 +31,7 @@ import {
   IconTrashX,
 } from "@tabler/icons-react";
 import { useRouter } from "next/router";
-import RefetchButton from "@/components/ui/RefetchButton";
+import RefetchButton from "@shirterp/ui-web/RefetchButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,7 +39,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
   DropdownMenuSeparator,
-} from "@/components/ui/DropdownMenu";
+} from "@shirterp/ui-web/DropdownMenu";
 import { useState } from "react";
 import api from "@/hooks/api";
 

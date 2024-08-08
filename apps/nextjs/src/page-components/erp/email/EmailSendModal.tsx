@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import { IconPlus } from "@tabler/icons-react";
 
-import Button from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import Button from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent, DialogTitle } from "@shirterp/ui-web/Dialog";
 
 interface EmailSendModalProps {
   opened: boolean;

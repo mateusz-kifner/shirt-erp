@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/Label";
-import { Switch } from "@/components/ui/Switch";
+import { Label } from "@shirterp/ui-web/Label";
+import { Switch } from "@shirterp/ui-web/Switch";
 
 function TestSwitch() {
   return (

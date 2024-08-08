@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from "react";
 
-import Button, { buttonVariants } from "@/components/ui/Button";
+import Button, { buttonVariants } from "@shirterp/ui-web/Button";
 import { useUserContext } from "@/context/userContext";
 import { env } from "@/env";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -28,7 +28,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@shirterp/ui-web/Select";
 import { IconUser } from "@tabler/icons-react";
 import Link from "next/link";
 import { useFlag } from "@/hooks/useFlag";

@@ -1,4 +1,4 @@
-import { Progress } from "@/components/ui/Progress";
+import { Progress } from "@shirterp/ui-web/Progress";
 import { useTimeout } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 

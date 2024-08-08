@@ -3,8 +3,8 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/Accordion";
-import { Card } from "@/components/ui/Card";
+} from "@shirterp/ui-web/Accordion";
+import { Card } from "@shirterp/ui-web/Card";
 import { lorem } from "../lorem";
 
 function TestAccordion() {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Switch } from "@/components/ui/Switch";
+import { Switch } from "@shirterp/ui-web/Switch";
 import { useHover } from "@mantine/hooks";
 
 import type EditableInput from "@/types/EditableInput";

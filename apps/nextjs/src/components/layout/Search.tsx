@@ -1,6 +1,6 @@
-import Button from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import { Input } from "@/components/ui/Input";
+import Button from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent, DialogTrigger } from "@shirterp/ui-web/Dialog";
+import { Input } from "@shirterp/ui-web/Input";
 import useTranslation from "@/hooks/useTranslation";
 // import CustomerListItem from "@/page-components/erp/customer/CustomerListItem";
 // import OrderListItem from "@/page-components/erp/order/OrderListItem";

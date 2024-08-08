@@ -5,13 +5,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
+} from "@shirterp/ui-web/Card";
 import type { OrderWithoutRelations } from "@/server/api/order/validator";
 import { trpc } from "@/utils/trpc";
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
 // import { customerListSearchParams } from "../customer/CustomerList";
 import { IconMail, IconPhone, IconUser } from "@tabler/icons-react";
-import { Separator } from "@/components/ui/Separator";
+import { Separator } from "@shirterp/ui-web/Separator";
 import DOMPurify from "dompurify";
 import EditableApiEntryId from "@/components/editable/EditableApiEntryId";
 import { addressToString } from "@/server/api/address/utils";
@@ -19,12 +19,12 @@ import { provinces } from "@/components/editable/EditableAddress";
 import EditableEnum from "@/components/editable/EditableEnum";
 import { useClipboard } from "@mantine/hooks";
 import { toast } from "sonner";
-import Button from "@/components/ui/Button";
-import RefetchButton from "@/components/ui/RefetchButton";
+import Button from "@shirterp/ui-web/Button";
+import RefetchButton from "@shirterp/ui-web/RefetchButton";
 import useTranslation from "@/hooks/useTranslation";
 import { useLoaded } from "@/hooks/useLoaded";
 import EditableText from "@/components/editable/EditableText";
-import { Label } from "@/components/ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import api from "@/hooks/api";
 
 interface OrderCustomerViewProps {

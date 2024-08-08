@@ -2,7 +2,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/Tooltip";
+} from "@shirterp/ui-web/Tooltip";
 import { cn } from "@/utils/cn";
 import { simpleColors } from "@/utils/getRandomColor";
 import { useMergedRef, useResizeObserver } from "@mantine/hooks";

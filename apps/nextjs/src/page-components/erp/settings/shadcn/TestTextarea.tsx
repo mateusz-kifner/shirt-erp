@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/Label";
-import { Textarea } from "@/components/ui/Textarea";
+import { Label } from "@shirterp/ui-web/Label";
+import { Textarea } from "@shirterp/ui-web/Textarea";
 
 function TestTextarea() {
   return (

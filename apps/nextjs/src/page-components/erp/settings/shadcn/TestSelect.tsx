@@ -6,7 +6,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@shirterp/ui-web/Select";
 
 function TestSelect() {
   return (

@@ -1,19 +1,19 @@
 import * as React from "react";
 import { IconCheck, IconChevronsDown } from "@tabler/icons-react";
 
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/Command";
+} from "@shirterp/ui-web/Command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 import { cn } from "@/utils/cn";
 
 const frameworks = [

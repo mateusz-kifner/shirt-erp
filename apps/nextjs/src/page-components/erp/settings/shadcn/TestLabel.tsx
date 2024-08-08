@@ -1,6 +1,6 @@
-import { Checkbox } from "@/components/ui/Checkbox";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+import { Checkbox } from "@shirterp/ui-web/Checkbox";
+import { Input } from "@shirterp/ui-web/Input";
+import { Label } from "@shirterp/ui-web/Label";
 
 function TestLabel() {
   return (

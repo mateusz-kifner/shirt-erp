@@ -1,5 +1,5 @@
-import Button, { type ButtonProps } from "@/components/ui/Button";
-import { Separator } from "@/components/ui/Separator";
+import Button, { type ButtonProps } from "@shirterp/ui-web/Button";
+import { Separator } from "@shirterp/ui-web/Separator";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import type { EmailCredential } from "@/server/api/email/validator";
 import { trpc } from "@/utils/trpc";

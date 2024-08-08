@@ -4,8 +4,8 @@ import { IconPlus } from "@tabler/icons-react";
 
 import EditableApiEntry from "@/components/editable/EditableApiEntry";
 import EditableText from "@/components/editable/EditableText";
-import Button from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import Button from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent, DialogTitle } from "@shirterp/ui-web/Dialog";
 import type { Product } from "@/server/api/product/validator";
 import _ from "lodash";
 import Editable from "@/components/editable/Editable";

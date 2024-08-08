@@ -8,8 +8,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/AlertDialog";
-import { buttonVariants } from "@/components/ui/Button";
+} from "@shirterp/ui-web/AlertDialog";
+import { buttonVariants } from "@shirterp/ui-web/Button";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 function TestAlertDialog() {

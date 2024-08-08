@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Card,
   CardContent,
@@ -6,9 +6,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+} from "@shirterp/ui-web/Card";
+import { Input } from "@shirterp/ui-web/Input";
+import { Label } from "@shirterp/ui-web/Label";
 
 function TestCard() {
   return (

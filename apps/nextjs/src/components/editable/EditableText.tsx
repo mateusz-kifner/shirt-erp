@@ -6,9 +6,9 @@ import {
   type CSSProperties,
   useLayoutEffect,
 } from "react";
-import DisplayCellExpanding from "@/components/ui/DisplayCellExpanding";
+import DisplayCellExpanding from "@shirterp/ui-web/DisplayCellExpanding";
 import preventLeave from "@/utils/preventLeave";
-import { Label } from "@/components/ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import type EditableInput from "@/types/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
 import { useClickOutside } from "@mantine/hooks";

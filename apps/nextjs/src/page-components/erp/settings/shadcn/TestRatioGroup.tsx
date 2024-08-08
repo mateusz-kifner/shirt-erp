@@ -1,5 +1,5 @@
-import { Label } from "@/components/ui/Label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
+import { Label } from "@shirterp/ui-web/Label";
+import { RadioGroup, RadioGroupItem } from "@shirterp/ui-web/RadioGroup";
 
 function TestRatioGroup() {
   return (

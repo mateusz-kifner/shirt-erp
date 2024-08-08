@@ -16,8 +16,8 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-} from "@/components/ui/AlertDialog";
-import Button from "@/components/ui/Button";
+} from "@shirterp/ui-web/AlertDialog";
+import Button from "@shirterp/ui-web/Button";
 
 import { useLoaded } from "@/hooks/useLoaded";
 import useTranslation from "@/hooks/useTranslation";
@@ -36,8 +36,8 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
-import RefetchButton from "@/components/ui/RefetchButton";
+} from "@shirterp/ui-web/DropdownMenu";
+import RefetchButton from "@shirterp/ui-web/RefetchButton";
 import api from "@/hooks/api";
 
 const entryName = "order";

@@ -1,14 +1,14 @@
-import Button from "@/components/ui/Button";
-import { Checkbox } from "@/components/ui/Checkbox";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
+import Button from "@shirterp/ui-web/Button";
+import { Checkbox } from "@shirterp/ui-web/Checkbox";
+import { Input } from "@shirterp/ui-web/Input";
+import { Label } from "@shirterp/ui-web/Label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@shirterp/ui-web/Select";
 import { env } from "@/env";
 import useTranslation from "@/hooks/useTranslation";
 import { trpc } from "@/utils/trpc";

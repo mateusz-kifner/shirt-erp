@@ -4,7 +4,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@shirterp/ui-web/Select";
 
 interface ItemsPerPageSelectProps {
   defaultValue: number;

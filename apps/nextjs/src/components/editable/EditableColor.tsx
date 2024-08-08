@@ -5,15 +5,15 @@ import { useClickOutside } from "@mantine/hooks";
 import colorNames from "@/utils/color-names.json";
 import preventLeave from "@/utils/preventLeave";
 
-import { buttonVariants } from "@/components/ui/Button";
-import InputColor from "@/components/ui/ColorPicker/InputColor";
-import DisplayCell from "@/components/ui/DisplayCell";
-import { Label } from "@/components/ui/Label";
+import { buttonVariants } from "@shirterp/ui-web/Button";
+import InputColor from "@shirterp/ui-web/ColorPicker/InputColor";
+import DisplayCell from "@shirterp/ui-web/DisplayCell";
+import { Label } from "@shirterp/ui-web/Label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 import type EditableInput from "@/types/EditableInput";
 import { cn } from "@/utils/cn";
 import equalHSV from "@/utils/equalHSV";

@@ -1,5 +1,5 @@
 import EditableDebugInfo from "@/components/editable/EditableDebugInfo";
-import { Separator } from "@/components/ui/Separator";
+import { Separator } from "@shirterp/ui-web/Separator";
 import type { EmailMessage } from "@/server/api/email-message/validator";
 import dayjs from "dayjs";
 import DOMPurify from "dompurify";

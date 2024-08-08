@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/Alert";
+import { Alert, AlertDescription, AlertTitle } from "@shirterp/ui-web/Alert";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 function TestAlert() {

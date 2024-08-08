@@ -2,7 +2,7 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/Resizable";
+} from "@shirterp/ui-web/Resizable";
 
 function TestResizable() {
   return (

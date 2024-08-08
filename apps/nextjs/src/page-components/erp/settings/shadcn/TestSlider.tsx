@@ -1,4 +1,4 @@
-import { Slider } from "@/components/ui/Slider";
+import { Slider } from "@shirterp/ui-web/Slider";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 
 function TestSlider() {

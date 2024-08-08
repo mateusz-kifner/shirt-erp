@@ -6,12 +6,12 @@ import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
 import { signIn, useSession } from "@shirterp/server/auth";
 
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
+} from "@shirterp/ui-web/Popover";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 const Notifications = () => {

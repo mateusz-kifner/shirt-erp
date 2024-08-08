@@ -1,4 +1,4 @@
-import { AspectRatio } from "@/components/ui/AspectRatio";
+import { AspectRatio } from "@shirterp/ui-web/AspectRatio";
 
 function TestAspectRatio() {
   return (

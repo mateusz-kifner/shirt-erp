@@ -1,4 +1,4 @@
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { useUserContext } from "@/context/userContext";
 import { IconMoonStars, IconSun } from "@tabler/icons-react";
 import type { GetStaticProps } from "next";

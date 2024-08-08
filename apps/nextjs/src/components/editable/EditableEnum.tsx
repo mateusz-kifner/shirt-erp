@@ -1,11 +1,11 @@
-import { Label } from "@/components/ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@shirterp/ui-web/Select";
 import useTranslation from "@/hooks/useTranslation";
 import type EditableInput from "@/types/EditableInput";
 import type { SelectProps as RadixSelectProps } from "@radix-ui/react-select";

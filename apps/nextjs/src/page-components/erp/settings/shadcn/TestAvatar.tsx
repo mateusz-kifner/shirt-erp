@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@shirterp/ui-web/Avatar";
 import { IconAlertCircle } from "@tabler/icons-react";
 
 function TestAvatar() {

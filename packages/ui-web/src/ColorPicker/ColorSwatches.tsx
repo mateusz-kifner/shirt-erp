@@ -1,6 +1,6 @@
-import Button from "@/components/ui/Button";
-import { ScrollArea } from "@/components/ui/ScrollArea";
-import SimpleTooltip from "@/components/ui/SimpleTooltip";
+import Button from "@shirterp/ui-web/Button";
+import { ScrollArea } from "@shirterp/ui-web/ScrollArea";
+import SimpleTooltip from "@shirterp/ui-web/SimpleTooltip";
 import { IconNote, IconNoteOff } from "@tabler/icons-react";
 import { useId, useState } from "react";
 

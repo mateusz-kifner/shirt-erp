@@ -1,4 +1,4 @@
-import Pagination from "@/components/ui/Pagination";
+import Pagination from "@shirterp/ui-web/Pagination";
 
 function TestPagination() {
   return (

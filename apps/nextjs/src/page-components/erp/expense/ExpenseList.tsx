@@ -5,7 +5,7 @@ import ApiList from "@/components/ApiList";
 import type { RouterNames } from "@/utils/trpc";
 import { expenses } from "@/server/db/schemas";
 import navigationData from "@/components/layout/Navigation/navigationData";
-import Button from "@/components/ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { IconPlus } from "@tabler/icons-react";
 
 const entryName: RouterNames = "expense";

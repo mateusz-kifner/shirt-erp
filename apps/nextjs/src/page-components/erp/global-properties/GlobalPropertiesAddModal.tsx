@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { IconPlus } from "@tabler/icons-react";
 
 import EditableText from "@/components/editable/EditableText";
-import Button from "@/components/ui/Button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/Dialog";
+import Button from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent, DialogTitle } from "@shirterp/ui-web/Dialog";
 import { trpc } from "@/utils/trpc";
 import Editable from "@/components/editable/Editable";
 

@@ -8,8 +8,8 @@ import {
   useLayoutEffect,
 } from "react";
 
-import DisplayCell from "@/components/ui/DisplayCell";
-import { Label } from "@/components/ui/Label";
+import DisplayCell from "@shirterp/ui-web/DisplayCell";
+import { Label } from "@shirterp/ui-web/Label";
 import { useLoaded } from "@/hooks/useLoaded";
 import type EditableInput from "@/types/EditableInput";
 import inputFocusAtEndOfLine from "@/utils/inputFocusAtEndOfLine";
