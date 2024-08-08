@@ -10,10 +10,6 @@ export const env = createEnv({
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(["development", "test", "production"]),
     SECRET_COOKIE_PASSWORD: z.string().min(32),
-    ENABLE_CLAMAV: z.preprocess(
-      (v) => v === "true" || v === "1",
-      z.boolean().default(false),
-    ),
     NEXTAUTH_URL: z.string().url(),
     NEXTAUTH_SECRET: z.string(),
     DISCORD_CLIENT_ID: z.string().optional(),
@@ -51,7 +47,6 @@ export const env = createEnv({
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_START_MESSAGE: process.env.NEXT_PUBLIC_START_MESSAGE,
     NEXT_PUBLIC_DEMO: process.env.NEXT_PUBLIC_DEMO,
-    ENABLE_CLAMAV: process.env.ENABLE_CLAMAV,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     EMAIL_SERVER_USER: process.env.EMAIL_SERVER_USER,

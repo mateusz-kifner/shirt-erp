@@ -37,7 +37,6 @@
     "@trpc/server": "11.0.0-rc.477",
     "@use-gesture/react": "10.3.1",
     "bcrypt": "5.1.1",
-    "clamscan": "2.3.1",
     "cmdk": "1.0.0",
     "dayjs": "1.11.12",
     "dompurify": "3.1.6",

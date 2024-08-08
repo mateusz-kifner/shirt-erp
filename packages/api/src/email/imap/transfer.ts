@@ -4,7 +4,6 @@ import { env } from "@/env";
 import { files as filesSchema } from "@/server/api/file/schema";
 import { db } from "@/server/db";
 import { genRandomStringServerOnly } from "@/utils/genRandomString";
-import NodeClam from "clamscan";
 import { and, eq } from "drizzle-orm";
 import fsp from "fs/promises";
 import imageSize from "image-size";
@@ -95,13 +94,6 @@ export async function transferEmailToDbByUId(
     const absolutePath = path.resolve(uploadDir);
 
     const newFiles = parsed.attachments.map(async (attachment) => {
-      if (env.ENABLE_CLAMAV) {
-        const clamscan = await new NodeClam().init({});
-        const scanResult = await clamscan.scanStream(
-          bufferToReadable(attachment.content),
-        );
-        if (scanResult.isInfected) throw new Error("Virus detected");
-      }
       const scrambledFileName = genRandomStringServerOnly(25);
       const filePath = `${absolutePath}/${scrambledFileName}`;
       await fsp.writeFile(filePath, attachment.content);

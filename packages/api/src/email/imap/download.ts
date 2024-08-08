@@ -59,27 +59,6 @@ export async function downloadEmailByUid(
 
       await writeStreamAsync(outputFilePath, emailStream.content);
     }
-    if (env.ENABLE_CLAMAV) {
-      try {
-        const clamscan = await new NodeClam().init({ removeInfected: true });
-        const scanResult = await clamscan.scanDir(outputFilePath);
-        if (scanResult.badFiles.length > 0) {
-          await fsp.writeFile(
-            outputFilePath,
-            `[clamav deleted]: File Infected, viruses found:  ${scanResult.viruses}`,
-          );
-          return {
-            avIsInfected: true,
-            viruses: scanResult.viruses,
-          } as {
-            avIsInfected: true;
-            viruses: string[];
-          };
-        }
-      } catch (err) {
-        Logger.warn("ClamAV:", err);
-      }
-    }
 
     const emailFileStream = fs.createReadStream(outputFilePath);
     const parsed = await simpleParser(emailFileStream);
@@ -99,7 +78,6 @@ export async function downloadEmailByUid(
     const result: Omit<ParsedMail, "attachments"> & { avIsInfected?: false } = {
       ..._.omit(parsed, ["attachments"]),
     };
-    if (env.ENABLE_CLAMAV) result.avIsInfected = false;
 
     const files = parsed.attachments.map(async (attachment) => {
       let preview: Buffer | undefined;
@@ -202,13 +180,6 @@ export async function downloadEmailAttachment(
     const file = parsed.attachments.find((val) => val.filename === attachment);
     if (!file) throw new Error("NOT FOUND");
 
-    if (env.ENABLE_CLAMAV) {
-      const clamscan = await new NodeClam().init({});
-      const scanResult = await clamscan.scanStream(
-        bufferToReadable(file.content),
-      );
-      if (scanResult.isInfected) throw new Error("Virus detected");
-    }
     return file;
   } catch (error) {
     console.error("Error fetching email attachment:", error);

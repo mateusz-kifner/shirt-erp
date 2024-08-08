@@ -12,16 +12,16 @@ importers:
         specifier: 1.8.3
         version: 1.8.3
       '@turbo/gen':
-        specifier: ^2.0.11
-        version: 2.0.12(@types/node@20.14.14)(typescript@5.5.4)
+        specifier: 2.0.11
+        version: 2.0.11(@types/node@20.14.14)(typescript@5.5.4)
       cross-env:
-        specifier: ^7.0.3
+        specifier: 7.0.3
         version: 7.0.3
       turbo:
-        specifier: ^2.0.11
-        version: 2.0.12
+        specifier: 2.0.11
+        version: 2.0.11
       typescript:
-        specifier: ^5.5.4
+        specifier: 5.5.4
         version: 5.5.4
 
   apps/nextjs:
@@ -183,7 +183,7 @@ importers:
         specifier: 7.2.0
         version: 7.2.0
       ws:
-        specifier: ^8.18.0
+        specifier: 8.18.0
         version: 8.18.0
       zod:
         specifier: 3.23.8
@@ -238,7 +238,7 @@ importers:
         specifier: 5.0.5
         version: 5.0.5
       '@types/ws':
-        specifier: ^8.5.12
+        specifier: 8.5.12
         version: 8.5.12
       '@vitejs/plugin-react':
         specifier: 4.3.1
@@ -262,7 +262,7 @@ importers:
         specifier: 24.1.1
         version: 24.1.1
       npm-run-all:
-        specifier: ^4.1.5
+        specifier: 4.1.5
         version: 4.1.5
       pg:
         specifier: 8.12.0
@@ -314,7 +314,7 @@ importers:
   packages/auth:
     dependencies:
       '@lucia-auth/adapter-drizzle':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(drizzle-orm@0.32.2)(lucia@3.2.0)
       '@shirterp/api':
         specifier: workspace:*
@@ -326,13 +326,13 @@ importers:
         specifier: 0.11.0
         version: 0.11.0(typescript@5.5.4)(zod@3.23.8)
       lucia:
-        specifier: ^3.2.0
+        specifier: 3.2.0
         version: 3.2.0
       next:
         specifier: 14.2.5
         version: 14.2.5(react-dom@18.3.1)(react@18.3.1)
       oslo:
-        specifier: ^1.2.1
+        specifier: 1.2.1
         version: 1.2.1
       react:
         specifier: 18.3.1
@@ -354,16 +354,16 @@ importers:
   packages/email-templates:
     dependencies:
       '@react-email/components':
-        specifier: ^0.0.22
+        specifier: 0.0.22
         version: 0.0.22(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@react-email/render':
-        specifier: ^0.0.17
+        specifier: 0.0.17
         version: 0.0.17(react-dom@18.3.1)(react@18.3.1)
       '@t3-oss/env-nextjs':
         specifier: 0.11.0
         version: 0.11.0(typescript@5.5.4)(zod@3.23.8)
       nodemailer:
-        specifier: ^6.9.14
+        specifier: 6.9.14
         version: 6.9.14
       react:
         specifier: 18.3.1
@@ -372,7 +372,7 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       react-email:
-        specifier: ^2.1.6
+        specifier: 2.1.6
         version: 2.1.6(eslint@9.8.0)
       zod:
         specifier: 3.23.8
@@ -388,7 +388,7 @@ importers:
         specifier: 20.14.14
         version: 20.14.14
       '@types/nodemailer':
-        specifier: ^6.4.15
+        specifier: 6.4.15
         version: 6.4.15
       '@types/react':
         specifier: 18.3.3
@@ -415,34 +415,34 @@ importers:
         specifier: 3.9.0
         version: 3.9.0(react-hook-form@7.52.2)
       '@radix-ui/react-accordion':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-alert-dialog':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-aspect-ratio':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-avatar':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-checkbox':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-collapsible':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-context-menu':
-        specifier: ^2.2.1
+        specifier: 2.2.1
         version: 2.2.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-dialog':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-dropdown-menu':
         specifier: 2.1.1
         version: 2.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-hover-card':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-icons':
         specifier: 1.3.0
@@ -451,55 +451,55 @@ importers:
         specifier: 2.1.0
         version: 2.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-menubar':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-navigation-menu':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-popover':
-        specifier: ^1.1.1
+        specifier: 1.1.1
         version: 1.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-progress':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-radio-group':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-scroll-area':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-select':
-        specifier: ^2.1.1
+        specifier: 2.1.1
         version: 2.1.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-separator':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-slider':
-        specifier: ^1.2.0
+        specifier: 1.2.0
         version: 1.2.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-slot':
         specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react@18.3.1)
       '@radix-ui/react-switch':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-tabs':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-toast':
-        specifier: ^1.2.1
+        specifier: 1.2.1
         version: 1.2.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-toggle':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-toggle-group':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@radix-ui/react-tooltip':
-        specifier: ^1.1.2
+        specifier: 1.1.2
         version: 1.1.2(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       '@tabler/icons-react':
-        specifier: ^3.11.0
+        specifier: 3.11.0
         version: 3.11.0(react@18.3.1)
       '@tiptap/core':
         specifier: 2.5.9
@@ -535,16 +535,16 @@ importers:
         specifier: 0.7.0
         version: 0.7.0
       cmdk:
-        specifier: ^1.0.0
+        specifier: 1.0.0
         version: 1.0.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       date-fns:
-        specifier: ^3.6.0
+        specifier: 3.6.0
         version: 3.6.0
       embla-carousel-react:
-        specifier: ^8.1.8
+        specifier: 8.1.8
         version: 8.1.8(react@18.3.1)
       input-otp:
-        specifier: ^1.2.4
+        specifier: 1.2.4
         version: 1.2.4(react-dom@18.3.1)(react@18.3.1)
       next-themes:
         specifier: 0.3.0
@@ -553,13 +553,13 @@ importers:
         specifier: 18.3.1
         version: 18.3.1
       react-day-picker:
-        specifier: ^9.0.8
+        specifier: 9.0.8
         version: 9.0.8(react@18.3.1)
       react-hook-form:
         specifier: 7.52.2
         version: 7.52.2(react@18.3.1)
       react-resizable-panels:
-        specifier: ^2.0.23
+        specifier: 2.0.23
         version: 2.0.23(react-dom@18.3.1)(react@18.3.1)
       sonner:
         specifier: 1.5.0
@@ -571,10 +571,10 @@ importers:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@3.4.9)
       tinycolor2:
-        specifier: ^1.6.0
+        specifier: 1.6.0
         version: 1.6.0
       vaul:
-        specifier: ^0.9.1
+        specifier: 0.9.1
         version: 0.9.1(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)
       zod:
         specifier: 3.23.8
@@ -605,13 +605,13 @@ importers:
         specifier: workspace:*
         version: link:../typescript
       '@softwaretechnik/dbml-renderer':
-        specifier: ^1.0.30
+        specifier: 1.0.30
         version: 1.0.30
       drizzle-dbml-generator:
-        specifier: ^0.8.0
+        specifier: 0.8.0
         version: 0.8.0
       ts-node:
-        specifier: ^10.9.2
+        specifier: 10.9.2
         version: 10.9.2(@types/node@20.14.14)(typescript@5.5.4)
       typescript:
         specifier: 5.5.4
@@ -5996,11 +5996,11 @@ packages:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: true
 
-  /@turbo/gen@2.0.12(@types/node@20.14.14)(typescript@5.5.4):
-    resolution: {integrity: sha512-6+7pV6XypJY91i0j00E2EapR2eRnQw3xdl1CYgRhhp+m4apUPLAVS/Ya7Hq3IT4ow65Pbt7mHns/UQGz22m9cw==}
+  /@turbo/gen@2.0.11(@types/node@20.14.14)(typescript@5.5.4):
+    resolution: {integrity: sha512-9F2JvM2hwpPtTZii5CESVQZFquVlpEKM1F2JOQgyBnmuhyCylI7s/oz/v/G/reu8zO9NQy22MashkgUCpyV9Zg==}
     hasBin: true
     dependencies:
-      '@turbo/workspaces': 2.0.12
+      '@turbo/workspaces': 2.0.11
       commander: 10.0.1
       fs-extra: 10.1.0
       inquirer: 8.2.6
@@ -6019,8 +6019,8 @@ packages:
       - typescript
     dev: true
 
-  /@turbo/workspaces@2.0.12:
-    resolution: {integrity: sha512-4AlT+cq+VoUmgcq9bAxUM7U9eJtStpF0LMyz4ch23o0c5XalyofEXA2WbvFTP9xaRvryjksK4h5RDB3Q8m7Bgw==}
+  /@turbo/workspaces@2.0.11:
+    resolution: {integrity: sha512-/S1Q5lAGya+hKWO/iabN7a0vbXQwDac6am9r/CSmKbxvRwRVB2hNzcqLIx+xKmIj0N8GCK028CbgYOY3+SWXAw==}
     hasBin: true
     dependencies:
       commander: 10.0.1
@@ -10211,7 +10211,7 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       '@tootallnate/quickjs-emscripten': 0.23.0
-      agent-base: 7.1.0
+      agent-base: 7.1.1
       debug: 4.3.6
       get-uri: 6.0.3
       http-proxy-agent: 7.0.2
@@ -10831,7 +10831,7 @@ packages:
     resolution: {integrity: sha512-u0piLU+nCOHMgGjRbimiXmA9kM/L9EHh3zL81xCdp7m+Y2pHIsnmbdDoEDoAz5geaonNR6q6+yOPQs6n4T6sBQ==}
     engines: {node: '>= 14'}
     dependencies:
-      agent-base: 7.1.0
+      agent-base: 7.1.1
       debug: 4.3.6
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
@@ -12260,64 +12260,64 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /turbo-darwin-64@2.0.12:
-    resolution: {integrity: sha512-NAgfgbXxX/JScWQmmQnGbPuFZq7LIswHfcMk5JwyBXQM/xmklNOxxac7MnGGIOf19Z2f6S3qHy17VIj0SeGfnA==}
+  /turbo-darwin-64@2.0.11:
+    resolution: {integrity: sha512-YlHEEhcm+jI1BSZoLugGHUWDfRXaNaQIv7tGQBfadYjo9kixBnqoTOU6s1ubOrQMID+lizZZQs79GXwqM6vohg==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-darwin-arm64@2.0.12:
-    resolution: {integrity: sha512-cP02uer5KSJ+fXL+OfRRk5hnVjV0c60hxDgNcJxrZpfhun7HHoKDDR7w2xhQntiA45aC6ZZEXRqMKpj6GAmKbg==}
+  /turbo-darwin-arm64@2.0.11:
+    resolution: {integrity: sha512-K/YW+hWzRQ/wGmtffxllH4M1tgy8OlwgXODrIiAGzkSpZl9+pIsem/F86UULlhsIeavBYK/LS5+dzV3DPMjJ9w==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-64@2.0.12:
-    resolution: {integrity: sha512-+mQgGfg1eq5qF+wenK/FKJaNMNAo5DQLC4htQy+8osW+fx6U+8+6UlPQPaycAWDEqwOI7NwuqkeHfkEQLQUTyQ==}
+  /turbo-linux-64@2.0.11:
+    resolution: {integrity: sha512-mv8CwGP06UPweMh1Vlp6PI6OWnkuibxfIJ4Vlof7xqjohAaZU5FLqeOeHkjQflH/6YrCVuS9wrK0TFOu+meTtA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-linux-arm64@2.0.12:
-    resolution: {integrity: sha512-KFyEZDXfPU1DK4zimxdCcqAcK7IIttX4mfsgB7NsSEOmH0dhHOih/YFYiyEDC1lTRx0C2RlzQ0Kjjdz48AN5Eg==}
+  /turbo-linux-arm64@2.0.11:
+    resolution: {integrity: sha512-wLE5tl4oriTmHbuayc0ki0csaCplmVLj+uCWtecM/mfBuZgNS9ICNM9c4sB+Cfl5tlBBFeepqRNgvRvn8WeVZg==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-64@2.0.12:
-    resolution: {integrity: sha512-kJj4KCkZTkDTDCqsSw1m1dbO4WeoQq1mYUm/thXOH0OkeqYbSMt0EyoTcJOgKUDsrMnzZD2gPfYrlYHtV69lVA==}
+  /turbo-windows-64@2.0.11:
+    resolution: {integrity: sha512-tja3zvVCSWu3HizOoeQv0qDJ+GeWGWRFOOM6a8i3BYnXLgGKAaDZFcjwzgC50tWiAw4aowIVR4OouwIyRhLBaQ==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo-windows-arm64@2.0.12:
-    resolution: {integrity: sha512-TY3ROxguDilN2olCwcZMaePdW01Xhma0pZU7bNhsQEqca9RGAmsZBuzfGnTMcWPmv4tpnb/PlX1hrt1Hod/44Q==}
+  /turbo-windows-arm64@2.0.11:
+    resolution: {integrity: sha512-sYjXP6k94Bqh99R+y3M1Ks6LRIEZybMz+7enA8GKl6JJ2ZFaXxTnS6q+/2+ii1+rRwxohj5OBb4gxODcF8Jd4w==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /turbo@2.0.12:
-    resolution: {integrity: sha512-8s2KwqjwQj7z8Z53SUZSKVkQOZ2/Sl4D2F440oaBY/k2lGju60dW6srEpnn8/RIDeICZmQn3pQHF79Jfnc5Skw==}
+  /turbo@2.0.11:
+    resolution: {integrity: sha512-imDlFFAvitbCm1JtDFJ6eG882qwxHUmVT2noPb3p2jq5o5DuXOchMbkVS9kUeC3/4WpY5N0GBZ3RvqNyjHZw1Q==}
     hasBin: true
     optionalDependencies:
-      turbo-darwin-64: 2.0.12
-      turbo-darwin-arm64: 2.0.12
-      turbo-linux-64: 2.0.12
-      turbo-linux-arm64: 2.0.12
-      turbo-windows-64: 2.0.12
-      turbo-windows-arm64: 2.0.12
+      turbo-darwin-64: 2.0.11
+      turbo-darwin-arm64: 2.0.11
+      turbo-linux-64: 2.0.11
+      turbo-linux-arm64: 2.0.11
+      turbo-windows-64: 2.0.11
+      turbo-windows-arm64: 2.0.11
     dev: true
 
   /turndown@7.2.0:
