@@ -5,7 +5,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/DropdownMenu";
+} from "@shirterp/ui-web/DropdownMenu";
 import {
   IconArrowDown,
   IconArrowUp,
@@ -14,8 +14,12 @@ import {
   IconEyeOff,
   IconSettings,
 } from "@tabler/icons-react";
-import { buttonVariants } from "../ui/Button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
+import { buttonVariants } from "@shirterp/ui-web/Button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@shirterp/ui-web/Tooltip";
 import { cn } from "@/utils/cn";
 import { type Dispatch, type SetStateAction, useId } from "react";
 import type { SortType } from "./types";

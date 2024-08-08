@@ -10,8 +10,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { validateRequest } from "@shirterp/api/auth/react";
-import { db } from "@shirterp/api";
+import { validateRequest } from "@shirterp/server/auth/react";
+import { db } from "@shirterp/server";
 
 /**
  * 1. CONTEXT

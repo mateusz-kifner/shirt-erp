@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "@shirterp/ui-web/Select";
 import _ from "lodash";
 
 interface FlagSettingEnumProps {

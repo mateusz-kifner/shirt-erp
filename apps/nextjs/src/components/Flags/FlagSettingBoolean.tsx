@@ -1,7 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import { useId } from "react";
 import _ from "lodash";
-import { Switch } from "../ui/Switch";
+import { Switch } from "@shirterp/ui-web/Switch";
 
 interface FlagSettingBooleanProps {
   onChange?: (value: boolean) => void;

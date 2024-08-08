@@ -11,14 +11,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/Table";
+} from "@shirterp/ui-web/Table";
 import _ from "lodash";
-import { Checkbox } from "../ui/Checkbox";
-import { Skeleton } from "../ui/Skeleton";
+import { Checkbox } from "@shirterp/ui-web/Checkbox";
+import { Skeleton } from "@shirterp/ui-web/Skeleton";
 import dayjs from "dayjs";
 import { IconArrowNarrowDown, IconArrowNarrowUp } from "@tabler/icons-react";
 import { cn } from "@/utils/cn";
-import { buttonVariants } from "../ui/Button";
+import { buttonVariants } from "@shirterp/ui-web/Button";
 import type { SortType } from "./types";
 import { IsSortForKeyDesc, getFirstArrayElementOrValue } from "./utils";
 

@@ -20,7 +20,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import MultiTabs from "./MultiTabs/MultiTabs";
 import { Tab } from "./MultiTabs/Tab";
 import useMultiTabsState from "./MultiTabs/useMultiTabsState";
-import { Card } from "../ui/Card";
+import { Card } from "@shirterp/ui-web/Card";
 
 // import MultiTabs from "./MultiTabs"
 interface WorkspaceItemMetadata {

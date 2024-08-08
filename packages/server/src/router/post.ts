@@ -1,7 +1,7 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 
-import { desc, eq } from "@shirterp/api";
+import { desc, eq } from "@shirterp/server";
 import { post } from "@shirterp/db/schemas";
 
 import { protectedProcedure, publicProcedure } from "../trpc";

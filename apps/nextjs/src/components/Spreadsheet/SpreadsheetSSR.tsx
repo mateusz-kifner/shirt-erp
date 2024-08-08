@@ -23,8 +23,12 @@ import type TablerIconType from "@/types/TablerIconType";
 import { trpc } from "@/utils/trpc";
 import TableCenterIcon from "../icons/TableCenterIcon";
 import TableEdgeIcon from "../icons/TableEdgeIcon";
-import { ContextMenuItem } from "../ui/ContextMenu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/Tooltip";
+import { ContextMenuItem } from "@shirterp/ui-web/ContextMenu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@shirterp/ui-web/Tooltip";
 import { Cell, enhance as enhanceCell } from "./Cell";
 import ColumnIndicator, {
   enhance as enhanceColumnIndicator,

@@ -23,7 +23,7 @@ import type { File as FileType } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
 import FileListItem from "../FileListItem";
 import { useEditableContext } from "./Editable";
-import { ContextMenuItem } from "../ui/ContextMenu";
+import { ContextMenuItem } from "@shirterp/ui-web/ContextMenu";
 
 // FIXME: ENFORCE FILE LIMIT
 

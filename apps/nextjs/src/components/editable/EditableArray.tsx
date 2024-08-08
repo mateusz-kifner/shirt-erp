@@ -8,20 +8,20 @@ import {
   useState,
 } from "react";
 import { useEditableContextWithoutOverride } from "./Editable";
-import { Label } from "../ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import type EditableInput from "@/types/EditableInput";
-import Button from "../ui/Button";
+import Button from "@shirterp/ui-web/Button";
 import { IconPlus, IconTrashX } from "@tabler/icons-react";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "../ui/ContextMenu";
+} from "@shirterp/ui-web/ContextMenu";
 import useTranslation from "@/hooks/useTranslation";
 import { useListState } from "@mantine/hooks";
-import { Card, CardContent } from "../ui/Card";
-import DisplayCell from "../ui/DisplayCell";
+import { Card, CardContent } from "@shirterp/ui-web/Card";
+import DisplayCell from "@shirterp/ui-web/DisplayCell";
 
 interface EditableArrayProps<T> extends EditableInput<T[]> {
   children:

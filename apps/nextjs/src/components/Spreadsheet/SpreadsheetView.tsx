@@ -11,8 +11,8 @@ import isNumeric from "../../utils/isNumeric";
 import type { TypeAABB2D } from "@/types/AABB";
 import type TablerIconType from "@/types/TablerIconType";
 import { trpc } from "@/utils/trpc";
-import Button from "../ui/Button";
-import { ScrollArea } from "../ui/ScrollArea";
+import Button from "@shirterp/ui-web/Button";
+import { ScrollArea } from "@shirterp/ui-web/ScrollArea";
 import type { UniversalMatrix } from "./useSpreadSheetData";
 
 function expandAABB(aabb: TypeAABB2D, row: number, col: number) {

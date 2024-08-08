@@ -6,7 +6,7 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuTrigger,
-} from "../ui/ContextMenu";
+} from "@shirterp/ui-web/ContextMenu";
 
 const RowIndicator = (
   props: RowIndicatorProps & {

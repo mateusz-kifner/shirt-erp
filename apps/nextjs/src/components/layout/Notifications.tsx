@@ -4,7 +4,7 @@ import { IconBell } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { useEffect, useId, useState } from "react";
-import { signIn, useSession } from "@shirterp/api/auth";
+import { signIn, useSession } from "@shirterp/server/auth";
 
 import Button from "@/components/ui/Button";
 import {

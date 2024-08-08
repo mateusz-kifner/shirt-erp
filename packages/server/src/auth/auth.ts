@@ -1,7 +1,7 @@
 import { Lucia } from "lucia";
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import type { Session, User } from "lucia";
-import { db } from "@shirterp/api";
+import { db } from "@shirterp/server";
 
 import { env } from "../env";
 import { sessions, users } from "@shirterp/service/schemas";

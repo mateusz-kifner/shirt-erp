@@ -4,13 +4,17 @@ import type { CSSProperties, ReactNode } from "react";
 
 import type { File } from "@/server/api/file/validator";
 import { cn } from "@/utils/cn";
-import Button, { buttonVariants } from "./ui/Button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/Tooltip";
+import Button, { buttonVariants } from "@shirterp/ui-web/Button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@shirterp/ui-web/Tooltip";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuTrigger,
-} from "./ui/ContextMenu";
+} from "@shirterp/ui-web/ContextMenu";
 
 interface FileListItemProps {
   onChange?: (file: Partial<File>) => void;

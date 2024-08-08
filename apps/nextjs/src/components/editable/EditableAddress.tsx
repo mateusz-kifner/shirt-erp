@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/Dialog";
+} from "@shirterp/ui-web/Dialog";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { useClickOutside } from "@mantine/hooks";
 import { useLoaded } from "@/hooks/useLoaded";
@@ -21,7 +21,7 @@ import api from "@/hooks/api";
 import { getQueryKey } from "@trpc/react-query";
 import { trpc } from "@/utils/trpc";
 import { useQueryClient } from "@tanstack/react-query";
-import { addressToString } from "@/server/api/address/utils";
+import { addressToString } from "@shirterp/server/api/address/utils";
 import { useFlag } from "@/hooks/useFlag";
 
 export const provinces = [

@@ -3,8 +3,8 @@ import { IconQuestionMark } from "@tabler/icons-react";
 import { env } from "../env.js";
 // import Markdown from "./details/Markdown";
 
-import Button from "./ui/Button";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/Dialog";
+import Button from "@shirterp/ui-web/Button";
+import { Dialog, DialogContent, DialogTrigger } from "@shirterp/ui-web/Dialog";
 
 const EnvMessage = () => {
   const message = env.NEXT_PUBLIC_START_MESSAGE;

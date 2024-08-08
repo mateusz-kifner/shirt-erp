@@ -13,7 +13,7 @@
   "devDependencies": {
     "@softwaretechnik/dbml-renderer": "1.0.30",
     "@shirterp/tsconfig": "workspace:*",
-    "@shirterp/api": "workspace:^",
+    "@shirterp/server": "workspace:^",
     "drizzle-dbml-generator": "0.8.0",
     "ts-node": "10.9.2",
     "typescript": "5.5.4"

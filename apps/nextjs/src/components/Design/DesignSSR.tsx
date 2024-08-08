@@ -48,7 +48,7 @@ import {
 } from "react";
 import FileListItem from "../FileListItem";
 import EditableColor from "../editable/EditableColor";
-import { Label } from "../ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import DesignImage from "./DesignImage";
 
 const colorPickerSwatches = [

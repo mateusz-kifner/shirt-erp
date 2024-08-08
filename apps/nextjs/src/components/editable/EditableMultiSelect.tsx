@@ -1,13 +1,13 @@
 import type EditableInput from "@/types/EditableInput";
 import { useId, useRef, useState } from "react";
 import { useEditableContext } from "./Editable";
-import { Label } from "../ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import { IconX } from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/Badge";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/Command";
 import { CommandInput as CommandPrimitiveInput } from "cmdk";
-import { ScrollArea } from "../ui/ScrollArea";
+import { ScrollArea } from "@shirterp/ui-web/ScrollArea";
 
 interface EditableMultiSelectProps extends EditableInput<string[]> {
   enumData?: string[];

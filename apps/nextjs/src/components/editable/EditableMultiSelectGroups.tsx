@@ -1,7 +1,7 @@
 import type EditableInput from "@/types/EditableInput";
 import { useId, useRef, useState } from "react";
 import { useEditableContext } from "./Editable";
-import { Label } from "../ui/Label";
+import { Label } from "@shirterp/ui-web/Label";
 import { IconX } from "@tabler/icons-react";
 
 import { Badge } from "@/components/ui/Badge";

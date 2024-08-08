@@ -9,7 +9,7 @@ import {
 } from "react";
 import ApiListTable, { type ApiListTableProps } from "./ApiListTable";
 import useTranslation from "@/hooks/useTranslation";
-import Pagination, { usePaginationState } from "../ui/Pagination";
+import Pagination, { usePaginationState } from "@shirterp/ui-web/Pagination";
 import ItemsPerPageSelect from "./ItemsPerPageSelect";
 import * as schema from "@/server/db/schemas";
 import { useUserContext } from "@/context/userContext";
