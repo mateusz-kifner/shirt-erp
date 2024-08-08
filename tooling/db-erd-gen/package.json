@@ -1,5 +1,5 @@
 {
-  "name": "@shirterp/db-graph-gen",
+  "name": "@shirterp/db-erd-gen",
   "private": true,
   "version": "0.1.0",
   "type": "module",
@@ -11,11 +11,11 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@softwaretechnik/dbml-renderer": "^1.0.30",
+    "@softwaretechnik/dbml-renderer": "1.0.30",
     "@shirterp/tsconfig": "workspace:*",
-    "drizzle-dbml-generator": "^0.8.0",
-    "ts-node": "^10.9.2",
-    "typescript": "5.5.4",
-    "@shirterp/db": "workspace:^"
+    "@shirterp/api": "workspace:^",
+    "drizzle-dbml-generator": "0.8.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.5.4"
   }
 }
