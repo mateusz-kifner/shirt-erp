@@ -1,0 +1,31 @@
+{
+  "name": "@shirterp/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --preserveWatchOutput",
+    "clean": "rm -rf .turbo node_modules",
+    "format": "biome format ./src",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@trpc/server": "11.0.0-rc.477",
+    "@shirterp/auth": "workspace:*",
+    "@shirterp/db": "workspace:*",
+    "superjson": "2.2.1",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@shirterp/tsconfig": "workspace:*",
+    "typescript": "5.5.4"
+  }
+}

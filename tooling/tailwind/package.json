@@ -1,0 +1,26 @@
+{
+  "name": "@shirterp/tailwind-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./native": "./native.ts",
+    "./web": "./web.ts"
+  },
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "format": "biome format .",
+    "lint": "biome lint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "postcss": "8.4.41",
+    "tailwindcss": "3.4.9",
+    "tailwindcss-animate": "1.0.7"
+  },
+  "devDependencies": {
+    "@shirterp/tsconfig": "workspace:*",
+    "typescript": "5.5.4"
+  }
+}

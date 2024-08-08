@@ -1,0 +1,20 @@
+{
+"name": "@shirterp/{{ name }}",
+"private": true,
+"version": "0.1.0",
+"type": "module",
+"exports": {
+".": "./src/index.ts"
+},
+"license": "UNLICENSED",
+"scripts": {
+"clean": "rm -rf .turbo node_modules",
+"format": "biome format ./src",
+"lint": "biome lint ./src",
+"typecheck": "tsc --noEmit"
+},
+"devDependencies": {
+"@shirterp/tsconfig": "workspace:*",
+"typescript": "5.4.5"
+}
+}

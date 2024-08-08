@@ -1,0 +1,21 @@
+{
+  "name": "@shirterp/db-graph-gen",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "generate": "cross-env SKIP_ENV_VALIDATION=1 node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts && dbml-renderer -i schema.dbml -o ../../docs/img/schema.svg",
+    "clean": "rm -rf .turbo node_modules",
+    "format": "biome format ./src",
+    "lint": "biome lint ./src",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@softwaretechnik/dbml-renderer": "^1.0.30",
+    "@shirterp/tsconfig": "workspace:*",
+    "drizzle-dbml-generator": "^0.8.0",
+    "ts-node": "^10.9.2",
+    "typescript": "5.5.4",
+    "@shirterp/db": "workspace:^"
+  }
+}
