@@ -19,7 +19,6 @@
     "@img/sharp-wasm32": "0.33.4",
     "@mantine/hooks": "7.12.0",
     "@shirterp/api": "workspace:*",
-    "@shirterp/auth": "workspace:*",
     "@shirterp/email-templates": "workspace:*",
     "@shirterp/ui-web": "workspace:*",
     "geist": "1.3.1",
