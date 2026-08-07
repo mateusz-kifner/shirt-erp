@@ -1,6 +1,6 @@
 ![ShirtERP](/.github/logo.png)
 
-# ShirtERP
+# ERP
 
 System do zarządzania zamówieniami i produktami dostosowany do potrzeb drukarni odzieży. Został  on zaprojektowany tak, aby umożliwić zarządzanie procesami związanymi z zamówieniami, obsługą klientów oraz kontrolą wydatków, dodatkowo pozwala on na:
 - Edycję arkuszy kalkulacyjnych związanych z zamówieniami oraz oznaczanie zapakowanych towarów na podstawie tych tabel
